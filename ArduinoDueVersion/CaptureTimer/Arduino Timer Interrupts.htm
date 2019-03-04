@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<!--[if IE 6]> <html id="ie6" lang="en-US" prefix="og: http://ogp.me/ns#"> <![endif]-->
+<!--[if IE 7]> <html id="ie7" lang="en-US" prefix="og: http://ogp.me/ns#"> <![endif]-->
+<!--[if IE 8]> <html id="ie8" lang="en-US" prefix="og: http://ogp.me/ns#"> <![endif]-->
+<!--[if !(IE 6) | !(IE 7) | !(IE 8)]><!-->
+<html prefix="og: http://ogp.me/ns#" lang="en-US"><!--<![endif]--><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta charset="UTF-8">
+	<link rel="pingback" href="http://2manyprojects.net/xmlrpc.php">
+
+	<!--[if lt IE 9]>
+	<script src="http://2manyprojects.net/wp-content/themes/suffusion/scripts/html5.js" type="text/javascript"></script>
+	<![endif]-->
+<title>Arduino Timer Interrupts</title>
+
+<!-- This site is optimized with the Yoast SEO plugin v3.4.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<meta name="description" content="Now it's time to work with Arduino timer interrupts. This is done by attaching an interrupt function to one of the Arduino's internal timers.">
+<meta name="robots" content="noodp">
+<link rel="canonical" href="http://2manyprojects.net/timer-interrupts">
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Arduino Timer Interrupts">
+<meta property="og:description" content="Now it's time to work with Arduino timer interrupts. This is done by attaching an interrupt function to one of the Arduino's internal timers.">
+<meta property="og:url" content="http://2manyprojects.net/timer-interrupts">
+<meta property="og:site_name" content="2ManyProjects">
+<!-- / Yoast SEO plugin. -->
+
+<link rel="dns-prefetch" href="http://www.avantlink.com/">
+<link rel="dns-prefetch" href="http://s0.wp.com/">
+<link rel="dns-prefetch" href="http://s.gravatar.com/">
+<link rel="dns-prefetch" href="http://s.w.org/">
+<link rel="alternate" type="application/rss+xml" title="2ManyProjects » Feed" href="http://2manyprojects.net/feed">
+<link rel="alternate" type="application/rss+xml" title="2ManyProjects » Comments Feed" href="http://2manyprojects.net/comments/feed">
+<link rel="alternate" type="application/rss+xml" title="2ManyProjects » Timer Interrupts Comments Feed" href="http://2manyprojects.net/timer-interrupts/feed">
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2\/svg\/","svgExt":".svg","source":{"concatemoji":"http:\/\/2manyprojects.net\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.6.6"}};
+			!function(a,b,c){function d(a){var c,d,e,f,g,h=b.createElement("canvas"),i=h.getContext&&h.getContext("2d"),j=String.fromCharCode;if(!i||!i.fillText)return!1;switch(i.textBaseline="top",i.font="600 32px Arial",a){case"flag":return i.fillText(j(55356,56806,55356,56826),0,0),!(h.toDataURL().length<3e3)&&(i.clearRect(0,0,h.width,h.height),i.fillText(j(55356,57331,65039,8205,55356,57096),0,0),c=h.toDataURL(),i.clearRect(0,0,h.width,h.height),i.fillText(j(55356,57331,55356,57096),0,0),d=h.toDataURL(),c!==d);case"diversity":return i.fillText(j(55356,57221),0,0),e=i.getImageData(16,16,1,1).data,f=e[0]+","+e[1]+","+e[2]+","+e[3],i.fillText(j(55356,57221,55356,57343),0,0),e=i.getImageData(16,16,1,1).data,g=e[0]+","+e[1]+","+e[2]+","+e[3],f!==g;case"simple":return i.fillText(j(55357,56835),0,0),0!==i.getImageData(16,16,1,1).data[0];case"unicode8":return i.fillText(j(55356,57135),0,0),0!==i.getImageData(16,16,1,1).data[0];case"unicode9":return i.fillText(j(55358,56631),0,0),0!==i.getImageData(16,16,1,1).data[0]}return!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f,g,h,i;for(i=Array("simple","flag","unicode8","diversity","unicode9"),c.supports={everything:!0,everythingExceptFlag:!0},h=0;h<i.length;h++)c.supports[i[h]]=d(i[h]),c.supports.everything=c.supports.everything&&c.supports[i[h]],"flag"!==i[h]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[i[h]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(g=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",g,!1),a.addEventListener("load",g,!1)):(a.attachEvent("onload",g),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel="stylesheet" id="avantlink_rp_style-css" href="Arduino%20Timer%20Interrupts_files/rp_style.css" type="text/css" media="all">
+<link rel="stylesheet" id="avantlink_ps_style-css" href="Arduino%20Timer%20Interrupts_files/ps_style.css" type="text/css" media="all">
+<link rel="stylesheet" id="cptch_stylesheet-css" href="Arduino%20Timer%20Interrupts_files/style_002.css" type="text/css" media="all">
+<link rel="stylesheet" id="dashicons-css" href="Arduino%20Timer%20Interrupts_files/dashicons.css" type="text/css" media="all">
+<link rel="stylesheet" id="cptch_desktop_style-css" href="Arduino%20Timer%20Interrupts_files/desktop_style.css" type="text/css" media="all">
+<link rel="stylesheet" id="suffusion-theme-css" href="Arduino%20Timer%20Interrupts_files/style.css" type="text/css" media="all">
+<link rel="stylesheet" id="suffusion-theme-skin-1-css" href="Arduino%20Timer%20Interrupts_files/skin.css" type="text/css" media="all">
+<!--[if !IE]>--><link rel="stylesheet" id="suffusion-rounded-css" href="Arduino%20Timer%20Interrupts_files/rounded-corners.css" type="text/css" media="all">
+<!--<![endif]-->
+<!--[if gt IE 8]><link rel='stylesheet' id='suffusion-rounded-css'  href='http://2manyprojects.net/wp-content/themes/suffusion/rounded-corners.css?ver=4.4.9' type='text/css' media='all' />
+<![endif]-->
+<!--[if lt IE 8]><link rel='stylesheet' id='suffusion-ie-css'  href='http://2manyprojects.net/wp-content/themes/suffusion/ie-fix.css?ver=4.4.9' type='text/css' media='all' />
+<![endif]-->
+<link rel="stylesheet" id="suffusion-generated-css" href="Arduino%20Timer%20Interrupts_files/custom-styles.css" type="text/css" media="all">
+<link rel="stylesheet" id="tablepress-default-css" href="Arduino%20Timer%20Interrupts_files/default.css" type="text/css" media="all">
+<link rel="stylesheet" id="jetpack_css-css" href="Arduino%20Timer%20Interrupts_files/jetpack.css" type="text/css" media="all">
+<script type="text/javascript" src="Arduino%20Timer%20Interrupts_files/jquery.js"></script>
+<script type="text/javascript" src="Arduino%20Timer%20Interrupts_files/jquery-migrate.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var Suffusion_JS = {"wrapper_width_type_page_template_1l_sidebar_php":"fixed","wrapper_max_width_page_template_1l_sidebar_php":"1200","wrapper_min_width_page_template_1l_sidebar_php":"600","wrapper_orig_width_page_template_1l_sidebar_php":"75","wrapper_width_type_page_template_1r_sidebar_php":"fixed","wrapper_max_width_page_template_1r_sidebar_php":"1200","wrapper_min_width_page_template_1r_sidebar_php":"600","wrapper_orig_width_page_template_1r_sidebar_php":"75","wrapper_width_type_page_template_1l1r_sidebar_php":"fixed","wrapper_max_width_page_template_1l1r_sidebar_php":"1200","wrapper_min_width_page_template_1l1r_sidebar_php":"600","wrapper_orig_width_page_template_1l1r_sidebar_php":"75","wrapper_width_type_page_template_2l_sidebars_php":"fixed","wrapper_max_width_page_template_2l_sidebars_php":"1200","wrapper_min_width_page_template_2l_sidebars_php":"600","wrapper_orig_width_page_template_2l_sidebars_php":"75","wrapper_width_type_page_template_2r_sidebars_php":"fixed","wrapper_max_width_page_template_2r_sidebars_php":"1200","wrapper_min_width_page_template_2r_sidebars_php":"600","wrapper_orig_width_page_template_2r_sidebars_php":"75","wrapper_width_type":"fluid","wrapper_max_width":"1900","wrapper_min_width":"600","wrapper_orig_width":"75","wrapper_width_type_page_template_no_sidebars_php":"fluid","wrapper_max_width_page_template_no_sidebars_php":"1900","wrapper_min_width_page_template_no_sidebars_php":"600","wrapper_orig_width_page_template_no_sidebars_php":"75","suf_featured_interval":"4000","suf_featured_transition_speed":"1000","suf_featured_fx":"fade","suf_featured_pause":"Pause","suf_featured_resume":"Resume","suf_featured_sync":"0","suf_featured_pager_style":"numbers","suf_nav_delay":"500","suf_nav_effect":"fade","suf_navt_delay":"500","suf_navt_effect":"fade","suf_jq_masonry_enabled":"disabled","suf_fix_aspect_ratio":"preserve","suf_show_drop_caps":""};
+/* ]]> */
+</script>
+<script type="text/javascript" src="Arduino%20Timer%20Interrupts_files/suffusion.js"></script>
+<link rel="https://api.w.org/" href="http://2manyprojects.net/wp-json/">
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://2manyprojects.net/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://2manyprojects.net/wp-includes/wlwmanifest.xml"> 
+<link rel="shortlink" href="http://wp.me/P4x1iq-I">
+<link rel="alternate" type="application/json+oembed" href="http://2manyprojects.net/wp-json/oembed/1.0/embed?url=http%3A%2F%2F2manyprojects.net%2Ftimer-interrupts">
+<link rel="alternate" type="text/xml+oembed" href="http://2manyprojects.net/wp-json/oembed/1.0/embed?url=http%3A%2F%2F2manyprojects.net%2Ftimer-interrupts&amp;format=xml">
+
+<link rel="dns-prefetch" href="http://v0.wordpress.com/">
+<!-- Start Additional Feeds -->
+<!-- End Additional Feeds -->
+		<style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style>
+		<!-- location header -->
+
+<!-- BEGIN GADWP v4.9.3.2 Universal Tracking - https://deconf.com/google-analytics-dashboard-wordpress/ -->
+<script type="text/javascript">
+(function($){
+    $(window).load(function() {
+        
+            //Track Downloads
+            $('a').filter(function() {
+                return this.href.match(/.*\.(zip|mp3*|mpe*g|pdf|docx*|pptx*|xlsx*|rar*)(\?.*)?$/);
+            }).click(function(e) {
+                ga('send','event', 'download', 'click', this.href);
+            });
+
+            //Track Mailto
+            $('a[href^="mailto"]').click(function(e) {
+                ga('send','event', 'email', 'send', this.href);
+             });
+            
+            //Track Outbound Links
+            $('a[href^="http"]').filter(function() {
+                if (!this.href.match(/.*\.(zip|mp3*|mpe*g|pdf|docx*|pptx*|xlsx*|rar*)(\?.*)?$/)){
+                    if (this.href.indexOf('2manyprojects.net') == -1) return this.href;
+                }
+            }).click(function(e) {
+                ga('send','event', 'outbound', 'click', this.href);
+            });
+		    		                });
+})(jQuery);
+</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-44768636-4', 'auto');
+  ga('require', 'linkid', 'linkid.js');
+  ga('send', 'pageview');
+</script>
+
+<!-- END GADWP Universal Tracking -->
+
+
+<script type="text/javascript" src="Arduino%20Timer%20Interrupts_files/jscripts.php"></script> 
+</head>
+
+<body class="page page-id-44 page-template-default light-theme-gray-1 suffusion-custom device-desktop">
+    				<div id="wrapper" class="fix">
+					<div id="header-container" class="custom-header fix">
+					<header id="header" class="fix">
+			<h2 class="blogtitle left"><a href="http://2manyprojects.net/">2ManyProjects</a></h2>
+		<div class="description right"></div>
+    </header><!-- /header -->
+ 	<nav id="nav" class="tab fix">
+		<div class="col-control left">
+	<!-- right-header-widgets -->
+	<div id="right-header-widgets" class="warea">
+	
+<form method="get" class="searchform " action="http://2manyprojects.net/">
+	<input type="text" name="s" class="searchfield" value="Search" onfocus="if (this.value == 'Search') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Search';}">
+	<input type="submit" class="searchsubmit" value="" name="searchsubmit">
+</form>
+	</div>
+	<!-- /right-header-widgets -->
+<ul class="sf-menu">
+<li id="menu-item-445" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-445 dd-tab"><a href="http://2manyprojects.net/">Home</a></li>
+<li id="menu-item-1395" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-1395 dd-tab"><a href="#">Homesteading</a>
+<ul class="sub-menu">
+	<li id="menu-item-1394" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1394"><a href="http://2manyprojects.net/chicken-plucker-machine">Chicken Plucker Machine</a></li>
+</ul>
+</li>
+<li id="menu-item-659" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-659 dd-tab"><a href="#">Woodworking Projects</a>
+<ul class="sub-menu">
+	<li id="menu-item-661" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-661"><a href="http://2manyprojects.net/miter-saw-station">Miter Saw Station</a></li>
+	<li id="menu-item-660" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-660"><a href="http://2manyprojects.net/diy-panel-saw">DIY panel saw</a></li>
+	<li id="menu-item-783" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-783"><a href="http://2manyprojects.net/diy-fireplace-mantel">DIY Fireplace Mantel</a></li>
+</ul>
+</li>
+<li id="menu-item-17" class="menu-item menu-item-type-post_type menu-item-object-page current-menu-ancestor current_page_ancestor menu-item-has-children menu-item-17 dd-tab"><a href="http://2manyprojects.net/getting-started-with-arduino">Getting Started with Arduino</a>
+<ul class="sub-menu">
+	<li id="menu-item-69" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-69"><a href="#">Robot Tutorial</a>
+	<ul class="sub-menu">
+		<li id="menu-item-92" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-92"><a href="http://2manyprojects.net/introduction-2">Introduction ( Robot Tutorial )</a></li>
+		<li id="menu-item-16" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-16"><a href="http://2manyprojects.net/sos">SOS (Arduino Uno)</a></li>
+		<li id="menu-item-71" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-71"><a href="http://2manyprojects.net/chassis">Chassis Assembly</a></li>
+		<li id="menu-item-68" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-68"><a href="http://2manyprojects.net/motors-and-drivetrain">Motors and Drivetrain</a></li>
+		<li id="menu-item-67" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-67"><a href="http://2manyprojects.net/arduino-remote-control">Arduino Remote Control</a></li>
+		<li id="menu-item-66" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-66"><a href="http://2manyprojects.net/assembly">Robot Assembly</a></li>
+		<li id="menu-item-65" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-65"><a href="http://2manyprojects.net/ultrasonic-sensor">Ultrasonic Sensor</a></li>
+		<li id="menu-item-73" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-73"><a href="http://2manyprojects.net/final-testing">Final Testing</a></li>
+	</ul>
+</li>
+	<li id="menu-item-70" class="menu-item menu-item-type-custom menu-item-object-custom current-menu-ancestor current-menu-parent menu-item-has-children menu-item-70"><a href="#">Theremin Tutorial</a>
+	<ul class="sub-menu">
+		<li id="menu-item-64" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-64"><a href="http://2manyprojects.net/theremin-introduction">Introduction ( Theremin Tutorial )</a></li>
+		<li id="menu-item-63" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-63"><a href="http://2manyprojects.net/sos-arduino-due">SOS ( Arduino Due )</a></li>
+		<li id="menu-item-62" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-62"><a href="http://2manyprojects.net/lcd-tutorial">LCD Tutorial</a></li>
+		<li id="menu-item-61" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-61"><a href="http://2manyprojects.net/servo-tutorial">Servo Tutorial</a></li>
+		<li id="menu-item-60" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-60"><a href="http://2manyprojects.net/hacking-the-servos">Hacking a Servo</a></li>
+		<li id="menu-item-59" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-59"><a href="http://2manyprojects.net/tone-generator">Tone Generator</a></li>
+		<li id="menu-item-58" class="menu-item menu-item-type-post_type menu-item-object-page current-menu-item page_item page-item-44 current_page_item menu-item-58"><a href="http://2manyprojects.net/timer-interrupts">Timer Interrupts</a></li>
+		<li id="menu-item-57" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-57"><a href="http://2manyprojects.net/dds-tone-generator">DDS Tone Generator</a></li>
+		<li id="menu-item-56" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-56"><a href="http://2manyprojects.net/theremin-1">Theremin 1</a></li>
+		<li id="menu-item-55" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-55"><a href="http://2manyprojects.net/theremin-2">Theremin 2</a></li>
+		<li id="menu-item-54" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-54"><a href="http://2manyprojects.net/rtttl">RTTTL</a></li>
+	</ul>
+</li>
+</ul>
+</li>
+<li id="menu-item-1126" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-1126 dd-tab"><a href="#">Software Tutorials</a>
+<ul class="sub-menu">
+	<li id="menu-item-1178" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1178"><a href="http://2manyprojects.net/pygame-tutorial">Pygame Tutorial</a></li>
+	<li id="menu-item-1127" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1127"><a href="http://2manyprojects.net/test-driven-development-by-example">Test Driven Development by Example</a></li>
+	<li id="menu-item-1128" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1128"><a href="http://2manyprojects.net/unit-testing-c">unit testing c#</a></li>
+</ul>
+</li>
+<li id="menu-item-1317" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-1317 dd-tab"><a href="#">Electronics</a>
+<ul class="sub-menu">
+	<li id="menu-item-1318" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1318"><a href="http://2manyprojects.net/diy-pcb">DIY PCB (printed circuit board)</a></li>
+</ul>
+</li>
+
+</ul>
+		</div><!-- /col-control -->
+	</nav><!-- /nav -->
+			</div><!-- //#header-container -->
+			<div id="container" class="fix">
+				
+<div id="main-col">
+	<div id="content">
+		<article class="post-44 page type-page status-publish hentry meta-position-corners fix" id="post-44">
+<header class="post-header fix">
+	<h1 class="posttitle">Timer Interrupts</h1>
+</header>
+			<div class="postdata fix">
+					<span class="comments"><span class="icon">&nbsp;</span><a href="#respond">Add comments</a></span>
+				</div>
+		<span class="post-format-icon">&nbsp;</span><span class="updated" title="2014-04-11T15:55:07+00:00"></span>			<div class="entry-container fix">
+				<div class="entry fix">
+					<p>In this section we will write the <em>SOS</em> program using timer interrupts instead of <em>delay()</em></p>
+<p><span class="embed-youtube" style="text-align:center; display: block;"><iframe class="youtube-player" type="text/html" src="http://www.youtube.com/embed/kQl0JuyeRzU?version=3&amp;rel=1&amp;fs=1&amp;autohide=2&amp;showsearch=0&amp;showinfo=1&amp;iv_load_policy=1&amp;wmode=transparent" allowfullscreen="true" style="border:0;" width="695" height="421"></iframe></span></p>
+<p>We did some work with hardware interrupts back in the LCD tutorial, 
+now we are going to work with timer interrupts. Think of a timer 
+interrupt as, “call this function once a second”. This is done by 
+attaching an interrupt function to one of the Arduino’s internal timers.
+ I was able to find a library that supported the use of timer interrupts
+ for the Arduinos that use the Atmega 128/328 <a title="here" href="http://playground.arduino.cc/Code/Timer1">here</a> . But not one for the <a title="Introduction ( Theremin Tutorial )" href="http://2manyprojects.net/theremin-introduction/#stufftobuy">Arduino Due</a>, rather there was a very useful <a title="forum post" href="http://forum.arduino.cc/index.php?topic=130423.0">forum post</a>
+ on using timer interrupts for the Due. Some of this code will look 
+different from the code that you usually see when using one of the 
+libraries provided with the Arduino IDE. Most of it comes directly from 
+the Atmel ASF ( Atmel Software Framework ), which ultimately is used to 
+write the Arduino libraries. You don’t need to do anything extra to your
+ build environment to use these, the only problem is that they are not 
+well documented, at least not for a beginner. You can find the reference
+ docs at <a title="http://asf.atmel.com/docs/latest/api.html" href="http://asf.atmel.com/docs/latest/api.html">http://asf.atmel.com/docs/latest/api.html. </a></p>
+<p>Unfortunately this is not the easiest documentation to navigate. It 
+can be hard to find what you want if don’t know a particular acronym, or
+ specific term to describe what you want. The Arduino Due uses the 
+SAM3X8E processor. The documentation is not organized by processor type,
+ (though you can sort by device type) but by the type of functionality 
+you are interested in. For example, if you wanted to read about timers, 
+you would navigate to one of several entries, then look for your 
+processor. For this example there is a Timer entry, followed by RTC ( 
+real time clock) with a “sam3” in the supported device column, when you 
+expand that entry you see sam3x, which are the docs that refer to the 
+Sam3x8E. I say all this just to point out that reference material is 
+usually written for a subset of devices, not a single device. You may 
+also find the <a title="datasheet" href="http://www.atmel.com/Images/doc11057.pdf" target="_blank">datasheet </a>for the SAM3X8E to be helpful.</p>
+<p>To learn about timer interrupts lets build the SOS program, but using timer interrupts instead of calls to <em>delay()</em>.
+ There are 9 timer channels that we can use, some of them are used by 
+other libraries, for example the Servo library uses several, if you get a
+ “multiple definition” error for one of the <em>TC_handler()</em> 
+functions, that is probably what is going on, you’ll just need to use a 
+different interrupt. There are 4 different clock frequencies we can use 
+when we set how often the interrupt should trigger. They simply divide 
+the main processor frequency by /2, /8, /32, or /128. Since the main 
+processor has a frequency of 84Mhz, and we are trying to flash a LED a 
+couple times per second at most, we want the /128.</p>
+<p>How fast is our timer if we hook it up to the /128 clock?</p>
+<p>84 Mhz / 128 = 656,250 Hz (or 656 kHz).</p>
+<p>Then how many timer “clicks” do we want to wait to turn the LED on or
+ off? Lets assume the S will blink every .2 seconds. Then we want</p>
+<p>(0.2) * (656250) = 131,250.</p>
+<p>So from the view of the timer we are saying, turn the LED on then count to 131,250, then turn it off.</p>
+<p>For the O, lets flash the LED once every second, we want (1)*(656250) = 656,250.</p>
+<p>Lets not get bogged down in details just yet, here is the code to run
+ the SOS program with timer interrupts, go ahead and upload it, then 
+we’ll cover what the code does.</p>
+<pre><span style="color: #7e7e7e;">// These are the clock frequencies available to the timers /2,/8,/32,/128</span>
+<span style="color: #7e7e7e;">// 84Mhz/2 = 42.000 MHz</span>
+<span style="color: #7e7e7e;">// 84Mhz/8 = 10.500 MHz</span>
+<span style="color: #7e7e7e;">// 84Mhz/32 = 2.625 MHz</span>
+<span style="color: #7e7e7e;">// 84Mhz/128 = 656.250 KHz</span>
+<span style="color: #7e7e7e;">//</span>
+<span style="color: #7e7e7e;">// 42Mhz/44.1Khz = 952.38</span>
+<span style="color: #7e7e7e;">// 10.5Mhz/44.1Khz = 238.09 </span>
+<span style="color: #7e7e7e;">// 2.625Hmz/44.1Khz = 59.5</span>
+<span style="color: #7e7e7e;">// 656Khz/44.1Khz = 14.88 // 131200 / 656000 = .2 (.2 seconds)</span>
+
+<span style="color: #7e7e7e;">// 84Mhz/44.1Khz = 1904 instructions per tick</span>
+<span style="color: #cc6600;">const</span> <span style="color: #cc6600;">int</span> led_pin = 13;
+<span style="color: #cc6600;">int</span> state = <span style="color: #cc6600;">false</span>;
+<span style="color: #cc6600;">int</span> interruptCtr = 1;
+<span style="color: #cc6600;">int</span> S = 0;
+
+<span style="color: #cc6600;">void</span> <span style="color: #cc6600;"><b>setup</b></span>()
+{
+  <span style="color: #cc6600;">pinMode</span>(led_pin, <span style="color: #006699;">OUTPUT</span>);
+  <span style="color: #7e7e7e;">/* turn on the timer clock in the power management controller */</span>
+  pmc_set_writeprotect(<span style="color: #cc6600;">false</span>);		 <span style="color: #7e7e7e;">// disable write protection for pmc registers</span>
+  pmc_enable_periph_clk(ID_TC7);	 <span style="color: #7e7e7e;">// enable peripheral clock TC7</span>
+
+  <span style="color: #7e7e7e;">/* we want wavesel 01 with RC */</span>
+  TC_Configure(<span style="color: #7e7e7e;">/* clock */</span>TC2,<span style="color: #7e7e7e;">/* channel */</span>1, TC_CMR_WAVE | TC_CMR_WAVSEL_UP_RC | TC_CMR_TCCLKS_TIMER_CLOCK4); 
+  TC_SetRC(TC2, 1, 131200);
+  TC_Start(TC2, 1);
+
+  <span style="color: #7e7e7e;">// enable timer interrupts on the timer</span>
+  TC2-&gt;TC_CHANNEL[1].TC_IER=TC_IER_CPCS;   <span style="color: #7e7e7e;">// IER = interrupt enable register</span>
+  TC2-&gt;TC_CHANNEL[1].TC_IDR=~TC_IER_CPCS;  <span style="color: #7e7e7e;">// IDR = interrupt disable register</span>
+
+  <span style="color: #7e7e7e;">/* Enable the interrupt in the nested vector interrupt controller */</span>
+  <span style="color: #7e7e7e;">/* TC4_IRQn where 4 is the timer number * timer channels (3) + the channel number (=(1*3)+1) for timer1 channel1 */</span>
+  NVIC_EnableIRQ(TC7_IRQn);
+}
+
+<span style="color: #cc6600;">void</span> <span style="color: #cc6600;"><b>loop</b></span>()
+{
+  <span style="color: #7e7e7e;">// do nothing timer interrupts will handle the blinking;</span>
+}
+
+<span style="color: #7e7e7e;">////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+<span style="color: #7e7e7e;">// INTERRUPT HANDLERS</span>
+<span style="color: #7e7e7e;">////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+<span style="color: #cc6600;">void</span> TC7_Handler()
+{
+  <span style="color: #7e7e7e;">// We need to get the status to clear it and allow the interrupt to fire again</span>
+  TC_GetStatus(TC2, 1);
+  state = !state;
+  <span style="color: #cc6600;">digitalWrite</span>(led_pin, state);
+
+  <span style="color: #cc6600;">if</span>( interruptCtr++ &gt;= 6 )
+    {
+     interruptCtr = 1;
+     S = !S; <span style="color: #7e7e7e;">// are we flashing S or O</span>
+     <span style="color: #cc6600;">if</span>( S ) <span style="color: #7e7e7e;">// set time till next interrupt</span>
+        TC_SetRC(TC2, 1, 131200); <span style="color: #7e7e7e;">// 131200 / 656000 = .2 seconds</span>
+     <span style="color: #cc6600;">else</span>
+        TC_SetRC(TC2, 1, 656000); <span style="color: #7e7e7e;">// 656000/ 656000 = 1 second</span>
+    }
+}</pre>
+<p>That’s quite a bit more complicated than the first time we 
+demonstrated this program. Lets go line by line, and explain what is 
+going on. The first 4 lines should look familiar.</p><!--Ad Injection:random-->
+<div style="float:left;padding-top:1px;padding-bottom:1px;"><script async="" src="Arduino%20Timer%20Interrupts_files/adsbygoogle.js"></script>
+<!-- 2manyprojects_4 -->
+<ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-4494666900262074" data-ad-slot="6789639147"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div><br clear="all">
+<pre><span style="color: #cc6600;">const</span> <span style="color: #cc6600;">int</span> led_pin = 13;    // use port 13 for to power the LED.
+<span style="color: #cc6600;">int</span> state = <span style="color: #cc6600;">false</span>;         // 'state' will mean on or off
+<span style="color: #cc6600;">int</span> interruptCtr = 1;
+<span style="color: #cc6600;">int</span> S = 0;</pre>
+<p>The first line just assigns our LED to a port. The <em>‘state’</em> variable will be used to keep track of whether the LED is on or off. The variable ‘<em>interruptCtr’</em>
+ is used to keep track of how many interrupts have occurred since the 
+last time we made a change, and the ‘S’ variable will keep track of 
+whether we are currently flashing<em> ‘S’</em> or <em>‘O’</em></p>
+<p>In the <em>setup()</em> function we have to do some work to get the 
+timers set up, First we need to disable write protection the pmc 
+registers ( power management controllers). In other words, enable the 
+pmc registers. These are turned off by default, because power 
+consumption is very important for some users of these chips, by leaving 
+them off you are less likely to unknowingly waste power.</p>
+<pre>  <span style="color: #7e7e7e;">/* turn on the timer clock in the power management controller */</span>
+  pmc_set_writeprotect(<span style="color: #cc6600;">false</span>);		 <span style="color: #7e7e7e;">// disable write protection for pmc registers</span>
+  pmc_enable_periph_clk(ID_TC7);	 <span style="color: #7e7e7e;">// enable peripheral clock TC7</span></pre>
+<p>the first line disables write protection for the power management 
+controller registers. The second line enables the peripheral clock, we 
+will use TC7. If you look at the sites I started with for this, <a title="RCArduino" href="http://rcarduino.blogspot.com/"><em>RC Arduino</em></a>
+ you’ll see they’re not using TC7, the problem I ran into is that the 
+servo library uses the same timers, so I had to use a different timer.</p>
+<p>The next line is a call to <em>TC_Configure()</em>. The first 
+parameter is choosing TC2 as the timer we want to use, the second 
+parameter chooses which channel of the TC2 to use, and the third 
+argument is using the bit wise OR operator, in effect it is saying to 
+use the 3 settings, TC_CMR_WAVE means to choose waveform mode ( as 
+opposed to Capture Mode), TC_CMR_WAVESEL_UP_RC means to set the counter 
+to run up, and reset when it equals RC, TC_CMR_TCCLKS_TIMER_CLOCK4 means
+ we want to run the clock at MCR/128. For more detail on these settings,
+ see section 37.7 of the <a title="datasheet" href="http://www.atmel.com/images/doc11057s.pdf">datasheet</a>.</p>
+<pre>/* we want wavesel 01 with RC */
+TC_Configure(/* clock */TC2,/* channel */0, TC_CMR_WAVE | TC_CMR_WAVSEL_UP_RC | TC_CMR_TCCLKS_TIMER_CLOCK2);</pre>
+<p>We have 5 different cock speeds we can use.</p>
+<p>TIMER_CLOCK1: 84Mhz/2 = 42.000 MHz<br>
+TIMER_CLOCK2: 84Mhz/8 = 10.500 MHz<br>
+TIMER_CLOCK3: 84Mhz/32 = 2.625 MHz<br>
+TIMER_CLOCK4: 84Mhz/128 = 656.250 KHz<br>
+TIMER_CLOCK5: SLCK ( slow clock )</p>
+<p>next is <em>TC_SetRC()</em>, this is where we actually set the rate 
+that we want the timer to interrupt at, we use timer clock 4 in the 
+configure statement, which runs at 656.250 MHz. If we take 656.250 MHz 
+and multiply it by .2 seconds we get 131200. In other words this 
+statement is saying we want the timer interrupt to trigger every 131200 
+ticks of TIMER4. Next we need to call <em>TC_Start()</em>, this will actually start the timer.</p>
+<pre> 
+  TC_SetRC(TC2, 0, 131200); <span style="color: #7e7e7e;">// sets interrupt rate </span>
+  TC_Start(TC2, 0);</pre>
+<p>Next we need to enable the timer interrupts, this is done with the following two statements.</p><!--Ad Injection:random-->
+<div style="float:left;padding-top:1px;padding-bottom:1px;"><script async="" src="Arduino%20Timer%20Interrupts_files/adsbygoogle.js"></script>
+<!-- 2manyprojects_4 -->
+<ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-4494666900262074" data-ad-slot="6789639147"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div><br clear="all">
+<pre>  <span style="color: #7e7e7e;">// enable timer interrupts on the timer</span>
+  TC2-&gt;TC_CHANNEL[0].TC_IER=TC_IER_CPCS;   <span style="color: #7e7e7e;">// IER = interrupt enable register</span>
+  TC2-&gt;TC_CHANNEL[0].TC_IDR=~TC_IER_CPCS;  <span style="color: #7e7e7e;">// IDR = interrupt disable register</span></pre>
+<p>Next we need to enable the nested vector interrupt controller, which handles all interrupts.</p>
+<pre>  <span style="color: #7e7e7e;">/* Enable the interrupt in the nested vector interrupt controller */</span>
+  <span style="color: #7e7e7e;">/* TC4_IRQn where 4 is the timer number * timer channels (3) + the channel number (=(1*3)+1) for timer1 channel1 */</span>
+  NVIC_EnableIRQ(TC7_IRQn);</pre>
+<p>We don’t need to do anything in the <em>loop()</em> section, our 
+interrupt routines do all the work. Every time the interrupt occurs, we 
+toggle the ‘state’ variable. This is done with the line.</p>
+<pre>state = !state;</pre>
+<p>Then use <em>digitalWrite()</em> to set the led pin.</p>
+<p>Next we check ‘<em>interruptCtr’</em>. We want to change the letter 
+we are flashing every 6 interrupts, on-off-on-off-on-off is a total of 6
+ interrupts. If it has been six times, then we toggle the <em>‘S’</em> variable and call <em>TC_SetRC()</em> to change the interrupt interval.</p>
+<pre><span style="color: #7e7e7e;">////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+<span style="color: #7e7e7e;">// INTERRUPT HANDLERS</span>
+<span style="color: #7e7e7e;">////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+<span style="color: #cc6600;">void</span> TC7_Handler()
+{
+  <span style="color: #7e7e7e;">// We need to get the status to clear it and allow the interrupt to fire again</span>
+  TC_GetStatus(TC2, 1);
+  state = !state;
+  <span style="color: #cc6600;">digitalWrite</span>(led_pin, state);
+
+  <span style="color: #cc6600;">if</span>( interruptCtr++ &gt;= 6 )
+    {
+     interruptCtr = 1;
+     S = !S; <span style="color: #7e7e7e;">// are we flashing S or O</span>
+     <span style="color: #cc6600;">if</span>( S ) <span style="color: #7e7e7e;">// set time till next interrupt</span>
+        TC_SetRC(TC2, 1, 131200); <span style="color: #7e7e7e;">// 131200 / 656000 = .2 seconds</span>
+     <span style="color: #cc6600;">else</span>
+        TC_SetRC(TC2, 1, 656000); <span style="color: #7e7e7e;">// 656000/ 656000 = 1 second</span>
+    }
+}</pre>
+<p><span class="embed-youtube" style="text-align:center; display: block;"><iframe class="youtube-player" type="text/html" src="http://www.youtube.com/embed/kQl0JuyeRzU?version=3&amp;rel=1&amp;fs=1&amp;autohide=2&amp;showsearch=0&amp;showinfo=1&amp;iv_load_policy=1&amp;wmode=transparent" allowfullscreen="true" style="border:0;" width="695" height="421"></iframe></span><br>
+<em><span id="inserted879" style="font-size: 20px;"><a title="Introduction ( Theremin Tutorial )" href="http://2manyprojects.net/theremin-introduction">Intro</a>-&gt;<a title="SOS ( Arduino Due )" href="http://2manyprojects.net/sos-arduino-due/">SOS</a>-&gt;<a title="LCD Tutorial" href="http://2manyprojects.net/lcd-tutorial/">LCD Tutorial</a>-&gt;<a title="Servo Tutorial" href="http://2manyprojects.net/servo-tutorial/">Servo Tutorial</a>-&gt;<a title="Timer Interrupts" href="http://2manyprojects.net/timer-interrupts/">Timer Interrupts</a>-&gt;<a title="Hacking a Servo" href="http://2manyprojects.net/hacking-the-servos">Hacking Servos</a>-&gt;<a title="Tone Generator" href="http://2manyprojects.net/tone-generator/">Tone generator</a>-&gt;<a title="DDS Tone Generator" href="http://2manyprojects.net/dds-tone-generator/">DDS Tone Generator</a>-&gt;<a title="Theremin 1" href="http://2manyprojects.net/theremin-1/">Theremin 1</a>-&gt;<a title="Theremin 2" href="http://2manyprojects.net/theremin-2/">Theremin 2</a>-&gt;<a title="RTTTL" href="http://2manyprojects.net/rtttl/">RTTL Songs</a></span></em></p>
+				</div><!--/entry -->
+						</div><!-- .entry-container -->
+<footer class="post-footer postdata fix">
+<span class="author"><span class="icon">&nbsp;</span>Posted by <span class="vcard"><a href="http://2manyprojects.net/author/danad" class="url fn" rel="author">danad</a></span> at 3:55 pm</span></footer><!-- .post-footer -->
+<section id="comments">
+<h3 class="comments"><span class="icon">&nbsp;</span>
+	7 Responses to “Timer Interrupts”</h3>
+<ol class="commentlist">
+	<li id="comment-193" class="comment even thread-even depth-1 plain-nested">
+				<div id="div-comment-193" class="comment-body">
+			<div class="comment-author fix vcard">
+			<img alt="" src="Arduino%20Timer%20Interrupts_files/473bb502c9942bae25ad54c9cdb4a5ff.jpg" srcset="http://1.gravatar.com/avatar/473bb502c9942bae25ad54c9cdb4a5ff?s=96&amp;d=mm&amp;r=g 2x" class="avatar avatar-48 photo" width="48" height="48">				<div class="comment-author-link">
+					<cite class="fn">michael</cite> <span class="says">says:</span>				</div>
+				<div class="comment-meta commentmetadata"><a href="http://2manyprojects.net/timer-interrupts#comment-193">
+				August 6, 2014 at 8:24 pm</a>				</div>
+
+			</div>
+	
+			<p>i would like to use an external clock for this example. do you 
+know how i could rout the external PIA4 pin to the timer/counter? i know
+ i need to use PIO_configure() but i can’t figure out how!</p>
+
+			</div>
+
+			<div class="reply">
+			<a rel="nofollow" class="comment-reply-link" href="http://2manyprojects.net/timer-interrupts?replytocom=193#respond" onclick='return addComment.moveForm( "comment-193", "193", "respond", "44" )' aria-label="Reply to michael">Reply</a>			</div>
+
+
+
+		
+	</li><!-- #comment-## -->
+	<li id="comment-448" class="comment odd alt thread-odd thread-alt depth-1 plain-nested">
+				<div id="div-comment-448" class="comment-body">
+			<div class="comment-author fix vcard">
+			<img alt="" src="Arduino%20Timer%20Interrupts_files/bd85bbd935d7aec092dc2e995c7e75dd.jpg" srcset="http://2.gravatar.com/avatar/bd85bbd935d7aec092dc2e995c7e75dd?s=96&amp;d=mm&amp;r=g 2x" class="avatar avatar-48 photo" width="48" height="48">				<div class="comment-author-link">
+					<cite class="fn">Amit</cite> <span class="says">says:</span>				</div>
+				<div class="comment-meta commentmetadata"><a href="http://2manyprojects.net/timer-interrupts#comment-448">
+				January 14, 2015 at 3:18 pm</a>				</div>
+
+			</div>
+	
+			<p>Great tutorial and explanation on line-by-line of your code. I am 
+new to this … so I have noob question – I want to generate a continuous 
+18.3 Mhz clock (square pulses) using the Due. How can I do that? Do I 
+reduce the interrupt rate?</p>
+<p>Thank you.</p>
+
+			</div>
+
+			<div class="reply">
+			<a rel="nofollow" class="comment-reply-link" href="http://2manyprojects.net/timer-interrupts?replytocom=448#respond" onclick='return addComment.moveForm( "comment-448", "448", "respond", "44" )' aria-label="Reply to Amit">Reply</a>			</div>
+
+
+
+		
+	</li><!-- #comment-## -->
+	<li id="comment-525" class="comment even thread-even depth-1 plain-nested">
+				<div id="div-comment-525" class="comment-body">
+			<div class="comment-author fix vcard">
+			<img alt="" src="Arduino%20Timer%20Interrupts_files/fd190cdb4d3cb0c22e5ab02f26a2cd28.jpg" srcset="http://0.gravatar.com/avatar/fd190cdb4d3cb0c22e5ab02f26a2cd28?s=96&amp;d=mm&amp;r=g 2x" class="avatar avatar-48 photo" width="48" height="48">				<div class="comment-author-link">
+					<cite class="fn">Aconfused</cite> <span class="says">says:</span>				</div>
+				<div class="comment-meta commentmetadata"><a href="http://2manyprojects.net/timer-interrupts#comment-525">
+				February 14, 2015 at 2:33 am</a>				</div>
+
+			</div>
+	
+			<p>Hi,<br>
+Since we need to set an interrupt when it hits RC, wont it make sense to
+ use Wavesel 10 instead of Wavesel 01? I’m a newbie so forgive me if 
+this is a silly question…</p>
+
+			</div>
+
+			<div class="reply">
+			<a rel="nofollow" class="comment-reply-link" href="http://2manyprojects.net/timer-interrupts?replytocom=525#respond" onclick='return addComment.moveForm( "comment-525", "525", "respond", "44" )' aria-label="Reply to Aconfused">Reply</a>			</div>
+
+
+
+		
+	</li><!-- #comment-## -->
+	<li id="comment-717" class="comment odd alt thread-odd thread-alt depth-1 plain-nested">
+				<div id="div-comment-717" class="comment-body">
+			<div class="comment-author fix vcard">
+			<img alt="" src="Arduino%20Timer%20Interrupts_files/47f4fd442733fd12f4fd2197627778c9.jpg" srcset="http://1.gravatar.com/avatar/47f4fd442733fd12f4fd2197627778c9?s=96&amp;d=mm&amp;r=g 2x" class="avatar avatar-48 photo" width="48" height="48">				<div class="comment-author-link">
+					<cite class="fn">Sebastien</cite> <span class="says">says:</span>				</div>
+				<div class="comment-meta commentmetadata"><a href="http://2manyprojects.net/timer-interrupts#comment-717">
+				June 1, 2015 at 12:49 pm</a>				</div>
+
+			</div>
+	
+			<p>Hi,</p>
+<p>Thanks for the tutorial, it helps a lot as it is quite difficult to find documentation about timer interrupts on the DUE board.</p>
+<p>I am still a bit confused about something, you use “enable peripheral
+ clock TC7” and then use TC2 clock, why two different clocks? What is 
+the difference?</p>
+<p>Best,</p>
+<p>Sebastien</p>
+
+			</div>
+
+			<div class="reply">
+			<a rel="nofollow" class="comment-reply-link" href="http://2manyprojects.net/timer-interrupts?replytocom=717#respond" onclick='return addComment.moveForm( "comment-717", "717", "respond", "44" )' aria-label="Reply to Sebastien">Reply</a>			</div>
+
+
+
+		
+	</li><!-- #comment-## -->
+	<li id="comment-2584" class="comment even thread-even depth-1 plain-nested">
+				<div id="div-comment-2584" class="comment-body">
+			<div class="comment-author fix vcard">
+			<img alt="" src="Arduino%20Timer%20Interrupts_files/40ffb2eeb65f0447db5c339a12ebc30e.jpg" srcset="http://1.gravatar.com/avatar/40ffb2eeb65f0447db5c339a12ebc30e?s=96&amp;d=mm&amp;r=g 2x" class="avatar avatar-48 photo" width="48" height="48">				<div class="comment-author-link">
+					<cite class="fn">Suraj</cite> <span class="says">says:</span>				</div>
+				<div class="comment-meta commentmetadata"><a href="http://2manyprojects.net/timer-interrupts#comment-2584">
+				April 19, 2016 at 12:15 pm</a>				</div>
+
+			</div>
+	
+			<p>Hello Danad,</p>
+<p>I have basic understanding of Timer Interrupt. Now when I was referring the tutorial many doubts came into my mind</p>
+<p>1) In the above project why it has selected /128 (I know that 84Mhz/128=656Khz)and why not /2,/8,/32?</p>
+<p>2)”// 656Khz/44.1Khz = 14.88 // 131200 / 656000 = .2 (.2 seconds)” I mean how does he got this calculation what does this means?</p>
+<p>3) In TC_Configure Which conditions are taken into consideration 
+selection of TC0,TC1,TC2 and their respective channels and what are the 
+criterias for Clocks are assigned to Timer Counters?</p>
+<p>Please Help.</p>
+
+			</div>
+
+			<div class="reply">
+			<a rel="nofollow" class="comment-reply-link" href="http://2manyprojects.net/timer-interrupts?replytocom=2584#respond" onclick='return addComment.moveForm( "comment-2584", "2584", "respond", "44" )' aria-label="Reply to Suraj">Reply</a>			</div>
+
+
+
+		
+	</li><!-- #comment-## -->
+	<li id="comment-2585" class="comment odd alt thread-odd thread-alt depth-1 plain-nested">
+				<div id="div-comment-2585" class="comment-body">
+			<div class="comment-author fix vcard">
+			<img alt="" src="Arduino%20Timer%20Interrupts_files/be2174c80096392bca2d651a4543c0bb.jpg" srcset="http://2.gravatar.com/avatar/be2174c80096392bca2d651a4543c0bb?s=96&amp;d=mm&amp;r=g 2x" class="avatar avatar-48 photo" width="48" height="48">				<div class="comment-author-link">
+					<cite class="fn">Robin</cite> <span class="says">says:</span>				</div>
+				<div class="comment-meta commentmetadata"><a href="http://2manyprojects.net/timer-interrupts#comment-2585">
+				May 15, 2016 at 10:36 am</a>				</div>
+
+			</div>
+	
+			<p>Hi mate, thanks for the fantastic tutorial! With a bit of 
+modification I used this code to control the velocity of a stepper 
+motor, entirely with interrupts and a function which configured the 
+period (in ticks) of the timer!</p>
+<p>Just as an aside, your link in “For more detail on these settings, see section 37.7 of the <b>datasheet</b>.” is dead. I think it’s moved to: <a href="http://www.atmel.com/images/doc11057s.pdf" rel="nofollow">http://www.atmel.com/images/doc11057s.pdf</a></p>
+<p>Also a quick question –  what links the function TC7_Handler() to the
+ interrupt? I can’t see any explicit mention of it when you configure 
+the timer in setup().</p>
+
+			</div>
+
+			<div class="reply">
+			<a rel="nofollow" class="comment-reply-link" href="http://2manyprojects.net/timer-interrupts?replytocom=2585#respond" onclick='return addComment.moveForm( "comment-2585", "2585", "respond", "44" )' aria-label="Reply to Robin">Reply</a>			</div>
+
+
+
+		
+	<ul class="children">
+	<li id="comment-2590" class="comment byuser comment-author-danad bypostauthor even depth-2 plain-nested">
+				<div id="div-comment-2590" class="comment-body">
+			<div class="comment-author fix vcard">
+			<img alt="" src="Arduino%20Timer%20Interrupts_files/43115d2959e301a85154a665634a3eff.jpg" srcset="http://1.gravatar.com/avatar/43115d2959e301a85154a665634a3eff?s=96&amp;d=mm&amp;r=g 2x" class="avatar avatar-48 photo" width="48" height="48">				<div class="comment-author-link">
+					<cite class="fn">danad</cite> <span class="says">says:</span>				</div>
+				<div class="comment-meta commentmetadata"><a href="http://2manyprojects.net/timer-interrupts#comment-2590">
+				June 24, 2016 at 12:28 am</a>				</div>
+
+			</div>
+	
+			<p>Thanks, I updated the link. TC7_Handler is just a built in name, you don’t need to specify it, just enable TC7.</p>
+
+			</div>
+
+			<div class="reply">
+			<a rel="nofollow" class="comment-reply-link" href="http://2manyprojects.net/timer-interrupts?replytocom=2590#respond" onclick='return addComment.moveForm( "comment-2590", "2590", "respond", "44" )' aria-label="Reply to danad">Reply</a>			</div>
+
+
+
+		
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ol>
+<div class="navigation fix">
+	<div class="alignleft"></div>
+	<div class="alignright"></div>
+</div>
+				<div id="respond" class="comment-respond">
+			<h3 id="reply-title" class="comment-reply-title"><span class="icon">&nbsp;</span>Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="http://2manyprojects.net/timer-interrupts#respond" style="display:none;">Cancel reply</a></small></h3>				<form action="http://2manyprojects.net/wp-comments-post.php" method="post" id="commentform" class="comment-form">
+					<span></span>
+					<p>
+						<label for="comment" class="textarea suf-comment-label">Your Comment</label>
+						<textarea name="comment" id="comment" cols="60" rows="10" tabindex="4" class="textarea"></textarea>
+					</p><p class="form-allowed-tags">You may use these <abbr title="HyperText Markup Language">HTML</abbr> tags and attributes: <code>&lt;a
+ href="" title=""&gt; &lt;abbr title=""&gt; &lt;acronym title=""&gt; 
+&lt;b&gt; &lt;blockquote cite=""&gt; &lt;cite&gt; &lt;code&gt; &lt;del 
+datetime=""&gt; &lt;em&gt; &lt;i&gt; &lt;q cite=""&gt; &lt;s&gt; 
+&lt;strike&gt; &lt;strong&gt; </code></p>
+					<p>
+						<label for="author" class="suf-comment-label">Name</label>
+						<input type="text" name="author" id="author" class="textarea" size="28" tabindex="1"> (required)
+					</p>
+
+					<p>
+						<label for="email" class="suf-comment-label">E-mail</label>
+						<input type="text" name="email" id="email" size="28" tabindex="2" class="textarea"> (required)
+					</p>
+
+					<p>
+						<label for="url" class="suf-comment-label">URI</label>
+						<input type="text" name="url" id="url" size="28" tabindex="3" class="textarea">
+					</p>
+<p class="cptch_block"><br><script class="cptch_to_remove">
+				(function( timeout ) {
+					setTimeout(
+						function() {
+							var notice = document.getElementById("cptch_time_limit_notice_19");
+							if ( notice )
+								notice.style.display = "block";
+						},
+						timeout
+					);
+				})(120000);
+			</script>
+			<span id="cptch_time_limit_notice_19" class="cptch_time_limit_notice cptch_to_remove">Time limit is exhausted. Please reload CAPTCHA.</span><span class="cptch_wrap">
+				<label class="cptch_label" for="cptch_input">
+					<span class="cptch_span">7</span>
+					<span class="cptch_span">&nbsp;−&nbsp;</span>
+					<span class="cptch_span"><input id="cptch_input_19" class="cptch_input " type="text" autocomplete="off" name="cptch_number" maxlength="2" size="2" aria-required="true" required="required" style="margin-bottom:0;display:inline;font-size: 12px;width: 40px;"></span>
+					<span class="cptch_span">&nbsp;=&nbsp;</span>
+					<span class="cptch_span">three</span>
+					<input type="hidden" name="cptch_result" value="iUc=">
+					<input type="hidden" name="cptch_time" value="1551537427">
+					<input type="hidden" value="Version: 4.2.2">
+				</label><span class="cptch_reload_button_wrap hide-if-no-js">
+					<span>
+						<style type="text/css">
+							.hide-if-no-js {
+								display: none !important;
+							}
+						</style>
+					</span>
+					<span class="cptch_reload_button dashicons dashicons-update"></span>
+				</span></span></p><p class="form-submit"><input name="submit" type="submit" id="submit" class="submit" value="Submit Comment"> <input type="hidden" name="comment_post_ID" value="44" id="comment_post_ID">
+<input type="hidden" name="comment_parent" id="comment_parent" value="0">
+</p>
+<span><input type="hidden" name="JS04X7" value="NS1"></span>
+<span><p><strong>Currently you have JavaScript disabled. In order to 
+post comments, please make sure JavaScript and Cookies are enabled, and 
+reload the page.</strong> <a href="http://enable-javascript.com/" rel="nofollow external">Click here for instructions on how to enable JavaScript in your browser.</a></p></span>
+<p class="comment-subscription-form"><input type="checkbox" name="subscribe_blog" id="subscribe_blog" value="subscribe" style="width: auto; -moz-appearance: checkbox; -webkit-appearance: checkbox;"> <label class="subscribe-label" id="subscribe-blog-label" for="subscribe_blog">Notify me of new posts by email.</label></p>				</form>
+					</div><!-- #respond -->
+		</section>   <!-- #comments -->
+		</article><!--/post -->
+
+	</div>
+</div>
+<div id="sidebar-shell-1" class="sidebar-shell sidebar-shell-right">
+<div class="dbx-group right boxed warea" id="sidebar">
+<!--widget start --><aside id="search-2" class="dbx-box suf-widget search"><div class="dbx-content">
+<form method="get" class="searchform " action="http://2manyprojects.net/">
+	<input type="text" name="s" class="searchfield" value="Search" onfocus="if (this.value == 'Search') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Search';}">
+	<input type="submit" class="searchsubmit" value="" name="searchsubmit">
+</form>
+</div></aside><!--widget end -->		<!--widget start --><aside id="recent-posts-2" class="dbx-box suf-widget widget_recent_entries"><div class="dbx-content">		<h3 class="dbx-handle plain">Recent Posts</h3>		<ul>
+					<li>
+				<a href="http://2manyprojects.net/hello-world">Welcome!</a>
+						</li>
+				</ul>
+		</div></aside><!--widget end -->		<!--widget start --><aside id="recent-comments-2" class="dbx-box suf-widget widget_recent_comments"><div class="dbx-content"><h3 class="dbx-handle plain">Recent Comments</h3><ul id="recentcomments"><li class="recentcomments"><span class="comment-author-link">Carlo</span> on <a href="http://2manyprojects.net/dds-tone-generator#comment-2598">DDS Tone Generator</a></li><li class="recentcomments"><span class="comment-author-link">Michael</span> on <a href="http://2manyprojects.net/diy-panel-saw#comment-2597">DIY panel saw</a></li><li class="recentcomments"><span class="comment-author-link">Terry</span> on <a href="http://2manyprojects.net/diy-panel-saw#comment-2596">DIY panel saw</a></li><li class="recentcomments"><span class="comment-author-link"><a href="http://www.woodsolutions.com/" rel="external nofollow" class="url">Barry Golash</a></span> on <a href="http://2manyprojects.net/diy-panel-saw#comment-2595">DIY panel saw</a></li><li class="recentcomments"><span class="comment-author-link">j delcamp</span> on <a href="http://2manyprojects.net/#comment-2592">Welcome!</a></li></ul></div></aside><!--widget end --><!--widget start --><aside id="adinj-2" class="dbx-box suf-widget adinjwidget"><div class="dbx-content"><!--Ad Injection:widget_2--><script async="" src="Arduino%20Timer%20Interrupts_files/adsbygoogle.js"></script>
+<!-- 2manyprojects_4 -->
+<ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-4494666900262074" data-ad-slot="6789639147"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div></aside><!--widget end --><!--widget start --><aside id="categories-2" class="dbx-box suf-widget widget_categories"><div class="dbx-content"><h3 class="dbx-handle plain">Categories</h3>		<ul>
+	<li class="cat-item cat-item-1"><a href="http://2manyprojects.net/category/uncategorized">Uncategorized</a>
+</li>
+		</ul>
+</div></aside><!--widget end --></div><!--/sidebar -->
+</div>
+	</div><!-- /container -->
+
+<footer>
+	<div id="cred">
+		<table>
+			<tbody><tr>
+				<td class="cred-left"><a href="http://2manyprojects.net/site-disclaimer">Site Disclaimer</a></td>
+				<td class="cred-center"></td>
+				<td class="cred-right"><a href="http://aquoid.com/news/themes/suffusion/">Suffusion theme by Sayontan Sinha</a></td>
+			</tr>
+		</tbody></table>
+	</div>
+</footer>
+<!-- 59 queries, 11MB in 0.269 seconds. -->
+</div><!--/wrapper -->
+<!-- location footer -->
+
+<script type="text/javascript">
+/* <![CDATA[ */
+r3f5x9JS=escape(document['referrer']);
+hf4N='fb4c5725a805aee0b6e77d4737809f25';
+hf4V='95315abd862f0cac047ffce201fde70f';
+cm4S="form[action='http://2manyprojects.net/wp-comments-post.php']";
+jQuery(document).ready(function($){var e="#commentform, .comment-respond form, .comment-form, "+cm4S+", #lostpasswordform, #registerform, #loginform, #login_form, #wpss_contact_form";$(e).submit(function(){$("<input>").attr("type","hidden").attr("name","r3f5x9JS").attr("value",r3f5x9JS).appendTo(e);$("<input>").attr("type","hidden").attr("name",hf4N).attr("value",hf4V).appendTo(e);return true;});$("#comment").attr({minlength:"15",maxlength:"15360"})});
+/* ]]> */
+</script> 
+	<div style="display:none">
+	<div class="grofile-hash-map-473bb502c9942bae25ad54c9cdb4a5ff">
+	</div>
+	<div class="grofile-hash-map-bd85bbd935d7aec092dc2e995c7e75dd">
+	</div>
+	<div class="grofile-hash-map-fd190cdb4d3cb0c22e5ab02f26a2cd28">
+	</div>
+	<div class="grofile-hash-map-47f4fd442733fd12f4fd2197627778c9">
+	</div>
+	<div class="grofile-hash-map-40ffb2eeb65f0447db5c339a12ebc30e">
+	</div>
+	<div class="grofile-hash-map-be2174c80096392bca2d651a4543c0bb">
+	</div>
+	<div class="grofile-hash-map-43115d2959e301a85154a665634a3eff">
+	</div>
+	</div>
+<script type="text/javascript" src="Arduino%20Timer%20Interrupts_files/comment-reply.js"></script>
+<script type="text/javascript" src="Arduino%20Timer%20Interrupts_files/ale.php"></script>
+<script type="text/javascript" src="Arduino%20Timer%20Interrupts_files/devicepx-jetpack.js"></script>
+<script type="text/javascript" src="Arduino%20Timer%20Interrupts_files/gprofiles.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var WPGroHo = {"my_hash":""};
+/* ]]> */
+</script>
+<script type="text/javascript" src="Arduino%20Timer%20Interrupts_files/wpgroho.js"></script>
+<script type="text/javascript" src="Arduino%20Timer%20Interrupts_files/jscripts-ftr-min.js"></script>
+<script type="text/javascript" src="Arduino%20Timer%20Interrupts_files/wp-embed.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var cptch_vars = {"nonce":"28805ce163","ajaxurl":"http:\/\/2manyprojects.net\/wp-admin\/admin-ajax.php","enlarge":"0"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="Arduino%20Timer%20Interrupts_files/front_end_script.js"></script>
+<script type="text/javascript" src="Arduino%20Timer%20Interrupts_files/e-201909.js" async="" defer="defer"></script>
+<script type="text/javascript">
+	_stq = window._stq || [];
+	_stq.push([ 'view', {v:'ext',j:'1:4.1.1',blog:'66975154',post:'44',tz:'0',srv:'2manyprojects.net'} ]);
+	_stq.push([ 'clickTrackerInit', '66975154', '44' ]);
+</script>
+
+
+
+</body></html>

@@ -1,0 +1,284 @@
+/*
+* styles for settings page
+*/
+.cptch_example_fields_actions {
+    min-height: 18px;
+	width: 140px;
+	position: relative;
+}
+.cptch_example_fields_actions img {
+	position: relative;
+	max-width: 30px;
+    display: inline-block;
+    vertical-align: middle;
+}
+.cptch_block {
+	direction: ltr;
+}
+input.cptch_settings_input {
+    width: 252px;
+}
+.cptch_how_to_use {
+    float: right;
+}
+.cptch_limit_label {
+    display: block;
+}
+.cptch_whitelist_buttons .alignleft {
+    margin-right: 10px;
+}
+.cptch_pro_block .bws_pro_version_tooltip {
+    display: inline-block;
+    width: 100%;
+    box-sizing: border-box;
+    top: 5px;
+}
+#cptch_add_my_ip {
+    display: inline-block;
+    padding: 8px 0 5px;
+}
+/**
+ * the list of packages on the "Advanced" tab
+ */
+#cptch_package_list {
+    position: relative;
+    padding-right: 16px;
+    display: inline-block;
+    height: 200px;
+    min-height: 200px;
+    width: 280px;
+    min-width: 280px;
+    max-width: 500px;
+}
+#cptch_package_list ul {
+    display: inline-block;
+    width: 100%;
+    background: #fff;
+    border: 1px solid #ddd;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+#cptch_package_list ul li:hover {
+    background-color: #e0f1f8;
+}
+#cptch_package_list ul li {
+    padding: 3px 5px 3px 9px;
+    margin: 0;
+    display: block;
+}
+#cptch_package_list ul li span {
+    display: table-cell;
+    vertical-align: middle;
+}
+#cptch_package_list ul img {
+    width: 40px;
+    height: auto;
+    margin: 0 10px;
+    border: 1px solid #ccc;
+}
+#cptch_package_list .ui-resizable-handle {
+    bottom: -26px;
+    position: absolute;
+    display: block;
+    width: 16px;
+    height: 16px;
+    font-size: 24px;
+    color: #ccc;
+}
+#cptch_package_list .ui-resizable-se {
+    right: 0;
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    transform: rotate(45deg);
+    cursor: se-resize;
+}
+#cptch_package_list .ui-resizable-sw {
+    left: -18px;
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+    cursor: sw-resize;
+}
+.cptch_packages_banner {
+    max-width: 100% !important;
+    box-sizing: border-box;
+}
+.cptch_packages_banner img {
+    width: 40px;
+    height: auto;
+    float: left;
+    margin: 0 9px 0 0;
+}
+.cptch_packages_banner .bws_pro_version_table_bloc {
+    padding: 10px;
+}
+.cptch_packages_banner .bws_table_bg {
+    top: 0;
+    left: 0;
+}
+.cptch_packages_banner .column-add_time {
+    max-width: 20px;
+}
+.cptch_packages_banner .cptch_install_package_wrap {
+    display: block;
+}
+.cptch_packages_banner .cptch_install_package_wrap .wp-upload-form {
+    margin-top: 0;
+}
+.cptch_add_ons_link {
+    display: inline-block;
+    position: relative;
+    margin: 0 30px;
+    text-decoration: none;
+    z-index: 10;
+}
+/*
+ * RTL styles
+ */
+.rtl .cptch_how_to_use {
+    float: left;
+}
+.rtl .cptch_block {
+    direction: rtl;
+}
+.rtl #cptch_package_list {
+    right: 0;
+}
+.rtl .cptch_packages_banner .media-icon {
+    float: right;
+}
+.rtl .cptch_packages_banner .media-icon img {
+    margin: 0 0 0 9px;
+}
+/*
+* frontend styles
+*/
+.cptch_block label {
+    word-wrap: break-word;
+}
+.cptch_label:hover {
+    cursor: pointer;
+}
+form input.cptch_input {
+    padding-left: 8px;
+    padding-right: 8px;
+}
+.cptch_whitelist_message {
+    font-style: italic;
+    color: #008000;
+    font-weight: normal !important;
+}
+.cptch_block {
+    display: block !important;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    word-spacing: normal !important;
+}
+.cptch_title {
+    display: block;
+    word-wrap: break-word;
+    padding-bottom: 5px;
+    clear: both;
+}
+.cptch_wrap {
+    display: table-row !important;
+    position: relative;
+    clear: both;
+}
+.cptch_label,
+.cptch_reload_button_wrap {
+    display: table-cell;
+    margin: 5px 0 !important;
+    vertical-align: middle;
+    line-height: 1;
+}
+.cptch_time_limit_notice {
+    display: none;
+    color: red;
+    font-size: 12px;
+}
+.cptch_span {
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 1;
+}
+.cptch_img {
+    width: 40px;
+    max-width: 40px !important;
+    height: auto;
+    top: 0;
+    z-index: 2;
+}
+.cptch_reload_button {
+    width: 2rem;
+    height: 2rem;
+    margin: 0 15px;
+    font-size: 2rem;
+    vertical-align: text-bottom;
+}
+.cptch_reload_button:before {
+    width: 2rem;
+    height: 2rem;
+    vertical-align: text-bottom;
+}
+
+@media only screen and ( max-width: 782px ) {
+    #cptch_whitelist_search p.search-box {
+        position: static;
+    }
+    #cptch_whitelist .tablenav.top {
+        display: none;
+    }
+    .cptchpr_reload_button {
+        width: 48px;
+        height: 48px;
+        font-size: 48px;
+    }
+    .cptch_how_to_use {
+        float: none;
+        text-align: left;
+    }
+    .rtl .cptch_how_to_use {
+        text-align: right;
+    }
+    #cptch_package_list {
+        max-width: 280px;
+    }
+}
+
+@media only screen and ( max-width: 480px ) {
+    .bws_help_box.cptch_thumb_block {
+        display: none;
+    }
+    #cptch_whitelist .bulkactions {
+        float: none;
+    }
+    #cptch_whitelist .tablenav-pages {
+        display: inline-block;
+        margin-bottom: 10px;
+        float: none;
+        clear: both;
+    }
+    #cptch_whitelist .tablenav-pages .displaying-num {
+        position: static;
+    }
+    .cptchpr_reload_button {
+        margin: 0;
+    }
+    #cptch_whitelist .column-add_time {
+        display: none;
+    }
+    .cptch_add_ons_link {
+        display: block;
+        float: none;
+        clear: both;
+        margin: 10px 0;
+    }
+}

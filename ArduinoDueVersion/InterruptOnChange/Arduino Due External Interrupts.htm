@@ -1,0 +1,1279 @@
+<!DOCTYPE html>
+<html class=" js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage no-websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients no-cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"><link rel="stylesheet" href="Arduino%20Due%20External%20Interrupts_files/privacy-modal.css"><link rel="stylesheet" href="Arduino%20Due%20External%20Interrupts_files/newsletter-modal.css"><link rel="stylesheet" href="Arduino%20Due%20External%20Interrupts_files/footer.css"><link rel="stylesheet" href="Arduino%20Due%20External%20Interrupts_files/header.css"><script type="text/javascript" async="" src="Arduino%20Due%20External%20Interrupts_files/analytics.js"></script><script async="" src="Arduino%20Due%20External%20Interrupts_files/notice_002"></script>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="Arduino%20Due%20External%20Interrupts_files/index.css">
+	<link rel="stylesheet" type="text/css" href="Arduino%20Due%20External%20Interrupts_files/responsive.css">
+	<link rel="stylesheet" type="text/css" href="Arduino%20Due%20External%20Interrupts_files/jquery.css">
+	<style>
+img.avatar { max-width: 65px; max-height: 65px; }</style>
+	<script><!-- // --><![CDATA[
+		var smf_theme_url = "https://forum.arduino.cc/Themes/default";
+		var smf_default_theme_url = "https://forum.arduino.cc/Themes/default";
+		var smf_images_url = "https://forum.arduino.cc/Themes/default/images";
+		var smf_smileys_url = "https://forum.arduino.cc/Smileys";
+		var smf_scripturl = "https://forum.arduino.cc/index.php";
+		var smf_iso_case_folding = false;
+		var smf_charset = "UTF-8";
+		var smf_session_id = "348cff18844d20bad0e329014d298669";
+		var smf_session_var = "f518cf9f";
+		var smf_member_id;
+		var ajax_notification_text = 'Loading...';
+		var help_popup_heading_text = 'A little lost? Let me explain:';
+	// ]]></script>
+	<script src="Arduino%20Due%20External%20Interrupts_files/jquery.js"></script>
+	<script src="Arduino%20Due%20External%20Interrupts_files/smf_jquery_plugins.js"></script>
+	<script src="Arduino%20Due%20External%20Interrupts_files/script.js"></script>
+	<script src="Arduino%20Due%20External%20Interrupts_files/theme.js"></script>
+	<script src="Arduino%20Due%20External%20Interrupts_files/editor.js"></script>
+	<script src="Arduino%20Due%20External%20Interrupts_files/jquery_002.js"></script>
+	<script src="Arduino%20Due%20External%20Interrupts_files/jquery_004.js"></script>
+	<script src="Arduino%20Due%20External%20Interrupts_files/jquery_003.js"></script>
+	<script src="Arduino%20Due%20External%20Interrupts_files/topic.js"></script>
+	<script><!-- // --><![CDATA[
+		var smf_smileys_url = 'https://forum.arduino.cc/Smileys/arduino';
+		var bbc_quote_from = 'Quote from';
+		var bbc_quote = 'Quote';
+		var bbc_search_on = 'on';
+	// ]]></script>
+	<meta name="description" content="Arduino Due External Interrupts">
+	<title>Arduino Due External Interrupts</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#557EA0">
+	<link rel="canonical" href="https://forum.arduino.cc/index.php?topic=132362.0">
+	<link rel="help" href="https://forum.arduino.cc/index.php?action=help">
+	<link rel="contents" href="https://forum.arduino.cc/index.php">
+	<link rel="search" href="https://forum.arduino.cc/index.php?action=search">
+	<link rel="alternate" type="application/rss+xml" title="Arduino Forum - RSS" href="https://forum.arduino.cc/index.php?type=rss2;action=.xml">
+	<link rel="alternate" type="application/rss+xml" title="Arduino Forum - Atom" href="https://forum.arduino.cc/index.php?type=atom;action=.xml">
+	<link rel="index" href="https://forum.arduino.cc/index.php?board=67.0">
+<script type="text/javascript" src="Arduino%20Due%20External%20Interrupts_files/notice" async="" crossorigin="true"></script><script src="Arduino%20Due%20External%20Interrupts_files/header.js"></script><script src="Arduino%20Due%20External%20Interrupts_files/footer.js"></script><script src="Arduino%20Due%20External%20Interrupts_files/newsletter-modal.js"></script></head>
+<body id="firefox" class="action_messageindex board_67"><div class="icons" style="display: none;"><svg xmlns="http://www.w3.org/2000/svg">
+  <symbol viewBox="0 0 18 18" id="icon-Global-Menu_Home-BBCube">
+    <title>Toggle Navigation</title>
+    <g>
+      <path d="M4 3.158C4 3.623 3.623 4 3.158 4H.842C.377 4 0 3.623 0 3.158V.842C0 .377.377 0 .842 0h2.316C3.623 0 4 .377 4 .842v2.316zM18 3.158c0 .465-.377.842-.842.842h-2.316C14.377 4 14 3.623 14 3.158V.842c0-.465.377-.842.842-.842h2.316c.465 0 .842.377.842.842v2.316zM11 3.158c0 .465-.377.842-.842.842H7.842C7.377 4 7 3.623 7 3.158V.842C7 .377 7.377 0 7.842 0h2.316c.465 0 .842.377.842.842v2.316zM4 17.158c0 .465-.377.842-.842.842H.842C.377 18 0 17.623 0 17.158v-2.316C0 14.377.377 14 .842 14h2.316c.465 0 .842.377.842.842v2.316zM18 17.158c0 .465-.377.842-.842.842h-2.316c-.465 0-.842-.377-.842-.842v-2.316c0-.465.377-.842.842-.842h2.316c.465 0 .842.377.842.842v2.316zM11 17.158c0 .465-.377.842-.842.842H7.842C7.377 18 7 17.623 7 17.158v-2.316c0-.465.377-.842.842-.842h2.316c.465 0 .842.377.842.842v2.316zM4 10.158c0 .465-.377.842-.842.842H.842C.377 11 0 10.623 0 10.158V7.842C0 7.377.377 7 .842 7h2.316c.465 0 .842.377.842.842v2.316zM18 10.158c0 .465-.377.842-.842.842h-2.316c-.465 0-.842-.377-.842-.842V7.842c0-.465.377-.842.842-.842h2.316c.465 0 .842.377.842.842v2.316zM11 10.158c0 .465-.377.842-.842.842H7.842C7.377 11 7 10.623 7 10.158V7.842C7 7.377 7.377 7 7.842 7h2.316c.465 0 .842.377.842.842v2.316z"></path>
+    </g>
+  </symbol>
+  <symbol viewBox="0 0 130.208 28.333" id="icon-Global-WebApp_Compressed">
+    <title>Create Logo</title>
+    <g>
+      <path d="M51.066 14.02c0-6.424-5.416-11.655-12.082-11.655-.612 0-1.24.045-1.854.13-5.18.738-8.646 4.463-10.588 7.32-1.942-2.856-5.41-6.58-10.583-7.32-.62-.085-1.243-.13-1.86-.13-6.663 0-12.084 5.23-12.084 11.654 0 6.425 5.422 11.654 12.082 11.654.615 0 1.242-.047 1.862-.13 5.175-.744 8.64-4.467 10.583-7.33 1.942 2.863 5.407 6.586 10.588 7.33.615.083 1.243.13 1.863.13 6.656 0 12.073-5.228 12.073-11.655zm-35.69 7.432c-.43.062-.856.097-1.28.097-4.384 0-7.95-3.38-7.95-7.53S9.71 6.49 14.1 6.49c.42 0 .848.034 1.275.093 4.88.698 7.865 5.508 8.877 7.433-1.016 1.932-4 6.74-8.877 7.434zm13.463-7.433c1.007-1.93 3.995-6.736 8.87-7.434.426-.06.857-.093 1.273-.093 4.387 0 7.95 3.38 7.95 7.527 0 4.15-3.563 7.53-7.943 7.53-.42 0-.855-.035-1.282-.097-4.874-.695-7.86-5.505-8.87-7.434z"></path>
+      <rect x="10.77" y="12.884" width="7.257" height="2.335"></rect>
+      <polygon points="39.79,15.219 42.246,15.219 42.246,12.884 39.79,12.884 39.79,10.422 37.45,10.422 37.45,12.884 34.989,12.884 34.989,15.219 37.45,15.219 37.45,17.68 39.79,17.68"></polygon>
+      <path d="M51.934 2.826c-.09-.21-.215-.393-.365-.542-.15-.15-.33-.27-.53-.36-.207-.09-.426-.134-.66-.134-.237 0-.46.043-.663.133-.204.09-.382.21-.53.36-.15.15-.274.334-.364.543-.088.208-.135.432-.135.68 0 .233.047.46.135.67.09.218.214.397.363.55.15.154.327.274.53.362.205.09.428.137.663.137.235 0 .453-.045.66-.137.202-.088.38-.208.53-.36.148-.154.274-.334.364-.55.088-.21.133-.44.133-.672 0-.248-.045-.472-.133-.68zm-.375 1.2c-.066.162-.16.3-.28.42-.123.122-.257.217-.41.29-.15.07-.312.107-.49.107-.18 0-.35-.038-.502-.107-.16-.073-.292-.168-.41-.29-.114-.12-.206-.258-.273-.42-.065-.16-.1-.332-.1-.52s.035-.364.1-.527c.067-.17.16-.308.273-.43.118-.12.25-.214.41-.28.153-.067.322-.102.5-.102.18 0 .343.035.493.1.153.068.288.162.41.283.12.123.214.26.28.43.068.162.104.338.104.525 0 .188-.035.36-.105.522zM50.745 3.67c.096-.044.168-.115.22-.2.053-.083.08-.178.08-.28 0-.162-.06-.302-.172-.42-.116-.12-.31-.176-.582-.176-.104 0-.195 0-.276.008-.082.004-.16.01-.236.018v1.69h.427v-.556h.172l.297.557h.48l-.41-.64zm-.424-.227c-.057 0-.098-.004-.126-.013v-.455c.028-.008.075-.017.138-.017.182 0 .273.085.273.245 0 .162-.093.24-.284.24z"></path>
+    </g>
+    <g>
+      <path d="M79.724 11.917c0-1.647-.737-2.264-2.487-2.264h-2.162v4.426h2.248c1.338-.002 2.4-.5 2.4-2.163z"></path>
+      <polygon points="96.968,15.502 100.691,15.502 98.821,9.91"></polygon>
+      <path d="M58.66 2.498v23.074h69.573V2.498H58.66zm9.002 17.276c-3.07 0-5.147-1.664-5.147-5.678 0-3.74 2.145-5.8 5.3-5.8 1.133 0 2.3.276 2.934.67l-.464 1.287c-.635-.515-1.63-.755-2.505-.755-2.538 0-3.79 1.647-3.79 4.563 0 3.02 1.252 4.53 3.774 4.53 1.115 0 2.264-.326 2.796-.67l.344 1.168c-.875.463-2.04.686-3.242.686zm12.44-.172l-2.402-4.34h-2.625v4.34h-1.39V8.453h3.604c2.812 0 3.893 1.183 3.893 3.413 0 1.56-.79 2.642-2.076 3.122l2.642 4.615H80.1zm11.94-9.95h-6.175v3.637h5.593v1.183h-5.593v3.91h6.176v1.22h-7.565V8.45h7.565v1.202zm10.02 9.95l-.995-2.95H96.59l-.96 2.95h-1.39l3.894-11.15h1.475l3.91 11.15h-1.457zm11.12-9.95h-3.842v9.95h-1.39v-9.95h-3.86v-1.2h9.092v1.2zm10.054 0h-6.176v3.637h5.593v1.183h-5.593v3.91h6.176v1.22h-7.565V8.45h7.566v1.202z"></path>
+    </g>
+  </symbol>
+  <symbol viewBox="0 0 24.202 24.276" id="icon-Global-user-profile">
+    <title>User Profile</title>
+    <path d="M20.912 19.718h-1c0-3.827-.883-6.2-5.28-6.2h-5.44c-4.397 0-5.28 2.23-5.28 5.825h-1v-.115c.017-3.337.81-6.71 6.28-6.71h5.44c5.534 0 6.28 3.64 6.28 7.2zM11.95 13.156c-2.464 0-4.468-2.1-4.468-4.68s2.004-4.68 4.467-4.68c2.462 0 4.466 2.1 4.466 4.68s-2.004 4.68-4.467 4.68zm0-8.36c-1.913 0-3.468 1.65-3.468 3.68 0 2.03 1.555 3.68 3.467 3.68 1.91 0 3.466-1.65 3.466-3.68 0-2.03-1.555-3.68-3.467-3.68zM12.034 23.98C5.436 23.98.07 18.61.07 12.013S5.435.05 12.033.05 24 5.415 24 12.013 18.63 23.98 12.033 23.98zm0-22.43C6.264 1.55 1.57 6.242 1.57 12.013S6.262 22.48 12.033 22.48 22.5 17.783 22.5 12.013 17.803 1.55 12.033 1.55z"></path>
+  </symbol>
+  <symbol viewBox="0 0 20.597 18.807" id="icon-Home-Grid-Open_in_new">
+    <title>Open Link in New Tab</title>
+    <rect x="14.542" y="-.105" transform="matrix(-.707 -.707 .707 -.707 23.247 19.503)" width="2.241" height="10.084"></rect>
+    <path d="M20.597 1.123c0-.62-.5-1.12-1.12-1.12h-7.843V2h6.93v6.966h2.033V1.123zM19.24 18.807H1.356c-.747 0-1.355-.64-1.355-1.424V1.426C0 .64.608.003 1.355.003H8.24l.03 1.982H1.99l-.03 14.807h16.604v-3.988h2.032v4.58c0 .784-.608 1.423-1.355 1.423z"></path>
+  </symbol>
+</svg></div><link rel="stylesheet" href="Arduino%20Due%20External%20Interrupts_files/foundation2.css" type="text/css"><link rel="stylesheet" href="Arduino%20Due%20External%20Interrupts_files/common-hacked.css" type="text/css"><link rel="stylesheet" href="Arduino%20Due%20External%20Interrupts_files/new_style.css" type="text/css"><link rel="stylesheet" href="Arduino%20Due%20External%20Interrupts_files/fonts.css" type="text/css"><link rel="stylesheet" href="Arduino%20Due%20External%20Interrupts_files/arduino-icons.css" type="text/css"><div id="header" class="temporary"><header id="ino-header">
+
+  <nav class="arduino-nav collapsed">
+
+    <!-- logo -->
+    <div class="logo">
+      <a href="https://forum.arduino.cc/" class="logo-link" role="button" aria-label="Homepage"></a>
+      <a href="https://forum.arduino.cc/" class="logo-link-resellers" role="button" aria-label="Resellers Homepage"></a>
+    </div>
+
+    <!-- main nav -->
+    <div class="main-nav" style="">
+
+      <ul class="ul-burger">
+        <li class="burger-menu">
+          <a class="burger" role="button" aria-label="Toggle Menu"><img src="Arduino%20Due%20External%20Interrupts_files/burger_menu.svg" alt="Open Navigation"></a>
+        </li>
+      </ul>
+
+      <ul class="nav-left">
+
+        <!-- search form mobile -->
+        <li class="level-1 show-mobile search-container">
+          <a id="search-bar-mobile">
+            <form role="search" id="searchform-mobile" method="GET" action="//www.google.com/search">
+              <input type="hidden" name="ie" value="UTF-8">
+              <input type="hidden" name="oe" value="UTF-8">
+              <input type="text" placeholder="Search" name="q" title="" class="search-typing" aria-label="search">
+              <i class="clear-icon">×</i>
+              <input type="hidden" name="domains" value="https://forum.arduino.cc" class="fill-it">
+              <input type="hidden" name="sitesearch" value="https://forum.arduino.cc" class="fill-it">
+            </form>
+          </a>
+        </li>
+        <!-- search form end -->
+
+        <!-- user menu mobile -->
+        <li class="user-mobile level-1 signin-mobile">
+          <div class="login-button" style="display: block;">
+            <a href="https://auth.arduino.cc/login?client_id=forum&amp;redirect_uri=https%3A%2F%2Fforum.arduino.cc%2F&amp;state=1100662402&amp;scope=profile%3Acore+profile%3Apublic+profile%3Acontact+offline&amp;response_type=code">Sign In</a>
+          </div>
+        </li>
+        <li class="user-mobile profile-mobile level-1">
+          <div class="auth-required" style="display: none;">
+              <a href="https://id.arduino.cc/">Profile</a>
+            </div>
+        </li>
+        <li class="logout user-mobile signout-mobile level-1">
+          <div class="auth-required" style="display: none;">
+            <a>Sign Out</a>
+          </div>
+        </li>
+        <!-- user menu mobile end -->
+
+        <li class="level-1" id="home">
+          <a href="https://www.arduino.cc/">Home</a>
+        </li>
+
+        <li class="has-submenu level-1">
+          <a href="https://store.arduino.cc/">Store</a>
+        </li>
+
+        <li class="has-submenu level-1" id="software">
+          <a role="button">Software</a>
+          <ul class="nav-submenu">
+            <li><a href="https://create.arduino.cc/" target="_blank" rel="noopener">Online Tools</a></li>
+            <li><a href="https://www.arduino.cc/en/Main/Software">Downloads</a></li>
+          </ul>
+        </li>
+
+        <li class="level-1" id="education">
+          <a href="https://www.arduino.cc/en/Main/Education">
+            <span class="full">Education</span>
+            <span class="shorten">Edu</span>
+          </a>
+        </li>
+
+        <li class="has-submenu level-1" id="resources">
+          <a role="button">Resources</a>
+          <ul class="nav-submenu">
+            <li><a href="https://www.arduino.cc/en/Main/Products">Products</a></li>
+            <li><a href="https://www.arduino.cc/en/Guide/HomePage">Getting Started</a></li>
+            <li><a href="https://www.arduino.cc/en/Tutorial/HomePage">Tutorials</a></li>
+            <li><a href="https://www.arduino.cc/reference/en">Reference</a></li>
+            <li><a href="https://www.arduino.cc/en/IoT/HomePage">IoT Cloud</a></li>
+          </ul>
+        </li>
+
+
+        <li class="has-submenu level-1" id="community">
+          <a role="button">Community</a>
+          <ul class="nav-submenu">
+            <li><a href="https://forum.arduino.cc/">Forum</a></li>
+            <li><a href="https://blog.arduino.cc/">Blog</a></li>
+            <li><a href="https://create.arduino.cc/projecthub" target="_blank" rel="noopener">Project Hub</a></li>
+            <li><a href="https://www.arduino.cc/en/aug">Arduino User Groups</a></li>
+            <li><a href="http://playground.arduino.cc/">Playground</a></li>
+            <li><a href="https://www.arduino.cc/en/ArduinoAtHeart/Products">AtHeart</a></li>
+          </ul>
+        </li>
+
+
+        <li class="has-submenu level-1" id="help">
+          <a role="button">Help</a>
+          <ul class="nav-submenu">
+            <li><a href="https://www.arduino.cc/en/Main/FAQ">FAQ</a></li>
+            <li><a href="https://www.arduino.cc/en/ContactUs">Contact Us</a></li>
+            <li><a href="https://store.arduino.cc/store-support">Store Support</a></li>
+          </ul>
+        </li>
+
+        <!-- fake mobile button -->
+        <li class="level-1">
+          <div class="show-mobile fake-button">
+          </div>
+        </li>
+        <!-- fake mobile button end -->
+
+      </ul>
+      <!-- main nav end -->
+
+      <!-- nav right -->
+      <ul class="nav-right">
+
+        <!-- search form -->
+        <li class="level-1 header-hide-mobile">
+          <a id="search-bar">
+          <form role="search" id="searchform" method="GET" action="//www.google.com/search">
+            <input type="hidden" name="ie" value="UTF-8">
+            <input type="hidden" name="oe" value="UTF-8">
+            <input type="text" placeholder="Search" name="q" title="" class="search-typing">
+            <i class="clear-icon">×</i>
+            <input type="hidden" name="domains" value="https://forum.arduino.cc" class="fill-it">
+            <input type="hidden" name="sitesearch" value="https://forum.arduino.cc" class="fill-it">
+          </form>
+          </a>
+        </li>
+        <!-- search form end -->
+
+        <!-- language-selector -->
+        <!--<li class="language-selector has-submenu level-1">
+
+          <a><div class="selected-language eng"></div></a>
+
+          <div class="nav-submenu">
+            <div class="caret"></div>
+            <div class="dropdown-box">
+            <div class="left-col">
+              <h5>Language</h5>
+              <ul>
+              <li><button class="language-btn"><img src="https://cdn.arduino.cc/header-footer/28xiz7ejyb/images/language_eng.svg"></button>English</li>
+              <li><button class="language-btn"><img src="https://cdn.arduino.cc/header-footer/28xiz7ejyb/images/language_ita.svg"></button>Italian</li>
+              <li><button class="language-btn"><img src="https://cdn.arduino.cc/header-footer/28xiz7ejyb/images/language_china.svg"></button>Chinese</li>
+              </ul>
+            </div>
+            <div class="right-col">
+              <h5>Currency</h5>
+              <ul>
+              <li><button class="currency-btn">EUR</button>Euro</li>
+              <li><button class="currency-btn">USD</button>Dollar</li>
+              <li><button class="currency-btn">GBP</button>Pound</li>
+              <li><button class="currency-btn">CHF</button>Franc</li>
+              <li><button class="currency-btn">HUF</button>Forint</li>
+              </ul>
+            </div>
+            </div>
+          </div>
+
+        </li>-->
+        <!-- language-selector end -->
+
+        <!-- quotes start -->
+        <li class="level-1 quotes-dropdown-trigger has-submenu">
+          <a id="quotes-link">
+          <div id="quotes"><span class="badge">0</span><img src="Arduino%20Due%20External%20Interrupts_files/icon_quotes.svg" alt="Show Quotes"></div>
+          </a>
+
+          <div class="quotes-submenu">
+          <div class="caret"></div>
+          <div class="dropdown-box">
+            <div class="cart-close-button"></div>
+            <p class="loading-content">Loading ...</p>
+
+          </div>
+          </div>
+        </li>
+        <!-- quotes end -->
+
+        <!-- cart start -->
+        <li class="level-1 cart-dropdown-trigger has-submenu">
+          <a id="cart-link">
+          <div id="cart"><span class="badge" style="display: none;">0</span><img src="Arduino%20Due%20External%20Interrupts_files/cart.svg" alt="Show Cart"></div>
+          </a>
+
+          <div class="cart-submenu" style="display: none;">
+          <div class="caret"></div>
+          <div class="dropdown-box">    <div class="cart-close-button"></div>
+    <div class="block block-cart">
+                <div class="block-content">
+                                        <p class="empty">You have no items in your <a href="https://store.arduino.cc/checkout/cart/">shopping cart</a>.</p>
+                                </div>
+    </div>
+</div>
+          </div>
+        </li>
+        <!-- cart end -->
+
+        <!-- geolocation button start -->
+        <li class="level-1 store-location-button has-submenu" title="Select your location">
+          <a aria-label="Change Store location">
+            <div class="store-location">
+              <img src="Arduino%20Due%20External%20Interrupts_files/icon_geolocation.svg" alt="Store Location">
+            </div>
+          </a>
+
+          <div class="nav-submenu">
+            <div class="caret"></div>
+            <div class="dropdown-box">
+              <div class="cart-close-button"></div>
+              <p class="empty eu-africa">
+                Not shopping from Africa or Europe?
+                <a class="change-location">Change location here.</a>
+              </p>
+              <p class="empty america-asia">
+                Not shopping from America, Asia or Oceania?
+                <a class="change-location">Change location here.</a>
+              </p>
+            </div>
+          </div>
+        </li>
+        <!-- geolocation end -->
+
+        <li class="level-1">
+          <div class="login-button" style="display: block;">
+            <a href="https://auth.arduino.cc/login?client_id=forum&amp;redirect_uri=https%3A%2F%2Fforum.arduino.cc%2F&amp;state=1100662402&amp;scope=profile%3Acore+profile%3Apublic+profile%3Acontact+offline&amp;response_type=code">
+              <span>Sign In</span>
+            </a>
+          </div>
+        </li>
+
+        <li class="profile-dropdown auth-required has-submenu level-1" style="display: none;">
+          <a data-hj-suppress="" class="submenu-toggle profile" aria-label="user profile">
+            <img class="user" src="Arduino%20Due%20External%20Interrupts_files/global_user_profile.svg" alt="User Profile">
+            <svg class="default">
+              <use xlink:href="#icon-Global-user-profile"></use>
+            </svg>
+            <span class="badge">0</span>
+          </a>
+
+          <div class="nav-submenu">
+            <div class="caret"></div>
+            <div class="dropdown-box">
+              <ul>
+                <li>
+                  <a href="https://id.arduino.cc/">Profile</a>
+                </li>
+                <li class="forum-messages">
+                  <a href="https://forum.arduino.cc/index.php?action=pm">Messages</a>
+                </li>
+                <li class="logout">
+                  <a>Sign Out</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+        </li>
+
+      </ul>
+      <!-- nav right -->
+    </div>
+  </nav>
+  <div id="consent-modal-container"><div id="privacy-and-terms-modal" class="arduino-modal info-modal" action="https://api2.arduino.cc/consent/v1/approval/byUser/me" style="display: none;">
+  <div id="privacy-and-terms-modal-backdrop" class="modal-backdrop"></div>
+  <div class="modal-body approve-privacy-policy">
+
+    <h1>OUR PRIVACY POLICY HAS BEEN UPDATED</h1>
+
+    <form id="terms-privacy-form" novalidate="">
+      <p>
+        We updated recently our <a href="https://www.arduino.cc/PrivacyPolicy/en/" target="_blank" rel="noopener">Privacy policy</a>, please accept the new <a href="https://www.arduino.cc/en/Main/TermsOfService" target="_blank" rel="noopener">Terms of service</a>.
+      </p>
+      <ul class="privacy-settings">
+        <li>
+          <div id="privacy-and-terms-consent-error" class="upper-error-notif">Please accept our privacy policy and terms to continue using our services</div>
+          <label class="checkbox">
+                <input type="checkbox" id="privacy-and-terms-consent" name="privacy-consent" value="privacy_approval">
+
+                <span class="custom-checkbox"></span>
+                <span>I confirm to have read the <a href="https://www.arduino.cc/PrivacyPolicy/en/" target="_blank" rel="noopener">Privacy Policy</a> and to accept the <a href="https://www.arduino.cc/en/Main/TermsOfService" target="_blank" rel="noopener">Terms of Service</a></span>
+              </label>
+        </li>
+      </ul>
+      <section class="buttons-wrapper">
+        <button name="Ok" type="submit" class="primary button" id="privacy-and-terms-ok-button">
+                <span>AGREE AND CONTINUE</span>
+              </button>
+        <p id="privacy-modal-decline-link">or <a href="#">log out</a> and continue the navigation.</p>
+      </section>
+    </form>
+  </div>
+</div>
+</div>
+</header>
+</div>
+
+				<div class="navigate_section" id="headerbread">
+          <div class="row" style="max-width: 960px!important;">
+          <div class="small-12">
+					<ul>
+          
+						<li>
+					<a href="https://forum.arduino.cc/index.php"><span>Arduino Forum</span></a>
+						</li>
+						<li>
+							<span class="dividers"> &gt; </span>
+					<a href="https://forum.arduino.cc/index.php#c2"><span>Using Arduino</span></a>
+						</li>
+						<li>
+							<span class="dividers"> &gt; </span>
+					<a href="https://forum.arduino.cc/index.php?board=67.0"><span>Microcontrollers</span></a>
+						</li>
+						<li class="last">
+							<span class="dividers"> &gt; </span>
+					<a href="https://forum.arduino.cc/index.php?topic=132362.0"><span>Arduino Due External Interrupts</span></a>
+						</li>
+					</ul>
+        </div>
+				</div>
+				</div>
+  <div class="row collapse">
+  <div class="small-12 columns">
+	<div id="wrapper">
+    <div id="upper_section">
+			<div id="inner_section">
+				<div id="main_menu">
+					<ul class="dropmenu sf-js-enabled sf-arrows" id="menu_nav" style="touch-action: pan-y;">
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div id="content_section">
+			<div id="main_content_section">
+
+			<a id="msg995588"></a>
+			<div class="pagesection top">
+				
+		<div class="buttonlist floatright">
+			
+				<a class="button-forum  button_strip_print" href="https://forum.arduino.cc/index.php?action=printpage;topic=132362.0" rel="nofollow">Print</a>
+		</div>
+				 <a href="#bot" class="topbottom floatleft">Go Down</a>
+				<div class="pagelinks floatleft">
+					<span class="pages">Pages: </span><span class="current_page">[1]</span> 
+				</div>
+			</div>
+			<div id="forumposts">
+				<div class="cat_bar">
+					<h3 class="catbg">
+						<span id="top_subject" class="topic-icon topic-icon-">Topic: Arduino Due External Interrupts&nbsp;<span>(Read 18933 times)</span></span>
+						<span class="nextlinks floatright"><a href="https://forum.arduino.cc/index.php?topic=132362.0;prev_next=prev#new">previous topic</a> - <a href="https://forum.arduino.cc/index.php?topic=132362.0;prev_next=next#new">next topic</a></span>
+					</h3>
+				</div>
+				<form action="https://forum.arduino.cc/index.php?action=quickmod2;topic=132362.0" method="post" accept-charset="UTF-8" name="quickModForm" id="quickModForm" style="margin: 0;" onsubmit="return oQuickModify.bInEditMode ? oQuickModify.modifySave('348cff18844d20bad0e329014d298669', 'f518cf9f') : false">
+				<div class="windowbg">
+					<div class="post_wrapper">
+						<div class="poster">
+							<h4>
+								Splinky
+							</h4>
+							<ul class="user_info">
+								<li class="membergroup">Guest</li>
+							</ul>
+						</div>
+						<div class="postarea">
+							<div class="keyinfo">
+								<div class="messageicon" style="position: absolute; z-index: -1;">
+									<img src="Arduino%20Due%20External%20Interrupts_files/xx.png" alt="">
+								</div>
+								<div id="subject_995588" class="subject_title"><a href="https://forum.arduino.cc/index.php?topic=132362.msg995588#msg995588" rel="nofollow">Arduino Due External Interrupts</a></div>
+								<div class="page_number floatright">
+									 
+								</div>
+								<h5>
+									<a href="https://forum.arduino.cc/index.php?topic=132362.msg995588#msg995588" rel="nofollow" title=" - Arduino Due External Interrupts" class="smalltext">Nov 14, 2012, 11:20 am</a>
+									<span class="smalltext modified" id="modified_995588"></span>
+								</h5>
+								<div id="msg_995588_quick_mod"></div>
+							</div>
+							<div class="post">
+								<div class="inner" id="msg_995588">Hi,<br><br>I'm trying to use external interrupts on the Arduino Due but can't seem to get it working. Here is my code:<br><br><div class="codeheader">Code: <a href="javascript:void(0);" onclick="return smfSelectText(this);" class="codeoperation">[Select]</a></div><pre style="margin: 0; padding: 0;"><code class="bbc_code" style="max-height: none; height: 200px;"><br>void setup(){<br>&nbsp; Serial.begin(115200);<br>&nbsp; pinMode(2, INPUT);<br>&nbsp; attachInterrupt(2, state_change, CHANGE);<br>}<br><br>void loop(){<br>}<br><br>void state_change(){<br>&nbsp; Serial.println("woot");<br>}</code></pre><br><br>This
+ should attach an interrupt to pin number 2 (according to 
+http://www.arduino.cc/en/Reference/AttachInterrupt ). I have also tried 
+using the old way of attaching to interrupt '0' to use pin 2 and I have 
+also tried interrupt '4' to use pin 19 as well as tried attach interrupt
+ '19' to use pin 19 but nothing is working. I realise it may be bad 
+practice to put a serial command in an interrupt function but this is 
+just to get the interrupt working.<br><br>Has anyone used external interrupts on the Due yet?<br><br>Thanks<br>Mark</div>
+							</div>
+							<div class="under_message">
+							</div>
+						</div>
+						<div class="moderatorbar">
+						</div>
+					</div>
+				</div><div id="ad_container_zone" class="adv-banner"><script src="Arduino%20Due%20External%20Interrupts_files/ajs"></script></div>
+				<hr class="post_separator">
+				<div class="windowbg2">
+					<a id="msg996088"></a>
+					<div class="post_wrapper">
+						<div class="poster">
+							<h4>
+								<span class="off" title="Offline"></span>
+								<a href="https://forum.arduino.cc/index.php?action=profile;u=7576" title="View the profile of retrolefty" class="pm_icon">retrolefty</a>
+							</h4>
+							<ul class="user_info">
+								<li class="avatar">
+									<a href="https://forum.arduino.cc/index.php?action=profile;u=7576"><img class="avatar" src="Arduino%20Due%20External%20Interrupts_files/retrolefty.jpg" alt="avatar_retrolefty" onerror="this.src='//dcw9y8se13llu.cloudfront.net/avatars/default.png';"></a>
+								</li>
+								<li class="icons"><img src="Arduino%20Due%20External%20Interrupts_files/stargold.gif" alt="*"><img src="Arduino%20Due%20External%20Interrupts_files/stargold.gif" alt="*"><img src="Arduino%20Due%20External%20Interrupts_files/stargold.gif" alt="*"><img src="Arduino%20Due%20External%20Interrupts_files/stargold.gif" alt="*"><img src="Arduino%20Due%20External%20Interrupts_files/stargold.gif" alt="*"></li>
+								<li class="postgroup">Brattain Member</li>
+								<li class="postcount">Posts: 17,334</li>
+								<li class="custom karma">Karma: 703&nbsp;&nbsp;<a href="https://forum.arduino.cc/index.php?action=karma;sa=applaud;uid=7576;f518cf9f=348cff18844d20bad0e329014d298669">[add]</a></li>
+								<li class="blurb">Measurement changes behavior</li>
+							</ul>
+						</div>
+						<div class="postarea">
+							<div class="keyinfo">
+								<div class="messageicon" style="position: absolute; z-index: -1;">
+									<img src="Arduino%20Due%20External%20Interrupts_files/xx.png" alt="">
+								</div>
+								<div id="subject_996088" class="subject_title"><a href="https://forum.arduino.cc/index.php?topic=132362.msg996088#msg996088" rel="nofollow">Re: Arduino Due External Interrupts</a></div>
+								<div class="page_number floatright">
+									 #1 
+								</div>
+								<h5>
+									<a href="https://forum.arduino.cc/index.php?topic=132362.msg996088#msg996088" rel="nofollow" title="Reply #1 - Re: Arduino Due External Interrupts" class="smalltext">Nov 14, 2012, 05:12 pm</a>
+									<span class="smalltext modified" id="modified_996088"></span>
+								</h5>
+								<div id="msg_996088_quick_mod"></div>
+							</div>
+							<div class="post">
+								<div class="inner" id="msg_996088">Are you sure it's not working
+ using pin 19? Recall that once inside a ISR all interrupts are disabled
+ and serial transmit is now interrupt driven, so the command can't 
+execute even if the interrupt is properly triggered?<br><br>Lefty<br></div>
+							</div>
+							<div class="under_message">
+							</div>
+						</div>
+						<div class="moderatorbar">
+						</div>
+					</div>
+				</div>
+				<hr class="post_separator">
+				<div class="windowbg">
+					<a id="msg996857"></a>
+					<div class="post_wrapper">
+						<div class="poster">
+							<h4>
+								Splinky
+							</h4>
+							<ul class="user_info">
+								<li class="membergroup">Guest</li>
+							</ul>
+						</div>
+						<div class="postarea">
+							<div class="keyinfo">
+								<div class="messageicon" style="position: absolute; z-index: -1;">
+									<img src="Arduino%20Due%20External%20Interrupts_files/xx.png" alt="">
+								</div>
+								<div id="subject_996857" class="subject_title"><a href="https://forum.arduino.cc/index.php?topic=132362.msg996857#msg996857" rel="nofollow">Re: Arduino Due External Interrupts</a></div>
+								<div class="page_number floatright">
+									 #2 
+								</div>
+								<h5>
+									<a href="https://forum.arduino.cc/index.php?topic=132362.msg996857#msg996857" rel="nofollow" title="Reply #2 - Re: Arduino Due External Interrupts" class="smalltext">Nov 15, 2012, 08:26 am</a>
+									<span class="smalltext modified" id="modified_996857"></span>
+								</h5>
+								<div id="msg_996857_quick_mod"></div>
+							</div>
+							<div class="post">
+								<div class="inner" id="msg_996857">Ok, so I changed the code to:<br><br><div class="codeheader">Code: <a href="javascript:void(0);" onclick="return smfSelectText(this);" class="codeoperation">[Select]</a></div><pre style="margin: 0; padding: 0;"><code class="bbc_code" style="max-height: none; height: 200px;"><br>int state = 0;<br><br>void setup(){<br>&nbsp; Serial.begin(115200);<br>&nbsp; pinMode(2, INPUT);<br>&nbsp; attachInterrupt(19, state_change, CHANGE);<br>}<br><br>void loop(){<br>&nbsp; Serial.println(state);<br>&nbsp; delay(1);<br>}<br><br>void state_change(){<br>&nbsp; state = (state + 1);<br>}<br></code></pre><br><br>So
+ everytime I change the state of pin 19 (which I did by connecting it to
+ another Arduino with a simple 'blink' type sketch, it should increment 
+state. But it doesn't <img src="Arduino%20Due%20External%20Interrupts_files/sad.gif" alt=":(" title="Sad" class="smiley"></div>
+							</div>
+							<div class="under_message">
+							</div>
+						</div>
+						<div class="moderatorbar">
+						</div>
+					</div>
+				</div>
+				<hr class="post_separator">
+				<div class="windowbg2">
+					<a id="msg996871"></a>
+					<div class="post_wrapper">
+						<div class="poster">
+							<h4>
+								<span class="off" title="Offline"></span>
+								<a href="https://forum.arduino.cc/index.php?action=profile;u=22313" title="View the profile of graynomad" class="pm_icon">graynomad</a>
+							</h4>
+							<ul class="user_info">
+								<li class="avatar">
+									<a href="https://forum.arduino.cc/index.php?action=profile;u=22313"><img class="avatar" src="Arduino%20Due%20External%20Interrupts_files/graynomad.jpg" alt="avatar_graynomad" onerror="this.src='//dcw9y8se13llu.cloudfront.net/avatars/default.png';"></a>
+								</li>
+								<li class="icons"><img src="Arduino%20Due%20External%20Interrupts_files/stargold.gif" alt="*"><img src="Arduino%20Due%20External%20Interrupts_files/stargold.gif" alt="*"><img src="Arduino%20Due%20External%20Interrupts_files/stargold.gif" alt="*"></li>
+								<li class="postgroup">Tesla Member</li>
+								<li class="postcount">Posts: 9,281</li>
+								<li class="profile">
+									<ol class="profile_icons">
+										<li><a href="http://www.robgray.com/" title="http://www.robgray.com" target="_blank" class="new_win"><span class="generic_icons www centericon" title="http://www.robgray.com"></span></a></li>
+									</ol>
+								</li>
+								<li class="custom karma">Karma: 576&nbsp;&nbsp;<a href="https://forum.arduino.cc/index.php?action=karma;sa=applaud;uid=22313;f518cf9f=348cff18844d20bad0e329014d298669">[add]</a></li>
+								<li class="blurb">Scattered showers my arse -- Noah, 2348BC.</li>
+								<li class="link-profile"><a href="http://www.robgray.com/">http://www.robgray.com</a></li>
+							</ul>
+						</div>
+						<div class="postarea">
+							<div class="keyinfo">
+								<div class="messageicon" style="position: absolute; z-index: -1;">
+									<img src="Arduino%20Due%20External%20Interrupts_files/xx.png" alt="">
+								</div>
+								<div id="subject_996871" class="subject_title"><a href="https://forum.arduino.cc/index.php?topic=132362.msg996871#msg996871" rel="nofollow">Re: Arduino Due External Interrupts</a></div>
+								<div class="page_number floatright">
+									 #3 
+								</div>
+								<h5>
+									<a href="https://forum.arduino.cc/index.php?topic=132362.msg996871#msg996871" rel="nofollow" title="Reply #3 - Re: Arduino Due External Interrupts" class="smalltext">Nov 15, 2012, 08:51 am</a>
+									<span class="smalltext modified" id="modified_996871"></span>
+								</h5>
+								<div id="msg_996871_quick_mod"></div>
+							</div>
+							<div class="post">
+								<div class="inner" id="msg_996871">What IDE version do you have? I think the interrupts will only be supported as of 1.5.2<br><br><div class="quoteheader">Quote</div><blockquote class="bbc_standard_quote">Recall that once inside a ISR all interrupts are disabled</blockquote><div class="quotefooter"></div><br>Not
+ the case natively with the Due, interrupts are nested by default. What 
+they will do with the core files to "fix" that I'm not sure.<br><br>______<br>Rob</div>
+							</div>
+							<div class="under_message">
+							</div>
+						</div>
+						<div class="moderatorbar">
+							<div class="signature" id="msg_996871_signature">Rob Gray aka the GRAYnomad www.robgray.com</div>
+						</div>
+					</div>
+				</div>
+				<hr class="post_separator">
+				<div class="windowbg">
+					<a id="msg996877"></a>
+					<div class="post_wrapper">
+						<div class="poster">
+							<h4>
+								Splinky
+							</h4>
+							<ul class="user_info">
+								<li class="membergroup">Guest</li>
+							</ul>
+						</div>
+						<div class="postarea">
+							<div class="keyinfo">
+								<div class="messageicon" style="position: absolute; z-index: -1;">
+									<img src="Arduino%20Due%20External%20Interrupts_files/xx.png" alt="">
+								</div>
+								<div id="subject_996877" class="subject_title"><a href="https://forum.arduino.cc/index.php?topic=132362.msg996877#msg996877" rel="nofollow">Re: Arduino Due External Interrupts</a></div>
+								<div class="page_number floatright">
+									 #4 
+								</div>
+								<h5>
+									<a href="https://forum.arduino.cc/index.php?topic=132362.msg996877#msg996877" rel="nofollow" title="Reply #4 - Re: Arduino Due External Interrupts" class="smalltext">Nov 15, 2012, 09:00 am</a>
+									<span class="smalltext modified" id="modified_996877"></span>
+								</h5>
+								<div id="msg_996877_quick_mod"></div>
+							</div>
+							<div class="post">
+								<div class="inner" id="msg_996877">I am using 1.5. I'll give it a try as soon as I can get a hold of 1.5.2 (doesn't seem to be out yet).</div>
+							</div>
+							<div class="under_message">
+							</div>
+						</div>
+						<div class="moderatorbar">
+						</div>
+					</div>
+				</div>
+				<hr class="post_separator">
+				<div class="windowbg2">
+					<a id="msg996885"></a>
+					<div class="post_wrapper">
+						<div class="poster">
+							<h4>
+								<span class="off" title="Offline"></span>
+								<a href="https://forum.arduino.cc/index.php?action=profile;u=22313" title="View the profile of graynomad" class="pm_icon">graynomad</a>
+							</h4>
+							<ul class="user_info">
+								<li class="avatar">
+									<a href="https://forum.arduino.cc/index.php?action=profile;u=22313"><img class="avatar" src="Arduino%20Due%20External%20Interrupts_files/graynomad.jpg" alt="avatar_graynomad" onerror="this.src='//dcw9y8se13llu.cloudfront.net/avatars/default.png';"></a>
+								</li>
+								<li class="icons"><img src="Arduino%20Due%20External%20Interrupts_files/stargold.gif" alt="*"><img src="Arduino%20Due%20External%20Interrupts_files/stargold.gif" alt="*"><img src="Arduino%20Due%20External%20Interrupts_files/stargold.gif" alt="*"></li>
+								<li class="postgroup">Tesla Member</li>
+								<li class="postcount">Posts: 9,281</li>
+								<li class="profile">
+									<ol class="profile_icons">
+										<li><a href="http://www.robgray.com/" title="http://www.robgray.com" target="_blank" class="new_win"><span class="generic_icons www centericon" title="http://www.robgray.com"></span></a></li>
+									</ol>
+								</li>
+								<li class="custom karma">Karma: 576&nbsp;&nbsp;<a href="https://forum.arduino.cc/index.php?action=karma;sa=applaud;uid=22313;f518cf9f=348cff18844d20bad0e329014d298669">[add]</a></li>
+								<li class="blurb">Scattered showers my arse -- Noah, 2348BC.</li>
+								<li class="link-profile"><a href="http://www.robgray.com/">http://www.robgray.com</a></li>
+							</ul>
+						</div>
+						<div class="postarea">
+							<div class="keyinfo">
+								<div class="messageicon" style="position: absolute; z-index: -1;">
+									<img src="Arduino%20Due%20External%20Interrupts_files/xx.png" alt="">
+								</div>
+								<div id="subject_996885" class="subject_title"><a href="https://forum.arduino.cc/index.php?topic=132362.msg996885#msg996885" rel="nofollow">Re: Arduino Due External Interrupts</a></div>
+								<div class="page_number floatright">
+									 #5 
+								</div>
+								<h5>
+									<a href="https://forum.arduino.cc/index.php?topic=132362.msg996885#msg996885" rel="nofollow" title="Reply #5 - Re: Arduino Due External Interrupts" class="smalltext">Nov 15, 2012, 09:17 am</a>
+									<span class="smalltext modified" id="modified_996885"></span>
+								</h5>
+								<div id="msg_996885_quick_mod"></div>
+							</div>
+							<div class="post">
+								<div class="inner" id="msg_996885">I found the thread, it's "IDE 1.5.1 (released on Nov, 5)" that they will be implemented, or should that be <span class="bbc_bold">were </span>implemented <img src="Arduino%20Due%20External%20Interrupts_files/smiley.gif" alt=":)" title="Smiley" class="smiley"><br><br><a href="http://arduino.cc/forum/index.php/topic,128525.0.html" class="bbc_link" target="_blank">http://arduino.cc/forum/index.php/topic,128525.0.html</a><br><br>______<br>Rob</div>
+							</div>
+							<div class="under_message">
+							</div>
+						</div>
+						<div class="moderatorbar">
+							<div class="signature" id="msg_996885_signature">Rob Gray aka the GRAYnomad www.robgray.com</div>
+						</div>
+					</div>
+				</div>
+				<hr class="post_separator">
+				<div class="windowbg">
+					<a id="msg996891"></a>
+					<div class="post_wrapper">
+						<div class="poster">
+							<h4>
+								Splinky
+							</h4>
+							<ul class="user_info">
+								<li class="membergroup">Guest</li>
+							</ul>
+						</div>
+						<div class="postarea">
+							<div class="keyinfo">
+								<div class="messageicon" style="position: absolute; z-index: -1;">
+									<img src="Arduino%20Due%20External%20Interrupts_files/xx.png" alt="">
+								</div>
+								<div id="subject_996891" class="subject_title"><a href="https://forum.arduino.cc/index.php?topic=132362.msg996891#msg996891" rel="nofollow">Re: Arduino Due External Interrupts</a></div>
+								<div class="page_number floatright">
+									 #6 
+								</div>
+								<h5>
+									<a href="https://forum.arduino.cc/index.php?topic=132362.msg996891#msg996891" rel="nofollow" title="Reply #6 - Re: Arduino Due External Interrupts" class="smalltext">Nov 15, 2012, 09:30 am</a>
+									<span class="smalltext modified" id="modified_996891"></span>
+								</h5>
+								<div id="msg_996891_quick_mod"></div>
+							</div>
+							<div class="post">
+								<div class="inner" id="msg_996891">Ah, thanks Graynomad! I will 
+try it out. I apologise for creating this whole new thread for it, I did
+ not come across that thread in my initial search for my answer.</div>
+							</div>
+							<div class="under_message">
+							</div>
+						</div>
+						<div class="moderatorbar">
+						</div>
+					</div>
+				</div>
+				<hr class="post_separator">
+				<div class="windowbg2">
+					<a id="msg996920"></a>
+					<div class="post_wrapper">
+						<div class="poster">
+							<h4>
+								Splinky
+							</h4>
+							<ul class="user_info">
+								<li class="membergroup">Guest</li>
+							</ul>
+						</div>
+						<div class="postarea">
+							<div class="keyinfo">
+								<div class="messageicon" style="position: absolute; z-index: -1;">
+									<img src="Arduino%20Due%20External%20Interrupts_files/xx.png" alt="">
+								</div>
+								<div id="subject_996920" class="subject_title"><a href="https://forum.arduino.cc/index.php?topic=132362.msg996920#msg996920" rel="nofollow">Re: Arduino Due External Interrupts</a></div>
+								<div class="page_number floatright">
+									 #7 
+								</div>
+								<h5>
+									<a href="https://forum.arduino.cc/index.php?topic=132362.msg996920#msg996920" rel="nofollow" title="Reply #7 - Re: Arduino Due External Interrupts" class="smalltext">Nov 15, 2012, 10:35 am</a>
+									<span class="smalltext modified" id="modified_996920"></span>
+								</h5>
+								<div id="msg_996920_quick_mod"></div>
+							</div>
+							<div class="post">
+								<div class="inner" id="msg_996920">Yay, it works on 1.5.2r2 IDE! Thanks again! woop woop</div>
+							</div>
+							<div class="under_message">
+							</div>
+						</div>
+						<div class="moderatorbar">
+						</div>
+					</div>
+				</div>
+				<hr class="post_separator">
+				<div class="windowbg">
+					<a id="msg997352"></a>
+					<div class="post_wrapper">
+						<div class="poster">
+							<h4>
+								<span class="off" title="Offline"></span>
+								<a href="https://forum.arduino.cc/index.php?action=profile;u=7576" title="View the profile of retrolefty" class="pm_icon">retrolefty</a>
+							</h4>
+							<ul class="user_info">
+								<li class="avatar">
+									<a href="https://forum.arduino.cc/index.php?action=profile;u=7576"><img class="avatar" src="Arduino%20Due%20External%20Interrupts_files/retrolefty.jpg" alt="avatar_retrolefty" onerror="this.src='//dcw9y8se13llu.cloudfront.net/avatars/default.png';"></a>
+								</li>
+								<li class="icons"><img src="Arduino%20Due%20External%20Interrupts_files/stargold.gif" alt="*"><img src="Arduino%20Due%20External%20Interrupts_files/stargold.gif" alt="*"><img src="Arduino%20Due%20External%20Interrupts_files/stargold.gif" alt="*"><img src="Arduino%20Due%20External%20Interrupts_files/stargold.gif" alt="*"><img src="Arduino%20Due%20External%20Interrupts_files/stargold.gif" alt="*"></li>
+								<li class="postgroup">Brattain Member</li>
+								<li class="postcount">Posts: 17,334</li>
+								<li class="custom karma">Karma: 703&nbsp;&nbsp;<a href="https://forum.arduino.cc/index.php?action=karma;sa=applaud;uid=7576;f518cf9f=348cff18844d20bad0e329014d298669">[add]</a></li>
+								<li class="blurb">Measurement changes behavior</li>
+							</ul>
+						</div>
+						<div class="postarea">
+							<div class="keyinfo">
+								<div class="messageicon" style="position: absolute; z-index: -1;">
+									<img src="Arduino%20Due%20External%20Interrupts_files/xx.png" alt="">
+								</div>
+								<div id="subject_997352" class="subject_title"><a href="https://forum.arduino.cc/index.php?topic=132362.msg997352#msg997352" rel="nofollow">Re: Arduino Due External Interrupts</a></div>
+								<div class="page_number floatright">
+									 #8 
+								</div>
+								<h5>
+									<a href="https://forum.arduino.cc/index.php?topic=132362.msg997352#msg997352" rel="nofollow" title="Reply #8 - Re: Arduino Due External Interrupts" class="smalltext">Nov 15, 2012, 04:51 pm</a>
+									<span class="smalltext modified" id="modified_997352"><span class="lastedit">Last Edit</span>: Nov 15, 2012, 04:52 pm by retrolefty&nbsp;<span class="lastedit">Reason</span>: 1</span>
+								</h5>
+								<div id="msg_997352_quick_mod"></div>
+							</div>
+							<div class="post">
+								<div class="inner" id="msg_997352">For future reference, when 
+using global variables shared by both the ISR and main loop you should 
+define the variable as volatile. In your example it should be:<br><br><div class="codeheader">Code: <a href="javascript:void(0);" onclick="return smfSelectText(this);" class="codeoperation">[Select]</a></div><pre style="margin: 0; padding: 0;"><code class="bbc_code" style="max-height: none; height: auto;"> volatile int state = 0;</code></pre><br><br>http://arduino.cc/en/Reference/Volatile<br><br>Lefty</div>
+							</div>
+							<div class="under_message">
+							</div>
+						</div>
+						<div class="moderatorbar">
+						</div>
+					</div>
+				</div>
+				<hr class="post_separator">
+				<div class="windowbg2">
+					<a id="msg2418025"></a>
+					<div class="post_wrapper">
+						<div class="poster">
+							<h4>
+								<span class="off" title="Offline"></span>
+								<a href="https://forum.arduino.cc/index.php?action=profile;u=412369" title="View the profile of chec" class="pm_icon">chec</a>
+							</h4>
+							<ul class="user_info">
+								<li class="avatar">
+									<a href="https://forum.arduino.cc/index.php?action=profile;u=412369"><img class="avatar" src="Arduino%20Due%20External%20Interrupts_files/default.png" alt="avatar_chec" onerror="this.src='//dcw9y8se13llu.cloudfront.net/avatars/default.png';"></a>
+								</li>
+								<li class="icons"><img src="Arduino%20Due%20External%20Interrupts_files/star.gif" alt="*"></li>
+								<li class="postgroup">Newbie</li>
+								<li class="postcount">Posts: 4</li>
+								<li class="custom karma">Karma: 0&nbsp;&nbsp;<a href="https://forum.arduino.cc/index.php?action=karma;sa=applaud;uid=412369;f518cf9f=348cff18844d20bad0e329014d298669">[add]</a></li>
+							</ul>
+						</div>
+						<div class="postarea">
+							<div class="keyinfo">
+								<div class="messageicon" style="position: absolute; z-index: -1;">
+									<img src="Arduino%20Due%20External%20Interrupts_files/xx.png" alt="">
+								</div>
+								<div id="subject_2418025" class="subject_title"><a href="https://forum.arduino.cc/index.php?topic=132362.msg2418025#msg2418025" rel="nofollow">Re: Arduino Due External Interrupts</a></div>
+								<div class="page_number floatright">
+									 #9 
+								</div>
+								<h5>
+									<a href="https://forum.arduino.cc/index.php?topic=132362.msg2418025#msg2418025" rel="nofollow" title="Reply #9 - Re: Arduino Due External Interrupts" class="smalltext">Sep 30, 2015, 02:02 pm</a>
+									<span class="smalltext modified" id="modified_2418025"></span>
+								</h5>
+								<div id="msg_2418025_quick_mod"></div>
+							</div>
+							<div class="post">
+								<div class="inner" id="msg_2418025">Is it possible to generate external Pin Change Interrupts in the Arduino IDE withou the attachIntterupt() routine?<br>Is there any examplecode?</div>
+							</div>
+							<div class="under_message">
+							</div>
+						</div>
+						<div class="moderatorbar">
+						</div>
+					</div>
+				</div>
+				<hr class="post_separator">
+				<div class="windowbg">
+					<a id="msg2436308"></a>
+					<div class="post_wrapper">
+						<div class="poster">
+							<h4>
+								<span class="off" title="Offline"></span>
+								<a href="https://forum.arduino.cc/index.php?action=profile;u=416617" title="View the profile of Sui_Yans" class="pm_icon">Sui_Yans</a>
+							</h4>
+							<ul class="user_info">
+								<li class="avatar">
+									<a href="https://forum.arduino.cc/index.php?action=profile;u=416617"><img class="avatar" src="Arduino%20Due%20External%20Interrupts_files/Sui_Yans.jpg" alt="avatar_Sui_Yans" onerror="this.src='//dcw9y8se13llu.cloudfront.net/avatars/default.png';"></a>
+								</li>
+								<li class="icons"><img src="Arduino%20Due%20External%20Interrupts_files/star.gif" alt="*"></li>
+								<li class="postgroup">Newbie</li>
+								<li class="postcount">Posts: 1</li>
+								<li class="custom karma">Karma: 0&nbsp;&nbsp;<a href="https://forum.arduino.cc/index.php?action=karma;sa=applaud;uid=416617;f518cf9f=348cff18844d20bad0e329014d298669">[add]</a></li>
+							</ul>
+						</div>
+						<div class="postarea">
+							<div class="keyinfo">
+								<div class="messageicon" style="position: absolute; z-index: -1;">
+									<img src="Arduino%20Due%20External%20Interrupts_files/xx.png" alt="">
+								</div>
+								<div id="subject_2436308" class="subject_title"><a href="https://forum.arduino.cc/index.php?topic=132362.msg2436308#msg2436308" rel="nofollow">Re: Arduino Due External Interrupts</a></div>
+								<div class="page_number floatright">
+									 #10 
+								</div>
+								<h5>
+									<a href="https://forum.arduino.cc/index.php?topic=132362.msg2436308#msg2436308" rel="nofollow" title="Reply #10 - Re: Arduino Due External Interrupts" class="smalltext">Oct 14, 2015, 11:09 pm</a>
+									<span class="smalltext modified" id="modified_2436308"></span>
+								</h5>
+								<div id="msg_2436308_quick_mod"></div>
+							</div>
+							<div class="post">
+								<div class="inner" id="msg_2436308">@chec , you can try this one. https://www.youtube.com/watch?v=bENjl1KQbvo</div>
+							</div>
+							<div class="under_message">
+							</div>
+						</div>
+						<div class="moderatorbar">
+						</div>
+					</div>
+				</div>
+				<hr class="post_separator">
+				</form>
+			</div>
+			<div class="pagesection">
+				
+		<div class="buttonlist floatright">
+			
+				<a class="button-forum  button_strip_print" href="https://forum.arduino.cc/index.php?action=printpage;topic=132362.0" rel="nofollow">Print</a>
+		</div>
+				 <a href="#main_content_section" class="topbottom floatleft" id="bot">Go Up</a>
+				<div class="pagelinks floatleft">
+					<span class="pages">Pages: </span><span class="current_page">[1]</span> 
+				</div>
+			</div>
+			<div id="moderationbuttons">
+				
+			</div>
+			<div id="display_jump_to"><label class="smalltext" for="display_jump_to_select">Jump to:</label> <select name="display_jump_to_select" id="display_jump_to_select" onfocus="grabJumpToContent(this);"><option value="?board=67.0" selected="selected">=&gt; Microcontrollers</option></select>&nbsp;<input type="button" class="button_submit" value="Go" onclick="window.location.href = 'https://forum.arduino.cc/index.php?board=67.0';"></div>
+			<br class="clear">
+				<script><!-- // --><![CDATA[
+					var oQuickReply = new QuickReply({
+						bDefaultCollapsed: false,
+						iTopicId: 132362,
+						iStart: 0,
+						sScriptUrl: smf_scripturl,
+						sImagesUrl: smf_images_url,
+						sContainerId: "quickReplyOptions",
+						sImageId: "quickReplyExpand",
+						sClassCollapsed: "toggle_up",
+						sClassExpanded: "toggle_down",
+						bIsFull: true
+					});
+					if ('XMLHttpRequest' in window)
+					{
+						var oQuickModify = new QuickModify({
+							sScriptUrl: smf_scripturl,
+							sClassName: 'quick_edit',
+							bShowModify: true,
+							iTopicId: 132362,
+							sTemplateBodyEdit: '\n\t\t\t\t\t\t\t\t<div id="quick_edit_body_container">\n\t\t\t\t\t\t\t\t\t<div id="error_box" class="error"><' + '/div>\n\t\t\t\t\t\t\t\t\t<textarea class="editor" name="message" rows="12" style="width: 100%; margin-bottom: 10px;" tabindex="1">%body%<' + '/textarea><br>\n\t\t\t\t\t\t\t\t\t<input type="hidden" name="f518cf9f" value="348cff18844d20bad0e329014d298669">\n\t\t\t\t\t\t\t\t\t<input type="hidden" name="topic" value="132362">\n\t\t\t\t\t\t\t\t\t<input type="hidden" name="msg" value="%msg_id%">\n\t\t\t\t\t\t\t\t\t<div class="righttext">\n\t\t\t\t\t\t\t\t\t\t<input type="submit" name="post" value="Save" tabindex="2" onclick="return oQuickModify.modifySave(\'348cff18844d20bad0e329014d298669\', \'f518cf9f\');" accesskey="s" class="button_submit">&nbsp;&nbsp;<input type="submit" name="cancel" value="Cancel" tabindex="3" onclick="return oQuickModify.modifyCancel();" class="button_submit">\n\t\t\t\t\t\t\t\t\t<' + '/div>\n\t\t\t\t\t\t\t\t<' + '/div>',
+							sTemplateSubjectEdit: '<input type="text" name="subject" value="%subject%" size="80" maxlength="80" tabindex="4" class="input_text">',
+							sTemplateBodyNormal: '%body%',
+							sTemplateSubjectNormal: '<a hr'+'ef="' + smf_scripturl + '?topic=132362.msg%msg_id%#msg%msg_id%" rel="nofollow">%subject%<' + '/a>',
+							sTemplateTopSubject: 'Topic: %subject% &nbsp;(Read 18933 times)',
+							sTemplateReasonEdit: '<input type="text" name="modify_reason" value="%modify_reason%" size="80" maxlength="80" tabindex="5" class="input_text">)',
+							sTemplateReasonNormal: '%modify_text',
+							sErrorBorderStyle: '1px solid red'
+						});
+
+						aJumpTo[aJumpTo.length] = new JumpTo({
+							sContainerId: "display_jump_to",
+							sJumpToTemplate: "<label class=\"smalltext\" for=\"%select_id%\">Jump to:<" + "/label> %dropdown_list%",
+							iCurBoardId: 67,
+							iCurBoardChildLevel: 0,
+							sCurBoardName: "Microcontrollers",
+							sBoardChildLevelIndicator: "==",
+							sBoardPrefix: "=> ",
+							sCatSeparator: "-----------------------------",
+							sCatPrefix: "",
+							sGoButtonLabel: "Go"
+						});
+
+						aIconLists[aIconLists.length] = new IconList({
+							sBackReference: "aIconLists[" + aIconLists.length + "]",
+							sIconIdPrefix: "msg_icon_",
+							sScriptUrl: smf_scripturl,
+							bShowModify: true,
+							iBoardId: 67,
+							iTopicId: 132362,
+							sSessionId: smf_session_id,
+							sSessionVar: smf_session_var,
+							sLabelIconList: "Message icon",
+							sBoxBackground: "transparent",
+							sBoxBackgroundHover: "#ffffff",
+							iBoxBorderWidthHover: 1,
+							sBoxBorderColorHover: "#adadad" ,
+							sContainerBackground: "#ffffff",
+							sContainerBorder: "1px solid #adadad",
+							sItemBorder: "1px solid #ffffff",
+							sItemBorderHover: "1px dotted gray",
+							sItemBackground: "transparent",
+							sItemBackgroundHover: "#e0e0f0"
+						});
+					}
+				// ]]></script>
+			</div>
+		</div>
+	</div>
+  </div>
+</div>
+           <br><style>.pagefooter a { color: white !important; }</style>		<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async="" src="Arduino%20Due%20External%20Interrupts_files/js"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+
+		gtag('config', 'UA-22581631-3');
+	</script>
+    <div>
+      <div id="newsletter-modal"><div id="newsletter-popup-privacy" class="arduino-modal info-modal" action="https://api2.arduino.cc/consent/v1/subscription" style="display: none;">
+  <!-- Step 1.5, approve the privacy policy -->
+  <div id="privacy-modal-backdrop" class="modal-backdrop"></div>
+  <div class="modal-body approve-privacy-policy">
+
+    <h1>Privacy consent</h1>
+
+    <div>
+      <p>
+        Arduino cares about the privacy and personal data of its users. The <a href="https://www.arduino.cc/en/Main/PrivacyPolicy" target="_blank" rel="noopener">privacy policy</a> is meant to inform you on how we process your personal data when you use our services.
+      </p>
+
+      <ul class="privacy-settings">
+        <li>
+          <div id="privacy-consent-error" class="upper-error-notif">Please confirm that you have read the privacy policy</div>
+          <label class="checkbox">
+            <input type="checkbox" id="privacy-consent" name="privacy-consent" value="privacy_approval">
+
+            <span class="custom-checkbox"></span>
+            <span>I confirm to have read the privacy policy<span class="required-asterisk">*</span></span>
+          </label>
+        </li>
+        <li>
+          <div id="newsletter-error" class="upper-error-notif">Please confirm your consent to receive the newsletter</div>
+          <label class="checkbox">
+            <input type="checkbox" id="newsletter-consent" name="newsletter-consent" value="newsletter_approval" checked="checked">
+
+            <span class="custom-checkbox"></span>
+            <span>I confirm my consent to receive your newsletter<span class="required-asterisk">*</span></span>
+          </label>
+        </li>
+        <li>
+          <label class="checkbox">
+            <input type="checkbox" id="marketing-consent" value="marketing_approval">
+            <span class="custom-checkbox"></span>
+            <span>I confirm my consent to the processing of my personal 
+data for marketing purposes, consisting in commercial offers sent via 
+email</span>
+          </label>
+        </li>
+        <li>
+          <label class="checkbox">
+            <input type="checkbox" id="tracking-consent" value="tracking_approval">
+            <span class="custom-checkbox"></span>
+            <span>I confirm my consent to automated processing of my 
+personal data, by means of profiling, in order to receive commercial 
+offers customized on the basis of my browsing and purchasing behavior</span>
+          </label>
+        </li>
+      </ul>
+      <div class="my-error-notification">
+        <div id="newsletterSubscribeStatus"></div>
+      </div>
+      <section class="buttons-wrapper">
+        <button name="Cancel" class="button secondary" id="newsletter-privacy-policy-cancel-button">Cancel</button>
+        <button name="Ok" class="primary button" id="newsletter-privacy-policy-ok-button">Ok</button>
+      </section>
+    </div>
+  </div>
+</div>
+
+<!-- step 2, confirm popup -->
+<div id="newsletter-popup-confirm" class="arduino-modal info-modal" style="display: none;">
+     <div class="modal-backdrop"></div>
+  <div id="confirm-newsletter-modal-backdrop" class="modal-body confirm-email">
+    <h1>Confirm your email address</h1>
+    <div id="newsletterModalBody">
+      <p>
+        We need to confirm your email address.<br> To complete the subscription, please click the link in the email we just sent you.
+      </p>
+      <p>
+        Thank you for subscribing!
+      </p>
+      <section class="buttons-wrapper">
+        <button name="Ok" class="button" id="confirm-email-ok-button">Ok</button>
+      </section>
+    </div>
+  </div>
+</div>
+</div>
+      <div id="footer"><div id="footer-block" style="">
+  <div class="newsletter-form">
+    <h4 id="newsletter-input-label">Newsletter</h4>
+    <div class="subscribe-wrapper">
+      <div id="newsletter-email-error" class="upper-error-notif">Please insert a valid email</div>
+      <div class="input-wrapper">
+        <input id="newsletter-email" aria-labelledby="newsletter-input-label" type="email" name="email" class="email" placeholder="Enter your email to sign up">
+        <button id="subscribe-btn" aria-label="Subscribe" class="button">Subscribe</button>
+      </div>
+    </div>
+  </div>
+  <section class="footer-links-wrapper">
+    <ul id="footer-list">
+      <li>
+        <a href="https://www.arduino.cc/en/Main/TermsOfService">
+          <span class="text">Terms Of Service</span>
+        </a>
+      </li>
+      <li>
+        <a href="https://www.arduino.cc/en/Main/PrivacyPolicy">
+          <span class="text">Privacy Policy</span>
+        </a>
+      </li>
+      <li>
+        <div id="teconsent">
+        </div>
+      </li>
+      <li>
+        <a href="https://www.arduino.cc/en/Main/ContactUs">
+          <span class="text">Contact Us</span>
+        </a>
+      </li>
+      <li>
+        <a href="https://www.arduino.cc/en/Main/AboutUs">
+          <span class="text">About Us</span>
+        </a>
+      </li>
+      <li>
+        <a href="https://store.arduino.cc/distributors">
+          <span class="text">Distributors</span>
+        </a>
+      </li>
+      <li>
+        <a href="https://www.arduino.cc/Careers">
+          <span class="text">Careers</span>
+        </a>
+      </li>
+      <li>
+        <a href="https://www.arduino.cc/en/Main/Security">
+          <span class="text">Security</span>
+        </a>
+      </li>
+    </ul><!-- footer-list -->
+    <div class="footer-note">
+      <p>
+        <a href="https://www.arduino.cc/en/Main/CopyrightNotice">
+          <span class="text">
+            © <span id="current-year">2019</span> Arduino
+          </span>
+        </a>
+      </p>
+    </div>
+  </section>
+  <ul class="social-btn-list">
+    <li>
+      <a href="https://www.facebook.com/official.arduino" target="_blank" id="facebook" class="facebook" rel="noopener">
+        <img src="Arduino%20Due%20External%20Interrupts_files/icon-facebook.svg" alt="facebook">
+        <p class="follow-us">follow us on Facebook</p>
+      </a>
+    </li>
+    <li>
+      <a href="https://twitter.com/arduino" target="_blank" id="twitter" class="twitter" rel="noopener">
+        <img src="Arduino%20Due%20External%20Interrupts_files/icon-twitter.svg" alt="twitter">
+        <p class="follow-us">follow us on Twitter</p>
+      </a>
+    </li>
+    <li>
+      <a href="https://plus.google.com/+Arduino" target="_blank" id="gplus" class="gplus" rel="noopener">
+        <img src="Arduino%20Due%20External%20Interrupts_files/icon-gplus.svg" alt="google plus">
+        <p class="follow-us">follow us on Google+</p>
+      </a>
+    </li>
+    <li>
+      <a href="https://www.instagram.com/arduino.cc/" target="_blank" id="instagram" class="instagram" rel="noopener">
+        <img src="Arduino%20Due%20External%20Interrupts_files/icon-instagram.svg" alt="instagram">
+        <p class="follow-us">follow us on Instagram</p>
+      </a>
+    </li>
+    <li>
+      <a href="https://github.com/arduino/" target="_blank" id="github" class="github" rel="noopener">
+        <img src="Arduino%20Due%20External%20Interrupts_files/icon-github.svg" alt="github">
+        <p class="follow-us">Arduino on GitHub</p>
+      </a>
+    </li>
+    <li>
+      <a href="https://www.flickr.com/photos/arduino_cc" target="_blank" id="flickr" class="flickr" rel="noopener">
+        <img src="Arduino%20Due%20External%20Interrupts_files/icon-flickr.svg" alt="flickr">
+        <p class="follow-us">follow us on Flickr</p>
+      </a>
+    </li>
+    <li>
+      <a href="https://www.youtube.com/user/arduinoteam" target="_blank" id="youtube" class="youtube" rel="noopener">
+        <img src="Arduino%20Due%20External%20Interrupts_files/icon-youtube.svg" alt="youtube">
+        <p class="follow-us">follow us on YouTube</p>
+      </a>
+    </li>
+  </ul>
+
+  <button id="go-top" class="go-top-footer-btn" aria-label="Scroll Top">
+    <span class="arrow-1"></span>
+    <span class="arrow-2"></span>
+    <span class="arrow-3"></span>
+  </button>
+</div><!-- footer-block -->
+</div>
+    </div>
+    <script src="Arduino%20Due%20External%20Interrupts_files/loader.js" type="text/javascript"></script>
+    <script>
+      var auth = {
+        token: function() {
+          return false ? Promise.resolve({
+            token: null          }) : Promise.reject('loggedout')
+        },
+        redirectURI: function() {
+          return 'https://auth.arduino.cc/login?client_id=forum&redirect_uri=https%3A%2F%2Fforum.arduino.cc%2F&state=1100662402&scope=profile%3Acore+profile%3Apublic+profile%3Acontact+offline&response_type=code';
+        }
+      };
+      ArduinoHeaderAndFooter({
+        auth: "custom",
+        authOptions: auth
+      });
+    </script>
+  <div id="ajax_in_progress" style="display: none;">Loading...</div>
+<script><!-- // --><![CDATA[
+	function triggerCron() {
+		var tempImage = new Image();
+		tempImage.src = 'https://forum.arduino.cc' + "/cron.php?ts=1551618915";
+	}
+	window.setTimeout(triggerCron, 1);
+// ]]></script>
+    <script src="Arduino%20Due%20External%20Interrupts_files/modernizr.js"></script>
+    <!--[if gte IE 9]><!-->
+    <script src="Arduino%20Due%20External%20Interrupts_files/foundation.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+    <!--<![endif]-->
+    <!--[if IE 8]>
+    <script src="//content.arduino.cc/legacy/js/foundation_ie8.min.js"></script>
+    <script src="//content.arduino.cc/legacy/js/ie8/jquery.foundation.alerts.js"></script>
+    <script src="//content.arduino.cc/legacy/js/app.js"></script>
+		<![endif]-->
+		<script>
+		// Adv banner configuration
+		var arduinoAdvOptions = {
+			breakpointDesktop: 480,
+			breakpointMobile: 480,
+			zoneIdDesktop: 561,
+			zoneIdTablet: 560,
+			zoneIdMobile: 560
+		};
+
+		jQuery('.boardindex_table .main_container:nth-child(1)').append('<div id="ad_container_zone" class="adv-banner"></div>');
+		jQuery('#forumposts form .windowbg:nth-of-type(1)').after('<div id="ad_container_zone" class="adv-banner"></div>');
+
+		</script>
+		<!-- Script used by adv banner -->
+		<script type="text/javascript" src="Arduino%20Due%20External%20Interrupts_files/postscribe.js"></script>
+		<script type="text/javascript" src="Arduino%20Due%20External%20Interrupts_files/banner.js"></script>
+
+</body></html>

@@ -1,0 +1,10 @@
+.avantlink_psr { padding-top:10px;padding-bottom:10px; }
+
+.avantlink_psr .psr_image { float:left;padding-right:10px;padding-bottom:10px; }
+.avantlink_psr .psr_product_info { margin-left:100px; }
+.avantlink_psr .psr_product_name { font-weight:bold; }
+.avantlink_psr .psr_brand_name { font-style:italic; }
+.avantlink_psr .psr_sale_price { font-weight:bold; }
+.avantlink_psr .psr_merchant_name { font-style:italic; }
+
+.avantlink_psr_form .psr_input { width: 60%; }

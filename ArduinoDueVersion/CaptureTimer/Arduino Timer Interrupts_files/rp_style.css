@@ -1,0 +1,24 @@
+#avantlink_rp { width:100%; }
+
+#avantlink_rp a { text-decoration:none; }
+#avantlink_rp a:hover { text-decoration:underline; }
+
+#avantlink_rp #rp_title h3 { margin-bottom: 10px; }
+
+#avantlink_rp .rp_item { float:left;padding:10px; }
+
+#avantlink_rp .rp_item, #avantlink_rp .rp_item img, #avantlink_rp .rp_image { width: 110px; }
+
+#avantlink_rp .rp_item img { max-height:130px; }
+#avantlink_rp .rp_image { height:140px;overflow:hidden; }
+
+#avantlink_rp .rp_name, #avantlink_rp .rp_prices, #avantlink_rp .rp_name a, #avantlink_rp .rp_prices a { font-size:12px;overflow:hidden; }
+
+#avantlink_rp .rp_name, #avantlink_rp .rp_name a { height:30px; line-height:15px; }
+#avantlink_rp .rp_prices { height:22px;line-height:22px; }
+
+#avantlink_rp .sale_price { color: #000000; }
+#avantlink_rp .percent_off { font-weight: bold; color: #000000; }
+#avantlink_rp .clear { clear:both; }
+
+#avantlink_rp #link-share { float:right; font-size:10px; }

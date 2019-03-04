@@ -1,0 +1,1 @@
+!function(o,t,e){"use strict";var n=e("#footer-block");n.show();var i=e(window).height(),r=n.height(),c=n.position().top+r;1===e("#footer-block:visible").length&&c<i&&n.css("margin-top",i-c+"px"),e("#go-top").on("click",function(o){o.preventDefault(),e("html, body").animate({scrollTop:0},300)}),e("#current-year").text((new Date).getFullYear())}(window,document,window.jQuery);

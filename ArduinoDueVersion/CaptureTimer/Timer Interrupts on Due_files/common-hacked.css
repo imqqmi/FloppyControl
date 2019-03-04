@@ -1,0 +1,64 @@
+/* @override
+
+@charset 'utf-8';
+*/
+
+
+html, body { height: 100%; }
+
+.clear{
+  clear: both;
+}
+
+hr {border-top: 1px solid #ccc;}
+
+h4 a {
+  color: inherit!important;
+}
+
+.hidden {
+  display: none;
+}
+
+#actions {
+  font-size: .8em;
+  margin-bottom: 15px;
+}
+
+#actions a {
+  padding: 10px;
+}
+
+#headerbread {
+  background-color: #f6fafa;
+  border-bottom: 1px solid #D5E9E9;
+  margin-bottom: 30px;
+  padding: 4px 0;
+}
+
+ul li ul,
+ul li ol {
+  margin: 0;
+}
+
+select {
+  width: auto;
+}
+
+/*hacks for header-footer */
+
+#ino-header {
+	font-size: 13px;
+}
+
+body {
+	background: none;
+}
+
+#header {
+	padding: 0;
+}
+
+#header ul {
+  font-size: 1em;
+}
