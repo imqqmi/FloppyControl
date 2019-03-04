@@ -366,8 +366,11 @@ namespace FloppyControlApp
                 serialPort1.Write('j'.ToString()); // Select head 1
                 Thread.Sleep(10);
             }
+            int directstepFactor = 2;
+            if (directstep == true)
+                directstepFactor = 1;
 
-            GotoTrack = (t * StepStickMicrostepping) / 2 - ((t & 1) * StepStickMicrostepping) + StepStickMicrostepping;
+            GotoTrack = (t * StepStickMicrostepping) / directstepFactor - ((t & 1) * StepStickMicrostepping) + StepStickMicrostepping;
             tbr.Append("Gototrack:" + GotoTrack + "\r\n");
 
             temp = (((int)EndTrack - t) * StepStickMicrostepping);//(int)StepsPerTrackUpDown.Value;

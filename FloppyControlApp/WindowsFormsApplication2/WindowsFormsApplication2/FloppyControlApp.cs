@@ -1244,10 +1244,12 @@ namespace FloppyControlApp
             }
 
             Array.Clear(processing.disk, 0, processing.disk.Length);
-
+            
             processing.sectormap.recoveredsectorcount = 0;
             processing.sectormap.RecoveredSectorWithErrorsCount = 0;
             processing.sectormap.RefreshSectorMap();
+
+            resetprocesseddata();
         }
 
         private void ResetInputBtn_Click(object sender, EventArgs e)
@@ -3027,7 +3029,7 @@ namespace FloppyControlApp
 
         private void outputfilename_TextChanged(object sender, EventArgs e)
         {
-            tbreceived.Append("Output changed to: " + outputfilename.Text + "\r\n");
+            //tbreceived.Append("Output changed to: " + outputfilename.Text + "\r\n");
             openFileDialog1.InitialDirectory = subpath + @"\" + outputfilename.Text;
             openFileDialog2.InitialDirectory = subpath + @"\" + outputfilename.Text;
             
