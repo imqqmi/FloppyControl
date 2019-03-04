@@ -13,9 +13,7 @@ However, the Amiga disk format is not something any PC could read, at least not 
 - Windows application to control the hardware (C#)
 
 ## Status
-This is the first commit of the project. I will call it version 1.0. It's capable of capturing Amiga and PC DOS disks and some variants of both. MSX disks for example are also supported. All disks can be captured, though not all disks can be decoded to a disk image.
-
-
+This is the first commit of the project. I will call it version 1.0. It's capable of capturing Amiga and PC DOS disks and some variants of both. MSX disks for example are also supported. All disks can be captured, though not all disks can be decoded to a disk image yet. You could try adding your own.
 
 ## Hardware
 The first version I made was based on a PIC16F1938 overclocked at 80MHz. An USB2RS232 donlge with a PL2303 chip was used at 5mbit/s.
