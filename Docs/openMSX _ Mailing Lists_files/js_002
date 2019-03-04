@@ -1,0 +1,1936 @@
+/*
+       Licensed to the Apache Software Foundation (ASF) under one
+       or more contributor license agreements.  See the NOTICE file
+       distributed with this work for additional information
+       regarding copyright ownership.  The ASF licenses this file
+       to you under the Apache License, Version 2.0 (the
+       "License"); you may not use this file except in compliance
+       with the License.  You may obtain a copy of the License at
+
+         http://www.apache.org/licenses/LICENSE-2.0
+
+       Unless required by applicable law or agreed to in writing,
+       software distributed under the License is distributed on an
+       "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+       KIND, either express or implied.  See the License for the
+       specific language governing permissions and limitations
+       under the License.
+*/
+
+/*jslint browser: true, white: false, onevar: false */
+/*global jQuery, window */
+
+(function ($) {
+    
+    /* BEGIN: John Resig's microtemplating stuff */
+    var cache = {};
+
+    function tmpl(str, data){
+        var fn = !/\W/.test(str) ?
+            cache[str] = cache[str] ||
+            tmpl(document.getElementById(str).innerHTML) :
+            new Function("obj",
+                "var p=[],print=function(){p.push.apply(p,arguments);};" +
+                "with(obj){p.push('" +
+                str
+                    .replace(/[\r\t\n]/g, " ")
+                    .split("<%").join("\t")
+                    .replace(/((^|%>)[^\t]*)'/g, "$1\r")
+                    .replace(/\t=(.*?)%>/g, "',$1,'")
+                    .split("\t").join("');")
+                    .split("%>").join("p.push('")
+                    .split("\r").join("\\'")
+                + "');}return p.join('');");
+        return data ? fn( data ) : fn;
+    };
+    /* END: John Resig's microtemplating stuff */
+
+    function closer(message, o) {
+        function slideComplete() {
+            $(this).remove();
+        }
+        function fadeComplete() {
+            $(this).slideUp(100, slideComplete);
+        }
+        $(message).animate({ opacity: 0 }, { duration: 250, queue: false, complete: fadeComplete });
+    }
+
+    function scanMessages(container, o) {
+        function helper() {
+            var selector = '.' + o.newClass + '.' + o.messageClass,
+                $msg;
+            // Special support for persistent messages, such as sitewide
+            // notifications; note that this requires the cookie plugin.
+            // Persistent messages are assumed sticky.
+            if ($.cookie && $.cookie(o.persistentCookie)){
+                $msg = $(selector, container).not(o.persistentClass);
+            } else {
+                $msg = $(selector, container);
+            }
+            if ($msg.length) {
+                $msg.prepend(o.closeIcon);
+                $msg.click(function(e) {
+                    if ($.cookie && $msg.hasClass(o.persistentClass)) {
+                        $.cookie(o.persistentCookie, 1, { path: '/' });
+                    }
+                    closer(this, o);
+                });
+                $msg.removeClass(o.newClass).addClass(o.activeClass);
+                $msg.each(function() {
+                    var self = this;
+                    if (!$(self).hasClass(o.stickyClass) || !$(self).hasClass(o.persistentClass)) {
+                        var timer = $(self).attr('data-timer') || o.timer;
+                        setTimeout(function() {
+                            closer($(self), o);
+                        }, timer);
+                    }
+                    $(self).fadeIn(500);
+                });
+            }
+            setTimeout(helper, o.interval);
+        }
+        helper();
+    }
+    
+    function sanitize(str) {
+        return str.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+    
+    $.fn.notifier = function(options){
+        var opts = $.extend({}, $.fn.notify.defaults, options);
+        return $(this).each(function() {
+            var self = this,
+                o = $.metadata ? $.extend(opts, $(this).metadata()) : opts;
+            if (o.scrollcss) {
+                $(window).scroll(function() {
+                    $(self).css(o.scrollcss);
+                }); 
+            }
+            $('.' + o.messageClass, self).addClass(o.newClass);
+            scanMessages(self, o);
+        });
+    };
+    
+    $.fn.notify = function(msg_or_opts, options) {
+        var opts;
+        // For backwards compatibility
+        if (typeof msg_or_opts === 'string') {
+            opts = $.extend({message: msg_or_opts}, $.fn.notify.defaults, options);
+        } else {
+            opts = $.extend({}, $.fn.notify.defaults, msg_or_opts);
+        }
+        // For backwards compatibility
+        if (opts.status === 'success') {
+            opts.status = 'confirm';
+        }
+        return $(this).each(function() {
+            if (opts.message) {
+                var o = $.metadata ? $.extend(opts, $(this).metadata()) : opts;
+                if (o.sanitize) {
+                    o.message = sanitize(o.message);
+                    o.title = sanitize(o.title);
+                }
+                var html = tmpl(o.tmpl, o);
+                $(this).append(html);
+            } else {
+                if (window.console) {
+                    //#JSCOVERAGE_IF window.console
+                    window.console.warn("No message was set in notify's config: ", o);
+                    //#JSCOVERAGE_ENDIF
+                }
+            }
+        });
+    };
+    
+    $.fn.notify.defaults = {
+        status: 'info',
+        interval: 500,
+        timer: 15000,
+        sticky: false,
+        title: '',
+        sanitize: true,
+        tmpl: '<div class="message <%=newClass%> <%=status%> <% if (sticky) { %><%=stickyClass %><% } %>" data-timer="<%=timer%>"><% if (title) { %><h6><%=title%></h6><% } %><div class="content"><%=message%></div></div>',
+        scrollcss: { position: 'fixed', top: '20px' },
+        stickyClass: 'notify-sticky',
+		persistentClass: 'notify-persistent',
+		persistentCookie: 'notify-persistent-closed',
+        newClass: 'notify-new',
+        activeClass: 'notify-active',
+        inactiveClass: 'notify-inactive',
+        messageClass: 'message',
+        closeIcon: '<b title="Close" class="fa fa-close" style="float:right;"></b>'
+    };
+    
+}(jQuery));
+;
+/*
+
+Tooltipster 3.3.0 | 2014-11-08
+A rockin' custom tooltip jQuery plugin
+
+Developed by Caleb Jacob under the MIT license http://opensource.org/licenses/MIT
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+*/
+
+;(function ($, window, document) {
+
+	var pluginName = "tooltipster",
+		defaults = {
+			animation: 'fade',
+			arrow: true,
+			arrowColor: '',
+			autoClose: true,
+			content: null,
+			contentAsHTML: false,
+			contentCloning: true,
+			debug: true,
+			delay: 200,
+			minWidth: 0,
+			maxWidth: null,
+			functionInit: function(origin, content) {},
+			functionBefore: function(origin, continueTooltip) {
+				continueTooltip();
+			},
+			functionReady: function(origin, tooltip) {},
+			functionAfter: function(origin) {},
+			hideOnClick: false,
+			icon: '(?)',
+			iconCloning: true,
+			iconDesktop: false,
+			iconTouch: false,
+			iconTheme: 'tooltipster-icon',
+			interactive: false,
+			interactiveTolerance: 350,
+			multiple: false,
+			offsetX: 0,
+			offsetY: 0,
+			onlyOne: false,
+			position: 'top',
+			positionTracker: false,
+			positionTrackerCallback: function(origin){
+				// the default tracker callback will close the tooltip when the trigger is
+				// 'hover' (see https://github.com/iamceege/tooltipster/pull/253)
+				if(this.option('trigger') == 'hover' && this.option('autoClose')) {
+					this.hide();
+				}
+			},
+			restoration: 'current',
+			speed: 350,
+			timer: 0,
+			theme: 'tooltipster-default',
+			touchDevices: true,
+			trigger: 'hover',
+			updateAnimation: true
+		};
+	
+	function Plugin(element, options) {
+		
+		// list of instance variables
+		
+		this.bodyOverflowX;
+		// stack of custom callbacks provided as parameters to API methods
+		this.callbacks = {
+			hide: [],
+			show: []
+		};
+		this.checkInterval = null;
+		// this will be the user content shown in the tooltip. A capital "C" is used because there is also a method called content()
+		this.Content;
+		// this is the original element which is being applied the tooltipster plugin
+		this.$el = $(element);
+		// this will be the element which triggers the appearance of the tooltip on hover/click/custom events.
+		// it will be the same as this.$el if icons are not used (see in the options), otherwise it will correspond to the created icon
+		this.$elProxy;
+		this.elProxyPosition;
+		this.enabled = true;
+		this.options = $.extend({}, defaults, options);
+		this.mouseIsOverProxy = false;
+		// a unique namespace per instance, for easy selective unbinding
+		this.namespace = 'tooltipster-'+ Math.round(Math.random()*100000);
+		// Status (capital S) can be either : appearing, shown, disappearing, hidden
+		this.Status = 'hidden';
+		this.timerHide = null;
+		this.timerShow = null;
+		// this will be the tooltip element (jQuery wrapped HTML element)
+		this.$tooltip;
+		
+		// for backward compatibility
+		this.options.iconTheme = this.options.iconTheme.replace('.', '');
+		this.options.theme = this.options.theme.replace('.', '');
+		
+		// launch
+		
+		this._init();
+	}
+	
+	Plugin.prototype = {
+		
+		_init: function() {
+			
+			var self = this;
+			
+			// disable the plugin on old browsers (including IE7 and lower)
+			if (document.querySelector) {
+				
+				// note : the content is null (empty) by default and can stay that way if the plugin remains initialized but not fed any content. The tooltip will just not appear.
+				
+				// let's save the initial value of the title attribute for later restoration if need be.
+				var initialTitle = null;
+				// it will already have been saved in case of multiple tooltips
+				if (self.$el.data('tooltipster-initialTitle') === undefined) {
+					
+					initialTitle = self.$el.attr('title');
+					
+					// we do not want initialTitle to have the value "undefined" because of how jQuery's .data() method works
+					if (initialTitle === undefined) initialTitle = null;
+					
+					self.$el.data('tooltipster-initialTitle', initialTitle);
+				}
+				
+				// if content is provided in the options, its has precedence over the title attribute.
+				// Note : an empty string is considered content, only 'null' represents the absence of content.
+				// Also, an existing title="" attribute will result in an empty string content
+				if (self.options.content !== null){
+					self._content_set(self.options.content);
+				}
+				else {
+					self._content_set(initialTitle);
+				}
+				
+				var c = self.options.functionInit.call(self.$el, self.$el, self.Content);
+				if(typeof c !== 'undefined') self._content_set(c);
+				
+				self.$el
+					// strip the title off of the element to prevent the default tooltips from popping up
+					.removeAttr('title')
+					// to be able to find all instances on the page later (upon window events in particular)
+					.addClass('tooltipstered');
+
+				// detect if we're changing the tooltip origin to an icon
+				// note about this condition : if the device has touch capability and self.options.iconTouch is false, you'll have no icons event though you may consider your device as a desktop if it also has a mouse. Not sure why someone would have this use case though.
+				if ((!deviceHasTouchCapability && self.options.iconDesktop) || (deviceHasTouchCapability && self.options.iconTouch)) {
+					
+					// TODO : the tooltip should be automatically be given an absolute position to be near the origin. Otherwise, when the origin is floating or what, it's going to be nowhere near it and disturb the position flow of the page elements. It will imply that the icon also detects when its origin moves, to follow it : not trivial.
+					// Until it's done, the icon feature does not really make sense since the user still has most of the work to do by himself
+					
+					// if the icon provided is in the form of a string
+					if(typeof self.options.icon === 'string'){
+						// wrap it in a span with the icon class
+						self.$elProxy = $('<span class="'+ self.options.iconTheme +'"></span>');
+						self.$elProxy.text(self.options.icon);
+					}
+					// if it is an object (sensible choice)
+					else {
+						// (deep) clone the object if iconCloning == true, to make sure every instance has its own proxy. We use the icon without wrapping, no need to. We do not give it a class either, as the user will undoubtedly style the object on his own and since our css properties may conflict with his own
+						if (self.options.iconCloning) self.$elProxy = self.options.icon.clone(true);
+						else self.$elProxy = self.options.icon;
+					}
+					
+					self.$elProxy.insertAfter(self.$el);
+				}
+				else {
+					self.$elProxy = self.$el;
+				}
+				
+				// for 'click' and 'hover' triggers : bind on events to open the tooltip. Closing is now handled in _showNow() because of its bindings.
+				// Notes about touch events :
+					// - mouseenter, mouseleave and clicks happen even on pure touch devices because they are emulated. deviceIsPureTouch() is a simple attempt to detect them.
+					// - on hybrid devices, we do not prevent touch gesture from opening tooltips. It would be too complex to differentiate real mouse events from emulated ones.
+					// - we check deviceIsPureTouch() at each event rather than prior to binding because the situation may change during browsing
+				if (self.options.trigger == 'hover') {
+					
+					// these binding are for mouse interaction only
+					self.$elProxy
+						.on('mouseenter.'+ self.namespace, function() {
+							if (!deviceIsPureTouch() || self.options.touchDevices) {
+								self.mouseIsOverProxy = true;
+								self._show();
+							}
+						})
+						.on('mouseleave.'+ self.namespace, function() {
+							if (!deviceIsPureTouch() || self.options.touchDevices) {
+								self.mouseIsOverProxy = false;
+							}
+						});
+					
+					// for touch interaction only
+					if (deviceHasTouchCapability && self.options.touchDevices) {
+						
+						// for touch devices, we immediately display the tooltip because we cannot rely on mouseleave to handle the delay
+						self.$elProxy.on('touchstart.'+ self.namespace, function() {
+							self._showNow();
+						});
+					}
+				}
+				else if (self.options.trigger == 'click') {
+					
+					// note : for touch devices, we do not bind on touchstart, we only rely on the emulated clicks (triggered by taps)
+					self.$elProxy.on('click.'+ self.namespace, function() {
+						if (!deviceIsPureTouch() || self.options.touchDevices) {
+							self._show();
+						}
+					});
+				}
+			}
+		},
+		
+		// this function will schedule the opening of the tooltip after the delay, if there is one
+		_show: function() {
+			
+			var self = this;
+			
+			if (self.Status != 'shown' && self.Status != 'appearing') {
+				
+				if (self.options.delay) {
+					self.timerShow = setTimeout(function(){
+						
+						// for hover trigger, we check if the mouse is still over the proxy, otherwise we do not show anything
+						if (self.options.trigger == 'click' || (self.options.trigger == 'hover' && self.mouseIsOverProxy)) {
+							self._showNow();
+						}
+					}, self.options.delay);
+				}
+				else self._showNow();
+			}
+		},
+		
+		// this function will open the tooltip right away
+		_showNow: function(callback) {
+			
+			var self = this;
+			
+			// call our constructor custom function before continuing
+			self.options.functionBefore.call(self.$el, self.$el, function() {
+				
+				// continue only if the tooltip is enabled and has any content
+				if (self.enabled && self.Content !== null) {
+				
+					// save the method callback and cancel hide method callbacks
+					if (callback) self.callbacks.show.push(callback);
+					self.callbacks.hide = [];
+					
+					//get rid of any appearance timer
+					clearTimeout(self.timerShow);
+					self.timerShow = null;
+					clearTimeout(self.timerHide);
+					self.timerHide = null;
+					
+					// if we only want one tooltip open at a time, close all auto-closing tooltips currently open and not already disappearing
+					if (self.options.onlyOne) {
+						$('.tooltipstered').not(self.$el).each(function(i,el) {
+							
+							var $el = $(el),
+								nss = $el.data('tooltipster-ns');
+							
+							// iterate on all tooltips of the element
+							$.each(nss, function(i, ns){
+								var instance = $el.data(ns),
+									// we have to use the public methods here
+									s = instance.status(),
+									ac = instance.option('autoClose');
+								
+								if (s !== 'hidden' && s !== 'disappearing' && ac) {
+									instance.hide();
+								}
+							});
+						});
+					}
+					
+					var finish = function() {
+						self.Status = 'shown';
+						
+						// trigger any show method custom callbacks and reset them
+						$.each(self.callbacks.show, function(i,c) { c.call(self.$el); });
+						self.callbacks.show = [];
+					};
+					
+					// if this origin already has its tooltip open
+					if (self.Status !== 'hidden') {
+						
+						// the timer (if any) will start (or restart) right now
+						var extraTime = 0;
+						
+						// if it was disappearing, cancel that
+						if (self.Status === 'disappearing') {
+							
+							self.Status = 'appearing';
+							
+							if (supportsTransitions()) {
+								
+								self.$tooltip
+									.clearQueue()
+									.removeClass('tooltipster-dying')
+									.addClass('tooltipster-'+ self.options.animation +'-show');
+								
+								if (self.options.speed > 0) self.$tooltip.delay(self.options.speed);
+								
+								self.$tooltip.queue(finish);
+							}
+							else {
+								// in case the tooltip was currently fading out, bring it back to life
+								self.$tooltip
+									.stop()
+									.fadeIn(finish);
+							}
+						}
+						// if the tooltip is already open, we still need to trigger the method custom callback
+						else if(self.Status === 'shown') {
+							finish();
+						}
+					}
+					// if the tooltip isn't already open, open that sucker up!
+					else {
+						
+						self.Status = 'appearing';
+						
+						// the timer (if any) will start when the tooltip has fully appeared after its transition
+						var extraTime = self.options.speed;
+						
+						// disable horizontal scrollbar to keep overflowing tooltips from jacking with it and then restore it to its previous value
+						self.bodyOverflowX = $('body').css('overflow-x');
+						$('body').css('overflow-x', 'hidden');
+						
+						// get some other settings related to building the tooltip
+						var animation = 'tooltipster-' + self.options.animation,
+							animationSpeed = '-webkit-transition-duration: '+ self.options.speed +'ms; -webkit-animation-duration: '+ self.options.speed +'ms; -moz-transition-duration: '+ self.options.speed +'ms; -moz-animation-duration: '+ self.options.speed +'ms; -o-transition-duration: '+ self.options.speed +'ms; -o-animation-duration: '+ self.options.speed +'ms; -ms-transition-duration: '+ self.options.speed +'ms; -ms-animation-duration: '+ self.options.speed +'ms; transition-duration: '+ self.options.speed +'ms; animation-duration: '+ self.options.speed +'ms;',
+							minWidth = self.options.minWidth ? 'min-width:'+ Math.round(self.options.minWidth) +'px;' : '',
+							maxWidth = self.options.maxWidth ? 'max-width:'+ Math.round(self.options.maxWidth) +'px;' : '',
+							pointerEvents = self.options.interactive ? 'pointer-events: auto;' : '';
+						
+						// build the base of our tooltip
+						self.$tooltip = $('<div class="tooltipster-base '+ self.options.theme +'" style="'+ minWidth +' '+ maxWidth +' '+ pointerEvents +' '+ animationSpeed +'"><div class="tooltipster-content"></div></div>');
+						
+						// only add the animation class if the user has a browser that supports animations
+						if (supportsTransitions()) self.$tooltip.addClass(animation);
+						
+						// insert the content
+						self._content_insert();
+						
+						// attach
+						self.$tooltip.appendTo('body');
+						
+						// do all the crazy calculations and positioning
+						self.reposition();
+						
+						// call our custom callback since the content of the tooltip is now part of the DOM
+						self.options.functionReady.call(self.$el, self.$el, self.$tooltip);
+						
+						// animate in the tooltip
+						if (supportsTransitions()) {
+							
+							self.$tooltip.addClass(animation + '-show');
+							
+							if(self.options.speed > 0) self.$tooltip.delay(self.options.speed);
+							
+							self.$tooltip.queue(finish);
+						}
+						else {
+							self.$tooltip.css('display', 'none').fadeIn(self.options.speed, finish);
+						}
+						
+						// will check if our tooltip origin is removed while the tooltip is shown
+						self._interval_set();
+						
+						// reposition on scroll (otherwise position:fixed element's tooltips will move away form their origin) and on resize (in case position can/has to be changed)
+						$(window).on('scroll.'+ self.namespace +' resize.'+ self.namespace, function() {
+							self.reposition();
+						});
+						
+						// auto-close bindings
+						if (self.options.autoClose) {
+							
+							// in case a listener is already bound for autoclosing (mouse or touch, hover or click), unbind it first
+							$('body').off('.'+ self.namespace);
+							
+							// here we'll have to set different sets of bindings for both touch and mouse
+							if (self.options.trigger == 'hover') {
+								
+								// if the user touches the body, hide
+								if (deviceHasTouchCapability) {
+									// timeout 0 : explanation below in click section
+									setTimeout(function() {
+										// we don't want to bind on click here because the initial touchstart event has not yet triggered its click event, which is thus about to happen
+										$('body').on('touchstart.'+ self.namespace, function() {
+											self.hide();
+										});
+									}, 0);
+								}
+								
+								// if we have to allow interaction
+								if (self.options.interactive) {
+									
+									// touch events inside the tooltip must not close it
+									if (deviceHasTouchCapability) {
+										self.$tooltip.on('touchstart.'+ self.namespace, function(event) {
+											event.stopPropagation();
+										});
+									}
+									
+									// as for mouse interaction, we get rid of the tooltip only after the mouse has spent some time out of it
+									var tolerance = null;
+									
+									self.$elProxy.add(self.$tooltip)
+										// hide after some time out of the proxy and the tooltip
+										.on('mouseleave.'+ self.namespace + '-autoClose', function() {
+											clearTimeout(tolerance);
+											tolerance = setTimeout(function(){
+												self.hide();
+											}, self.options.interactiveTolerance);
+										})
+										// suspend timeout when the mouse is over the proxy or the tooltip
+										.on('mouseenter.'+ self.namespace + '-autoClose', function() {
+											clearTimeout(tolerance);
+										});
+								}
+								// if this is a non-interactive tooltip, get rid of it if the mouse leaves
+								else {
+									self.$elProxy.on('mouseleave.'+ self.namespace + '-autoClose', function() {
+										self.hide();
+									});
+								}
+								
+								// close the tooltip when the proxy gets a click (common behavior of native tooltips)
+								if (self.options.hideOnClick) {
+									
+									self.$elProxy.on('click.'+ self.namespace + '-autoClose', function() {
+										self.hide();
+									});
+								}
+							}
+							// here we'll set the same bindings for both clicks and touch on the body to hide the tooltip
+							else if(self.options.trigger == 'click'){
+								
+								// use a timeout to prevent immediate closing if the method was called on a click event and if options.delay == 0 (because of bubbling)
+								setTimeout(function() {
+									$('body').on('click.'+ self.namespace +' touchstart.'+ self.namespace, function() {
+										self.hide();
+									});
+								}, 0);
+								
+								// if interactive, we'll stop the events that were emitted from inside the tooltip to stop autoClosing
+								if (self.options.interactive) {
+									
+									// note : the touch events will just not be used if the plugin is not enabled on touch devices
+									self.$tooltip.on('click.'+ self.namespace +' touchstart.'+ self.namespace, function(event) {
+										event.stopPropagation();
+									});
+								}
+							}
+						}
+					}
+					
+					// if we have a timer set, let the countdown begin
+					if (self.options.timer > 0) {
+						
+						self.timerHide = setTimeout(function() {
+							self.timerHide = null;
+							self.hide();
+						}, self.options.timer + extraTime);
+					}
+				}
+			});
+		},
+		
+		_interval_set: function() {
+			
+			var self = this;
+			
+			self.checkInterval = setInterval(function() {
+				
+				// if the tooltip and/or its interval should be stopped
+				if (
+						// if the origin has been removed
+						$('body').find(self.$el).length === 0
+						// if the elProxy has been removed
+					||	$('body').find(self.$elProxy).length === 0
+						// if the tooltip has been closed
+					||	self.Status == 'hidden'
+						// if the tooltip has somehow been removed
+					||	$('body').find(self.$tooltip).length === 0
+				) {
+					// remove the tooltip if it's still here
+					if (self.Status == 'shown' || self.Status == 'appearing') self.hide();
+					
+					// clear this interval as it is no longer necessary
+					self._interval_cancel();
+				}
+				// if everything is alright
+				else {
+					// compare the former and current positions of the elProxy to reposition the tooltip if need be
+					if(self.options.positionTracker){
+						
+						var p = self._repositionInfo(self.$elProxy),
+							identical = false;
+						
+						// compare size first (a change requires repositioning too)
+						if(areEqual(p.dimension, self.elProxyPosition.dimension)){
+							
+							// for elements with a fixed position, we track the top and left properties (relative to window)
+							if(self.$elProxy.css('position') === 'fixed'){
+								if(areEqual(p.position, self.elProxyPosition.position)) identical = true;
+							}
+							// otherwise, track total offset (relative to document)
+							else {
+								if(areEqual(p.offset, self.elProxyPosition.offset)) identical = true;
+							}
+						}
+						
+						if(!identical){
+							self.reposition();
+							self.options.positionTrackerCallback.call(self, self.$el);
+						}
+					}
+				}
+			}, 200);
+		},
+		
+		_interval_cancel: function() {
+			clearInterval(this.checkInterval);
+			// clean delete
+			this.checkInterval = null;
+		},
+		
+		_content_set: function(content) {
+			// clone if asked. Cloning the object makes sure that each instance has its own version of the content (in case a same object were provided for several instances)
+			// reminder : typeof null === object
+			if (typeof content === 'object' && content !== null && this.options.contentCloning) {
+				content = content.clone(true);
+			}
+			this.Content = content;
+		},
+		
+		_content_insert: function() {
+			
+			var self = this,
+				$d = this.$tooltip.find('.tooltipster-content');
+			
+			if (typeof self.Content === 'string' && !self.options.contentAsHTML) {
+				$d.text(self.Content);
+			}
+			else {
+				$d
+					.empty()
+					.append(self.Content);
+			}
+		},
+		
+		_update: function(content) {
+			
+			var self = this;
+			
+			// change the content
+			self._content_set(content);
+			
+			if (self.Content !== null) {
+				
+				// update the tooltip if it is open
+				if (self.Status !== 'hidden') {
+					
+					// reset the content in the tooltip
+					self._content_insert();
+					
+					// reposition and resize the tooltip
+					self.reposition();
+					
+					// if we want to play a little animation showing the content changed
+					if (self.options.updateAnimation) {
+						
+						if (supportsTransitions()) {
+							
+							self.$tooltip.css({
+								'width': '',
+								'-webkit-transition': 'all ' + self.options.speed + 'ms, width 0ms, height 0ms, left 0ms, top 0ms',
+								'-moz-transition': 'all ' + self.options.speed + 'ms, width 0ms, height 0ms, left 0ms, top 0ms',
+								'-o-transition': 'all ' + self.options.speed + 'ms, width 0ms, height 0ms, left 0ms, top 0ms',
+								'-ms-transition': 'all ' + self.options.speed + 'ms, width 0ms, height 0ms, left 0ms, top 0ms',
+								'transition': 'all ' + self.options.speed + 'ms, width 0ms, height 0ms, left 0ms, top 0ms'
+							}).addClass('tooltipster-content-changing');
+							
+							// reset the CSS transitions and finish the change animation
+							setTimeout(function() {
+								
+								if(self.Status != 'hidden'){
+									
+									self.$tooltip.removeClass('tooltipster-content-changing');
+									
+									// after the changing animation has completed, reset the CSS transitions
+									setTimeout(function() {
+										
+										if(self.Status !== 'hidden'){
+											self.$tooltip.css({
+												'-webkit-transition': self.options.speed + 'ms',
+												'-moz-transition': self.options.speed + 'ms',
+												'-o-transition': self.options.speed + 'ms',
+												'-ms-transition': self.options.speed + 'ms',
+												'transition': self.options.speed + 'ms'
+											});
+										}
+									}, self.options.speed);
+								}
+							}, self.options.speed);
+						}
+						else {
+							self.$tooltip.fadeTo(self.options.speed, 0.5, function() {
+								if(self.Status != 'hidden'){
+									self.$tooltip.fadeTo(self.options.speed, 1);
+								}
+							});
+						}
+					}
+				}
+			}
+			else {
+				self.hide();
+			}
+		},
+		
+		_repositionInfo: function($el) {
+			return {
+				dimension: {
+					height: $el.outerHeight(false),
+					width: $el.outerWidth(false)
+				},
+				offset: $el.offset(),
+				position: {
+					left: parseInt($el.css('left')),
+					top: parseInt($el.css('top'))
+				}
+			};
+		},
+		
+		hide: function(callback) {
+			
+			var self = this;
+			
+			// save the method custom callback and cancel any show method custom callbacks
+			if (callback) self.callbacks.hide.push(callback);
+			self.callbacks.show = [];
+			
+			// get rid of any appearance timeout
+			clearTimeout(self.timerShow);
+			self.timerShow = null;
+			clearTimeout(self.timerHide);
+			self.timerHide = null;
+			
+			var finishCallbacks = function() {
+				// trigger any hide method custom callbacks and reset them
+				$.each(self.callbacks.hide, function(i,c) { c.call(self.$el); });
+				self.callbacks.hide = [];
+			};
+			
+			// hide
+			if (self.Status == 'shown' || self.Status == 'appearing') {
+				
+				self.Status = 'disappearing';
+				
+				var finish = function() {
+					
+					self.Status = 'hidden';
+					
+					// detach our content object first, so the next jQuery's remove() call does not unbind its event handlers
+					if (typeof self.Content == 'object' && self.Content !== null) {
+						self.Content.detach();
+					}
+					
+					self.$tooltip.remove();
+					self.$tooltip = null;
+					
+					// unbind orientationchange, scroll and resize listeners
+					$(window).off('.'+ self.namespace);
+					
+					$('body')
+						// unbind any auto-closing click/touch listeners
+						.off('.'+ self.namespace)
+						.css('overflow-x', self.bodyOverflowX);
+					
+					// unbind any auto-closing click/touch listeners
+					$('body').off('.'+ self.namespace);
+					
+					// unbind any auto-closing hover listeners
+					self.$elProxy.off('.'+ self.namespace + '-autoClose');
+					
+					// call our constructor custom callback function
+					self.options.functionAfter.call(self.$el, self.$el);
+					
+					// call our method custom callbacks functions
+					finishCallbacks();
+				};
+				
+				if (supportsTransitions()) {
+					
+					self.$tooltip
+						.clearQueue()
+						.removeClass('tooltipster-' + self.options.animation + '-show')
+						// for transitions only
+						.addClass('tooltipster-dying');
+					
+					if(self.options.speed > 0) self.$tooltip.delay(self.options.speed);
+					
+					self.$tooltip.queue(finish);
+				}
+				else {
+					self.$tooltip
+						.stop()
+						.fadeOut(self.options.speed, finish);
+				}
+			}
+			// if the tooltip is already hidden, we still need to trigger the method custom callback
+			else if(self.Status == 'hidden') {
+				finishCallbacks();
+			}
+			
+			return self;
+		},
+		
+		// the public show() method is actually an alias for the private showNow() method
+		show: function(callback) {
+			this._showNow(callback);
+			return this;
+		},
+		
+		// 'update' is deprecated in favor of 'content' but is kept for backward compatibility
+		update: function(c) {
+			return this.content(c);
+		},
+		content: function(c) {
+			// getter method
+			if(typeof c === 'undefined'){
+				return this.Content;
+			}
+			// setter method
+			else {
+				this._update(c);
+				return this;
+			}
+		},
+		
+		reposition: function() {
+			
+			var self = this;
+			
+			// in case the tooltip has been removed from DOM manually
+			if ($('body').find(self.$tooltip).length !== 0) {
+				
+				// reset width
+				self.$tooltip.css('width', '');
+				
+				// find variables to determine placement
+				self.elProxyPosition = self._repositionInfo(self.$elProxy);
+				var arrowReposition = null,
+					windowWidth = $(window).width(),
+					// shorthand
+					proxy = self.elProxyPosition,
+					tooltipWidth = self.$tooltip.outerWidth(false),
+					tooltipInnerWidth = self.$tooltip.innerWidth() + 1, // this +1 stops FireFox from sometimes forcing an additional text line
+					tooltipHeight = self.$tooltip.outerHeight(false);
+				
+				// if this is an <area> tag inside a <map>, all hell breaks loose. Recalculate all the measurements based on coordinates
+				if (self.$elProxy.is('area')) {
+					var areaShape = self.$elProxy.attr('shape'),
+						mapName = self.$elProxy.parent().attr('name'),
+						map = $('img[usemap="#'+ mapName +'"]'),
+						mapOffsetLeft = map.offset().left,
+						mapOffsetTop = map.offset().top,
+						areaMeasurements = self.$elProxy.attr('coords') !== undefined ? self.$elProxy.attr('coords').split(',') : undefined;
+					
+					if (areaShape == 'circle') {
+						var areaLeft = parseInt(areaMeasurements[0]),
+							areaTop = parseInt(areaMeasurements[1]),
+							areaWidth = parseInt(areaMeasurements[2]);
+						proxy.dimension.height = areaWidth * 2;
+						proxy.dimension.width = areaWidth * 2;
+						proxy.offset.top = mapOffsetTop + areaTop - areaWidth;
+						proxy.offset.left = mapOffsetLeft + areaLeft - areaWidth;
+					}
+					else if (areaShape == 'rect') {
+						var areaLeft = parseInt(areaMeasurements[0]),
+							areaTop = parseInt(areaMeasurements[1]),
+							areaRight = parseInt(areaMeasurements[2]),
+							areaBottom = parseInt(areaMeasurements[3]);
+						proxy.dimension.height = areaBottom - areaTop;
+						proxy.dimension.width = areaRight - areaLeft;
+						proxy.offset.top = mapOffsetTop + areaTop;
+						proxy.offset.left = mapOffsetLeft + areaLeft;
+					}
+					else if (areaShape == 'poly') {
+						var areaXs = [],
+							areaYs = [],
+							areaSmallestX = 0,
+							areaSmallestY = 0,
+							areaGreatestX = 0,
+							areaGreatestY = 0,
+							arrayAlternate = 'even';
+						
+						for (var i = 0; i < areaMeasurements.length; i++) {
+							var areaNumber = parseInt(areaMeasurements[i]);
+							
+							if (arrayAlternate == 'even') {
+								if (areaNumber > areaGreatestX) {
+									areaGreatestX = areaNumber;
+									if (i === 0) {
+										areaSmallestX = areaGreatestX;
+									}
+								}
+								
+								if (areaNumber < areaSmallestX) {
+									areaSmallestX = areaNumber;
+								}
+								
+								arrayAlternate = 'odd';
+							}
+							else {
+								if (areaNumber > areaGreatestY) {
+									areaGreatestY = areaNumber;
+									if (i == 1) {
+										areaSmallestY = areaGreatestY;
+									}
+								}
+								
+								if (areaNumber < areaSmallestY) {
+									areaSmallestY = areaNumber;
+								}
+								
+								arrayAlternate = 'even';
+							}
+						}
+					
+						proxy.dimension.height = areaGreatestY - areaSmallestY;
+						proxy.dimension.width = areaGreatestX - areaSmallestX;
+						proxy.offset.top = mapOffsetTop + areaSmallestY;
+						proxy.offset.left = mapOffsetLeft + areaSmallestX;
+					}
+					else {
+						proxy.dimension.height = map.outerHeight(false);
+						proxy.dimension.width = map.outerWidth(false);
+						proxy.offset.top = mapOffsetTop;
+						proxy.offset.left = mapOffsetLeft;
+					}
+				}
+				
+				// our function and global vars for positioning our tooltip
+				var myLeft = 0,
+					myLeftMirror = 0,
+					myTop = 0,
+					offsetY = parseInt(self.options.offsetY),
+					offsetX = parseInt(self.options.offsetX),
+					// this is the arrow position that will eventually be used. It may differ from the position option if the tooltip cannot be displayed in this position
+					practicalPosition = self.options.position;
+				
+				// a function to detect if the tooltip is going off the screen horizontally. If so, reposition the crap out of it!
+				function dontGoOffScreenX() {
+				
+					var windowLeft = $(window).scrollLeft();
+					
+					// if the tooltip goes off the left side of the screen, line it up with the left side of the window
+					if((myLeft - windowLeft) < 0) {
+						arrowReposition = myLeft - windowLeft;
+						myLeft = windowLeft;
+					}
+					
+					// if the tooltip goes off the right of the screen, line it up with the right side of the window
+					if (((myLeft + tooltipWidth) - windowLeft) > windowWidth) {
+						arrowReposition = myLeft - ((windowWidth + windowLeft) - tooltipWidth);
+						myLeft = (windowWidth + windowLeft) - tooltipWidth;
+					}
+				}
+				
+				// a function to detect if the tooltip is going off the screen vertically. If so, switch to the opposite!
+				function dontGoOffScreenY(switchTo, switchFrom) {
+					// if it goes off the top off the page
+					if(((proxy.offset.top - $(window).scrollTop() - tooltipHeight - offsetY - 12) < 0) && (switchFrom.indexOf('top') > -1)) {
+						practicalPosition = switchTo;
+					}
+					
+					// if it goes off the bottom of the page
+					if (((proxy.offset.top + proxy.dimension.height + tooltipHeight + 12 + offsetY) > ($(window).scrollTop() + $(window).height())) && (switchFrom.indexOf('bottom') > -1)) {
+						practicalPosition = switchTo;
+						myTop = (proxy.offset.top - tooltipHeight) - offsetY - 12;
+					}
+				}
+				
+				if(practicalPosition == 'top') {
+					var leftDifference = (proxy.offset.left + tooltipWidth) - (proxy.offset.left + proxy.dimension.width);
+					myLeft = (proxy.offset.left + offsetX) - (leftDifference / 2);
+					myTop = (proxy.offset.top - tooltipHeight) - offsetY - 12;
+					dontGoOffScreenX();
+					dontGoOffScreenY('bottom', 'top');
+				}
+				
+				if(practicalPosition == 'top-left') {
+					myLeft = proxy.offset.left + offsetX;
+					myTop = (proxy.offset.top - tooltipHeight) - offsetY - 12;
+					dontGoOffScreenX();
+					dontGoOffScreenY('bottom-left', 'top-left');
+				}
+				
+				if(practicalPosition == 'top-right') {
+					myLeft = (proxy.offset.left + proxy.dimension.width + offsetX) - tooltipWidth;
+					myTop = (proxy.offset.top - tooltipHeight) - offsetY - 12;
+					dontGoOffScreenX();
+					dontGoOffScreenY('bottom-right', 'top-right');
+				}
+				
+				if(practicalPosition == 'bottom') {
+					var leftDifference = (proxy.offset.left + tooltipWidth) - (proxy.offset.left + proxy.dimension.width);
+					myLeft = proxy.offset.left - (leftDifference / 2) + offsetX;
+					myTop = (proxy.offset.top + proxy.dimension.height) + offsetY + 12;
+					dontGoOffScreenX();
+					dontGoOffScreenY('top', 'bottom');
+				}
+				
+				if(practicalPosition == 'bottom-left') {
+					myLeft = proxy.offset.left + offsetX;
+					myTop = (proxy.offset.top + proxy.dimension.height) + offsetY + 12;
+					dontGoOffScreenX();
+					dontGoOffScreenY('top-left', 'bottom-left');
+				}
+				
+				if(practicalPosition == 'bottom-right') {
+					myLeft = (proxy.offset.left + proxy.dimension.width + offsetX) - tooltipWidth;
+					myTop = (proxy.offset.top + proxy.dimension.height) + offsetY + 12;
+					dontGoOffScreenX();
+					dontGoOffScreenY('top-right', 'bottom-right');
+				}
+				
+				if(practicalPosition == 'left') {
+					myLeft = proxy.offset.left - offsetX - tooltipWidth - 12;
+					myLeftMirror = proxy.offset.left + offsetX + proxy.dimension.width + 12;
+					var topDifference = (proxy.offset.top + tooltipHeight) - (proxy.offset.top + proxy.dimension.height);
+					myTop = proxy.offset.top - (topDifference / 2) - offsetY;
+					
+					// if the tooltip goes off boths sides of the page
+					if((myLeft < 0) && ((myLeftMirror + tooltipWidth) > windowWidth)) {
+						var borderWidth = parseFloat(self.$tooltip.css('border-width')) * 2,
+							newWidth = (tooltipWidth + myLeft) - borderWidth;
+						self.$tooltip.css('width', newWidth + 'px');
+						
+						tooltipHeight = self.$tooltip.outerHeight(false);
+						myLeft = proxy.offset.left - offsetX - newWidth - 12 - borderWidth;
+						topDifference = (proxy.offset.top + tooltipHeight) - (proxy.offset.top + proxy.dimension.height);
+						myTop = proxy.offset.top - (topDifference / 2) - offsetY;
+					}
+					
+					// if it only goes off one side, flip it to the other side
+					else if(myLeft < 0) {
+						myLeft = proxy.offset.left + offsetX + proxy.dimension.width + 12;
+						arrowReposition = 'left';
+					}
+				}
+				
+				if(practicalPosition == 'right') {
+					myLeft = proxy.offset.left + offsetX + proxy.dimension.width + 12;
+					myLeftMirror = proxy.offset.left - offsetX - tooltipWidth - 12;
+					var topDifference = (proxy.offset.top + tooltipHeight) - (proxy.offset.top + proxy.dimension.height);
+					myTop = proxy.offset.top - (topDifference / 2) - offsetY;
+					
+					// if the tooltip goes off boths sides of the page
+					if(((myLeft + tooltipWidth) > windowWidth) && (myLeftMirror < 0)) {
+						var borderWidth = parseFloat(self.$tooltip.css('border-width')) * 2,
+							newWidth = (windowWidth - myLeft) - borderWidth;
+						self.$tooltip.css('width', newWidth + 'px');
+						
+						tooltipHeight = self.$tooltip.outerHeight(false);
+						topDifference = (proxy.offset.top + tooltipHeight) - (proxy.offset.top + proxy.dimension.height);
+						myTop = proxy.offset.top - (topDifference / 2) - offsetY;
+					}
+						
+					// if it only goes off one side, flip it to the other side
+					else if((myLeft + tooltipWidth) > windowWidth) {
+						myLeft = proxy.offset.left - offsetX - tooltipWidth - 12;
+						arrowReposition = 'right';
+					}
+				}
+				
+				// if arrow is set true, style it and append it
+				if (self.options.arrow) {
+	
+					var arrowClass = 'tooltipster-arrow-' + practicalPosition;
+					
+					// set color of the arrow
+					if(self.options.arrowColor.length < 1) {
+						var arrowColor = self.$tooltip.css('background-color');
+					}
+					else {
+						var arrowColor = self.options.arrowColor;
+					}
+					
+					// if the tooltip was going off the page and had to re-adjust, we need to update the arrow's position
+					if (!arrowReposition) {
+						arrowReposition = '';
+					}
+					else if (arrowReposition == 'left') {
+						arrowClass = 'tooltipster-arrow-right';
+						arrowReposition = '';
+					}
+					else if (arrowReposition == 'right') {
+						arrowClass = 'tooltipster-arrow-left';
+						arrowReposition = '';
+					}
+					else {
+						arrowReposition = 'left:'+ Math.round(arrowReposition) +'px;';
+					}
+					
+					// building the logic to create the border around the arrow of the tooltip
+					if ((practicalPosition == 'top') || (practicalPosition == 'top-left') || (practicalPosition == 'top-right')) {
+						var tooltipBorderWidth = parseFloat(self.$tooltip.css('border-bottom-width')),
+							tooltipBorderColor = self.$tooltip.css('border-bottom-color');
+					}
+					else if ((practicalPosition == 'bottom') || (practicalPosition == 'bottom-left') || (practicalPosition == 'bottom-right')) {
+						var tooltipBorderWidth = parseFloat(self.$tooltip.css('border-top-width')),
+							tooltipBorderColor = self.$tooltip.css('border-top-color');
+					}
+					else if (practicalPosition == 'left') {
+						var tooltipBorderWidth = parseFloat(self.$tooltip.css('border-right-width')),
+							tooltipBorderColor = self.$tooltip.css('border-right-color');
+					}
+					else if (practicalPosition == 'right') {
+						var tooltipBorderWidth = parseFloat(self.$tooltip.css('border-left-width')),
+							tooltipBorderColor = self.$tooltip.css('border-left-color');
+					}
+					else {
+						var tooltipBorderWidth = parseFloat(self.$tooltip.css('border-bottom-width')),
+							tooltipBorderColor = self.$tooltip.css('border-bottom-color');
+					}
+					
+					if (tooltipBorderWidth > 1) {
+						tooltipBorderWidth++;
+					}
+					
+					var arrowBorder = '';
+					if (tooltipBorderWidth !== 0) {
+						var arrowBorderSize = '',
+							arrowBorderColor = 'border-color: '+ tooltipBorderColor +';';
+						if (arrowClass.indexOf('bottom') !== -1) {
+							arrowBorderSize = 'margin-top: -'+ Math.round(tooltipBorderWidth) +'px;';
+						}
+						else if (arrowClass.indexOf('top') !== -1) {
+							arrowBorderSize = 'margin-bottom: -'+ Math.round(tooltipBorderWidth) +'px;';
+						}
+						else if (arrowClass.indexOf('left') !== -1) {
+							arrowBorderSize = 'margin-right: -'+ Math.round(tooltipBorderWidth) +'px;';
+						}
+						else if (arrowClass.indexOf('right') !== -1) {
+							arrowBorderSize = 'margin-left: -'+ Math.round(tooltipBorderWidth) +'px;';
+						}
+						arrowBorder = '<span class="tooltipster-arrow-border" style="'+ arrowBorderSize +' '+ arrowBorderColor +';"></span>';
+					}
+					
+					// if the arrow already exists, remove and replace it
+					self.$tooltip.find('.tooltipster-arrow').remove();
+					
+					// build out the arrow and append it		
+					var arrowConstruct = '<div class="'+ arrowClass +' tooltipster-arrow" style="'+ arrowReposition +'">'+ arrowBorder +'<span style="border-color:'+ arrowColor +';"></span></div>';
+					self.$tooltip.append(arrowConstruct);
+				}
+				
+				// position the tooltip
+				self.$tooltip.css({'top': Math.round(myTop) + 'px', 'left': Math.round(myLeft) + 'px'});
+			}
+			
+			return self;
+		},
+		
+		enable: function() {
+			this.enabled = true;
+			return this;
+		},
+		
+		disable: function() {
+			// hide first, in case the tooltip would not disappear on its own (autoClose false)
+			this.hide();
+			this.enabled = false;
+			return this;
+		},
+		
+		destroy: function() {
+			
+			var self = this;
+			
+			self.hide();
+			
+			// remove the icon, if any
+			if (self.$el[0] !== self.$elProxy[0]) {
+				self.$elProxy.remove();
+			}
+			
+			self.$el
+				.removeData(self.namespace)
+				.off('.'+ self.namespace);
+			
+			var ns = self.$el.data('tooltipster-ns');
+			
+			// if there are no more tooltips on this element
+			if(ns.length === 1){
+				
+				// optional restoration of a title attribute
+				var title = null;
+				if (self.options.restoration === 'previous'){
+					title = self.$el.data('tooltipster-initialTitle');
+				}
+				else if(self.options.restoration === 'current'){
+					
+					// old school technique to stringify when outerHTML is not supported
+					title =
+						(typeof self.Content === 'string') ?
+						self.Content :
+						$('<div></div>').append(self.Content).html();
+				}
+				
+				if (title) {
+					self.$el.attr('title', title);
+				}
+				
+				// final cleaning
+				self.$el
+					.removeClass('tooltipstered')
+					.removeData('tooltipster-ns')
+					.removeData('tooltipster-initialTitle');
+			}
+			else {
+				// remove the instance namespace from the list of namespaces of tooltips present on the element
+				ns = $.grep(ns, function(el, i){
+					return el !== self.namespace;
+				});
+				self.$el.data('tooltipster-ns', ns);
+			}
+			
+			return self;
+		},
+		
+		elementIcon: function() {
+			return (this.$el[0] !== this.$elProxy[0]) ? this.$elProxy[0] : undefined;
+		},
+		
+		elementTooltip: function() {
+			return this.$tooltip ? this.$tooltip[0] : undefined;
+		},
+		
+		// public methods but for internal use only
+		// getter if val is ommitted, setter otherwise
+		option: function(o, val) {
+			if (typeof val == 'undefined') return this.options[o];
+			else {
+				this.options[o] = val;
+				return this;
+			}
+		},
+		status: function() {
+			return this.Status;
+		}
+	};
+	
+	$.fn[pluginName] = function () {
+		
+		// for using in closures
+		var args = arguments;
+		
+		// if we are not in the context of jQuery wrapped HTML element(s) :
+		// this happens when calling static methods in the form $.fn.tooltipster('methodName'), or when calling $(sel).tooltipster('methodName or options') where $(sel) does not match anything
+		if (this.length === 0) {
+			
+			// if the first argument is a method name
+			if (typeof args[0] === 'string') {
+				
+				var methodIsStatic = true;
+				
+				// list static methods here (usable by calling $.fn.tooltipster('methodName');)
+				switch (args[0]) {
+					
+					case 'setDefaults':
+						// change default options for all future instances
+						$.extend(defaults, args[1]);
+						break;
+					
+					default:
+						methodIsStatic = false;
+						break;
+				}
+				
+				// $.fn.tooltipster('methodName') calls will return true
+				if (methodIsStatic) return true;
+				// $(sel).tooltipster('methodName') calls will return the list of objects event though it's empty because chaining should work on empty lists
+				else return this;
+			}
+			// the first argument is undefined or an object of options : we are initalizing but there is no element matched by selector
+			else {
+				// still chainable : same as above
+				return this;
+			}
+		}
+		// this happens when calling $(sel).tooltipster('methodName or options') where $(sel) matches one or more elements
+		else {
+			
+			// method calls
+			if (typeof args[0] === 'string') {
+				
+				var v = '#*$~&';
+				
+				this.each(function() {
+					
+					// retrieve the namepaces of the tooltip(s) that exist on that element. We will interact with the first tooltip only.
+					var ns = $(this).data('tooltipster-ns'),
+						// self represents the instance of the first tooltipster plugin associated to the current HTML object of the loop
+						self = ns ? $(this).data(ns[0]) : null;
+					
+					// if the current element holds a tooltipster instance
+					if (self) {
+						
+						if (typeof self[args[0]] === 'function') {
+							// note : args[1] and args[2] may not be defined
+							var resp = self[args[0]](args[1], args[2]);
+						}
+						else {
+							throw new Error('Unknown method .tooltipster("' + args[0] + '")');
+						}
+						
+						// if the function returned anything other than the instance itself (which implies chaining)
+						if (resp !== self){
+							v = resp;
+							// return false to stop .each iteration on the first element matched by the selector
+							return false;
+						}
+					}
+					else {
+						throw new Error('You called Tooltipster\'s "' + args[0] + '" method on an uninitialized element');
+					}
+				});
+				
+				return (v !== '#*$~&') ? v : this;
+			}
+			// first argument is undefined or an object : the tooltip is initializing
+			else {
+				
+				var instances = [],
+					// is there a defined value for the multiple option in the options object ?
+					multipleIsSet = args[0] && typeof args[0].multiple !== 'undefined',
+					// if the multiple option is set to true, or if it's not defined but set to true in the defaults
+					multiple = (multipleIsSet && args[0].multiple) || (!multipleIsSet && defaults.multiple),
+					// same for debug
+					debugIsSet = args[0] && typeof args[0].debug !== 'undefined',
+					debug = (debugIsSet && args[0].debug) || (!debugIsSet && defaults.debug);
+				
+				// initialize a tooltipster instance for each element if it doesn't already have one or if the multiple option is set, and attach the object to it
+				this.each(function () {
+					
+					var go = false,
+						ns = $(this).data('tooltipster-ns'),
+						instance = null;
+					
+					if (!ns) {
+						go = true;
+					}
+					else if (multiple) {
+						go = true;
+					}
+					else if (debug) {
+						console.log('Tooltipster: one or more tooltips are already attached to this element: ignoring. Use the "multiple" option to attach more tooltips.');
+					}
+					
+					if (go) {
+						instance = new Plugin(this, args[0]);
+						
+						// save the reference of the new instance
+						if (!ns) ns = [];
+						ns.push(instance.namespace);
+						$(this).data('tooltipster-ns', ns)
+						
+						// save the instance itself
+						$(this).data(instance.namespace, instance);
+					}
+					
+					instances.push(instance);
+				});
+				
+				if (multiple) return instances;
+				else return this;
+			}
+		}
+	};
+	
+	// quick & dirty compare function (not bijective nor multidimensional)
+	function areEqual(a,b) {
+		var same = true;
+		$.each(a, function(i, el){
+			if(typeof b[i] === 'undefined' || a[i] !== b[i]){
+				same = false;
+				return false;
+			}
+		});
+		return same;
+	}
+	
+	// detect if this device can trigger touch events
+	var deviceHasTouchCapability = !!('ontouchstart' in window);
+	
+	// we'll assume the device has no mouse until we detect any mouse movement
+	var deviceHasMouse = false;
+	$('body').one('mousemove', function() {
+		deviceHasMouse = true;
+	});
+	
+	function deviceIsPureTouch() {
+		return (!deviceHasMouse && deviceHasTouchCapability);
+	}
+	
+	// detecting support for CSS transitions
+	function supportsTransitions() {
+		var b = document.body || document.documentElement,
+			s = b.style,
+			p = 'transition';
+		
+		if(typeof s[p] == 'string') {return true; }
+
+		v = ['Moz', 'Webkit', 'Khtml', 'O', 'ms'],
+		p = p.charAt(0).toUpperCase() + p.substr(1);
+		for(var i=0; i<v.length; i++) {
+			if(typeof s[v[i] + p] == 'string') { return true; }
+		}
+		return false;
+	}
+})( jQuery, window, document );
+;
+/* Modernizr 2.7.1 (Custom Build) | MIT & BSD
+ * Build: http://modernizr.com/download/#-canvas-canvastext-cssclasses-load
+ */
+;window.Modernizr=function(a,b,c){function u(a){j.cssText=a}function v(a,b){return u(prefixes.join(a+";")+(b||""))}function w(a,b){return typeof a===b}function x(a,b){return!!~(""+a).indexOf(b)}function y(a,b,d){for(var e in a){var f=b[a[e]];if(f!==c)return d===!1?a[e]:w(f,"function")?f.bind(d||b):f}return!1}var d="2.7.1",e={},f=!0,g=b.documentElement,h="modernizr",i=b.createElement(h),j=i.style,k,l={}.toString,m={},n={},o={},p=[],q=p.slice,r,s={}.hasOwnProperty,t;!w(s,"undefined")&&!w(s.call,"undefined")?t=function(a,b){return s.call(a,b)}:t=function(a,b){return b in a&&w(a.constructor.prototype[b],"undefined")},Function.prototype.bind||(Function.prototype.bind=function(b){var c=this;if(typeof c!="function")throw new TypeError;var d=q.call(arguments,1),e=function(){if(this instanceof e){var a=function(){};a.prototype=c.prototype;var f=new a,g=c.apply(f,d.concat(q.call(arguments)));return Object(g)===g?g:f}return c.apply(b,d.concat(q.call(arguments)))};return e}),m.canvas=function(){var a=b.createElement("canvas");return!!a.getContext&&!!a.getContext("2d")},m.canvastext=function(){return!!e.canvas&&!!w(b.createElement("canvas").getContext("2d").fillText,"function")};for(var z in m)t(m,z)&&(r=z.toLowerCase(),e[r]=m[z](),p.push((e[r]?"":"no-")+r));return e.addTest=function(a,b){if(typeof a=="object")for(var d in a)t(a,d)&&e.addTest(d,a[d]);else{a=a.toLowerCase();if(e[a]!==c)return e;b=typeof b=="function"?b():b,typeof f!="undefined"&&f&&(g.className+=" "+(b?"":"no-")+a),e[a]=b}return e},u(""),i=k=null,e._version=d,g.className=g.className.replace(/(^|\s)no-js(\s|$)/,"$1$2")+(f?" js "+p.join(" "):""),e}(this,this.document),function(a,b,c){function d(a){return"[object Function]"==o.call(a)}function e(a){return"string"==typeof a}function f(){}function g(a){return!a||"loaded"==a||"complete"==a||"uninitialized"==a}function h(){var a=p.shift();q=1,a?a.t?m(function(){("c"==a.t?B.injectCss:B.injectJs)(a.s,0,a.a,a.x,a.e,1)},0):(a(),h()):q=0}function i(a,c,d,e,f,i,j){function k(b){if(!o&&g(l.readyState)&&(u.r=o=1,!q&&h(),l.onload=l.onreadystatechange=null,b)){"img"!=a&&m(function(){t.removeChild(l)},50);for(var d in y[c])y[c].hasOwnProperty(d)&&y[c][d].onload()}}var j=j||B.errorTimeout,l=b.createElement(a),o=0,r=0,u={t:d,s:c,e:f,a:i,x:j};1===y[c]&&(r=1,y[c]=[]),"object"==a?l.data=c:(l.src=c,l.type=a),l.width=l.height="0",l.onerror=l.onload=l.onreadystatechange=function(){k.call(this,r)},p.splice(e,0,u),"img"!=a&&(r||2===y[c]?(t.insertBefore(l,s?null:n),m(k,j)):y[c].push(l))}function j(a,b,c,d,f){return q=0,b=b||"j",e(a)?i("c"==b?v:u,a,b,this.i++,c,d,f):(p.splice(this.i++,0,a),1==p.length&&h()),this}function k(){var a=B;return a.loader={load:j,i:0},a}var l=b.documentElement,m=a.setTimeout,n=b.getElementsByTagName("script")[0],o={}.toString,p=[],q=0,r="MozAppearance"in l.style,s=r&&!!b.createRange().compareNode,t=s?l:n.parentNode,l=a.opera&&"[object Opera]"==o.call(a.opera),l=!!b.attachEvent&&!l,u=r?"object":l?"script":"img",v=l?"script":u,w=Array.isArray||function(a){return"[object Array]"==o.call(a)},x=[],y={},z={timeout:function(a,b){return b.length&&(a.timeout=b[0]),a}},A,B;B=function(a){function b(a){var a=a.split("!"),b=x.length,c=a.pop(),d=a.length,c={url:c,origUrl:c,prefixes:a},e,f,g;for(f=0;f<d;f++)g=a[f].split("="),(e=z[g.shift()])&&(c=e(c,g));for(f=0;f<b;f++)c=x[f](c);return c}function g(a,e,f,g,h){var i=b(a),j=i.autoCallback;i.url.split(".").pop().split("?").shift(),i.bypass||(e&&(e=d(e)?e:e[a]||e[g]||e[a.split("/").pop().split("?")[0]]),i.instead?i.instead(a,e,f,g,h):(y[i.url]?i.noexec=!0:y[i.url]=1,f.load(i.url,i.forceCSS||!i.forceJS&&"css"==i.url.split(".").pop().split("?").shift()?"c":c,i.noexec,i.attrs,i.timeout),(d(e)||d(j))&&f.load(function(){k(),e&&e(i.origUrl,h,g),j&&j(i.origUrl,h,g),y[i.url]=2})))}function h(a,b){function c(a,c){if(a){if(e(a))c||(j=function(){var a=[].slice.call(arguments);k.apply(this,a),l()}),g(a,j,b,0,h);else if(Object(a)===a)for(n in m=function(){var b=0,c;for(c in a)a.hasOwnProperty(c)&&b++;return b}(),a)a.hasOwnProperty(n)&&(!c&&!--m&&(d(j)?j=function(){var a=[].slice.call(arguments);k.apply(this,a),l()}:j[n]=function(a){return function(){var b=[].slice.call(arguments);a&&a.apply(this,b),l()}}(k[n])),g(a[n],j,b,n,h))}else!c&&l()}var h=!!a.test,i=a.load||a.both,j=a.callback||f,k=j,l=a.complete||f,m,n;c(h?a.yep:a.nope,!!i),i&&c(i)}var i,j,l=this.yepnope.loader;if(e(a))g(a,0,l,0);else if(w(a))for(i=0;i<a.length;i++)j=a[i],e(j)?g(j,0,l,0):w(j)?B(j):Object(j)===j&&h(j,l);else Object(a)===a&&h(a,l)},B.addPrefix=function(a,b){z[a]=b},B.addFilter=function(a){x.push(a)},B.errorTimeout=1e4,null==b.readyState&&b.addEventListener&&(b.readyState="loading",b.addEventListener("DOMContentLoaded",A=function(){b.removeEventListener("DOMContentLoaded",A,0),b.readyState="complete"},0)),a.yepnope=k(),a.yepnope.executeStack=h,a.yepnope.injectJs=function(a,c,d,e,i,j){var k=b.createElement("script"),l,o,e=e||B.errorTimeout;k.src=a;for(o in d)k.setAttribute(o,d[o]);c=j?h:c||f,k.onreadystatechange=k.onload=function(){!l&&g(k.readyState)&&(l=1,c(),k.onload=k.onreadystatechange=null)},m(function(){l||(l=1,c(1))},e),i?k.onload():n.parentNode.insertBefore(k,n)},a.yepnope.injectCss=function(a,c,d,e,g,i){var e=b.createElement("link"),j,c=i?h:c||f;e.href=a,e.rel="stylesheet",e.type="text/css";for(j in d)e.setAttribute(j,d[j]);g||(n.parentNode.insertBefore(e,n),m(c,0))}}(this,document),Modernizr.load=function(){yepnope.apply(window,[].slice.call(arguments,0))};
+;
+// === Sylvester ===
+// Vector and Matrix mathematics modules for JavaScript
+// Copyright (c) 2007 James Coglan
+// 
+// Permission is hereby granted, free of charge, to any person obtaining
+// a copy of this software and associated documentation files (the "Software"),
+// to deal in the Software without restriction, including without limitation
+// the rights to use, copy, modify, merge, publish, distribute, sublicense,
+// and/or sell copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following conditions:
+// 
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+// THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+// DEALINGS IN THE SOFTWARE.
+eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--)r[e(c)]=k[c]||e(c);k=[function(e){return r[e]}];e=function(){return'\\w+'};c=1};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p}('9 17={3i:\'0.1.3\',16:1e-6};l v(){}v.23={e:l(i){8(i<1||i>7.4.q)?w:7.4[i-1]},2R:l(){8 7.4.q},1u:l(){8 F.1x(7.2u(7))},24:l(a){9 n=7.4.q;9 V=a.4||a;o(n!=V.q){8 1L}J{o(F.13(7.4[n-1]-V[n-1])>17.16){8 1L}}H(--n);8 2x},1q:l(){8 v.u(7.4)},1b:l(a){9 b=[];7.28(l(x,i){b.19(a(x,i))});8 v.u(b)},28:l(a){9 n=7.4.q,k=n,i;J{i=k-n;a(7.4[i],i+1)}H(--n)},2q:l(){9 r=7.1u();o(r===0){8 7.1q()}8 7.1b(l(x){8 x/r})},1C:l(a){9 V=a.4||a;9 n=7.4.q,k=n,i;o(n!=V.q){8 w}9 b=0,1D=0,1F=0;7.28(l(x,i){b+=x*V[i-1];1D+=x*x;1F+=V[i-1]*V[i-1]});1D=F.1x(1D);1F=F.1x(1F);o(1D*1F===0){8 w}9 c=b/(1D*1F);o(c<-1){c=-1}o(c>1){c=1}8 F.37(c)},1m:l(a){9 b=7.1C(a);8(b===w)?w:(b<=17.16)},34:l(a){9 b=7.1C(a);8(b===w)?w:(F.13(b-F.1A)<=17.16)},2k:l(a){9 b=7.2u(a);8(b===w)?w:(F.13(b)<=17.16)},2j:l(a){9 V=a.4||a;o(7.4.q!=V.q){8 w}8 7.1b(l(x,i){8 x+V[i-1]})},2C:l(a){9 V=a.4||a;o(7.4.q!=V.q){8 w}8 7.1b(l(x,i){8 x-V[i-1]})},22:l(k){8 7.1b(l(x){8 x*k})},x:l(k){8 7.22(k)},2u:l(a){9 V=a.4||a;9 i,2g=0,n=7.4.q;o(n!=V.q){8 w}J{2g+=7.4[n-1]*V[n-1]}H(--n);8 2g},2f:l(a){9 B=a.4||a;o(7.4.q!=3||B.q!=3){8 w}9 A=7.4;8 v.u([(A[1]*B[2])-(A[2]*B[1]),(A[2]*B[0])-(A[0]*B[2]),(A[0]*B[1])-(A[1]*B[0])])},2A:l(){9 m=0,n=7.4.q,k=n,i;J{i=k-n;o(F.13(7.4[i])>F.13(m)){m=7.4[i]}}H(--n);8 m},2Z:l(x){9 a=w,n=7.4.q,k=n,i;J{i=k-n;o(a===w&&7.4[i]==x){a=i+1}}H(--n);8 a},3g:l(){8 S.2X(7.4)},2d:l(){8 7.1b(l(x){8 F.2d(x)})},2V:l(x){8 7.1b(l(y){8(F.13(y-x)<=17.16)?x:y})},1o:l(a){o(a.K){8 a.1o(7)}9 V=a.4||a;o(V.q!=7.4.q){8 w}9 b=0,2b;7.28(l(x,i){2b=x-V[i-1];b+=2b*2b});8 F.1x(b)},3a:l(a){8 a.1h(7)},2T:l(a){8 a.1h(7)},1V:l(t,a){9 V,R,x,y,z;2S(7.4.q){27 2:V=a.4||a;o(V.q!=2){8 w}R=S.1R(t).4;x=7.4[0]-V[0];y=7.4[1]-V[1];8 v.u([V[0]+R[0][0]*x+R[0][1]*y,V[1]+R[1][0]*x+R[1][1]*y]);1I;27 3:o(!a.U){8 w}9 C=a.1r(7).4;R=S.1R(t,a.U).4;x=7.4[0]-C[0];y=7.4[1]-C[1];z=7.4[2]-C[2];8 v.u([C[0]+R[0][0]*x+R[0][1]*y+R[0][2]*z,C[1]+R[1][0]*x+R[1][1]*y+R[1][2]*z,C[2]+R[2][0]*x+R[2][1]*y+R[2][2]*z]);1I;2P:8 w}},1t:l(a){o(a.K){9 P=7.4.2O();9 C=a.1r(P).4;8 v.u([C[0]+(C[0]-P[0]),C[1]+(C[1]-P[1]),C[2]+(C[2]-(P[2]||0))])}1d{9 Q=a.4||a;o(7.4.q!=Q.q){8 w}8 7.1b(l(x,i){8 Q[i-1]+(Q[i-1]-x)})}},1N:l(){9 V=7.1q();2S(V.4.q){27 3:1I;27 2:V.4.19(0);1I;2P:8 w}8 V},2n:l(){8\'[\'+7.4.2K(\', \')+\']\'},26:l(a){7.4=(a.4||a).2O();8 7}};v.u=l(a){9 V=25 v();8 V.26(a)};v.i=v.u([1,0,0]);v.j=v.u([0,1,0]);v.k=v.u([0,0,1]);v.2J=l(n){9 a=[];J{a.19(F.2F())}H(--n);8 v.u(a)};v.1j=l(n){9 a=[];J{a.19(0)}H(--n);8 v.u(a)};l S(){}S.23={e:l(i,j){o(i<1||i>7.4.q||j<1||j>7.4[0].q){8 w}8 7.4[i-1][j-1]},33:l(i){o(i>7.4.q){8 w}8 v.u(7.4[i-1])},2E:l(j){o(j>7.4[0].q){8 w}9 a=[],n=7.4.q,k=n,i;J{i=k-n;a.19(7.4[i][j-1])}H(--n);8 v.u(a)},2R:l(){8{2D:7.4.q,1p:7.4[0].q}},2D:l(){8 7.4.q},1p:l(){8 7.4[0].q},24:l(a){9 M=a.4||a;o(1g(M[0][0])==\'1f\'){M=S.u(M).4}o(7.4.q!=M.q||7.4[0].q!=M[0].q){8 1L}9 b=7.4.q,15=b,i,G,10=7.4[0].q,j;J{i=15-b;G=10;J{j=10-G;o(F.13(7.4[i][j]-M[i][j])>17.16){8 1L}}H(--G)}H(--b);8 2x},1q:l(){8 S.u(7.4)},1b:l(a){9 b=[],12=7.4.q,15=12,i,G,10=7.4[0].q,j;J{i=15-12;G=10;b[i]=[];J{j=10-G;b[i][j]=a(7.4[i][j],i+1,j+1)}H(--G)}H(--12);8 S.u(b)},2i:l(a){9 M=a.4||a;o(1g(M[0][0])==\'1f\'){M=S.u(M).4}8(7.4.q==M.q&&7.4[0].q==M[0].q)},2j:l(a){9 M=a.4||a;o(1g(M[0][0])==\'1f\'){M=S.u(M).4}o(!7.2i(M)){8 w}8 7.1b(l(x,i,j){8 x+M[i-1][j-1]})},2C:l(a){9 M=a.4||a;o(1g(M[0][0])==\'1f\'){M=S.u(M).4}o(!7.2i(M)){8 w}8 7.1b(l(x,i,j){8 x-M[i-1][j-1]})},2B:l(a){9 M=a.4||a;o(1g(M[0][0])==\'1f\'){M=S.u(M).4}8(7.4[0].q==M.q)},22:l(a){o(!a.4){8 7.1b(l(x){8 x*a})}9 b=a.1u?2x:1L;9 M=a.4||a;o(1g(M[0][0])==\'1f\'){M=S.u(M).4}o(!7.2B(M)){8 w}9 d=7.4.q,15=d,i,G,10=M[0].q,j;9 e=7.4[0].q,4=[],21,20,c;J{i=15-d;4[i]=[];G=10;J{j=10-G;21=0;20=e;J{c=e-20;21+=7.4[i][c]*M[c][j]}H(--20);4[i][j]=21}H(--G)}H(--d);9 M=S.u(4);8 b?M.2E(1):M},x:l(a){8 7.22(a)},32:l(a,b,c,d){9 e=[],12=c,i,G,j;9 f=7.4.q,1p=7.4[0].q;J{i=c-12;e[i]=[];G=d;J{j=d-G;e[i][j]=7.4[(a+i-1)%f][(b+j-1)%1p]}H(--G)}H(--12);8 S.u(e)},31:l(){9 a=7.4.q,1p=7.4[0].q;9 b=[],12=1p,i,G,j;J{i=1p-12;b[i]=[];G=a;J{j=a-G;b[i][j]=7.4[j][i]}H(--G)}H(--12);8 S.u(b)},1y:l(){8(7.4.q==7.4[0].q)},2A:l(){9 m=0,12=7.4.q,15=12,i,G,10=7.4[0].q,j;J{i=15-12;G=10;J{j=10-G;o(F.13(7.4[i][j])>F.13(m)){m=7.4[i][j]}}H(--G)}H(--12);8 m},2Z:l(x){9 a=w,12=7.4.q,15=12,i,G,10=7.4[0].q,j;J{i=15-12;G=10;J{j=10-G;o(7.4[i][j]==x){8{i:i+1,j:j+1}}}H(--G)}H(--12);8 w},30:l(){o(!7.1y){8 w}9 a=[],n=7.4.q,k=n,i;J{i=k-n;a.19(7.4[i][i])}H(--n);8 v.u(a)},1K:l(){9 M=7.1q(),1c;9 n=7.4.q,k=n,i,1s,1n=7.4[0].q,p;J{i=k-n;o(M.4[i][i]==0){2e(j=i+1;j<k;j++){o(M.4[j][i]!=0){1c=[];1s=1n;J{p=1n-1s;1c.19(M.4[i][p]+M.4[j][p])}H(--1s);M.4[i]=1c;1I}}}o(M.4[i][i]!=0){2e(j=i+1;j<k;j++){9 a=M.4[j][i]/M.4[i][i];1c=[];1s=1n;J{p=1n-1s;1c.19(p<=i?0:M.4[j][p]-M.4[i][p]*a)}H(--1s);M.4[j]=1c}}}H(--n);8 M},3h:l(){8 7.1K()},2z:l(){o(!7.1y()){8 w}9 M=7.1K();9 a=M.4[0][0],n=M.4.q-1,k=n,i;J{i=k-n+1;a=a*M.4[i][i]}H(--n);8 a},3f:l(){8 7.2z()},2y:l(){8(7.1y()&&7.2z()===0)},2Y:l(){o(!7.1y()){8 w}9 a=7.4[0][0],n=7.4.q-1,k=n,i;J{i=k-n+1;a+=7.4[i][i]}H(--n);8 a},3e:l(){8 7.2Y()},1Y:l(){9 M=7.1K(),1Y=0;9 a=7.4.q,15=a,i,G,10=7.4[0].q,j;J{i=15-a;G=10;J{j=10-G;o(F.13(M.4[i][j])>17.16){1Y++;1I}}H(--G)}H(--a);8 1Y},3d:l(){8 7.1Y()},2W:l(a){9 M=a.4||a;o(1g(M[0][0])==\'1f\'){M=S.u(M).4}9 T=7.1q(),1p=T.4[0].q;9 b=T.4.q,15=b,i,G,10=M[0].q,j;o(b!=M.q){8 w}J{i=15-b;G=10;J{j=10-G;T.4[i][1p+j]=M[i][j]}H(--G)}H(--b);8 T},2w:l(){o(!7.1y()||7.2y()){8 w}9 a=7.4.q,15=a,i,j;9 M=7.2W(S.I(a)).1K();9 b,1n=M.4[0].q,p,1c,2v;9 c=[],2c;J{i=a-1;1c=[];b=1n;c[i]=[];2v=M.4[i][i];J{p=1n-b;2c=M.4[i][p]/2v;1c.19(2c);o(p>=15){c[i].19(2c)}}H(--b);M.4[i]=1c;2e(j=0;j<i;j++){1c=[];b=1n;J{p=1n-b;1c.19(M.4[j][p]-M.4[i][p]*M.4[j][i])}H(--b);M.4[j]=1c}}H(--a);8 S.u(c)},3c:l(){8 7.2w()},2d:l(){8 7.1b(l(x){8 F.2d(x)})},2V:l(x){8 7.1b(l(p){8(F.13(p-x)<=17.16)?x:p})},2n:l(){9 a=[];9 n=7.4.q,k=n,i;J{i=k-n;a.19(v.u(7.4[i]).2n())}H(--n);8 a.2K(\'\\n\')},26:l(a){9 i,4=a.4||a;o(1g(4[0][0])!=\'1f\'){9 b=4.q,15=b,G,10,j;7.4=[];J{i=15-b;G=4[i].q;10=G;7.4[i]=[];J{j=10-G;7.4[i][j]=4[i][j]}H(--G)}H(--b);8 7}9 n=4.q,k=n;7.4=[];J{i=k-n;7.4.19([4[i]])}H(--n);8 7}};S.u=l(a){9 M=25 S();8 M.26(a)};S.I=l(n){9 a=[],k=n,i,G,j;J{i=k-n;a[i]=[];G=k;J{j=k-G;a[i][j]=(i==j)?1:0}H(--G)}H(--n);8 S.u(a)};S.2X=l(a){9 n=a.q,k=n,i;9 M=S.I(n);J{i=k-n;M.4[i][i]=a[i]}H(--n);8 M};S.1R=l(b,a){o(!a){8 S.u([[F.1H(b),-F.1G(b)],[F.1G(b),F.1H(b)]])}9 d=a.1q();o(d.4.q!=3){8 w}9 e=d.1u();9 x=d.4[0]/e,y=d.4[1]/e,z=d.4[2]/e;9 s=F.1G(b),c=F.1H(b),t=1-c;8 S.u([[t*x*x+c,t*x*y-s*z,t*x*z+s*y],[t*x*y+s*z,t*y*y+c,t*y*z-s*x],[t*x*z-s*y,t*y*z+s*x,t*z*z+c]])};S.3b=l(t){9 c=F.1H(t),s=F.1G(t);8 S.u([[1,0,0],[0,c,-s],[0,s,c]])};S.39=l(t){9 c=F.1H(t),s=F.1G(t);8 S.u([[c,0,s],[0,1,0],[-s,0,c]])};S.38=l(t){9 c=F.1H(t),s=F.1G(t);8 S.u([[c,-s,0],[s,c,0],[0,0,1]])};S.2J=l(n,m){8 S.1j(n,m).1b(l(){8 F.2F()})};S.1j=l(n,m){9 a=[],12=n,i,G,j;J{i=n-12;a[i]=[];G=m;J{j=m-G;a[i][j]=0}H(--G)}H(--12);8 S.u(a)};l 14(){}14.23={24:l(a){8(7.1m(a)&&7.1h(a.K))},1q:l(){8 14.u(7.K,7.U)},2U:l(a){9 V=a.4||a;8 14.u([7.K.4[0]+V[0],7.K.4[1]+V[1],7.K.4[2]+(V[2]||0)],7.U)},1m:l(a){o(a.W){8 a.1m(7)}9 b=7.U.1C(a.U);8(F.13(b)<=17.16||F.13(b-F.1A)<=17.16)},1o:l(a){o(a.W){8 a.1o(7)}o(a.U){o(7.1m(a)){8 7.1o(a.K)}9 N=7.U.2f(a.U).2q().4;9 A=7.K.4,B=a.K.4;8 F.13((A[0]-B[0])*N[0]+(A[1]-B[1])*N[1]+(A[2]-B[2])*N[2])}1d{9 P=a.4||a;9 A=7.K.4,D=7.U.4;9 b=P[0]-A[0],2a=P[1]-A[1],29=(P[2]||0)-A[2];9 c=F.1x(b*b+2a*2a+29*29);o(c===0)8 0;9 d=(b*D[0]+2a*D[1]+29*D[2])/c;9 e=1-d*d;8 F.13(c*F.1x(e<0?0:e))}},1h:l(a){9 b=7.1o(a);8(b!==w&&b<=17.16)},2T:l(a){8 a.1h(7)},1v:l(a){o(a.W){8 a.1v(7)}8(!7.1m(a)&&7.1o(a)<=17.16)},1U:l(a){o(a.W){8 a.1U(7)}o(!7.1v(a)){8 w}9 P=7.K.4,X=7.U.4,Q=a.K.4,Y=a.U.4;9 b=X[0],1z=X[1],1B=X[2],1T=Y[0],1S=Y[1],1M=Y[2];9 c=P[0]-Q[0],2s=P[1]-Q[1],2r=P[2]-Q[2];9 d=-b*c-1z*2s-1B*2r;9 e=1T*c+1S*2s+1M*2r;9 f=b*b+1z*1z+1B*1B;9 g=1T*1T+1S*1S+1M*1M;9 h=b*1T+1z*1S+1B*1M;9 k=(d*g/f+h*e)/(g-h*h);8 v.u([P[0]+k*b,P[1]+k*1z,P[2]+k*1B])},1r:l(a){o(a.U){o(7.1v(a)){8 7.1U(a)}o(7.1m(a)){8 w}9 D=7.U.4,E=a.U.4;9 b=D[0],1l=D[1],1k=D[2],1P=E[0],1O=E[1],1Q=E[2];9 x=(1k*1P-b*1Q),y=(b*1O-1l*1P),z=(1l*1Q-1k*1O);9 N=v.u([x*1Q-y*1O,y*1P-z*1Q,z*1O-x*1P]);9 P=11.u(a.K,N);8 P.1U(7)}1d{9 P=a.4||a;o(7.1h(P)){8 v.u(P)}9 A=7.K.4,D=7.U.4;9 b=D[0],1l=D[1],1k=D[2],1w=A[0],18=A[1],1a=A[2];9 x=b*(P[1]-18)-1l*(P[0]-1w),y=1l*((P[2]||0)-1a)-1k*(P[1]-18),z=1k*(P[0]-1w)-b*((P[2]||0)-1a);9 V=v.u([1l*x-1k*z,1k*y-b*x,b*z-1l*y]);9 k=7.1o(P)/V.1u();8 v.u([P[0]+V.4[0]*k,P[1]+V.4[1]*k,(P[2]||0)+V.4[2]*k])}},1V:l(t,a){o(1g(a.U)==\'1f\'){a=14.u(a.1N(),v.k)}9 R=S.1R(t,a.U).4;9 C=a.1r(7.K).4;9 A=7.K.4,D=7.U.4;9 b=C[0],1E=C[1],1J=C[2],1w=A[0],18=A[1],1a=A[2];9 x=1w-b,y=18-1E,z=1a-1J;8 14.u([b+R[0][0]*x+R[0][1]*y+R[0][2]*z,1E+R[1][0]*x+R[1][1]*y+R[1][2]*z,1J+R[2][0]*x+R[2][1]*y+R[2][2]*z],[R[0][0]*D[0]+R[0][1]*D[1]+R[0][2]*D[2],R[1][0]*D[0]+R[1][1]*D[1]+R[1][2]*D[2],R[2][0]*D[0]+R[2][1]*D[1]+R[2][2]*D[2]])},1t:l(a){o(a.W){9 A=7.K.4,D=7.U.4;9 b=A[0],18=A[1],1a=A[2],2N=D[0],1l=D[1],1k=D[2];9 c=7.K.1t(a).4;9 d=b+2N,2h=18+1l,2o=1a+1k;9 Q=a.1r([d,2h,2o]).4;9 e=[Q[0]+(Q[0]-d)-c[0],Q[1]+(Q[1]-2h)-c[1],Q[2]+(Q[2]-2o)-c[2]];8 14.u(c,e)}1d o(a.U){8 7.1V(F.1A,a)}1d{9 P=a.4||a;8 14.u(7.K.1t([P[0],P[1],(P[2]||0)]),7.U)}},1Z:l(a,b){a=v.u(a);b=v.u(b);o(a.4.q==2){a.4.19(0)}o(b.4.q==2){b.4.19(0)}o(a.4.q>3||b.4.q>3){8 w}9 c=b.1u();o(c===0){8 w}7.K=a;7.U=v.u([b.4[0]/c,b.4[1]/c,b.4[2]/c]);8 7}};14.u=l(a,b){9 L=25 14();8 L.1Z(a,b)};14.X=14.u(v.1j(3),v.i);14.Y=14.u(v.1j(3),v.j);14.Z=14.u(v.1j(3),v.k);l 11(){}11.23={24:l(a){8(7.1h(a.K)&&7.1m(a))},1q:l(){8 11.u(7.K,7.W)},2U:l(a){9 V=a.4||a;8 11.u([7.K.4[0]+V[0],7.K.4[1]+V[1],7.K.4[2]+(V[2]||0)],7.W)},1m:l(a){9 b;o(a.W){b=7.W.1C(a.W);8(F.13(b)<=17.16||F.13(F.1A-b)<=17.16)}1d o(a.U){8 7.W.2k(a.U)}8 w},2k:l(a){9 b=7.W.1C(a.W);8(F.13(F.1A/2-b)<=17.16)},1o:l(a){o(7.1v(a)||7.1h(a)){8 0}o(a.K){9 A=7.K.4,B=a.K.4,N=7.W.4;8 F.13((A[0]-B[0])*N[0]+(A[1]-B[1])*N[1]+(A[2]-B[2])*N[2])}1d{9 P=a.4||a;9 A=7.K.4,N=7.W.4;8 F.13((A[0]-P[0])*N[0]+(A[1]-P[1])*N[1]+(A[2]-(P[2]||0))*N[2])}},1h:l(a){o(a.W){8 w}o(a.U){8(7.1h(a.K)&&7.1h(a.K.2j(a.U)))}1d{9 P=a.4||a;9 A=7.K.4,N=7.W.4;9 b=F.13(N[0]*(A[0]-P[0])+N[1]*(A[1]-P[1])+N[2]*(A[2]-(P[2]||0)));8(b<=17.16)}},1v:l(a){o(1g(a.U)==\'1f\'&&1g(a.W)==\'1f\'){8 w}8!7.1m(a)},1U:l(a){o(!7.1v(a)){8 w}o(a.U){9 A=a.K.4,D=a.U.4,P=7.K.4,N=7.W.4;9 b=(N[0]*(P[0]-A[0])+N[1]*(P[1]-A[1])+N[2]*(P[2]-A[2]))/(N[0]*D[0]+N[1]*D[1]+N[2]*D[2]);8 v.u([A[0]+D[0]*b,A[1]+D[1]*b,A[2]+D[2]*b])}1d o(a.W){9 c=7.W.2f(a.W).2q();9 N=7.W.4,A=7.K.4,O=a.W.4,B=a.K.4;9 d=S.1j(2,2),i=0;H(d.2y()){i++;d=S.u([[N[i%3],N[(i+1)%3]],[O[i%3],O[(i+1)%3]]])}9 e=d.2w().4;9 x=N[0]*A[0]+N[1]*A[1]+N[2]*A[2];9 y=O[0]*B[0]+O[1]*B[1]+O[2]*B[2];9 f=[e[0][0]*x+e[0][1]*y,e[1][0]*x+e[1][1]*y];9 g=[];2e(9 j=1;j<=3;j++){g.19((i==j)?0:f[(j+(5-i)%3)%3])}8 14.u(g,c)}},1r:l(a){9 P=a.4||a;9 A=7.K.4,N=7.W.4;9 b=(A[0]-P[0])*N[0]+(A[1]-P[1])*N[1]+(A[2]-(P[2]||0))*N[2];8 v.u([P[0]+N[0]*b,P[1]+N[1]*b,(P[2]||0)+N[2]*b])},1V:l(t,a){9 R=S.1R(t,a.U).4;9 C=a.1r(7.K).4;9 A=7.K.4,N=7.W.4;9 b=C[0],1E=C[1],1J=C[2],1w=A[0],18=A[1],1a=A[2];9 x=1w-b,y=18-1E,z=1a-1J;8 11.u([b+R[0][0]*x+R[0][1]*y+R[0][2]*z,1E+R[1][0]*x+R[1][1]*y+R[1][2]*z,1J+R[2][0]*x+R[2][1]*y+R[2][2]*z],[R[0][0]*N[0]+R[0][1]*N[1]+R[0][2]*N[2],R[1][0]*N[0]+R[1][1]*N[1]+R[1][2]*N[2],R[2][0]*N[0]+R[2][1]*N[1]+R[2][2]*N[2]])},1t:l(a){o(a.W){9 A=7.K.4,N=7.W.4;9 b=A[0],18=A[1],1a=A[2],2M=N[0],2L=N[1],2Q=N[2];9 c=7.K.1t(a).4;9 d=b+2M,2p=18+2L,2m=1a+2Q;9 Q=a.1r([d,2p,2m]).4;9 e=[Q[0]+(Q[0]-d)-c[0],Q[1]+(Q[1]-2p)-c[1],Q[2]+(Q[2]-2m)-c[2]];8 11.u(c,e)}1d o(a.U){8 7.1V(F.1A,a)}1d{9 P=a.4||a;8 11.u(7.K.1t([P[0],P[1],(P[2]||0)]),7.W)}},1Z:l(a,b,c){a=v.u(a);a=a.1N();o(a===w){8 w}b=v.u(b);b=b.1N();o(b===w){8 w}o(1g(c)==\'1f\'){c=w}1d{c=v.u(c);c=c.1N();o(c===w){8 w}}9 d=a.4[0],18=a.4[1],1a=a.4[2];9 e=b.4[0],1W=b.4[1],1X=b.4[2];9 f,1i;o(c!==w){9 g=c.4[0],2l=c.4[1],2t=c.4[2];f=v.u([(1W-18)*(2t-1a)-(1X-1a)*(2l-18),(1X-1a)*(g-d)-(e-d)*(2t-1a),(e-d)*(2l-18)-(1W-18)*(g-d)]);1i=f.1u();o(1i===0){8 w}f=v.u([f.4[0]/1i,f.4[1]/1i,f.4[2]/1i])}1d{1i=F.1x(e*e+1W*1W+1X*1X);o(1i===0){8 w}f=v.u([b.4[0]/1i,b.4[1]/1i,b.4[2]/1i])}7.K=a;7.W=f;8 7}};11.u=l(a,b,c){9 P=25 11();8 P.1Z(a,b,c)};11.2I=11.u(v.1j(3),v.k);11.2H=11.u(v.1j(3),v.i);11.2G=11.u(v.1j(3),v.j);11.36=11.2I;11.35=11.2H;11.3j=11.2G;9 $V=v.u;9 $M=S.u;9 $L=14.u;9 $P=11.u;',62,206,'||||elements|||this|return|var||||||||||||function|||if||length||||create|Vector|null|||||||||Math|nj|while||do|anchor||||||||Matrix||direction||normal||||kj|Plane|ni|abs|Line|ki|precision|Sylvester|A2|push|A3|map|els|else||undefined|typeof|contains|mod|Zero|D3|D2|isParallelTo|kp|distanceFrom|cols|dup|pointClosestTo|np|reflectionIn|modulus|intersects|A1|sqrt|isSquare|X2|PI|X3|angleFrom|mod1|C2|mod2|sin|cos|break|C3|toRightTriangular|false|Y3|to3D|E2|E1|E3|Rotation|Y2|Y1|intersectionWith|rotate|v12|v13|rank|setVectors|nc|sum|multiply|prototype|eql|new|setElements|case|each|PA3|PA2|part|new_element|round|for|cross|product|AD2|isSameSizeAs|add|isPerpendicularTo|v22|AN3|inspect|AD3|AN2|toUnitVector|PsubQ3|PsubQ2|v23|dot|divisor|inverse|true|isSingular|determinant|max|canMultiplyFromLeft|subtract|rows|col|random|ZX|YZ|XY|Random|join|N2|N1|D1|slice|default|N3|dimensions|switch|liesIn|translate|snapTo|augment|Diagonal|trace|indexOf|diagonal|transpose|minor|row|isAntiparallelTo|ZY|YX|acos|RotationZ|RotationY|liesOn|RotationX|inv|rk|tr|det|toDiagonalMatrix|toUpperTriangular|version|XZ'.split('|'),0,{}));
+/*
+Copyright (c) 2007 Paul Bakaus, http://paulbakaus.com/
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
+jQuery(function(){if(!jQuery.browser.msie)return;if(Number(jQuery.browser.version)>=9)return;if(Transformie.stylesheets)
+Transformie.parseStylesheets();if(Transformie.inlineCSS){jQuery(Transformie.inlineCSS===true?'*':Transformie.inlineCSS).each(function(){if(Transformie.resolveCSSKey(this.style))
+Transformie.refreshMatrix(this,Transformie.resolveCSSKey(this.style));});}
+if(Transformie.trackChangesFor){Transformie.bindChangeEvent(Transformie.trackChangesFor);}});var Transformie={inlineCSS:"*",stylesheets:true,trackChangesFor:"*",toRadian:function(value){if(value.indexOf("deg")!=-1){return parseInt(value,10)*(Math.PI*2/360);}else if(value.indexOf("grad")!=-1){return parseInt(value,10)*(Math.PI/200);}else{return parseInt(value,10);}},bindChangeEvent:function(query){jQuery(query).unbind('propertychange').bind('propertychange',function(e){if(e.originalEvent.propertyName=='style.webkitTransform'||e.originalEvent.propertyName=='style.transform')
+Transformie.refreshMatrix(this,Transformie.resolveCSSKey(this.style));});},resolveCSSKey:function(style){return style['-webkit-transform']||style['webkit-transform']||style['transform']||style.webkitTransform;},parseStylesheets:function(){for(var i=0;i<document.styleSheets.length;i++){for(var j=0;j<document.styleSheets[i].rules.length;j++){if(Transformie.resolveCSSKey(document.styleSheets[i].rules[j].style))
+Transformie.refreshMatrix(document.styleSheets[i].rules[j].selectorText,Transformie.resolveCSSKey(document.styleSheets[i].rules[j].style));};};},refreshMatrix:function(selector,ruleValue){var functions=ruleValue.match(/[A-z]+\([^\)]+/g)||[];var matrices=[];for(var k=0;k<functions.length;k++){var func=functions[k].split('(')[0],value=functions[k].split('(')[1];switch(func){case'matrix':var values=value.split(',');matrices.push($M([[values[0],values[2],0],[values[1],values[3],0],[0,0,1]]));break;case'rotate':var a=Transformie.toRadian(value);matrices.push($M([[Math.cos(a),-Math.sin(a),0],[Math.sin(a),Math.cos(a),0],[0,0,1]]));break;case'scale':matrices.push($M([[value,0,0],[0,value,0],[0,0,1]]));break;case'scaleX':matrices.push($M([[value,0,0],[0,1,0],[0,0,1]]));break;case'scaleY':matrices.push($M([[1,0,0],[0,value,0],[0,0,1]]));break;case'skew':var a=Transformie.toRadian(value);matrices.push($M([[1,0,0],[Math.tan(a),1,0],[0,0,1]]));case'skewX':var a=Transformie.toRadian(value);matrices.push($M([[1,Math.tan(a),0],[0,1,0],[0,0,1]]));break;case'skewY':var a=Transformie.toRadian(value);matrices.push($M([[1,0,0],[Math.tan(a),1,0],[0,0,1]]));break;};};if(!matrices.length)
+return;var matrix=matrices[0];for(var k=0;k<matrices.length;k++){if(matrices[k+1])matrix=matrices[k].x(matrices[k+1]);};jQuery(selector).each(function(){if(!this.filters["DXImageTransform.Microsoft.Matrix"]){this.style.filter=(this.style.filter?'':' ')+"progid:DXImageTransform.Microsoft.Matrix(sizingMethod='auto expand')";Transformie.bindChangeEvent(this);}
+jQuery.extend(this.filters["DXImageTransform.Microsoft.Matrix"],{M11:matrix.elements[0][0],M12:matrix.elements[0][1],M21:matrix.elements[1][0],M22:matrix.elements[1][1]});});}};;
+/*
+       Licensed to the Apache Software Foundation (ASF) under one
+       or more contributor license agreements.  See the NOTICE file
+       distributed with this work for additional information
+       regarding copyright ownership.  The ASF licenses this file
+       to you under the Apache License, Version 2.0 (the
+       "License"); you may not use this file except in compliance
+       with the License.  You may obtain a copy of the License at
+
+         http://www.apache.org/licenses/LICENSE-2.0
+
+       Unless required by applicable law or agreed to in writing,
+       software distributed under the License is distributed on an
+       "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+       KIND, either express or implied.  See the License for the
+       specific language governing permissions and limitations
+       under the License.
+*/
+
+(function($) {
+    // Setup title-pane widgets
+    $('.title-pane .title').click(function(e) {
+        e.preventDefault();
+        $(this).closest('.title-pane')
+            .find('> .content').toggle('fast', function() {
+                $(this)
+                    .closest('.title-pane').toggleClass('closed').end()
+                    .toggleClass('hidden');
+            });
+    });
+    if(window.location.hash) {
+        // Nested comment (reply) hash link contains a /, which must be escaped
+        $(window.location.hash.replace('/', '\\/') + '.title-pane').removeClass('closed');
+    }
+
+    // Setup editable widgets
+    $('div.editable, span.editable, h1.editable')
+        .find('.viewer')
+        .append('<a class="edit_btn btn"><b class="fa fa-edit"></b></a>')
+        .end()
+        .click(function(e){
+            var editable = $(this).closest('.editable');
+            var editor = editable.find('.editor');
+            var viewer = editable.find('.viewer');
+            if(editor.hasClass('overlap')){
+                editor.width(viewer.width());
+            }
+            editable.addClass('editing')
+                    .removeClass('viewing');
+            // autoresize textareas will be the wrong size the first time due to being hidden, so nudge them
+            editor.find('textarea').change();
+            e.stopPropagation();
+        })
+        .find('a').click(function(event){
+            if(!$(this).hasClass('edit_btn')){
+                event.stopPropagation();
+            }
+        })
+        .end()
+        .end()
+        .find('.editor')
+        .find('input, select, textarea').each(function(i){
+            var $this = $(this);
+            var editor = $this.closest('.editor');
+            $this.attr('original_val', this.value);
+            if(!$('a.cancel_btn', editor).length){
+                var save_btns = $('<div class="save_holder"><input type="submit" value="Save"/><a href="#" class="cancel_btn">Cancel</a></div>');
+                if(editor.hasClass('multiline')){
+                    var save_holder = editor.find('.save_holder');
+                    if(save_holder.length){
+                        save_holder.append(save_btns);
+                    }
+                    else{
+                        editor.append(save_btns);
+                    }
+                }
+                else{
+                    editor.append($('<table class="holder_table"><tr/></table>')
+                                .append($('<td/>').append($this))
+                                .append($('<td class="save_controls"/>').append($(save_btns)))
+                    );
+                }
+            }
+        })
+        .end()
+        .find('.cancel_btn').click(function(e){
+            $(this).closest('.editable')
+                        .addClass('viewing')
+                        .removeClass('editing')
+                        .find('input, select, textarea').each(function(){
+                            $(this).val($(this).attr('original_val'));
+                        });
+            return false;
+        });
+})(jQuery);
+
+$(function(){
+    $('.defaultText').
+        focus(function(){
+            var $this = $(this);
+            if ( $this.val() == $this[0].title ){
+                $this.removeClass('defaultTextActive').val('');
+            }
+        }).
+        blur(function(){
+            var $this = $(this);
+            if ( !$this.val() ){
+                $this.addClass('defaultTextActive').val($this[0].title);
+            }
+        }).
+        blur();
+    $('.selectText').focus(function(){
+        var field = $(this);
+        // running select() directly doesn't work for Chrome
+        // http://stackoverflow.com/questions/3150275/jquery-input-select-all-on-focus/3150369#3150369
+        window.setTimeout(function() {
+            field.select();
+        }, 0);
+    });
+});
+
+function auto_close( o, timeout ){
+    var $o = $(o);
+    setTimeout(function(){
+        $o.fadeOut('slow');
+    }, timeout);
+    return $o;
+}
+
+function flash( html, kind, timeout ){
+    var status = kind || 'info';
+    var title = 'Notice:';
+    if(status == 'error'){
+        title = 'Error:';
+    }
+    $('#messages').notify(html, {
+        title: title,
+        status: status
+    });
+}
+
+function attach_form_retry( form ){
+    $(form).submit(function(){
+        $form = $(this);
+        $messages = $('#messages')
+
+        $messages.notify('Saving...', {
+            title: 'Form save in progress',
+            status: 'info'
+        });
+        setTimeout(function(){
+            // After 7 seconds, express our concern.
+            $messages.notify('The server is taking too long to respond.<br/>Retrying in 30 seconds.', {
+                title: 'Form save in progress',
+                status: 'error'
+            });
+            setTimeout(function(){
+                // After 30 seconds total, give up and try again.
+                $messages.notify('Retrying...', {
+                    title: 'Form save in progress',
+                    status: 'warning'
+                });
+                $form.submit();
+            }, 23000)
+        }, 7000);
+    });
+}
+
+function addCommas(num) {
+    // http://stackoverflow.com/questions/1990512/add-comma-to-numbers-every-three-digits-using-jquery/1990590#1990590
+    return String(num).replace(new RegExp('(\\d)(?=(\\d\\d\\d)+(?!\\d))', 'g'), "$1,");
+}
+
+$(function(){
+    $('html').removeClass('no-js').addClass('js');
+
+    // Add notifications for form submission.
+    attach_form_retry('form.can-retry');
+
+    $('#messages').notifier();
+    // Process Flash messages
+    $('#flash > div').
+        each(function(){
+            var status = this.className || 'info';
+            var title = 'Notice:';
+            if(status == 'error'){
+                title = 'Error:';
+            }
+            $('#messages').notify(this.innerHTML, {
+                title: title,
+                status: status
+            });
+        });
+
+    // Make life a little better for Chrome users by setting tab-order on inputs.
+    // This won't stop Chrome from tabbing over links, but should stop links from
+    // coming "in between" fields.
+    var i = 0;
+    $('input,textarea,select,button').each(function(){
+        $(this).attr('tabindex', ++i);
+    });
+
+    // Provide prompt text for otherwise empty viewers
+    var ws = /^\s*$/;
+    $('[data-prompt]').each(function(){
+        var $this = $(this);
+        if ( ws.test($this.text()) ) {
+            $this.css('color', 'gray').text($this.attr('data-prompt'))
+        }
+    });
+
+    var SN_ID=0, SN_VIEWS=1, SN_CLOSED=2;
+    $('#site-notification .btn-close').click(function(e) {
+        var $note = $(this).parent();
+        $note.hide();
+        var status = $.cookie('site-notification').split('-');
+        status[SN_CLOSED] = 'true';
+        $.cookie('site-notification', status.join('-'), {
+            expires: 365,
+            path: '/'
+        });
+        e.preventDefault();
+        return false;
+    });
+});
+;
+"use strict";;
+if(typeof SF === 'undefined'){
+  SF={};
+}
+
+
+
+SF.Popover = function($popover) {
+    var klass = $popover.attr('id').replace(/-tooltip/, '');
+    var $parents = $popover.parents('header');
+    var isOpen = false;
+
+    function open(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        // close other popovers
+        $('.tooltip:not(.' + klass + '):visible', $parents).trigger('popover:close');
+        $('.tooltip.' + klass, $popover).show();
+        $('body').on('click.popover', function(e) {
+            $popover.trigger('popover:close');
+        });
+        $(document).on('keydown.popover', function(e) {
+            if ((e.which || e.keyCode) === 27) {
+                e.preventDefault();
+                $popover.trigger('popover:close');
+            }
+        });
+        isOpen = true;
+    }
+
+    function close(e) {
+        if(!$(e.target.parentNode).closest('div').hasClass('tooltip')){
+          e.preventDefault();
+          e.stopPropagation();
+        }
+        $parents.find('.tooltip:visible').hide();
+        $('body').off('click.popover');
+        $(document).off('keydown.popover');
+        isOpen = false;
+    }
+
+    $popover.on('click', 'a', function(e) {
+        if (isOpen) {
+            close(e);
+        } else {
+            if(!$(e.target).hasClass('not-available')){
+              open(e);
+            }
+        }
+    });
+    $popover.on('popover:close', close);
+};
+
+jQuery(function($) {
+    // Setup the updater popover
+    var $updater = $('#updater-tooltip');
+    if ($updater.length) {
+        if ($updater.hasClass('fetch')) {
+            $.ajax({
+                url: '/user/updates/find',
+                global: false,
+                success: function(data) {
+                    if (data.length) {
+                        $updater.hide()
+                                .html(data)
+                                .show();
+                        SF.Popover($updater);
+                    }
+                }
+            });
+        } else {
+            SF.Popover($updater);
+        }
+    }
+    // Setup the account popover
+    var $account_tip = $('#account-tooltip');
+    if($account_tip.length) {
+      SF.Popover($account_tip);
+    }
+});
+
+SF.SimplifiedCookieNotice = function () {
+    return {
+        overlay: null,
+        banner: null,
+        body: null,
+        msg: "By using the SourceForge site, you agree to our use of cookies.",
+        win: null,
+        cookieKey: "tsn",
+
+        init: function () {
+            this.win = $(window);
+            this.body = $('body');
+            var cookie_value = $.cookie(this.cookieKey);
+            if (Number(cookie_value) !== 1) {
+                this._setupBanner();
+                this._setupListeners();
+                this.show();
+            }
+
+            return this;
+        },
+
+        _setupListeners: function () {
+            var self = this;
+
+            this.body.on('click', '.truste-cookie-accept', function(evt) {
+                evt.preventDefault();
+                // Expires is set to 13 months or 30x13 = 390 days.
+                $.cookie(self.cookieKey, 1, {path: '/', expires: 390});
+                self.hide();
+            });
+
+            this.body.on('click', '.truste-cookie-denied', function (evt) {
+                evt.preventDefault();
+                if (truste.eu && truste.eu.clickListener) {
+                    truste.eu.clickListener();
+                }
+            });
+
+            this.win.resize(function (evt) {
+                if (self.win.width() > 1075) {
+                    self.banner.width(self.win.width() - 80);
+                }
+            });
+        },
+
+        _setupBanner: function () {
+            this._createBanner();
+            this._populateBanner();
+        },
+
+        _createBanner: function () {
+            this.banner = $('<div class="truste-sf-banner" />');
+        },
+
+        _populateBanner: function() {
+            this.body.prepend(this.banner);
+            var content = '<div class="truste-sf-inner">' +
+                          '<h2>'+ this.msg + '</h2>' +
+                          '<div id="truste-consent-buttons" class="button-container">' +
+                          '<button id="truste-consent-button" class="truste-cookie-accept">I consent to cookies</button><button class="truste-cookie-denied">I want more information</button' +
+                          '</div></div>';
+            this.banner.html(content);
+
+        },
+
+        show: function () {
+            this.banner.width(this.win.width() - 80);
+        },
+
+        hide: function () {
+            this.banner.animate({height: 'toggle', opacity: 'toggle'}, 1000, 'linear', function () {
+                $(this).remove();
+            });
+        }
+    };
+};
+

@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html dir="ltr" class="client-nojs" lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>FFS (Amiga) - OSDev Wiki</title>
+<meta charset="UTF-8">
+<meta name="generator" content="MediaWiki 1.18.0">
+<link rel="shortcut icon" href="http://wiki.osdev.org/favicon.ico">
+<link rel="search" type="application/opensearchdescription+xml" href="http://wiki.osdev.org/opensearch_desc.php" title="OSDev Wiki (en)">
+<link rel="EditURI" type="application/rsd+xml" href="http://wiki.osdev.org/api.php?action=rsd">
+<link rel="alternate" type="application/atom+xml" title="OSDev Wiki Atom feed" href="http://wiki.osdev.org/index.php?title=Special:RecentChanges&amp;feed=atom">
+<link rel="stylesheet" href="FFS%20%28Amiga%29%20-%20OSDev%20Wiki_files/load.css">
+<meta name="ResourceLoaderDynamicStyles" content="">
+<link rel="stylesheet" href="FFS%20%28Amiga%29%20-%20OSDev%20Wiki_files/load_002.css">
+<style>a:lang(ar),a:lang(ckb),a:lang(fa),a:lang(kk-arab),a:lang(mzn),a:lang(ps),a:lang(ur){text-decoration:none}a.new,#quickbar a.new{color:#ba0000}
+
+/* cache key: wikidb:resourceloader:filter:minify-css:4:c88e2bcd56513749bec09a7e29cb3ffa */
+</style>
+<script src="FFS%20%28Amiga%29%20-%20OSDev%20Wiki_files/load_003.php"></script>
+<script>if(window.mw){
+	mw.config.set({"wgCanonicalNamespace": "", "wgCanonicalSpecialPageName": false, "wgNamespaceNumber": 0, "wgPageName": "FFS_(Amiga)", "wgTitle": "FFS (Amiga)", "wgCurRevisionId": 10736, "wgArticleId": 1514, "wgIsArticle": true, "wgAction": "view", "wgUserName": null, "wgUserGroups": ["*"], "wgCategories": ["Filesystems"], "wgBreakFrames": false, "wgRestrictionEdit": [], "wgRestrictionMove": []});
+}
+</script><script>if(window.mw){
+	mw.loader.load(["mediawiki.page.startup"]);
+}
+</script>
+<!--[if lt IE 7]><style type="text/css">body{behavior:url("/skins/vector/csshover.min.htc")}</style><![endif]--></head>
+<body class="mediawiki ltr sitedir-ltr ns-0 ns-subject page-FFS_Amiga action-view skin-vector">
+		<div id="mw-page-base" class="noprint"></div>
+		<div id="mw-head-base" class="noprint"></div>
+		<!-- content -->
+		<div id="content">
+			<a id="top"></a>
+			<div id="mw-js-message" style="display:none;"></div>
+						<!-- firstHeading -->
+			<h1 id="firstHeading" class="firstHeading">FFS (Amiga)</h1>
+			<!-- /firstHeading -->
+			<!-- bodyContent -->
+			<div id="bodyContent">
+								<!-- tagline -->
+				<div id="siteSub">From OSDev Wiki</div>
+				<!-- /tagline -->
+								<!-- subtitle -->
+				<div id="contentSub"></div>
+				<!-- /subtitle -->
+																<!-- jumpto -->
+				<div id="jump-to-nav">
+					Jump to: <a href="#mw-head">navigation</a>,
+					<a href="#p-search">search</a>
+				</div>
+				<!-- /jumpto -->
+								<!-- bodycontent -->
+				<div dir="ltr" class="mw-content-ltr" lang="en"><table style="font-size:95%; line-height:1.5em; padding:0.25em; float:right; margin: 0 0 8px 15px; clear: right; border:1px solid #aaaaaa; background:#eee; text-align:center; width:200px;&nbsp;;"><tbody><tr><th style="background:#ffce7b; padding:0.3em; font-size:1.1em;"><a href="http://wiki.osdev.org/File_Systems" title="File Systems">Filesystems</a></th></tr><tr><th>Virtual FileSystems</th></tr><tr><td><div>
+<p><a href="http://wiki.osdev.org/VFS" title="VFS">VFS</a><br>
+</p>
+</div></td></tr><tr><th>Disk filesystems</th></tr><tr><td><div>
+<p><a href="http://wiki.osdev.org/FAT" title="FAT">FAT</a> <a href="http://wiki.osdev.org/FAT12" title="FAT12" class="mw-redirect">12</a>/<a href="http://wiki.osdev.org/FAT16" title="FAT16" class="mw-redirect">16</a>/<a href="http://wiki.osdev.org/FAT32" title="FAT32" class="mw-redirect">32</a>, <a href="http://wiki.osdev.org/VFAT" title="VFAT" class="mw-redirect">VFAT</a><br>
+<a href="http://wiki.osdev.org/Ext2" title="Ext2">Ext 2</a>/<a href="http://wiki.osdev.org/Ext3" title="Ext3">3</a>/<a href="http://wiki.osdev.org/Ext4" title="Ext4">4</a><br>
+<a href="http://wiki.osdev.org/LEAN" title="LEAN">LEAN</a><br>
+<a href="http://wiki.osdev.org/HPFS" title="HPFS">HPFS</a><br>
+<a href="http://wiki.osdev.org/NTFS" title="NTFS">NTFS</a><br>
+<a href="http://wiki.osdev.org/HFS" title="HFS">HFS</a><br>
+<a href="http://wiki.osdev.org/HFS%2B" title="HFS+">HFS+</a><br>
+<a href="http://wiki.osdev.org/MFS" title="MFS">MFS</a><br>
+<a href="http://wiki.osdev.org/ReiserFS" title="ReiserFS">ReiserFS</a><br>
+<strong class="selflink">FFS (Amiga)</strong><br>
+<a href="http://wiki.osdev.org/FFS_%28BSD%29" title="FFS (BSD)" class="mw-redirect">FFS (BSD)</a>/<a href="http://wiki.osdev.org/UFS" title="UFS">UFS</a><br>
+<a href="http://wiki.osdev.org/BeFS" title="BeFS">BeFS</a><br>
+<a href="http://wiki.osdev.org/BFS" title="BFS">BFS</a><br>
+<a href="http://wiki.osdev.org/XFS" title="XFS">XFS</a><br>
+<a href="http://wiki.osdev.org/SFS" title="SFS">SFS</a><br>
+<a href="http://wiki.osdev.org/ZFS" title="ZFS">ZFS</a><br>
+</p>
+</div></td></tr><tr><th>CD/DVD filesystems</th></tr><tr><td><div>
+<p><a href="http://wiki.osdev.org/ISO_9660" title="ISO 9660">ISO 9660</a><br>
+<a href="http://wiki.osdev.org/Joliet" title="Joliet">Joliet</a><br>
+<a href="http://wiki.osdev.org/UDF" title="UDF">UDF</a><br>
+</p>
+</div></td></tr><tr><th><a href="http://wiki.osdev.org/Category:Network_Filesystems" title="Category:Network Filesystems">Network filesystems</a></th></tr><tr><td><div>
+<p><a href="http://wiki.osdev.org/NFS" title="NFS">NFS</a><br>
+<a href="http://wiki.osdev.org/RFS" title="RFS">RFS</a><br>
+<a href="http://wiki.osdev.org/AFS" title="AFS">AFS</a><br>
+</p>
+</div></td></tr><tr><th>Flash filesystems</th></tr><tr><td><div>
+<p><a href="http://wiki.osdev.org/JFFS2" title="JFFS2">JFFS2</a><br>
+<a href="http://wiki.osdev.org/YAFFS" title="YAFFS">YAFFS</a><br>
+</p>
+</div></td></tr></tbody></table>
+<p>The Amiga Fast File System, to put it bluntly, is not - or rather, 
+it's fast only when compared to the OFS, the Original File System of 
+AmigaOS 1.x.
+</p>
+<table id="toc" class="toc"><tbody><tr><td><div id="toctitle"><h2>Contents</h2></div>
+<ul>
+<li class="toclevel-1 tocsection-1"><a href="#About_Amiga_FFS"><span class="tocnumber">1</span> <span class="toctext">About Amiga FFS</span></a></li>
+<li class="toclevel-1 tocsection-2"><a href="#Technical_Details"><span class="tocnumber">2</span> <span class="toctext">Technical Details</span></a>
+<ul>
+<li class="toclevel-2 tocsection-3"><a href="#Root_Block"><span class="tocnumber">2.1</span> <span class="toctext">Root Block</span></a></li>
+<li class="toclevel-2 tocsection-4"><a href="#User_Directory_Blocks"><span class="tocnumber">2.2</span> <span class="toctext">User Directory Blocks</span></a></li>
+<li class="toclevel-2 tocsection-5"><a href="#File_List_Block"><span class="tocnumber">2.3</span> <span class="toctext">File List Block</span></a></li>
+<li class="toclevel-2 tocsection-6"><a href="#Data_Block"><span class="tocnumber">2.4</span> <span class="toctext">Data Block</span></a></li>
+</ul>
+</li>
+</ul>
+</td></tr></tbody></table>
+<h2> <span class="mw-headline" id="About_Amiga_FFS"> About Amiga FFS </span></h2>
+<p>There are many bright design ideas making the AmigaOS a very special 
+thing, but the file system was not exactly part of it. It is prone to 
+invalidation, holds redundant data, and its directory structure is 
+comparatively slow to traverse. It also lacks any concept of multi-user 
+environments.
+</p><p>Perhaps the only good thing with the Amiga FFS was the concept of
+ the Rigid Disk Block (RDB) - a special area at the beginning of a disk,
+ holding not only the partitioning information. It was also possible to 
+store a file system there - a module that would tell a different AmigaOS
+ machine how to read a partition if it was not formatted in FFS format 
+but something else.
+</p><p>For those interested in its internals should try to find a copy 
+of "The Amiga Guru Book" by Ralph Babel, which holds a complete 
+reference of its rather complex block structure. (It also has a complete
+ reference of the DOS library, as well as interesting information on 
+various internals of the Amiga architecture. It is long out of print, 
+but perhaps you can still find copies on eBay.) The old FAQ also held 
+some info in the internals, which are preserved in the AmigaFFS 
+Document.
+</p>
+<h2> <span class="mw-headline" id="Technical_Details"> Technical Details </span></h2>
+<h3> <span class="mw-headline" id="Root_Block"> Root Block </span></h3>
+<p>The root of the tree is the root block, which is at a fixed place on 
+the disk. The root is like any other directory, except that it has no 
+parent, and it's secondary type is different. AmigaDOS stores the name 
+of the disk volume in the name field of the root block.
+</p><p>Each filing system block contains a checksum, where the sum (ignoring overflow) of all the words in the block is zero.
+</p>
+<pre>         +---------------+
+       0 |  T. SHORT     | Type
+         |---------------|
+       1 |       0       | header key (always 0)
+         |---------------|
+       2 |         0     | Highest seq number (always 0)
+         |---------------|
+       3 |   HT SIZE     | Hashtable size (=blocksize -56)
+         |---------------|
+       4 |       0       |
+         |---------------|
+       5 |   CHECKSUM    |
+         |---------------|
+       6 |     hash      |
+         |     table     |
+         /               /
+         \               \
+ SIZE-51 |               |
+         |---------------|
+ SIZE-50 |  BMFLAG       | TRUE if bitmap on disk is valid
+         |---------------|
+ SIZE-49 |   bitmap      | Used to indicate the blocks
+ SIZE-24 |    pages      | containing the bitmap
+         |---------------|
+ SIZE-23 |    DAYS       | Volume last altered date and time
+         |---------------|
+ SIZE-22 |    MINS       |
+         |---------------|
+ SIZE-21 |    TICKS      |
+         |---------------|
+ SIZE-20 |     DISK      | Volume name as a BCPL string
+         |     NAME      | of &lt;= 30 characters
+         |---------------|
+ SIZE-7  |   CREATEDAYS  | Volume creation date and time
+         |---------------|
+ SIZE-6  |   CREATEMINS  |
+         |---------------|
+ SIZE-5  |  CREATETICKS  |
+         |---------------|
+ SIZE-4  |       0       | Next entry on this hash chain
+         |---------------| (always 0)
+ SIZE-3  |       0       | Parent directory (always 0)
+         |---------------|
+ SIZE-2  |       0       | Extension (always 0)
+         |---------------|
+ SIZE-1  |    ST.ROOT    | Secondary type indicates root block
+         +---------------+
+</pre>
+<h3> <span class="mw-headline" id="User_Directory_Blocks"> User Directory Blocks </span></h3>
+<pre>         +---------------+
+       0 |   T.SHORT     | Type
+         |---------------|
+       1 |   OWN KEY     | Header Key (pointer to self)
+         |---------------|
+       2 |       0       | Highest Seq Number (always 0)
+         |---------------|
+       3 |       0       |
+         |---------------|
+       4 |       0       |
+         |---------------|
+       5 |  CHECKSUM     |
+         |---------------|
+       6 |               |
+         |    hash table |
+         /               /
+         \               \
+ SIZE-51 |               |
+         |---------------|
+ SIZE-50 |    Spare      |
+         |---------------|
+ SIZE-48 |    PROTECT    |  Protection bits
+         |---------------|
+ SIZE-47 |       0       | Unused (always 0)
+         |---------------|
+ SIZE-46 |               |
+         |   COMMENT     | Stored as  BCPL string
+ SIZE-24 |               |
+         |---------------|
+ SIZE-23 |     DAYS      | Creation date and time
+         |---------------|
+ SIZE-22 |     MINS      |
+         |---------------|
+ SIZE-21 |    TICKS      |
+         |---------------|
+ SIZE-20 | DIRECTORY NAME| Stored as a BCPL string &lt;=30 chars
+         |---------------|
+ SIZE-4  | HASHCHAIN     | Next entry with same hash value
+         |---------------|
+ SIZE-3  |    PARENT     | back pointer to parent directory
+         |---------------|
+ SIZE-2  |      0        | Extension (always 0)
+         |---------------|
+ SIZE-1  |  ST.USERDIR   | secondary type
+         +---------------+
+</pre>
+<p>User directory blocks have type T.SHORT and secondary type 
+ST.USERDIRECTORY. The six information words at the start of the block 
+also indicate the block's own key (this is, the block number) as a 
+consistency check and the size of the hash table. The 50 information 
+words at the end of the block contain the date and time of creation, the
+ name of the directory, a pointer to the next file or directory on the 
+hash chain, and a pointer to the directory above.
+</p><p>To find a file or sub-directory, you must first apply a hash 
+function to its name. This has function yields and offset in the hash 
+table, which is the key of the first block on a chain linking those with
+ the same hash value (or 0, if there are none). AmigaDOS reads the block
+ with this key and compares the name of the block with the required 
+name. If the names do not match, it reads the next block on the chain, 
+and so on.
+1.1.3 File Header Block
+</p>
+<pre>          +------------+
+       0  |   T.SHORT  | Type
+          |------------|
+       1  |   OWN KEY  | Header Key
+          |------------|
+       2  | HIGHEST SEQ| Total number of data blocks in file
+          |------------|
+       3  |  DATA SIZE | Number of data block slots used
+          |------------|
+       4  | FIRST DATA | First data block
+          |------------|
+       5  |  CHECKSUM  |
+          |------------|
+       6  |            |
+          /            /
+          \            \
+          | DATA BLK 3 |
+          | DATA BLK 2 | List of data block keys
+ SIZE-51  | DATA BLK 1 |
+          |------------|
+ SIZE-50  |  Spare     |
+          |------------|
+ SIZE-49  |   PROTECT  | Protection bits
+          |------------|
+ SIZE-48  |  BYTESIZE  | Total size of file in bytes
+          |------------|
+ SIZE-46  |            |
+          |  COMMENT   | Comment as a BCPL string
+ SIZE-24  |            |
+          |------------|
+ SIZE-23  |    DAYS    | Creation date and time
+          |------------|
+ SIZE-22  |    MINS    |
+          |------------|
+ SIZE-21  |    TICKS   |
+          |------------|
+ SIZE-20  | FILE NAME  | Stored as BCPL string &lt;= 30 chars
+          |------------|
+ SIZE-4   |  HASHCHAIN | Next entry with same hash value
+          |------------|
+ SIZE-3   |   PARENT   | Back pointer to the parent directory
+          |------------|
+ SIZE-2   |  EXTENSION | Zero pointer to the first extension
+          |------------| block
+ SIZE-1   |  ST. FILE  | Secondary type
+          +------------+
+</pre>
+<p>Each terminal file starts with a file header block, which has type 
+T.SHORT and secondary type ST.FILE. The start and end of the block 
+contain name, time, and redundancy information similar to that in a 
+directory block. The body of the file consists of Data blocks with 
+sequence numbers from 1 upwards. AmigaDOS stores the addresses of these 
+blocks in consecutive words downwards from offset size-51 in the block. 
+In general, AmigaDOS does not use all the space for this list and the 
+last data block is not full.
+</p>
+<h3> <span class="mw-headline" id="File_List_Block"> File List Block </span></h3>
+<p>If there are more blocks in the file than can be specified in the 
+block list, then the EXTENSION field is non-zero and points to another 
+disk block which contains a further data block list. The following 
+figure explains the structure of the file list block.
+</p>
+<pre>          +-------------+
+       0  |   T. LIST   | Type
+          |-------------|
+       1  |   OWN KEY   | Header Key
+          |-------------|
+       2  | BLOCK COUNT | =number of data blocks in block list
+          |-------------|
+       3  | DATA SIZE   | Same as above
+          |-------------|
+       4  | FIRST DATA  | First Data Block
+          |-------------|
+       5  |  CHECKSUM   |
+          |-------------|
+       6  |             |
+          /             /
+          \             \
+          | BLOCK N+3   |
+          | BLOCK N+2   | Extended list of data block keys
+ SIZE-51  | BLOCK N+1   |
+          |-------------|
+ SIZE-50  |      info   | (unused)
+          |-------------|
+ SIZE-4   |     0       | Next in hash list (always 0)
+          |-------------|
+ SIZE-3   |   PARENT    | File header block of this file
+          |-------------|
+ SIZE-2   | EXTENTSION  | Next extension block
+          |-------------|
+ SIZE-1   |   ST. FILE  | Secondary type
+          +-------------+
+</pre>
+<p>There are as many file extension blocks as required to list the data 
+blocks that make up the file. The layout of the block is very similar to
+ that of a file header block, except that the type is different and the 
+date and filename fields are not used.
+</p>
+<h3> <span class="mw-headline" id="Data_Block"> Data Block </span></h3>
+<pre>          +-------------+
+       0  |   T. DATA   | type
+          |-------------|
+       1  |   HEADER    | header key
+          |-------------|
+       2  |   SEQ NUM   | Sequence number
+          |-------------|
+       3  |  DATA SIZE  |
+          |-------------|
+       4  |  NEXT DATA  | next data block
+          |-------------|
+       5  |  CHECKSUM   |
+          |-------------|
+       6  |             |
+          |             |
+          |             |
+          |             |
+          |    DATA     |
+          |             |
+          |             |
+          |             |
+          +-------------+
+</pre>
+<p>Data blocks contain only six words of filing system information. These six words refer to the following:
+</p>
+<ul><li> type (T.DATA)
+</li><li> pointer to the file header block
+</li><li> sequence number of the data block
+</li><li> number of words of data
+</li><li> pointer to the next data block
+</li><li> checksum
+</li></ul>
+<p>Normally, all data blocks except the last are full (that is, they 
+have a blocksize = blocksize-6). The last data block has a forward 
+pointer of 0.
+</p>
+<!-- 
+NewPP limit report
+Preprocessor node count: 357/1000000
+Post-expand include size: 3154/2097152 bytes
+Template argument size: 2315/2097152 bytes
+Expensive parser function count: 0/100
+-->
+
+<!-- Saved in parser cache with key wikidb:pcache:idhash:1514-0!*!0!!en!*!* and timestamp 20170112193303 -->
+</div>				<!-- /bodycontent -->
+								<!-- printfooter -->
+				<div class="printfooter">
+				Retrieved from "<a href="http://wiki.osdev.org/index.php?title=FFS_%28Amiga%29&amp;oldid=10736">http://wiki.osdev.org/index.php?title=FFS_(Amiga)&amp;oldid=10736</a>"				</div>
+				<!-- /printfooter -->
+												<!-- catlinks -->
+				<div id="catlinks" class="catlinks"><div id="mw-normal-catlinks"><a href="http://wiki.osdev.org/Special:Categories" title="Special:Categories">Category</a>: <ul><li><a href="http://wiki.osdev.org/Category:Filesystems" title="Category:Filesystems">Filesystems</a></li></ul></div></div>				<!-- /catlinks -->
+												<div class="visualClear"></div>
+				<!-- debughtml -->
+								<!-- /debughtml -->
+			</div>
+			<!-- /bodyContent -->
+		</div>
+		<!-- /content -->
+		<!-- header -->
+		<div id="mw-head" class="noprint">
+			
+<!-- 0 -->
+<div id="p-personal" class="">
+	<h5>Personal tools</h5>
+	<ul>
+		<li id="pt-login"><a href="http://wiki.osdev.org/index.php?title=Special:UserLogin&amp;returnto=FFS_%28Amiga%29" title="You are encouraged to log in; however, it is not mandatory [o]" accesskey="o">Log in</a></li>
+	</ul>
+</div>
+
+<!-- /0 -->
+			<div id="left-navigation">
+				
+<!-- 0 -->
+<div id="p-namespaces" class="vectorTabs">
+	<h5>Namespaces</h5>
+	<ul>
+					<li id="ca-nstab-main" class="selected"><span><a href="http://wiki.osdev.org/FFS_%28Amiga%29" title="View the content page [c]" accesskey="c">Page</a></span></li>
+					<li id="ca-talk" class="new"><span><a href="http://wiki.osdev.org/index.php?title=Talk:FFS_%28Amiga%29&amp;action=edit&amp;redlink=1" title="Discussion about the content page [t]" accesskey="t">Discussion</a></span></li>
+			</ul>
+</div>
+
+<!-- /0 -->
+
+<!-- 1 -->
+<div id="p-variants" class="vectorMenu emptyPortlet">
+		<h5><span>Variants</span><a href="#"></a></h5>
+	<div class="menu">
+		<ul>
+					</ul>
+	</div>
+</div>
+
+<!-- /1 -->
+			</div>
+			<div id="right-navigation">
+				
+<!-- 0 -->
+<div id="p-views" class="vectorTabs">
+	<h5>Views</h5>
+	<ul>
+					<li id="ca-view" class="selected"><span><a href="http://wiki.osdev.org/FFS_%28Amiga%29">Read</a></span></li>
+					<li id="ca-viewsource"><span><a href="http://wiki.osdev.org/index.php?title=FFS_%28Amiga%29&amp;action=edit" title="This page is protected.
+You can view its source [e]" accesskey="e">View source</a></span></li>
+					<li id="ca-history" class="collapsible"><span><a href="http://wiki.osdev.org/index.php?title=FFS_%28Amiga%29&amp;action=history" title="Past revisions of this page [h]" accesskey="h">View history</a></span></li>
+			</ul>
+</div>
+
+<!-- /0 -->
+
+<!-- 1 -->
+<div id="p-cactions" class="vectorMenu emptyPortlet">
+	<h5><span>Actions</span><a href="#"></a></h5>
+	<div class="menu">
+		<ul>
+					</ul>
+	</div>
+</div>
+
+<!-- /1 -->
+
+<!-- 2 -->
+<div id="p-search">
+	<h5><label for="searchInput">Search</label></h5>
+	<form action="/index.php" id="searchform">
+		<input name="title" value="Special:Search" type="hidden">
+				<input name="search" title="Search OSDev Wiki [f]" accesskey="f" id="searchInput" type="search">		<input name="go" value="Go" title="Go to a page with this exact name if exists" id="searchGoButton" class="searchButton" type="submit">		<input name="fulltext" value="Search" title="Search the pages for this text" id="mw-searchButton" class="searchButton" type="submit">			</form>
+</div>
+
+<!-- /2 -->
+			</div>
+		</div>
+		<!-- /header -->
+		<!-- panel -->
+			<div id="mw-panel" class="noprint">
+				<!-- logo -->
+					<div id="p-logo"><a style="background-image: url(/skins/common/images/osdev.png);" href="http://wiki.osdev.org/Main_Page" title="Visit the main page"></a></div>
+				<!-- /logo -->
+				
+<!-- navigation -->
+<div class="portal" id="p-navigation">
+	<h5>Navigation</h5>
+	<div class="body">
+		<ul>
+			<li id="n-mainpage"><a href="http://wiki.osdev.org/Main_Page" title="Visit the main page [z]" accesskey="z">Main Page</a></li>
+			<li id="n-portal"><a href="http://forum.osdev.org/" rel="nofollow" title="About the project, what you can do, where to find things">Forums</a></li>
+			<li id="n-FAQ"><a href="http://wiki.osdev.org/Category:FAQ">FAQ</a></li>
+			<li id="n-OS-Projects"><a href="http://wiki.osdev.org/Projects">OS Projects</a></li>
+			<li id="n-randompage"><a href="http://wiki.osdev.org/Special:Random" title="Load a random page [x]" accesskey="x">Random page</a></li>
+		</ul>
+	</div>
+</div>
+
+<!-- /navigation -->
+
+<!-- about -->
+<div class="portal" id="p-about">
+	<h5>About</h5>
+	<div class="body">
+		<ul>
+			<li id="n-This-site"><a href="http://wiki.osdev.org/OSDevWiki:About">This site</a></li>
+			<li id="n-Joining"><a href="http://wiki.osdev.org/OSDevWiki:Joining">Joining</a></li>
+			<li id="n-Editing-help"><a href="http://wiki.osdev.org/OSDevWiki:Editing">Editing help</a></li>
+			<li id="n-recentchanges"><a href="http://wiki.osdev.org/Special:RecentChanges" title="A list of recent changes in the wiki [r]" accesskey="r">Recent changes</a></li>
+		</ul>
+	</div>
+</div>
+
+<!-- /about -->
+
+<!-- SEARCH -->
+
+<!-- /SEARCH -->
+
+<!-- TOOLBOX -->
+<div class="portal" id="p-tb">
+	<h5>Toolbox</h5>
+	<div class="body">
+		<ul>
+			<li id="t-whatlinkshere"><a href="http://wiki.osdev.org/Special:WhatLinksHere/FFS_%28Amiga%29" title="A list of all wiki pages that link here [j]" accesskey="j">What links here</a></li>
+			<li id="t-recentchangeslinked"><a href="http://wiki.osdev.org/Special:RecentChangesLinked/FFS_%28Amiga%29" title="Recent changes in pages linked from this page [k]" accesskey="k">Related changes</a></li>
+			<li id="t-specialpages"><a href="http://wiki.osdev.org/Special:SpecialPages" title="A list of all special pages [q]" accesskey="q">Special pages</a></li>
+			<li><a href="http://wiki.osdev.org/index.php?title=FFS_%28Amiga%29&amp;printable=yes" rel="alternate">Printable version</a></li>
+			<li id="t-permalink"><a href="http://wiki.osdev.org/index.php?title=FFS_%28Amiga%29&amp;oldid=10736" title="Permanent link to this revision of the page">Permanent link</a></li>
+		</ul>
+	</div>
+</div>
+
+<!-- /TOOLBOX -->
+
+<!-- LANGUAGES -->
+
+<!-- /LANGUAGES -->
+			</div>
+		<!-- /panel -->
+		<!-- footer -->
+		<div id="footer">
+							<ul id="footer-info">
+											<li id="footer-info-lastmod"> This page was last modified on 6 September 2010, at 11:27.</li>
+											<li id="footer-info-viewcount">This page has been accessed 18,106 times.</li>
+									</ul>
+							<ul id="footer-places">
+											<li id="footer-places-privacy"><a href="http://wiki.osdev.org/OSDev_Wiki:Privacy_policy" title="OSDev Wiki:Privacy policy">Privacy policy</a></li>
+											<li id="footer-places-about"><a href="http://wiki.osdev.org/OSDev_Wiki:About" title="OSDev Wiki:About">About OSDev Wiki</a></li>
+											<li id="footer-places-disclaimer"><a href="http://wiki.osdev.org/OSDev_Wiki:General_disclaimer" title="OSDev Wiki:General disclaimer">Disclaimers</a></li>
+									</ul>
+										<ul id="footer-icons" class="noprint">
+					<li id="footer-poweredbyico">
+						<a href="http://www.mediawiki.org/"><img src="FFS%20%28Amiga%29%20-%20OSDev%20Wiki_files/poweredby_mediawiki_88x31.png" alt="Powered by MediaWiki" width="88" height="31"></a>
+					</li>
+				</ul>
+						<div style="clear:both"></div>
+		</div>
+		<!-- /footer -->
+		<!-- fixalpha -->
+		<script type="text/javascript"> if ( window.isMSIE55 ) fixalpha(); </script>
+		<!-- /fixalpha -->
+		<script src="FFS%20%28Amiga%29%20-%20OSDev%20Wiki_files/load.php"></script>
+<script>if(window.mw){
+	mw.loader.load(["mediawiki.user", "mediawiki.util", "mediawiki.page.ready", "mediawiki.legacy.wikibits", "mediawiki.legacy.ajax"]);
+}
+</script>
+<script src="FFS%20%28Amiga%29%20-%20OSDev%20Wiki_files/load_002.php"></script>
+<script>if(window.mw){
+	mw.user.options.set({"ccmeonemails":0,"cols":80,"date":"default","diffonly":0,"disablemail":0,"disablesuggest":0,"editfont":"default","editondblclick":0,"editsection":1,"editsectiononrightclick":0,"enotifminoredits":0,"enotifrevealaddr":0,"enotifusertalkpages":1,"enotifwatchlistpages":0,"extendwatchlist":0,"externaldiff":0,"externaleditor":0,"fancysig":0,"forceeditsummary":0,"gender":"unknown","hideminor":0,"hidepatrolled":0,"highlightbroken":1,"imagesize":2,"justify":0,"math":1,"minordefault":0,"newpageshidepatrolled":0,"nocache":0,"noconvertlink":0,"norollbackdiff":0,"numberheadings":0,"previewonfirst":0,"previewontop":1,"quickbar":5,"rcdays":7,"rclimit":50,"rememberpassword":0,"rows":25,"searchlimit":20,"showhiddencats":0,"showjumplinks":1,"shownumberswatching":1,"showtoc":1,"showtoolbar":1,"skin":"vector","stubthreshold":0,"thumbsize":2,"underline":2,"uselivepreview":0,"usenewrc":0,"watchcreations":0,"watchdefault":0,"watchdeletion":0,"watchlistdays":3,"watchlisthideanons":0,
+	"watchlisthidebots":0,"watchlisthideliu":0,"watchlisthideminor":0,"watchlisthideown":0,"watchlisthidepatrolled":0,"watchmoves":0,"wllimit":250,"variant":"en","language":"en","searchNs0":true,"searchNs1":false,"searchNs2":false,"searchNs3":false,"searchNs4":false,"searchNs5":false,"searchNs6":false,"searchNs7":false,"searchNs8":false,"searchNs9":false,"searchNs10":false,"searchNs11":false,"searchNs12":false,"searchNs13":false,"searchNs14":false,"searchNs15":false});;mw.user.tokens.set({"editToken":"+\\","watchToken":false});;mw.loader.state({"user.options":"ready","user.tokens":"ready"});
+	
+	/* cache key: wikidb:resourceloader:filter:minify-js:4:19a4b18a9ac79a6b8c60b24af4668814 */
+}
+</script><!-- Served in 0.041 secs. -->
+	
+
+</body></html>

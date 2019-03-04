@@ -1,0 +1,24 @@
+To use the polynomal in some routines, the value needs to be inverted. For 0x2101 it is 0x8408
+
+CRC-16/CCITT-FALSE
+
+width=16 poly=0x1021 init=0xffff refin=false refout=false xorout=0x0000 check=0x29b1 name="CRC-16/CCITT-FALSE"
+
+    Class: attested
+    An algorithm commonly misidentified as CRC-CCITT. For the true CCITT algorithm see KERMIT. For the later ITU-T algorithm see X.25.
+    Western Digital Corporation (May 1980), FD 179X-02 datasheet (courtesy of Bitsavers)
+        I Definition: Width, Poly, Init (p.5)
+    Floppy disc formats: IBM 3740 (FM, e.g. Acorn DFS), ISO/IEC 8860-2:1987 (DOS 720K), ISO/IEC 9529-2:1989 (DOS 1.4M)
+        II Implementation
+    Lammert Bies (August 2011), CRC calculator
+        II Implementation
+    PVL Team (25 October 2008), CRC .NET control, version 14.0.0.0 (courtesy of Rbytes Reviews)
+        II Implementation
+    Ross N. Williams (19 August 1993), "A Painless Guide to CRC Error Detection Algorithms"
+        III All parameters (except Check)
+    Berndt M. Gammel (29 October 2006), Matpack 1.9.1 class MpCRC documentation
+        III All parameters including Check
+    Altera Corporation (April 1999), crc MegaCore Function Data Sheet, version 2 (courtesy of the Internet Archive)
+        III All parameters including Check (p.6)
+    Created: 30 March 2005
+    Updated: 13 January 2013

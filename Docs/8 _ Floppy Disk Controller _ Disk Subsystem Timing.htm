@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html><!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Hardware/Hard_8" NODE="8-2-2" TITLE="8 / Floppy Disk Controller / Disk Subsystem Timing" INDEX="Hardware/Hard_Index/MAIN" --><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252">
+<title>8 / Floppy Disk Controller / Disk Subsystem Timing</title>
+</head>
+<body>
+<img src="8%20_%20Floppy%20Disk%20Controller%20_%20Disk%20Subsystem%20Timing_files/toc_d.gif" alt="[Contents]">
+<a href="http://amigadev.elowar.com/read/ADCD_2.1/Hardware_Manual_guide/node0240.html"><img src="8%20_%20Floppy%20Disk%20Controller%20_%20Disk%20Subsystem%20Timing_files/index.gif" alt="[Index]" border="0"></a>
+<img src="8%20_%20Floppy%20Disk%20Controller%20_%20Disk%20Subsystem%20Timing_files/help_d.gif" alt="[Help]">
+<img src="8%20_%20Floppy%20Disk%20Controller%20_%20Disk%20Subsystem%20Timing_files/retrace_d.gif" alt="[Retrace]">
+<a href="http://amigadev.elowar.com/read/ADCD_2.1/Hardware_Manual_guide/node018D.html"><img src="8%20_%20Floppy%20Disk%20Controller%20_%20Disk%20Subsystem%20Timing_files/prev.gif" alt="[Browse &lt;]" border="0"></a>
+<a href="http://amigadev.elowar.com/read/ADCD_2.1/Hardware_Manual_guide/node018F.html"><img src="8%20_%20Floppy%20Disk%20Controller%20_%20Disk%20Subsystem%20Timing_files/next.gif" alt="[Browse &gt;]" border="0"></a>
+<hr>
+<pre><!-- AG2HTML: BODY=START -->
+Figures 8-7, 8-8 and 8-9 show the timing parameters of the Amiga's floppy
+disk subsystem with a Chinon drive. Keep in mind that this information can
+change with floppy drives from other vendors.  To ensure compatibility
+with future versions of the system, you should avoid using this
+<a name="line6">information in applications.</a>
+
+
+             500ms min
+           |&lt;---------&gt;|
+         __            |
+  MOTOR    |           |
+  ON       |___________________________________________________________
+
+         __            |                                       ________
+  DRIVE    |           |                                      |
+  SELECT   |__________________________________________________|
+
+           |           |                         1.2ms min    |
+           |           |                    |&lt;---------------&gt;|
+         _____    ___________________________________    ______________
+  STEP        |  |                                   |  |
+           |  |__|     |                    |        |__|
+           |           |                    |
+           |  --&gt;|     |&lt;--18ms min         | 1.3ms min |
+        --&gt;|           |&lt;--1us min          |&lt;---------&gt;|
+         ______________                      __________________________
+  WRITE                |                    |
+  GATE                 |____________________|
+                                               1.2ms min
+                 --&gt;|  |&lt;--1000us min       |&lt;----------&gt;|
+         ___________   |   (see text)       |             _____________
+  SIDE              |  |                    |            |
+  SELECT            |____________________________________|
+
+             8us max--&gt;|  |&lt;--        --&gt;|  |&lt;--8us max
+         ______________________________________________________________
+  WRITE                   |  |  |  |  |  |
+  DATA                 |  |__|__|__|__|__|  |
+
+
+<a name="line42">                 Figure 8-7: Chinon Write Timing Diagram</a>
+
+         ____                                                   _______
+  DRIVE      |                                                 |
+  SELECT     |_________________________________________________|
+
+             |      |            |      | 3ms  |            |  |
+             |  t   | 18 ms min  |      | min  | 18 ms min  |  |
+             |&lt;----&gt;|&lt;----------&gt;|      |&lt;----&gt;|&lt;----------&gt;|  |&lt;-t
+         ________    _________    ___    ___    _________    __________
+  STEP           |  |         |  |   |  |   |  |         |  |
+                 |__|         |__|   |__|   |__|         |__|
+
+              |  t  |  t  |  t   |   |  |      |  t  |  t   |
+              |&lt;---&gt;|&lt;---&gt;|&lt;----&gt;| -&gt;|  |&lt;-t   |&lt;---&gt;|&lt;----&gt;|
+               ___________       |                    _________________
+  DIRECTION   |           |      |                   |
+  SELECT _____|     |     |__________________________|
+                    | 4ms
+                    | max  |     |  |
+                    |&lt;----&gt;|   -&gt;|  |&lt;-t
+         __________________          __________________________________
+                           |        |
+  TRACK 00                 |________|
+
+
+<a name="line68">                 Figure 8-8: Chinon Access Timing Diagram</a>
+
+         __
+  DRIVE    |
+  SELECT   |___________________________________________________________
+
+        --&gt;|     |&lt;--1us min
+         _____    _____________________________________________________
+  STEP        |  |
+           |  |__|
+           |         18ms min
+           |     |&lt;-------------&gt;|
+           |     |   1us min     |
+           |&lt;-------------------&gt;|
+         ________________________         _____________________________
+  WRITE                          |       |
+  GATE     |     |               |_______|
+           |     | 1000us min  |             1.2ms min
+           |     | (see text)-&gt;| |&lt;--    |&lt;------------&gt;|
+         ______________________  |       |               ______________
+  SIDE                         |         |              |
+  SELECT   |  --&gt;|  |&lt;--18ms   |________________________|
+           |     |  |    max
+           |1us min |                    |  |           |  |  1000us min
+           |&lt;------&gt;|        1.2ms max--&gt;|  |&lt;--     --&gt;|  |&lt;-(see text)
+         ______________________________________________________________
+  VALID             |  |  |  |              |  |  |  |  |  |  |  |  |  |
+  READ DATA         |__|__|__|              |__|__|__|__|  |__|__|__|__|
+
+
+                  Figure 8-8: Chinon Read Timing Diagram
+
+
+ <a href="http://amigadev.elowar.com/read/ADCD_2.1/Hardware_Manual_guide/node018F.html">CIAAPRA/CIABPRB - Disk selection, control and sensing</a> 
+ <a href="http://amigadev.elowar.com/read/ADCD_2.1/Hardware_Manual_guide/node0190.html">Disk DMA Channel Control</a> 
+ <a href="http://amigadev.elowar.com/read/ADCD_2.1/Hardware_Manual_guide/node0191.html">DSKPTH - Pointer to Data</a> 
+ <a href="http://amigadev.elowar.com/read/ADCD_2.1/Hardware_Manual_guide/node0192.html">DSKLEN - Length, Direction, DMA Enable</a> 
+ <a href="http://amigadev.elowar.com/read/ADCD_2.1/Hardware_Manual_guide/node0193.html">DSKBYTR - Disk Data Byte and Status Read (read-only)</a> 
+ <a href="http://amigadev.elowar.com/read/ADCD_2.1/Hardware_Manual_guide/node0194.html">ADKCON and ADKCONR - Audio and Disk Control Register</a> 
+ <a href="http://amigadev.elowar.com/read/ADCD_2.1/Hardware_Manual_guide/node0195.html">DSKSYNC - Disk Input Synchronizer</a> 
+<!-- AG2HTML: BODY=END -->
+</pre>
+
+<!-- [AmigaDev (amigadev.elowar.com)] Automatically generated content... -->
+<hr>
+<pre>[Back to <a href="http://amigadev.elowar.com/">Amiga Developer Docs</a>]</pre>
+<!-- [AmigaDev (amigadev.elowar.com)] End of automatically generated content. -->
+
+
+
+</body></html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html><!-- AG2HTML: CONVERTER=AG2HTML/1.1 FORMAT=AMIGAGUIDE/34.11 FILE="Devices/Dev_C" NODE="DEV_C-2" TITLE="Appendix C / MFM Track Encoding" INDEX="Devices/Dev_Index/MAIN" --><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252">
+<title>Appendix C / MFM Track Encoding</title>
+</head>
+<body>
+<img src="Appendix%20C%20_%20MFM%20Track%20Encoding_files/toc_d.gif" alt="[Contents]">
+<a href="http://amigadev.elowar.com/read/ADCD_2.1/Devices_Manual_guide/node012A.html"><img src="Appendix%20C%20_%20MFM%20Track%20Encoding_files/index.gif" alt="[Index]" border="0"></a>
+<img src="Appendix%20C%20_%20MFM%20Track%20Encoding_files/help_d.gif" alt="[Help]">
+<img src="Appendix%20C%20_%20MFM%20Track%20Encoding_files/retrace_d.gif" alt="[Retrace]">
+<a href="http://amigadev.elowar.com/read/ADCD_2.1/Devices_Manual_guide/node015B.html"><img src="Appendix%20C%20_%20MFM%20Track%20Encoding_files/prev.gif" alt="[Browse &lt;]" border="0"></a>
+<a href="http://amigadev.elowar.com/read/ADCD_2.1/Devices_Manual_guide/node015D.html"><img src="Appendix%20C%20_%20MFM%20Track%20Encoding_files/next.gif" alt="[Browse &gt;]" border="0"></a>
+<hr>
+<pre><!-- AG2HTML: BODY=START -->
+When data is MFM encoded, the encoding is performed on the basis of a data
+block-size. In the sector encoding described above, there are bytes
+individually encoded; three segments of 4 bytes of data each, treated as
+longwords; one segment of 16 bytes treated as a block; two segments of
+longwords for the header and data checksums; and the data area of 512
+bytes treated as a block.
+
+When the data is encoded, the odd bits are encoded first, then the even
+bits of the block.
+
+The procedure is: Make a block of bytes formed from all odd bits of the
+block, encode as MFM.  Make a block of bytes formed from all even bits of
+the block, encode as MFM.  Even bits are shifted left one bit position
+before being encoded.
+
+The raw MFM data that must be presented to the disk controller will be
+twice as large as the unencoded data.  The relationship is:
+
+ 1 -&gt; 01
+ 0 -&gt; 10    ;if following a 0
+ 0 -&gt; 00    ;if following a 1
+
+With clever manipulation, the blitter can be used to encode and decode the
+MFM.
+<!-- AG2HTML: BODY=END -->
+</pre>
+
+<!-- [AmigaDev (amigadev.elowar.com)] Automatically generated content... -->
+<hr>
+<pre>[Back to <a href="http://amigadev.elowar.com/">Amiga Developer Docs</a>]</pre>
+<!-- [AmigaDev (amigadev.elowar.com)] End of automatically generated content. -->
+
+
+
+</body></html>

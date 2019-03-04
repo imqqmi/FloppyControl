@@ -1,0 +1,360 @@
+#content {
+  margin-top: 60px;
+}
+
+h2 {
+  color: gray;
+}
+
+#tools {
+  text-align: left;
+  width: 90%;
+  margin: 0 auto;
+  margin-bottom: 25px;
+}
+
+#tools p {
+  margin: 0 0 1em;
+}
+
+#tools #tools-list {
+  margin-bottom: 15px;
+}
+
+#tools #tools-list-giant {
+  margin-bottom: 50px;
+  text-align: center;
+}
+
+#tools .tool {
+  margin-bottom: 10px;
+  height: 100px;
+  vertical-align: top;
+}
+
+#tools .tool a {
+  color: #446ea1;
+}
+
+#tools .tool-description {
+  font-size: 14px;
+  color: #333332;
+}
+
+#tool-description {
+  width: 600px;
+  margin: 0 auto;
+}
+
+#tool-implementation {
+  margin-top: 40px;
+}
+
+#tool-implementation a {
+  color: #6D92BE;
+}
+
+#inverse-tool a {
+  color: #6D92BE;
+}
+
+#more-tools a {
+  color: #6D92BE;
+}
+
+#tool-implementation .field {
+  max-width: 450px;
+  margin: 0 auto;
+  text-align: center;
+  width: 90%;
+}
+
+#tool-implementation .field .undo {
+  display: none;
+  font-size: 14px;
+}
+
+#tool-implementation .field textarea {
+  width: 90%;
+  height: 200px;
+}
+
+#tool-implementation .field #action-error {
+  color: red;
+}
+
+#tool-implementation #copy-to-clipboard img {
+  top: 3px;
+  position: relative;
+}
+
+#tool-text-to-hex #text-to-hex-format {
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+#tool-text-to-hex #text-to-hex-format-field {
+  display: none;
+}
+
+#tool-text-to-decimal #text-to-decimal-format {
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+#tool-text-to-decimal #text-to-decimal-format-field {
+  display: none;
+}
+
+#tool-text-to-octal #text-to-octal-format {
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+#tool-text-to-octal #text-to-octal-format-field {
+  display: none;
+}
+
+#tool-text-to-binary #text-to-binary-format {
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+#tool-text-to-binary #text-to-binary-format-field {
+  display: none;
+}
+
+#tool-random-string #random-string-custom-format {
+  display: none;
+}
+
+#tool-random-password #random-password-custom-format {
+  display: none;
+}
+
+#tool-random-date #random-date-custom-format {
+  display: none;
+}
+
+#tool-random-date #random-date-range-field {
+  display: none;
+}
+
+#tool-random-ip #random-ip-range-field {
+  display: none;
+}
+
+#tool-number-lines #number-lines-field {
+  display: none;
+}
+
+#tool-my-ip #my-ip-your-ip-text {
+  font-size: 20px;
+}
+
+#tool-my-ip #my-ip-address {
+  font-size: 26px;
+  font-weight: bold;
+}
+
+#tool-all-hashes #all-hashes-results {
+  margin-top: 10px;
+}
+
+#tool-all-hashes .all-hashes-name {
+  display: inline-block;
+  width: 100px;
+}
+
+#tool-all-hashes .all-hashes-result {
+  display: inline-block;
+}
+
+#tool-all-hashes .all-hashes-result input {
+  width: 300px;
+}
+
+#tool-image-to-base64 #image-to-base64-output {
+  margin-top: 10px;
+  display: none;
+}
+
+#tool-file-to-base64 #file-to-base64-output {
+  margin-top: 10px;
+  display: none;
+}
+
+#tool-categories {
+  margin-top: 50px;
+  margin-bottom: 50px;
+  text-align: center;
+}
+
+.tool-category {
+  width: 200px;
+  height: 310px;
+  position: relative;
+  display: inline-block;
+  text-align: center;
+  vertical-align: top;
+  padding-top: 20px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.tool-category:hover {
+  cursor: pointer;
+}
+
+.tool-category.active {
+  background-color: #5581b5;
+}
+
+.tool-category-title {
+  margin: 20px 0;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.tool-category-title.active {
+  color: white;
+}
+
+.tool-category-description {
+  color: gray;
+  font-size: 14px;
+  padding: 0 15px;
+}
+
+.tool-category-description.active {
+  color: white;
+}
+
+.tool-category-explore {
+  position: absolute;
+  bottom: 20px;
+
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+}
+
+.tool-category-explore-button {
+  display: inline-block;
+  vertical-align: top;
+  border: 1px solid #5581b5;
+  border-radius: 4px;
+  width: 120px;
+  color: #5581b5;
+  text-transform: uppercase;
+  font-size: 13px;
+  padding: 5px 0;
+}
+
+.tool-category-explore-button.active {
+  background-color: #3e66a0;
+  border: 1px solid #365e98;
+  color: white;
+}
+
+.tool-category-list {
+  margin-bottom: 10px;
+  overflow: hidden;
+  padding: 15px;
+  text-align: left;
+  display: none;
+}
+
+.tool-category-list-left {
+  float: left;
+}
+
+.tool-category-list-right {
+  margin-left: 15px;
+  float: left;
+}
+
+.tool-category-list-title {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.tool-category-list-description {
+  color: gray;
+  font-size: 14px;
+}
+
+.tool-category-list-list {
+  margin-top: 20px;
+  margin-left: 60px;
+
+  -webkit-column-count: 3;
+  -moz-column-count: 3;
+  column-count: 3;
+
+  -webkit-column-width: 200px;
+  -moz-column-width: 200px;
+  column-width: 200px;
+}
+
+.tool-category-list-list-entry {
+  padding: 2px 0;
+  margin-bottom: 5px;
+}
+
+.tool-category-list-list-entry a {
+  color: #5581b5;
+  text-decoration: none;
+}
+
+#tools-list-two-cols {
+  -webkit-column-count: 2;
+  -moz-column-count: 2;
+  column-count: 2;
+
+  -webkit-column-width: 400px;
+  -moz-column-width: 400px;
+  column-width: 400px;
+}
+
+#drag-and-drop {
+  font-weight: bold;
+  text-align: center;
+  padding: 50px 0;
+  margin: 1em 0;
+  color: #333;
+  border: 2px dashed #555;
+  cursor: default;
+  background-color: #bad9fd;
+}
+
+#drag-and-drop.hover {
+  border: 2px solid #555;
+  background-color: gray;
+  color: white;
+}
+
+#drag-and-drop-or {
+  margin: 10px 0;
+}
+
+#drag-and-drop-selected {
+  color: #717171;
+  margin-top: 10px;
+}
+
+#inverse-tool {
+  text-align: center;
+  margin-top: 15px;
+}
+
+#more-tools {
+  margin-top: 15px;
+  margin-bottom: 20px;
+}
+
+#pro-tip {
+  margin-top: 15px;
+  margin-bottom: 20px;
+}

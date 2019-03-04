@@ -1,0 +1,4 @@
+Amiga FFS 
+
+File marker:
+00001906000002EF

@@ -1,0 +1,154 @@
+body {
+  font-family: Ubuntu, Helvetica, sans-serif;
+}
+
+#top-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  margin-top: 30px;
+}
+
+#top {
+  overflow: hidden;
+  height: 45px;
+}
+
+@media (max-width: 1040px) {
+  #top {
+    overflow: visible;
+  }  
+}
+
+#top #top-logo {
+  float: left;
+  margin-left: 100px;
+  width: 250px;
+}
+
+@media (max-width: 1040px) {
+  #top #top-logo {
+    width: 100%;
+    float: none;
+    margin-left: 0;
+    text-align: center;
+  }  
+}
+
+#top #top-nav {
+  float: right;
+  margin-right: 100px;
+}
+
+@media (max-width: 1040px) {
+  #top #top-nav {
+    float: none;
+    margin-right: 0;
+    text-align: center;
+  }  
+}
+
+@media (max-width: 600px) {
+  #top #top-nav {
+    font-size: 14px;
+  }  
+}
+
+#top #top-nav #langs {
+  display: inline-block;
+  padding: 5px;
+  border: 1px solid #cccccc;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  margin-right: 25px;
+}
+
+#top #top-nav #top-links {
+  font-family: 'Raleway', Ubuntu, Helvetica, sans-serif;
+  display: inline-block;
+}
+
+#top #top-nav #top-links a {
+  color: #506466;
+  text-decoration: none;
+}
+
+#top #top-nav #top-links a:hover {
+  color: #383F40;
+}
+
+#top #top-nav #top-links .link {
+  display: inline-block;
+}
+
+#top #top-nav #top-links .sep {
+  display: inline-block;
+  border-left: 1px solid #cccccc;
+  border-right: 1px solid #cccccc;
+  height: 25px;
+  position: relative;
+  top: 7px;
+  margin: 0 10px;
+}
+
+#top #top-nav #top-links #sign-in {
+  margin-right: 10px;
+}
+
+#top #top-nav #top-links .light-blue {
+  color: #5a9ae3;
+}
+
+#top #top-nav #top-links .light-blue:hover {
+  color: #34649A;
+}
+
+#top #top-nav #top-links #sign-in.active {
+  background-color: #E7EDF8;
+  padding: 5px 0px;
+}
+
+#top #top-nav #top-links #create-account.active {
+  color: #5a9ae3;
+  background-color: #E7EDF8;
+  padding: 5px 10px;
+}
+
+#top #top-nav #top-links .blue:hover {
+  color: white;
+  background-color: #3167A7;
+}
+
+#top #top-nav #top-links .blue {
+  color: white;
+  background-color: #4a90e2;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  padding: 5px 10px;
+}
+
+#top #top-nav #top-links .blue:hover {
+  color: white;
+  background-color: #3167A7;
+}
+
+#top #top-nav #top-links #your-account {
+  margin-right: 10px;
+}
+
+.float-fix-a {
+  position: relative;
+  float: right;
+  right: 50%;
+}
+
+.float-fix-b {
+  position: relative;
+  float: right;
+  right: -50%;
+}
+
+.clear {
+  clear: both;
+}

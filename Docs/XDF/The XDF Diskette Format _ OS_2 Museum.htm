@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="en-US"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<title>The XDF Diskette Format | OS/2 Museum</title>
+<link rel="profile" href="http://gmpg.org/xfn/11">
+<link rel="stylesheet" type="text/css" media="all" href="The%20XDF%20Diskette%20Format%20_%20OS_2%20Museum_files/style.css">
+<link rel="pingback" href="http://www.os2museum.com/wp/xmlrpc.php">
+<link rel="dns-prefetch" href="http://s.w.org/">
+<link rel="alternate" type="application/rss+xml" title="OS/2 Museum » Feed" href="http://www.os2museum.com/wp/feed/">
+<link rel="alternate" type="application/rss+xml" title="OS/2 Museum » Comments Feed" href="http://www.os2museum.com/wp/comments/feed/">
+<link rel="alternate" type="application/rss+xml" title="OS/2 Museum » The XDF Diskette Format Comments Feed" href="http://www.os2museum.com/wp/the-xdf-diskette-format/feed/">
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2.2.1\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2.2.1\/svg\/","svgExt":".svg","source":{"concatemoji":"http:\/\/www.os2museum.com\/wp\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.7.2"}};
+			!function(a,b,c){function d(a){var b,c,d,e,f=String.fromCharCode;if(!k||!k.fillText)return!1;switch(k.clearRect(0,0,j.width,j.height),k.textBaseline="top",k.font="600 32px Arial",a){case"flag":return k.fillText(f(55356,56826,55356,56819),0,0),!(j.toDataURL().length<3e3)&&(k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,57331,65039,8205,55356,57096),0,0),b=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,57331,55356,57096),0,0),c=j.toDataURL(),b!==c);case"emoji4":return k.fillText(f(55357,56425,55356,57341,8205,55357,56507),0,0),d=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55357,56425,55356,57341,55357,56507),0,0),e=j.toDataURL(),d!==e}return!1}function e(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f,g,h,i,j=b.createElement("canvas"),k=j.getContext&&j.getContext("2d");for(i=Array("flag","emoji4"),c.supports={everything:!0,everythingExceptFlag:!0},h=0;h<i.length;h++)c.supports[i[h]]=d(i[h]),c.supports.everything=c.supports.everything&&c.supports[i[h]],"flag"!==i[h]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[i[h]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(g=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",g,!1),a.addEventListener("load",g,!1)):(a.attachEvent("onload",g),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel="https://api.w.org/" href="http://www.os2museum.com/wp/wp-json/">
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.os2museum.com/wp/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.os2museum.com/wp/wp-includes/wlwmanifest.xml"> 
+<link rel="prev" title="Why Won’t IBM’s MSPS201.SYS Load?" href="http://www.os2museum.com/wp/why-wont-ibms-msps201-sys-load/">
+<link rel="next" title="Kids these days…" href="http://www.os2museum.com/wp/kids-these-days/">
+<meta name="generator" content="WordPress 4.7.2">
+<link rel="canonical" href="http://www.os2museum.com/wp/the-xdf-diskette-format/">
+<link rel="shortlink" href="http://www.os2museum.com/wp/?p=1978">
+<link rel="alternate" type="application/json+oembed" href="http://www.os2museum.com/wp/wp-json/oembed/1.0/embed?url=http%3A%2F%2Fwww.os2museum.com%2Fwp%2Fthe-xdf-diskette-format%2F">
+<link rel="alternate" type="text/xml+oembed" href="http://www.os2museum.com/wp/wp-json/oembed/1.0/embed?url=http%3A%2F%2Fwww.os2museum.com%2Fwp%2Fthe-xdf-diskette-format%2F&amp;format=xml">
+<!-- All in one Favicon 4.5 --><link rel="shortcut icon" href="http://www.os2museum.com/favicon.ico">
+</head>
+
+<body class="post-template-default single single-post postid-1978 single-format-standard">
+<div id="wrapper" class="hfeed">
+	<div id="header">
+		<div id="masthead">
+			<div id="branding" role="banner">
+								<div id="site-title">
+					<span>
+						<a href="http://www.os2museum.com/wp/" title="OS/2 Museum" rel="home">OS/2 Museum</a>
+					</span>
+				</div>
+				<div id="site-description">OS/2, vintage PC computing, and random musings</div>
+
+										<img src="The%20XDF%20Diskette%20Format%20_%20OS_2%20Museum_files/os2floppy.jpg" alt="" height="198" width="940">
+								</div><!-- #branding -->
+
+			<div id="access" role="navigation">
+			  				<div class="skip-link screen-reader-text"><a href="#content" title="Skip to content">Skip to content</a></div>
+								<div class="menu"><ul>
+<li><a href="http://www.os2museum.com/wp/">Home</a></li><li class="page_item page-item-2 page_item_has_children"><a href="http://www.os2museum.com/wp/about/">About</a>
+<ul class="children">
+	<li class="page_item page-item-2633"><a href="http://www.os2museum.com/wp/about/wanted-list/">Wanted List</a></li>
+</ul>
+</li>
+<li class="page_item page-item-68 page_item_has_children"><a href="http://www.os2museum.com/wp/os2-history/">OS/2 History</a>
+<ul class="children">
+	<li class="page_item page-item-341"><a href="http://www.os2museum.com/wp/os2-history/os2-beginnings/">OS/2 Beginnings</a></li>
+	<li class="page_item page-item-313"><a href="http://www.os2museum.com/wp/os2-history/os2-1-0/">OS/2 1.0</a></li>
+	<li class="page_item page-item-278"><a href="http://www.os2museum.com/wp/os2-history/os2-1-1/">OS/2 1.1</a></li>
+	<li class="page_item page-item-219"><a href="http://www.os2museum.com/wp/os2-history/os2-1-2-and-1-3/">OS/2 1.2 and 1.3</a></li>
+	<li class="page_item page-item-182"><a href="http://www.os2museum.com/wp/os2-history/os2-16-bit-server/">OS/2 16-bit Server</a></li>
+	<li class="page_item page-item-112"><a href="http://www.os2museum.com/wp/os2-history/os2-2-0/">OS/2 2.0</a></li>
+	<li class="page_item page-item-89"><a href="http://www.os2museum.com/wp/os2-history/os2-2-1-and-2-11/">OS/2 2.1 and 2.11</a></li>
+	<li class="page_item page-item-76"><a href="http://www.os2museum.com/wp/os2-history/os2-warp/">OS/2 Warp</a></li>
+	<li class="page_item page-item-30"><a href="http://www.os2museum.com/wp/os2-history/os2-warp-powerpc-edition/">OS/2 Warp, PowerPC Edition</a></li>
+	<li class="page_item page-item-132"><a href="http://www.os2museum.com/wp/os2-history/os2-warp-4/">OS/2 Warp 4</a></li>
+	<li class="page_item page-item-173"><a href="http://www.os2museum.com/wp/os2-history/os2-timeline/">OS/2 Timeline</a></li>
+	<li class="page_item page-item-2550 page_item_has_children"><a href="http://www.os2museum.com/wp/os2-history/os2-library/">OS/2 Library</a>
+	<ul class="children">
+		<li class="page_item page-item-2560"><a href="http://www.os2museum.com/wp/os2-history/os2-library/os2-1-x-sdk/">OS/2 1.x SDK</a></li>
+		<li class="page_item page-item-2553"><a href="http://www.os2museum.com/wp/os2-history/os2-library/os2-1-x-programming/">OS/2 1.x Programming</a></li>
+		<li class="page_item page-item-2711"><a href="http://www.os2museum.com/wp/os2-history/os2-library/os2-2-0-technical-library/">OS/2 2.0 Technical Library</a></li>
+	</ul>
+</li>
+	<li class="page_item page-item-1351"><a href="http://www.os2museum.com/wp/os2-history/os2-videos-1987/">OS/2 Videos, 1987</a></li>
+</ul>
+</li>
+<li class="page_item page-item-610 page_item_has_children"><a href="http://www.os2museum.com/wp/dos/">DOS History</a>
+<ul class="children">
+	<li class="page_item page-item-555"><a href="http://www.os2museum.com/wp/dos/dos-beginnings/">DOS Beginnings</a></li>
+	<li class="page_item page-item-563"><a href="http://www.os2museum.com/wp/dos/dos-1-0-and-1-1/">DOS 1.0 and 1.1</a></li>
+	<li class="page_item page-item-630"><a href="http://www.os2museum.com/wp/dos/dos-2-0-and-2-1/">DOS 2.0 and 2.1</a></li>
+	<li class="page_item page-item-639"><a href="http://www.os2museum.com/wp/dos/dos-3-0-3-2/">DOS 3.0, 3.1, and 3.2</a></li>
+	<li class="page_item page-item-689"><a href="http://www.os2museum.com/wp/dos/dos-3-3/">DOS 3.3</a></li>
+	<li class="page_item page-item-759"><a href="http://www.os2museum.com/wp/dos/dos-4-0/">DOS 4.0</a></li>
+	<li class="page_item page-item-3092"><a href="http://www.os2museum.com/wp/dos/dos-library/">DOS Library</a></li>
+</ul>
+</li>
+<li class="page_item page-item-2540 page_item_has_children"><a href="http://www.os2museum.com/wp/windows-history/">Windows History</a>
+<ul class="children">
+	<li class="page_item page-item-2544"><a href="http://www.os2museum.com/wp/windows-history/windows-library/">Windows Library</a></li>
+</ul>
+</li>
+<li class="page_item page-item-1255 page_item_has_children"><a href="http://www.os2museum.com/wp/pc-unix-history/">PC UNIX History</a>
+<ul class="children">
+	<li class="page_item page-item-1098"><a href="http://www.os2museum.com/wp/pc-unix-history/solaris-2-1-for-x86/">Solaris 2.1 for x86</a></li>
+</ul>
+</li>
+</ul></div>
+			</div><!-- #access -->
+		</div><!-- #masthead -->
+	</div><!-- #header -->
+
+	<div id="main">
+
+		<div id="container">
+			<div id="content" role="main">
+
+			
+
+				<div id="nav-above" class="navigation">
+					<div class="nav-previous"><a href="http://www.os2museum.com/wp/why-wont-ibms-msps201-sys-load/" rel="prev"><span class="meta-nav">←</span> Why Won’t IBM’s MSPS201.SYS Load?</a></div>
+					<div class="nav-next"><a href="http://www.os2museum.com/wp/kids-these-days/" rel="next">Kids these days… <span class="meta-nav">→</span></a></div>
+				</div><!-- #nav-above -->
+
+				<div id="post-1978" class="post-1978 post type-post status-publish format-standard hentry category-floppies category-ibm">
+					<h1 class="entry-title">The XDF Diskette Format</h1>
+
+					<div class="entry-meta">
+						<span class="meta-prep meta-prep-author">Posted on</span> <a href="http://www.os2museum.com/wp/the-xdf-diskette-format/" title="11:29 pm" rel="bookmark"><span class="entry-date">August 30, 2013</span></a> <span class="meta-sep">by</span> <span class="author vcard"><a class="url fn n" href="http://www.os2museum.com/wp/author/michaln/" title="View all posts by Michal Necasek">Michal Necasek</a></span>					</div><!-- .entry-meta -->
+
+					<div class="entry-content">
+						<p>In 1994, IBM started shipping software with support for XDF, or
+ eXtended Density Format, first in OS/2 Warp and a few months later in 
+PC DOS 7.0. Some of IBM’s software packages were also distributed on XDF
+ diskettes. XDF allowed the user to format a 3½”&nbsp;floppy which 
+normally holds 1,440KB of data to a special format with 1,840KB capacity
+ (well, almost—see below), or almost 28% improvement. This came at a 
+time when CD-ROMs were not yet ubiquitous and software was distributed 
+on rapidly growing piles of floppies. Since floppies were relatively 
+expensive to manufacture and duplicate, shipping software on, say, 16 
+diskettes instead of 20 was an attractive proposition.</p>
+<p>The XDF technology was <a title="XDF Announcement" href="ftp://ps-2.kev009.com/incoming/timc/Operating%20System/OS2/DDK/xdfavail.txt">not developed by IBM</a>.
+ The inventor was Roger D. Ivey (as can be seen in a XDF disk’s boot 
+sector) and was first licensed to IBM by Backup Technologies, Inc. of 
+Tampa, FL. Roger Ivey had previously written the Fastback PC backup 
+software. Later releases of XDF software list Ametron Technologies, Inc.
+ as the licensor. Ametron is a company specializing in selling 
+intellectual property.</p>
+<p>The XDF technology used several interesting techniques to achieve 
+both higher storage capacity and speed. The XDF utilities mentioned 
+“Patent(s) Pending” but there is no obvious record of a relevant patent 
+ever being granted by the USPTO. Let’s take a look at some of XDF’s 
+tricks.<span id="more-1978"></span></p>
+<p>The basic problem with higher density floppies when using 512-byte 
+sectors is that once more than 10 or so sectors per track are used, 
+significant capacity is lost to inter-sector gaps, address marks, CRCs, 
+an other “useless” overhead. With 3½” HD floppies, it is possible to use
+ more than the standard 18 sectors per track; the hard limit appears to 
+be 21 sectors which translates to 1,680KB total with 80 tracks. XDF 
+squeezes another 160KB into the same space, using standard hardware and 
+media.</p>
+<p>Note that the rest of the article talks about the 1,840KB XDF format 
+unless otherwise noted. XDF also supported a 1,520KB format for 5¼” HD 
+floppies (normally 1.2MB) and a 3,680KB format for&nbsp;3½” ED media 
+(normally 2.88MB).</p>
+<h3>XDF Format</h3>
+<p>The basic XDF approach involved the use of larger sectors, which 
+reduced the sector overhead. On a 3½” HD floppy (DD media were not 
+supported by XDF), where the standard format used 18 sectors per track 
+(9KB), a XDF track contained the equivalent of 23 sectors (11.5KB). 
+Physically, the track was formatted with only four sectors in 8KB, 2KB, 
+1KB, and 512B sizes (for the 11.5KB total). With an unformatted capacity
+ of about 12,500 bytes, there was just not quite enough space for one 
+8KB and one 4KB sector (let alone a single 16K sector), while the 
+8/2/1/0.5 breakdown was reliable.</p>
+<p>From reading typical floppy controller documentation, it is not 
+obvious whether a standard FDC would be able to create XDF diskettes. 
+The FORMAT TRACK command takes the sector size as a parameter for the 
+entire track, yet the data supplied to the command for each sector also 
+includes the sector size code. Does the FDC observe the per-track sector
+ size or the per-sector one? FDC documentation is typically annoyingly 
+quiet on this.</p>
+<p>The <a title="Hitachi HD63265 FDC User's Manual" href="http://bitsavers.org/pdf/hitachi/_dataBooks/HD63265_Floppy_Disk_Controller_Users_Manual_2ed_Mar89.pdf" target="_blank">Hitachi HD63265 FDC</a>
+ user’s manual is one of the rare documents which addresses this. 
+Hitachi unambiguously says (on page 56 of the manual) that the actual 
+sector size will be as specified for the entire track, but the size code
+ written to the sector ID fields will be as supplied for each sector. In
+ other words, the sectors will always be the same size on a track. If 
+that’s true, how did XDF format tracks with non-uniform sector sizes?</p>
+<p>XDF—of course—cheated. When formatting a XDF track, the FDC was told 
+to create 39 128-byte sectors. However, the sector sizes written to the 
+sector IDs were entirely different. When the sector would be later 
+written, the FDC would only pay attention to the sector size code in the
+ ID field (as there’s no other sector size information on the medium) 
+and happily overwrite the gaps, sector IDs, sync fields, and CRCs of the
+ “fake” 128-byte sectors.</p>
+<p>This way XDF circumvented the limited FDC capabilities and created a 
+very unusual but valid format with standard floppy hardware.</p>
+<p>The special sector layout was key for achieving high storage 
+capacity. In addition to varying sector sizes, XDF used interleaving and
+ sector slipping to speed up XDF media reading and writing. As a result,
+ <a title="XDF layout and speed" href="http://www.fdutils.linux.lu/Fdutils.html#SEC47" target="_blank">XDF was faster</a> than alternative high-capacity formats.</p>
+<h3>DOS Implementation and Compatibility</h3>
+<p>On DOS, a XDF.COM utility (TSR) provided standard DOS access for 
+XDF-formatted floppies. The XDFCOPY.EXE tool was used to copy XDF disks,
+ create images from disks and write images to disks. As a side 
+functionality , XDFCOPY also handled most standard DOS formats.</p>
+<p>Given XDF’s highly non-standard format, one might think that the 
+DOS-based XDF utilities needed to use direct FDC access. They did 
+not—instead, they showed just how far the standard floppy BIOS services 
+can be convinced to go.</p>
+<p>For formatting, the BIOS user supplies a buffer containing per-sector
+ parameters that the FDC then transfers during execution of the FORMAT 
+TRACK command. For reads and writes, XDF dynamically changed the DPT 
+(Diskette Parameter Table) and used the standard BIOS read/write 
+services to access one sector at a time.</p>
+<p>It is also apparent that without the XDF TSR loaded, BIOS/DOS won’t 
+be able to do much with XDF media. To this end, XDF implemented a clever
+ backwards compatibility scheme.</p>
+<p>When the XDF TSR was loaded, a 3½” HD&nbsp;XDF floppy looked like a 
+medium with 80 cylinders and 23 sectors per track. When the XDF TSR 
+wasn’t loaded, the same medium looked like a teensy disk with just a few
+ sectors total, usually containing some text file showing the XDF disk’s
+ contents or a readme file.</p>
+<p>The first cylinder of a XDF floppy used standard 512-byte sectors, 
+only with 19 sectors per track rather than the standard 18. The format 
+used 9 sectors per FAT (for the 3½” HD XDF variant, by far the one most 
+widely used).&nbsp;It abused the fact that the second FAT is normally 
+never read by DOS (as long as the first FAT copy is readable). The 
+second FAT copy on a XDF disk instead contained the small 8-sector 
+backwards compatible image. The XDF sectors used high sector IDs and 
+were thus not seen by standard DOS/BIOS. Track 0 (cylinder 0, head 0) 
+was laid out as follows: 1 boot sector, 11 FAT sectors, 7 sectors of a 
+backward compatible micro-disk. That is 19 sectors total.</p>
+<p>The second track (cylinder 0, head 1) started with the root directory
+ (7 sectors) and was followed by the data area. Now there’s an obvious 
+problem: The XDF disk claimed to have 23 sectors per track, but 
+physically there were only 19. What happened with the missing 4 sectors?
+ Easy: XDF marked the corresponding clusters in the FAT as bad.</p>
+<p>It is important to note that XDF images always contained full 
+XDF-sized tracks, even for cylinder 0. Some sectors in a XDF image were 
+thus not written to a disk, but the XDF image was uniform.</p>
+<p>One pleasant side effect of the XDF scheme is that a typical XDF 
+image looks like a proper DOS-formatted disk with 23 sectors per track 
+and 3,680 512-byte sectors. Since the FAT filesystem uses logical sector
+ numbers rather than C/H/S addressing, tools capable of processing FAT 
+disk images can use XDF images without modification.</p>
+<p>A further side effect is that when XDF images are used with virtualization software, DOS VMs may be able to access such images <em>without</em> the XDF TSR loaded.</p>
+<h3>Alternatives</h3>
+<p>Around the same time, Microsoft developed its own high-capacity 
+format called DMF (Distribution Media Format). DMF was still a standard 
+format on the BIOS level, with 80 cylinders and 21 sectors (interleaved)
+ per track. Since DMF was optimized for distribution, it used larger 
+clusters (and hence smaller FATs) and a minimal root directory with only
+ 16 entries (one sector). This made DMF unsuitable as a general-purpose 
+floppy format. At&nbsp;1,680KB per disk, DMF also had noticeably lower 
+storage capacity than XDF.</p>
+<p>XDF’s closest cousin was the 2M format used by the eponymous DOS 
+utility. The 2M format could store up to 1,972KB (or just over 2 million
+ bytes) on a 3½” HD floppy. 2M used a very similar strategy utilizing 
+varying size sectors and thus minimizing sector overhead. Additionally, 
+2M used 82 tracks rather than the standard 80. It is questionable 
+whether the use of 82 tracks was fully compatible with all drives. At 
+any rate, the 2M format does not appear to have been used for commercial
+ software distribution.</p>
+<p>It is not entirely clear whether 2M or XDF was developed first, and 
+whether their development was independent. Both were most likely 
+initially written in 1993. It is apparent that XDF was considerably more
+ successful, having been adopted by IBM for use in DOS and OS/2 and for 
+distributing IBM software.</p>
+											</div><!-- .entry-content -->
+
+
+					<div class="entry-utility">
+						This entry was posted in <a href="http://www.os2museum.com/wp/category/floppies/" rel="category tag">Floppies</a>, <a href="http://www.os2museum.com/wp/category/ibm/" rel="category tag">IBM</a>. Bookmark the <a href="http://www.os2museum.com/wp/the-xdf-diskette-format/" title="Permalink to The XDF Diskette Format" rel="bookmark">permalink</a>.											</div><!-- .entry-utility -->
+				</div><!-- #post-## -->
+
+				<div id="nav-below" class="navigation">
+					<div class="nav-previous"><a href="http://www.os2museum.com/wp/why-wont-ibms-msps201-sys-load/" rel="prev"><span class="meta-nav">←</span> Why Won’t IBM’s MSPS201.SYS Load?</a></div>
+					<div class="nav-next"><a href="http://www.os2museum.com/wp/kids-these-days/" rel="next">Kids these days… <span class="meta-nav">→</span></a></div>
+				</div><!-- #nav-below -->
+
+				
+			<div id="comments">
+
+
+			<h3 id="comments-title">19 Responses to <em>The XDF Diskette Format</em></h3>
+
+
+			<ol class="commentlist">
+					<li class="comment even thread-even depth-1" id="li-comment-58497">
+		<div id="comment-58497">
+			<div class="comment-author vcard">
+				<img alt="" src="data:image/gif;base64,R0lGODdhAQABAPAAAP///wAAACwAAAAAAQABAEACAkQBADs=" data-lazy-type="image" data-lazy-src="http://0.gravatar.com/avatar/cf08bcb8fbc04ebb6430355db51dc207?s=40&amp;d=mm&amp;r=pg" data-lazy-srcset="http://0.gravatar.com/avatar/cf08bcb8fbc04ebb6430355db51dc207?s=80&amp;d=mm&amp;r=pg 2x" class="lazy lazy-hidden avatar avatar-40 photo" height="40" width="40"><noscript><img alt="" src="The%20XDF%20Diskette%20Format%20_%20OS_2%20Museum_files/cf08bcb8fbc04ebb6430355db51dc207.jpg" srcset="http://0.gravatar.com/avatar/cf08bcb8fbc04ebb6430355db51dc207?s=80&d=mm&r=pg 2x" class="avatar avatar-40 photo" height="40" width="40"></noscript>				<cite class="fn">Darkstar</cite> <span class="says">says:</span>			</div><!-- .comment-author .vcard -->
+			
+			<div class="comment-meta commentmetadata"><a href="http://www.os2museum.com/wp/the-xdf-diskette-format/#comment-58497">
+				August 31, 2013 at 1:11 am</a>			</div><!-- .comment-meta .commentmetadata -->
+
+			<div class="comment-body"><p>Very interesting article. I didn’t really know how XDF worked internally.</p>
+<p>Have you ever heard about a backup product called Central Point 
+Backup? It was pretty popular around here back in the nineties, and it 
+also used a special disk format which probably worked similar to XDF. It
+ was also a lot faster than regular DOS floppies (same interleaving?) 
+and contained a basic backwards-compatible root directory which 
+contained a few 0-byte file entries with file names that, on a standard 
+“dir”, spelled out that the disk is a CPBackup disk and can only be used
+ with that program.</p>
+<p>It would be interesting to compare that format to XDF</p>
+<p>–Darkstar</p>
+</div>
+
+			<div class="reply">
+							</div><!-- .reply -->
+		</div><!-- #comment-##  -->
+
+	</li><!-- #comment-## -->
+	<li class="comment byuser comment-author-michaln bypostauthor odd alt thread-odd thread-alt depth-1" id="li-comment-58525">
+		<div id="comment-58525">
+			<div class="comment-author vcard">
+				<img alt="" src="data:image/gif;base64,R0lGODdhAQABAPAAAP///wAAACwAAAAAAQABAEACAkQBADs=" data-lazy-type="image" data-lazy-src="http://2.gravatar.com/avatar/8f7d4381d610b0f685e4e58be06e7010?s=40&amp;d=mm&amp;r=pg" data-lazy-srcset="http://2.gravatar.com/avatar/8f7d4381d610b0f685e4e58be06e7010?s=80&amp;d=mm&amp;r=pg 2x" class="lazy lazy-hidden avatar avatar-40 photo" height="40" width="40"><noscript><img alt="" src="The%20XDF%20Diskette%20Format%20_%20OS_2%20Museum_files/8f7d4381d610b0f685e4e58be06e7010.jpg" srcset="http://2.gravatar.com/avatar/8f7d4381d610b0f685e4e58be06e7010?s=80&d=mm&r=pg 2x" class="avatar avatar-40 photo" height="40" width="40"></noscript>				<cite class="fn">Michal Necasek</cite> <span class="says">says:</span>			</div><!-- .comment-author .vcard -->
+			
+			<div class="comment-meta commentmetadata"><a href="http://www.os2museum.com/wp/the-xdf-diskette-format/#comment-58525">
+				August 31, 2013 at 11:29 am</a>			</div><!-- .comment-meta .commentmetadata -->
+
+			<div class="comment-body"><p>Not only have I heard about CP Backup, I
+ actually used it 20 years ago. I recall that it had several modes of 
+operation and that the “native” mode was extremely fast. I only ever 
+used CP Backup with 5.25″ floppies but I clearly remember that it could 
+read the entire disk 2x-3x faster than DOS. Sector slipping and possibly
+ interleaving is how I suspect CP Backup got its speed.</p>
+<p>I don’t think the “special-format” floppies had significantly higher 
+capacity, so I suspect the format wasn’t quite as interesting as XDF. 
+But I’ll try to find my old backup floppies and run them through 
+AnaDisk.</p>
+</div>
+
+			<div class="reply">
+							</div><!-- .reply -->
+		</div><!-- #comment-##  -->
+
+	</li><!-- #comment-## -->
+	<li class="comment even thread-even depth-1" id="li-comment-58532">
+		<div id="comment-58532">
+			<div class="comment-author vcard">
+				<img alt="" src="data:image/gif;base64,R0lGODdhAQABAPAAAP///wAAACwAAAAAAQABAEACAkQBADs=" data-lazy-type="image" data-lazy-src="http://1.gravatar.com/avatar/4fb67488b5ddd81a1206953bab2ff0aa?s=40&amp;d=mm&amp;r=pg" data-lazy-srcset="http://1.gravatar.com/avatar/4fb67488b5ddd81a1206953bab2ff0aa?s=80&amp;d=mm&amp;r=pg 2x" class="lazy lazy-hidden avatar avatar-40 photo" height="40" width="40"><noscript><img alt="" src="The%20XDF%20Diskette%20Format%20_%20OS_2%20Museum_files/4fb67488b5ddd81a1206953bab2ff0aa.jpg" srcset="http://1.gravatar.com/avatar/4fb67488b5ddd81a1206953bab2ff0aa?s=80&d=mm&r=pg 2x" class="avatar avatar-40 photo" height="40" width="40"></noscript>				<cite class="fn">Rauli</cite> <span class="says">says:</span>			</div><!-- .comment-author .vcard -->
+			
+			<div class="comment-meta commentmetadata"><a href="http://www.os2museum.com/wp/the-xdf-diskette-format/#comment-58532">
+				August 31, 2013 at 1:43 pm</a>			</div><!-- .comment-meta .commentmetadata -->
+
+			<div class="comment-body"><p>As I knew the author of 2M, I can assure
+ that development of 2M was independent of XDF. He used his experience 
+on PC hardware and the ideas of an electronics teacher in the university
+ where we studied.</p>
+<p>Also I remember that at some point of 2M evolution (possibly between 
+versions 2 and 3) he started to receive e-mails from IBM. Were they 
+interested on getting 2M (or him)? I don’t know. I know that the final 
+messages were about “after many hours continuously formatting disks with
+ the 2M formatter the drive starts to melt the disks”.</p>
+<p>He said that “they look very interested in me saying that 2M 
+formatter is the cause for the disk melting, and I’m not going to say 
+it, so I have stopped replying them”. He did not try to verify what IBM 
+claimed, but he said that after many hours of formatting, if the drive 
+starts to melt disks, it must be the drive’s problem and it would melt 
+disks regardless of the formatting sofware used.</p>
+<p>If you are interested I can look the dates of 2M source code or more 
+information in the home-made books of the author (in the chapter about 
+the diskette controller he explains how 2M works).</p>
+</div>
+
+			<div class="reply">
+							</div><!-- .reply -->
+		</div><!-- #comment-##  -->
+
+	</li><!-- #comment-## -->
+	<li class="comment odd alt thread-odd thread-alt depth-1" id="li-comment-58534">
+		<div id="comment-58534">
+			<div class="comment-author vcard">
+				<img alt="" src="data:image/gif;base64,R0lGODdhAQABAPAAAP///wAAACwAAAAAAQABAEACAkQBADs=" data-lazy-type="image" data-lazy-src="http://1.gravatar.com/avatar/4fb67488b5ddd81a1206953bab2ff0aa?s=40&amp;d=mm&amp;r=pg" data-lazy-srcset="http://1.gravatar.com/avatar/4fb67488b5ddd81a1206953bab2ff0aa?s=80&amp;d=mm&amp;r=pg 2x" class="lazy lazy-hidden avatar avatar-40 photo" height="40" width="40"><noscript><img alt="" src="The%20XDF%20Diskette%20Format%20_%20OS_2%20Museum_files/4fb67488b5ddd81a1206953bab2ff0aa.jpg" srcset="http://1.gravatar.com/avatar/4fb67488b5ddd81a1206953bab2ff0aa?s=80&d=mm&r=pg 2x" class="avatar avatar-40 photo" height="40" width="40"></noscript>				<cite class="fn">Rauli</cite> <span class="says">says:</span>			</div><!-- .comment-author .vcard -->
+			
+			<div class="comment-meta commentmetadata"><a href="http://www.os2museum.com/wp/the-xdf-diskette-format/#comment-58534">
+				August 31, 2013 at 1:56 pm</a>			</div><!-- .comment-meta .commentmetadata -->
+
+			<div class="comment-body"><p>About the use of 82 tracks: At the 
+beginning of the 2M era, as it had a command line option to specify the 
+number of tracks, I formatted all my diskettes using 84 tracks. 
+Unfortunately, when I changed computer, I noticed that the new drive 
+couldn’t access the last 2. So I started to try any drive on any PC I 
+could use. I only found another drive supporting 84 tracks, but it 
+seemed that every drive those days supported 82 tracks. But I stopped 
+testing drives and using 2M when Windows 95 arrived (as it always 
+re-writes the boot sector, it destroys 2M disks).</p>
+</div>
+
+			<div class="reply">
+							</div><!-- .reply -->
+		</div><!-- #comment-##  -->
+
+	</li><!-- #comment-## -->
+	<li class="comment byuser comment-author-michaln bypostauthor even thread-even depth-1" id="li-comment-58549">
+		<div id="comment-58549">
+			<div class="comment-author vcard">
+				<img alt="" src="data:image/gif;base64,R0lGODdhAQABAPAAAP///wAAACwAAAAAAQABAEACAkQBADs=" data-lazy-type="image" data-lazy-src="http://2.gravatar.com/avatar/8f7d4381d610b0f685e4e58be06e7010?s=40&amp;d=mm&amp;r=pg" data-lazy-srcset="http://2.gravatar.com/avatar/8f7d4381d610b0f685e4e58be06e7010?s=80&amp;d=mm&amp;r=pg 2x" class="lazy lazy-hidden avatar avatar-40 photo" height="40" width="40"><noscript><img alt="" src="The%20XDF%20Diskette%20Format%20_%20OS_2%20Museum_files/8f7d4381d610b0f685e4e58be06e7010.jpg" srcset="http://2.gravatar.com/avatar/8f7d4381d610b0f685e4e58be06e7010?s=80&d=mm&r=pg 2x" class="avatar avatar-40 photo" height="40" width="40"></noscript>				<cite class="fn">Michal Necasek</cite> <span class="says">says:</span>			</div><!-- .comment-author .vcard -->
+			
+			<div class="comment-meta commentmetadata"><a href="http://www.os2museum.com/wp/the-xdf-diskette-format/#comment-58549">
+				August 31, 2013 at 3:50 pm</a>			</div><!-- .comment-meta .commentmetadata -->
+
+			<div class="comment-body"><p>It would be interesting to know if 2M 
+used the same method of formatting tracks with varying sector sizes, and
+ when exactly it was developed. Pinning down the XDF origins might be a 
+lot harder though.</p>
+<p>The melting disk stuff sounds like an urban legend… but then again I’ve seen a CD explode in a CD-ROM drive, so who knows.</p>
+</div>
+
+			<div class="reply">
+							</div><!-- .reply -->
+		</div><!-- #comment-##  -->
+
+	</li><!-- #comment-## -->
+	<li class="comment byuser comment-author-michaln bypostauthor odd alt thread-odd thread-alt depth-1" id="li-comment-58550">
+		<div id="comment-58550">
+			<div class="comment-author vcard">
+				<img alt="" src="data:image/gif;base64,R0lGODdhAQABAPAAAP///wAAACwAAAAAAQABAEACAkQBADs=" data-lazy-type="image" data-lazy-src="http://2.gravatar.com/avatar/8f7d4381d610b0f685e4e58be06e7010?s=40&amp;d=mm&amp;r=pg" data-lazy-srcset="http://2.gravatar.com/avatar/8f7d4381d610b0f685e4e58be06e7010?s=80&amp;d=mm&amp;r=pg 2x" class="lazy lazy-hidden avatar avatar-40 photo" height="40" width="40"><noscript><img alt="" src="The%20XDF%20Diskette%20Format%20_%20OS_2%20Museum_files/8f7d4381d610b0f685e4e58be06e7010.jpg" srcset="http://2.gravatar.com/avatar/8f7d4381d610b0f685e4e58be06e7010?s=80&d=mm&r=pg 2x" class="avatar avatar-40 photo" height="40" width="40"></noscript>				<cite class="fn">Michal Necasek</cite> <span class="says">says:</span>			</div><!-- .comment-author .vcard -->
+			
+			<div class="comment-meta commentmetadata"><a href="http://www.os2museum.com/wp/the-xdf-diskette-format/#comment-58550">
+				August 31, 2013 at 3:53 pm</a>			</div><!-- .comment-meta .commentmetadata -->
+
+			<div class="comment-body"><p>The problem is that even if just one 
+drive out of 1,000 can’t do 82 tracks, that’s enough to kill the idea of
+ using 82-track distribution media. Given that neither IBM nor Microsoft
+ used it, I suspect some drives did not do 80+ tracks. Then again it’s 
+possible that the companies were simply conservative because they 
+couldn’t verify that every drive out there could handle 82 tracks.</p>
+</div>
+
+			<div class="reply">
+							</div><!-- .reply -->
+		</div><!-- #comment-##  -->
+
+	</li><!-- #comment-## -->
+	<li class="comment even thread-even depth-1" id="li-comment-58555">
+		<div id="comment-58555">
+			<div class="comment-author vcard">
+				<img alt="" src="data:image/gif;base64,R0lGODdhAQABAPAAAP///wAAACwAAAAAAQABAEACAkQBADs=" data-lazy-type="image" data-lazy-src="http://1.gravatar.com/avatar/4fb67488b5ddd81a1206953bab2ff0aa?s=40&amp;d=mm&amp;r=pg" data-lazy-srcset="http://1.gravatar.com/avatar/4fb67488b5ddd81a1206953bab2ff0aa?s=80&amp;d=mm&amp;r=pg 2x" class="lazy lazy-hidden avatar avatar-40 photo" height="40" width="40"><noscript><img alt="" src="The%20XDF%20Diskette%20Format%20_%20OS_2%20Museum_files/4fb67488b5ddd81a1206953bab2ff0aa.jpg" srcset="http://1.gravatar.com/avatar/4fb67488b5ddd81a1206953bab2ff0aa?s=80&d=mm&r=pg 2x" class="avatar avatar-40 photo" height="40" width="40"></noscript>				<cite class="fn">Rauli</cite> <span class="says">says:</span>			</div><!-- .comment-author .vcard -->
+			
+			<div class="comment-meta commentmetadata"><a href="http://www.os2museum.com/wp/the-xdf-diskette-format/#comment-58555">
+				August 31, 2013 at 5:12 pm</a>			</div><!-- .comment-meta .commentmetadata -->
+
+			<div class="comment-body"><p>The last printed edition (3rd) of the 
+book is from 1994 February, and it explains how the last version of 2M 
+works. But I must have also the 2nd edition (from 1993 or earlier) and I
+ think it explained a previous 2M version. If I find it, I will say the 
+date.</p>
+<p>There is a 1997 edition (4th) in PDF but I think it is a re-formated 
+for PDF version of the 3rd edition (no extra contents). It is free, but 
+it is in Spanish:</p>
+<p><a href="ftp://ftp.cs.buap.mx/notas/programacion/ensamblador/El.Universo.Digital.del.IBM.PC.AT.y.PS2.%284%C2%AA.Edicion%29" rel="nofollow">ftp://ftp.cs.buap.mx/notas/programacion/ensamblador/El.Universo.Digital.del.IBM.PC.AT.y.PS2.(4%C2%AA.Edicion)</a>.pdf</p>
+<p>2M explanation starts in page 309.</p>
+<p>It used “normal” and “maximum” (/F) formats. Normal formats used only
+ 1 Kb sectors. Maximum formats used 2 Kb sectors and 1 Kb and 512 byte 
+sectors to complete the tracks (built on 128 byte sectors, like XDF). 
+Track 0 was “more or less normal” using 512 byte sectors. The resident 
+code reported 2 FAT copies, but the disk only contained one (again like 
+XDF). It ignored writes to the 2nd copy and returned the 1st one when 
+asked to read the 2nd. But track 0 included the resident code and 
+installed it at boot, so you could make a 2M disk bootable.</p>
+<p>And… I have seen melted 5,25″ diskettes, but that was a different 
+story: That was how my uncle noticed that the fan of the power supply 
+was not working. Ant that was the end of the old IBM XT because for the 
+price of a new power supply he could buy a 386 clone.</p>
+</div>
+
+			<div class="reply">
+							</div><!-- .reply -->
+		</div><!-- #comment-##  -->
+
+	</li><!-- #comment-## -->
+	<li class="comment odd alt thread-odd thread-alt depth-1" id="li-comment-58564">
+		<div id="comment-58564">
+			<div class="comment-author vcard">
+				<img alt="" src="data:image/gif;base64,R0lGODdhAQABAPAAAP///wAAACwAAAAAAQABAEACAkQBADs=" data-lazy-type="image" data-lazy-src="http://0.gravatar.com/avatar/63de283c488280d5191f9a069e124c33?s=40&amp;d=mm&amp;r=pg" data-lazy-srcset="http://0.gravatar.com/avatar/63de283c488280d5191f9a069e124c33?s=80&amp;d=mm&amp;r=pg 2x" class="lazy lazy-hidden avatar avatar-40 photo" height="40" width="40"><noscript><img alt="" src="The%20XDF%20Diskette%20Format%20_%20OS_2%20Museum_files/63de283c488280d5191f9a069e124c33.jpg" srcset="http://0.gravatar.com/avatar/63de283c488280d5191f9a069e124c33?s=80&d=mm&r=pg 2x" class="avatar avatar-40 photo" height="40" width="40"></noscript>				<cite class="fn">Richard Wells</cite> <span class="says">says:</span>			</div><!-- .comment-author .vcard -->
+			
+			<div class="comment-meta commentmetadata"><a href="http://www.os2museum.com/wp/the-xdf-diskette-format/#comment-58564">
+				August 31, 2013 at 8:50 pm</a>			</div><!-- .comment-meta .commentmetadata -->
+
+			<div class="comment-body"><p>The documentation that came with the 
+last DOS release of 2M compares the variable sector size methods of XDF 
+versus 2M. It points to IBM’s method being better able to handle slight 
+differences in the rotational rate of drives while 2M’s method uses less
+ memory. See 2M-INFO.FDA close to the end of either the Spanish or 
+English sections. It also covers some downsides with the various 
+methods. </p>
+<p>The extra tracks was available on drives but some of the information I
+ have seen suggests that the extra tracks were not always long-term 
+reliable when written by the typical floppy drive which makes backing up
+ diskettes problematic. Verbatim’s preformatted floppies put 
+manufacturing information in the extra tracks and caused an amusing bug 
+with Winimage if the diskette had been reformatted but the extra tracks 
+left alone. Toshiba went one step further and supported 84 tracks. The 
+drives that would not handle extra tracks (Flopticals, USB floppies) 
+also do not work with XDF. <a href="http://toastytech.com/files/nformat.txt" rel="nofollow">http://toastytech.com/files/nformat.txt</a> includes one of the few lists of overformatted support by brand. </p>
+<p>DOS backup programs did lots of unusual diskette formats. <a href="http://www.oldskool.org/guides/dosbackupshootout" rel="nofollow">http://www.oldskool.org/guides/dosbackupshootout</a>
+ dicusses some examples. Magazines during the 80s and 90s had occasional
+ articles investigating how to shoe horn more data on a floppy but I 
+can’t track down references to things I remember reading.</p>
+</div>
+
+			<div class="reply">
+							</div><!-- .reply -->
+		</div><!-- #comment-##  -->
+
+	</li><!-- #comment-## -->
+	<li class="comment byuser comment-author-michaln bypostauthor even thread-even depth-1" id="li-comment-58566">
+		<div id="comment-58566">
+			<div class="comment-author vcard">
+				<img alt="" src="data:image/gif;base64,R0lGODdhAQABAPAAAP///wAAACwAAAAAAQABAEACAkQBADs=" data-lazy-type="image" data-lazy-src="http://2.gravatar.com/avatar/8f7d4381d610b0f685e4e58be06e7010?s=40&amp;d=mm&amp;r=pg" data-lazy-srcset="http://2.gravatar.com/avatar/8f7d4381d610b0f685e4e58be06e7010?s=80&amp;d=mm&amp;r=pg 2x" class="lazy lazy-hidden avatar avatar-40 photo" height="40" width="40"><noscript><img alt="" src="The%20XDF%20Diskette%20Format%20_%20OS_2%20Museum_files/8f7d4381d610b0f685e4e58be06e7010.jpg" srcset="http://2.gravatar.com/avatar/8f7d4381d610b0f685e4e58be06e7010?s=80&d=mm&r=pg 2x" class="avatar avatar-40 photo" height="40" width="40"></noscript>				<cite class="fn">Michal Necasek</cite> <span class="says">says:</span>			</div><!-- .comment-author .vcard -->
+			
+			<div class="comment-meta commentmetadata"><a href="http://www.os2museum.com/wp/the-xdf-diskette-format/#comment-58566">
+				August 31, 2013 at 9:02 pm</a>			</div><!-- .comment-meta .commentmetadata -->
+
+			<div class="comment-body"><p>All standard USB floppy devices use a 
+SCSI style interface, which definitely does not support any “funny 
+stuff”. Just uniform geometries with constant sector sizes (not always 
+512-byte sectors though). So yeah, no XDF or 2M or anything like that 
+for sure.</p>
+</div>
+
+			<div class="reply">
+							</div><!-- .reply -->
+		</div><!-- #comment-##  -->
+
+	</li><!-- #comment-## -->
+	<li class="comment odd alt thread-odd thread-alt depth-1" id="li-comment-58568">
+		<div id="comment-58568">
+			<div class="comment-author vcard">
+				<img alt="" src="data:image/gif;base64,R0lGODdhAQABAPAAAP///wAAACwAAAAAAQABAEACAkQBADs=" data-lazy-type="image" data-lazy-src="http://1.gravatar.com/avatar/4fb67488b5ddd81a1206953bab2ff0aa?s=40&amp;d=mm&amp;r=pg" data-lazy-srcset="http://1.gravatar.com/avatar/4fb67488b5ddd81a1206953bab2ff0aa?s=80&amp;d=mm&amp;r=pg 2x" class="lazy lazy-hidden avatar avatar-40 photo" height="40" width="40"><noscript><img alt="" src="The%20XDF%20Diskette%20Format%20_%20OS_2%20Museum_files/4fb67488b5ddd81a1206953bab2ff0aa.jpg" srcset="http://1.gravatar.com/avatar/4fb67488b5ddd81a1206953bab2ff0aa?s=80&d=mm&r=pg 2x" class="avatar avatar-40 photo" height="40" width="40"></noscript>				<cite class="fn">Rauli</cite> <span class="says">says:</span>			</div><!-- .comment-author .vcard -->
+			
+			<div class="comment-meta commentmetadata"><a href="http://www.os2museum.com/wp/the-xdf-diskette-format/#comment-58568">
+				August 31, 2013 at 9:11 pm</a>			</div><!-- .comment-meta .commentmetadata -->
+
+			<div class="comment-body"><p>BTW, about using different sector sizes 
+on the same track, page 310 says that in theory that’s not possible, but
+ that certain commercial software had used this technique for copy 
+protection. So, that’s probably where he got the “inspiration”.</p>
+<p>I would like to think that when Ciriaco started to be e-mailed from 
+IBM, they were deciding which format (XDF or 2M) to use for software 
+distribution. If the story about melted disks was true (the message was,
+ because I read an excerpt) then one thing is sure: IBM thoroughly 
+tested 2M.</p>
+<p>Tell me if you have something to ask him, we haven’t met for more 
+than 20 years, but I have located his Facebook profile and maybe he will
+ reply.</p>
+</div>
+
+			<div class="reply">
+							</div><!-- .reply -->
+		</div><!-- #comment-##  -->
+
+	</li><!-- #comment-## -->
+	<li class="comment even thread-even depth-1" id="li-comment-58569">
+		<div id="comment-58569">
+			<div class="comment-author vcard">
+				<img alt="" src="data:image/gif;base64,R0lGODdhAQABAPAAAP///wAAACwAAAAAAQABAEACAkQBADs=" data-lazy-type="image" data-lazy-src="http://1.gravatar.com/avatar/4fb67488b5ddd81a1206953bab2ff0aa?s=40&amp;d=mm&amp;r=pg" data-lazy-srcset="http://1.gravatar.com/avatar/4fb67488b5ddd81a1206953bab2ff0aa?s=80&amp;d=mm&amp;r=pg 2x" class="lazy lazy-hidden avatar avatar-40 photo" height="40" width="40"><noscript><img alt="" src="The%20XDF%20Diskette%20Format%20_%20OS_2%20Museum_files/4fb67488b5ddd81a1206953bab2ff0aa.jpg" srcset="http://1.gravatar.com/avatar/4fb67488b5ddd81a1206953bab2ff0aa?s=80&d=mm&r=pg 2x" class="avatar avatar-40 photo" height="40" width="40"></noscript>				<cite class="fn">Rauli</cite> <span class="says">says:</span>			</div><!-- .comment-author .vcard -->
+			
+			<div class="comment-meta commentmetadata"><a href="http://www.os2museum.com/wp/the-xdf-diskette-format/#comment-58569">
+				August 31, 2013 at 9:23 pm</a>			</div><!-- .comment-meta .commentmetadata -->
+
+			<div class="comment-body"><p>…LESS than 20 years, bad calculation 🙂</p>
+</div>
+
+			<div class="reply">
+							</div><!-- .reply -->
+		</div><!-- #comment-##  -->
+
+	</li><!-- #comment-## -->
+	<li class="comment byuser comment-author-michaln bypostauthor odd alt thread-odd thread-alt depth-1" id="li-comment-58570">
+		<div id="comment-58570">
+			<div class="comment-author vcard">
+				<img alt="" src="data:image/gif;base64,R0lGODdhAQABAPAAAP///wAAACwAAAAAAQABAEACAkQBADs=" data-lazy-type="image" data-lazy-src="http://2.gravatar.com/avatar/8f7d4381d610b0f685e4e58be06e7010?s=40&amp;d=mm&amp;r=pg" data-lazy-srcset="http://2.gravatar.com/avatar/8f7d4381d610b0f685e4e58be06e7010?s=80&amp;d=mm&amp;r=pg 2x" class="lazy lazy-hidden avatar avatar-40 photo" height="40" width="40"><noscript><img alt="" src="The%20XDF%20Diskette%20Format%20_%20OS_2%20Museum_files/8f7d4381d610b0f685e4e58be06e7010.jpg" srcset="http://2.gravatar.com/avatar/8f7d4381d610b0f685e4e58be06e7010?s=80&d=mm&r=pg 2x" class="avatar avatar-40 photo" height="40" width="40"></noscript>				<cite class="fn">Michal Necasek</cite> <span class="says">says:</span>			</div><!-- .comment-author .vcard -->
+			
+			<div class="comment-meta commentmetadata"><a href="http://www.os2museum.com/wp/the-xdf-diskette-format/#comment-58570">
+				August 31, 2013 at 9:43 pm</a>			</div><!-- .comment-meta .commentmetadata -->
+
+			<div class="comment-body"><p>The fact that commercial software used 
+non-uniform sector sizes for copy protection doesn’t necessarily imply 
+such disks were formatted using a standard FDC…</p>
+<p>If you can, ask the 2M author how exactly he got the 
+not-really-128-byte-sectors formatting idea, because that’s something 
+which is far from obvious. And please ask whether to his knowledge XDF 
+or 2M was the first to use these techniques.</p>
+</div>
+
+			<div class="reply">
+							</div><!-- .reply -->
+		</div><!-- #comment-##  -->
+
+	</li><!-- #comment-## -->
+	<li class="comment even thread-even depth-1" id="li-comment-58571">
+		<div id="comment-58571">
+			<div class="comment-author vcard">
+				<img alt="" src="data:image/gif;base64,R0lGODdhAQABAPAAAP///wAAACwAAAAAAQABAEACAkQBADs=" data-lazy-type="image" data-lazy-src="http://1.gravatar.com/avatar/4fb67488b5ddd81a1206953bab2ff0aa?s=40&amp;d=mm&amp;r=pg" data-lazy-srcset="http://1.gravatar.com/avatar/4fb67488b5ddd81a1206953bab2ff0aa?s=80&amp;d=mm&amp;r=pg 2x" class="lazy lazy-hidden avatar avatar-40 photo" height="40" width="40"><noscript><img alt="" src="The%20XDF%20Diskette%20Format%20_%20OS_2%20Museum_files/4fb67488b5ddd81a1206953bab2ff0aa.jpg" srcset="http://1.gravatar.com/avatar/4fb67488b5ddd81a1206953bab2ff0aa?s=80&d=mm&r=pg 2x" class="avatar avatar-40 photo" height="40" width="40"></noscript>				<cite class="fn">Rauli</cite> <span class="says">says:</span>			</div><!-- .comment-author .vcard -->
+			
+			<div class="comment-meta commentmetadata"><a href="http://www.os2museum.com/wp/the-xdf-diskette-format/#comment-58571">
+				August 31, 2013 at 11:04 pm</a>			</div><!-- .comment-meta .commentmetadata -->
+
+			<div class="comment-body"><p>I asked him and gave my e-mail address this article’s URL, but his latest news in Facebook is from 2011…</p>
+</div>
+
+			<div class="reply">
+							</div><!-- .reply -->
+		</div><!-- #comment-##  -->
+
+	</li><!-- #comment-## -->
+	<li class="comment odd alt thread-odd thread-alt depth-1" id="li-comment-58579">
+		<div id="comment-58579">
+			<div class="comment-author vcard">
+				<img alt="" src="data:image/gif;base64,R0lGODdhAQABAPAAAP///wAAACwAAAAAAQABAEACAkQBADs=" data-lazy-type="image" data-lazy-src="http://1.gravatar.com/avatar/704a1e4bb9b4982564141ff4c15b7eda?s=40&amp;d=mm&amp;r=pg" data-lazy-srcset="http://1.gravatar.com/avatar/704a1e4bb9b4982564141ff4c15b7eda?s=80&amp;d=mm&amp;r=pg 2x" class="lazy lazy-hidden avatar avatar-40 photo" height="40" width="40"><noscript><img alt="" src="The%20XDF%20Diskette%20Format%20_%20OS_2%20Museum_files/704a1e4bb9b4982564141ff4c15b7eda.jpg" srcset="http://1.gravatar.com/avatar/704a1e4bb9b4982564141ff4c15b7eda?s=80&d=mm&r=pg 2x" class="avatar avatar-40 photo" height="40" width="40"></noscript>				<cite class="fn"><a href="http://yuhongbao.blogspot.com/" rel="external nofollow" class="url">Yuhong Bao</a></cite> <span class="says">says:</span>			</div><!-- .comment-author .vcard -->
+			
+			<div class="comment-meta commentmetadata"><a href="http://www.os2museum.com/wp/the-xdf-diskette-format/#comment-58579">
+				September 1, 2013 at 11:32 am</a>			</div><!-- .comment-meta .commentmetadata -->
+
+			<div class="comment-body"><p>I wonder what would have happened if MS 
+took the OS/2 2.0 path, and thus OS/2 2.x replaced DOS/Windows by 1994 
+or so. MS would probably have to ship with applications that use DMF an 
+extra disk with the update to OS/2 2.1 to recognize DMF.</p>
+</div>
+
+			<div class="reply">
+							</div><!-- .reply -->
+		</div><!-- #comment-##  -->
+
+	</li><!-- #comment-## -->
+	<li class="comment even thread-even depth-1" id="li-comment-58580">
+		<div id="comment-58580">
+			<div class="comment-author vcard">
+				<img alt="" src="data:image/gif;base64,R0lGODdhAQABAPAAAP///wAAACwAAAAAAQABAEACAkQBADs=" data-lazy-type="image" data-lazy-src="http://1.gravatar.com/avatar/704a1e4bb9b4982564141ff4c15b7eda?s=40&amp;d=mm&amp;r=pg" data-lazy-srcset="http://1.gravatar.com/avatar/704a1e4bb9b4982564141ff4c15b7eda?s=80&amp;d=mm&amp;r=pg 2x" class="lazy lazy-hidden avatar avatar-40 photo" height="40" width="40"><noscript><img alt="" src="The%20XDF%20Diskette%20Format%20_%20OS_2%20Museum_files/704a1e4bb9b4982564141ff4c15b7eda.jpg" srcset="http://1.gravatar.com/avatar/704a1e4bb9b4982564141ff4c15b7eda?s=80&d=mm&r=pg 2x" class="avatar avatar-40 photo" height="40" width="40"></noscript>				<cite class="fn"><a href="http://yuhongbao.blogspot.com/" rel="external nofollow" class="url">Yuhong Bao</a></cite> <span class="says">says:</span>			</div><!-- .comment-author .vcard -->
+			
+			<div class="comment-meta commentmetadata"><a href="http://www.os2museum.com/wp/the-xdf-diskette-format/#comment-58580">
+				September 1, 2013 at 11:36 am</a>			</div><!-- .comment-meta .commentmetadata -->
+
+			<div class="comment-body"><p>Not that it is much of an argument not to take this path.</p>
+</div>
+
+			<div class="reply">
+							</div><!-- .reply -->
+		</div><!-- #comment-##  -->
+
+	</li><!-- #comment-## -->
+	<li class="comment odd alt thread-odd thread-alt depth-1" id="li-comment-58599">
+		<div id="comment-58599">
+			<div class="comment-author vcard">
+				<img alt="" src="data:image/gif;base64,R0lGODdhAQABAPAAAP///wAAACwAAAAAAQABAEACAkQBADs=" data-lazy-type="image" data-lazy-src="http://1.gravatar.com/avatar/188e3985e435393e586170249494f3f6?s=40&amp;d=mm&amp;r=pg" data-lazy-srcset="http://1.gravatar.com/avatar/188e3985e435393e586170249494f3f6?s=80&amp;d=mm&amp;r=pg 2x" class="lazy lazy-hidden avatar avatar-40 photo" height="40" width="40"><noscript><img alt="" src="The%20XDF%20Diskette%20Format%20_%20OS_2%20Museum_files/188e3985e435393e586170249494f3f6.jpg" srcset="http://1.gravatar.com/avatar/188e3985e435393e586170249494f3f6?s=80&d=mm&r=pg 2x" class="avatar avatar-40 photo" height="40" width="40"></noscript>				<cite class="fn">Jorpho</cite> <span class="says">says:</span>			</div><!-- .comment-author .vcard -->
+			
+			<div class="comment-meta commentmetadata"><a href="http://www.os2museum.com/wp/the-xdf-diskette-format/#comment-58599">
+				September 1, 2013 at 11:24 pm</a>			</div><!-- .comment-meta .commentmetadata -->
+
+			<div class="comment-body"><p>As you might expect, there’s at least on
+ Linux utility capable of reading XDF disks.  I made use of it a few 
+years ago, when a copy of Warp 3 passed through my hands.  Oddly, while 
+one of the disks was not entirely readable with XDFCOPY in DOS, the 
+Linux utility seemed to be more tolerant.</p>
+</div>
+
+			<div class="reply">
+							</div><!-- .reply -->
+		</div><!-- #comment-##  -->
+
+	</li><!-- #comment-## -->
+	<li class="comment even thread-even depth-1" id="li-comment-58625">
+		<div id="comment-58625">
+			<div class="comment-author vcard">
+				<img alt="" src="data:image/gif;base64,R0lGODdhAQABAPAAAP///wAAACwAAAAAAQABAEACAkQBADs=" data-lazy-type="image" data-lazy-src="http://0.gravatar.com/avatar/63de283c488280d5191f9a069e124c33?s=40&amp;d=mm&amp;r=pg" data-lazy-srcset="http://0.gravatar.com/avatar/63de283c488280d5191f9a069e124c33?s=80&amp;d=mm&amp;r=pg 2x" class="lazy lazy-hidden avatar avatar-40 photo" height="40" width="40"><noscript><img alt="" src="The%20XDF%20Diskette%20Format%20_%20OS_2%20Museum_files/63de283c488280d5191f9a069e124c33.jpg" srcset="http://0.gravatar.com/avatar/63de283c488280d5191f9a069e124c33?s=80&d=mm&r=pg 2x" class="avatar avatar-40 photo" height="40" width="40"></noscript>				<cite class="fn">Richard Wells</cite> <span class="says">says:</span>			</div><!-- .comment-author .vcard -->
+			
+			<div class="comment-meta commentmetadata"><a href="http://www.os2museum.com/wp/the-xdf-diskette-format/#comment-58625">
+				September 2, 2013 at 9:31 am</a>			</div><!-- .comment-meta .commentmetadata -->
+
+			<div class="comment-body"><p>Yuhong: I am fairly certain that I 
+installed software placed on DMF disks on OS/2 Warp  with no problems. A
+ DMF driver is tiny. So DMF would not matter in any joint IBM/MS project
+ except for being one more trigger for yet another bureaucratic fight as
+ various managers push their solutions. </p>
+<p>Going the other way, having XDF disks for application deployment 
+would be more problematic. Disk caching software often assumed that all 
+sectors on a disk would be the same size. Caching software would have to
+ be updated in order to permit installs from XDF floppies or users would
+ need to follow instructions to turn off the cache. Special instructions
+ leads to lots of support calls.</p>
+<p>My quick check suggests that IBM only used XDF with OS related disks 
+(Install and fixpack) but not on application software like Lotus 
+SmartSuite.</p>
+</div>
+
+			<div class="reply">
+							</div><!-- .reply -->
+		</div><!-- #comment-##  -->
+
+	</li><!-- #comment-## -->
+	<li class="comment byuser comment-author-michaln bypostauthor odd alt thread-odd thread-alt depth-1" id="li-comment-58629">
+		<div id="comment-58629">
+			<div class="comment-author vcard">
+				<img alt="" src="data:image/gif;base64,R0lGODdhAQABAPAAAP///wAAACwAAAAAAQABAEACAkQBADs=" data-lazy-type="image" data-lazy-src="http://2.gravatar.com/avatar/8f7d4381d610b0f685e4e58be06e7010?s=40&amp;d=mm&amp;r=pg" data-lazy-srcset="http://2.gravatar.com/avatar/8f7d4381d610b0f685e4e58be06e7010?s=80&amp;d=mm&amp;r=pg 2x" class="lazy lazy-hidden avatar avatar-40 photo" height="40" width="40"><noscript><img alt="" src="The%20XDF%20Diskette%20Format%20_%20OS_2%20Museum_files/8f7d4381d610b0f685e4e58be06e7010.jpg" srcset="http://2.gravatar.com/avatar/8f7d4381d610b0f685e4e58be06e7010?s=80&d=mm&r=pg 2x" class="avatar avatar-40 photo" height="40" width="40"></noscript>				<cite class="fn">Michal Necasek</cite> <span class="says">says:</span>			</div><!-- .comment-author .vcard -->
+			
+			<div class="comment-meta commentmetadata"><a href="http://www.os2museum.com/wp/the-xdf-diskette-format/#comment-58629">
+				September 2, 2013 at 10:45 am</a>			</div><!-- .comment-meta .commentmetadata -->
+
+			<div class="comment-body"><p>Unless it was on the same machine, it may have been the drive and not the software that made the difference…</p>
+</div>
+
+			<div class="reply">
+							</div><!-- .reply -->
+		</div><!-- #comment-##  -->
+
+	</li><!-- #comment-## -->
+	<li class="comment byuser comment-author-michaln bypostauthor even thread-even depth-1" id="li-comment-58630">
+		<div id="comment-58630">
+			<div class="comment-author vcard">
+				<img alt="" src="data:image/gif;base64,R0lGODdhAQABAPAAAP///wAAACwAAAAAAQABAEACAkQBADs=" data-lazy-type="image" data-lazy-src="http://2.gravatar.com/avatar/8f7d4381d610b0f685e4e58be06e7010?s=40&amp;d=mm&amp;r=pg" data-lazy-srcset="http://2.gravatar.com/avatar/8f7d4381d610b0f685e4e58be06e7010?s=80&amp;d=mm&amp;r=pg 2x" class="lazy lazy-hidden avatar avatar-40 photo" height="40" width="40"><noscript><img alt="" src="The%20XDF%20Diskette%20Format%20_%20OS_2%20Museum_files/8f7d4381d610b0f685e4e58be06e7010.jpg" srcset="http://2.gravatar.com/avatar/8f7d4381d610b0f685e4e58be06e7010?s=80&d=mm&r=pg 2x" class="avatar avatar-40 photo" height="40" width="40"></noscript>				<cite class="fn">Michal Necasek</cite> <span class="says">says:</span>			</div><!-- .comment-author .vcard -->
+			
+			<div class="comment-meta commentmetadata"><a href="http://www.os2museum.com/wp/the-xdf-diskette-format/#comment-58630">
+				September 2, 2013 at 10:55 am</a>			</div><!-- .comment-meta .commentmetadata -->
+
+			<div class="comment-body"><p>On the BIOS level, XDF disks (with the 
+XDF TSR loaded) did look like regular 512-sector disks, just with 23 
+sectors per track. How else would they work with DOS?</p>
+<p>For Lotus et al, a much bigger problem was bootstrapping. Not all 
+systems they targeted supported XDF, which means they’d have to have 
+some fallback mechanism to get XDF support in place. This wasn’t an 
+issue for IBM’s DOS and OS/2 where the installation disks had to be 
+booted anyway.</p>
+<p>And by the time there might be any kind of significant number of 
+machines with built-in XDF support out there, floppies as a distribution
+ medium were dead anyway.</p>
+</div>
+
+			<div class="reply">
+							</div><!-- .reply -->
+		</div><!-- #comment-##  -->
+
+	</li><!-- #comment-## -->
+			</ol>
+
+
+	
+
+	<div id="respond" class="comment-respond">
+		<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="http://www.os2museum.com/wp/the-xdf-diskette-format/#respond" style="display:none;">Cancel reply</a></small></h3>			<form action="http://www.os2museum.com/wp/wp-comments-post.php" method="post" id="commentform" class="comment-form">
+				<p class="comment-notes"><span id="email-notes">Your email address will not be published.</span> Required fields are marked <span class="required">*</span></p><p class="comment-form-comment"><label for="comment">Comment</label> <textarea id="comment" name="comment" cols="45" rows="8" maxlength="65525" aria-required="true" required="required"></textarea></p><p class="comment-form-author"><label for="author">Name <span class="required">*</span></label> <input id="author" name="author" size="30" maxlength="245" aria-required="true" required="required" type="text"></p>
+<p class="comment-form-email"><label for="email">Email <span class="required">*</span></label> <input id="email" name="email" size="30" maxlength="100" aria-describedby="email-notes" aria-required="true" required="required" type="text"></p>
+<p class="comment-form-url"><label for="url">Website</label> <input id="url" name="url" size="30" maxlength="200" type="text"></p>
+<p class="form-submit"><input name="submit" id="submit" class="submit" value="Post Comment" type="submit"> <input name="comment_post_ID" value="1978" id="comment_post_ID" type="hidden">
+<input name="comment_parent" id="comment_parent" value="0" type="hidden">
+</p><p style="display: none;"><input id="akismet_comment_nonce" name="akismet_comment_nonce" value="2bcc530773" type="hidden"></p><p style="display: none;"><input id="ak_js" name="ak_js" value="205" type="hidden"></p>			</form>
+			</div><!-- #respond -->
+	
+</div><!-- #comments -->
+
+
+			</div><!-- #content -->
+		</div><!-- #container -->
+
+
+		<div id="primary" class="widget-area" role="complementary">
+			<ul class="xoxo">
+
+<li id="rssiconwidget-2" class="widget-container widget_rssiconwidget"><a href="http://www.os2museum.com/wp/?feed=rss2" style="color: #ff0000; padding: 5px 0px 5px 15px; background: url('http://www.os2museum.com/wp/wp-content/plugins/rss-icon-widget/icons/feed-icon-10x10.png') no-repeat 0 50%;">Subscribe via RSS</a></li><li id="archives-3" class="widget-container widget_archive"><h3 class="widget-title">Archives</h3>		<ul>
+			<li><a href="http://www.os2museum.com/wp/2017/01/">January 2017</a></li>
+	<li><a href="http://www.os2museum.com/wp/2016/12/">December 2016</a></li>
+	<li><a href="http://www.os2museum.com/wp/2016/11/">November 2016</a></li>
+	<li><a href="http://www.os2museum.com/wp/2016/10/">October 2016</a></li>
+	<li><a href="http://www.os2museum.com/wp/2016/09/">September 2016</a></li>
+	<li><a href="http://www.os2museum.com/wp/2016/08/">August 2016</a></li>
+	<li><a href="http://www.os2museum.com/wp/2016/07/">July 2016</a></li>
+	<li><a href="http://www.os2museum.com/wp/2016/06/">June 2016</a></li>
+	<li><a href="http://www.os2museum.com/wp/2016/05/">May 2016</a></li>
+	<li><a href="http://www.os2museum.com/wp/2016/04/">April 2016</a></li>
+	<li><a href="http://www.os2museum.com/wp/2016/03/">March 2016</a></li>
+	<li><a href="http://www.os2museum.com/wp/2016/02/">February 2016</a></li>
+	<li><a href="http://www.os2museum.com/wp/2016/01/">January 2016</a></li>
+	<li><a href="http://www.os2museum.com/wp/2015/12/">December 2015</a></li>
+	<li><a href="http://www.os2museum.com/wp/2015/11/">November 2015</a></li>
+	<li><a href="http://www.os2museum.com/wp/2015/10/">October 2015</a></li>
+	<li><a href="http://www.os2museum.com/wp/2015/09/">September 2015</a></li>
+	<li><a href="http://www.os2museum.com/wp/2015/08/">August 2015</a></li>
+	<li><a href="http://www.os2museum.com/wp/2015/07/">July 2015</a></li>
+	<li><a href="http://www.os2museum.com/wp/2015/06/">June 2015</a></li>
+	<li><a href="http://www.os2museum.com/wp/2015/05/">May 2015</a></li>
+	<li><a href="http://www.os2museum.com/wp/2015/04/">April 2015</a></li>
+	<li><a href="http://www.os2museum.com/wp/2015/03/">March 2015</a></li>
+	<li><a href="http://www.os2museum.com/wp/2015/02/">February 2015</a></li>
+	<li><a href="http://www.os2museum.com/wp/2015/01/">January 2015</a></li>
+	<li><a href="http://www.os2museum.com/wp/2014/12/">December 2014</a></li>
+	<li><a href="http://www.os2museum.com/wp/2014/11/">November 2014</a></li>
+	<li><a href="http://www.os2museum.com/wp/2014/10/">October 2014</a></li>
+	<li><a href="http://www.os2museum.com/wp/2014/09/">September 2014</a></li>
+	<li><a href="http://www.os2museum.com/wp/2014/08/">August 2014</a></li>
+	<li><a href="http://www.os2museum.com/wp/2014/07/">July 2014</a></li>
+	<li><a href="http://www.os2museum.com/wp/2014/06/">June 2014</a></li>
+	<li><a href="http://www.os2museum.com/wp/2014/05/">May 2014</a></li>
+	<li><a href="http://www.os2museum.com/wp/2014/04/">April 2014</a></li>
+	<li><a href="http://www.os2museum.com/wp/2014/03/">March 2014</a></li>
+	<li><a href="http://www.os2museum.com/wp/2014/02/">February 2014</a></li>
+	<li><a href="http://www.os2museum.com/wp/2014/01/">January 2014</a></li>
+	<li><a href="http://www.os2museum.com/wp/2013/12/">December 2013</a></li>
+	<li><a href="http://www.os2museum.com/wp/2013/11/">November 2013</a></li>
+	<li><a href="http://www.os2museum.com/wp/2013/10/">October 2013</a></li>
+	<li><a href="http://www.os2museum.com/wp/2013/09/">September 2013</a></li>
+	<li><a href="http://www.os2museum.com/wp/2013/08/">August 2013</a></li>
+	<li><a href="http://www.os2museum.com/wp/2013/07/">July 2013</a></li>
+	<li><a href="http://www.os2museum.com/wp/2013/06/">June 2013</a></li>
+	<li><a href="http://www.os2museum.com/wp/2013/05/">May 2013</a></li>
+	<li><a href="http://www.os2museum.com/wp/2013/04/">April 2013</a></li>
+	<li><a href="http://www.os2museum.com/wp/2013/03/">March 2013</a></li>
+	<li><a href="http://www.os2museum.com/wp/2013/02/">February 2013</a></li>
+	<li><a href="http://www.os2museum.com/wp/2013/01/">January 2013</a></li>
+	<li><a href="http://www.os2museum.com/wp/2012/12/">December 2012</a></li>
+	<li><a href="http://www.os2museum.com/wp/2012/11/">November 2012</a></li>
+	<li><a href="http://www.os2museum.com/wp/2012/10/">October 2012</a></li>
+	<li><a href="http://www.os2museum.com/wp/2012/09/">September 2012</a></li>
+	<li><a href="http://www.os2museum.com/wp/2012/08/">August 2012</a></li>
+	<li><a href="http://www.os2museum.com/wp/2012/07/">July 2012</a></li>
+	<li><a href="http://www.os2museum.com/wp/2012/06/">June 2012</a></li>
+	<li><a href="http://www.os2museum.com/wp/2012/05/">May 2012</a></li>
+	<li><a href="http://www.os2museum.com/wp/2012/04/">April 2012</a></li>
+	<li><a href="http://www.os2museum.com/wp/2012/03/">March 2012</a></li>
+	<li><a href="http://www.os2museum.com/wp/2012/02/">February 2012</a></li>
+	<li><a href="http://www.os2museum.com/wp/2012/01/">January 2012</a></li>
+	<li><a href="http://www.os2museum.com/wp/2011/12/">December 2011</a></li>
+	<li><a href="http://www.os2museum.com/wp/2011/11/">November 2011</a></li>
+	<li><a href="http://www.os2museum.com/wp/2011/10/">October 2011</a></li>
+	<li><a href="http://www.os2museum.com/wp/2011/09/">September 2011</a></li>
+	<li><a href="http://www.os2museum.com/wp/2011/08/">August 2011</a></li>
+	<li><a href="http://www.os2museum.com/wp/2011/07/">July 2011</a></li>
+	<li><a href="http://www.os2museum.com/wp/2011/06/">June 2011</a></li>
+	<li><a href="http://www.os2museum.com/wp/2011/05/">May 2011</a></li>
+	<li><a href="http://www.os2museum.com/wp/2011/04/">April 2011</a></li>
+	<li><a href="http://www.os2museum.com/wp/2011/03/">March 2011</a></li>
+	<li><a href="http://www.os2museum.com/wp/2011/01/">January 2011</a></li>
+	<li><a href="http://www.os2museum.com/wp/2010/11/">November 2010</a></li>
+	<li><a href="http://www.os2museum.com/wp/2010/10/">October 2010</a></li>
+	<li><a href="http://www.os2museum.com/wp/2010/08/">August 2010</a></li>
+	<li><a href="http://www.os2museum.com/wp/2010/07/">July 2010</a></li>
+		</ul>
+		</li>			</ul>
+		</div><!-- #primary .widget-area -->
+
+
+		<div id="secondary" class="widget-area" role="complementary">
+			<ul class="xoxo">
+				<li id="categories-4" class="widget-container widget_categories"><h3 class="widget-title">Categories</h3>		<ul>
+	<li class="cat-item cat-item-56"><a href="http://www.os2museum.com/wp/category/286/">286</a>
+</li>
+	<li class="cat-item cat-item-23"><a href="http://www.os2museum.com/wp/category/386/">386</a>
+</li>
+	<li class="cat-item cat-item-81"><a href="http://www.os2museum.com/wp/category/3dfx/">3Dfx</a>
+</li>
+	<li class="cat-item cat-item-45"><a href="http://www.os2museum.com/wp/category/486/">486</a>
+</li>
+	<li class="cat-item cat-item-91"><a href="http://www.os2museum.com/wp/category/agp/">AGP</a>
+</li>
+	<li class="cat-item cat-item-26"><a href="http://www.os2museum.com/wp/category/apple/">Apple</a>
+</li>
+	<li class="cat-item cat-item-36"><a href="http://www.os2museum.com/wp/category/ati/">ATi</a>
+</li>
+	<li class="cat-item cat-item-12"><a href="http://www.os2museum.com/wp/category/bios/">BIOS</a>
+</li>
+	<li class="cat-item cat-item-27"><a href="http://www.os2museum.com/wp/category/books/">Books</a>
+</li>
+	<li class="cat-item cat-item-38"><a href="http://www.os2museum.com/wp/category/bsd/">BSD</a>
+</li>
+	<li class="cat-item cat-item-49"><a href="http://www.os2museum.com/wp/category/bugs/">Bugs</a>
+</li>
+	<li class="cat-item cat-item-47"><a href="http://www.os2museum.com/wp/category/buslogic/">BusLogic</a>
+</li>
+	<li class="cat-item cat-item-67"><a href="http://www.os2museum.com/wp/category/c/">C</a>
+</li>
+	<li class="cat-item cat-item-72"><a href="http://www.os2museum.com/wp/category/ct/">C&amp;T</a>
+</li>
+	<li class="cat-item cat-item-46"><a href="http://www.os2museum.com/wp/category/cirrus-logic/">Cirrus Logic</a>
+</li>
+	<li class="cat-item cat-item-92"><a href="http://www.os2museum.com/wp/category/compactflash/">CompactFlash</a>
+</li>
+	<li class="cat-item cat-item-32"><a href="http://www.os2museum.com/wp/category/compaq/">Compaq</a>
+</li>
+	<li class="cat-item cat-item-64"><a href="http://www.os2museum.com/wp/category/creative-labs/">Creative Labs</a>
+</li>
+	<li class="cat-item cat-item-44"><a href="http://www.os2museum.com/wp/category/cyrix/">Cyrix</a>
+</li>
+	<li class="cat-item cat-item-43"><a href="http://www.os2museum.com/wp/category/debugging/">Debugging</a>
+</li>
+	<li class="cat-item cat-item-17"><a href="http://www.os2museum.com/wp/category/development/">Development</a>
+</li>
+	<li class="cat-item cat-item-15"><a href="http://www.os2museum.com/wp/category/documentation/">Documentation</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="http://www.os2museum.com/wp/category/dos/">DOS</a>
+</li>
+	<li class="cat-item cat-item-55"><a href="http://www.os2museum.com/wp/category/dos-extenders/">DOS Extenders</a>
+</li>
+	<li class="cat-item cat-item-89"><a href="http://www.os2museum.com/wp/category/e-mu/">E-mu</a>
+</li>
+	<li class="cat-item cat-item-78"><a href="http://www.os2museum.com/wp/category/eisa/">EISA</a>
+</li>
+	<li class="cat-item cat-item-84"><a href="http://www.os2museum.com/wp/category/ensoniq/">Ensoniq</a>
+</li>
+	<li class="cat-item cat-item-39"><a href="http://www.os2museum.com/wp/category/floppies/">Floppies</a>
+</li>
+	<li class="cat-item cat-item-37"><a href="http://www.os2museum.com/wp/category/graphics/">Graphics</a>
+</li>
+	<li class="cat-item cat-item-69"><a href="http://www.os2museum.com/wp/category/hardware-hacks/">Hardware Hacks</a>
+</li>
+	<li class="cat-item cat-item-20"><a href="http://www.os2museum.com/wp/category/ibm/">IBM</a>
+</li>
+	<li class="cat-item cat-item-33"><a href="http://www.os2museum.com/wp/category/ide/">IDE</a>
+</li>
+	<li class="cat-item cat-item-25"><a href="http://www.os2museum.com/wp/category/intel/">Intel</a>
+</li>
+	<li class="cat-item cat-item-31"><a href="http://www.os2museum.com/wp/category/internet/">Internet</a>
+</li>
+	<li class="cat-item cat-item-48"><a href="http://www.os2museum.com/wp/category/linux/">Linux</a>
+</li>
+	<li class="cat-item cat-item-79"><a href="http://www.os2museum.com/wp/category/mca/">MCA</a>
+</li>
+	<li class="cat-item cat-item-21"><a href="http://www.os2museum.com/wp/category/microsoft/">Microsoft</a>
+</li>
+	<li class="cat-item cat-item-68"><a href="http://www.os2museum.com/wp/category/midi/">MIDI</a>
+</li>
+	<li class="cat-item cat-item-22"><a href="http://www.os2museum.com/wp/category/netware/">NetWare</a>
+</li>
+	<li class="cat-item cat-item-18"><a href="http://www.os2museum.com/wp/category/networking/">Networking</a>
+</li>
+	<li class="cat-item cat-item-9"><a href="http://www.os2museum.com/wp/category/nextstep/">NeXTSTEP</a>
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.os2museum.com/wp/category/nt/">NT</a>
+</li>
+	<li class="cat-item cat-item-63"><a href="http://www.os2museum.com/wp/category/os-x/">OS X</a>
+</li>
+	<li class="cat-item cat-item-3"><a href="http://www.os2museum.com/wp/category/os2/">OS/2</a>
+</li>
+	<li class="cat-item cat-item-11"><a href="http://www.os2museum.com/wp/category/pc-architecture/">PC architecture</a>
+</li>
+	<li class="cat-item cat-item-28"><a href="http://www.os2museum.com/wp/category/pc-hardware/">PC hardware</a>
+</li>
+	<li class="cat-item cat-item-14"><a href="http://www.os2museum.com/wp/category/pc-history/">PC history</a>
+</li>
+	<li class="cat-item cat-item-24"><a href="http://www.os2museum.com/wp/category/pc-press/">PC press</a>
+</li>
+	<li class="cat-item cat-item-51"><a href="http://www.os2museum.com/wp/category/pci/">PCI</a>
+</li>
+	<li class="cat-item cat-item-76"><a href="http://www.os2museum.com/wp/category/pcmcia/">PCMCIA</a>
+</li>
+	<li class="cat-item cat-item-73"><a href="http://www.os2museum.com/wp/category/pentium/">Pentium</a>
+</li>
+	<li class="cat-item cat-item-90"><a href="http://www.os2museum.com/wp/category/pentium-4/">Pentium 4</a>
+</li>
+	<li class="cat-item cat-item-86"><a href="http://www.os2museum.com/wp/category/pentium-ii/">Pentium II</a>
+</li>
+	<li class="cat-item cat-item-85"><a href="http://www.os2museum.com/wp/category/pentium-pro/">Pentium Pro</a>
+</li>
+	<li class="cat-item cat-item-88"><a href="http://www.os2museum.com/wp/category/plug-and-play/">Plug and Play</a>
+</li>
+	<li class="cat-item cat-item-30"><a href="http://www.os2museum.com/wp/category/powerpc/">PowerPC</a>
+</li>
+	<li class="cat-item cat-item-87"><a href="http://www.os2museum.com/wp/category/ps2/">PS/2</a>
+</li>
+	<li class="cat-item cat-item-58"><a href="http://www.os2museum.com/wp/category/qnx/">QNX</a>
+</li>
+	<li class="cat-item cat-item-59"><a href="http://www.os2museum.com/wp/category/random-thoughts/">Random Thoughts</a>
+</li>
+	<li class="cat-item cat-item-62"><a href="http://www.os2museum.com/wp/category/roland/">Roland</a>
+</li>
+	<li class="cat-item cat-item-52"><a href="http://www.os2museum.com/wp/category/s3/">S3</a>
+</li>
+	<li class="cat-item cat-item-29"><a href="http://www.os2museum.com/wp/category/scsi/">SCSI</a>
+</li>
+	<li class="cat-item cat-item-53"><a href="http://www.os2museum.com/wp/category/security/">Security</a>
+</li>
+	<li class="cat-item cat-item-42"><a href="http://www.os2museum.com/wp/category/site-management/">Site Management</a>
+</li>
+	<li class="cat-item cat-item-74"><a href="http://www.os2museum.com/wp/category/smp/">SMP</a>
+</li>
+	<li class="cat-item cat-item-75"><a href="http://www.os2museum.com/wp/category/software-hacks/">Software Hacks</a>
+</li>
+	<li class="cat-item cat-item-19"><a href="http://www.os2museum.com/wp/category/solaris/">Solaris</a>
+</li>
+	<li class="cat-item cat-item-60"><a href="http://www.os2museum.com/wp/category/sound/">Sound</a>
+</li>
+	<li class="cat-item cat-item-65"><a href="http://www.os2museum.com/wp/category/sound-blaster/">Sound Blaster</a>
+</li>
+	<li class="cat-item cat-item-54"><a href="http://www.os2museum.com/wp/category/source-code/">Source code</a>
+</li>
+	<li class="cat-item cat-item-77"><a href="http://www.os2museum.com/wp/category/storage/">Storage</a>
+</li>
+	<li class="cat-item cat-item-41"><a href="http://www.os2museum.com/wp/category/thinkpad/">ThinkPad</a>
+</li>
+	<li class="cat-item cat-item-71"><a href="http://www.os2museum.com/wp/category/trident/">Trident</a>
+</li>
+	<li class="cat-item cat-item-66"><a href="http://www.os2museum.com/wp/category/undocumented/">Undocumented</a>
+</li>
+	<li class="cat-item cat-item-34"><a href="http://www.os2museum.com/wp/category/unix/">UNIX</a>
+</li>
+	<li class="cat-item cat-item-35"><a href="http://www.os2museum.com/wp/category/unixware/">UnixWare</a>
+</li>
+	<li class="cat-item cat-item-16"><a href="http://www.os2museum.com/wp/category/vga/">VGA</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.os2museum.com/wp/category/virtualbox/">VirtualBox</a>
+</li>
+	<li class="cat-item cat-item-6"><a href="http://www.os2museum.com/wp/category/virtualization/">Virtualization</a>
+</li>
+	<li class="cat-item cat-item-80"><a href="http://www.os2museum.com/wp/category/vlb/">VLB</a>
+</li>
+	<li class="cat-item cat-item-83"><a href="http://www.os2museum.com/wp/category/wave-blaster/">Wave Blaster</a>
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.os2museum.com/wp/category/windows/">Windows</a>
+</li>
+	<li class="cat-item cat-item-57"><a href="http://www.os2museum.com/wp/category/windows-95/">Windows 95</a>
+</li>
+	<li class="cat-item cat-item-10"><a href="http://www.os2museum.com/wp/category/x86/">x86</a>
+</li>
+	<li class="cat-item cat-item-13"><a href="http://www.os2museum.com/wp/category/xenix/">Xenix</a>
+</li>
+	<li class="cat-item cat-item-70"><a href="http://www.os2museum.com/wp/category/xeon/">Xeon</a>
+</li>
+	<li class="cat-item cat-item-61"><a href="http://www.os2museum.com/wp/category/yamaha/">Yamaha</a>
+</li>
+		</ul>
+</li>			</ul>
+		</div><!-- #secondary .widget-area -->
+
+	</div><!-- #main -->
+
+	<div id="footer" role="contentinfo">
+		<div id="colophon">
+
+
+
+			<div id="site-info">
+				<a href="http://www.os2museum.com/wp/" title="OS/2 Museum" rel="home">
+					OS/2 Museum				</a>
+			</div><!-- #site-info -->
+
+			<div id="site-generator">
+								<a href="https://wordpress.org/" title="Semantic Personal Publishing Platform">Proudly powered by WordPress.</a>
+			</div><!-- #site-generator -->
+
+		</div><!-- #colophon -->
+	</div><!-- #footer -->
+
+</div><!-- #wrapper -->
+
+<script type="text/javascript" src="The%20XDF%20Diskette%20Format%20_%20OS_2%20Museum_files/form.js"></script>
+<script type="text/javascript" src="The%20XDF%20Diskette%20Format%20_%20OS_2%20Museum_files/bj-lazy-load.js"></script>
+<script type="text/javascript" src="The%20XDF%20Diskette%20Format%20_%20OS_2%20Museum_files/wp-embed.js"></script>
+
+
+
+
+
+
+</body></html>
+<!-- Dynamic page generated in 0.633 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2017-02-03 03:33:58 -->
+<!-- super cache -->

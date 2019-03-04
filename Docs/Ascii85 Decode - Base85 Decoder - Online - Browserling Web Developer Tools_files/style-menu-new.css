@@ -1,0 +1,63 @@
+#menu-sign-in-sign-up {
+  position: absolute;
+  background-color: rgb(243,248,252);
+  width: 405px;
+  text-align: center;
+}
+
+#menu-sign-in-sign-up #forgot-password {
+  margin-top: 10px;
+}
+
+#menu-sign-in-sign-up #forgot-password-submit {
+  margin-top: 10px;
+}
+
+#menu-sign-in-sign-up #forgot-password-back {
+  margin-top: 10px;
+}
+
+#menu-sign-in-sign-up #create-account.active {
+  background-color: rgb(231, 237, 248);
+}
+
+#menu-sign-in {
+  font-size: 12px;
+  background-color: rgb(231, 237, 248);
+  padding: 10px 0;
+  display: none;
+}
+
+#menu-create-account {
+  font-size: 12px;
+  background-color: rgb(231, 237, 248);
+  padding: 10px 0;
+  display: none;
+}
+
+#menu-forgot-password {
+  font-size: 12px;
+  background-color: rgb(231, 237, 248);
+  padding: 10px 0;
+  display: none;
+}
+
+#menu-ok-forgot-password {
+  color: green;
+  margin-top: 5px;
+  display: none;
+}
+
+#menu-error-sign-in,
+#menu-error-create-account,
+#menu-error-forgot-password {
+  color: red;
+  margin-top: 5px;
+  background-color: rgb(255, 232, 232);
+  display: none;
+}
+
+#menu-sign-in #sign-in-submit,
+#menu-create-account #create-account-submit {
+  margin-top: 10px;
+}
