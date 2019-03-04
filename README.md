@@ -61,5 +61,11 @@ The PCB for the PIC version is created in Eagle v7.3. Newer versions of eagle (f
 
 Please let me know if you have any questions. Contributions to the project is appreciated. Please send the pull requests, I'll see if I can integrate them.
 
+## More information
 
+See my blog for more information:
+http://www.makercentral.net
+
+See videos about the use of FloppyControl App:
+https://www.youtube.com/channel/UCJSWen8mcsrenXGCEr2fJ9w
 
