@@ -117,7 +117,8 @@ namespace FloppyControlApp
                         }
                         if (mfms[threadid][i] == 1) // counting 1's matches the number of bytes in rxbuf + start offset
                             rxbufcnt++;
-                        while (rxbuf[rxbufcnt] < 4 && rxbufcnt < indexrxbuf-1) rxbufcnt++;
+                        if( rxbuf.Length > rxbufcnt )
+                            while (rxbuf[rxbufcnt] < 4 && rxbufcnt < indexrxbuf-1) rxbufcnt++;
                     }
 
                     //textBoxReceived.AppendText(periodhex.ToString());

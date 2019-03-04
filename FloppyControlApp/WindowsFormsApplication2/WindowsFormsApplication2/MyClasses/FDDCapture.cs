@@ -557,7 +557,7 @@ namespace FloppyControlApp
                     
                     tempbuffer.Add(temp);
                     
-                    tbr.Append("Store captured block in list time: " + SW.Elapsed);
+                    //tbr.Append("Store captured block in list time: " + SW.Elapsed);
                     //processing.indexrxbuf += bytestoread;
                     
 

@@ -180,10 +180,7 @@ namespace FloppyControlApp
 
             ChangeDiskTypeComboBox.Items.AddRange(Enum.GetNames(typeof(DiskFormat)));
             ProcessingModeComboBox.Items.AddRange(Enum.GetNames(typeof(ProcessingType)));
-            var aufit = ProcessingModeComboBox.Items.IndexOf("aufit");
-
-            ProcessingModeComboBox.Items.Remove(ProcessingModeComboBox.Items[aufit]);
-
+           
             ProcessingModeComboBox.SelectedItem = ProcessingType.adaptive1.ToString();
 
             ScanComboBox.Items.AddRange(Enum.GetNames(typeof(ScanMode)));
@@ -1291,7 +1288,7 @@ namespace FloppyControlApp
 
         private void outputfilename_Leave(object sender, EventArgs e)
         {
-            tbreceived.Append("Output changed to: "+outputfilename.Text+"\r\n");
+            //tbreceived.Append("Output changed to: "+outputfilename.Text+"\r\n");
             disablecatchkey = 0;
             openFileDialog1.InitialDirectory = subpath + @"\" + outputfilename.Text;
             openFileDialog2.InitialDirectory = subpath + @"\" + outputfilename.Text;
@@ -4480,6 +4477,7 @@ namespace FloppyControlApp
         {
             Properties.Settings.Default["DirectStep"] = DirectStepCheckBox.Checked;
             Properties.Settings.Default.Save();
+            controlfloppy.DirectStep = DirectStepCheckBox.Checked;
         }
 
         private void MicrostepsPerTrackUpDown_ValueChanged(object sender, EventArgs e)

@@ -12,6 +12,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters.Binary;
 using FloppyControlApp.MyClasses;
+using FDCPackage;
 
 namespace FloppyControlApp
 {
@@ -1241,7 +1242,6 @@ namespace FloppyControlApp
             }
             else if (processingtype == ProcessingType.aufit) //************ Aufit ****************
             {
-                /*
                 int bitwindow = 0;
                 int currenttime = 0;
                 if (scatterplotend - scatterplotstart > 10000) scatterplotend = scatterplotstart + 2000;
@@ -1285,7 +1285,6 @@ namespace FloppyControlApp
                         m[mfmlengths[threadid]++] = 0;
                     }
                 }
-                */
             }
 
             // The last pulse ends here, so no following pulse is there
