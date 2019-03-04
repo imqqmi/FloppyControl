@@ -55,6 +55,12 @@ Other features include:
   
 The sources are released as GPL v3.0.
 
+The firmware can be compiled using Arduino Studio v1.8.8.
+
+The FloppyControl App can be compiled using Visual Studio 2015 or 2017 community edition. You may need to install VC redistributables to run the software as stand alone.
+
+The PCB for the PIC version is created in Eagle v7.3. Newer versions of eagle (free/community edition should work). 
+
 Please let me know if you have any questions. Contributions to the project is appreciated. Please send the pull requests, I'll see if I can integrate them.
 
 
