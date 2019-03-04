@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+  <executable name="dist/default/production\FloppyControl.production.hex">
+    <memory name="program">
+      <units>words</units>
+      <length>16384</length>
+      <used>1069</used>
+      <free>15315</free>
+    </memory>
+    <memory name="data">
+      <units>bytes</units>
+      <length>1024</length>
+      <used>296</used>
+      <free>728</free>
+    </memory>
+  </executable>
+</project>

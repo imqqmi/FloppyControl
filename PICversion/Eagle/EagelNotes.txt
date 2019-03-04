@@ -1,0 +1,3 @@
+I used eagle version 7.3. You can try to find the free version on the internet, it should load fine.
+
+I made some changes to the default resistor libraries and included my own library with components that weren't in the default library like the pic microcontroller.
