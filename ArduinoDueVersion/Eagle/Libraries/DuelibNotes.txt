@@ -1,0 +1,2 @@
+The library was created by cowasaki and posted in this forum:
+https://forum.arduino.cc/index.php?topic=153875.0

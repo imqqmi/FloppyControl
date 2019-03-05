@@ -43,8 +43,8 @@ using namespace arduino_due;
 
 #define DIR             6 // p18
 #define STEP            7 // p20
-#define WDATE             // p22
-#define WGATE             // p24
+#define WDATE           9 // p22
+#define WGATE           13// p24
 #define SIDE            8 // p32
 
 //Inputs, IOC
