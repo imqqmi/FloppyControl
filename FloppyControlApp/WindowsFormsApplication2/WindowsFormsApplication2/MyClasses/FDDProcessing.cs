@@ -354,9 +354,13 @@ namespace FloppyControlApp
                                         //tbreceived.Append("Start: " + sectordata2[i].rxbufMarkerPositions + "\r\n");
                                         int q;
                                         int rxstart = (sectordata2[i].rxbufMarkerPositions - 500);
-
+                                        if (rxstart < 0) rxstart = 0;
                                         for (q = 0; q < 8500; q++)
-                                            rxbuf[oldindexrxbuf++] = rxbuf[rxstart + q];
+                                        {
+                                            if (oldindexrxbuf < rxbuf.Length - 1)
+                                                rxbuf[oldindexrxbuf++] = rxbuf[rxstart + q];
+                                            else break;
+                                        }
                                     }
                                 }
                             }

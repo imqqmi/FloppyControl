@@ -766,12 +766,6 @@
             // 
             this.JumpTocomboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.JumpTocomboBox.FormattingEnabled = true;
-            this.JumpTocomboBox.Items.AddRange(new object[] {
-            "None",
-            "10",
-            "100",
-            "1000",
-            "Random"});
             this.JumpTocomboBox.Location = new System.Drawing.Point(32, 392);
             this.JumpTocomboBox.Name = "JumpTocomboBox";
             this.JumpTocomboBox.Size = new System.Drawing.Size(181, 21);
