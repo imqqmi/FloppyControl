@@ -55,6 +55,8 @@ The sources are released as GPL v3.0.
 
 The firmware can be compiled using Arduino Studio v1.8.8.
 
+The project makes use of DPLL class which is based on US patent 4,780,844 and written by DrCoolzic (Jean Louis-Guérin) and gracefully allowed me to inlcude it in this project. See the file DPLL.cs for more information.
+
 The FloppyControl App can be compiled using Visual Studio 2015 or 2017 community edition. You may need to install VC redistributables to run the software as stand alone.
 
 The PCB for the PIC version is created in Eagle v7.3. Newer versions of eagle (free/community edition should work). 
