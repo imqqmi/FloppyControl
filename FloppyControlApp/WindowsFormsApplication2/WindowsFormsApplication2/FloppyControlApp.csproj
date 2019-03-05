@@ -93,7 +93,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DPLL.CS" />
+    <Compile Include="3rdpartyClasses\DPLL.CS" />
     <Compile Include="FloppyControlApp.cs">
       <SubType>Form</SubType>
     </Compile>
