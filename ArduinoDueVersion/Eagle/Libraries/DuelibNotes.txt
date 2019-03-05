@@ -1,2 +1,5 @@
 The library was created by cowasaki and posted in this forum:
 https://forum.arduino.cc/index.php?topic=153875.0
+
+I've copied the DUE(normal) device to DUE(NOCONN) to remove the spi and programming connector from the shield. Also, the Aref pin has another Aref1 pin under it. This could cause problems when sending it off for manufacturing. 
+

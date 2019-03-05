@@ -36,32 +36,36 @@ using namespace arduino_due;
 #define ANALOG_VALUE 127 // values in the interval [0,255] 
 
 // Pin definitions
-// Outputs                floppy connector
-#define MOTEA           3 // p10
-#define DRVSB           4 // p12
-#define MOTEB           5 // p16
+// If you don't need write support, only the pins marked with y under 'Needed only for reading' are
+// necessary. MOTEA and MOTEB are both needed to make sure it doesn't depend on the cable twist or no twist.
 
-#define DIR             6 // p18
-#define STEP            7 // p20
-#define WDATE           9 // p22
+// Outputs                floppy connector  Needed only for reading
+#define MOTEA           3 // p10            y
+#define DRVSB           4 // p12            y
+#define MOTEB           5 // p16            y
+
+#define DIR             6 // p18            y
+#define STEP            7 // p20            y
+#define WDATE           12// p22
 #define WGATE           13// p24
-#define SIDE            8 // p32
+#define SIDE            8 // p32            y
 
 //Inputs, IOC
 #define READY           59 // p2
-#define INDEX           10 // p8  
-#define TRK00           11 // p26
-#define RDATA           2  // p30
+#define INDEX           10 // p8            y  
+#define TRK00           11 // p26           y
+#define WPT             9  // p28
+#define RDATA           2  // p30           y
+#define DSKCHG          60 // p34
 
-
+// The stepstick is optional, allows you do read between tracks with microstepping.
+// When you've glued disk donut back to the metal hub, the disk donut may be off center.
+// Using microstepping you can fully recover those disks.
 #define _STEPSTICKEN    54 //A0
 #define MS1             55 //A1
 #define MS2             56 //A2
 #define MS3             57 //A3
 #define RESET           58 //A4
-
-
-#define RDATAIE         INTE
 
 #define TRACKDELAY      3
 
