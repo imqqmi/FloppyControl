@@ -10,9 +10,11 @@ using System.Security.Cryptography;
 using System.Security;
 using System.Collections.Generic;
 using FloppyControlApp.MyClasses;
- 
+using System.Reflection;
+
 namespace FloppyControlApp
 {
+    
     /*
         This application produces bin files of captured floppy disk RDATA. The format is:
         The stream can start in any track and any sector within the track or on the gap.
@@ -102,11 +104,20 @@ namespace FloppyControlApp
         private bool stopupdatingGraph = false;
         private int[] mfmbyteenc = new int[256];
         private int indexrxbufprevious = 0;
+        Version version;
 
         public FloppyControl()
         {
+            version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+            DateTime buildDate = new DateTime(2000, 1, 1)
+                                    .AddDays(version.Build).AddSeconds(version.Revision * 2);
+            string displayableVersion = $"{version} ({buildDate})";
+
+            
+
             int i;
             InitializeComponent();
+            this.Text+= " v"+version.ToString();
             processing = new FDDProcessing();
 
             processing.GetProcSettingsCallback += GetProcSettingsCallback;
@@ -1435,7 +1446,7 @@ namespace FloppyControlApp
 
         private void AboutButton_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("This application is created by:\nJosha Beukema.\nCode snippets used from stack overflow and other places.\nAufit DPLL class Copyright (C) 2013-2015 Jean Louis-Guerin. ", "About");
+            MessageBox.Show("FloppyControlApp v"+version.ToString()+" is created by\nJosha Beukema.\nCode snippets used from stack overflow and other places.\nAufit DPLL class Copyright (C) 2013-2015 Jean Louis-Guerin. ", "About");
         }
 
         private void SettingsButton_Click(object sender, EventArgs e)
@@ -6361,6 +6372,25 @@ namespace FloppyControlApp
                 }
                 
             }
+        }
+
+        private void TrackPreset3Button_Click(object sender, EventArgs e)
+        {
+            StartTrackUpDown.Value = 0;
+            EndTracksUpDown.Value = 166;
+            TrackDurationUpDown.Value = 260;
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            TrackDurationUpDown.Value = 1000;
+        }
+
+        private void TrackPreset4Button_Click(object sender, EventArgs e)
+        {
+            StartTrackUpDown.Value = 78;
+            EndTracksUpDown.Value = 164;
+            TrackDurationUpDown.Value = 260;
         }
     } // end class
 } // End namespace

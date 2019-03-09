@@ -538,10 +538,16 @@ namespace FloppyControlApp
 
             tbreceived.Append("Period length:" + (end - start) + " ");
             byte[] m;
-            if (procsettings.AddNoise || procsettings.pattern == 4)
-                m = new byte[((end - start) * 5)]; // mfm data can be max. 4x period data
-            else m = new byte[((end - start) * 4)]; // mfm data can be max. 4x period data
-
+            try {
+                if (procsettings.AddNoise || procsettings.pattern == 4)
+                    m = new byte[((end - start) * 5)]; // mfm data can be max. 4x period data
+                else m = new byte[((end - start) * 4)]; // mfm data can be max. 4x period data
+            }
+            catch(OutOfMemoryException)
+            {
+                tbreceived.Append("Out of memory. Please load a smaller dataset and try again.");
+                return;
+            }
             if (MINUS < 0) MINUS = 0;
 
             if (processingtype == ProcessingType.adaptive2) //************ Adaptive2 ****************

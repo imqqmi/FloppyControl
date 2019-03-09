@@ -388,6 +388,7 @@
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.SettingsButton = new System.Windows.Forms.Button();
             this.EditScatterPlotcheckBox = new System.Windows.Forms.CheckBox();
+            this.button4 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.ScatterPlottabPage.SuspendLayout();
@@ -1555,6 +1556,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.button4);
             this.groupBox1.Controls.Add(this.button6);
             this.groupBox1.Controls.Add(this.TrackPreset4Button);
             this.groupBox1.Controls.Add(this.TrackPreset2Button);
@@ -1562,14 +1564,14 @@
             this.groupBox1.Controls.Add(this.TrackPreset1Button);
             this.groupBox1.Location = new System.Drawing.Point(126, 17);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(91, 151);
+            this.groupBox1.Size = new System.Drawing.Size(91, 239);
             this.groupBox1.TabIndex = 58;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Preset capture";
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(9, 116);
+            this.button6.Location = new System.Drawing.Point(10, 139);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(57, 23);
             this.button6.TabIndex = 55;
@@ -1584,10 +1586,11 @@
             this.TrackPreset4Button.Size = new System.Drawing.Size(56, 23);
             this.TrackPreset4Button.TabIndex = 56;
             this.TrackPreset4Button.Text = "78-164";
+            this.TrackPreset4Button.Click += new System.EventHandler(this.TrackPreset4Button_Click);
             // 
             // TrackPreset2Button
             // 
-            this.TrackPreset2Button.Location = new System.Drawing.Point(9, 43);
+            this.TrackPreset2Button.Location = new System.Drawing.Point(9, 68);
             this.TrackPreset2Button.Name = "TrackPreset2Button";
             this.TrackPreset2Button.Size = new System.Drawing.Size(57, 23);
             this.TrackPreset2Button.TabIndex = 52;
@@ -1597,15 +1600,16 @@
             // 
             // TrackPreset3Button
             // 
-            this.TrackPreset3Button.Location = new System.Drawing.Point(10, 68);
+            this.TrackPreset3Button.Location = new System.Drawing.Point(10, 19);
             this.TrackPreset3Button.Name = "TrackPreset3Button";
             this.TrackPreset3Button.Size = new System.Drawing.Size(56, 23);
             this.TrackPreset3Button.TabIndex = 57;
-            this.TrackPreset3Button.Text = "0-166";
+            this.TrackPreset3Button.Text = "Default";
+            this.TrackPreset3Button.Click += new System.EventHandler(this.TrackPreset3Button_Click);
             // 
             // TrackPreset1Button
             // 
-            this.TrackPreset1Button.Location = new System.Drawing.Point(9, 19);
+            this.TrackPreset1Button.Location = new System.Drawing.Point(9, 44);
             this.TrackPreset1Button.Name = "TrackPreset1Button";
             this.TrackPreset1Button.Size = new System.Drawing.Size(57, 23);
             this.TrackPreset1Button.TabIndex = 58;
@@ -4858,6 +4862,16 @@
             this.EditScatterPlotcheckBox.UseVisualStyleBackColor = true;
             this.EditScatterPlotcheckBox.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(10, 116);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(57, 23);
+            this.button4.TabIndex = 59;
+            this.button4.Text = "1000ms";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
             // FloppyControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -4907,7 +4921,6 @@
             this.Text = "Floppy Control";
             this.SizeChanged += new System.EventHandler(this.FloppyControl_SizeChanged);
             this.Click += new System.EventHandler(this.FloppyControl_Click);
-            
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FloppyControl_KeyDown);
             this.Resize += new System.EventHandler(this.FloppyControl_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).EndInit();
@@ -5389,6 +5402,7 @@
         private System.Windows.Forms.RadioButton OnlyBadSectorsRadio;
         private System.Windows.Forms.Label label81;
         private System.Windows.Forms.Button FullHistBtn;
+        private System.Windows.Forms.Button button4;
     }
 }
 
