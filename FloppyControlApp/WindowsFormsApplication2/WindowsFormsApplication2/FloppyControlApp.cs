@@ -802,6 +802,8 @@ namespace FloppyControlApp
             processing.sectormap.SectorMapUpdateGUICallback += SectorMapUpdateGUICallback;
             processing.sectormap.rtbSectorMap = rtbSectorMap;
 
+            fileio.processing = processing;
+
             controlfloppy.tempbuffer.Clear();
             controlfloppy.rxbuf = null;
             controlfloppy = null;
