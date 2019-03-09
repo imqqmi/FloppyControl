@@ -61,8 +61,8 @@ namespace FloppyControlApp.MyClasses
         public int RecoveredSectorWithErrorsCount { get; set; }
         public int badsectorcnt;
 
-        public SectorMapStatus[,] sectorok = new SectorMapStatus[255, 255]; // track, sector5
-        public SectorMapStatus[,] sectorokLatestScan = new SectorMapStatus[255, 255]; // track, sector
+        public SectorMapStatus[,] sectorok = new SectorMapStatus[256, 256]; // track, sector5
+        public SectorMapStatus[,] sectorokLatestScan = new SectorMapStatus[256, 256]; // track, sector
         //public byte[,] duplicateSectors = new byte[200, 255]; // track, sector
 
         public Action SectorMapUpdateGUICallback { get; set; }

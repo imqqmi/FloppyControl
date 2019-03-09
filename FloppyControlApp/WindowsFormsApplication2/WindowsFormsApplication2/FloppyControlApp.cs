@@ -1164,6 +1164,8 @@ namespace FloppyControlApp
         // Resets all data that was produced by processing but keeps rxbuf intact
         private void resetprocesseddata()
         {
+            
+
             int i;
             FDDProcessing.badsectorhash = new byte[5000000][];
 
