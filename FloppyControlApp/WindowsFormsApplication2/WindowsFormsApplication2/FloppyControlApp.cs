@@ -1226,7 +1226,7 @@ namespace FloppyControlApp
 
         private void resetoutput()
         {
-            //var rxbuftemp = (byte[]) processing.rxbuf.Clone();
+            var rxbuftemp = (byte[]) processing.rxbuf.Clone();
             for(var i =0; i< processing.mfms.Length;i++)
                 processing.mfms[i] = null;
             processing.rxbuf = null;
@@ -1245,7 +1245,7 @@ namespace FloppyControlApp
             ECHisto = new Histogram();
             ScatterHisto = new Histogram();
             processing = new FDDProcessing();
-            //processing.rxbuf = rxbuftemp;
+            processing.rxbuf = rxbuftemp;
             processing.indexrxbuf = processing.rxbuf.Length/2; // Divide by two as loading .bin files doubles the buffer
             processing.GetProcSettingsCallback += GetProcSettingsCallback;
             processing.rtbSectorMap = rtbSectorMap;
@@ -1257,13 +1257,17 @@ namespace FloppyControlApp
             controlfloppy.rxbuf = null;
             controlfloppy = null;
             controlfloppy = new ControlFloppy();
-            controlfloppy.rxbuf = processing.rxbuf;
+            controlfloppy.rxbuf = rxbuftemp;
             controlfloppy.processing = processing;
+            scatterplot.removeEvents();
             scatterplot.rxbuf = null;
+            scatterplot.UpdateEvent -= updateAnScatterPlot;
+            scatterplot.ShowGraph -= ScatterPlotShowGraphCallback;
+            
             scatterplot = null;
             scatterplot = new ScatterPlot(processing, processing.sectordata2, 0, 0, ScatterPictureBox);
             scatterplot.tbreiceved = tbreceived;
-            scatterplot.rxbuf = processing.rxbuf;
+            scatterplot.rxbuf = rxbuftemp;
             scatterplot.UpdateEvent += updateAnScatterPlot;
             scatterplot.ShowGraph += ScatterPlotShowGraphCallback;
             scatterplot.EditScatterplot = EditScatterPlotcheckBox.Checked;
@@ -1284,7 +1288,11 @@ namespace FloppyControlApp
             BluetoRedByteCopyToolBtn.Tag = 0;
             ECHisto.setPanel(AnHistogramPanel);
             ScatterHisto.setPanel(Histogrampanel1);
-
+            if (processing.indexrxbuf < 100000)
+                scatterplot.AnScatViewlength = processing.indexrxbuf;
+            else scatterplot.AnScatViewlength = 99999;
+            scatterplot.AnScatViewoffset = 0;
+            scatterplot.UpdateScatterPlot();
             updateSliderLabels();
             updateAnScatterPlot();
 

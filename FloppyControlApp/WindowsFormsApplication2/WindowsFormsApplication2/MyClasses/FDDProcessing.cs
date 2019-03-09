@@ -285,10 +285,6 @@ namespace FloppyControlApp
             progressesstart = null;
             progressesend = null;
             ProcessStatus = null;
-            sectormap.sectorok = null;
-
-            sectormap.sectorokLatestScan = null;
-            sectormap = null;
         }
 
         public void ClearNonBadSectors()

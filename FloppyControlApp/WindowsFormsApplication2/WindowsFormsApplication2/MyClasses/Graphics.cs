@@ -1973,6 +1973,7 @@ namespace FloppyControlApp
         public Action UpdateEvent { get; set; }
         public Action ShowGraph { get; set; }
         public bool showEntropy { get; set; }
+        int ID = 0;
 
         public ScatterPlot(FDDProcessing proc, ConcurrentDictionary<int, MFMData> sd, int indexstart, int indexend, PictureBox picturebox)
         {
@@ -1992,6 +1993,9 @@ namespace FloppyControlApp
             dragging = false;
             EditScatterplot = false;
             int i,p;
+            Random random = new Random();
+            int ID = random.Next();
+            proc.tbreceived.Append("scatterplot id: " + ID);
             for (i = 255; i > -1; i--)
                 gradient1[i] = 255;
 
@@ -2010,11 +2014,25 @@ namespace FloppyControlApp
             }
 
             // Assign event handlers
+            assignEvents();
+        }
+
+        public void assignEvents()
+        {
             panel.MouseHover += PictureBox_MouseHover;
             panel.MouseUp += PictureBox_MouseUp;
             panel.MouseDown += PictureBox_MouseDown;
             panel.MouseMove += PictureBox_MouseMove;
             panel.MouseWheel += ScatterPictureBox_MouseWheel;
+        }
+
+        public void removeEvents()
+        {
+            panel.MouseHover -= PictureBox_MouseHover;
+            panel.MouseUp -= PictureBox_MouseUp;
+            panel.MouseDown -= PictureBox_MouseDown;
+            panel.MouseMove -= PictureBox_MouseMove;
+            panel.MouseWheel -= ScatterPictureBox_MouseWheel;
         }
 
         public void drawScatterPlot()
@@ -2115,6 +2133,12 @@ namespace FloppyControlApp
 
             datapoints = end - start;
             if (bufend == 0) return;
+            if (rxbuf == null)
+            {
+                tbreiceved.Append("rxbuf null detected! scatterplot ID="+ID);
+                return;
+            }
+
             if (start + datapoints > rxbuf.Length) return;
 
             Graphics formGraphics = panel.CreateGraphics();
@@ -2357,6 +2381,11 @@ namespace FloppyControlApp
 
         private void PictureBox_MouseDown(object sender, MouseEventArgs e)
         {
+            if (rxbuf == null)
+            {
+                tbreiceved.Append("rxbuf null detected! scatterplot ID=" + ID);
+                return;
+            }
             rxbufclickindex = ViewToGraphIndex(e.X);
             if (e.Button == MouseButtons.Left)
             {
