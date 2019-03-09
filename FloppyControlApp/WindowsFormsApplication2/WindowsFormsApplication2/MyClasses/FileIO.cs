@@ -27,6 +27,7 @@ namespace FloppyControlApp.MyClasses
         private BinaryReader reader;
         private BinaryWriter writer;
         private OpenFileDialog openFileDialog1;
+        private OpenFileDialog openFileDialog2;
         private int binfilecount = 0; // Keep saving each capture under a different filename as to keep all captured data
 
 
@@ -42,6 +43,15 @@ namespace FloppyControlApp.MyClasses
             openFileDialog1.CheckFileExists = true;
             openFileDialog1.CheckPathExists = true;
             openFileDialog1.ValidateNames = true;
+
+            openFileDialog2 = new OpenFileDialog();
+            openFileDialog2.Filter = "Projects (*.prj)|*.prj|All files (*.*)|*.*";
+            openFileDialog2.Multiselect = false;
+            openFileDialog2.FileOk += openFileDialog2_FileOk;
+            openFileDialog2.AddExtension = true;
+            openFileDialog2.CheckFileExists = true;
+            openFileDialog2.CheckPathExists = true;
+            openFileDialog2.ValidateNames = true;
             AddData = true;
         }
 
@@ -59,6 +69,13 @@ namespace FloppyControlApp.MyClasses
             AddData = true;
             openFileDialog1.Title = "Select files to add...";
             openFileDialog1.ShowDialog();
+        }
+
+        public void ShowLoadProjectFiles()
+        {
+            openFileDialog2.InitialDirectory = PathToRecoveredDisks + @"\" + BaseFileName;
+            openFileDialog1.Title = "Select project to load...";
+            openFileDialog2.ShowDialog();
         }
 
         private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
@@ -425,6 +442,163 @@ namespace FloppyControlApp.MyClasses
                 }
 
             }
+        }
+
+        public void SaveProject()
+        {
+            int i, j, sectorcount = 0;
+            string extension = ".ADF";
+            int ioerror = 0;
+
+            // Write period data to disk in bin format
+            extension = ".prj";
+            string path = PathToRecoveredDisks + @"\" + BaseFileName + @"\" + BaseFileName + "_" + binfilecount.ToString("D3") + extension;
+
+            tbreceived.Append("Path:" + path + "\r\n");
+
+            bool exists = System.IO.Directory.Exists(path);
+
+            if (processing.diskformat == DiskFormat.amigados)
+            {
+                sectorcount = 512 * processing.sectorspertrack * 164; // a couple of tracks extra to store possible other data
+            }
+            else if (processing.diskformat == DiskFormat.diskspare)
+            {
+                sectorcount = 1024 * 1024; // disk sizes can vary
+            }
+            else if (processing.diskformat == DiskFormat.pcdd)
+            {
+                sectorcount = 512 * processing.sectorspertrack * 82 * 2;
+            }
+            else if (processing.diskformat == DiskFormat.pchd)
+            {
+                sectorcount = 512 * processing.sectorspertrack * 82 * 2;
+            }
+            else if (processing.diskformat == DiskFormat.pc2m)
+            {
+                sectorcount = 2048 * 1024;
+            }
+
+            while (File.Exists(path))
+            {
+                binfilecount++;
+                path = PathToRecoveredDisks + @"\" + BaseFileName + @"\" + BaseFileName + "_" + binfilecount.ToString("D3") + extension;
+            }
+
+            //Only save if there's any data to save
+            if (sectorcount != 0)
+            {
+                //if (processing.diskformat == 3 || processing.diskformat == 4) //PC 720 KB dd or 1440KB hd
+                //{
+                try
+                {
+                    writer = new BinaryWriter(new FileStream(path, FileMode.Create));
+                }
+                catch (IOException ex)
+                {
+                    tbreceived.Append("IO error: " + ex.ToString());
+                    ioerror = 1;
+                }
+                if (ioerror == 0) // skip writing on io error
+                {
+                    writer.Write((byte)processing.diskformat);
+                    writer.Write((int)sectorcount);
+                    //Save sector data
+                    for (i = 0; i < sectorcount; i++)
+                        writer.Write((byte)processing.disk[i]);
+
+                    //Save sector status
+                    for (i = 0; i < 184; i++)
+                        for (j = 0; j < 18; j++)
+                            writer.Write((byte)processing.sectormap.sectorok[i, j]);
+
+                    if (writer != null)
+                    {
+                        writer.Flush();
+                        writer.Close();
+                        writer.Dispose();
+                    }
+                }
+                else ioerror = 0;
+                //}
+            }
+        }
+
+        private void openFileDialog2_FileOk(object sender, CancelEventArgs e)
+        {
+            int i, j, sectorcount = 0;
+            string path1;
+            int ioerror = 0;
+
+            tbreceived.Append("Loading project...\r\n");
+
+            // Write period data to disk in bin format
+
+            string path = openFileDialog2.FileName;
+            path1 = Path.GetFileName(path);
+            BaseFileName = path1.Substring(0, path1.IndexOf("_"));
+            Properties.Settings.Default["BaseFileName"] = BaseFileName;
+            Properties.Settings.Default.Save();
+            tbreceived.Append("Path: " + path + "\r\n");
+
+            bool exists = System.IO.Directory.Exists(path);
+
+            /*
+            if (processing.diskformat == DiskFormat.amigados) // AmigaDOS
+            {
+                sectorcount = 512 * processing.sectorspertrack * 160;
+            }
+            else if (processing.diskformat == DiskFormat.diskspare) // DiskSpare
+            {
+                sectorcount = 512 * processing.sectorspertrack * 160;
+            }
+            else if (processing.diskformat == DiskFormat.pcdd) // PC DD
+            {
+                sectorcount = 512 * processing.sectorspertrack * 80 * 2;
+            }
+            else if (processing.diskformat == DiskFormat.pchd) // PC HD
+            {
+                sectorcount = 512 * processing.sectorspertrack * 80 * 2;
+            }
+            else if (processing.diskformat == DiskFormat.pc2m)
+            {
+                sectorcount = 2048 * 1024;
+            }
+            */
+            try
+            {
+                reader = new BinaryReader(new FileStream(path, FileMode.Open));
+            }
+            catch (IOException ex)
+            {
+                tbreceived.Append("IO error: " + ex.ToString() + "\r\n");
+                ioerror = 1;
+            }
+            if (ioerror == 0) // skip writing on io error
+            {
+                processing.diskformat = (DiskFormat)reader.ReadByte();
+
+                sectorcount = reader.ReadInt32();
+
+                //Load sector data
+                for (i = 0; i < sectorcount; i++)
+                    processing.disk[i] = reader.ReadByte();
+
+                //Load sector status
+                for (i = 0; i < 184; i++)
+                    for (j = 0; j < 18; j++)
+                        processing.sectormap.sectorok[i, j] = (SectorMapStatus)reader.ReadByte();
+                reader.Close();
+                reader.Dispose();
+            }
+            else ioerror = 0;
+
+            tbreceived.Append("Load complete.\r\n");
+            tbreceived.Append("Sectorcount: " + sectorcount + "\r\n");
+            tbreceived.Append("diskformat:" + processing.diskformat + "\r\n");
+
+            processing.sectormap.RefreshSectorMap();
+            //ShowDiskFormat();
         }
 
     } //Class

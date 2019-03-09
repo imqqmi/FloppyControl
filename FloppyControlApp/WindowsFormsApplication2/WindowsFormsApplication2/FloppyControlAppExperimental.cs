@@ -164,5 +164,47 @@ namespace FloppyControlApp
             tbTest.AppendText(tbt.ToString());
             AntxtBox.AppendText(txt.ToString());
         }
+
+        // Convert MFM in text to MFM in bytes to decoded bytes to hex
+        private void button2_Click(object sender, EventArgs e)
+        {
+            int i;
+
+            //byte[] bytes = new byte[] { 65, 66, 67, 68 };//Encoding.ASCII.GetBytes(tbBIN.Text);
+
+            //byte[] bytes = HexToBytes(tbBIN.Text);
+            //byte[] mfmbytes = BIN2MFMbits(ref bytes, bytes.Count(), 0, false);
+            byte[] bytebuf = new byte[tbMFM.Text.Length / 8];
+
+            byte[] mfmbytes = new byte[tbMFM.Text.Length];
+            byte[] mfmbytes2 = new byte[tbMFM.Text.Length];
+
+            //tbMFM.Text = Encoding.ASCII.GetString(BIN2MFMbits(ref bytes, bytes.Count(), 0, true));
+
+            mfmbytes = Encoding.ASCII.GetBytes(tbMFM.Text);
+
+            int cnt = 0;
+
+            for (i = 0; i < mfmbytes.Length; i++)
+            {
+                if (mfmbytes[i] == 48 || mfmbytes[i] == 49)
+                    mfmbytes2[cnt++] = (byte)(mfmbytes[i] - 48); // from ascii to byte
+            }
+
+            StringBuilder tbt = new StringBuilder();
+            StringBuilder txt = new StringBuilder();
+            for (i = 0; i < mfmbytes2.Length / 16; i++)
+            {
+                bytebuf[i] = processing.MFMBits2BINbyte(ref mfmbytes2, (i * 16));
+                tbt.Append(bytebuf[i].ToString("X2"));
+                if (bytebuf[i] > ' ' && bytebuf[i] < 127) txt.Append((char)bytebuf[i]);
+                else txt.Append(".");
+
+            }
+            tbTest.Clear();
+            AntxtBox.Clear();
+            tbTest.AppendText(tbt.ToString());
+            AntxtBox.AppendText(txt.ToString());
+        }
     } // Class
 }

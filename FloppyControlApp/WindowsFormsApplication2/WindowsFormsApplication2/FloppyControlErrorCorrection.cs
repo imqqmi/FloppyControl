@@ -577,5 +577,338 @@ namespace FloppyControlApp
                 }
             }
         }
+
+        public void CopySectorToBlue()
+        {
+            int i;
+            int indexS1; //indexS2;
+            int offset = 4;
+            int diskoffset;
+            //int x, y;
+            //int bsbyte;
+            int track, sectornr;
+            int datacrc;
+            //int processing.sectorspertrack;
+            int threadid;
+
+            switch ((int)processing.diskformat)
+            {
+                case 0:
+                    return;
+                    break;
+                case 1:
+                    offset = 0;
+                    break;
+                case 2:
+                    offset = 0;
+                    break;
+                case 3:
+                    offset = 4;
+                    break;
+                case 4:
+                    offset = 4;
+                    break;
+                case 5:
+                    offset = 4;
+                    break;
+            }
+
+            if (BadSectorListBox.SelectedIndices.Count == 1)
+            {
+                indexS1 = ((badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[0]]).id;
+                threadid = ((badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[0]]).threadid;
+
+                // Copy sector from BadSectors to disk array
+                if (BSBlueSectormapRadio.Checked && BSRedFromlistRadio.Checked)
+                {
+                    textBoxReceived.AppendText("Copy single sector to disk array.");
+                    track = processing.sectordata2[indexS1].track;
+                    sectornr = processing.sectordata2[indexS1].sector;
+                    datacrc = processing.sectordata2[indexS1].crc;
+                    //processing.sectorspertrack = 9;
+
+                    //(tracknr * processing.sectorspertrack * 512 * 2) + (headnr * processing.sectorspertrack * 512) + (sectornr * 512);
+                    diskoffset = track * processing.sectorspertrack * 512 + sectornr * 512;
+
+                    for (i = 0; i < 512; i++)
+                    {
+                        processing.disk[diskoffset + i] = processing.sectordata2[indexS1].sectorbytes[i + offset];
+                    }
+                }
+
+                // Copy sector from BadSectors to temporary sector buffer
+                if (BlueTempRadio.Checked && BSRedFromlistRadio.Checked)
+                {
+                    textBoxReceived.AppendText("Copy full sector to Temp.");
+                    track = processing.sectordata2[indexS1].track;
+                    sectornr = processing.sectordata2[indexS1].sector;
+                    datacrc = processing.sectordata2[indexS1].crc;
+
+                    //processing.sectorspertrack = 9;
+
+                    // I combined tracks and head to simplify stuff
+                    // My track = tracks * 2 + headnr
+                    // track 10 head 1 is 21
+                    diskoffset = track * processing.sectorspertrack * 512 + sectornr * 512;
+
+                    for (i = 0; i < 518; i++)
+                    {
+                        TempSector[i] = processing.sectordata2[indexS1].sectorbytes[i];
+                    }
+
+                    //Check crc
+                    ushort datacrcchk;
+                    Crc16Ccitt crc = new Crc16Ccitt(InitialCrcValue.NonZero1);
+                    datacrcchk = crc.ComputeChecksum(TempSector);
+                    BlueCrcCheckLabel.Text = "Crc: " + datacrcchk.ToString("X2");
+
+                    processing.sectordata2[indexS1].crc = datacrcchk;
+                }
+
+                // Copy sector from temporary sector buffer to disk array
+                if (BlueTempRadio.Checked && BSRedTempRadio.Checked)
+                {
+                    textBoxReceived.AppendText("Copy full sector to Temp.");
+                    track = processing.sectordata2[indexS1].track;
+                    sectornr = processing.sectordata2[indexS1].sector;
+                    datacrc = processing.sectordata2[indexS1].crc;
+
+                    //processing.sectorspertrack = 9;
+
+                    //(tracknr * processing.sectorspertrack * 512 * 2) + (headnr * processing.sectorspertrack * 512) + (sectornr * 512);
+                    diskoffset = track * processing.sectorspertrack * 512 + sectornr * 512;
+
+                    for (i = 0; i < 512; i++)
+                    {
+                        processing.disk[diskoffset + i] = TempSector[i + offset];
+                    }
+
+                    //Do crc check
+                    ushort datacrcchk;
+                    Crc16Ccitt crc = new Crc16Ccitt(InitialCrcValue.NonZero1);
+                    datacrcchk = crc.ComputeChecksum(TempSector);
+                    BlueCrcCheckLabel.Text = "Crc: " + datacrcchk.ToString("X2");
+
+                    processing.sectordata2[indexS1].crc = datacrcchk;
+                }
+            }
+        }
+
+        public void ECSectorOverlay()
+        {
+            int i, track1, sector1, track2, sector2;
+            //int offset = 4;
+            //uint databyte;
+            StringBuilder bytesstring = new StringBuilder();
+            StringBuilder txtstring = new StringBuilder();
+            StringBuilder badsecttext = new StringBuilder();
+            string key;
+
+            BadSectorListBox.DisplayMember = "name";
+            BadSectorListBox.ValueMember = "id";
+
+            track1 = (int)Track1UpDown.Value;
+            sector1 = (int)Sector1UpDown.Value;
+
+            track2 = (int)Track2UpDown.Value;
+            sector2 = (int)Sector2UpDown.Value;
+
+            BadSectorListBox.Items.Clear();
+            JumpTocomboBox.Items.Clear();
+
+            bool goodsectors = GoodSectorsCheckBox.Checked;
+            bool badsectors = BadSectorsCheckBox.Checked;
+
+            // First determine if there's bad sectors with the same track and sector
+            //int threadid;
+            MFMData sectordata;
+
+            for (i = 0; i < processing.sectordata2.Count; i++)
+            {
+                sectordata = processing.sectordata2[i];
+                if (sectordata.track >= track1 && sectordata.track <= track2 &&
+                    sectordata.sector >= sector1 && sectordata.sector <= sector2)
+                {
+                    if ((sectordata.mfmMarkerStatus == SectorMapStatus.HeadOkDataBad) && badsectors)
+                    {
+
+                        key = "i: " + i + " B T: " + sectordata.track + " S: " + sectordata.sector;
+
+                        BadSectorListBox.Items.Add(new badsectorkeyval
+                        {
+                            name = key,
+                            id = i,
+                            threadid = 0
+                        });
+
+                        JumpTocomboBox.Items.Add(new ComboboxItem
+                        {
+                            Text = key,
+                            id = i,
+                        });
+                    }
+                    if ((sectordata.mfmMarkerStatus == SectorMapStatus.CrcOk) && goodsectors)
+                    {
+                        key = "i: " + i + " G T: " + sectordata.track + " S: " + sectordata.sector;
+
+                        BadSectorListBox.Items.Add(new badsectorkeyval
+                        {
+                            name = key,
+                            id = i,
+                            threadid = 0
+                        });
+                        JumpTocomboBox.Items.Add(new ComboboxItem
+                        {
+                            Text = key,
+                            id = i,
+                        });
+                    }
+                }
+
+                txtstring.Clear();
+                bytesstring.Clear();
+            }
+        }
+
+        public void BadSectorToolTip()
+        {
+            int x, y, bsbyte, indexS1 = 0, indexS2;
+            int offset = 4;
+            int sectorlength;
+            int threadid = 0;
+
+            switch ((int)processing.diskformat)
+            {
+                case 0:
+                    return;
+                    break;
+                case 1:
+                    offset = 0;
+                    break;
+                case 2:
+                    offset = 0;
+                    break;
+                case 3:
+                    offset = 4;
+                    break;
+                case 4:
+                    offset = 4;
+                    break;
+                case 5:
+                    offset = 4;
+                    break;
+            }
+
+            if (ECMFMcheckBox.Checked)
+            {
+                //if( processing.diskformat == DiskFormat.amigados || processing.diskformat == DiskFormat.diskspare || processing.diskformat == )
+                if (BadSectorListBox.SelectedIndices.Count == 1)
+                {
+                    indexS1 = ((badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[0]]).id;
+                    indexS2 = -1;
+                    threadid = ((badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[0]]).threadid;
+                }
+                else if (BadSectorListBox.SelectedIndices.Count >= 2)
+                {
+                    indexS1 = ((badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[0]]).id;
+                    indexS2 = ((badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[1]]).id;
+                    threadid = ((badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[0]]).threadid;
+                }
+                else return;
+                if (processing.sectordata2 == null) return;
+                if (processing.sectordata2.Count == 0) return;
+                sectorlength = processing.sectordata2[indexS1].sectorlength;
+                BadSectorTooltipPos = BadSectorPanel.PointToClient(Cursor.Position);
+                //int f = sectorlength / 512;
+                int w = 13;
+                int h = 8;
+                int lengthmfm;
+                switch ((int)processing.diskformat)
+                {
+                    case 0:
+                        return;
+                        break;
+                    case 1: //AmigaDos
+                        offset = 0;
+                        lengthmfm = 8704;
+                        break;
+                    case 2://diskspare
+                        offset = 0;
+                        lengthmfm = 8320;
+                        break;
+                    case 3://pc2m
+                        offset = -704;
+                        lengthmfm = 10464;
+                        break;
+                    case 4://pcdd
+                        offset = -704;
+                        lengthmfm = 10464;
+                        break;
+                    case 5://pchd
+                        offset = -704;
+                        lengthmfm = 10464;
+                        break;
+                }
+                //if (f == 0.0f) f = 1;
+                x = ((BadSectorTooltipPos.X) / w);
+                y = (int)(BadSectorTooltipPos.Y / h);
+                bsbyte = (y * 40 + x);
+
+                //if (bsbyte > sectorlength - 1) return;
+
+                if (BadSectorTooltipPos.X < 350)
+                    BadSectorTooltipPos.X += 30;
+                else BadSectorTooltipPos.X -= 150;
+                int mfmoffset = bsbyte * 8 + offset;
+                if (mfmoffset < offset) return;
+                int mfmmarkerposition = processing.sectordata2[indexS1].MarkerPositions;
+                threadid = processing.sectordata2[indexS1].threadid;
+                byte[] mfm = processing.MFM2ByteArray(processing.mfms[threadid], mfmmarkerposition + mfmoffset, 256);
+                BadSectorTooltip.Text = " Offset: " + (mfmoffset) + " = " + mfm[0].ToString("X2"); ;
+                BadSectorTooltip.Show();
+
+            }
+            else
+            {
+
+                //if( processing.diskformat == DiskFormat.amigados || processing.diskformat == DiskFormat.diskspare || processing.diskformat == )
+                if (BadSectorListBox.SelectedIndices.Count == 1)
+                {
+                    indexS1 = ((badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[0]]).id;
+                    indexS2 = -1;
+                    threadid = ((badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[0]]).threadid;
+                }
+                else if (BadSectorListBox.SelectedIndices.Count >= 2)
+                {
+                    indexS1 = ((badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[0]]).id;
+                    indexS2 = ((badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[1]]).id;
+                    threadid = ((badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[0]]).threadid;
+                }
+                else return;
+                if (processing.sectordata2 == null) return;
+                if (processing.sectordata2.Count == 0) return;
+                sectorlength = processing.sectordata2[indexS1].sectorlength;
+                BadSectorTooltipPos = BadSectorPanel.PointToClient(Cursor.Position);
+                int f = sectorlength / 512;
+                if (f == 0.0f) f = 1;
+                x = ((BadSectorTooltipPos.X) / 16);
+                y = (int)((BadSectorTooltipPos.Y) / (16 / f));
+                bsbyte = y * 32 + x;
+
+                if (bsbyte > sectorlength - 1) return;
+
+                if (BadSectorTooltipPos.X < 350)
+                    BadSectorTooltipPos.X += 30;
+                else BadSectorTooltipPos.X -= 150;
+
+                //BadSectors[indexS1][i + offset];
+                //BadSectorTooltip.Text = "X: " + x + " Y:" + y + " byte: " + bsbyte;
+                if (bsbyte >= 0 && bsbyte <= (sectorlength + 6) - 4)
+                {
+                    BadSectorTooltip.Text = " byte: " + bsbyte + " = " + processing.sectordata2[indexS1].sectorbytes[bsbyte + offset].ToString("X2");
+                    BadSectorTooltip.Show();
+                }
+            }
+        }
     } //Class
 }

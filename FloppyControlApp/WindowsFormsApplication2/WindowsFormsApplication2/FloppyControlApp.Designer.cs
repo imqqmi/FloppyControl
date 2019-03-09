@@ -1294,8 +1294,7 @@
             // openFileDialog2
             // 
             this.openFileDialog2.FileName = "openFileDialog2";
-            this.openFileDialog2.Filter = "Projects (*.prj)|*.prj|All files (*.*|*.*";
-            this.openFileDialog2.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog2_FileOk);
+            this.openFileDialog2.Filter = "Projects (*.prj)|*.prj|All files (*.*|*.*)";
             // 
             // LimitToSectorUpDown
             // 
