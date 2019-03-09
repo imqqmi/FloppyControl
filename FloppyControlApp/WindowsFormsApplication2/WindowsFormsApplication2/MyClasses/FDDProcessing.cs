@@ -173,21 +173,21 @@ namespace FloppyControlApp
         
         //public string AMIGADSMARKER = "010001001000100101000100100010010010101010101010";
         public int debuglevel { get; set; }
-        public static byte[][] mfms = new byte[50000][]; // replaces mfm array, dynamically allocating array. threadid is the key
-        public static int mfmsindex = 0;
-        public static int[] mfmlengths = new int[50000]; // replaces mfmlength, the length of data in mfms. threadid is the key
+        public byte[][] mfms = new byte[50000][]; // replaces mfm array, dynamically allocating array. threadid is the key
+        public int mfmsindex = 0;
+        public int[] mfmlengths = new int[50000]; // replaces mfmlength, the length of data in mfms. threadid is the key
 
-        public static byte[][] badsectorhash = new byte[500000][]; // (badsectorcnt)
+        public byte[][] badsectorhash = new byte[500000][]; // (badsectorcnt)
 
         //public int[] rxbufMarkerPositions = new int[5000000];  // the index var is markerpositionscnt This is rxbuf
-        public static int[] progresses = new int[50000]; // keeps track of the progress of different threads, threadid is the key
-        public static int[] progressesstart = new int[50000]; // threadid is the key
-        public static int[] progressesend = new int[50000]; // threadid is the key
-        public static string[] ProcessStatus = new string[50000]; // threadid is the key
+        public int[] progresses = new int[50000]; // keeps track of the progress of different threads, threadid is the key
+        public int[] progressesstart = new int[50000]; // threadid is the key
+        public int[] progressesend = new int[50000]; // threadid is the key
+        public string[] ProcessStatus = new string[50000]; // threadid is the key
         public int sectorspertrack = 0;
         public int bytespersector = 512; // 1024 for 2M, 512 for everything else
         public int stop { get; set; }
-        private static Thread[] threads { get; set; }
+        private Thread[] threads { get; set; }
         public int NumberOfThreads { get; set; }
         public int processing = 0;
         public Dictionary<DiskFormat, DiskGeometry> diskGeometry = new Dictionary<DiskFormat, DiskGeometry>();

@@ -233,7 +233,7 @@ namespace FloppyControlApp
 
                 MFMData sd = processing.sectordata2[i - 1];
 
-                var mfms = FDDProcessing.mfms[sd.threadid];
+                var mfms = processing.mfms[sd.threadid];
                 int index = 0;
                 for (i = 0; i < mfms.Length; i++)
                 {
@@ -1167,19 +1167,19 @@ namespace FloppyControlApp
             
 
             int i;
-            FDDProcessing.badsectorhash = new byte[5000000][];
+            processing.badsectorhash = new byte[5000000][];
 
             BadSectorListBox.Items.Clear();
             processing.sectordata2.Clear();
 
-            for (i = 0; i < FDDProcessing.mfmsindex; i++)
+            for (i = 0; i < processing.mfmsindex; i++)
             {
 
                 //BadSectors[i] = new byte[0];
-                FDDProcessing.mfms[i] = new byte[0];
+                processing.mfms[i] = new byte[0];
             }
             OnlyBadSectorsRadio.Checked = false; // When the input buffer is changed or empty, we can't scan for only bad sectors
-            FDDProcessing.mfmsindex = 0;
+            processing.mfmsindex = 0;
             GC.Collect();
         }
 
@@ -1187,16 +1187,16 @@ namespace FloppyControlApp
         {
             int i;
             ProcessingTab.Enabled = false;
-            FDDProcessing.badsectorhash = new byte[5000000][];
+            processing.badsectorhash = new byte[5000000][];
 
             BadSectorListBox.Items.Clear();
             processing.sectordata2.Clear();
 
-            for (i = 0; i < FDDProcessing.mfmsindex; i++)
+            for (i = 0; i < processing.mfmsindex; i++)
             {
 
                 //BadSectors[i] = new byte[0];
-                FDDProcessing.mfms[i] = new byte[0];
+                processing.mfms[i] = new byte[0];
             }
             OnlyBadSectorsRadio.Checked = false; // When the input buffer is changed or empty, we can't scan for only bad sectors
             ECOnRadio.Checked = true;
@@ -1205,7 +1205,7 @@ namespace FloppyControlApp
             Array.Clear(processing.rxbuf, 0, processing.rxbuf.Length);
             //TrackPosInrxdatacount = 0;
             processing.indexrxbuf = 0;
-            FDDProcessing.mfmsindex = 0;
+            processing.mfmsindex = 0;
 
             rxbufStartUpDown.Maximum = processing.indexrxbuf;
             rxbufEndUpDown.Maximum = processing.indexrxbuf;
@@ -1221,6 +1221,114 @@ namespace FloppyControlApp
 
         private void resetoutput()
         {
+            var rxbuftemp = processing.rxbuf;
+
+
+            processing = null;
+
+            processing = new FDDProcessing();
+            processing.rxbuf = rxbuftemp;
+            processing.indexrxbuf = processing.rxbuf.Length/2; // Divide by two as loading .bin files doubles the buffer
+            processing.GetProcSettingsCallback += GetProcSettingsCallback;
+            processing.rtbSectorMap = rtbSectorMap;
+            processing.tbreceived = tbreceived;
+            processing.sectormap.SectorMapUpdateGUICallback += SectorMapUpdateGUICallback;
+            processing.sectormap.rtbSectorMap = rtbSectorMap;
+
+            controlfloppy = new ControlFloppy();
+            controlfloppy.rxbuf = processing.rxbuf;
+            controlfloppy.processing = processing;
+
+            scatterplot = new ScatterPlot(processing, processing.sectordata2, 0, 0, ScatterPictureBox);
+            scatterplot.tbreiceved = tbreceived;
+            scatterplot.rxbuf = processing.rxbuf;
+            scatterplot.UpdateEvent += updateAnScatterPlot;
+            scatterplot.ShowGraph += ScatterPlotShowGraphCallback;
+            scatterplot.EditScatterplot = EditScatterPlotcheckBox.Checked;
+
+            graphset = new Graphset(GraphPictureBox, Color.Black);
+            graphset.UpdateGUI += updateGraphCallback;
+            graphset.GetControlValues += GraphsetGetControlValuesCallback;
+            graphset.tbreceived = tbreceived;
+            outputfilename.Text = (string)Properties.Settings.Default["BaseFileName"];
+            DirectStepCheckBox.Checked = (bool)Properties.Settings.Default["DirectStep"];
+            MicrostepsPerTrackUpDown.Value = (int)Properties.Settings.Default["MicroStepping"];
+            subpath = @Properties.Settings.Default["PathToRecoveredDisks"].ToString();
+
+            EditOptioncomboBox.SelectedIndex = 0;
+            EditModecomboBox.SelectedIndex = 0;
+
+            textBoxReceived.AppendText("PortName: " + selectedPortName + "\r\n");
+
+            //comboBoxPort.SelectedItem = "COM9";
+            updateSliderLabels();
+            string test;
+
+            byte[] testhash = new byte[32];
+            byte[] testsector = new byte[512];
+
+            for (int i = 0; i < 512; i++)
+            {
+                testsector[i] = (byte)(i & 0xFF);
+            }
+
+
+            // Set the steps per track default to MicroStepping, so a full step is used.
+            // Note that due to the tracks are separated by 1 track, two full steps are taken
+            // To do this, this value is multiplied by 2. Due to this you can only use the
+            // smallest step 1 multiplied by 2. To get to the first step you can use TRK00 offset
+            // increase or decrease by one.
+
+
+            timer1.Start();
+            MainTabControl.SelectedTab = ProcessingTab;
+            //MainTabControl.SelectedTab = AnalysisPage;
+            BadSectorTooltip.Hide();
+            timer5.Start();
+            GUITimer.Start();
+            BluetoRedByteCopyToolBtn.Tag = new int();
+            BluetoRedByteCopyToolBtn.Tag = 0;
+
+
+            //ScatterPictureBox.MouseWheel += ScatterPictureBox_MouseWheel;
+
+            ECHisto.setPanel(AnHistogramPanel);
+            ScatterHisto.setPanel(Histogrampanel1);
+            //ProcessingTab.Enabled = false;
+            PeriodBeyond8uscomboBox.SelectedIndex = 0;
+
+            ChangeDiskTypeComboBox.Items.AddRange(Enum.GetNames(typeof(DiskFormat)));
+            ProcessingModeComboBox.Items.AddRange(Enum.GetNames(typeof(ProcessingType)));
+
+            ProcessingModeComboBox.SelectedItem = ProcessingType.adaptive1.ToString();
+
+            ScanComboBox.Items.AddRange(Enum.GetNames(typeof(ScanMode)));
+            ScanComboBox.SelectedItem = ScanMode.AdaptiveRate.ToString();
+
+
+            if (HDCheckBox.Checked)
+            {
+                ScatterHisto.hd = 1;
+                processing.procsettings.hd = 1;
+                //hddiv = 2;
+            }
+            else
+            {
+                ScatterHisto.hd = 0;
+                processing.procsettings.hd = 0;
+                //hddiv = 1;
+            }
+
+            ProcessStatusLabel.BackColor = Color.Transparent;
+
+            updateAnScatterPlot();
+
+
+
+
+
+
+            /*
 
             int sector, track;
             StringBuilder t = new StringBuilder();
@@ -1252,6 +1360,7 @@ namespace FloppyControlApp
             processing.sectormap.RefreshSectorMap();
 
             resetprocesseddata();
+            */
         }
 
         private void ResetInputBtn_Click(object sender, EventArgs e)
@@ -1262,6 +1371,9 @@ namespace FloppyControlApp
         private void ResetOutputBtn_Click(object sender, EventArgs e)
         {
             resetoutput();
+            rtbSectorMap.DeselectAll();
+            Application.DoEvents();
+            processing.sectormap.RefreshSectorMap();
         }
 
         private void TrackPreset2Button_Click(object sender, EventArgs e)
@@ -1796,7 +1908,7 @@ namespace FloppyControlApp
             StringBuilder mfmtxt = new StringBuilder();
             for (i = 0; i < length; i++)
             {
-                mfmtxt.Append((char)(FDDProcessing.mfms[threadid][i + mfmoffset] + 48));
+                mfmtxt.Append((char)(processing.mfms[threadid][i + mfmoffset] + 48));
             }
             ECtbMFM.Text = mfmtxt.ToString();
         }
@@ -2056,7 +2168,7 @@ namespace FloppyControlApp
                     sectorlength = processing.sectordata2[indexS1].sectorlength;
                     //Array.Copy(processing.sectordata2[indexS1].sectorbytes, 0, sectors, 0, sectorlength);
                     offsetmfm = processing.sectordata2[indexS1].MarkerPositions;
-                    sectors = processing.MFM2ByteArray(FDDProcessing.mfms[threadid], offsetmfm + offset, lengthmfm);
+                    sectors = processing.MFM2ByteArray(processing.mfms[threadid], offsetmfm + offset, lengthmfm);
 
                     //offset = 4;
                 }
@@ -2082,11 +2194,11 @@ namespace FloppyControlApp
                 sectorlength = processing.sectordata2[indexS1].sectorlength;
 
                 offsetmfm = processing.sectordata2[indexS1].MarkerPositions;
-                sectors = processing.MFM2ByteArray(FDDProcessing.mfms[threadid], offsetmfm + offset, lengthmfm);
+                sectors = processing.MFM2ByteArray(processing.mfms[threadid], offsetmfm + offset, lengthmfm);
 
                 threadid = processing.sectordata2[indexS2].threadid;
                 offsetmfm2 = processing.sectordata2[indexS2].MarkerPositions;
-                sectors2 = processing.MFM2ByteArray(FDDProcessing.mfms[threadid], offsetmfm2 + offset, lengthmfm);
+                sectors2 = processing.MFM2ByteArray(processing.mfms[threadid], offsetmfm2 + offset, lengthmfm);
 
                 BlueCrcCheckLabel.Text = "Crc: " + processing.sectordata2[indexS1].crc.ToString("X2");
 
@@ -2279,7 +2391,7 @@ namespace FloppyControlApp
                     {
                         for (i = 0; i < bsbyte; i++)
                         {
-                            if (FDDProcessing.mfms[processing.sectordata2[indexS1].threadid][i + mfmoffset] == 1)
+                            if (processing.mfms[processing.sectordata2[indexS1].threadid][i + mfmoffset] == 1)
                             {
                                 indexcnt++;
                             }
@@ -2289,7 +2401,7 @@ namespace FloppyControlApp
                     {
                         for (i = bsbyte; i < 0; i++)
                         {
-                            if (FDDProcessing.mfms[processing.sectordata2[indexS1].threadid][i + mfmoffset] == 1)
+                            if (processing.mfms[processing.sectordata2[indexS1].threadid][i + mfmoffset] == 1)
                             {
                                 indexcnt--;
                             }
@@ -2318,7 +2430,7 @@ namespace FloppyControlApp
                     // First find the period index
                     for (i = 0; i < (bsbyte + 4) * 16; i++)
                     {
-                        if (FDDProcessing.mfms[processing.sectordata2[indexS1].threadid][i + mfmoffset] == 1)
+                        if (processing.mfms[processing.sectordata2[indexS1].threadid][i + mfmoffset] == 1)
                         {
                             indexcnt++;
                         }
@@ -2589,7 +2701,7 @@ namespace FloppyControlApp
                 if (mfmoffset < offset) return;
                 int mfmmarkerposition = processing.sectordata2[indexS1].MarkerPositions;
                 threadid = processing.sectordata2[indexS1].threadid;
-                byte[] mfm = processing.MFM2ByteArray(FDDProcessing.mfms[threadid], mfmmarkerposition + mfmoffset, 256);
+                byte[] mfm = processing.MFM2ByteArray(processing.mfms[threadid], mfmmarkerposition + mfmoffset, 256);
                 BadSectorTooltip.Text = " Offset: " + (mfmoffset) + " = " + mfm[0].ToString("X2"); ;
                 BadSectorTooltip.Show();
 
@@ -2746,15 +2858,15 @@ namespace FloppyControlApp
 
         private void GUITimer_Tick(object sender, EventArgs e)
         {
-            ProcessStatusLabel.Text = FDDProcessing.ProcessStatus[FDDProcessing.mfmsindex];
-            progressBar1.Minimum = FDDProcessing.progressesstart[FDDProcessing.mfmsindex];
-            progressBar1.Maximum = FDDProcessing.progressesend[FDDProcessing.mfmsindex];
+            ProcessStatusLabel.Text = processing.ProcessStatus[processing.mfmsindex];
+            progressBar1.Minimum = processing.progressesstart[processing.mfmsindex];
+            progressBar1.Maximum = processing.progressesend[processing.mfmsindex];
 
-            if (FDDProcessing.progresses[FDDProcessing.mfmsindex] >= FDDProcessing.progressesstart[FDDProcessing.mfmsindex] && 
-                FDDProcessing.progresses[FDDProcessing.mfmsindex] <= FDDProcessing.progressesend[FDDProcessing.mfmsindex])
-                if (FDDProcessing.progresses[FDDProcessing.mfmsindex] <= progressBar1.Maximum && 
-                    FDDProcessing.progresses[FDDProcessing.mfmsindex] >= progressBar1.Minimum)
-                    progressBar1.Value = FDDProcessing.progresses[FDDProcessing.mfmsindex];
+            if (processing.progresses[processing.mfmsindex] >= processing.progressesstart[processing.mfmsindex] &&
+                processing.progresses[processing.mfmsindex] <= processing.progressesend[processing.mfmsindex])
+                if (processing.progresses[processing.mfmsindex] <= progressBar1.Maximum &&
+                    processing.progresses[processing.mfmsindex] >= progressBar1.Minimum)
+                    progressBar1.Value = processing.progresses[processing.mfmsindex];
 
             textBoxReceived.AppendText(tbreceived.ToString());
             tbreceived.Clear();

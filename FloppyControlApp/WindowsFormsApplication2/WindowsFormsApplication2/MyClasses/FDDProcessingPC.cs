@@ -747,7 +747,7 @@ namespace FloppyControlApp
             int sectorlength = sectordata2[indexS1].sectorlength;
 
             byte[] mfmcorrected = new byte[(sectorlength + 6) * 16 + 1000];
-            byte[] mfmbuf = FDDProcessing.mfms[sectordata2[indexS1].threadid].SubArray(sectordata2[indexS1].MarkerPositions, (sectorlength + 100) * 16);
+            byte[] mfmbuf = mfms[sectordata2[indexS1].threadid].SubArray(sectordata2[indexS1].MarkerPositions, (sectorlength + 100) * 16);
             byte[] bytebuf = new byte[sectorlength + 6];
 
             int cntperiods = 0;
@@ -797,7 +797,7 @@ namespace FloppyControlApp
             }
 
             int markeroffset = sectordata2[indexS1].MarkerPositions;
-            byte[] mfmsdest = FDDProcessing.mfms[sectordata2[indexS1].threadid];
+            byte[] mfmsdest = mfms[sectordata2[indexS1].threadid];
 
             //Copy the bitshift correct mfm data back to the large mfms array
             for (i = mfmAlignedStart + 24; i < mfmbuf.Length - bitshifted; i++)
@@ -961,7 +961,7 @@ namespace FloppyControlApp
 
             // Copy mfm data from mfms
             int sectorlength = sectordata2[indexS1].sectorlength;
-            byte[] mfmbuf = FDDProcessing.mfms[sectordata2[indexS1].threadid].SubArray(sectordata2[indexS1].MarkerPositions, (sectorlength + 100) * 16);
+            byte[] mfmbuf = mfms[sectordata2[indexS1].threadid].SubArray(sectordata2[indexS1].MarkerPositions, (sectorlength + 100) * 16);
             byte[] bytebuf = new byte[sectorlength + 6];
 
             int cntperiods = 0;
@@ -1066,7 +1066,7 @@ namespace FloppyControlApp
                         {
                             tbreceived.Append("p: " + p + "\r\n");
                             Application.DoEvents();
-                            FDDProcessing.progresses[FDDProcessing.mfmsindex] = p;
+                            progresses[mfmsindex] = p;
                         }
                         if (stop == 1) break;
 
@@ -1220,7 +1220,7 @@ namespace FloppyControlApp
 
             // Copy mfm data from mfms
             int sectorlength = sectordata2[indexS1].sectorlength;
-            byte[] mfmbuf = FDDProcessing.mfms[sectordata2[indexS1].threadid].SubArray(sectordata2[indexS1].MarkerPositions, (sectorlength + 100) * 16);
+            byte[] mfmbuf = mfms[sectordata2[indexS1].threadid].SubArray(sectordata2[indexS1].MarkerPositions, (sectorlength + 100) * 16);
             byte[] bytebuf = new byte[sectorlength + 6];
 
             int cntperiods = 0;

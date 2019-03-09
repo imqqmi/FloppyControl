@@ -74,7 +74,7 @@ namespace FloppyControlApp
                     }
                     if (mfms[threadid][i] == 1) // counting 1's matches the number of bytes in rxbuf + start offset
                         rxbufcnt++;
-                    while (rxbuf[rxbufcnt] < 4 && rxbufcnt < indexrxbuf) rxbufcnt++;
+                    while (rxbuf[rxbufcnt] < 4 && rxbufcnt < indexrxbuf-1) rxbufcnt++;
                     for (j = 0; j < amigadsmarkerbytes.Length; j++)
                     {
                         if (mfms[threadid][i + j] == amigadsmarkerbytes[j]) searchcnt++;
@@ -135,7 +135,7 @@ namespace FloppyControlApp
                     if (mfms[threadid][i] == 1) // counting 1's matches the number of bytes in rxbuf + start offset
                         rxbufcnt++;
                     if (rxbufcnt >= rxbuf.Length) break;
-                    while (rxbuf[rxbufcnt] < 4 && rxbufcnt < indexrxbuf) rxbufcnt++;
+                    while (rxbuf[rxbufcnt] < 4 && rxbufcnt < indexrxbuf-1) rxbufcnt++;
                     for (j = 0; j < amigamarkerbytes.Length; j++)
                     {
                         if (mfms[threadid][i + j] == amigamarkerbytes[j]) searchcnt++;
@@ -701,7 +701,7 @@ namespace FloppyControlApp
             int sectorlength = sectordata2[indexS1].sectorlength;
 
 
-            byte[] mfmbuf = FDDProcessing.mfms[sectordata2[indexS1].threadid].SubArray(sectordata2[indexS1].MarkerPositions, (sectorlength + 100) * 16);
+            byte[] mfmbuf = mfms[sectordata2[indexS1].threadid].SubArray(sectordata2[indexS1].MarkerPositions, (sectorlength + 100) * 16);
             byte[] bytebuf = new byte[sectorlength + 6];
 
             tbreceived.Append("mfmAlignedstart: " + mfmAlignedStart + " mfmAlignedEnd: " + mfmAlignedEnd + "\r\n");
@@ -946,7 +946,7 @@ namespace FloppyControlApp
             int sectorlength = sectordata2[indexS1].sectorlength;
 
 
-            byte[] mfmbuf = FDDProcessing.mfms[sectordata2[indexS1].threadid].SubArray(sectordata2[indexS1].MarkerPositions, (sectorlength + 100) * 16);
+            byte[] mfmbuf = mfms[sectordata2[indexS1].threadid].SubArray(sectordata2[indexS1].MarkerPositions, (sectorlength + 100) * 16);
             byte[] bytebuf = new byte[sectorlength + 6];
 
             int cntperiods = 0;
@@ -1059,7 +1059,7 @@ namespace FloppyControlApp
                         {
                             tbreceived.Append("p: " + p + "\r\n");
                             Application.DoEvents();
-                            FDDProcessing.progresses[FDDProcessing.mfmsindex] = p;
+                            progresses[mfmsindex] = p;
                         }
                         if (stop == 1) break;
 
@@ -1285,9 +1285,9 @@ namespace FloppyControlApp
             int sector = sectordata2[indexS1].sector;
 
             //Get the mfm data from the large mfms array
-            byte[] mfms = FDDProcessing.mfms[sectordata2[indexS1].threadid];
+            byte[] mfms1 = mfms[sectordata2[indexS1].threadid];
             int mfmsoffsetindex = sectordata2[indexS1].MarkerPositions;
-            byte[] mfmbuf = mfms.SubArray(mfmsoffsetindex, (sectorlength + 100) * 16);
+            byte[] mfmbuf = mfms1.SubArray(mfmsoffsetindex, (sectorlength + 100) * 16);
 
             int cntperiods = 0;
             // Find where in the mfm data the periodSelectionStart is
@@ -1364,7 +1364,7 @@ namespace FloppyControlApp
             {
                 mfmaligned[i] = mfmbuf[i + bitshifted];
                 // Also copy the realigned data back to the main array for error correction map
-                mfms[mfmsoffsetindex + i] = mfmbuf[i + bitshifted];
+                mfms1[mfmsoffsetindex + i] = mfmbuf[i + bitshifted];
             }
 
             // Skip to next '1' for the selection end
