@@ -12,6 +12,7 @@
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -24,7 +25,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -100,8 +100,15 @@
     <Compile Include="FloppyControlApp.designer.cs">
       <DependentUpon>FloppyControlApp.cs</DependentUpon>
     </Compile>
+    <Compile Include="FloppyControlAppExperimental.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FloppyControlErrorCorrection.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="MyClasses\FDDProcessingAmiga.cs" />
     <Compile Include="MyClasses\FDDProcessingPC.cs" />
+    <Compile Include="MyClasses\FileIO.cs" />
     <Compile Include="MyClasses\Helpers.cs" />
     <Compile Include="MyClasses\FDDProcessing.cs" />
     <Compile Include="MyClasses\SectorMap.cs" />

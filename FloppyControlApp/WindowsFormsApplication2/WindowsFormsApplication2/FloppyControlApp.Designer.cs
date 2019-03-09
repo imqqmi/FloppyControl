@@ -125,6 +125,7 @@
             this.ConnectClassbutton = new System.Windows.Forms.Button();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.button4 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
             this.TrackPreset4Button = new System.Windows.Forms.Button();
             this.TrackPreset2Button = new System.Windows.Forms.Button();
@@ -388,7 +389,6 @@
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.SettingsButton = new System.Windows.Forms.Button();
             this.EditScatterPlotcheckBox = new System.Windows.Forms.CheckBox();
-            this.button4 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.ScatterPlottabPage.SuspendLayout();
@@ -488,7 +488,6 @@
             // openFileDialog1
             // 
             this.openFileDialog1.Multiselect = true;
-            this.openFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
             // 
             // outputfilename
             // 
@@ -518,7 +517,7 @@
             this.OpenBinFilebutton.TabIndex = 1;
             this.OpenBinFilebutton.Text = "Open";
             this.OpenBinFilebutton.UseVisualStyleBackColor = true;
-            this.OpenBinFilebutton.Click += new System.EventHandler(this.OpenBinFileButton_Click);
+            this.OpenBinFilebutton.Click += new System.EventHandler(this.OpenBinFilebutton_Click);
             // 
             // fileSystemWatcher1
             // 
@@ -1568,6 +1567,16 @@
             this.groupBox1.TabIndex = 58;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Preset capture";
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(10, 116);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(57, 23);
+            this.button4.TabIndex = 59;
+            this.button4.Text = "1000ms";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // button6
             // 
@@ -3469,7 +3478,7 @@
             this.button21.TabIndex = 62;
             this.button21.Text = "Ascii CRC check";
             this.button21.UseVisualStyleBackColor = true;
-            this.button21.Click += new System.EventHandler(this.button21_Click);
+            this.button21.Click += new System.EventHandler(this.AsciiCrcCheckBtn_Click);
             // 
             // tbMFM
             // 
@@ -4861,16 +4870,6 @@
             this.EditScatterPlotcheckBox.Text = "Edit Scatterplot";
             this.EditScatterPlotcheckBox.UseVisualStyleBackColor = true;
             this.EditScatterPlotcheckBox.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
-            // 
-            // button4
-            // 
-            this.button4.Location = new System.Drawing.Point(10, 116);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(57, 23);
-            this.button4.TabIndex = 59;
-            this.button4.Text = "1000ms";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // FloppyControl
             // 
