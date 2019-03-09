@@ -25,10 +25,7 @@ namespace FloppyControlApp
         public int stat8us;
         public int scatterplotstart { get; set; }
         public int scatterplotend { get; set; }
-        public float[] entropy;
-        public float[] threshold4;
-        public float[] threshold6;
-        public float[] threshold8;
+        
 
         // bytes version of ProcessAmiga
         private void ProcessAmigaMFMbytes(ProcSettings procsettings, int threadid)

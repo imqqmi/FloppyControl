@@ -78,8 +78,8 @@ namespace FloppyControlApp
         private Point BadSectorTooltipPos;
         private StringBuilder tbreceived = new StringBuilder();
         private Graphset graphset;
-        private Histogram ECHisto = new Histogram();
-        private Histogram ScatterHisto = new Histogram();
+        private Histogram ECHisto;
+        private Histogram ScatterHisto;
         private ScatterPlot scatterplot;
         private static readonly object lockaddmarker = new object();
         //private static uint markerpositionscnt;
@@ -113,7 +113,8 @@ namespace FloppyControlApp
                                     .AddDays(version.Build).AddSeconds(version.Revision * 2);
             string displayableVersion = $"{version} ({buildDate})";
 
-            
+            ECHisto = new Histogram();
+            ScatterHisto = new Histogram();
 
             int i;
             InitializeComponent();
@@ -154,23 +155,12 @@ namespace FloppyControlApp
 
             //comboBoxPort.SelectedItem = "COM9";
             updateSliderLabels();
-            string test;
-            
-            byte[] testhash = new byte[32];
-            byte[] testsector = new byte[512];
-
-            for (i = 0; i < 512; i++)
-            {
-                testsector[i] = (byte)(i & 0xFF);
-            }
-
 
             // Set the steps per track default to MicroStepping, so a full step is used.
             // Note that due to the tracks are separated by 1 track, two full steps are taken
             // To do this, this value is multiplied by 2. Due to this you can only use the
             // smallest step 1 multiplied by 2. To get to the first step you can use TRK00 offset
             // increase or decrease by one.
-
 
             timer1.Start();
             MainTabControl.SelectedTab = ProcessingTab;
@@ -1198,6 +1188,7 @@ namespace FloppyControlApp
         {
             int i;
             ProcessingTab.Enabled = false;
+            processing.badsectorhash = null;
             processing.badsectorhash = new byte[5000000][];
 
             BadSectorListBox.Items.Clear();
@@ -1207,13 +1198,16 @@ namespace FloppyControlApp
             {
 
                 //BadSectors[i] = new byte[0];
+                processing.mfms[i] = null;
                 processing.mfms[i] = new byte[0];
             }
             OnlyBadSectorsRadio.Checked = false; // When the input buffer is changed or empty, we can't scan for only bad sectors
             ECOnRadio.Checked = true;
             StringBuilder t = new StringBuilder();
             //mfmlength = 0;
-            Array.Clear(processing.rxbuf, 0, processing.rxbuf.Length);
+            processing.rxbuf = null;
+            processing.rxbuf = new byte[200000];
+            //Array.Clear(processing.rxbuf, 0, processing.rxbuf.Length);
             //TrackPosInrxdatacount = 0;
             processing.indexrxbuf = 0;
             processing.mfmsindex = 0;
@@ -1232,13 +1226,26 @@ namespace FloppyControlApp
 
         private void resetoutput()
         {
-            var rxbuftemp = processing.rxbuf;
-
-
+            //var rxbuftemp = (byte[]) processing.rxbuf.Clone();
+            for(var i =0; i< processing.mfms.Length;i++)
+                processing.mfms[i] = null;
+            processing.rxbuf = null;
+            processing.disk = null;
+            processing.mfmlengths = null;
+            processing.badsectorhash = null;
+            processing.progresses = null;
+            processing.progressesstart = null;
+            processing.progressesend = null;
+            processing.ProcessStatus = null;
+            processing.sectormap.sectorok = null;
+            processing.sectormap.sectorokLatestScan = null;
+            processing.sectormap = null;
             processing = null;
 
+            ECHisto = new Histogram();
+            ScatterHisto = new Histogram();
             processing = new FDDProcessing();
-            processing.rxbuf = rxbuftemp;
+            //processing.rxbuf = rxbuftemp;
             processing.indexrxbuf = processing.rxbuf.Length/2; // Divide by two as loading .bin files doubles the buffer
             processing.GetProcSettingsCallback += GetProcSettingsCallback;
             processing.rtbSectorMap = rtbSectorMap;
@@ -1246,10 +1253,14 @@ namespace FloppyControlApp
             processing.sectormap.SectorMapUpdateGUICallback += SectorMapUpdateGUICallback;
             processing.sectormap.rtbSectorMap = rtbSectorMap;
 
+            controlfloppy.tempbuffer.Clear();
+            controlfloppy.rxbuf = null;
+            controlfloppy = null;
             controlfloppy = new ControlFloppy();
             controlfloppy.rxbuf = processing.rxbuf;
             controlfloppy.processing = processing;
-
+            scatterplot.rxbuf = null;
+            scatterplot = null;
             scatterplot = new ScatterPlot(processing, processing.sectordata2, 0, 0, ScatterPictureBox);
             scatterplot.tbreiceved = tbreceived;
             scatterplot.rxbuf = processing.rxbuf;
@@ -1261,117 +1272,23 @@ namespace FloppyControlApp
             graphset.UpdateGUI += updateGraphCallback;
             graphset.GetControlValues += GraphsetGetControlValuesCallback;
             graphset.tbreceived = tbreceived;
-            outputfilename.Text = (string)Properties.Settings.Default["BaseFileName"];
-            DirectStepCheckBox.Checked = (bool)Properties.Settings.Default["DirectStep"];
-            MicrostepsPerTrackUpDown.Value = (int)Properties.Settings.Default["MicroStepping"];
-            subpath = @Properties.Settings.Default["PathToRecoveredDisks"].ToString();
-
+            
             EditOptioncomboBox.SelectedIndex = 0;
             EditModecomboBox.SelectedIndex = 0;
-
             textBoxReceived.AppendText("PortName: " + selectedPortName + "\r\n");
-
-            //comboBoxPort.SelectedItem = "COM9";
-            updateSliderLabels();
-            string test;
-
-            byte[] testhash = new byte[32];
-            byte[] testsector = new byte[512];
-
-            for (int i = 0; i < 512; i++)
-            {
-                testsector[i] = (byte)(i & 0xFF);
-            }
-
-
-            // Set the steps per track default to MicroStepping, so a full step is used.
-            // Note that due to the tracks are separated by 1 track, two full steps are taken
-            // To do this, this value is multiplied by 2. Due to this you can only use the
-            // smallest step 1 multiplied by 2. To get to the first step you can use TRK00 offset
-            // increase or decrease by one.
-
-
-            timer1.Start();
             MainTabControl.SelectedTab = ProcessingTab;
-            //MainTabControl.SelectedTab = AnalysisPage;
             BadSectorTooltip.Hide();
             timer5.Start();
             GUITimer.Start();
             BluetoRedByteCopyToolBtn.Tag = new int();
             BluetoRedByteCopyToolBtn.Tag = 0;
-
-
-            //ScatterPictureBox.MouseWheel += ScatterPictureBox_MouseWheel;
-
             ECHisto.setPanel(AnHistogramPanel);
             ScatterHisto.setPanel(Histogrampanel1);
-            //ProcessingTab.Enabled = false;
-            PeriodBeyond8uscomboBox.SelectedIndex = 0;
 
-            ChangeDiskTypeComboBox.Items.AddRange(Enum.GetNames(typeof(DiskFormat)));
-            ProcessingModeComboBox.Items.AddRange(Enum.GetNames(typeof(ProcessingType)));
-
-            ProcessingModeComboBox.SelectedItem = ProcessingType.adaptive1.ToString();
-
-            ScanComboBox.Items.AddRange(Enum.GetNames(typeof(ScanMode)));
-            ScanComboBox.SelectedItem = ScanMode.AdaptiveRate.ToString();
-
-
-            if (HDCheckBox.Checked)
-            {
-                ScatterHisto.hd = 1;
-                processing.procsettings.hd = 1;
-                //hddiv = 2;
-            }
-            else
-            {
-                ScatterHisto.hd = 0;
-                processing.procsettings.hd = 0;
-                //hddiv = 1;
-            }
-
-            ProcessStatusLabel.BackColor = Color.Transparent;
-
+            updateSliderLabels();
             updateAnScatterPlot();
 
-
-
-
-
-
-            /*
-
-            int sector, track;
-            StringBuilder t = new StringBuilder();
-
-            textBoxReceived.Text = "";
-
-            TrackInfotextBox.Text = "";
-            RecoveredSectorsLabel.Text = "";
-            RecoveredSectorsWithErrorsLabel.Text = "";
-
-            processing.diskformat = DiskFormat.unknown;
-            DiskTypeLabel.Text = "";
-            processing.bytespersector = 512;
-            processing.sectorspertrack = 0;
-            //markerpositionscnt = 0;
-
-            for (track = 0; track < 200; track++)
-            {
-                for (sector = 0; sector < 18; sector++)
-                {
-                    processing.sectormap.sectorok[track, sector] = 0;
-                }
-            }
-
-            Array.Clear(processing.disk, 0, processing.disk.Length);
-            
-            processing.sectormap.recoveredsectorcount = 0;
-            processing.sectormap.RecoveredSectorWithErrorsCount = 0;
-            processing.sectormap.RefreshSectorMap();
-
-            resetprocesseddata();
-            */
+            GC.Collect();
         }
 
         private void ResetInputBtn_Click(object sender, EventArgs e)
@@ -1385,6 +1302,7 @@ namespace FloppyControlApp
             rtbSectorMap.DeselectAll();
             Application.DoEvents();
             processing.sectormap.RefreshSectorMap();
+                     
         }
 
         private void TrackPreset2Button_Click(object sender, EventArgs e)
@@ -6272,6 +6190,7 @@ namespace FloppyControlApp
         {
             processing.stop = 0;
             DoScan();
+            tbreceived.Append("\r\nDone!\r\n");
         }
 
         private void DoScan()

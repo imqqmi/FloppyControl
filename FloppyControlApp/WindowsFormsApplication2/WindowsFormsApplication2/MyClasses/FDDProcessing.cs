@@ -192,6 +192,11 @@ namespace FloppyControlApp
         public int processing = 0;
         public Dictionary<DiskFormat, DiskGeometry> diskGeometry = new Dictionary<DiskFormat, DiskGeometry>();
 
+        public float[] entropy;
+        public float[] threshold4;
+        public float[] threshold6;
+        public float[] threshold8;
+
         public FDDProcessing()
         {
             debuglevel = 1;
@@ -199,7 +204,8 @@ namespace FloppyControlApp
             sectormap = new SectorMap(rtbSectorMap, this);
             stop = 0;
             NumberOfThreads = 1;
-            rxbuf = new byte[1000000];
+            rxbuf = new byte[200000];
+            
             procsettings = new ProcSettings();
             int numProcs = Environment.ProcessorCount;
             int concurrencyLevel = numProcs * 2;
@@ -264,6 +270,25 @@ namespace FloppyControlApp
             amigadiskspare.sectorSize = 512;
             amigadiskspare.fluxEncoding = FluxEncoding.MFM;
             diskGeometry.Add(DiskFormat.diskspare, amigadiskspare);
+        }
+
+        ~FDDProcessing()
+        {
+            for (var i = 0; i < mfms.Length; i++)
+                mfms[i] = null;
+            rxbuf = null;
+            disk = null;
+
+            mfmlengths = null;
+            badsectorhash = null;
+            progresses = null;
+            progressesstart = null;
+            progressesend = null;
+            ProcessStatus = null;
+            sectormap.sectorok = null;
+
+            sectormap.sectorokLatestScan = null;
+            sectormap = null;
         }
 
         public void ClearNonBadSectors()
@@ -530,9 +555,9 @@ namespace FloppyControlApp
             }
 
             int rxbuflength = rxbuf.Length;
-            if (start > rxbuflength || end > rxbuflength || start + end > rxbuflength)
+            if (start > rxbuflength || end > rxbuflength )
             {
-                tbreceived.Append("Start or end or both added are larger than rxbuf length.\r\n");
+                tbreceived.Append("Start or end are larger than rxbuf length.\r\n");
                 return;
             }
 
@@ -845,6 +870,11 @@ namespace FloppyControlApp
                         averagetime = _8us;
                     }
                 }
+                entropy = null;
+                threshold4 = null;
+                threshold6 = null;
+                threshold8 = null;
+                GC.Collect();
             }
             else
             if (processingtype == ProcessingType.adaptiveEntropy) //************ Adaptive Entropy ****************
@@ -998,7 +1028,13 @@ namespace FloppyControlApp
                         averagetime = _8us;
                     }
                 }
-            }
+
+                entropy = null;
+                threshold4 = null;
+                threshold6 = null;
+                threshold8 = null;
+                GC.Collect();
+    }
             else
             if (processingtype == ProcessingType.adaptivePredict) //************ Adaptive predict ****************
             {
@@ -1317,7 +1353,7 @@ namespace FloppyControlApp
 
             ///if (procsettings.UseErrorCorrection)
             mfms[threadid] = m;
-
+            m = null;
             if (writemfm == true)
             {
                 string subpath = @Properties.Settings.Default["PathToRecoveredDisks"].ToString();
