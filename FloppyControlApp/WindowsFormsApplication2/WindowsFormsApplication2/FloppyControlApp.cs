@@ -4561,16 +4561,6 @@ namespace FloppyControlApp
             else processing.ProcessClusterAmiga(ecSettings);
         }
 
-        private void FloppyControl_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void ScatterPlottabPage_Paint(object sender, PaintEventArgs e)
-        {
-            scatterplot.UpdateScatterPlot();
-        }
-
         private void AdaptiveScan()
         {
             float i;

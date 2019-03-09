@@ -468,13 +468,40 @@ namespace FloppyControlApp
             //tbreceived.Append(relativetime().ToString() + "ms \r\n");
         }
 
+        /// <summary>
+        /// Write period data to disk in hex/text format, one value per line to be read in excel for analysis
+        /// </summary>
+        /// <param name="procsettings"></param>
+        /// <param name="threadid"></param>
+        public void writeMFMAsSingleValuePerLine(ProcSettings procsettings, int threadid)
+        {
+            int i;
+            // Write period data to disk in hex/text format, one value per line to be read in excel for analysis
+            string subpath = @Properties.Settings.Default["PathToRecoveredDisks"].ToString();
+            string path = subpath + @"\" + procsettings.outputfilename + @"\";
+            writer = new BinaryWriter(new FileStream(path + procsettings.outputfilename + ".hex", FileMode.Create));
+            for (i = 0; i < indexrxbuf; i++)
+            {
+                writer.Write(rxbuf[i].ToString("X2")[0]);
+                writer.Write(rxbuf[i].ToString("X2")[1]);
+                writer.Write('\r');
+                writer.Write('\n');
+            }
+            if (writer != null)
+            {
+                writer.Flush();
+                writer.Close();
+                writer.Dispose();
+            }
+            
+        }
+
         // The first four params represents the thresholds for the timing pulses
         private void Period2MFM(ProcSettings procsettings, int threadid)
         {
             int i;
             int value;
 
-            bool writepulses = false;
             bool writemfm = false;
 
             int MINUS, FOURUS, SIXUS, EIGHTUS, start, end;
@@ -492,7 +519,8 @@ namespace FloppyControlApp
             start = procsettings.start;
             end = procsettings.end;
             ProcessingType processingtype = procsettings.processingtype;
-
+            
+            // bounds checking
             if (end - start == 0)
             {
                 tbreceived.Append("Period2MFM: Error: Length can't be zero.\r\n");
@@ -501,35 +529,18 @@ namespace FloppyControlApp
                 return;
             }
 
+            int rxbuflength = rxbuf.Length;
+            if (start > rxbuflength || end > rxbuflength || start + end > rxbuflength)
+            {
+                tbreceived.Append("Start or end or both added are larger than rxbuf length.\r\n");
+                return;
+            }
+
             tbreceived.Append("Period length:" + (end - start) + " ");
             byte[] m;
             if (procsettings.AddNoise || procsettings.pattern == 4)
                 m = new byte[((end - start) * 5)]; // mfm data can be max. 4x period data
             else m = new byte[((end - start) * 4)]; // mfm data can be max. 4x period data
-
-
-            //markerpositionscnt = 0;
-
-            if (writepulses == true)
-            {
-                // Write period data to disk in hex/text format, one value per line to be read in excel for analysis
-                string subpath = @Properties.Settings.Default["PathToRecoveredDisks"].ToString();
-                string path = subpath + @"\" + procsettings.outputfilename + @"\";
-                writer = new BinaryWriter(new FileStream(path + procsettings.outputfilename + ".hex", FileMode.Create));
-                for (i = 0; i < indexrxbuf; i++)
-                {
-                    writer.Write(rxbuf[i].ToString("X2")[0]);
-                    writer.Write(rxbuf[i].ToString("X2")[1]);
-                    writer.Write('\r');
-                    writer.Write('\n');
-                }
-                if (writer != null)
-                {
-                    writer.Flush();
-                    writer.Close();
-                    writer.Dispose();
-                }
-            }
 
             if (MINUS < 0) MINUS = 0;
 

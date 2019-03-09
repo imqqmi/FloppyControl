@@ -750,7 +750,6 @@
             this.ScatterPlottabPage.TabIndex = 2;
             this.ScatterPlottabPage.Text = "Scatter plot";
             this.ScatterPlottabPage.UseVisualStyleBackColor = true;
-            this.ScatterPlottabPage.Paint += new System.Windows.Forms.PaintEventHandler(this.ScatterPlottabPage_Paint);
             // 
             // label81
             // 
@@ -4908,7 +4907,7 @@
             this.Text = "Floppy Control";
             this.SizeChanged += new System.EventHandler(this.FloppyControl_SizeChanged);
             this.Click += new System.EventHandler(this.FloppyControl_Click);
-            this.Paint += new System.Windows.Forms.PaintEventHandler(this.FloppyControl_Paint);
+            
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FloppyControl_KeyDown);
             this.Resize += new System.EventHandler(this.FloppyControl_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).EndInit();
