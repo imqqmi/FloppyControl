@@ -50,14 +50,7 @@ namespace FloppyControlApp
             }
         }
 
-        class ZeroCrossingData
-        {
-            public int before;
-            public int after;
-            public int negpos; // 0= negative, 1 = positive going
-            public int zcbeforeafter;
-            public int index;
-        }
+        
 
         class SectorMapContextMenu
         {
@@ -77,7 +70,7 @@ namespace FloppyControlApp
         private BinaryWriter writer;
         private Point BadSectorTooltipPos;
         private StringBuilder tbreceived = new StringBuilder();
-        private Graphset graphset;
+        //private Graphset graphset;
         private Histogram ECHisto;
         private Histogram ScatterHisto;
         private ScatterPlot scatterplot;
@@ -105,7 +98,9 @@ namespace FloppyControlApp
         private int[] mfmbyteenc = new int[256];
         private int indexrxbufprevious = 0;
         Version version;
-        FileIO fileio = new FileIO();
+        FileIO fileio;
+        Oscilloscope oscilloscope;
+
 
         public FloppyControl()
         {
@@ -140,15 +135,13 @@ namespace FloppyControlApp
             scatterplot.EditScatterplot = EditScatterPlotcheckBox.Checked;
             processing.indexrxbuf = 0;
 
-            graphset = new Graphset(GraphPictureBox, Color.Black);
-            graphset.UpdateGUI += updateGraphCallback;
-            graphset.GetControlValues += GraphsetGetControlValuesCallback;
-            graphset.tbreceived = tbreceived;
+            
             outputfilename.Text = (string)Properties.Settings.Default["BaseFileName"];
             DirectStepCheckBox.Checked = (bool)Properties.Settings.Default["DirectStep"];
             MicrostepsPerTrackUpDown.Value = (int)Properties.Settings.Default["MicroStepping"];
             subpath = @Properties.Settings.Default["PathToRecoveredDisks"].ToString();
 
+            fileio = new FileIO();
             fileio.FilesAvailableCallback += FilesAvailableCallback;
             fileio.processing = processing;
             fileio.resetinput += resetinput;
@@ -156,6 +149,13 @@ namespace FloppyControlApp
             fileio.tbreceived = tbreceived;
             fileio.rtbSectorMap = rtbSectorMap;
 
+            oscilloscope = new Oscilloscope(GraphPictureBox);
+            oscilloscope.fileio = fileio;
+            oscilloscope.updateGraphCallback += updateGraphCallback;
+            oscilloscope.GraphsetGetControlValuesCallback += GraphsetGetControlValuesCallback;
+            oscilloscope.resetinput += resetinput;
+            oscilloscope.FilterGuiUpdateCallback += FilterGuiUpdateCallback;
+            oscilloscope.Filter2GuiCallback += Filter2GuiCallback;
             EditOptioncomboBox.SelectedIndex = 0;
             EditModecomboBox.SelectedIndex = 0;
 
@@ -223,7 +223,7 @@ namespace FloppyControlApp
 
         private void ScatterPlotShowGraphCallback()
         {
-            int grphcnt = graphset.Graphs.Count;
+            int grphcnt = oscilloscope.graphset.Graphs.Count;
 
             int i;
 
@@ -296,17 +296,17 @@ namespace FloppyControlApp
                 }
                 for (i = 0; i < grphcnt; i++)
                 {
-                    graphset.Graphs[i].datalength = 1000;
-                    graphset.Graphs[i].dataoffset = scatterplot.graphindex - 500;
+                    oscilloscope.graphset.Graphs[i].datalength = 1000;
+                    oscilloscope.graphset.Graphs[i].dataoffset = scatterplot.graphindex - 500;
 
-                    if (graphset.Graphs[i].dataoffset < 0)
-                        graphset.Graphs[i].dataoffset = 0;
+                    if (oscilloscope.graphset.Graphs[i].dataoffset < 0)
+                        oscilloscope.graphset.Graphs[i].dataoffset = 0;
 
-                    graphset.Graphs[i].changed = true;
-                    graphset.Graphs[i].density = 1;
+                    oscilloscope.graphset.Graphs[i].changed = true;
+                    oscilloscope.graphset.Graphs[i].density = 1;
                 }
 
-                graphset.UpdateGraphs();
+                oscilloscope.graphset.UpdateGraphs();
                 MainTabControl.SelectedTab = AnalysisTab2;
             }
 
@@ -822,11 +822,6 @@ namespace FloppyControlApp
             scatterplot.UpdateEvent += updateAnScatterPlot;
             scatterplot.ShowGraph += ScatterPlotShowGraphCallback;
             scatterplot.EditScatterplot = EditScatterPlotcheckBox.Checked;
-
-            graphset = new Graphset(GraphPictureBox, Color.Black);
-            graphset.UpdateGUI += updateGraphCallback;
-            graphset.GetControlValues += GraphsetGetControlValuesCallback;
-            graphset.tbreceived = tbreceived;
             
             EditOptioncomboBox.SelectedIndex = 0;
             EditModecomboBox.SelectedIndex = 0;
@@ -1498,81 +1493,12 @@ namespace FloppyControlApp
 
         private void CreateGraphs()
         {
-            graphset.SetAllChanged();
-            var gr = graphset.Graphs;
-            if (graphset.Graphs.Count < 4)
-            {
-                int cnt = graphset.Graphs.Count;
-                int channels = 4;
-                int i;
-
-                if (cnt < channels)
-                {
-                    for (i = 0; i < channels - cnt; i++)
-                    {
-                        graphset.AddGraph(new byte[gr[0].data.Length]);
-                        graphset.Graphs[graphset.Graphs.Count - 1].datalength = graphset.Graphs[0].datalength;
-                        graphset.Graphs[graphset.Graphs.Count - 1].density = graphset.Graphs[0].density;
-                        graphset.Graphs[graphset.Graphs.Count - 1].dataoffset = graphset.Graphs[0].dataoffset;
-                    }
-                }
-            }
-            if (graphset.Graphs.Count >= 4)
-            {
-                graphset.Graphs[0].yoffset = -200;
-                //graphset.Graphs[0].yscale = 2.86f;
-
-                graphset.Graphs[1].yoffset = 0;
-                graphset.Graphs[1].yscale = 0.36f;
-
-                graphset.Graphs[2].yoffset = 0;
-                graphset.Graphs[2].yscale = 5;
-
-                graphset.Graphs[3].yoffset = 175;
-                graphset.Graphs[3].yscale = 1;
-            }
-            if (graphset.Graphs.Count >= 5)
-            {
-                gr[0].zorder = 10;
-                gr[4].zorder = 9;
-                var src = graphset.Graphs[0];
-                var dst = graphset.Graphs[4];
-                dst.datalength = src.datalength;
-                dst.dataoffset = src.dataoffset;
-                dst.density = src.density;
-                //graphset.Graphs[0].yoffset = -200;
-                //graphset.Graphs[0].yscale = 2.86f;
-                dst.yscale = src.yscale;
-                dst.yoffset = src.yoffset;
-                src.zorder = 10;
-                dst.zorder = 9;
-            }
-
-            if (graphset.Graphs[0].datalength == 0)
-                graphset.Graphs[0].datalength = graphset.Graphs[0].data.Length;
-
-            if (!(graphset.Graphs[0].dataoffset < graphset.Graphs[0].data.Length - graphset.Graphs[0].datalength))
-            {
-                int datalength = gr[0].data.Length - 1;
-                int density = (int)Math.Log(datalength / 512.0, 1.4f);//datalength/graph[0].width;
-                if (density <= 0) density = 1;
-                if (datalength < 1000) density = 1;
-                AnDensityUpDown.Value = density;
-                GraphLengthLabel.Text = gr[0].data.Length.ToString();//DataLengthTrackBar.Value.ToString();
-
-                for (int i = 0; i < gr.Count; i++)
-                {
-                    graphset.Graphs[i].dataoffset = 0;
-                    graphset.Graphs[i].datalength = datalength;
-                    graphset.Graphs[i].density = density;
-                }
-            }
-
-            GraphLengthLabel.Text = (gr[0].data.Length - 1000).ToString();
+            
             Graph1SelRadioButton.Checked = true;
-            graphset.UpdateGraphs();
+            
 
         }
+
         private void GraphOffsetTrackBar_Scroll(object sender, EventArgs e)
         {
             int index = 0;
@@ -1585,10 +1511,10 @@ namespace FloppyControlApp
             if (Graph4SelRadioButton.Checked) index = 3;
             else
             if (Graph5SelRadioButton.Checked) index = 4;
-            graphset.Graphs[index].changed = true;
+            oscilloscope.graphset.Graphs[index].changed = true;
 
-            graphset.Graphs[graphselect].yoffset = GraphOffsetTrackBar.Value;
-            graphset.UpdateGraphs();
+            oscilloscope.graphset.Graphs[graphselect].yoffset = GraphOffsetTrackBar.Value;
+            oscilloscope.graphset.UpdateGraphs();
             GraphYOffsetlabel.Text = GraphOffsetTrackBar.Value.ToString();
         }
 
@@ -1605,35 +1531,35 @@ namespace FloppyControlApp
             else
             if (Graph5SelRadioButton.Checked) index = 4;
 
-            graphset.Graphs[index].changed = true;
+            oscilloscope.graphset.Graphs[index].changed = true;
 
-            graphset.Graphs[graphselect].yscale = (GraphYScaleTrackBar.Value / 100.0f);
-            graphset.UpdateGraphs();
+            oscilloscope.graphset.Graphs[graphselect].yscale = (GraphYScaleTrackBar.Value / 100.0f);
+            oscilloscope.graphset.UpdateGraphs();
             GraphScaleYLabel.Text = (GraphYScaleTrackBar.Value / 100.0f).ToString();
         }
 
         private void Graph1SelRadioButton_CheckedChanged(object sender, EventArgs e)
         {
 
-            if (graphset.Graphs.Count >= 1)
+            if (oscilloscope.graphset.Graphs.Count >= 1)
             {
                 graphselect = 0;
-                GraphOffsetTrackBar.Value = graphset.Graphs[graphselect].yoffset;
-                GraphYScaleTrackBar.Value = (int)(graphset.Graphs[graphselect].yscale * 100);
-                graphset.UpdateGraphs();
+                GraphOffsetTrackBar.Value = oscilloscope.graphset.Graphs[graphselect].yoffset;
+                GraphYScaleTrackBar.Value = (int)(oscilloscope.graphset.Graphs[graphselect].yscale * 100);
+                oscilloscope.graphset.UpdateGraphs();
             }
         }
 
         private void Graph2SelRadioButton_CheckedChanged(object sender, EventArgs e)
         {
 
-            if (graphset.Graphs.Count >= 2)
+            if (oscilloscope.graphset.Graphs.Count >= 2)
             {
 
                 graphselect = 1;
-                GraphOffsetTrackBar.Value = graphset.Graphs[graphselect].yoffset;
-                GraphYScaleTrackBar.Value = (int)(graphset.Graphs[graphselect].yscale * 100);
-                graphset.UpdateGraphs();
+                GraphOffsetTrackBar.Value = oscilloscope.graphset.Graphs[graphselect].yoffset;
+                GraphYScaleTrackBar.Value = (int)(oscilloscope.graphset.Graphs[graphselect].yscale * 100);
+                oscilloscope.graphset.UpdateGraphs();
             }
         }
 
@@ -1641,49 +1567,49 @@ namespace FloppyControlApp
         {
 
 
-            if (graphset.Graphs.Count >= 3)
+            if (oscilloscope.graphset.Graphs.Count >= 3)
             {
                 graphselect = 2;
-                GraphOffsetTrackBar.Value = graphset.Graphs[graphselect].yoffset;
-                GraphYScaleTrackBar.Value = (int)(graphset.Graphs[graphselect].yscale * 100);
-                graphset.UpdateGraphs();
+                GraphOffsetTrackBar.Value = oscilloscope.graphset.Graphs[graphselect].yoffset;
+                GraphYScaleTrackBar.Value = (int)(oscilloscope.graphset.Graphs[graphselect].yscale * 100);
+                oscilloscope.graphset.UpdateGraphs();
             }
         }
 
         private void Graph4SelRadioButton_CheckedChanged(object sender, EventArgs e)
         {
-            if (graphset.Graphs.Count >= 4)
+            if (oscilloscope.graphset.Graphs.Count >= 4)
             {
                 graphselect = 3;
-                GraphOffsetTrackBar.Value = graphset.Graphs[graphselect].yoffset;
-                GraphYScaleTrackBar.Value = (int)(graphset.Graphs[graphselect].yscale * 100);
-                graphset.UpdateGraphs();
+                GraphOffsetTrackBar.Value = oscilloscope.graphset.Graphs[graphselect].yoffset;
+                GraphYScaleTrackBar.Value = (int)(oscilloscope.graphset.Graphs[graphselect].yscale * 100);
+                oscilloscope.graphset.UpdateGraphs();
             }
         }
 
         private void Graph5SelRadioButton_CheckedChanged(object sender, EventArgs e)
         {
-            if (graphset.Graphs.Count >= 5)
+            if (oscilloscope.graphset.Graphs.Count >= 5)
             {
                 graphselect = 4;
-                GraphOffsetTrackBar.Value = graphset.Graphs[graphselect].yoffset;
-                GraphYScaleTrackBar.Value = (int)(graphset.Graphs[graphselect].yscale * 100);
-                graphset.UpdateGraphs();
+                GraphOffsetTrackBar.Value = oscilloscope.graphset.Graphs[graphselect].yoffset;
+                GraphYScaleTrackBar.Value = (int)(oscilloscope.graphset.Graphs[graphselect].yscale * 100);
+                oscilloscope.graphset.UpdateGraphs();
             }
         }
 
         private void GraphsetGetControlValuesCallback()
         {
-            graphset.editmode = EditModecomboBox.SelectedIndex;
-            graphset.editoption = EditOptioncomboBox.SelectedIndex;
-            graphset.editperiodextend = (int)PeriodExtendUpDown.Value;
+            oscilloscope.graphset.editmode = EditModecomboBox.SelectedIndex;
+            oscilloscope.graphset.editoption = EditOptioncomboBox.SelectedIndex;
+            oscilloscope.graphset.editperiodextend = (int)PeriodExtendUpDown.Value;
         }
 
         private void updateGraphCallback()
         {
             if (stopupdatingGraph == false)
             {
-                AnDensityUpDown.Value = graphset.Graphs[0].density;
+                AnDensityUpDown.Value = oscilloscope.graphset.Graphs[0].density;
                 int index = 0;
                 if (Graph1SelRadioButton.Checked) index = 0;
                 else
@@ -1695,9 +1621,9 @@ namespace FloppyControlApp
                 else
                 if (Graph5SelRadioButton.Checked) index = 4;
 
-                graphset.Graphs[index].changed = true;
+                oscilloscope.graphset.Graphs[index].changed = true;
 
-                graphset.Graphs[graphselect].yscale = (GraphYScaleTrackBar.Value / 100.0f);
+                oscilloscope.graphset.Graphs[graphselect].yscale = (GraphYScaleTrackBar.Value / 100.0f);
                 GraphScaleYLabel.Text = (GraphYScaleTrackBar.Value / 100.0f).ToString();
                 /*
                 foreach ( var gr in graphset.Graphs)
@@ -1706,10 +1632,10 @@ namespace FloppyControlApp
                 }
                 AnDensityUpDown.Value = density;
                 */
-                GraphLengthLabel.Text = string.Format("{0:n0}", graphset.Graphs[0].datalength);
-                GraphXOffsetLabel.Text = string.Format("{0:n0}", graphset.Graphs[0].dataoffset);
+                GraphLengthLabel.Text = string.Format("{0:n0}", oscilloscope.graphset.Graphs[0].datalength);
+                GraphXOffsetLabel.Text = string.Format("{0:n0}", oscilloscope.graphset.Graphs[0].dataoffset);
                 int i;
-                int centerposition = graphset.Graphs[0].dataoffset;
+                int centerposition = oscilloscope.graphset.Graphs[0].dataoffset;
                 //int centerposition = graphset.Graphs[0].dataoffset + (graphset.Graphs[0].datalength / 2);
                 if (processing.sectordata2 != null && processing.rxbuftograph != null)
                 {
@@ -1742,12 +1668,13 @@ namespace FloppyControlApp
                         }
                     }
                 }
-                Undolevelslabel.Text = "Undo levels: " + (graphset.Graphs[0].undo.Count).ToString();
+                Undolevelslabel.Text = "Undo levels: " + (oscilloscope.graphset.Graphs[0].undo.Count).ToString();
                 //graphset.UpdateGraphs();
                 scatterplot.UpdateScatterPlot();
 
             }
         }
+
         private void updateAnScatterPlot()
         {
             scatterplot.thresholdmin = MinvScrollBar.Value + OffsetvScrollBar1.Value;
@@ -1773,691 +1700,44 @@ namespace FloppyControlApp
                     ScatterHisto.DoHistogram(processing.rxbuf, offset, length);
                 }
         }
+
         private void OpenWavefrmbutton_Click_1(object sender, EventArgs e)
         {
-            byte[] temp;
-
-            OpenFileDialog loadwave = new OpenFileDialog();
-            loadwave.InitialDirectory = subpath + @"\" + outputfilename.Text;
-            loadwave.Filter = "wvfrm files (*.wvfrm)|*.wvfrm|wfm files (*.wfm)|*.wfm|All files(*.*)|*.*";
-            //Bin files (*.bin)|*.bin|All files (*.*)|*.*
-
-            if (loadwave.ShowDialog() == DialogResult.OK)
-            {
-
-                //try
-                {
-                    string file = loadwave.FileName;
-                    string ext = Path.GetExtension(file);
-                    string filename = Path.GetFileName(file);
-                    textBoxFilesLoaded.AppendText(filename + "\r\n");
-                    graphset.filename = filename;
-                    // D:\data\Projects\FloppyControl\DiskRecoveries\M003 MusicDisk\ScopeCaptures
-                    //string file = @"D:\data\Projects\FloppyControl\DiskRecoveries\M003 MusicDisk\ScopeCaptures\diff4_T02_H1.wfm";
-                    reader = new BinaryReader(new FileStream(file, FileMode.Open));
-
-                    //string path1 = Path.GetFileName(file);
-
-                    //textBoxFilesLoaded.Text += path1 + "\r\n";
-                    //processing.CurrentFiles += path1 + "\r\n";
-                    //outputfilename.Text = path1.Substring(0, path1.IndexOf("_"));
-
-                    if (ext == ".wvfrm")
-                    {
-                        //reader.BaseStream.Length
-
-
-                        //int channels = reader.Read()
-                        byte channels = reader.ReadByte();
-                        int wvfrmlength = reader.ReadInt32();
-                        long length = reader.BaseStream.Length;
-
-                        if (channels > 15)
-                        {
-                            tbreceived.Append("File header error. Too many channels: " + channels + "\r\n");
-                            return;
-                        }
-                        int i;
-
-                        int dataoffset = 0;
-                        int datalength = 1000;
-                        int density = 23;
-                        int flag = 0;
-
-                        if (graphset.Graphs.Count > 0)
-                        {
-
-                            if (wvfrmlength == graphset.Graphs[0].data.Length)
-                            {
-                                dataoffset = graphset.Graphs[0].dataoffset;
-                                datalength = graphset.Graphs[0].datalength;
-                                density = graphset.Graphs[0].density;
-                            }
-                            else
-                            {
-                                dataoffset = 0;
-                                datalength = (int)wvfrmlength - 1;
-                                density = 23;
-                            }
-
-                            flag = 1;
-                        }
-                        graphset.Graphs.Clear();
-                        int cnt = graphset.Graphs.Count;
-
-
-                        for (i = 0; i < channels - cnt; i++)
-                        {
-                            graphset.AddGraph(new byte[wvfrmlength]);
-                            if (flag == 1)
-                            {
-                                graphset.Graphs[i].dataoffset = dataoffset;
-                                graphset.Graphs[i].datalength = datalength;
-                                graphset.Graphs[i].density = density;
-                            }
-                        }
-
-
-                        for (i = 0; i < graphset.Graphs.Count; i++)
-                        {
-                            if (graphset.Graphs[i].data.Length != length || flag == 0)
-                            {
-                                graphset.Graphs[i].data = new byte[length];
-                                if (graphset.Graphs[i].datalength > length)
-                                    graphset.Graphs[i].datalength = (int)length - 1;
-                                if (graphset.Graphs[i].dataoffset + graphset.Graphs[i].datalength > length)
-                                {
-                                    graphset.Graphs[i].datalength = (int)length - 1;
-                                    graphset.Graphs[i].dataoffset = 0;
-                                }
-                            }
-                        }
-
-                        if (graphset.Graphs[0].undo.Count > 0)
-                            graphset.Graphs[0].undo.Clear();
-
-
-                        var gr = graphset.Graphs;
-
-                        //graphwaveform[2] = new byte[wvfrmlength]; // Create empty waves for storage of result data
-                        //graphwaveform[3] = new byte[wvfrmlength];
-
-                        if ((wvfrmlength * channels) < length)
-                        {
-                            for (i = 0; i < channels; i++)
-                            {
-                                gr[i].data = reader.ReadBytes(wvfrmlength);
-                            }
-
-                            tbreceived.Append(loadwave.FileName + "\r\n");
-                            tbreceived.Append(Path.GetFileName(loadwave.FileName) + "\r\n");
-                            tbreceived.Append("FileLength: " + reader.BaseStream.Length + "\r\n");
-
-                            reader.Close();
-                        }
-                        else
-                        {
-                            tbreceived.Append("Waveform load error: File seems to be too short!\r\n");
-                        }
-
-                        if (channels == 3)
-                        {
-                            int max = 0, min = 255;
-                            int offset = (int)DiffOffsetUpDown.Value;
-                            for (i = Math.Abs(offset); i < wvfrmlength - (Math.Abs(offset)); i++)
-                            {
-
-                                gr[0].data[i] = (byte)(127 + (gr[0].data[i] - gr[1].data[i + offset]) / 2);
-                                if (gr[0].data[i] > max) max = gr[0].data[i];
-                                if (gr[0].data[i] < min) min = gr[0].data[i];
-
-                                //gr[0].data[i] = (byte)(127 + (gr[0].data[i] - gr[1].data[i + offset]) / 2);
-                            }
-                            gr[0].yscale = 192.0f / (float)(max - min);
-                            GraphYScaleTrackBar.Value = (int)(gr[0].yscale * 100.0f);
-                            GraphScaleYLabel.Text = "" + gr[0].yscale;
-                        }
-                        else
-                        {
-                            int max = 0, min = 255;
-                            int offset = (int)DiffOffsetUpDown.Value;
-                            for (i = Math.Abs(offset); i < wvfrmlength - (Math.Abs(offset)); i++)
-                            {
-                                if (gr[0].data[i] > max) max = gr[0].data[i];
-                                if (gr[0].data[i] < min) min = gr[0].data[i];
-                            }
-                            gr[0].yscale = 192.0f / (float)(max - min);
-                            if (graphset.Graphs.Count >= 5)
-                                graphset.Graphs[4].yscale = 192.0f / (float)(max - min);
-                            GraphYScaleTrackBar.Value = (int)(gr[0].yscale * 100.0f);
-                            GraphScaleYLabel.Text = "" + gr[0].yscale;
-                        }
-
-                    }
-                    else
-                    {
-                        //reader.BaseStream.Length
-                        tbreceived.Append(openFileDialog1.FileName + "\r\n");
-                        tbreceived.Append(Path.GetFileName(openFileDialog1.FileName) + "\r\n");
-                        tbreceived.Append("FileLength: " + reader.BaseStream.Length + "\r\n");
-
-                        temp = reader.ReadBytes((int)reader.BaseStream.Length);
-                        long length = reader.BaseStream.Length;
-                        int i;
-                        int channels = 4;
-
-                        if (graphset.Graphs.Count < 4)
-                            for (i = 0; i < 4; i++)
-                                graphset.AddGraph(new byte[length]);
-
-
-                        int cnt = 0;
-                        var gr = graphset.Graphs;
-                        int j;
-                        for (i = 3200; i < length - channels; i += channels)
-                        {
-                            for (j = 0; j < channels; j++)
-                            {
-                                gr[j].data[cnt] = temp[i + j];
-                            }
-                            cnt++;
-                        }
-                        reader.Close();
-                    }
-                }
-
-                CreateGraphs();
-                //catch (Exception ex)
-                //{
-                //    MessageBox.Show("Error: Could not read file from disk. Original error: " + ex.Message);
-                //}
-            }
+            oscilloscope.OpenOscilloscopeFile();            
         }
         public void GraphFilterButton_Click(object sender, EventArgs e)
         {
-            var gr = graphset.Graphs;
-            if (gr.Count >= 4)
-            {
-                int i;
-                double val = 0;
-                double valadapt = 0;
-                double val2 = 0;
-                //double RateOfChange = (float)GraphFilterUpDown.Value;
-                int diffdist = (int)DiffDistUpDown.Value;
-                float diffgain = (float)DiffGainUpDown.Value;
-                int diffdist2 = (int)DiffDistUpDown2.Value;
-                int length = gr[0].data.Length;
-
-                int diffthreshold = (int)DiffThresholdUpDown.Value;
-                int smoothing = (int)SmoothingUpDown.Value;
-                int DiffMinDeviation = (int)DiffMinDeviationUpDown.Value;
-                int DiffMinDeviation2 = (int)DiffMinDeviation2UpDown.Value;
-                int adaptlookahead = (int)AdaptLookAheadUpDown.Value;
-
-                bool adaptivegainenable = AdaptiveGaincheckBox.Checked;
-                bool invert = InvertcheckBox.Checked;
-                double[] t = new double[length];
-                double[] t1 = new double[length];
-                double totalmin = 255;
-                double totalmax = 0;
-                double totalamplitude = 0;
-
-                int smoothingstart = 0 - smoothing;
-
-                //double SignalRatio = (double)SingalRationUpDown.Value;
-                double SignalDistRatio = (double)SignalRatioDistUpDown.Value;
-
-                double DCoffset = 0;
-                int[] history = new int[smoothing * 2 + 1];
-                //int hcnt = 0;
-                int total = 0;
-                byte[] data = gr[0].data;
-                //Smoothing pass
-                if (smoothing != 0)
-                {
-                    for (i = smoothing; i < length - smoothing; i++)
-                    {
-                        total -= history[i % (smoothing * 2 + 1)]; // subtract oldest value
-                        history[i % (smoothing * 2 + 1)] = data[i + smoothing];
-
-                        total += data[i + smoothing];
-                        val2 = total / (double)(smoothing * 2.0d);
-
-                        DCoffset += val2;
-                        //val = val + (((float)graphwaveform[0][i] - val) / RateOfChange);
-                        //t[i] = (byte)((val * 0.4f) + (val2 * 0.6f));
-
-                        if (invert)
-                        {
-                            t[i] = -(val2);
-                        }
-                        else
-                        {
-                            t[i] = val2;
-                        }
-                        if (i > 5000 && i < (length - smoothing - 5000))
-                        {
-                            if (totalmax < t[i]) totalmax = t[i];
-                            if (totalmin > t[i]) totalmin = t[i];
-                        }
-
-                    }
-
-
-                    // Differential pass
-                    if (invert)
-                        DCoffset = -DCoffset / (length - (smoothing * 2));
-                    else
-                        DCoffset = DCoffset / (length - (smoothing * 2));
-                    totalmax -= DCoffset;
-                    totalmin -= DCoffset;
-                    totalamplitude = totalmax - totalmin;
-                    tbreceived.Append("Totalmin:" + totalmin + " totalmax:" + totalmax + " totalamp:" + totalamplitude + "\r\n");
-                }
-                else
-                {
-                    for (i = 0; i < length; i++)
-                    {
-                        DCoffset += gr[0].data[i];
-                        if (invert)
-                        {
-                            t[i] = -gr[0].data[i];
-                        }
-                        else
-                        {
-                            t[i] = gr[0].data[i];
-                        }
-                    }
-                    // Differential pass
-                    if (invert)
-                        DCoffset = -DCoffset / length;
-                    else
-                        DCoffset = DCoffset / length;
-                }
-
-
-
-                //DCoffset = 0;
-                int startdist;
-                tbreceived.Append("DC offset:" + DCoffset + "\r\n");
-                if (diffdist > diffdist2) startdist = diffdist;
-                else startdist = diffdist2;
-
-                double adaptivegain = 1;
-                double adaptivegainnew = 0;
-                double adaptivegainold = 0;
-                double adaptiverateofchange = 0.01;
-                double adaptivegainoldtonew = 0;
-                double maxvalue = 0;
-                double minvalue = 0;
-
-                double[] adaptivegainhistory = new double[length];
-                if (diffdist * SignalDistRatio == 0) return;
-                for (i = startdist; i < length - adaptlookahead; i++)
-                {
-
-                    valadapt = t[i + adaptlookahead] - DCoffset;
-                    val = t[i] - DCoffset;
-                    if (maxvalue < valadapt) maxvalue = valadapt;
-                    if (minvalue > valadapt) minvalue = valadapt;
-
-                    if (i % (int)(diffdist * SignalDistRatio) == 0 && adaptivegainenable)
-                    {
-                        //adaptivegain = (adaptivegain + ((255-maxvalue)/2))/2.0;
-
-                        //adaptivegain = (adaptivegain+(1.0-((maxvalue-minvalue)/256.0)))/2;
-                        adaptivegainold = adaptivegainnew;
-                        //adaptivegainnew = (1/((maxvalue - minvalue) / SignalRatio));
-                        adaptivegainnew = totalamplitude / (maxvalue - minvalue);
-                        //tbreceived.Append(" "+adaptivegainnew);
-                        if (adaptivegain < 1.0)
-                            adaptivegain = 1.0;
-                        if (adaptivegain > 4)
-                            adaptivegain = 4;
-
-                        //tbreceived.Append(" i: "+i+" a"+adaptivegain+" mm"+(maxvalue-minvalue));
-                        maxvalue = 0;
-                        minvalue = 0;
-                        adaptivegainoldtonew = 0;
-                    }
-                    if (adaptivegainenable)
-                    {
-                        if (adaptivegainoldtonew < 1)
-                            adaptivegainoldtonew += adaptiverateofchange;
-                        else
-                            adaptivegainoldtonew = 1;
-                        adaptivegain = adaptivegainold * (1 - adaptivegainoldtonew) + adaptivegainnew * adaptivegainoldtonew;
-                        adaptivegainhistory[i] = adaptivegain;
-                    }
-                    else
-                    {
-                        adaptivegain = 1;
-                        adaptivegainhistory[i] = 1;
-                    }
-
-                    val = ((val - (t[i - diffdist] - DCoffset)) * diffgain * adaptivegain);
-                    val2 = ((val - (t[i - diffdist2] - DCoffset)) * diffgain * adaptivegain);
-                    t1[i] = (128 + ((val * 0.5) + (val2 * 0.5)));
-
-                    if (t1[i] > 255) gr[3].data[i] = 255;
-                    else if (t1[i] < 0) gr[3].data[i] = 0;
-                    else gr[3].data[i] = (byte)(t1[i]);
-
-                }
-
-                //int hyst = (int)GraphDiffHystUpDown.Value;
-                int old = 0;
-                int period = 0;
-
-                if (AnReplacerxbufBox.Checked)
-                {
-                    resetinput();
-                    //indexrxbuf = 0;
-                    processing.indexrxbuf = 0;
-                }
-
-                int fluxdirection = 0;
-                int orgDiffMinDeviation = DiffMinDeviation;
-                float periodfactor = 2f;
-                int periodoffset = -23;
-                float rxbuftographlength = (length * (length / 3250000f)) / 13f;
-                if (rxbuftographlength < 250000)
-                    rxbuftographlength = 1250000;
-                processing.rxbuftograph = new int[(int)rxbuftographlength];
-                // Zero crossing pass
-                for (i = 0; i < length - diffdist; i++)
-                {
-                    if (fluxdirection == 0) // is the direction upwards?
-                    {
-                        if (adaptivegainhistory[i + diffdist] >= 2)
-                            DiffMinDeviation = DiffMinDeviation2;
-                        else
-                            DiffMinDeviation = orgDiffMinDeviation;
-                        if (t1[i] >= diffthreshold + DiffMinDeviation) // is the signal crossing zero point (unsigned byte zero = 128)
-                        {
-                            fluxdirection = 1; // Switch checking direction
-                            period = i - old; // Calculate period
-                            if (period > 10 && period < 120) // Tthis works as the time domain filter
-                            {
-                                processing.rxbuftograph[processing.indexrxbuf] = i;
-                                processing.rxbuf[processing.indexrxbuf++] = (byte)(period * periodfactor + periodoffset);
-
-                                //tbreceived.Append(period + " ");
-                                gr[1].data[i] = 200;
-                                old = i;
-                            }
-                            /*else if (period >= 100)
-                            {
-                                rxbuf[processing.indexrxbuf++] = 120;
-                                old = i;
-                                byte flip = 0;
-                                for (int q = 0; q < 500; q++) 
-                                {
-                                    if ((q & 1) == 0)
-                                        flip = 120;
-                                    else flip = 100;
-                                    gr[2].data[i + q] = flip;
-                                }
-                            }*/
-                        }
-                        else gr[1].data[i] = 20; // No crossing detected
-                    }
-                    else // is the direction downwards?
-                    {
-                        if (t1[i] < diffthreshold - DiffMinDeviation)
-                        {
-                            fluxdirection = 0;
-                            period = i - old;
-                            if (period > 10 && period < 120)
-                            {
-                                processing.rxbuftograph[processing.indexrxbuf] = i;
-                                processing.rxbuf[processing.indexrxbuf++] = (byte)(period * periodfactor + periodoffset);
-
-                                //tbreceived.Append(period + " ");
-                                gr[1].data[i] = 200;
-                                old = i;
-                            }
-                            /*
-                            else if (period >= 100)
-                            {
-                                rxbuf[processing.indexrxbuf++] = 120;
-                                old = i;
-
-                                byte flip = 0;
-                                for (int q = 0; q < 500; q++)
-                                {
-                                    if ((q & 1) == 0)
-                                        flip = 120;
-                                    else flip = 100;
-                                    gr[2].data[i + q] = flip;
-                                    
-                                }
-                            }
-                            */
-                        }
-                        else gr[1].data[i] = 20;
-                    }
-                    period = i - old;
-                    if (period > 120)
-                    {
-                        processing.rxbuftograph[processing.indexrxbuf] = i;
-                        processing.rxbuf[processing.indexrxbuf++] = 10;
-                        processing.rxbuftograph[processing.indexrxbuf] = i;
-                        processing.rxbuf[processing.indexrxbuf++] = 20;
-                        //processing.rxbuftograph[processing.indexrxbuf] = i;
-                        //processing.rxbuf[processing.indexrxbuf++] = 10;
-                        //processing.rxbuftograph[processing.indexrxbuf] = i;
-                        //processing.rxbuf[processing.indexrxbuf++] = 10;
-                        //processing.rxbuftograph[processing.indexrxbuf] = i;
-                        //processing.rxbuf[processing.indexrxbuf++] = 10;
-                        old = i;
-                        period = 0;
-                        //byte flip = 0;
-
-                        //Use graph2 as a marker
-                        /*
-                        if ( i+500 < gr[2].data.Length )
-                            for (int q = 0; q < 500; q++)
-                            {
-                                if ((q & 1) == 0)
-                                    flip = 120;
-                                else flip = 100;
-                                gr[2].data[i + q] = flip;
-                            }
-                            */
-                    }
-
-                }
-
-                FindPeaks();
-                rxbufEndUpDown.Maximum = processing.indexrxbuf;
-                rxbufStartUpDown.Maximum = processing.indexrxbuf;
-
-                rxbufEndUpDown.Value = processing.indexrxbuf;
-                HistogramhScrollBar1.Minimum = 0;
-                HistogramhScrollBar1.Maximum = processing.indexrxbuf;
-
-                graphset.SetAllChanged();
-
-                if (scatterplot.AnScatViewlength == 0 || scatterplot.AnScatViewlength == 100000)
-                    scatterplot.AnScatViewlength = processing.indexrxbuf - 1;
-                scatterplot.UpdateScatterPlot();
-                graphset.UpdateGraphs();
-                if (processing.indexrxbuf > 0)
-                    ProcessingTab.Enabled = true;
-
-            }
+            oscilloscope.Filter(
+                (int)DiffDistUpDown.Value,
+                (float)DiffGainUpDown.Value,
+                (int)DiffDistUpDown2.Value,
+                (int)DiffThresholdUpDown.Value,
+                (int)SmoothingUpDown.Value,
+                (int)DiffMinDeviationUpDown.Value,
+                (int)DiffMinDeviation2UpDown.Value,
+                (int)AdaptLookAheadUpDown.Value,
+                AdaptiveGaincheckBox.Checked,
+                InvertcheckBox.Checked,
+                (double)SignalRatioDistUpDown.Value,
+                AnReplacerxbufBox.Checked);
         }
 
         private void button31_Click_2(object sender, EventArgs e)
         {
-            var gr = graphset.Graphs;
-            int i;
-
-            int diffdist = (int)DiffDistUpDown.Value;
-            float diffgain = (float)DiffGainUpDown.Value;
-            int diffdist2 = (int)DiffDistUpDown2.Value;
-            int length = gr[0].data.Length;
-
-            int diffthreshold = (int)DiffThresholdUpDown.Value;
-            int smoothing = (int)SmoothingUpDown.Value;
-            int DiffMinDeviation = (int)DiffMinDeviationUpDown.Value;
-            int DiffMinDeviation2 = (int)DiffMinDeviation2UpDown.Value;
-            int adaptlookahead = (int)AdaptLookAheadUpDown.Value;
-
-            bool adaptivegainenable = AdaptiveGaincheckBox.Checked;
-            bool invert = InvertcheckBox.Checked;
-            double[] t = new double[length];
-            byte[] t1 = gr[3].data;
-            //double totalmin = 255;
-            //double totalmax = 0;
-            //double totalamplitude = 0;
-
-            int smoothingstart = 0 - smoothing;
-
-            //double SignalRatio = (double)SingalRationUpDown.Value;
-            double SignalDistRatio = (double)SignalRatioDistUpDown.Value;
-
-            if (AnReplacerxbufBox.Checked)
-            {
-                resetinput();
-                //indexrxbuf = 0;
-                processing.indexrxbuf = 0;
-            }
-
-            //double DCoffset = 0;
-            int[] history = new int[smoothing * 2 + 1];
-            //int hcnt = 0;
-            //int total = 0;
-            byte[] data = gr[0].data;
-
-            int fluxdirection = 0;
-            int orgDiffMinDeviation = DiffMinDeviation;
-            float periodfactor = 2f;
-            int periodoffset = -23;
-            float rxbuftographlength = (length * (length / 3250000f)) / 13f;
-            if (rxbuftographlength < 250000)
-                rxbuftographlength = 250000;
-            processing.rxbuftograph = new int[(int)rxbuftographlength];
-            // Zero crossing pass
-            int period, old = 0;
-            for (i = 0; i < length - diffdist; i++)
-            {
-                if (fluxdirection == 0) // is the direction upwards?
-                {
-                    if (t1[i] >= diffthreshold + DiffMinDeviation) // is the signal crossing zero point (unsigned byte zero = 128)
-                    {
-                        fluxdirection = 1; // Switch checking direction
-                        period = i - old; // Calculate period
-                        if (period > 10 && period < 120) // Tthis works as the time domain filter
-                        {
-                            processing.rxbuftograph[processing.indexrxbuf] = i;
-                            processing.rxbuf[processing.indexrxbuf++] = (byte)(period * periodfactor + periodoffset);
-
-                            //tbreceived.Append(period + " ");
-                            gr[1].data[i] = 200;
-                            old = i;
-                        }
-                        /*else if (period >= 100)
-                        {
-                            rxbuf[processing.indexrxbuf++] = 120;
-                            old = i;
-                            byte flip = 0;
-                            for (int q = 0; q < 500; q++) 
-                            {
-                                if ((q & 1) == 0)
-                                    flip = 120;
-                                else flip = 100;
-                                gr[2].data[i + q] = flip;
-                            }
-                        }*/
-                    }
-                    else gr[1].data[i] = 20; // No crossing detected
-                }
-                else // is the direction downwards?
-                {
-                    if (t1[i] < diffthreshold - DiffMinDeviation)
-                    {
-                        fluxdirection = 0;
-                        period = i - old;
-                        if (period > 10 && period < 120)
-                        {
-                            processing.rxbuftograph[processing.indexrxbuf] = i;
-                            processing.rxbuf[processing.indexrxbuf++] = (byte)(period * periodfactor + periodoffset);
-
-                            //tbreceived.Append(period + " ");
-                            gr[1].data[i] = 200;
-                            old = i;
-                        }
-                        /*
-                        else if (period >= 100)
-                        {
-                            rxbuf[processing.indexrxbuf++] = 120;
-                            old = i;
-
-                            byte flip = 0;
-                            for (int q = 0; q < 500; q++)
-                            {
-                                if ((q & 1) == 0)
-                                    flip = 120;
-                                else flip = 100;
-                                gr[2].data[i + q] = flip;
-
-                            }
-                        }
-                        */
-                    }
-                    else gr[1].data[i] = 20;
-                }
-                period = i - old;
-                if (period > 120)
-                {
-                    processing.rxbuftograph[processing.indexrxbuf] = i;
-                    processing.rxbuf[processing.indexrxbuf++] = 10;
-                    processing.rxbuftograph[processing.indexrxbuf] = i;
-                    processing.rxbuf[processing.indexrxbuf++] = 20;
-                    //processing.rxbuftograph[processing.indexrxbuf] = i;
-                    //processing.rxbuf[processing.indexrxbuf++] = 10;
-                    //processing.rxbuftograph[processing.indexrxbuf] = i;
-                    //processing.rxbuf[processing.indexrxbuf++] = 10;
-                    //processing.rxbuftograph[processing.indexrxbuf] = i;
-                    //processing.rxbuf[processing.indexrxbuf++] = 10;
-                    old = i;
-                    period = 0;
-                    //byte flip = 0;
-
-                    //Use graph2 as a marker
-                    /*
-                    if ( i+500 < gr[2].data.Length )
-                        for (int q = 0; q < 500; q++)
-                        {
-                            if ((q & 1) == 0)
-                                flip = 120;
-                            else flip = 100;
-                            gr[2].data[i + q] = flip;
-                        }
-                        */
-                }
-
-            }
-
-
-            rxbufEndUpDown.Maximum = processing.indexrxbuf;
-            rxbufStartUpDown.Maximum = processing.indexrxbuf;
-
-            rxbufEndUpDown.Value = processing.indexrxbuf;
-            HistogramhScrollBar1.Minimum = 0;
-            HistogramhScrollBar1.Maximum = processing.indexrxbuf;
-            //processing.indexrxbuf = indexrxbuf;
-
-            graphset.SetAllChanged();
-
-            if (scatterplot.AnScatViewlength == 0)
-                scatterplot.AnScatViewlength = processing.indexrxbuf - 1;
-            scatterplot.UpdateScatterPlot();
-            graphset.UpdateGraphs();
-            if (processing.indexrxbuf > 0)
-                ProcessingTab.Enabled = true;
+            oscilloscope.Filter2(
+                (int)DiffDistUpDown.Value,
+                (float)DiffGainUpDown.Value,
+                (int)DiffDistUpDown2.Value,
+                (int)DiffThresholdUpDown.Value,
+                (int)SmoothingUpDown.Value,
+                (int)DiffMinDeviationUpDown.Value,
+                (int)DiffMinDeviation2UpDown.Value,
+                (int)AdaptLookAheadUpDown.Value,
+                AdaptiveGaincheckBox.Checked,
+                InvertcheckBox.Checked,
+                (double)SignalRatioDistUpDown.Value,
+                AnReplacerxbufBox.Checked
+            );
         }
         
         private void DiffDistUpDown_ValueChanged(object sender, EventArgs e)
@@ -2530,9 +1810,9 @@ namespace FloppyControlApp
             rxbufEndUpDown.Value = processing.indexrxbuf;
             HistogramhScrollBar1.Minimum = 0;
             HistogramhScrollBar1.Maximum = processing.indexrxbuf;
-            graphset.SetAllChanged();
+            oscilloscope.graphset.SetAllChanged();
 
-            graphset.UpdateGraphs();
+            oscilloscope.graphset.UpdateGraphs();
         }
         
         
@@ -2740,7 +2020,7 @@ namespace FloppyControlApp
 
         private void AnalysisTab2_Enter_1(object sender, EventArgs e)
         {
-            graphset.allowrepaint = false;
+            oscilloscope.graphset.allowrepaint = false;
         }
 
         private void rtbSectorMap_DoubleClick(object sender, EventArgs e)
@@ -2771,8 +2051,8 @@ namespace FloppyControlApp
                 {
                     graphwaveform[2][i] = (byte)(127 + (graphwaveform[0][i] - graphwaveform[1][i + offset]) / 2);
                 }
-                graphset.Graphs[2].changed = true;
-                graphset.UpdateGraphs();
+                oscilloscope.graphset.Graphs[2].changed = true;
+                oscilloscope.graphset.UpdateGraphs();
             }
         }
 
@@ -2780,11 +2060,11 @@ namespace FloppyControlApp
         {
             int i;
 
-            for (i = 0; i < graphset.Graphs.Count; i++)
+            for (i = 0; i < oscilloscope.graphset.Graphs.Count; i++)
             {
-                graphset.Graphs[i].width = GraphPictureBox.Width;
-                graphset.Graphs[i].height = GraphPictureBox.Height;
-                graphset.Resize();
+                oscilloscope.graphset.Graphs[i].width = GraphPictureBox.Width;
+                oscilloscope.graphset.Graphs[i].height = GraphPictureBox.Height;
+                oscilloscope.graphset.Resize();
             }
         }
 
@@ -2792,10 +2072,10 @@ namespace FloppyControlApp
         private void button31_Click_1(object sender, EventArgs e)
         {
             int i;
-            if (graphset.Graphs.Count > 1)
-                if (graphset.Graphs[0].undo.Count > 0)
+            if (oscilloscope.graphset.Graphs.Count > 1)
+                if (oscilloscope.graphset.Graphs[0].undo.Count > 0)
                 {
-                    var undo = graphset.Graphs[0].undo;
+                    var undo = oscilloscope.graphset.Graphs[0].undo;
                     int undolistindex = undo.Count - 1;
                     int offset = undo[undolistindex].offset;
                     byte[] d = undo[undolistindex].undodata;
@@ -2803,29 +2083,29 @@ namespace FloppyControlApp
 
                     for (i = 0; i < length; i++)
                     {
-                        graphset.Graphs[0].data[i + offset] = d[i];
+                        oscilloscope.graphset.Graphs[0].data[i + offset] = d[i];
                     }
                     undo.Remove(undo[undolistindex]);
 
-                    graphset.Graphs[0].changed = true;
-                    graphset.UpdateGraphs();
+                    oscilloscope.graphset.Graphs[0].changed = true;
+                    oscilloscope.graphset.UpdateGraphs();
                 }
         }
 
         private void SaveWaveformButton_Click(object sender, EventArgs e)
         {
-            graphset.saveAll();
+            oscilloscope.graphset.saveAll();
         }
 
         //Copy graph[0]
         private void button32_Click(object sender, EventArgs e)
         {
-            Graph2 src = graphset.Graphs[0];
+            Graph2 src = oscilloscope.graphset.Graphs[0];
 
-            if (graphset.Graphs.Count < 5)
-                graphset.AddGraph((byte[])src.data.Clone());
+            if (oscilloscope.graphset.Graphs.Count < 5)
+                oscilloscope.graphset.AddGraph((byte[])src.data.Clone());
 
-            Graph2 dst = graphset.Graphs[4];
+            Graph2 dst = oscilloscope.graphset.Graphs[4];
 
             dst.changed = true;
             dst.data = Clone4(src.data);
@@ -2837,7 +2117,7 @@ namespace FloppyControlApp
             dst.yoffset = src.yoffset;
             src.zorder = 10;
             dst.zorder = 9;
-            graphset.UpdateGraphs();
+            oscilloscope.graphset.UpdateGraphs();
         }
 
         static byte[] Clone4(byte[] array)
@@ -2849,28 +2129,28 @@ namespace FloppyControlApp
 
         private void button33_Click(object sender, EventArgs e)
         {
-            graphset.Graphs[graphselect].DCOffset();
-            graphset.Graphs[graphselect].changed = true;
-            graphset.UpdateGraphs();
+            oscilloscope.graphset.Graphs[graphselect].DCOffset();
+            oscilloscope.graphset.Graphs[graphselect].changed = true;
+            oscilloscope.graphset.UpdateGraphs();
         }
 
         private void Lowpassbutton_Click(object sender, EventArgs e)
         {
-            graphset.Graphs[graphselect].Lowpass((int)SmoothingUpDown.Value);
-            graphset.Graphs[graphselect].changed = true;
-            graphset.UpdateGraphs();
+            oscilloscope.graphset.Graphs[graphselect].Lowpass((int)SmoothingUpDown.Value);
+            oscilloscope.graphset.Graphs[graphselect].changed = true;
+            oscilloscope.graphset.UpdateGraphs();
         }
         private void button3_Click(object sender, EventArgs e)
         {
-            graphset.Graphs[graphselect].Lowpass2((int)SmoothingUpDown.Value);
-            graphset.Graphs[graphselect].changed = true;
-            graphset.UpdateGraphs();
+            oscilloscope.graphset.Graphs[graphselect].Lowpass2((int)SmoothingUpDown.Value);
+            oscilloscope.graphset.Graphs[graphselect].changed = true;
+            oscilloscope.graphset.UpdateGraphs();
         }
         private void button33_Click_1(object sender, EventArgs e)
         {
-            graphset.Graphs[graphselect].Highpass((int)HighpassThresholdUpDown.Value);
-            graphset.Graphs[graphselect].changed = true;
-            graphset.UpdateGraphs();
+            oscilloscope.graphset.Graphs[graphselect].Highpass((int)HighpassThresholdUpDown.Value);
+            oscilloscope.graphset.Graphs[graphselect].changed = true;
+            oscilloscope.graphset.UpdateGraphs();
         }
 
         
@@ -2965,172 +2245,15 @@ namespace FloppyControlApp
         // Waveform editor tab, fix 8us method, an attempt to find and fix 8us waveform distortions
         private void button34_Click(object sender, EventArgs e)
         {
-            int i;
-            byte[] d = graphset.Graphs[0].data;
-            byte[] g3 = graphset.Graphs[2].data;
-            byte[] g4 = graphset.Graphs[3].data;
-            int diff;
-            int diffdist = (int)DiffTest2UpDown.Value;
-            int start = graphset.Graphs[0].dataoffset;
-            int length = graphset.Graphs[0].datalength;
-            int threshold = (int)DiffTestUpDown.Value;
-            int thresholddev = (int)DiffTestUpDown.Value;
-            int thresholdtest = (int)ThresholdTestUpDown.Value;
-            //for (i = diffdist; i < d.Length-diffdist; i++)
-            int skip = 0;
-            int iold = start + diffdist;
-            int min = 255;
-            int max = 0;
-            int amplitude = 0;
-            int amplitudeavgcnt = 0;
-            int amplitudeavg = 0;
-            int before = 0;
-            int after = 0;
-            int zerocrossingfilter = 0;
-            int zerocrossingbeforeafter = 0;
-            int zerocrossingdistance = 15;
-
-            ZeroCrossingData[] zc = new ZeroCrossingData[300000];
-
-            //graphset.Graphs[0].Lowpass2(3);
-            //if( graphset.Graphs.Count > 5)
-            //    graphset.Graphs[4].Lowpass2(3);
-
-            int zcindex = 0;
-            //int lengthamplitude = (start + length - diffdist) - (start + diffdist);
-            for (i = start + diffdist; i < start + length - diffdist; i++)
-            {
-                diff = d[i] - d[i - diffdist];
-                diff = (diff + (d[i] - d[i - diffdist * 4])) / 2;
-                diff = (diff + (d[i] - d[i - diffdist * 3])) / 2;
-                diff = (diff + (d[i] - d[i - diffdist * 2])) / 2;
-                if (i > start + diffdist + zerocrossingdistance)
-                    before -= d[i - zerocrossingdistance];
-                before += d[i];
-
-                if (i > start + diffdist + zerocrossingdistance)
-                    after -= d[i];
-                after += d[i + zerocrossingdistance];
-
-
-                g4[i] = (byte)(diff + 127);
-                skip++;
-                zerocrossingfilter++;
-                g3[i] = 110;
-                if (i % 500 == 0)
-                {
-                    amplitude = max - min;
-                    amplitudeavgcnt += amplitude;
-
-
-                    if ((i - (start + diffdist)) > 0)
-                        amplitudeavg = amplitudeavgcnt / 500;
-                    threshold = amplitudeavg / 2 - thresholddev;
-                    amplitudeavgcnt = 0;
-                    min = 255;
-                    max = 0;
-                }
-                if (d[i + 500] > max) max = d[i + 500];
-                if (d[i + 500] < min) min = d[i + 500];
-
-                amplitude = max - min;
-                amplitudeavgcnt += amplitude;
-
-                // Zero crossing
-                // Going positive
-                if (d[i - 1] < 128 && d[i] >= 128 && zerocrossingfilter > 30)
-                {
-                    zerocrossingbeforeafter = (after / zerocrossingdistance - 127) - (before / zerocrossingdistance - 127);
-                    tbreceived.Append("Pos Zero crossing: i " + i + " before: " + (before / zerocrossingdistance - 127) +
-                        " after: " + (after / zerocrossingdistance - 127) + " B/A: " + zerocrossingbeforeafter + "\r\n");
-                    zc[zcindex] = new ZeroCrossingData();
-                    zc[zcindex].after = after / zerocrossingdistance - 127;
-                    zc[zcindex].before = before / zerocrossingdistance - 127;
-                    zc[zcindex].negpos = 1;
-                    zc[zcindex].zcbeforeafter = zerocrossingbeforeafter;
-                    zc[zcindex].index = i;
-                    zcindex++;
-
-                    if (zerocrossingbeforeafter < thresholdtest)
-                    {
-                        g3[i] = 85;
-                        zerocrossingfilter = 15;
-                    }
-                    else
-                    {
-                        g3[i] = 90;
-                        zerocrossingfilter = 0;
-                    }
-
-                }
-                // Going negative
-                if (d[i - 1] >= 126 && d[i] < 126 && zerocrossingfilter > 30)
-                {
-                    zerocrossingbeforeafter = (before / zerocrossingdistance - 127) - (after / zerocrossingdistance - 127);
-                    tbreceived.Append("Neg Zero crossing: i " + i + " before: " + (before / zerocrossingdistance - 127) +
-                        " after: " + (after / zerocrossingdistance - 127) + " B/A: " + zerocrossingbeforeafter + "\r\n");
-                    zc[zcindex] = new ZeroCrossingData();
-                    zc[zcindex].after = after / zerocrossingdistance - 127;
-                    zc[zcindex].before = before / zerocrossingdistance - 127;
-                    zc[zcindex].negpos = 0;
-                    zc[zcindex].zcbeforeafter = zerocrossingbeforeafter;
-                    zc[zcindex].index = i;
-                    zcindex++;
-
-                    if (zerocrossingbeforeafter < thresholdtest)
-                    {
-                        g3[i] = 80;
-                        zerocrossingfilter = 15;
-                    }
-                    else
-                    {
-                        g3[i] = 90;
-                        zerocrossingfilter = 0;
-                    }
-                }
-
-                /*
-                // Differential check
-                if (diff > threshold && skip > 30)
-                {
-                    tbreceived.Append(" i " + i + " " + diff+" period "+(i-iold)+" amplitude: "+threshold+"\r\n");
-                    skip = 0;
-                    iold = i;
-                    g3[i] = 100;
-                }
-                if (diff < 0-threshold && skip > 30)
-                {
-                    tbreceived.Append(" i " + i + " " + diff + " period " + (i - iold) + " amplitude: " + threshold + "\r\n");
-                    skip = 0;
-                    iold = i;
-                    g3[i] = 100;
-                }
-                */
-            }
-            /*
-            int j;
-            
-            for (i = 1; i < zcindex-1; i++)
-            {
-                if (zc[i].zcbeforeafter < thresholdtest)
-                {
-                    if( zc[i-1].zcbeforeafter > thresholdtest && zc[i + 1].zcbeforeafter > thresholdtest)
-                    if (zc[i].before < 11 && zc[i].after < 11)
-                        if (zc[i + 1].index - zc[i - 1].index > 70 && zc[i + 1].index - zc[i - 1].index < 90)
-                        {
-                            for (j = 0; j < 50; j++)
-                            {
-                                if (zc[i-1].negpos == 0)
-                                    d[zc[i].index + j - 25] = 127 - 10;
-                                else
-                                    d[zc[i-1].index + j - 25] = 127 + 10;
-                            }
-                        }
-                }
-            }
-            */
-            graphset.SetAllChanged();
-            graphset.UpdateGraphs();
+            oscilloscope.Fix8us(
+                (int)DiffTest2UpDown.Value,
+                (int)DiffTestUpDown.Value,
+                (int)DiffTestUpDown.Value,
+                (int)ThresholdTestUpDown.Value
+                );
+                 
+            oscilloscope.graphset.SetAllChanged();
+            oscilloscope.graphset.UpdateGraphs();
         }
 
         // Capture data current track button. Captures the track using the scope on the track that's last used when capturing.
@@ -3257,7 +2380,7 @@ namespace FloppyControlApp
 
         private void JumpTocomboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            int grphcnt = graphset.Graphs.Count;
+            int grphcnt = oscilloscope.graphset.Graphs.Count;
             int i;
             int index = JumpTocomboBox.SelectedIndex;
             ComboboxItem item;
@@ -3295,17 +2418,17 @@ namespace FloppyControlApp
             }
             for (i = 0; i < grphcnt; i++)
             {
-                graphset.Graphs[i].datalength = 2000;
-                graphset.Graphs[i].dataoffset = processing.rxbuftograph[graphoffset] - 1000;
+                oscilloscope.graphset.Graphs[i].datalength = 2000;
+                oscilloscope.graphset.Graphs[i].dataoffset = processing.rxbuftograph[graphoffset] - 1000;
 
-                if (graphset.Graphs[i].dataoffset < 0)
-                    graphset.Graphs[i].dataoffset = 0;
+                if (oscilloscope.graphset.Graphs[i].dataoffset < 0)
+                    oscilloscope.graphset.Graphs[i].dataoffset = 0;
 
-                graphset.Graphs[i].changed = true;
-                graphset.Graphs[i].density = 1;
+                oscilloscope.graphset.Graphs[i].changed = true;
+                oscilloscope.graphset.Graphs[i].density = 1;
             }
             //tbreceived.Append("rxbuf pos: "+ (processing.sectordata2[id].rxbufMarkerPositions + offset + 1000));
-            graphset.UpdateGraphs();
+            oscilloscope.graphset.UpdateGraphs();
             MainTabControl.SelectedTab = AnalysisTab2;
         }
 
@@ -3658,156 +2781,11 @@ namespace FloppyControlApp
             }
         }
 
-        class TrackSectorOffset
-        {
-            public int offsetstart { get; set; }
-            public int offsetend { get; set; }
-            public int length { get; set; }
-        }
+        
 
         private void SaveTrimmedBinFile()
         {
-            int i, j;
-            string extension = "";
-            int ioerror = 0;
-            int qq = 0;
-            var sectordata2 = processing.sectordata2;
-
-            // First check if there's sectordata2 data available and that all sectors are ok in sectorok array
-            int sectorspertrack = processing.diskGeometry[processing.diskformat].sectorsPerTrack;
-            int tracksperdisk = processing.diskGeometry[processing.diskformat].tracksPerDisk;
-            int sectorsize = processing.diskGeometry[processing.diskformat].sectorSize;
-            int numberofheads = processing.diskGeometry[processing.diskformat].numberOfHeads;
-
-            TrackSectorOffset[,] tsoffset = new TrackSectorOffset[200, 20];
-
-
-            int sectorstotal = sectorspertrack * tracksperdisk * numberofheads;
-
-            byte scpformat;
-            int[] tracklengthrxbuf = new int[200];
-
-            int averagetimecompensation;
-            ProcessingType procmode = ProcessingType.adaptive1;
-            if (ProcessingModeComboBox.SelectedItem.ToString() != "")
-                procmode = (ProcessingType)Enum.Parse(typeof(ProcessingType), ProcessingModeComboBox.SelectedItem.ToString(), true);
-
-            if (procmode == ProcessingType.adaptive1 || procmode == ProcessingType.adaptive2 || procmode == ProcessingType.adaptive3)
-                averagetimecompensation = ((80 - FourvScrollBar.Value) + (120 - SixvScrollBar.Value) + (160 - EightvScrollBar.Value)) / 3;
-            else
-                averagetimecompensation = 5;
-
-            // FloppyControl app DiskFormat to SCP format
-            byte[] fca2ScpDiskFormat = new byte[] {
-                0, // 0 not used
-                0x04, // 1 AmigaDOS
-                0x04, // 2 DiskSpare
-                0x41, // 3 PC DS DD 
-                0x43, // 4 PC HD
-                0x43, // 5 PC 2M
-                0x40, // 6 PC SS DD
-                0x04, // DiskSpare 984KB
-            };
-
-            scpformat = fca2ScpDiskFormat[(int)processing.diskformat];
-
-            //Checking sectorok data
-            int track = 0, sector = 0;
-            int trackhead = tracksperdisk * numberofheads;
-
-            i = 0;
-            int q = 0;
-
-            // Find all track and sector offsets and lengths
-            for (track = 0; track < trackhead; track++)
-            {
-                for (sector = 0; sector < sectorspertrack; sector++)
-                {
-                    for (i = 0; i < sectordata2.Count; i++)
-                    {
-                        if (sectordata2[i].sector == sector && sectordata2[i].track == track)
-                        {
-                            if (sectordata2[i].mfmMarkerStatus == SectorMapStatus.CrcOk || 
-                                sectordata2[i].mfmMarkerStatus == SectorMapStatus.SectorOKButZeroed || 
-                                sectordata2[i].mfmMarkerStatus == SectorMapStatus.ErrorCorrected)
-                            {
-                                TrackSectorOffset tso = new TrackSectorOffset();
-                                tso.offsetstart = sectordata2[i].rxbufMarkerPositions;
-                                for (q = i + 1; q < sectordata2.Count; q++)
-                                {
-                                    if (sectordata2[i].mfmMarkerStatus == SectorMapStatus.CrcOk || 
-                                        sectordata2[i].mfmMarkerStatus == SectorMapStatus.SectorOKButZeroed || 
-                                        sectordata2[i].mfmMarkerStatus == SectorMapStatus.ErrorCorrected)
-                                    {
-
-                                        tso.offsetend = sectordata2[q].rxbufMarkerPositions;
-                                        //if (track == 80 && sector == 10) tso.offsetend += 100;
-                                        break;
-                                    }
-                                }
-                                if (tso.offsetend == 0) tso.offsetend = tso.offsetend = tso.offsetstart + 10000;
-                                tso.length = tso.offsetend - tso.offsetstart;
-                                if (tso.length > 10000)
-                                {
-                                    tso.length = 10000;
-                                    tso.offsetend = tso.offsetstart + 10000;
-                                }
-                                tsoffset[track, sector] = tso;
-                            }
-                        }
-                    }
-                }
-            }
-           
-            UInt32[] offsettable = new UInt32[200];
-            // Write period data to disk in bin format
-            extension = "_trimmed.bin";
-            path = subpath + @"\" + outputfilename.Text + @"\" + outputfilename.Text + "_" + binfilecount.ToString("D3") + extension;
-
-            textBoxReceived.AppendText("Path:" + path + "\r\n");
-
-            bool exists = System.IO.Directory.Exists(path);
-
-            while (File.Exists(path))
-            {
-                binfilecount++;
-                path = subpath + @"\" + outputfilename.Text + @"\" + outputfilename.Text + "_" + binfilecount.ToString("D3") + extension;
-            }
-
-            //Only save if there's any data to save
-
-            //if (processing.diskformat == 3 || processing.diskformat == 4) //PC 720 KB dd or 1440KB hd
-            //{
-            try
-            {
-                writer = new BinaryWriter(new FileStream(path, FileMode.Create));
-            }
-            catch (IOException ex)
-            {
-                textBoxReceived.AppendText("IO error: " + ex.ToString());
-                ioerror = 1;
-            }
-
-            for (track = 0; track < trackhead; track++)
-            {
-                for (sector = 0; sector < sectorspertrack; sector++)
-                {
-                    if (tsoffset[track, sector] != null) // skip unresolved sectors
-                    {
-                        writer.Write("T" + track.ToString("D3") + "S" + sector);
-                        for (i = tsoffset[track, sector].offsetstart; i < tsoffset[track, sector].offsetend; i++)
-                            writer.Write((byte)(processing.rxbuf[i]));
-                    }
-                }
-            }
-
-            tbreceived.Append("Trimmed bin file saved succesfully.\r\n");
-            if (writer != null)
-            {
-                writer.Flush();
-                writer.Close();
-                writer.Dispose();
-            }
+            
         }
 
         //Save SCP
@@ -4263,182 +3241,22 @@ namespace FloppyControlApp
 
         private void button49_Click(object sender, EventArgs e)
         {
-            SaveTrimmedBinFile();
-        }
-
-        private void SaveTrimmedBadBinFile()
-        {
-            int i, j;
-            string extension = "";
-            int ioerror = 0;
-            int qq = 0;
-            var sectordata2 = processing.sectordata2;
-
-            // First check if there's sectordata2 data available and that all sectors are ok in sectorok array
-            int sectorspertrack = processing.diskGeometry[processing.diskformat].sectorsPerTrack;
-            int tracksperdisk = processing.diskGeometry[processing.diskformat].tracksPerDisk;
-            int sectorsize = processing.diskGeometry[processing.diskformat].sectorSize;
-            int numberofheads = processing.diskGeometry[processing.diskformat].numberOfHeads;
-
-            //TrackSectorOffset[,] tsoffset = new TrackSectorOffset[200, 20];
-
-
-            int sectorstotal = sectorspertrack * tracksperdisk * numberofheads;
-
-            byte scpformat;
-            //int[] tracklengthrxbuf = new int[200];
-
-            int averagetimecompensation;
-            ProcessingType procmode = ProcessingType.adaptive1;
-            if (ProcessingModeComboBox.SelectedItem.ToString() != "")
-                procmode = (ProcessingType)Enum.Parse(typeof(ProcessingType), ProcessingModeComboBox.SelectedItem.ToString(), true);
-
-            if (procmode == ProcessingType.adaptive1 || procmode == ProcessingType.adaptive2 || procmode == ProcessingType.adaptive3)
-                averagetimecompensation = ((80 - FourvScrollBar.Value) + (120 - SixvScrollBar.Value) + (160 - EightvScrollBar.Value)) / 3;
-            else
-                averagetimecompensation = 5;
-
-            // FloppyControl app DiskFormat to SCP format
-            byte[] fca2ScpDiskFormat = new byte[] {
-                0, // 0 not used
-                0x04, // 1 AmigaDOS
-                0x04, // 2 DiskSpare
-                0x41, // 3 PC DS DD 
-                0x43, // 4 PC HD
-                0x43, // 5 PC 2M
-                0x40, // 6 PC SS DD
-                0x04, // DiskSpare 984KB
-            };
-
-            scpformat = fca2ScpDiskFormat[(int)processing.diskformat];
-
-            //Checking sectorok data
-            int track = 0, sector = 0;
-            int trackhead = tracksperdisk * numberofheads;
-            i = 0;
-            int q = 0;
-
-            // Write period data to disk in bin format
-            extension = "_trimmedBad.bin";
-            path = subpath + @"\" + outputfilename.Text + @"\" + outputfilename.Text + "_" + binfilecount.ToString("D3") + extension;
-
-            textBoxReceived.AppendText("Path:" + path + "\r\n");
-
-            bool exists = System.IO.Directory.Exists(path);
-
-            while (File.Exists(path))
-            {
-                binfilecount++;
-                path = subpath + @"\" + outputfilename.Text + @"\" + outputfilename.Text + "_" + binfilecount.ToString("D3") + extension;
-            }
-
-            //Only save if there's any data to save
-
-            //if (processing.diskformat == 3 || processing.diskformat == 4) //PC 720 KB dd or 1440KB hd
-            //{
-            try
-            {
-                writer = new BinaryWriter(new FileStream(path, FileMode.Create));
-            }
-            catch (IOException ex)
-            {
-                textBoxReceived.AppendText("IO error: " + ex.ToString());
-                ioerror = 1;
-            }
-            int badsectorcnt = 0;
-            // Save all bad sectors
-            
-            MFMData sectordataheader, sectordata;
-            if (processing.procsettings.platform == 0) // PC
-            {
-                for (i = 0; i < sectordata2.Count; i++)
-                {
-                    sectordataheader = sectordata2[i];
-                    if (sectordataheader.MarkerType == MarkerType.header || sectordataheader.MarkerType == MarkerType.headerAndData)
-                    {
-                        if (sectordataheader.DataIndex != 0)
-                            sectordata = sectordata2[sectordataheader.DataIndex];
-                        else continue;
-                        if (sectordata.mfmMarkerStatus == SectorMapStatus.HeadOkDataBad)
-                        {
-                            if (processing.sectormap.sectorok[sectordata.track, sectordata.sector] != SectorMapStatus.HeadOkDataBad)
-                                continue; // skip if sector is already good
-                            TrackSectorOffset tso = new TrackSectorOffset();
-                            tso.offsetstart = sectordataheader.rxbufMarkerPositions;
-                            for (q = i + 1; q < sectordata2.Count; q++)
-                            {
-                                if (sectordata2[q].mfmMarkerStatus != 0 &&
-                                    (sectordata2[q].MarkerType == MarkerType.header || sectordata2[q].MarkerType == MarkerType.headerAndData))
-                                {
-                                    tso.offsetend = sectordata2[q].rxbufMarkerPositions;
-                                    break;
-                                }
-                            }
-                            if (tso.offsetend == 0) tso.offsetend = tso.offsetstart + 10000;
-                            tso.length = tso.offsetend - tso.offsetstart;
-                            if (tso.length > 10000)
-                            {
-
-                                tso.offsetend = tso.offsetstart + 10000;
-                                tso.length = tso.offsetend - tso.offsetstart;
-                            }
-                            badsectorcnt++;
-                            //writer.Write("T" + track.ToString("D3") + "S" + sector);
-                            for (q = tso.offsetstart; q < tso.offsetend; q++)
-                                writer.Write((byte)(processing.rxbuf[q]));
-                            //tsoffset[track, sector] = tso;
-                        }
-                    }
-                }
-            }
-            else // Amiga
-            {
-                for (i = 0; i < sectordata2.Count; i++)
-                {
-                    sectordata = sectordata2[i];
-                    if (sectordata.mfmMarkerStatus == SectorMapStatus.HeadOkDataBad)
-                    {
-                        
-                        TrackSectorOffset tso = new TrackSectorOffset();
-                        tso.offsetstart = sectordata.rxbufMarkerPositions;
-                        for (q = i + 1; q < sectordata2.Count; q++)
-                        {
-                            if (sectordata.mfmMarkerStatus != 0 &&
-                                (sectordata.MarkerType == MarkerType.header || sectordata.MarkerType == MarkerType.headerAndData))
-                            {
-                                tso.offsetend = sectordata2[q].rxbufMarkerPositions;
-                                break;
-                            }
-                        }
-                        if (tso.offsetend == 0) tso.offsetend = tso.offsetstart + 10000;
-                        tso.length = tso.offsetend - tso.offsetstart;
-                        if (tso.length > 10000)
-                        {
-
-                            tso.offsetend = tso.offsetstart + 10000;
-                            tso.length = tso.offsetend - tso.offsetstart;
-                        }
-                        badsectorcnt++;
-                        //writer.Write("T" + track.ToString("D3") + "S" + sector);
-                        for (q = tso.offsetstart; q < tso.offsetend; q++)
-                            writer.Write((byte)(processing.rxbuf[q]));
-                        //tsoffset[track, sector] = tso;
-                    }
-                }
-            }
-
-            tbreceived.Append("Bad sectors: "+badsectorcnt+" Trimmed bin file saved succesfully.\r\n");
-            if (writer != null)
-            {
-                writer.Flush();
-                writer.Close();
-                writer.Dispose();
-            }
+            fileio.SaveTrimmedBadBinFile(
+                    FourvScrollBar.Value,
+                    SixvScrollBar.Value,
+                    EightvScrollBar.Value,
+                    ProcessingModeComboBox.SelectedItem.ToString()
+                );
         }
 
         private void SaveTrimmedBadbutton_Click(object sender, EventArgs e)
         {
-            SaveTrimmedBadBinFile();
+            fileio.SaveTrimmedBadBinFile(
+                    (int)FourvScrollBar.Value, 
+                    (int)SixvScrollBar.Value, 
+                    (int)EightvScrollBar.Value, 
+                    ProcessingModeComboBox.SelectedItem.ToString()
+                );
         }
 
         private void AdaptiveScan3()
@@ -4728,7 +3546,47 @@ namespace FloppyControlApp
             TrackDurationUpDown.Value = 260;
         }
 
-        
+        public void FilterGuiUpdateCallback()
+        {
+            FindPeaks();
+            rxbufEndUpDown.Maximum = processing.indexrxbuf;
+            rxbufStartUpDown.Maximum = processing.indexrxbuf;
+
+            rxbufEndUpDown.Value = processing.indexrxbuf;
+            HistogramhScrollBar1.Minimum = 0;
+            HistogramhScrollBar1.Maximum = processing.indexrxbuf;
+
+            oscilloscope.graphset.SetAllChanged();
+
+            if (scatterplot.AnScatViewlength == 0 || scatterplot.AnScatViewlength == 100000)
+                scatterplot.AnScatViewlength = processing.indexrxbuf - 1;
+            scatterplot.UpdateScatterPlot();
+            oscilloscope.graphset.UpdateGraphs();
+            if (processing.indexrxbuf > 0)
+                ProcessingTab.Enabled = true;
+        }
+
+        public void Filter2GuiCallback()
+        {
+            rxbufEndUpDown.Maximum = processing.indexrxbuf;
+            rxbufStartUpDown.Maximum = processing.indexrxbuf;
+
+            rxbufEndUpDown.Value = processing.indexrxbuf;
+            HistogramhScrollBar1.Minimum = 0;
+            HistogramhScrollBar1.Maximum = processing.indexrxbuf;
+            //processing.indexrxbuf = indexrxbuf;
+
+            oscilloscope.graphset.SetAllChanged();
+
+            if (scatterplot.AnScatViewlength == 0)
+                scatterplot.AnScatViewlength = processing.indexrxbuf - 1;
+            scatterplot.UpdateScatterPlot();
+            oscilloscope.graphset.UpdateGraphs();
+            if (processing.indexrxbuf > 0)
+                ProcessingTab.Enabled = true;
+        }
+    
+
     } // end class
 } // End namespace
 

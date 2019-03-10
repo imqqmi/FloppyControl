@@ -10,6 +10,13 @@ using System.Windows.Forms;
 
 namespace FloppyControlApp.MyClasses
 {
+    class TrackSectorOffset
+    {
+        public int offsetstart { get; set; }
+        public int offsetend { get; set; }
+        public int length { get; set; }
+    }
+
     class FileIO
     {
         public bool AddData { get; set; }
@@ -601,5 +608,174 @@ namespace FloppyControlApp.MyClasses
             //ShowDiskFormat();
         }
 
+        public void SaveTrimmedBadBinFile(int four, int six, int eight, string Processingmode)
+        {
+            int i, j;
+            string extension = "";
+            int ioerror = 0;
+            int qq = 0;
+            var sectordata2 = processing.sectordata2;
+
+            // First check if there's sectordata2 data available and that all sectors are ok in sectorok array
+            int sectorspertrack = processing.diskGeometry[processing.diskformat].sectorsPerTrack;
+            int tracksperdisk = processing.diskGeometry[processing.diskformat].tracksPerDisk;
+            int sectorsize = processing.diskGeometry[processing.diskformat].sectorSize;
+            int numberofheads = processing.diskGeometry[processing.diskformat].numberOfHeads;
+
+            //TrackSectorOffset[,] tsoffset = new TrackSectorOffset[200, 20];
+
+
+            int sectorstotal = sectorspertrack * tracksperdisk * numberofheads;
+
+            byte scpformat;
+            //int[] tracklengthrxbuf = new int[200];
+
+            int averagetimecompensation;
+            ProcessingType procmode = ProcessingType.adaptive1;
+            if (Processingmode != "")
+                procmode = (ProcessingType)Enum.Parse(typeof(ProcessingType), Processingmode, true);
+
+            if (procmode == ProcessingType.adaptive1 || procmode == ProcessingType.adaptive2 || procmode == ProcessingType.adaptive3)
+                averagetimecompensation = ((80 - four) + (120 - six) + (160 - eight)) / 3;
+            else
+                averagetimecompensation = 5;
+
+            // FloppyControl app DiskFormat to SCP format
+            byte[] fca2ScpDiskFormat = new byte[] {
+                0, // 0 not used
+                0x04, // 1 AmigaDOS
+                0x04, // 2 DiskSpare
+                0x41, // 3 PC DS DD 
+                0x43, // 4 PC HD
+                0x43, // 5 PC 2M
+                0x40, // 6 PC SS DD
+                0x04, // DiskSpare 984KB
+            };
+
+            scpformat = fca2ScpDiskFormat[(int)processing.diskformat];
+
+            //Checking sectorok data
+            int track = 0, sector = 0;
+            int trackhead = tracksperdisk * numberofheads;
+            i = 0;
+            int q = 0;
+
+            // Write period data to disk in bin format
+            extension = "_trimmedBad.bin";
+            string path = PathToRecoveredDisks + @"\" + BaseFileName + @"\" +BaseFileName + "_" + binfilecount.ToString("D3") + extension;
+
+            tbreceived.Append("Path:" + path + "\r\n");
+
+            bool exists = System.IO.Directory.Exists(path);
+
+            while (File.Exists(path))
+            {
+                binfilecount++;
+                path = PathToRecoveredDisks + @"\" +BaseFileName + @"\" +BaseFileName + "_" + binfilecount.ToString("D3") + extension;
+            }
+
+            //Only save if there's any data to save
+
+            //if (processing.diskformat == 3 || processing.diskformat == 4) //PC 720 KB dd or 1440KB hd
+            //{
+            try
+            {
+                writer = new BinaryWriter(new FileStream(path, FileMode.Create));
+            }
+            catch (IOException ex)
+            {
+                tbreceived.Append("IO error: " + ex.ToString());
+                ioerror = 1;
+            }
+            int badsectorcnt = 0;
+            // Save all bad sectors
+
+            MFMData sectordataheader, sectordata;
+            if (processing.procsettings.platform == 0) // PC
+            {
+                for (i = 0; i < sectordata2.Count; i++)
+                {
+                    sectordataheader = sectordata2[i];
+                    if (sectordataheader.MarkerType == MarkerType.header || sectordataheader.MarkerType == MarkerType.headerAndData)
+                    {
+                        if (sectordataheader.DataIndex != 0)
+                            sectordata = sectordata2[sectordataheader.DataIndex];
+                        else continue;
+                        if (sectordata.mfmMarkerStatus == SectorMapStatus.HeadOkDataBad)
+                        {
+                            if (processing.sectormap.sectorok[sectordata.track, sectordata.sector] != SectorMapStatus.HeadOkDataBad)
+                                continue; // skip if sector is already good
+                            TrackSectorOffset tso = new TrackSectorOffset();
+                            tso.offsetstart = sectordataheader.rxbufMarkerPositions;
+                            for (q = i + 1; q < sectordata2.Count; q++)
+                            {
+                                if (sectordata2[q].mfmMarkerStatus != 0 &&
+                                    (sectordata2[q].MarkerType == MarkerType.header || sectordata2[q].MarkerType == MarkerType.headerAndData))
+                                {
+                                    tso.offsetend = sectordata2[q].rxbufMarkerPositions;
+                                    break;
+                                }
+                            }
+                            if (tso.offsetend == 0) tso.offsetend = tso.offsetstart + 10000;
+                            tso.length = tso.offsetend - tso.offsetstart;
+                            if (tso.length > 10000)
+                            {
+
+                                tso.offsetend = tso.offsetstart + 10000;
+                                tso.length = tso.offsetend - tso.offsetstart;
+                            }
+                            badsectorcnt++;
+                            //writer.Write("T" + track.ToString("D3") + "S" + sector);
+                            for (q = tso.offsetstart; q < tso.offsetend; q++)
+                                writer.Write((byte)(processing.rxbuf[q]));
+                            //tsoffset[track, sector] = tso;
+                        }
+                    }
+                }
+            }
+            else // Amiga
+            {
+                for (i = 0; i < sectordata2.Count; i++)
+                {
+                    sectordata = sectordata2[i];
+                    if (sectordata.mfmMarkerStatus == SectorMapStatus.HeadOkDataBad)
+                    {
+
+                        TrackSectorOffset tso = new TrackSectorOffset();
+                        tso.offsetstart = sectordata.rxbufMarkerPositions;
+                        for (q = i + 1; q < sectordata2.Count; q++)
+                        {
+                            if (sectordata.mfmMarkerStatus != 0 &&
+                                (sectordata.MarkerType == MarkerType.header || sectordata.MarkerType == MarkerType.headerAndData))
+                            {
+                                tso.offsetend = sectordata2[q].rxbufMarkerPositions;
+                                break;
+                            }
+                        }
+                        if (tso.offsetend == 0) tso.offsetend = tso.offsetstart + 10000;
+                        tso.length = tso.offsetend - tso.offsetstart;
+                        if (tso.length > 10000)
+                        {
+
+                            tso.offsetend = tso.offsetstart + 10000;
+                            tso.length = tso.offsetend - tso.offsetstart;
+                        }
+                        badsectorcnt++;
+                        //writer.Write("T" + track.ToString("D3") + "S" + sector);
+                        for (q = tso.offsetstart; q < tso.offsetend; q++)
+                            writer.Write((byte)(processing.rxbuf[q]));
+                        //tsoffset[track, sector] = tso;
+                    }
+                }
+            }
+
+            tbreceived.Append("Bad sectors: " + badsectorcnt + " Trimmed bin file saved succesfully.\r\n");
+            if (writer != null)
+            {
+                writer.Flush();
+                writer.Close();
+                writer.Dispose();
+            }
+        }
     } //Class
 }

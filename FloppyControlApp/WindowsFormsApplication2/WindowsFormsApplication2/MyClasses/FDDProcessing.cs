@@ -1886,7 +1886,7 @@ namespace FloppyControlApp
 
             return b1 << 24 | b2 << 16 | b3 << 8 | b4 << 0;
         }
-    }
 
+    } //class
 }
 
