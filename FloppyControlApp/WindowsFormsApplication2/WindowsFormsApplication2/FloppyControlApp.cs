@@ -1491,7 +1491,8 @@ namespace FloppyControlApp
             //tbreceived.Append("Output changed to: " + outputfilename.Text + "\r\n");
             openFileDialog1.InitialDirectory = subpath + @"\" + outputfilename.Text;
             openFileDialog2.InitialDirectory = subpath + @"\" + outputfilename.Text;
-            
+            if(fileio != null)
+                fileio.BaseFileName = outputfilename.Text;
             Properties.Settings.Default["BaseFileName"] = outputfilename.Text;
             Properties.Settings.Default.Save();
         }
