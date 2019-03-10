@@ -30,6 +30,7 @@ namespace FloppyControlApp.MyClasses
 
         public Action FilesAvailableCallback { get; set; }
         public Action resetinput { get; set; }
+        public Action ScpGuiUpdateCallback { get; set; }
 
         private BinaryReader reader;
         private BinaryWriter writer;
@@ -776,6 +777,393 @@ namespace FloppyControlApp.MyClasses
                 writer.Close();
                 writer.Dispose();
             }
+        }
+
+        public void OpenScp()
+        {
+            byte[] temp;
+
+            OpenFileDialog loadwave = new OpenFileDialog();
+            loadwave.InitialDirectory = PathToRecoveredDisks + @"\" + BaseFileName;
+            loadwave.Filter = "scp files (*.scp)|*.scp|All files(*.*)|*.*";
+            //Bin files (*.bin)|*.bin|All files (*.*)|*.*
+
+            if (loadwave.ShowDialog() == DialogResult.OK)
+            {
+                //try
+                {
+                    string file = loadwave.FileName;
+                    string ext = Path.GetExtension(file);
+                    string filename = Path.GetFileName(file);
+                    textBoxFilesLoaded.AppendText(filename + "\r\n");
+                    //graphset.filename = filename;
+                    // D:\data\Projects\FloppyControl\DiskRecoveries\M003 MusicDisk\ScopeCaptures
+                    //string file = @"D:\data\Projects\FloppyControl\DiskRecoveries\M003 MusicDisk\ScopeCaptures\diff4_T02_H1.wfm";
+                    reader = new BinaryReader(new FileStream(file, FileMode.Open));
+
+                    //string path1 = Path.GetFileName(file);
+
+                    //textBoxFilesLoaded.Text += path1 + "\r\n";
+                    //processing.CurrentFiles += path1 + "\r\n";
+                    //BaseFileName = path1.Substring(0, path1.IndexOf("_"));
+
+                    if (ext == ".scp")
+                    {
+                        //reader.BaseStream.Length
+                        long length = reader.BaseStream.Length;
+
+                        temp = reader.ReadBytes((int)length);
+                        int i;
+
+                        for (i = 0; i < length - 2; i += 2)
+                        {
+                            processing.rxbuf[processing.indexrxbuf++] = (byte)((temp[i] << 8 | temp[i + 1]) >> 1);
+                            //processing.rxbuf[processing.indexrxbuf++] = (byte)((temp[i] << 8 | temp[i + 1]) - 127);
+                        }
+                        
+                    }
+
+                    reader.Close();
+                    reader.Dispose();
+                }
+            }
+        }
+
+        public void SaveSCP(int four, int six, int eight, string Processingmode)
+        {
+            int i, j;
+            string extension = "";
+            int ioerror = 0;
+            int qq = 0;
+            var sectordata2 = processing.sectordata2;
+
+            // First check if there's sectordata2 data available and that all sectors are ok in sectorok array
+            int sectorspertrack = processing.diskGeometry[processing.diskformat].sectorsPerTrack;
+            int tracksperdisk = processing.diskGeometry[processing.diskformat].tracksPerDisk;
+            int sectorsize = processing.diskGeometry[processing.diskformat].sectorSize;
+            int numberofheads = processing.diskGeometry[processing.diskformat].numberOfHeads;
+
+            TrackSectorOffset[,] tsoffset = new TrackSectorOffset[200, 20];
+
+
+            int sectorstotal = sectorspertrack * tracksperdisk * numberofheads;
+
+            byte scpformat;
+            int[] tracklengthrxbuf = new int[200];
+
+            int averagetimecompensation;
+            ProcessingType procmode = ProcessingType.adaptive1;
+            if (Processingmode != "")
+                procmode = (ProcessingType)Enum.Parse(typeof(ProcessingType), Processingmode, true);
+
+            if (procmode == ProcessingType.adaptive1 || procmode == ProcessingType.adaptive2 || procmode == ProcessingType.adaptive3)
+                averagetimecompensation = ((80 - four) + (120 - six) + (160 - eight)) / 3;
+            else
+                averagetimecompensation = 5;
+
+            // FloppyControl app DiskFormat to SCP format
+            byte[] fca2ScpDiskFormat = new byte[] {
+                0, // 0 not used
+                0x04, // 1 AmigaDOS
+                0x04, // 2 DiskSpare
+                0x41, // 3 PC DS DD 
+                0x43, // 4 PC HD
+                0x43, // 5 PC 2M
+                0x40, // 6 PC SS DD
+                0x04, // DiskSpare 984KB
+            };
+
+            scpformat = fca2ScpDiskFormat[(int)processing.diskformat];
+
+            //Checking sectorok data
+            int track = 0, sector = 0;
+            for (track = 0; track < tracksperdisk; track++)
+            {
+                for (sector = 0; sector < sectorspertrack; sector++)
+                {
+                    if (processing.sectormap.sectorok[track, sector] != SectorMapStatus.CrcOk)
+                        break;
+                }
+            }
+
+            if (track != tracksperdisk || sector != sectorspertrack)
+            {
+                tbreceived.Append("Error: not all sectors are good in the sectormap. Can't continue.\r\n");
+                return;
+            }
+
+            byte[,] sectorchecked = new byte[200, 20];
+            int sectorokchecksum = 0;
+            int trackhead = tracksperdisk * numberofheads;
+            //checking sectordata2 if all sectorok items are represented in sectordata2 
+            for (track = 0; track < trackhead; track++)
+            {
+                for (sector = 0; sector < sectorspertrack; sector++)
+                {
+
+                    for (i = 0; i < sectordata2.Count; i++)
+                    {
+                        if (sectordata2[i].sector == sector && sectordata2[i].track == track)
+                        {
+                            if (sectordata2[i].mfmMarkerStatus == SectorMapStatus.CrcOk ||
+                                sectordata2[i].mfmMarkerStatus == SectorMapStatus.SectorOKButZeroed ||
+                                sectordata2[i].mfmMarkerStatus == SectorMapStatus.ErrorCorrected)
+                            {
+                                sectorchecked[track, sector] = 1;
+                                sectorokchecksum++;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (sectorokchecksum != sectorstotal)
+            {
+                tbreceived.Append("Not all sectors are represented in sectordata2. Can't continue. \r\n");
+                return;
+            }
+
+            int offset = 0;
+            i = 0;
+            int q = 0;
+
+            MFMData sectordataheader;
+            MFMData sectordata;
+            // Find all track and sector offsets and lengths
+            if (processing.procsettings.platform == 0) // PC
+            {
+                for (track = 0; track < trackhead; track++)
+                {
+                    for (sector = 0; sector < sectorspertrack; sector++)
+                    {
+                        for (i = 0; i < sectordata2.Count; i++)
+                        {
+                            sectordataheader = sectordata2[i];
+                            if (sectordataheader.sector == sector && sectordataheader.track == track)
+                            {
+                                if (sectordataheader.MarkerType == MarkerType.header || sectordataheader.MarkerType == MarkerType.headerAndData)
+                                {
+                                    if (sectordataheader.DataIndex != 0)
+                                        sectordata = sectordata2[sectordataheader.DataIndex];
+                                    else continue;
+                                    if (sectordata.mfmMarkerStatus == SectorMapStatus.CrcOk ||
+                                        sectordata.mfmMarkerStatus == SectorMapStatus.SectorOKButZeroed ||
+                                        sectordata.mfmMarkerStatus == SectorMapStatus.ErrorCorrected)
+                                    {
+                                        TrackSectorOffset tso = new TrackSectorOffset();
+                                        tso.offsetstart = sectordataheader.rxbufMarkerPositions;
+                                        for (q = i + 1; q < sectordata2.Count; q++)
+                                        {
+                                            if (sectordata2[q].mfmMarkerStatus != 0 &&
+                                                (sectordata2[q].MarkerType == MarkerType.header || sectordata2[q].MarkerType == MarkerType.headerAndData))
+                                            {
+                                                tso.offsetend = sectordata2[q].rxbufMarkerPositions;
+                                                break;
+                                            }
+                                        }
+                                        if (tso.offsetend == 0) tso.offsetend = tso.offsetstart + 10000;
+                                        tso.length = tso.offsetend - tso.offsetstart;
+                                        if (tso.length > 10000)
+                                        {
+
+                                            tso.offsetend = tso.offsetstart + 10000;
+                                            tso.length = tso.offsetend - tso.offsetstart;
+                                        }
+                                        tsoffset[track, sector] = tso;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else // Amiga
+            {
+                for (track = 0; track < trackhead; track++)
+                {
+                    for (sector = 0; sector < sectorspertrack; sector++)
+                    {
+                        for (i = 0; i < sectordata2.Count; i++)
+                        {
+                            sectordata = sectordata2[i];
+                            if (sectordata.sector == sector && sectordata.track == track)
+                            {
+                                if (sectordata.mfmMarkerStatus == SectorMapStatus.CrcOk ||
+                                    sectordata.mfmMarkerStatus == SectorMapStatus.SectorOKButZeroed ||
+                                    sectordata.mfmMarkerStatus == SectorMapStatus.ErrorCorrected)
+                                {
+                                    TrackSectorOffset tso = new TrackSectorOffset();
+                                    tso.offsetstart = sectordata.rxbufMarkerPositions;
+                                    for (q = i + 1; q < sectordata2.Count; q++)
+                                    {
+                                        if (sectordata.mfmMarkerStatus != 0 &&
+                                            (sectordata.MarkerType == MarkerType.header || sectordata.MarkerType == MarkerType.headerAndData))
+                                        {
+                                            tso.offsetend = sectordata2[q].rxbufMarkerPositions;
+                                            break;
+                                        }
+                                    }
+                                    if (tso.offsetend == 0) tso.offsetend = tso.offsetstart + 10000;
+                                    tso.length = tso.offsetend - tso.offsetstart;
+                                    if (tso.length > 10000)
+                                    {
+
+                                        tso.offsetend = tso.offsetstart + 10000;
+                                        tso.length = tso.offsetend - tso.offsetstart;
+                                    }
+                                    tsoffset[track, sector] = tso;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            // calculate track time
+            UInt32[] trackduration = new UInt32[200];
+            int[] indexpulsespertrack = new int[200];
+            int val = 0;
+            for (track = 0; track < trackhead; track++)
+            {
+                for (sector = 0; sector < sectorspertrack; sector++)
+                {
+                    for (i = tsoffset[track, sector].offsetstart; i < tsoffset[track, sector].offsetend; i++)
+                    {
+                        val = processing.rxbuf[i];
+                        trackduration[track] += (UInt32)((val) << 1);
+                        if (val < 4) indexpulsespertrack[track]++;
+                    }
+                }
+            }
+            for (track = 0; track < trackhead; track++)
+            {
+                for (sector = 0; sector < sectorspertrack; sector++)
+                {
+                    tbreceived.Append("T: " + track.ToString("D3") + " S" + sector + "\to1:" +
+                        tsoffset[track, sector].offsetstart + "\to2:" +
+                        tsoffset[track, sector].offsetend +
+                    "\tlength: " + tsoffset[track, sector].length + "\t durcation: " + trackduration[track] + "\r\n");
+                }
+            }
+            UInt32[] offsettable = new UInt32[200];
+
+            // Create offset table, calculated without header offset
+            offsettable[0] = 0;
+            int perioddataoffset = 0;
+            int tracklength = 0;
+            int value;
+            for (track = 0; track < trackhead; track++)
+            {
+                offsettable[track] = (UInt32)(perioddataoffset);
+
+                for (sector = 0; sector < sectorspertrack; sector++)
+                {
+                    value = tsoffset[track, sector].length;
+                    perioddataoffset += value * 2;
+                    tracklength += value;
+                }
+                perioddataoffset += 0x10;
+                perioddataoffset -= (indexpulsespertrack[track] * 2);
+                tracklengthrxbuf[track] = tracklength - indexpulsespertrack[track];
+                tracklength = 0;
+            }
+
+            // Write period data to disk in bin format
+            extension = ".scp";
+            string path = PathToRecoveredDisks + @"\" + BaseFileName + @"\" + BaseFileName + "_" + binfilecount.ToString("D3") + extension;
+
+            tbreceived.Append("Path:" + path + "\r\n");
+
+            bool exists = System.IO.Directory.Exists(path);
+
+            while (File.Exists(path))
+            {
+                binfilecount++;
+                path = PathToRecoveredDisks + @"\" + BaseFileName + @"\" + BaseFileName + "_" + binfilecount.ToString("D3") + extension;
+            }
+
+            //Only save if there's any data to save
+
+            //if (processing.diskformat == 3 || processing.diskformat == 4) //PC 720 KB dd or 1440KB hd
+            //{
+            try
+            {
+                writer = new BinaryWriter(new FileStream(path, FileMode.Create));
+            }
+            catch (IOException ex)
+            {
+                tbreceived.Append("IO error: " + ex.ToString());
+                ioerror = 1;
+            }
+
+            if (ioerror == 0) // skip writing on io error
+            {
+                //Write header
+                writer.Write((byte)'S');            // 0
+                writer.Write((byte)'C');            // 1
+                writer.Write((byte)'P');            // 2
+                writer.Write((byte)0x39);           // 3 Version 3.9
+                writer.Write((byte)scpformat);      // 4 SCP disk type
+                writer.Write((byte)1);            // 5 Number of revolutions
+                writer.Write((byte)0);            // 6 Start track
+                writer.Write((byte)(trackhead - 1)); // 7 end track
+                writer.Write((byte)0);            // 8 Flags (copied from sample scp files)
+                writer.Write((byte)0);            // 9 Bit depth of flux period data. Using default 16 bits shorts.
+                writer.Write((byte)0);             // A number of heads
+                writer.Write((byte)0);            // B reserved byte
+                writer.Write((UInt32)0);            // C..F Checksum (not used for now)
+
+                UInt32 headeroffset = (UInt32)(0x10 + (trackhead * 4));
+
+                for (track = 0; track < trackhead; track++)
+                {
+                    writer.Write((UInt32)((offsettable[track]) + headeroffset));
+                }
+
+                qq = 0;
+                for (track = 0; track < trackhead; track++)
+                {
+
+                    writer.Write((byte)'T');            // 0
+                    writer.Write((byte)'R');            // 1
+                    writer.Write((byte)'K');            // 2
+                    writer.Write((byte)track);          // 0..2 track
+
+                    // We're using one single revolution
+                    writer.Write((UInt32)trackduration[track]);             // 0..2 track duration in nanoseconds/25
+                    writer.Write((UInt32)tracklengthrxbuf[track]);          // 0..2 track flux periods (length)
+                    writer.Write((UInt32)0x10);                    // 0..2
+
+
+                    byte b1 = 0;
+                    byte b2 = 0;
+                    //int val;
+                    //Save sector status
+                    for (sector = 0; sector < sectorspertrack; sector++)
+                    {
+                        for (i = tsoffset[track, sector].offsetstart; i < tsoffset[track, sector].offsetend; i++)
+                        {
+                            val = processing.rxbuf[i] + averagetimecompensation;
+                            if (val < 4 + averagetimecompensation) continue;
+                            b1 = (byte)((val >> 7) & 1);
+                            b2 = (byte)(val << 1);
+                            if (b2 == 0x1a)
+                                qq = 2;
+                            writer.Write((byte)b1);
+                            writer.Write((byte)b2);
+                        }
+                    }
+                }
+                if (writer != null)
+                {
+                    writer.Flush();
+                    writer.Close();
+                    writer.Dispose();
+                }
+            }
+            else ioerror = 0;
+            //}
         }
     } //Class
 }
