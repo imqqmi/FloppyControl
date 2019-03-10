@@ -111,7 +111,7 @@
     <Compile Include="MyClasses\FileIO.cs" />
     <Compile Include="MyClasses\Helpers.cs" />
     <Compile Include="MyClasses\FDDProcessing.cs" />
-    <Compile Include="MyClasses\Oscilloscope.cs" />
+    <Compile Include="MyClasses\WaveformEdit.cs" />
     <Compile Include="MyClasses\SectorMap.cs" />
     <Compile Include="MyClasses\Utils.cs" />
     <Compile Include="MyClasses\FDDCapture.cs" />

@@ -18,7 +18,7 @@ namespace FloppyControlApp.MyClasses
         public int index;
     }
 
-    class Oscilloscope
+    class WaveformEdit
     {
         public FileIO fileio { get; set; }
         public Graphset graphset { get; set; }
@@ -38,8 +38,10 @@ namespace FloppyControlApp.MyClasses
         public Action FilterGuiUpdateCallback { get; set; }
         public Action Filter2GuiCallback { get; set; }
 
-        public Oscilloscope(PictureBox GraphPictureBox)
+        public WaveformEdit(PictureBox GraphPictureBox, FileIO fio, FDDProcessing proc)
         {
+            fileio = fio;
+            processing = proc;
             graphset = new Graphset(GraphPictureBox, Color.Black);
             graphset.UpdateGUI += updateGraphCallback;
             graphset.GetControlValues += GraphsetGetControlValuesCallback;
@@ -64,7 +66,10 @@ namespace FloppyControlApp.MyClasses
                     string file = loadwave.FileName;
                     string ext = Path.GetExtension(file);
                     string filename = Path.GetFileName(file);
+
                     fileio.textBoxFilesLoaded.AppendText(filename + "\r\n");
+                    fileio.SetBaseFileNameFromPath(loadwave.FileName);
+
                     graphset.filename = filename;
                     // D:\data\Projects\FloppyControl\DiskRecoveries\M003 MusicDisk\ScopeCaptures
                     //string file = @"D:\data\Projects\FloppyControl\DiskRecoveries\M003 MusicDisk\ScopeCaptures\diff4_T02_H1.wfm";

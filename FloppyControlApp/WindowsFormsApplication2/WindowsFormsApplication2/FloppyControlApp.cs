@@ -99,7 +99,7 @@ namespace FloppyControlApp
         private int indexrxbufprevious = 0;
         Version version;
         FileIO fileio;
-        Oscilloscope oscilloscope;
+        WaveformEdit oscilloscope;
 
 
         public FloppyControl()
@@ -149,8 +149,8 @@ namespace FloppyControlApp
             fileio.tbreceived = tbreceived;
             fileio.rtbSectorMap = rtbSectorMap;
 
-            oscilloscope = new Oscilloscope(GraphPictureBox);
-            oscilloscope.fileio = fileio;
+            oscilloscope = new WaveformEdit(GraphPictureBox, fileio, processing);
+            
             oscilloscope.updateGraphCallback += updateGraphCallback;
             oscilloscope.GraphsetGetControlValuesCallback += GraphsetGetControlValuesCallback;
             oscilloscope.resetinput += resetinput;
@@ -656,17 +656,7 @@ namespace FloppyControlApp
             {
                 openFilesDlgUsed = false;
                 fileio.openfiles();
-                Setrxbufcontrol();
-                outputfilename.Text = fileio.BaseFileName;
-                if (processing.indexrxbuf < 100000)
-                    scatterplot.AnScatViewlength = processing.indexrxbuf;
-                else scatterplot.AnScatViewlength = 99999;
-                scatterplot.AnScatViewoffset = 0;
-                scatterplot.UpdateScatterPlot();
-                updateHistoAndSliders();
-                //ScatterHisto.DoHistogram(rxbuf, (int)rxbufStartUpDown.Value, (int)rxbufEndUpDown.Value);
-                if (processing.indexrxbuf > 0)
-                    ProcessingTab.Enabled = true;
+                UpdateHistoAndScatterplot();
                 //createhistogram1();
             }
         }
@@ -674,6 +664,21 @@ namespace FloppyControlApp
         void FilesAvailableCallback()
         {
             openFilesDlgUsed = true;
+        }
+
+        void UpdateHistoAndScatterplot()
+        {
+            Setrxbufcontrol();
+            outputfilename.Text = fileio.BaseFileName;
+            if (processing.indexrxbuf < 100000)
+                scatterplot.AnScatViewlength = processing.indexrxbuf;
+            else scatterplot.AnScatViewlength = 99999;
+            scatterplot.AnScatViewoffset = 0;
+            scatterplot.UpdateScatterPlot();
+            updateHistoAndSliders();
+            //ScatterHisto.DoHistogram(rxbuf, (int)rxbufStartUpDown.Value, (int)rxbufEndUpDown.Value);
+            if (processing.indexrxbuf > 0)
+                ProcessingTab.Enabled = true;
         }
 
         private void OpenBinFilebutton_Click(object sender, EventArgs e)
@@ -1703,7 +1708,8 @@ namespace FloppyControlApp
 
         private void OpenWavefrmbutton_Click_1(object sender, EventArgs e)
         {
-            oscilloscope.OpenOscilloscopeFile();            
+            oscilloscope.OpenOscilloscopeFile();
+            UpdateHistoAndScatterplot();            
         }
         public void GraphFilterButton_Click(object sender, EventArgs e)
         {
@@ -1720,6 +1726,7 @@ namespace FloppyControlApp
                 InvertcheckBox.Checked,
                 (double)SignalRatioDistUpDown.Value,
                 AnReplacerxbufBox.Checked);
+            UpdateHistoAndScatterplot();
         }
 
         private void button31_Click_2(object sender, EventArgs e)
@@ -2447,7 +2454,7 @@ namespace FloppyControlApp
 
             if (e.Button == MouseButtons.Left)
             {
-                tbreceived.Append("Track: " + track + " sector: " + sector + " div:" + div);
+                tbreceived.Append("Track: " + track + " sector: " + sector + " div:" + div+"\r\n");
                 for (i = 0; i < processing.sectordata2.Count; i++)
                 {
                     if (processing.sectordata2 == null) continue;

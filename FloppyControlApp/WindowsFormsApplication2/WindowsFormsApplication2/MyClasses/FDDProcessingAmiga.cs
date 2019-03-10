@@ -439,7 +439,7 @@ namespace FloppyControlApp
                                 badsectorhash[sectorindex] = secthash;
 
                                 sectordatathread.threadid = threadid;
-                                sectordatathread.mfmMarkerStatus = SectorMapStatus.empty; // 1 = Good sector data
+                                sectordatathread.mfmMarkerStatus = SectorMapStatus.CrcOk; // 1 = Good sector data
                                 sectordatathread.track = tracknr;
                                 sectordatathread.sector = sectornr;
                                 sectordatathread.sectorlength = bytespersectorthread;

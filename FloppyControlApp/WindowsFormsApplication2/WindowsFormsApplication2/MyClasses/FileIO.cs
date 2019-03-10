@@ -92,6 +92,17 @@ namespace FloppyControlApp.MyClasses
             FilesAvailableCallback();
         }
 
+        public void SetBaseFileNameFromPath(string path)
+        {
+            if (path != null)
+            {
+                string filename = Path.GetFileName(path);
+                BaseFileName = filename.Substring(0, filename.IndexOf("_"));
+                Properties.Settings.Default["BaseFileName"] = BaseFileName;
+                Properties.Settings.Default.Save();
+            }
+        }
+
         public void openfiles()
         {
             int numberOfFiles, loaderror = 0;
