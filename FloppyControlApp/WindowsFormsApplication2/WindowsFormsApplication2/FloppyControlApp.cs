@@ -796,6 +796,8 @@ namespace FloppyControlApp
             processing.sectormap = null;
             processing = null;
 
+            
+
             ECHisto = new Histogram();
             ScatterHisto = new Histogram();
             processing = new FDDProcessing();
@@ -808,7 +810,9 @@ namespace FloppyControlApp
             processing.sectormap.rtbSectorMap = rtbSectorMap;
 
             fileio.processing = processing;
-
+            if (controlfloppy.serialPort1.IsOpen)
+                ConnectClassbutton.PerformClick();
+            controlfloppy.Disconnect();
             controlfloppy.tempbuffer.Clear();
             controlfloppy.rxbuf = null;
             controlfloppy = null;
