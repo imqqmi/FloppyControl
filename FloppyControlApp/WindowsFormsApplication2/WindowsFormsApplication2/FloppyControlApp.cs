@@ -641,7 +641,7 @@ namespace FloppyControlApp
                 controlfloppy.rxbuf = processing.rxbuf;
                 if (processing.rxbuf.Length > 100000)
                     controlfloppy.recentreadbuflength = 100000; // controlfloppy.recentreadbuflength = processing.indexrxbuf - indexrxbufprevious;
-                tbreceived.Append("Recent received:"+controlfloppy.recentreadbuflength.ToString());
+                //tbreceived.Append("Recent received:"+controlfloppy.recentreadbuflength.ToString());
                 processing.indexrxbuf = processing.rxbuf.Length - 1;
                 ControlFloppyScatterplotCallback();
             }

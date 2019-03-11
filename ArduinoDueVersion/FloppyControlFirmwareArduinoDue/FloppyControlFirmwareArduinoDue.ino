@@ -32,8 +32,6 @@
 using namespace arduino_due;
 
 #define CAPTURE_TIME_WINDOW 10 // usecs
-#define ANALOG_PIN 7
-#define ANALOG_VALUE 127 // values in the interval [0,255] 
 
 // Pin definitions
 // If you don't need write support, only the pins marked with y under 'Needed only for reading' are
@@ -105,12 +103,18 @@ void setup() {
   pinMode( DIR, OUTPUT);
   pinMode( STEP, OUTPUT);
   pinMode( SIDE, OUTPUT);
+  pinMode( WGATE, OUTPUT);
+  pinMode( WDATE, OUTPUT);
+
   
   //Inputs, IOC
   pinMode( READY , INPUT);
   pinMode( INDEX , INPUT); // interrupt on change pin
   pinMode( TRK00, INPUT);
   pinMode( RDATA, INPUT); // Capture period times
+  pinMode( WPT, INPUT); // 
+pinMode( DSKCHG, INPUT); // 
+  
   //Stepstick outputs
   pinMode( _STEPSTICKEN, OUTPUT);
   pinMode( MS1, OUTPUT);
@@ -122,7 +126,6 @@ void setup() {
 
   capture_pin2.config(CAPTURE_TIME_WINDOW);
 
-  analogWrite(ANALOG_PIN,ANALOG_VALUE);
   buf = capture_pin2.get_buf();
   setMS();
 
@@ -131,6 +134,8 @@ void setup() {
   digitalWrite( RESET, 0); //RESET = 0;
   digitalWrite( MOTEA, 1); //MOTEB = 1;
   digitalWrite( MOTEB, 1); //MOTEB = 1;
+  digitalWrite( WGATE, 1); //MOTEB = 1;
+  digitalWrite( WDATE, 1); //MOTEB = 1;
   
   SerialUSB.begin(0);
   while (!SerialUSB);

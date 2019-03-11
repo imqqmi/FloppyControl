@@ -5490,6 +5490,11 @@ Use a standard dual in line header of 34 pins.</text>
 <label x="116.84" y="139.7" size="1.778" layer="95"/>
 <pinref part="FDD" gate="A" pin="12/DRVSB"/>
 </segment>
+<segment>
+<pinref part="U$1" gate="G$1" pin="10"/>
+<wire x1="53.34" y1="154.94" x2="53.34" y2="167.64" width="0.1524" layer="91"/>
+<label x="53.34" y="157.48" size="1.778" layer="95" rot="R90"/>
+</segment>
 </net>
 <net name="MOTEB" class="0">
 <segment>
@@ -5784,13 +5789,6 @@ Use a standard dual in line header of 34 pins.</text>
 <pinref part="U$1" gate="G$1" pin="A5"/>
 <wire x1="30.48" y1="66.04" x2="30.48" y2="55.88" width="0.1524" layer="91"/>
 <label x="30.48" y="55.88" size="1.778" layer="95" rot="R90"/>
-</segment>
-</net>
-<net name="DRVBS" class="0">
-<segment>
-<pinref part="U$1" gate="G$1" pin="10"/>
-<wire x1="53.34" y1="154.94" x2="53.34" y2="167.64" width="0.1524" layer="91"/>
-<label x="53.34" y="157.48" size="1.778" layer="95" rot="R90"/>
 </segment>
 </net>
 </nets>

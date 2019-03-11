@@ -582,7 +582,7 @@ namespace FloppyControlApp
             //serialPort1.Write('.'.ToString()); // Stop capture
             Thread.Sleep(10);
             timer3.Stop();
-            tbr.Append("CaptureTracks" + CaptureTracks+"\r\n");
+            //tbr.Append("CaptureTracks" + CaptureTracks+"\r\n");
             if (CaptureTracks < EndTrackMicrosteps)
             {
                 CaptureTracks += MicrostepsPerTrack;
@@ -591,7 +591,7 @@ namespace FloppyControlApp
                 //tbr.Append("Headselect:"+headselect+"\r\n");
                 if ((headselect & 1) == 0)
                 {
-                    tbr.Append("Head j\r\n");
+                    //tbr.Append("Head j\r\n");
                     serialPort1.Write('j'.ToString()); //head 0
                     Thread.Sleep(tracktotrackdelay / MicrostepsPerTrack * 2);
                 }
@@ -605,10 +605,10 @@ namespace FloppyControlApp
                 }
                 currenttrackPrintable = (CaptureTracks/ StepStickMicrostepping) + StartTrack;
                 currenttrack = ((GotoTrack / StepStickMicrostepping) + (CaptureTracks / StepStickMicrostepping));
-                tbr.Append("currenttrack: "+currenttrack+" Currenttrackprintable: "+currenttrackPrintable+"\r\n");
+                //tbr.Append("currenttrack: "+currenttrack+" Currenttrackprintable: "+currenttrackPrintable+"\r\n");
                 if ((currenttrack & 1) == 1 && CaptureTracks > 2)
                 {
-                    tbr.Append("Next track\r\n");
+                    //tbr.Append("Next track\r\n");
                     for (i = 0; i < MicrostepsPerTrack * stepspertrack; i++)
                     //for (i = 0; i < MicrostepsPerTrack; i++)
                     {
@@ -631,7 +631,7 @@ namespace FloppyControlApp
                 //ControlFloppyScatterplotCallback();
 
                 //Wait for the head to settle Edit: the histogram function acts as a wait loop :)
-                tbr.Append("delay "+TrackDuration+"\r\n");
+                //tbr.Append("delay "+TrackDuration+"\r\n");
                 timer3.Interval = TrackDuration;
                 timer3.Start();
                 //serialPort1.Write(','.ToString()); // resume capture

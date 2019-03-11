@@ -49,7 +49,7 @@ namespace FloppyControlApp.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("COM9")]
+        [global::System.Configuration.DefaultSettingValueAttribute("COM21")]
         public string DefaultPort {
             get {
                 return ((string)(this["DefaultPort"]));
@@ -97,7 +97,7 @@ namespace FloppyControlApp.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool DirectStep {
             get {
                 return ((bool)(this["DirectStep"]));

@@ -3731,10 +3731,10 @@ type 0207, grid 10 mm</description>
 <wire x1="4.064" y1="2.54" x2="4.826" y2="2.54" width="0.1524" layer="21"/>
 <wire x1="4.826" y1="2.54" x2="4.826" y2="1.778" width="0.1524" layer="21"/>
 <wire x1="0.254" y1="1.778" x2="2.159" y2="1.778" width="0.1524" layer="21"/>
-<pad name="1" x="-3.81" y="0" drill="0.9144" shape="long" rot="R90"/>
-<pad name="2" x="-1.27" y="0" drill="0.9144" shape="long" rot="R90"/>
-<pad name="3" x="1.27" y="0" drill="0.9144" shape="long" rot="R90"/>
-<pad name="4" x="3.81" y="0" drill="0.9144" shape="long" rot="R90"/>
+<pad name="1" x="-3.81" y="0" drill="1" diameter="1.4224" shape="long" rot="R90"/>
+<pad name="2" x="-1.27" y="0" drill="1" diameter="1.4224" shape="long" rot="R90"/>
+<pad name="3" x="1.27" y="0" drill="1" diameter="1.4224" shape="long" rot="R90"/>
+<pad name="4" x="3.81" y="0" drill="1" diameter="1.4224" shape="long" rot="R90"/>
 <text x="-3.302" y="0.9398" size="0.9906" layer="21" ratio="12" rot="R90">1</text>
 <text x="-4.826" y="2.9464" size="1.27" layer="25" ratio="10">&gt;NAME</text>
 <text x="-4.826" y="-3.8354" size="1.27" layer="27" ratio="10">&gt;VALUE</text>

@@ -9,7 +9,7 @@
       <Value Profile="(Default)">1</Value>
     </Setting>
     <Setting Name="DefaultPort" Type="System.String" Scope="User">
-      <Value Profile="(Default)">COM9</Value>
+      <Value Profile="(Default)">COM21</Value>
     </Setting>
     <Setting Name="DefaultBaud" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">5000000</Value>
@@ -21,7 +21,7 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="DirectStep" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
+      <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="StepStickMicrostepping" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">1</Value>

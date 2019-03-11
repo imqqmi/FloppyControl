@@ -5163,18 +5163,18 @@ Es handelt sich hierbei um AK500 in horizontaler Ausführung.</description>
 </class>
 </classes>
 <parts>
-<part name="R3" library="rcl" deviceset="R-EU_" device="M1206" value="1k"/>
-<part name="R4" library="rcl" deviceset="R-EU_" device="M1206" value="1k"/>
+<part name="R3" library="rcl" deviceset="R-EU_" device="M1206" value="470"/>
+<part name="R4" library="rcl" deviceset="R-EU_" device="M1206" value="470"/>
 <part name="GND1" library="supply1" deviceset="GND" device=""/>
 <part name="VDD1" library="supply1" deviceset="VDD" device=""/>
-<part name="R6" library="rcl" deviceset="R-EU_" device="M1206" value="1k"/>
+<part name="R6" library="rcl" deviceset="R-EU_" device="M1206" value="470"/>
 <part name="VSS1" library="supply1" deviceset="VSS" device=""/>
 <part name="SL5" library="con-amp-quick" deviceset="M04" device="" value="Stepper motor"/>
 <part name="IC2" library="_MyComponents" deviceset="STEPSTICK_A4988" device=""/>
-<part name="R8" library="rcl" deviceset="R-EU_" device="M1206" value="1k"/>
+<part name="R8" library="rcl" deviceset="R-EU_" device="M1206" value="470"/>
 <part name="FDD" library="_MyComponents" deviceset="FLOPPY_34PIN_CONN" device=""/>
 <part name="X1" library="con-ptr500" deviceset="AK500/2-H" device=""/>
-<part name="R5" library="rcl" deviceset="R-EU_" device="M1206" value="1k"/>
+<part name="R5" library="rcl" deviceset="R-EU_" device="M1206" value="470"/>
 <part name="U$1" library="DUElib130425" deviceset="DUE(NOCONN)" device=""/>
 </parts>
 <sheets>

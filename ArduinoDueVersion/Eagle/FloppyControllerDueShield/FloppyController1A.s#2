@@ -3792,59 +3792,59 @@ type 0207, grid 10 mm</description>
 <library name="_MyComponents">
 <packages>
 <package name="STEPSTICK_A4988">
-<pad name="P$1" x="0" y="0" drill="0.8" diameter="1.4224" shape="long"/>
-<pad name="P$2" x="0" y="-2.54" drill="0.8" diameter="1.4224" shape="long"/>
-<pad name="P$3" x="0" y="-5.08" drill="0.8" diameter="1.4224" shape="long"/>
-<pad name="P$4" x="0" y="-7.62" drill="0.8" diameter="1.4224" shape="long"/>
-<pad name="P$5" x="0" y="-10.16" drill="0.8" diameter="1.4224" shape="long"/>
-<pad name="P$6" x="0" y="-12.7" drill="0.8" diameter="1.4224" shape="long"/>
-<pad name="P$7" x="0" y="-15.24" drill="0.8" diameter="1.4224" shape="long"/>
-<pad name="P$8" x="0" y="-17.78" drill="0.8" diameter="1.4224" shape="long"/>
-<pad name="P$9" x="12.7" y="-17.78" drill="0.8" diameter="1.4224" shape="long"/>
-<pad name="P$10" x="12.7" y="-15.24" drill="0.8" diameter="1.4224" shape="long"/>
-<pad name="P$11" x="12.7" y="-12.7" drill="0.8" diameter="1.4224" shape="long"/>
-<pad name="P$12" x="12.7" y="-10.16" drill="0.8" diameter="1.4224" shape="long"/>
-<pad name="P$13" x="12.7" y="-7.62" drill="0.8" diameter="1.4224" shape="long"/>
-<pad name="P$14" x="12.7" y="-5.08" drill="0.8" diameter="1.4224" shape="long"/>
-<pad name="P$15" x="12.7" y="-2.54" drill="0.8" diameter="1.4224" shape="long"/>
-<pad name="P$16" x="12.7" y="0" drill="0.8" diameter="1.4224" shape="long"/>
+<pad name="P$1" x="0" y="0" drill="1" diameter="1.4224" shape="long"/>
+<pad name="P$2" x="0" y="-2.54" drill="1" diameter="1.4224" shape="long"/>
+<pad name="P$3" x="0" y="-5.08" drill="1" diameter="1.4224" shape="long"/>
+<pad name="P$4" x="0" y="-7.62" drill="1" diameter="1.4224" shape="long"/>
+<pad name="P$5" x="0" y="-10.16" drill="1" diameter="1.4224" shape="long"/>
+<pad name="P$6" x="0" y="-12.7" drill="1" diameter="1.4224" shape="long"/>
+<pad name="P$7" x="0" y="-15.24" drill="1" diameter="1.4224" shape="long"/>
+<pad name="P$8" x="0" y="-17.78" drill="1" diameter="1.4224" shape="long"/>
+<pad name="P$9" x="12.7" y="-17.78" drill="1" diameter="1.4224" shape="long"/>
+<pad name="P$10" x="12.7" y="-15.24" drill="1" diameter="1.4224" shape="long"/>
+<pad name="P$11" x="12.7" y="-12.7" drill="1" diameter="1.4224" shape="long"/>
+<pad name="P$12" x="12.7" y="-10.16" drill="1" diameter="1.4224" shape="long"/>
+<pad name="P$13" x="12.7" y="-7.62" drill="1" diameter="1.4224" shape="long"/>
+<pad name="P$14" x="12.7" y="-5.08" drill="1" diameter="1.4224" shape="long"/>
+<pad name="P$15" x="12.7" y="-2.54" drill="1" diameter="1.4224" shape="long"/>
+<pad name="P$16" x="12.7" y="0" drill="1" diameter="1.4224" shape="long"/>
 <text x="0" y="1.27" size="1.27" layer="21">&gt;NAME</text>
 </package>
 <package name="FLOPPY_34PIN_DUALROW">
-<pad name="1" x="0" y="0" drill="0.8" diameter="1.4224" shape="offset" rot="R180"/>
-<pad name="2" x="2.54" y="0" drill="0.8" diameter="1.4224" shape="offset"/>
-<pad name="3" x="0" y="-2.54" drill="0.8" diameter="1.4224" shape="offset" rot="R180"/>
-<pad name="4" x="2.54" y="-2.54" drill="0.8" diameter="1.4224" shape="offset"/>
-<pad name="5" x="0" y="-5.08" drill="0.8" diameter="1.4224" shape="offset" rot="R180"/>
-<pad name="6" x="2.54" y="-5.08" drill="0.8" diameter="1.4224" shape="offset"/>
-<pad name="7" x="0" y="-7.62" drill="0.8" diameter="1.4224" shape="offset" rot="R180"/>
-<pad name="8" x="2.54" y="-7.62" drill="0.8" diameter="1.4224" shape="offset"/>
-<pad name="9" x="0" y="-10.16" drill="0.8" diameter="1.4224" shape="offset" rot="R180"/>
-<pad name="10" x="2.54" y="-10.16" drill="0.8" diameter="1.4224" shape="offset"/>
-<pad name="11" x="0" y="-12.7" drill="0.8" diameter="1.4224" shape="offset" rot="R180"/>
-<pad name="12" x="2.54" y="-12.7" drill="0.8" diameter="1.4224" shape="offset"/>
-<pad name="13" x="0" y="-15.24" drill="0.8" diameter="1.4224" shape="offset" rot="R180"/>
-<pad name="14" x="2.54" y="-15.24" drill="0.8" diameter="1.4224" shape="offset"/>
-<pad name="15" x="0" y="-17.78" drill="0.8" diameter="1.4224" shape="offset" rot="R180"/>
-<pad name="16" x="2.54" y="-17.78" drill="0.8" diameter="1.4224" shape="offset"/>
-<pad name="17" x="0" y="-20.32" drill="0.8" diameter="1.4224" shape="offset" rot="R180"/>
-<pad name="18" x="2.54" y="-20.32" drill="0.8" diameter="1.4224" shape="offset"/>
-<pad name="19" x="0" y="-22.86" drill="0.8" diameter="1.4224" shape="offset" rot="R180"/>
-<pad name="20" x="2.54" y="-22.86" drill="0.8" diameter="1.4224" shape="offset"/>
-<pad name="21" x="0" y="-25.4" drill="0.8" diameter="1.4224" shape="offset" rot="R180"/>
-<pad name="22" x="2.54" y="-25.4" drill="0.8" diameter="1.4224" shape="offset"/>
-<pad name="23" x="0" y="-27.94" drill="0.8" diameter="1.4224" shape="offset" rot="R180"/>
-<pad name="24" x="2.54" y="-27.94" drill="0.8" diameter="1.4224" shape="offset"/>
-<pad name="25" x="0" y="-30.48" drill="0.8" diameter="1.4224" shape="offset" rot="R180"/>
-<pad name="26" x="2.54" y="-30.48" drill="0.8" diameter="1.4224" shape="offset"/>
-<pad name="27" x="0" y="-33.02" drill="0.8" diameter="1.4224" shape="offset" rot="R180"/>
-<pad name="28" x="2.54" y="-33.02" drill="0.8" diameter="1.4224" shape="offset"/>
-<pad name="29" x="0" y="-35.56" drill="0.8" diameter="1.4224" shape="offset" rot="R180"/>
-<pad name="30" x="2.54" y="-35.56" drill="0.8" diameter="1.4224" shape="offset"/>
-<pad name="31" x="0" y="-38.1" drill="0.8" diameter="1.4224" shape="offset" rot="R180"/>
-<pad name="32" x="2.54" y="-38.1" drill="0.8" diameter="1.4224" shape="offset"/>
-<pad name="33" x="0" y="-40.64" drill="0.8" diameter="1.4224" shape="offset" rot="R180"/>
-<pad name="34" x="2.54" y="-40.64" drill="0.8" diameter="1.4224" shape="offset"/>
+<pad name="1" x="0" y="0" drill="1" diameter="1.4224" shape="offset" rot="R180"/>
+<pad name="2" x="2.54" y="0" drill="1" diameter="1.4224" shape="offset"/>
+<pad name="3" x="0" y="-2.54" drill="1" diameter="1.4224" shape="offset" rot="R180"/>
+<pad name="4" x="2.54" y="-2.54" drill="1" diameter="1.4224" shape="offset"/>
+<pad name="5" x="0" y="-5.08" drill="1" diameter="1.4224" shape="offset" rot="R180"/>
+<pad name="6" x="2.54" y="-5.08" drill="1" diameter="1.4224" shape="offset"/>
+<pad name="7" x="0" y="-7.62" drill="1" diameter="1.4224" shape="offset" rot="R180"/>
+<pad name="8" x="2.54" y="-7.62" drill="1" diameter="1.4224" shape="offset"/>
+<pad name="9" x="0" y="-10.16" drill="1" diameter="1.4224" shape="offset" rot="R180"/>
+<pad name="10" x="2.54" y="-10.16" drill="1" diameter="1.4224" shape="offset"/>
+<pad name="11" x="0" y="-12.7" drill="1" diameter="1.4224" shape="offset" rot="R180"/>
+<pad name="12" x="2.54" y="-12.7" drill="1" diameter="1.4224" shape="offset"/>
+<pad name="13" x="0" y="-15.24" drill="1" diameter="1.4224" shape="offset" rot="R180"/>
+<pad name="14" x="2.54" y="-15.24" drill="1" diameter="1.4224" shape="offset"/>
+<pad name="15" x="0" y="-17.78" drill="1" diameter="1.4224" shape="offset" rot="R180"/>
+<pad name="16" x="2.54" y="-17.78" drill="1" diameter="1.4224" shape="offset"/>
+<pad name="17" x="0" y="-20.32" drill="1" diameter="1.4224" shape="offset" rot="R180"/>
+<pad name="18" x="2.54" y="-20.32" drill="1" diameter="1.4224" shape="offset"/>
+<pad name="19" x="0" y="-22.86" drill="1" diameter="1.4224" shape="offset" rot="R180"/>
+<pad name="20" x="2.54" y="-22.86" drill="1" diameter="1.4224" shape="offset"/>
+<pad name="21" x="0" y="-25.4" drill="1" diameter="1.4224" shape="offset" rot="R180"/>
+<pad name="22" x="2.54" y="-25.4" drill="1" diameter="1.4224" shape="offset"/>
+<pad name="23" x="0" y="-27.94" drill="1" diameter="1.4224" shape="offset" rot="R180"/>
+<pad name="24" x="2.54" y="-27.94" drill="1" diameter="1.4224" shape="offset"/>
+<pad name="25" x="0" y="-30.48" drill="1" diameter="1.4224" shape="offset" rot="R180"/>
+<pad name="26" x="2.54" y="-30.48" drill="1" diameter="1.4224" shape="offset"/>
+<pad name="27" x="0" y="-33.02" drill="1" diameter="1.4224" shape="offset" rot="R180"/>
+<pad name="28" x="2.54" y="-33.02" drill="1" diameter="1.4224" shape="offset"/>
+<pad name="29" x="0" y="-35.56" drill="1" diameter="1.4224" shape="offset" rot="R180"/>
+<pad name="30" x="2.54" y="-35.56" drill="1" diameter="1.4224" shape="offset"/>
+<pad name="31" x="0" y="-38.1" drill="1" diameter="1.4224" shape="offset" rot="R180"/>
+<pad name="32" x="2.54" y="-38.1" drill="1" diameter="1.4224" shape="offset"/>
+<pad name="33" x="0" y="-40.64" drill="1" diameter="1.4224" shape="offset" rot="R180"/>
+<pad name="34" x="2.54" y="-40.64" drill="1" diameter="1.4224" shape="offset"/>
 <text x="-3.81" y="-40.64" size="1.27" layer="21" rot="R90">&gt;NAME</text>
 </package>
 </packages>
@@ -4827,10 +4827,10 @@ Es handelt sich hierbei um AK500 in horizontaler Ausführung.</description>
 <rectangle x1="39.116" y1="20.066" x2="39.624" y2="20.574" layer="21"/>
 <rectangle x1="39.116" y1="22.606" x2="39.624" y2="23.114" layer="21"/>
 <rectangle x1="41.656" y1="22.606" x2="42.164" y2="23.114" layer="21"/>
-<pad name="IOREF" x="-24.13" y="-25.4" drill="0.8" diameter="1.4224" shape="long" rot="R90"/>
-<pad name="NC" x="-26.67" y="-25.4" drill="0.8" diameter="1.4224" shape="long" rot="R90"/>
-<pad name="SDA1" x="-33.02" y="22.86" drill="0.8" diameter="1.4224" shape="long" rot="R90"/>
-<pad name="SCL1" x="-35.56" y="22.86" drill="0.8" diameter="1.4224" shape="long" rot="R90"/>
+<pad name="IOREF" x="-24.13" y="-25.4" drill="1" diameter="1.4224" shape="long" rot="R90"/>
+<pad name="NC" x="-26.67" y="-25.4" drill="1" diameter="1.4224" shape="long" rot="R90"/>
+<pad name="SDA1" x="-33.02" y="22.86" drill="1" diameter="1.4224" shape="long" rot="R90"/>
+<pad name="SCL1" x="-35.56" y="22.86" drill="1" diameter="1.4224" shape="long" rot="R90"/>
 <text x="-24.765" y="-27.305" size="1.27" layer="21" ratio="5" rot="R270">IOref</text>
 <text x="-32.385" y="24.765" size="1.27" layer="21" ratio="5" rot="R90">SDA1</text>
 <text x="-34.925" y="24.765" size="1.27" layer="21" ratio="5" rot="R90">SCL1</text>
@@ -4863,7 +4863,6 @@ Es handelt sich hierbei um AK500 in horizontaler Ausführung.</description>
 <wire x1="-25.4" y1="-26.035" x2="-24.765" y2="-26.67" width="0.127" layer="21"/>
 <wire x1="-24.765" y1="-26.67" x2="-23.495" y2="-26.67" width="0.127" layer="21"/>
 <wire x1="-23.495" y1="-26.67" x2="-22.86" y2="-26.035" width="0.127" layer="21"/>
-<pad name="AREF1" x="-30.48" y="22.86" drill="1" shape="long" rot="R90"/>
 <rectangle x1="-33.274" y1="22.606" x2="-32.766" y2="23.114" layer="21"/>
 <rectangle x1="-35.814" y1="22.606" x2="-35.306" y2="23.114" layer="21"/>
 <rectangle x1="-24.384" y1="-25.654" x2="-23.876" y2="-25.146" layer="21"/>
