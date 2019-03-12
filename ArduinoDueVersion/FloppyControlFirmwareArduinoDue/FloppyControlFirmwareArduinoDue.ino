@@ -113,7 +113,7 @@ void setup() {
   pinMode( TRK00, INPUT);
   pinMode( RDATA, INPUT); // Capture period times
   pinMode( WPT, INPUT); // 
-pinMode( DSKCHG, INPUT); // 
+  pinMode( DSKCHG, INPUT); // 
   
   //Stepstick outputs
   pinMode( _STEPSTICKEN, OUTPUT);
@@ -132,6 +132,7 @@ pinMode( DSKCHG, INPUT); //
   //Turn off disk drive
   digitalWrite( DRVSB, 1); // DRVSB = 1;
   digitalWrite( RESET, 0); //RESET = 0;
+  
   digitalWrite( MOTEA, 1); //MOTEB = 1;
   digitalWrite( MOTEB, 1); //MOTEB = 1;
   digitalWrite( WGATE, 1); //MOTEB = 1;
@@ -205,7 +206,7 @@ void menu(void)
                 //txstring("12 DRVSB disabled\r\n");
                 digitalWrite( DRVSB, 0); //DRVSB = 0;
                 //digitalWrite( MOTEA, 1); //SELECT0 = 1;
-                digitalWrite( _STEPSTICKEN, 1); //RESET = 1;
+                digitalWrite( RESET, 1); //RESET = 1;
             break;
             case 's': // Enable motor and stepstick
                 //txstring("16 MOTEB disabled\r\n");
@@ -329,6 +330,10 @@ void setMS()
 void seektrk00(void) 
 {
     int i,j;
+    digitalWrite( RESET, 0);
+    delay(10);
+    digitalWrite( RESET, 1);
+    delay(10);
     
     digitalWrite( DIR, 1); //DIR = 1; // decrement until trk00 is found
 
@@ -336,9 +341,8 @@ void seektrk00(void)
     digitalWrite( MS1, 0); // MS1 = 0;
     digitalWrite( MS2, 0); // MS2 = 0;
     digitalWrite( MS3, 0); // MS3 = 0;
-    
-    
-    
+   
+
     // Quick seek for speed
     for( i=0; i<180; i++)
     {
