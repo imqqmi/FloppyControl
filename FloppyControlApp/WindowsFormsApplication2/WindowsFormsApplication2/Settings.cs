@@ -41,5 +41,10 @@ namespace FloppyControlApp
             string[] ports = SerialPort.GetPortNames();
             comboBoxPort.Items.AddRange(ports);
         }
+
+        private void MicroSteppingUpDown_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

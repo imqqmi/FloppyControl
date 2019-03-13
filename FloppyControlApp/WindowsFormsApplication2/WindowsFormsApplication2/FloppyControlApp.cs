@@ -139,6 +139,8 @@ namespace FloppyControlApp
             outputfilename.Text = (string)Properties.Settings.Default["BaseFileName"];
             DirectStepCheckBox.Checked = (bool)Properties.Settings.Default["DirectStep"];
             MicrostepsPerTrackUpDown.Value = (int)Properties.Settings.Default["MicroStepping"];
+            TRK00OffsetUpDown.Value = (int)Properties.Settings.Default["TRK00Offset"];
+
             subpath = @Properties.Settings.Default["PathToRecoveredDisks"].ToString();
 
             fileio = new FileIO();
@@ -1856,7 +1858,7 @@ namespace FloppyControlApp
                 controlfloppy.StartTrack = (int)StartTrackUpDown.Value;
                 controlfloppy.tbr = tbreceived;
                 //processing.indexrxbuf            = indexrxbuf;
-                controlfloppy.StepStickMicrostepping = (int)Properties.Settings.Default["MicroStepping"];
+                
                 controlfloppy.outputfilename = outputfilename.Text;
                 controlfloppy.rxbuf = processing.rxbuf;
 
@@ -3037,7 +3039,7 @@ namespace FloppyControlApp
                 case ProcessingType.adaptive2:
                 case ProcessingType.adaptive3:
                     RateOfChangeUpDown.Value = (decimal)1.1;
-                    RateOfChange2UpDown.Value = 800;
+                    RateOfChange2UpDown.Value = 350;
 
                     FindPeaks();
                     scatterplot.showEntropy = false;
@@ -3219,8 +3221,45 @@ namespace FloppyControlApp
             if (processing.indexrxbuf > 0)
                 ProcessingTab.Enabled = true;
         }
-    
 
+        private void TRK00OffsetUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default["TRK00Offset"] = (int)TRK00OffsetUpDown.Value;
+            Properties.Settings.Default.Save();
+        }
+
+        private void DirectPresetBtn_Click(object sender, EventArgs e)
+        {
+            TRK00OffsetUpDown.Value = -1;
+            MicrostepsPerTrackUpDown.Value = 1;
+            DirectStepCheckBox.Checked = true;
+            controlfloppy.StepStickMicrostepping = 1;
+            controlfloppy.MicrostepsPerTrack = 1;
+            controlfloppy.DirectStep = true;
+
+            Properties.Settings.Default["StepStickMicrostepping"] = 1;
+            Properties.Settings.Default["Microstepping"] = 1;
+            Properties.Settings.Default["TRK00Offset"] = -1;
+            Properties.Settings.Default["DirectStep"] = true;
+            Properties.Settings.Default.Save();
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            TRK00OffsetUpDown.Value = 16;
+            MicrostepsPerTrackUpDown.Value = 8;
+            DirectStepCheckBox.Checked = false;
+            controlfloppy.StepStickMicrostepping = 8;
+            controlfloppy.MicrostepsPerTrack = 8;
+            controlfloppy.DirectStep = false;
+
+            Properties.Settings.Default["StepStickMicrostepping"] = 8;
+            Properties.Settings.Default["Microstepping"] = 8;
+            Properties.Settings.Default["TRK00Offset"] = 16;
+            Properties.Settings.Default["DirectStep"] = false;
+            Properties.Settings.Default.Save();
+
+        }
     } // end class
 } // End namespace
 

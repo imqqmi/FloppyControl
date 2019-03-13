@@ -91,6 +91,7 @@
             0,
             0,
             0});
+            this.MicroSteppingUpDown.ValueChanged += new System.EventHandler(this.MicroSteppingUpDown_ValueChanged);
             // 
             // label3
             // 

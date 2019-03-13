@@ -111,6 +111,8 @@
             this.label42 = new System.Windows.Forms.Label();
             this.MainTabControl = new System.Windows.Forms.TabControl();
             this.CaptureTab = new System.Windows.Forms.TabPage();
+            this.button8 = new System.Windows.Forms.Button();
+            this.button7 = new System.Windows.Forms.Button();
             this.SaveTrimmedBadbutton = new System.Windows.Forms.Button();
             this.button49 = new System.Windows.Forms.Button();
             this.button48 = new System.Windows.Forms.Button();
@@ -1380,6 +1382,8 @@
             // CaptureTab
             // 
             this.CaptureTab.BackColor = System.Drawing.SystemColors.Control;
+            this.CaptureTab.Controls.Add(this.button8);
+            this.CaptureTab.Controls.Add(this.button7);
             this.CaptureTab.Controls.Add(this.SaveTrimmedBadbutton);
             this.CaptureTab.Controls.Add(this.button49);
             this.CaptureTab.Controls.Add(this.button48);
@@ -1399,6 +1403,24 @@
             this.CaptureTab.Size = new System.Drawing.Size(951, 750);
             this.CaptureTab.TabIndex = 0;
             this.CaptureTab.Text = "Capture";
+            // 
+            // button8
+            // 
+            this.button8.Location = new System.Drawing.Point(10, 179);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(98, 23);
+            this.button8.TabIndex = 101;
+            this.button8.Text = "StepStick preset";
+            this.button8.Click += new System.EventHandler(this.button8_Click);
+            // 
+            // button7
+            // 
+            this.button7.Location = new System.Drawing.Point(10, 150);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(98, 23);
+            this.button7.TabIndex = 100;
+            this.button7.Text = "Direct preset";
+            this.button7.Click += new System.EventHandler(this.DirectPresetBtn_Click);
             // 
             // SaveTrimmedBadbutton
             // 
@@ -1545,9 +1567,9 @@
             this.groupBox7.Controls.Add(this.label36);
             this.groupBox7.Controls.Add(this.label21);
             this.groupBox7.Controls.Add(this.label20);
-            this.groupBox7.Location = new System.Drawing.Point(98, 6);
+            this.groupBox7.Location = new System.Drawing.Point(137, 6);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(262, 270);
+            this.groupBox7.Size = new System.Drawing.Size(250, 270);
             this.groupBox7.TabIndex = 50;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Capture options";
@@ -1700,6 +1722,7 @@
             0,
             0,
             -2147483648});
+            this.TRK00OffsetUpDown.ValueChanged += new System.EventHandler(this.TRK00OffsetUpDown_ValueChanged);
             // 
             // MicrostepsPerTrackUpDown
             // 
@@ -5401,6 +5424,8 @@
         private System.Windows.Forms.Label label81;
         private System.Windows.Forms.Button FullHistBtn;
         private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.Button button7;
     }
 }
 

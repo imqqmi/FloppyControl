@@ -118,5 +118,17 @@ namespace FloppyControlApp.Properties {
                 this["StepStickMicrostepping"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-1")]
+        public int TRK00Offset {
+            get {
+                return ((int)(this["TRK00Offset"]));
+            }
+            set {
+                this["TRK00Offset"] = value;
+            }
+        }
     }
 }
