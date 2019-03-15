@@ -142,6 +142,10 @@ namespace FloppyControlApp
             MicrostepsPerTrackUpDown.Value = (int)Properties.Settings.Default["MicroStepping"];
             TRK00OffsetUpDown.Value = (int)Properties.Settings.Default["TRK00Offset"];
 
+            QDirectStepCheckBox.Checked = (bool)Properties.Settings.Default["DirectStep"];
+            QMicrostepsPerTrackUpDown.Value = (int)Properties.Settings.Default["MicroStepping"];
+            QTRK00OffsetUpDown.Value = (int)Properties.Settings.Default["TRK00Offset"];
+
             subpath = @Properties.Settings.Default["PathToRecoveredDisks"].ToString();
 
             fileio = new FileIO();
@@ -932,6 +936,10 @@ namespace FloppyControlApp
             StartTrackUpDown.Value = 80;
             EndTracksUpDown.Value = 90;
             TrackDurationUpDown.Value = 540;
+
+            QStartTrackUpDown.Value = 80;
+            QEndTracksUpDown.Value = 90;
+            QTrackDurationUpDown.Value = 540;
         }
 
         private void updateHistoAndSliders()
@@ -946,6 +954,7 @@ namespace FloppyControlApp
         private void button6_Click(object sender, EventArgs e)
         {
             TrackDurationUpDown.Value = 5000;
+            QTrackDurationUpDown.Value = 5000;
         }
 
         private void outputfilename_Enter(object sender, EventArgs e)
@@ -2320,6 +2329,9 @@ namespace FloppyControlApp
 
         private void DirectStepCheckBox_CheckedChanged(object sender, EventArgs e)
         {
+            
+            QDirectStepCheckBox.Checked = DirectStepCheckBox.Checked;
+            
             Properties.Settings.Default["DirectStep"] = DirectStepCheckBox.Checked;
             Properties.Settings.Default.Save();
             controlfloppy.DirectStep = DirectStepCheckBox.Checked;
@@ -3220,6 +3232,10 @@ namespace FloppyControlApp
             StartTrackUpDown.Value = 0;
             EndTracksUpDown.Value = 10;
             TrackDurationUpDown.Value = 260;
+
+            QStartTrackUpDown.Value = 0;
+            QEndTracksUpDown.Value = 10;
+            QTrackDurationUpDown.Value = 260;
         }
 
         private void FullHistBtn_Click(object sender, EventArgs e)
@@ -3272,11 +3288,16 @@ namespace FloppyControlApp
             StartTrackUpDown.Value = 0;
             EndTracksUpDown.Value = 166;
             TrackDurationUpDown.Value = 260;
+
+            QStartTrackUpDown.Value = 0;
+            QEndTracksUpDown.Value = 166;
+            QTrackDurationUpDown.Value = 260;
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
             TrackDurationUpDown.Value = 1000;
+            QTrackDurationUpDown.Value = 1000;
         }
 
         private void TrackPreset4Button_Click(object sender, EventArgs e)
@@ -3284,6 +3305,10 @@ namespace FloppyControlApp
             StartTrackUpDown.Value = 78;
             EndTracksUpDown.Value = 164;
             TrackDurationUpDown.Value = 260;
+
+            QStartTrackUpDown.Value = 78;
+            QEndTracksUpDown.Value = 164;
+            QTrackDurationUpDown.Value = 260;
         }
 
         public void FilterGuiUpdateCallback()
@@ -3336,7 +3361,12 @@ namespace FloppyControlApp
         {
             TRK00OffsetUpDown.Value = -1;
             MicrostepsPerTrackUpDown.Value = 1;
+
+            QTRK00OffsetUpDown.Value = -1;
+            QMicrostepsPerTrackUpDown.Value = 1;
+
             DirectStepCheckBox.Checked = true;
+            QDirectStepCheckBox.Checked = true;
             controlfloppy.StepStickMicrostepping = 1;
             controlfloppy.MicrostepsPerTrack = 1;
             controlfloppy.DirectStep = true;
@@ -3352,6 +3382,10 @@ namespace FloppyControlApp
         {
             TRK00OffsetUpDown.Value = 16;
             MicrostepsPerTrackUpDown.Value = 8;
+
+            QTRK00OffsetUpDown.Value = 16;
+            QMicrostepsPerTrackUpDown.Value = 8;
+
             DirectStepCheckBox.Checked = false;
             controlfloppy.StepStickMicrostepping = 8;
             controlfloppy.MicrostepsPerTrack = 8;
@@ -3448,6 +3482,15 @@ namespace FloppyControlApp
         private void QLimitToTrackUpDown_ValueChanged(object sender, EventArgs e)
         {
             LimitToTrackUpDown.Value = QLimitToTrackUpDown.Value;
+        }
+
+        private void QDirectStepCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            DirectStepCheckBox.Checked = QDirectStepCheckBox.Checked;
+            
+            Properties.Settings.Default["DirectStep"] = DirectStepCheckBox.Checked;
+            Properties.Settings.Default.Save();
+            controlfloppy.DirectStep = DirectStepCheckBox.Checked;
         }
     } // end class
 } // End namespace

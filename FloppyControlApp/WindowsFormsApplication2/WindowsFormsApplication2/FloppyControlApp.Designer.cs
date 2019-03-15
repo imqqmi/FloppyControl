@@ -147,7 +147,7 @@
             this.button12 = new System.Windows.Forms.Button();
             this.button13 = new System.Windows.Forms.Button();
             this.button14 = new System.Windows.Forms.Button();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.QDirectStepCheckBox = new System.Windows.Forms.CheckBox();
             this.QCaptureBtn = new System.Windows.Forms.Button();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
@@ -157,12 +157,12 @@
             this.button27 = new System.Windows.Forms.Button();
             this.button30 = new System.Windows.Forms.Button();
             this.button37 = new System.Windows.Forms.Button();
-            this.QDuration = new System.Windows.Forms.NumericUpDown();
-            this.QStartTrack = new System.Windows.Forms.NumericUpDown();
-            this.QEndTrack = new System.Windows.Forms.NumericUpDown();
+            this.QTrackDurationUpDown = new System.Windows.Forms.NumericUpDown();
+            this.QStartTrackUpDown = new System.Windows.Forms.NumericUpDown();
+            this.QEndTracksUpDown = new System.Windows.Forms.NumericUpDown();
             this.label82 = new System.Windows.Forms.Label();
-            this.QTRK00Offset = new System.Windows.Forms.NumericUpDown();
-            this.QMicrostepsPerTrack = new System.Windows.Forms.NumericUpDown();
+            this.QTRK00OffsetUpDown = new System.Windows.Forms.NumericUpDown();
+            this.QMicrostepsPerTrackUpDown = new System.Windows.Forms.NumericUpDown();
             this.label83 = new System.Windows.Forms.Label();
             this.label84 = new System.Windows.Forms.Label();
             this.label85 = new System.Windows.Forms.Label();
@@ -505,11 +505,11 @@
             this.groupBox12.SuspendLayout();
             this.groupBox10.SuspendLayout();
             this.groupBox11.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.QDuration)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.QStartTrack)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.QEndTrack)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.QTRK00Offset)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.QMicrostepsPerTrack)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QTrackDurationUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QStartTrackUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QEndTracksUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QTRK00OffsetUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QMicrostepsPerTrackUpDown)).BeginInit();
             this.CaptureTab.SuspendLayout();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.rxbufEndUpDown)).BeginInit();
@@ -1694,7 +1694,7 @@
             this.QRateOfChange2UpDown.Size = new System.Drawing.Size(48, 20);
             this.QRateOfChange2UpDown.TabIndex = 108;
             this.QRateOfChange2UpDown.Value = new decimal(new int[] {
-            50,
+            128,
             0,
             0,
             0});
@@ -1900,7 +1900,7 @@
             this.groupBox12.Controls.Add(this.button12);
             this.groupBox12.Controls.Add(this.button13);
             this.groupBox12.Controls.Add(this.button14);
-            this.groupBox12.Controls.Add(this.checkBox1);
+            this.groupBox12.Controls.Add(this.QDirectStepCheckBox);
             this.groupBox12.Controls.Add(this.QCaptureBtn);
             this.groupBox12.Controls.Add(this.groupBox10);
             this.groupBox12.Location = new System.Drawing.Point(6, 6);
@@ -1917,6 +1917,7 @@
             this.button9.Size = new System.Drawing.Size(98, 23);
             this.button9.TabIndex = 120;
             this.button9.Text = "StepStick preset";
+            this.button9.Click += new System.EventHandler(this.button8_Click);
             // 
             // button10
             // 
@@ -1925,6 +1926,7 @@
             this.button10.Size = new System.Drawing.Size(98, 23);
             this.button10.TabIndex = 119;
             this.button10.Text = "Direct preset";
+            this.button10.Click += new System.EventHandler(this.DirectPresetBtn_Click);
             // 
             // QRecaptureAllBtn
             // 
@@ -1981,17 +1983,18 @@
             this.button14.UseVisualStyleBackColor = true;
             this.button14.Click += new System.EventHandler(this.Microstep8Btn_Click);
             // 
-            // checkBox1
+            // QDirectStepCheckBox
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Checked = true;
-            this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox1.Location = new System.Drawing.Point(614, 97);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(76, 17);
-            this.checkBox1.TabIndex = 114;
-            this.checkBox1.Text = "DirectStep";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.QDirectStepCheckBox.AutoSize = true;
+            this.QDirectStepCheckBox.Checked = true;
+            this.QDirectStepCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.QDirectStepCheckBox.Location = new System.Drawing.Point(614, 97);
+            this.QDirectStepCheckBox.Name = "QDirectStepCheckBox";
+            this.QDirectStepCheckBox.Size = new System.Drawing.Size(76, 17);
+            this.QDirectStepCheckBox.TabIndex = 114;
+            this.QDirectStepCheckBox.Text = "DirectStep";
+            this.QDirectStepCheckBox.UseVisualStyleBackColor = true;
+            this.QDirectStepCheckBox.CheckedChanged += new System.EventHandler(this.QDirectStepCheckBox_CheckedChanged);
             // 
             // QCaptureBtn
             // 
@@ -2010,12 +2013,12 @@
             // groupBox10
             // 
             this.groupBox10.Controls.Add(this.groupBox11);
-            this.groupBox10.Controls.Add(this.QDuration);
-            this.groupBox10.Controls.Add(this.QStartTrack);
-            this.groupBox10.Controls.Add(this.QEndTrack);
+            this.groupBox10.Controls.Add(this.QTrackDurationUpDown);
+            this.groupBox10.Controls.Add(this.QStartTrackUpDown);
+            this.groupBox10.Controls.Add(this.QEndTracksUpDown);
             this.groupBox10.Controls.Add(this.label82);
-            this.groupBox10.Controls.Add(this.QTRK00Offset);
-            this.groupBox10.Controls.Add(this.QMicrostepsPerTrack);
+            this.groupBox10.Controls.Add(this.QTRK00OffsetUpDown);
+            this.groupBox10.Controls.Add(this.QMicrostepsPerTrackUpDown);
             this.groupBox10.Controls.Add(this.label83);
             this.groupBox10.Controls.Add(this.label84);
             this.groupBox10.Controls.Add(this.label85);
@@ -2099,52 +2102,52 @@
             this.button37.Text = "0-10";
             this.button37.Click += new System.EventHandler(this.TrackPreset1Button_Click_1);
             // 
-            // QDuration
+            // QTrackDurationUpDown
             // 
-            this.QDuration.Increment = new decimal(new int[] {
+            this.QTrackDurationUpDown.Increment = new decimal(new int[] {
             100,
             0,
             0,
             0});
-            this.QDuration.Location = new System.Drawing.Point(323, 35);
-            this.QDuration.Maximum = new decimal(new int[] {
+            this.QTrackDurationUpDown.Location = new System.Drawing.Point(323, 35);
+            this.QTrackDurationUpDown.Maximum = new decimal(new int[] {
             2000000,
             0,
             0,
             0});
-            this.QDuration.Name = "QDuration";
-            this.QDuration.Size = new System.Drawing.Size(52, 20);
-            this.QDuration.TabIndex = 50;
-            this.QDuration.Value = new decimal(new int[] {
+            this.QTrackDurationUpDown.Name = "QTrackDurationUpDown";
+            this.QTrackDurationUpDown.Size = new System.Drawing.Size(52, 20);
+            this.QTrackDurationUpDown.TabIndex = 50;
+            this.QTrackDurationUpDown.Value = new decimal(new int[] {
             260,
             0,
             0,
             0});
             // 
-            // QStartTrack
+            // QStartTrackUpDown
             // 
-            this.QStartTrack.Location = new System.Drawing.Point(200, 35);
-            this.QStartTrack.Maximum = new decimal(new int[] {
+            this.QStartTrackUpDown.Location = new System.Drawing.Point(200, 35);
+            this.QStartTrackUpDown.Maximum = new decimal(new int[] {
             20000,
             0,
             0,
             0});
-            this.QStartTrack.Name = "QStartTrack";
-            this.QStartTrack.Size = new System.Drawing.Size(52, 20);
-            this.QStartTrack.TabIndex = 48;
+            this.QStartTrackUpDown.Name = "QStartTrackUpDown";
+            this.QStartTrackUpDown.Size = new System.Drawing.Size(52, 20);
+            this.QStartTrackUpDown.TabIndex = 48;
             // 
-            // QEndTrack
+            // QEndTracksUpDown
             // 
-            this.QEndTrack.Location = new System.Drawing.Point(262, 35);
-            this.QEndTrack.Maximum = new decimal(new int[] {
+            this.QEndTracksUpDown.Location = new System.Drawing.Point(262, 35);
+            this.QEndTracksUpDown.Maximum = new decimal(new int[] {
             20000,
             0,
             0,
             0});
-            this.QEndTrack.Name = "QEndTrack";
-            this.QEndTrack.Size = new System.Drawing.Size(52, 20);
-            this.QEndTrack.TabIndex = 49;
-            this.QEndTrack.Value = new decimal(new int[] {
+            this.QEndTracksUpDown.Name = "QEndTracksUpDown";
+            this.QEndTracksUpDown.Size = new System.Drawing.Size(52, 20);
+            this.QEndTracksUpDown.TabIndex = 49;
+            this.QEndTracksUpDown.Value = new decimal(new int[] {
             166,
             0,
             0,
@@ -2159,30 +2162,30 @@
             this.label82.TabIndex = 53;
             this.label82.Text = "Track Duration ms";
             // 
-            // QTRK00Offset
+            // QTRK00OffsetUpDown
             // 
-            this.QTRK00Offset.Location = new System.Drawing.Point(102, 34);
-            this.QTRK00Offset.Minimum = new decimal(new int[] {
+            this.QTRK00OffsetUpDown.Location = new System.Drawing.Point(102, 34);
+            this.QTRK00OffsetUpDown.Minimum = new decimal(new int[] {
             100,
             0,
             0,
             -2147483648});
-            this.QTRK00Offset.Name = "QTRK00Offset";
-            this.QTRK00Offset.Size = new System.Drawing.Size(52, 20);
-            this.QTRK00Offset.TabIndex = 47;
-            this.QTRK00Offset.Value = new decimal(new int[] {
+            this.QTRK00OffsetUpDown.Name = "QTRK00OffsetUpDown";
+            this.QTRK00OffsetUpDown.Size = new System.Drawing.Size(52, 20);
+            this.QTRK00OffsetUpDown.TabIndex = 47;
+            this.QTRK00OffsetUpDown.Value = new decimal(new int[] {
             1,
             0,
             0,
             -2147483648});
             // 
-            // QMicrostepsPerTrack
+            // QMicrostepsPerTrackUpDown
             // 
-            this.QMicrostepsPerTrack.Location = new System.Drawing.Point(8, 34);
-            this.QMicrostepsPerTrack.Name = "QMicrostepsPerTrack";
-            this.QMicrostepsPerTrack.Size = new System.Drawing.Size(52, 20);
-            this.QMicrostepsPerTrack.TabIndex = 46;
-            this.QMicrostepsPerTrack.Value = new decimal(new int[] {
+            this.QMicrostepsPerTrackUpDown.Location = new System.Drawing.Point(8, 34);
+            this.QMicrostepsPerTrackUpDown.Name = "QMicrostepsPerTrackUpDown";
+            this.QMicrostepsPerTrackUpDown.Size = new System.Drawing.Size(52, 20);
+            this.QMicrostepsPerTrackUpDown.TabIndex = 46;
+            this.QMicrostepsPerTrackUpDown.Value = new decimal(new int[] {
             1,
             0,
             0,
@@ -3109,7 +3112,7 @@
             this.RateOfChange2UpDown.Size = new System.Drawing.Size(48, 20);
             this.RateOfChange2UpDown.TabIndex = 100;
             this.RateOfChange2UpDown.Value = new decimal(new int[] {
-            50,
+            128,
             0,
             0,
             0});
@@ -6090,11 +6093,11 @@
             this.groupBox10.ResumeLayout(false);
             this.groupBox10.PerformLayout();
             this.groupBox11.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.QDuration)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.QStartTrack)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.QEndTrack)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.QTRK00Offset)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.QMicrostepsPerTrack)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QTrackDurationUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QStartTrackUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QEndTracksUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QTRK00OffsetUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QMicrostepsPerTrackUpDown)).EndInit();
             this.CaptureTab.ResumeLayout(false);
             this.CaptureTab.PerformLayout();
             this.groupBox4.ResumeLayout(false);
@@ -6533,7 +6536,7 @@
         private System.Windows.Forms.Button button12;
         private System.Windows.Forms.Button button13;
         private System.Windows.Forms.Button button14;
-        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox QDirectStepCheckBox;
         private System.Windows.Forms.Button QCaptureBtn;
         private System.Windows.Forms.GroupBox groupBox10;
         private System.Windows.Forms.GroupBox groupBox11;
@@ -6543,12 +6546,12 @@
         private System.Windows.Forms.Button button27;
         private System.Windows.Forms.Button button30;
         private System.Windows.Forms.Button button37;
-        private System.Windows.Forms.NumericUpDown QDuration;
-        private System.Windows.Forms.NumericUpDown QStartTrack;
-        private System.Windows.Forms.NumericUpDown QEndTrack;
+        private System.Windows.Forms.NumericUpDown QTrackDurationUpDown;
+        private System.Windows.Forms.NumericUpDown QStartTrackUpDown;
+        private System.Windows.Forms.NumericUpDown QEndTracksUpDown;
         private System.Windows.Forms.Label label82;
-        private System.Windows.Forms.NumericUpDown QTRK00Offset;
-        private System.Windows.Forms.NumericUpDown QMicrostepsPerTrack;
+        private System.Windows.Forms.NumericUpDown QTRK00OffsetUpDown;
+        private System.Windows.Forms.NumericUpDown QMicrostepsPerTrackUpDown;
         private System.Windows.Forms.Label label83;
         private System.Windows.Forms.Label label84;
         private System.Windows.Forms.Label label85;
