@@ -522,6 +522,7 @@ namespace FloppyControlApp
         // as well as the indicators under the histogram
         private void updateSliderLabels()
         {
+            
             int x, y;
 
             if ((OffsetvScrollBar1.Value + MinvScrollBar.Value) < 0)
@@ -736,11 +737,7 @@ namespace FloppyControlApp
         {
             if (!scanactive)
             {
-                QMinUpDown.Value = MinvScrollBar.Value;
-                QFourSixUpDown.Value = FourvScrollBar.Value;
-                QSixEightUpDown.Value = SixvScrollBar.Value;
-                QMaxUpDown.Value = EightvScrollBar.Value;
-                QOffsetUpDown.Value = OffsetvScrollBar1.Value;
+                
                 updateSliderLabels();
                 scatterplot.UpdateScatterPlot();
                 scatterplot.UpdateScatterPlot();
@@ -1370,6 +1367,12 @@ namespace FloppyControlApp
             }
             if (MainTabControl.SelectedTab == QuickTab)
             {
+                QMinUpDown.Value = MinvScrollBar.Value;
+                QFourSixUpDown.Value = FourvScrollBar.Value;
+                QSixEightUpDown.Value = SixvScrollBar.Value;
+                QMaxUpDown.Value = EightvScrollBar.Value;
+                QOffsetUpDown.Value = OffsetvScrollBar1.Value;
+
                 QHistogramhScrollBar1.Minimum = HistogramhScrollBar1.Minimum;
                 QHistogramhScrollBar1.Maximum = HistogramhScrollBar1.Maximum;
                 QHistogramhScrollBar1.Value = HistogramhScrollBar1.Value;
@@ -2437,9 +2440,10 @@ namespace FloppyControlApp
 
         private void FindPeaks()
         {
+            
             if (processing.indexrxbuf == 0) return;
             processing.FindPeaks(HistogramhScrollBar1.Value);
-
+            SuspendLayout();
             int peak1 = processing.peak1;
             int peak2 = processing.peak2;
             int peak3 = processing.peak3;
@@ -2460,12 +2464,15 @@ namespace FloppyControlApp
                 case ProcessingType.adaptive2:
                 case ProcessingType.adaptive3:
                 case ProcessingType.adaptivePredict:
+                    
                     FourvScrollBar.Value = peak1+4;
                     SixvScrollBar.Value = peak2+2;
                     EightvScrollBar.Value = peak3;
+                    
                     break;
             }
-
+            Application.DoEvents();
+            ResumeLayout();
             /*
             if (AdaptradioButton.Checked)
             {
@@ -2480,7 +2487,7 @@ namespace FloppyControlApp
                 //EightvScrollBar.Value = peak3;
             }
             */
-            updateSliderLabels();
+            //updateSliderLabels();
         }
         
         private void Histogrampanel1_Click(object sender, EventArgs e)

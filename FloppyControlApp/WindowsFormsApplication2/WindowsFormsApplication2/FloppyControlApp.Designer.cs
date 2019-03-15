@@ -5689,7 +5689,7 @@
             // 
             // SectorUpDown
             // 
-            this.SectorUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.SectorUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.SectorUpDown.Location = new System.Drawing.Point(1127, 373);
             this.SectorUpDown.Maximum = new decimal(new int[] {
             2000,
@@ -5708,7 +5708,7 @@
             // 
             // TrackUpDown
             // 
-            this.TrackUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.TrackUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.TrackUpDown.Location = new System.Drawing.Point(1029, 373);
             this.TrackUpDown.Maximum = new decimal(new int[] {
             2000,
@@ -5727,7 +5727,7 @@
             // 
             // label39
             // 
-            this.label39.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.label39.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label39.AutoSize = true;
             this.label39.Location = new System.Drawing.Point(1083, 375);
             this.label39.Name = "label39";
@@ -5737,7 +5737,7 @@
             // 
             // label40
             // 
-            this.label40.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.label40.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label40.AutoSize = true;
             this.label40.Location = new System.Drawing.Point(988, 375);
             this.label40.Name = "label40";
@@ -5747,7 +5747,7 @@
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(461, 11);
+            this.progressBar1.Location = new System.Drawing.Point(651, 54);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(334, 8);
             this.progressBar1.TabIndex = 83;
@@ -5761,7 +5761,7 @@
             // 
             this.ProcessStatusLabel.AutoSize = true;
             this.ProcessStatusLabel.BackColor = System.Drawing.Color.Transparent;
-            this.ProcessStatusLabel.Location = new System.Drawing.Point(367, 7);
+            this.ProcessStatusLabel.Location = new System.Drawing.Point(648, 38);
             this.ProcessStatusLabel.Name = "ProcessStatusLabel";
             this.ProcessStatusLabel.Size = new System.Drawing.Size(90, 13);
             this.ProcessStatusLabel.TabIndex = 59;
@@ -5793,7 +5793,7 @@
             // 
             // EditScatterPlotcheckBox
             // 
-            this.EditScatterPlotcheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.EditScatterPlotcheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.EditScatterPlotcheckBox.AutoSize = true;
             this.EditScatterPlotcheckBox.Location = new System.Drawing.Point(1214, 375);
             this.EditScatterPlotcheckBox.Name = "EditScatterPlotcheckBox";
@@ -6002,7 +6002,7 @@
             // 
             this.StopButton.BackColor = System.Drawing.Color.Cornsilk;
             this.StopButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.StopButton.Location = new System.Drawing.Point(599, 28);
+            this.StopButton.Location = new System.Drawing.Point(571, 13);
             this.StopButton.Name = "StopButton";
             this.StopButton.Size = new System.Drawing.Size(75, 36);
             this.StopButton.TabIndex = 173;
@@ -6016,6 +6016,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(1619, 910);
+            this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.StopButton);
             this.Controls.Add(this.ThreadsUpDown);
             this.Controls.Add(this.label59);
@@ -6023,7 +6024,6 @@
             this.Controls.Add(this.EditScatterPlotcheckBox);
             this.Controls.Add(this.GCbutton);
             this.Controls.Add(this.ProcessStatusLabel);
-            this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.MainTabControl);
             this.Controls.Add(this.textBoxReceived);
             this.Controls.Add(this.SectorUpDown);
