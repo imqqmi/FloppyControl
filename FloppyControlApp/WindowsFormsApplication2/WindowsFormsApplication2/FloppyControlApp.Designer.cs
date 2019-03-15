@@ -655,9 +655,9 @@
             this.BytesPerSecondLabel.AutoSize = true;
             this.BytesPerSecondLabel.Location = new System.Drawing.Point(624, 26);
             this.BytesPerSecondLabel.Name = "BytesPerSecondLabel";
-            this.BytesPerSecondLabel.Size = new System.Drawing.Size(89, 13);
+            this.BytesPerSecondLabel.Size = new System.Drawing.Size(13, 13);
             this.BytesPerSecondLabel.TabIndex = 1;
-            this.BytesPerSecondLabel.Text = "Bytes per second";
+            this.BytesPerSecondLabel.Text = "0";
             // 
             // BytesReceivedLabel
             // 
@@ -667,9 +667,9 @@
             this.BytesReceivedLabel.AutoSize = true;
             this.BytesReceivedLabel.Location = new System.Drawing.Point(624, 13);
             this.BytesReceivedLabel.Name = "BytesReceivedLabel";
-            this.BytesReceivedLabel.Size = new System.Drawing.Size(77, 13);
+            this.BytesReceivedLabel.Size = new System.Drawing.Size(13, 13);
             this.BytesReceivedLabel.TabIndex = 1;
-            this.BytesReceivedLabel.Text = "Bytes received";
+            this.BytesReceivedLabel.Text = "0";
             // 
             // label23
             // 
@@ -5764,7 +5764,7 @@
             // 
             this.ProcessStatusLabel.AutoSize = true;
             this.ProcessStatusLabel.BackColor = System.Drawing.Color.Transparent;
-            this.ProcessStatusLabel.Location = new System.Drawing.Point(648, 38);
+            this.ProcessStatusLabel.Location = new System.Drawing.Point(895, 38);
             this.ProcessStatusLabel.Name = "ProcessStatusLabel";
             this.ProcessStatusLabel.Size = new System.Drawing.Size(90, 13);
             this.ProcessStatusLabel.TabIndex = 59;
@@ -5787,6 +5787,7 @@
             this.GCbutton.TabIndex = 88;
             this.GCbutton.Text = "GC";
             this.GCbutton.UseVisualStyleBackColor = true;
+            this.GCbutton.Visible = false;
             this.GCbutton.Click += new System.EventHandler(this.GCbutton_Click);
             // 
             // contextMenuStrip1
@@ -5991,6 +5992,7 @@
             0,
             0,
             0});
+            this.ThreadsUpDown.Visible = false;
             // 
             // label59
             // 
@@ -6000,12 +6002,13 @@
             this.label59.Size = new System.Drawing.Size(46, 13);
             this.label59.TabIndex = 171;
             this.label59.Text = "Threads";
+            this.label59.Visible = false;
             // 
             // StopButton
             // 
             this.StopButton.BackColor = System.Drawing.Color.Cornsilk;
             this.StopButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.StopButton.Location = new System.Drawing.Point(571, 13);
+            this.StopButton.Location = new System.Drawing.Point(651, 13);
             this.StopButton.Name = "StopButton";
             this.StopButton.Size = new System.Drawing.Size(75, 36);
             this.StopButton.TabIndex = 173;

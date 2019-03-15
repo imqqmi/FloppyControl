@@ -692,6 +692,7 @@ namespace FloppyControlApp
                 openFilesDlgUsed = false;
                 fileio.openfiles();
                 UpdateHistoAndScatterplot();
+                BytesReceivedLabel.Text = String.Format("{0:n0}", processing.indexrxbuf);
                 //createhistogram1();
             }
         }
