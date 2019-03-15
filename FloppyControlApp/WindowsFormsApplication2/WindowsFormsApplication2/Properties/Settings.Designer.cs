@@ -190,5 +190,17 @@ namespace FloppyControlApp.Properties {
                 this["SixEight"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool TooltipDisable {
+            get {
+                return ((bool)(this["TooltipDisable"]));
+            }
+            set {
+                this["TooltipDisable"] = value;
+            }
+        }
     }
 }

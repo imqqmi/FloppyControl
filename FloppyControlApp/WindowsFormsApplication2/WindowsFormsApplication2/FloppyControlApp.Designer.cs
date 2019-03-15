@@ -111,11 +111,11 @@
             this.QSixEightUpDown = new System.Windows.Forms.NumericUpDown();
             this.QFourSixUpDown = new System.Windows.Forms.NumericUpDown();
             this.QMinUpDown = new System.Windows.Forms.NumericUpDown();
-            this.label97 = new System.Windows.Forms.Label();
-            this.label98 = new System.Windows.Forms.Label();
-            this.label99 = new System.Windows.Forms.Label();
-            this.label100 = new System.Windows.Forms.Label();
-            this.label101 = new System.Windows.Forms.Label();
+            this.QOffsetLabel = new System.Windows.Forms.Label();
+            this.QFourSixLabel = new System.Windows.Forms.Label();
+            this.QMinLabel = new System.Windows.Forms.Label();
+            this.QSixEightLabel = new System.Windows.Forms.Label();
+            this.QMaxLabel = new System.Windows.Forms.Label();
             this.QFindDupesCheckBox = new System.Windows.Forms.CheckBox();
             this.QAutoRefreshSectorMapCheck = new System.Windows.Forms.CheckBox();
             this.QIgnoreHeaderErrorCheckBox = new System.Windows.Forms.CheckBox();
@@ -254,11 +254,11 @@
             this.SixvScrollBar = new System.Windows.Forms.VScrollBar();
             this.EightvScrollBar = new System.Windows.Forms.VScrollBar();
             this.OffsetvScrollBar1 = new System.Windows.Forms.VScrollBar();
-            this.label30 = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
-            this.label18 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
-            this.label16 = new System.Windows.Forms.Label();
+            this.POffsetLabel = new System.Windows.Forms.Label();
+            this.PFourSixLabel = new System.Windows.Forms.Label();
+            this.PMinLabel = new System.Windows.Forms.Label();
+            this.PSixEightLabel = new System.Windows.Forms.Label();
+            this.PMaxLabel = new System.Windows.Forms.Label();
             this.FindDupesCheckBox = new System.Windows.Forms.CheckBox();
             this.AutoRefreshSectorMapCheck = new System.Windows.Forms.CheckBox();
             this.label50 = new System.Windows.Forms.Label();
@@ -468,11 +468,13 @@
             this.badSectorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.disableTooltipsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ThreadsUpDown = new System.Windows.Forms.NumericUpDown();
             this.label59 = new System.Windows.Forms.Label();
             this.StopButton = new System.Windows.Forms.Button();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.ScatterPlottabPage.SuspendLayout();
@@ -606,6 +608,8 @@
             this.outputfilename.Size = new System.Drawing.Size(269, 20);
             this.outputfilename.TabIndex = 0;
             this.outputfilename.Text = "Dump";
+            this.toolTip1.SetToolTip(this.outputfilename, "Before capturing, set a name for the folder and files to be generated during capt" +
+        "ure and saving/exporting data.");
             this.outputfilename.TextChanged += new System.EventHandler(this.outputfilename_TextChanged);
             this.outputfilename.Enter += new System.EventHandler(this.outputfilename_Enter);
             this.outputfilename.Leave += new System.EventHandler(this.outputfilename_Leave);
@@ -794,6 +798,7 @@
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(616, 473);
             this.tabControl1.TabIndex = 42;
+            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
             // ScatterPlottabPage
             // 
@@ -858,6 +863,9 @@
             this.ScatterPictureBox.Size = new System.Drawing.Size(573, 378);
             this.ScatterPictureBox.TabIndex = 1;
             this.ScatterPictureBox.TabStop = false;
+            this.toolTip1.SetToolTip(this.ScatterPictureBox, "The scatter plot shows you the signal, with pulse length on the vertical axis and" +
+        " datapoints/time on the horizontal axis. Zoom with scroll wheel, drag to move th" +
+        "e view..");
             // 
             // label56
             // 
@@ -1302,6 +1310,8 @@
             this.QrtbSectorMap.Size = new System.Drawing.Size(963, 397);
             this.QrtbSectorMap.TabIndex = 114;
             this.QrtbSectorMap.Text = "";
+            this.toolTip1.SetToolTip(this.QrtbSectorMap, "The sectormap shows you in detail what the status is for every sector. Right clic" +
+        "k on a sector for more options. Double click to refresh.");
             this.QrtbSectorMap.DoubleClick += new System.EventHandler(this.rtbSectorMap_DoubleClick);
             this.QrtbSectorMap.MouseDown += new System.Windows.Forms.MouseEventHandler(this.rtbSectorMap_MouseDown);
             // 
@@ -1327,6 +1337,8 @@
             this.button11.Size = new System.Drawing.Size(67, 38);
             this.button11.TabIndex = 119;
             this.button11.Text = "Reset output";
+            this.toolTip1.SetToolTip(this.button11, "Clears all data generated by processing so you can start fresh with the same inpu" +
+        "t data.");
             this.button11.UseVisualStyleBackColor = true;
             this.button11.Click += new System.EventHandler(this.button5_Click);
             // 
@@ -1337,6 +1349,8 @@
             this.button15.Size = new System.Drawing.Size(63, 39);
             this.button15.TabIndex = 118;
             this.button15.Text = "Reset input";
+            this.toolTip1.SetToolTip(this.button15, "Clears the input buffer so you can load or capture new data but keeps recovered s" +
+        "ectors in tact.");
             this.button15.UseVisualStyleBackColor = true;
             this.button15.Click += new System.EventHandler(this.ResetBuffersBtn_Click);
             // 
@@ -1371,6 +1385,8 @@
             this.QOnlyBadSectorsRadio.Size = new System.Drawing.Size(104, 17);
             this.QOnlyBadSectorsRadio.TabIndex = 106;
             this.QOnlyBadSectorsRadio.Text = "Only bad sectors";
+            this.toolTip1.SetToolTip(this.QOnlyBadSectorsRadio, "Only reprocess bad sectors. Can only work if some bad sectors have already been f" +
+        "ound. This will speed up scanning a lot but may miss some sectors.");
             this.QOnlyBadSectorsRadio.UseVisualStyleBackColor = true;
             // 
             // QECOnRadio
@@ -1383,6 +1399,8 @@
             this.QECOnRadio.TabIndex = 105;
             this.QECOnRadio.TabStop = true;
             this.QECOnRadio.Text = "Use error correction";
+            this.toolTip1.SetToolTip(this.QECOnRadio, "Collects error correction data to help correcting it in the Error Correction tab." +
+        " No correction is performed during processing.");
             this.QECOnRadio.UseVisualStyleBackColor = true;
             // 
             // label89
@@ -1402,6 +1420,8 @@
             this.QChangeDiskTypeComboBox.Name = "QChangeDiskTypeComboBox";
             this.QChangeDiskTypeComboBox.Size = new System.Drawing.Size(75, 21);
             this.QChangeDiskTypeComboBox.TabIndex = 102;
+            this.toolTip1.SetToolTip(this.QChangeDiskTypeComboBox, "The format is normally recognized automatically but it may happen that a single d" +
+        "isk contains multiple disk types due to copying disks partly.");
             this.QChangeDiskTypeComboBox.SelectedIndexChanged += new System.EventHandler(this.QChangeDiskTypeComboBox_SelectedIndexChanged);
             // 
             // QProcessingModeComboBox
@@ -1412,6 +1432,9 @@
             this.QProcessingModeComboBox.Name = "QProcessingModeComboBox";
             this.QProcessingModeComboBox.Size = new System.Drawing.Size(106, 21);
             this.QProcessingModeComboBox.TabIndex = 103;
+            this.toolTip1.SetToolTip(this.QProcessingModeComboBox, "Adaptive1 is both fast and accurate. Normal uses simple thresholds which works fi" +
+        "ne for good quality captures. Aufit may recognize the odd sector. Other options " +
+        "are experimental.");
             this.QProcessingModeComboBox.SelectedIndexChanged += new System.EventHandler(this.QProcessingModeComboBox_SelectedIndexChanged);
             // 
             // QClearDatacheckBox
@@ -1422,6 +1445,8 @@
             this.QClearDatacheckBox.Size = new System.Drawing.Size(106, 17);
             this.QClearDatacheckBox.TabIndex = 101;
             this.QClearDatacheckBox.Text = "Clear sector data";
+            this.toolTip1.SetToolTip(this.QClearDatacheckBox, "Clear recovered data that was found during the last processing job. This can spee" +
+        "d up scanning.");
             this.QClearDatacheckBox.UseVisualStyleBackColor = true;
             this.QClearDatacheckBox.CheckedChanged += new System.EventHandler(this.QClearDatacheckBox_CheckedChanged);
             // 
@@ -1432,11 +1457,11 @@
             this.groupBox15.Controls.Add(this.QSixEightUpDown);
             this.groupBox15.Controls.Add(this.QFourSixUpDown);
             this.groupBox15.Controls.Add(this.QMinUpDown);
-            this.groupBox15.Controls.Add(this.label97);
-            this.groupBox15.Controls.Add(this.label98);
-            this.groupBox15.Controls.Add(this.label99);
-            this.groupBox15.Controls.Add(this.label100);
-            this.groupBox15.Controls.Add(this.label101);
+            this.groupBox15.Controls.Add(this.QOffsetLabel);
+            this.groupBox15.Controls.Add(this.QFourSixLabel);
+            this.groupBox15.Controls.Add(this.QMinLabel);
+            this.groupBox15.Controls.Add(this.QSixEightLabel);
+            this.groupBox15.Controls.Add(this.QMaxLabel);
             this.groupBox15.Location = new System.Drawing.Point(295, 15);
             this.groupBox15.Name = "groupBox15";
             this.groupBox15.Size = new System.Drawing.Size(246, 71);
@@ -1529,50 +1554,50 @@
             this.QMinUpDown.TabIndex = 80;
             this.QMinUpDown.ValueChanged += new System.EventHandler(this.QMinUpDown_ValueChanged);
             // 
-            // label97
+            // QOffsetLabel
             // 
-            this.label97.AutoSize = true;
-            this.label97.Location = new System.Drawing.Point(193, 22);
-            this.label97.Name = "label97";
-            this.label97.Size = new System.Drawing.Size(35, 13);
-            this.label97.TabIndex = 56;
-            this.label97.Text = "Offset";
+            this.QOffsetLabel.AutoSize = true;
+            this.QOffsetLabel.Location = new System.Drawing.Point(193, 22);
+            this.QOffsetLabel.Name = "QOffsetLabel";
+            this.QOffsetLabel.Size = new System.Drawing.Size(35, 13);
+            this.QOffsetLabel.TabIndex = 56;
+            this.QOffsetLabel.Text = "Offset";
             // 
-            // label98
+            // QFourSixLabel
             // 
-            this.label98.AutoSize = true;
-            this.label98.Location = new System.Drawing.Point(51, 23);
-            this.label98.Name = "label98";
-            this.label98.Size = new System.Drawing.Size(24, 13);
-            this.label98.TabIndex = 64;
-            this.label98.Text = "4/6";
+            this.QFourSixLabel.AutoSize = true;
+            this.QFourSixLabel.Location = new System.Drawing.Point(51, 23);
+            this.QFourSixLabel.Name = "QFourSixLabel";
+            this.QFourSixLabel.Size = new System.Drawing.Size(24, 13);
+            this.QFourSixLabel.TabIndex = 64;
+            this.QFourSixLabel.Text = "4/6";
             // 
-            // label99
+            // QMinLabel
             // 
-            this.label99.AutoSize = true;
-            this.label99.Location = new System.Drawing.Point(6, 23);
-            this.label99.Name = "label99";
-            this.label99.Size = new System.Drawing.Size(23, 13);
-            this.label99.TabIndex = 63;
-            this.label99.Text = "min";
+            this.QMinLabel.AutoSize = true;
+            this.QMinLabel.Location = new System.Drawing.Point(6, 23);
+            this.QMinLabel.Name = "QMinLabel";
+            this.QMinLabel.Size = new System.Drawing.Size(23, 13);
+            this.QMinLabel.TabIndex = 63;
+            this.QMinLabel.Text = "min";
             // 
-            // label100
+            // QSixEightLabel
             // 
-            this.label100.AutoSize = true;
-            this.label100.Location = new System.Drawing.Point(94, 22);
-            this.label100.Name = "label100";
-            this.label100.Size = new System.Drawing.Size(24, 13);
-            this.label100.TabIndex = 61;
-            this.label100.Text = "6/8";
+            this.QSixEightLabel.AutoSize = true;
+            this.QSixEightLabel.Location = new System.Drawing.Point(94, 22);
+            this.QSixEightLabel.Name = "QSixEightLabel";
+            this.QSixEightLabel.Size = new System.Drawing.Size(24, 13);
+            this.QSixEightLabel.TabIndex = 61;
+            this.QSixEightLabel.Text = "6/8";
             // 
-            // label101
+            // QMaxLabel
             // 
-            this.label101.AutoSize = true;
-            this.label101.Location = new System.Drawing.Point(148, 22);
-            this.label101.Name = "label101";
-            this.label101.Size = new System.Drawing.Size(26, 13);
-            this.label101.TabIndex = 58;
-            this.label101.Text = "max";
+            this.QMaxLabel.AutoSize = true;
+            this.QMaxLabel.Location = new System.Drawing.Point(148, 22);
+            this.QMaxLabel.Name = "QMaxLabel";
+            this.QMaxLabel.Size = new System.Drawing.Size(26, 13);
+            this.QMaxLabel.TabIndex = 58;
+            this.QMaxLabel.Text = "max";
             // 
             // QFindDupesCheckBox
             // 
@@ -1585,6 +1610,9 @@
             this.QFindDupesCheckBox.Size = new System.Drawing.Size(83, 17);
             this.QFindDupesCheckBox.TabIndex = 88;
             this.QFindDupesCheckBox.Text = "Deduplicate";
+            this.toolTip1.SetToolTip(this.QFindDupesCheckBox, "When processing, a hash is calculated. If the new sector is unique, it will only " +
+        "then be added to the list. This avoids processing duplicate data and may save ti" +
+        "me.");
             this.QFindDupesCheckBox.UseVisualStyleBackColor = true;
             this.QFindDupesCheckBox.CheckedChanged += new System.EventHandler(this.QFindDupesCheckBox_CheckedChanged);
             // 
@@ -1599,6 +1627,7 @@
             this.QAutoRefreshSectorMapCheck.Size = new System.Drawing.Size(135, 17);
             this.QAutoRefreshSectorMapCheck.TabIndex = 85;
             this.QAutoRefreshSectorMapCheck.Text = "Auto refresh sectormap";
+            this.toolTip1.SetToolTip(this.QAutoRefreshSectorMapCheck, resources.GetString("QAutoRefreshSectorMapCheck.ToolTip"));
             this.QAutoRefreshSectorMapCheck.UseVisualStyleBackColor = true;
             this.QAutoRefreshSectorMapCheck.CheckedChanged += new System.EventHandler(this.QAutoRefreshSectorMapCheck_CheckedChanged);
             // 
@@ -1610,6 +1639,8 @@
             this.QIgnoreHeaderErrorCheckBox.Size = new System.Drawing.Size(116, 17);
             this.QIgnoreHeaderErrorCheckBox.TabIndex = 50;
             this.QIgnoreHeaderErrorCheckBox.Text = "Ignore header error";
+            this.toolTip1.SetToolTip(this.QIgnoreHeaderErrorCheckBox, "In rare cases the crc = not ok on some headers can be ignored. On one msx disk th" +
+        "is was some kind of copy protection.");
             this.QIgnoreHeaderErrorCheckBox.UseVisualStyleBackColor = true;
             this.QIgnoreHeaderErrorCheckBox.CheckedChanged += new System.EventHandler(this.QIgnoreHeaderErrorCheckBox_CheckedChanged);
             // 
@@ -1674,6 +1705,7 @@
             this.QLimitTSCheckBox.Size = new System.Drawing.Size(69, 17);
             this.QLimitTSCheckBox.TabIndex = 109;
             this.QLimitTSCheckBox.Text = "Limit T/S";
+            this.toolTip1.SetToolTip(this.QLimitTSCheckBox, "Limits processing to this track and sector.");
             this.QLimitTSCheckBox.UseVisualStyleBackColor = true;
             this.QLimitTSCheckBox.CheckedChanged += new System.EventHandler(this.QLimitTSCheckBox_CheckedChanged);
             // 
@@ -1693,6 +1725,8 @@
             this.QRateOfChange2UpDown.Name = "QRateOfChange2UpDown";
             this.QRateOfChange2UpDown.Size = new System.Drawing.Size(48, 20);
             this.QRateOfChange2UpDown.TabIndex = 108;
+            this.toolTip1.SetToolTip(this.QRateOfChange2UpDown, "How quickly to adapt to change, larger number adapts slower to change in the sign" +
+        "al. Use low numbers for glued disks or disks with lots of bad sectors or noise.");
             this.QRateOfChange2UpDown.Value = new decimal(new int[] {
             128,
             0,
@@ -1759,6 +1793,8 @@
             this.button47.Size = new System.Drawing.Size(40, 23);
             this.button47.TabIndex = 39;
             this.button47.Text = "Scan";
+            this.toolTip1.SetToolTip(this.button47, "Use scanning to try different combinations of settings in order to find yet to be" +
+        " recovered sectors.");
             this.button47.UseVisualStyleBackColor = true;
             this.button47.Click += new System.EventHandler(this.ScanBtn_Click_1);
             // 
@@ -1859,6 +1895,8 @@
             this.QHDCheckBox.Size = new System.Drawing.Size(86, 17);
             this.QHDCheckBox.TabIndex = 51;
             this.QHDCheckBox.Text = "High Density";
+            this.toolTip1.SetToolTip(this.QHDCheckBox, "Is the disk incorrectly recognized as double density or vice versa? Change it her" +
+        "e.");
             this.QHDCheckBox.UseVisualStyleBackColor = true;
             this.QHDCheckBox.CheckedChanged += new System.EventHandler(this.QHDCheckBox_CheckedChanged);
             // 
@@ -1917,6 +1955,8 @@
             this.button9.Size = new System.Drawing.Size(98, 23);
             this.button9.TabIndex = 120;
             this.button9.Text = "StepStick preset";
+            this.toolTip1.SetToolTip(this.button9, "If you use a stepstick, click this button to setup all settings for this mode of " +
+        "operation.");
             this.button9.Click += new System.EventHandler(this.button8_Click);
             // 
             // button10
@@ -1926,6 +1966,8 @@
             this.button10.Size = new System.Drawing.Size(98, 23);
             this.button10.TabIndex = 119;
             this.button10.Text = "Direct preset";
+            this.toolTip1.SetToolTip(this.button10, "If you don\'t use a stepstick, click this button to setup all settings for this mo" +
+        "de of operation.");
             this.button10.Click += new System.EventHandler(this.DirectPresetBtn_Click);
             // 
             // QRecaptureAllBtn
@@ -1960,6 +2002,7 @@
             this.button12.Size = new System.Drawing.Size(72, 25);
             this.button12.TabIndex = 117;
             this.button12.Text = "Step >";
+            this.toolTip1.SetToolTip(this.button12, "(micro) step forward. Can be used if the head alignment is off.");
             this.button12.UseVisualStyleBackColor = true;
             this.button12.Click += new System.EventHandler(this.StepForwardBtn_Click);
             // 
@@ -1970,6 +2013,7 @@
             this.button13.Size = new System.Drawing.Size(72, 25);
             this.button13.TabIndex = 116;
             this.button13.Text = "Step <";
+            this.toolTip1.SetToolTip(this.button13, "(micro) step back. Can be used if the head alignment is off.");
             this.button13.UseVisualStyleBackColor = true;
             this.button13.Click += new System.EventHandler(this.StepBackBtn_Click);
             // 
@@ -1980,6 +2024,7 @@
             this.button14.Size = new System.Drawing.Size(72, 25);
             this.button14.TabIndex = 115;
             this.button14.Text = "Microstep 8";
+            this.toolTip1.SetToolTip(this.button14, "Set microstepping to 8 microsteps.");
             this.button14.UseVisualStyleBackColor = true;
             this.button14.Click += new System.EventHandler(this.Microstep8Btn_Click);
             // 
@@ -1993,6 +2038,7 @@
             this.QDirectStepCheckBox.Size = new System.Drawing.Size(76, 17);
             this.QDirectStepCheckBox.TabIndex = 114;
             this.QDirectStepCheckBox.Text = "DirectStep";
+            this.toolTip1.SetToolTip(this.QDirectStepCheckBox, "If you don\'t use a step stick, check this box. If you do, clear it.");
             this.QDirectStepCheckBox.UseVisualStyleBackColor = true;
             this.QDirectStepCheckBox.CheckedChanged += new System.EventHandler(this.QDirectStepCheckBox_CheckedChanged);
             // 
@@ -2007,6 +2053,8 @@
             this.QCaptureBtn.TabIndex = 113;
             this.QCaptureBtn.Text = "Capture";
             this.QCaptureBtn.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.toolTip1.SetToolTip(this.QCaptureBtn, "Immediately start capturing using the start track, end track and duration setting" +
+        "s.");
             this.QCaptureBtn.UseVisualStyleBackColor = true;
             this.QCaptureBtn.Click += new System.EventHandler(this.CaptureClassbutton_Click);
             // 
@@ -2118,6 +2166,7 @@
             this.QTrackDurationUpDown.Name = "QTrackDurationUpDown";
             this.QTrackDurationUpDown.Size = new System.Drawing.Size(52, 20);
             this.QTrackDurationUpDown.TabIndex = 50;
+            this.toolTip1.SetToolTip(this.QTrackDurationUpDown, resources.GetString("QTrackDurationUpDown.ToolTip"));
             this.QTrackDurationUpDown.Value = new decimal(new int[] {
             260,
             0,
@@ -2135,6 +2184,7 @@
             this.QStartTrackUpDown.Name = "QStartTrackUpDown";
             this.QStartTrackUpDown.Size = new System.Drawing.Size(52, 20);
             this.QStartTrackUpDown.TabIndex = 48;
+            this.toolTip1.SetToolTip(this.QStartTrackUpDown, "Start track to capture.");
             // 
             // QEndTracksUpDown
             // 
@@ -2147,6 +2197,7 @@
             this.QEndTracksUpDown.Name = "QEndTracksUpDown";
             this.QEndTracksUpDown.Size = new System.Drawing.Size(52, 20);
             this.QEndTracksUpDown.TabIndex = 49;
+            this.toolTip1.SetToolTip(this.QEndTracksUpDown, "End track to capture.");
             this.QEndTracksUpDown.Value = new decimal(new int[] {
             166,
             0,
@@ -2173,6 +2224,8 @@
             this.QTRK00OffsetUpDown.Name = "QTRK00OffsetUpDown";
             this.QTRK00OffsetUpDown.Size = new System.Drawing.Size(52, 20);
             this.QTRK00OffsetUpDown.TabIndex = 47;
+            this.toolTip1.SetToolTip(this.QTRK00OffsetUpDown, "Track offset. When seeking TRK00 you can move farther back if you\'re having troub" +
+        "le getting track 0 to capture well. Can be negative.");
             this.QTRK00OffsetUpDown.Value = new decimal(new int[] {
             1,
             0,
@@ -2185,6 +2238,8 @@
             this.QMicrostepsPerTrackUpDown.Name = "QMicrostepsPerTrackUpDown";
             this.QMicrostepsPerTrackUpDown.Size = new System.Drawing.Size(52, 20);
             this.QMicrostepsPerTrackUpDown.TabIndex = 46;
+            this.toolTip1.SetToolTip(this.QMicrostepsPerTrackUpDown, "If you use a step stick, anything under 8 microsteps will read between the tracks" +
+        ". For a glued disk, use 2 microsteps for a full recovery.");
             this.QMicrostepsPerTrackUpDown.Value = new decimal(new int[] {
             1,
             0,
@@ -3224,11 +3279,11 @@
             this.ThresholdsGroupBox.Controls.Add(this.SixvScrollBar);
             this.ThresholdsGroupBox.Controls.Add(this.EightvScrollBar);
             this.ThresholdsGroupBox.Controls.Add(this.OffsetvScrollBar1);
-            this.ThresholdsGroupBox.Controls.Add(this.label30);
-            this.ThresholdsGroupBox.Controls.Add(this.label14);
-            this.ThresholdsGroupBox.Controls.Add(this.label18);
-            this.ThresholdsGroupBox.Controls.Add(this.label15);
-            this.ThresholdsGroupBox.Controls.Add(this.label16);
+            this.ThresholdsGroupBox.Controls.Add(this.POffsetLabel);
+            this.ThresholdsGroupBox.Controls.Add(this.PFourSixLabel);
+            this.ThresholdsGroupBox.Controls.Add(this.PMinLabel);
+            this.ThresholdsGroupBox.Controls.Add(this.PSixEightLabel);
+            this.ThresholdsGroupBox.Controls.Add(this.PMaxLabel);
             this.ThresholdsGroupBox.Location = new System.Drawing.Point(604, 16);
             this.ThresholdsGroupBox.Name = "ThresholdsGroupBox";
             this.ThresholdsGroupBox.Size = new System.Drawing.Size(175, 250);
@@ -3337,50 +3392,50 @@
             this.OffsetvScrollBar1.Value = global::FloppyControlApp.Properties.Settings.Default.Offset;
             this.OffsetvScrollBar1.ValueChanged += new System.EventHandler(this.FourvScrollBar_ValueChanged);
             // 
-            // label30
+            // POffsetLabel
             // 
-            this.label30.AutoSize = true;
-            this.label30.Location = new System.Drawing.Point(142, 23);
-            this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(35, 13);
-            this.label30.TabIndex = 56;
-            this.label30.Text = "Offset";
+            this.POffsetLabel.AutoSize = true;
+            this.POffsetLabel.Location = new System.Drawing.Point(142, 23);
+            this.POffsetLabel.Name = "POffsetLabel";
+            this.POffsetLabel.Size = new System.Drawing.Size(35, 13);
+            this.POffsetLabel.TabIndex = 56;
+            this.POffsetLabel.Text = "Offset";
             // 
-            // label14
+            // PFourSixLabel
             // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(40, 23);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(24, 13);
-            this.label14.TabIndex = 64;
-            this.label14.Text = "4/6";
+            this.PFourSixLabel.AutoSize = true;
+            this.PFourSixLabel.Location = new System.Drawing.Point(40, 23);
+            this.PFourSixLabel.Name = "PFourSixLabel";
+            this.PFourSixLabel.Size = new System.Drawing.Size(24, 13);
+            this.PFourSixLabel.TabIndex = 64;
+            this.PFourSixLabel.Text = "4/6";
             // 
-            // label18
+            // PMinLabel
             // 
-            this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(12, 23);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(23, 13);
-            this.label18.TabIndex = 63;
-            this.label18.Text = "min";
+            this.PMinLabel.AutoSize = true;
+            this.PMinLabel.Location = new System.Drawing.Point(12, 23);
+            this.PMinLabel.Name = "PMinLabel";
+            this.PMinLabel.Size = new System.Drawing.Size(23, 13);
+            this.PMinLabel.TabIndex = 63;
+            this.PMinLabel.Text = "min";
             // 
-            // label15
+            // PSixEightLabel
             // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(74, 23);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(24, 13);
-            this.label15.TabIndex = 61;
-            this.label15.Text = "6/8";
+            this.PSixEightLabel.AutoSize = true;
+            this.PSixEightLabel.Location = new System.Drawing.Point(74, 23);
+            this.PSixEightLabel.Name = "PSixEightLabel";
+            this.PSixEightLabel.Size = new System.Drawing.Size(24, 13);
+            this.PSixEightLabel.TabIndex = 61;
+            this.PSixEightLabel.Text = "6/8";
             // 
-            // label16
+            // PMaxLabel
             // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(113, 23);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(26, 13);
-            this.label16.TabIndex = 58;
-            this.label16.Text = "max";
+            this.PMaxLabel.AutoSize = true;
+            this.PMaxLabel.Location = new System.Drawing.Point(113, 23);
+            this.PMaxLabel.Name = "PMaxLabel";
+            this.PMaxLabel.Size = new System.Drawing.Size(26, 13);
+            this.PMaxLabel.TabIndex = 58;
+            this.PMaxLabel.Text = "max";
             // 
             // FindDupesCheckBox
             // 
@@ -3827,6 +3882,7 @@
             this.ECInfoTabs.SelectedIndex = 0;
             this.ECInfoTabs.Size = new System.Drawing.Size(452, 450);
             this.ECInfoTabs.TabIndex = 4009;
+            this.ECInfoTabs.SelectedIndexChanged += new System.EventHandler(this.ECInfoTabs_SelectedIndexChanged);
             // 
             // ECTabSectorData
             // 
@@ -5702,6 +5758,7 @@
             this.SectorUpDown.Name = "SectorUpDown";
             this.SectorUpDown.Size = new System.Drawing.Size(36, 20);
             this.SectorUpDown.TabIndex = 78;
+            this.toolTip1.SetToolTip(this.SectorUpDown, "Show data for this sector in Sector data tab.");
             this.SectorUpDown.Value = new decimal(new int[] {
             2,
             0,
@@ -5721,6 +5778,7 @@
             this.TrackUpDown.Name = "TrackUpDown";
             this.TrackUpDown.Size = new System.Drawing.Size(36, 20);
             this.TrackUpDown.TabIndex = 77;
+            this.toolTip1.SetToolTip(this.TrackUpDown, "Show data for this track in Sector data tab.");
             this.TrackUpDown.Value = new decimal(new int[] {
             29,
             0,
@@ -5750,6 +5808,8 @@
             // 
             // progressBar1
             // 
+            this.progressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.progressBar1.Location = new System.Drawing.Point(651, 54);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(334, 8);
@@ -5762,13 +5822,14 @@
             // 
             // ProcessStatusLabel
             // 
-            this.ProcessStatusLabel.AutoSize = true;
+            this.ProcessStatusLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.ProcessStatusLabel.BackColor = System.Drawing.Color.Transparent;
             this.ProcessStatusLabel.Location = new System.Drawing.Point(895, 38);
             this.ProcessStatusLabel.Name = "ProcessStatusLabel";
             this.ProcessStatusLabel.Size = new System.Drawing.Size(90, 13);
             this.ProcessStatusLabel.TabIndex = 59;
             this.ProcessStatusLabel.Text = "Processing status";
+            this.ProcessStatusLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // GUITimer
             // 
@@ -5804,6 +5865,7 @@
             this.EditScatterPlotcheckBox.Size = new System.Drawing.Size(98, 17);
             this.EditScatterPlotcheckBox.TabIndex = 167;
             this.EditScatterPlotcheckBox.Text = "Edit Scatterplot";
+            this.toolTip1.SetToolTip(this.EditScatterPlotcheckBox, "Edit the flux period length manually. Only for Amiga formatted disks for now.");
             this.EditScatterPlotcheckBox.UseVisualStyleBackColor = true;
             this.EditScatterPlotcheckBox.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
@@ -5943,7 +6005,8 @@
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.settingsToolStripMenuItem});
+            this.settingsToolStripMenuItem,
+            this.disableTooltipsToolStripMenuItem});
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
             this.optionsToolStripMenuItem.Size = new System.Drawing.Size(61, 23);
             this.optionsToolStripMenuItem.Text = "Options";
@@ -5952,9 +6015,19 @@
             // 
             this.settingsToolStripMenuItem.Image = global::FloppyControlApp.Properties.Resources.IconSettings;
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.settingsToolStripMenuItem.Text = "Settings";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.SettingsButton_Click);
+            // 
+            // disableTooltipsToolStripMenuItem
+            // 
+            this.disableTooltipsToolStripMenuItem.Checked = global::FloppyControlApp.Properties.Settings.Default.TooltipDisable;
+            this.disableTooltipsToolStripMenuItem.CheckOnClick = true;
+            this.disableTooltipsToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.disableTooltipsToolStripMenuItem.Name = "disableTooltipsToolStripMenuItem";
+            this.disableTooltipsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.disableTooltipsToolStripMenuItem.Text = "Enable tooltips";
+            this.disableTooltipsToolStripMenuItem.Click += new System.EventHandler(this.disableTooltipsToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -6013,8 +6086,13 @@
             this.StopButton.Size = new System.Drawing.Size(75, 36);
             this.StopButton.TabIndex = 173;
             this.StopButton.Text = "Stop!";
+            this.toolTip1.SetToolTip(this.StopButton, "Stops all capturing, error correction and processing tasks.");
             this.StopButton.UseVisualStyleBackColor = false;
             this.StopButton.Click += new System.EventHandler(this.StopButton_Click);
+            // 
+            // toolTip1
+            // 
+            this.toolTip1.Active = global::FloppyControlApp.Properties.Settings.Default.TooltipDisable;
             // 
             // FloppyControl
             // 
@@ -6270,15 +6348,15 @@
         private System.Windows.Forms.VScrollBar MinvScrollBar;
         private System.Windows.Forms.VScrollBar FourvScrollBar;
         private System.Windows.Forms.Label Offsetlabel;
-        private System.Windows.Forms.Label label30;
+        private System.Windows.Forms.Label POffsetLabel;
         private System.Windows.Forms.Label EightLabel;
-        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label PMaxLabel;
         private System.Windows.Forms.Label SixLabel;
         private System.Windows.Forms.Label MinLabel;
-        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label PSixEightLabel;
         private System.Windows.Forms.Label FourLabel;
-        private System.Windows.Forms.Label label18;
-        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label PMinLabel;
+        private System.Windows.Forms.Label PFourSixLabel;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.Panel Histogrampanel1;
         private System.Windows.Forms.GroupBox groupBox3;
@@ -6571,11 +6649,11 @@
         private System.Windows.Forms.Label label90;
         private System.Windows.Forms.Label label91;
         private System.Windows.Forms.GroupBox groupBox15;
-        private System.Windows.Forms.Label label97;
-        private System.Windows.Forms.Label label98;
-        private System.Windows.Forms.Label label99;
-        private System.Windows.Forms.Label label100;
-        private System.Windows.Forms.Label label101;
+        private System.Windows.Forms.Label QOffsetLabel;
+        private System.Windows.Forms.Label QFourSixLabel;
+        private System.Windows.Forms.Label QMinLabel;
+        private System.Windows.Forms.Label QSixEightLabel;
+        private System.Windows.Forms.Label QMaxLabel;
         private System.Windows.Forms.CheckBox QFindDupesCheckBox;
         private System.Windows.Forms.CheckBox QAutoRefreshSectorMapCheck;
         private System.Windows.Forms.CheckBox QIgnoreHeaderErrorCheckBox;
@@ -6617,8 +6695,6 @@
         private System.Windows.Forms.ToolStripMenuItem scpFileToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem trimmedBinToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem badSectorsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.NumericUpDown ThreadsUpDown;
@@ -6649,6 +6725,10 @@
         private System.Windows.Forms.Button button11;
         private System.Windows.Forms.Button button15;
         private System.Windows.Forms.CheckBox QLimitTSCheckBox;
+        private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem disableTooltipsToolStripMenuItem;
     }
 }
 
