@@ -1669,7 +1669,7 @@
             // QLimitTSCheckBox
             // 
             this.QLimitTSCheckBox.AutoSize = true;
-            this.QLimitTSCheckBox.Location = new System.Drawing.Point(166, 102);
+            this.QLimitTSCheckBox.Location = new System.Drawing.Point(10, 75);
             this.QLimitTSCheckBox.Name = "QLimitTSCheckBox";
             this.QLimitTSCheckBox.Size = new System.Drawing.Size(69, 17);
             this.QLimitTSCheckBox.TabIndex = 109;
@@ -1789,7 +1789,7 @@
             // label90
             // 
             this.label90.AutoSize = true;
-            this.label90.Location = new System.Drawing.Point(7, 80);
+            this.label90.Location = new System.Drawing.Point(7, 95);
             this.label90.Name = "label90";
             this.label90.Size = new System.Drawing.Size(38, 13);
             this.label90.TabIndex = 78;
@@ -1797,7 +1797,7 @@
             // 
             // QLimitToSectorUpDown
             // 
-            this.QLimitToSectorUpDown.Location = new System.Drawing.Point(137, 80);
+            this.QLimitToSectorUpDown.Location = new System.Drawing.Point(130, 94);
             this.QLimitToSectorUpDown.Maximum = new decimal(new int[] {
             2000,
             0,
@@ -1821,7 +1821,7 @@
             // label91
             // 
             this.label91.AutoSize = true;
-            this.label91.Location = new System.Drawing.Point(100, 82);
+            this.label91.Location = new System.Drawing.Point(93, 96);
             this.label91.Name = "label91";
             this.label91.Size = new System.Drawing.Size(38, 13);
             this.label91.TabIndex = 80;
@@ -1829,7 +1829,7 @@
             // 
             // QLimitToTrackUpDown
             // 
-            this.QLimitToTrackUpDown.Location = new System.Drawing.Point(43, 78);
+            this.QLimitToTrackUpDown.Location = new System.Drawing.Point(43, 93);
             this.QLimitToTrackUpDown.Maximum = new decimal(new int[] {
             2000,
             0,

@@ -71,6 +71,7 @@ namespace FloppyControlApp
         private BinaryWriter writer;
         private Point BadSectorTooltipPos;
         private StringBuilder tbreceived = new StringBuilder();
+        private int bytesReceived = 0;
         //private Graphset graphset;
         private Histogram ECHisto;
         private Histogram ScatterHisto;
@@ -178,7 +179,7 @@ namespace FloppyControlApp
             // increase or decrease by one.
 
             timer1.Start();
-            MainTabControl.SelectedTab = ProcessingTab;
+            MainTabControl.SelectedTab = QuickTab;
             //MainTabControl.SelectedTab = AnalysisPage;
             BadSectorTooltip.Hide();
             timer5.Start();
@@ -663,7 +664,8 @@ namespace FloppyControlApp
 
             if (controlfloppy.capturecommand == 1)
             {
-                BytesReceivedLabel.Text = string.Format("{0:n0}", processing.indexrxbuf);
+                bytesReceived += controlfloppy.bytespersecond;
+                BytesReceivedLabel.Text = string.Format("{0:n0}", bytesReceived);
                 BytesPerSecondLabel.Text = string.Format("{0:n0}", controlfloppy.bytespersecond);
                 CaptureTimeLabel.Text = capturetime.ToString();
                 controlfloppy.bytespersecond = 0;
@@ -673,11 +675,9 @@ namespace FloppyControlApp
                 //processing.rxbuf = controlfloppy.tempbuffer.Skip(Math.Max(0, controlfloppy.tempbuffer.Count()-30)).SelectMany(a => a).ToArray();
                 
 
-                //tbreceived.Append("indexrxbufprevious: "+indexrxbufprevious.ToString()+"processing.rxbuf.Length:"+ processing.rxbuf.Length.ToString());
                 controlfloppy.rxbuf = processing.rxbuf;
                 if (processing.rxbuf.Length > 100000)
                     controlfloppy.recentreadbuflength = 100000; // controlfloppy.recentreadbuflength = processing.indexrxbuf - indexrxbufprevious;
-                //tbreceived.Append("Recent received:"+controlfloppy.recentreadbuflength.ToString());
                 processing.indexrxbuf = processing.rxbuf.Length - 1;
                 ControlFloppyScatterplotCallback();
             }
@@ -2086,6 +2086,7 @@ namespace FloppyControlApp
 
         private void CaptureClassbutton_Click(object sender, EventArgs e)
         {
+            bytesReceived = 0;
             ConnectToFloppyControlHardware();
             CaptureTracks();
         }
@@ -2559,7 +2560,7 @@ namespace FloppyControlApp
             }
             //tbreceived.Append("rxbuf pos: "+ (processing.sectordata2[id].rxbufMarkerPositions + offset + 1000));
             oscilloscope.graphset.UpdateGraphs();
-            MainTabControl.SelectedTab = AnalysisTab2;
+            MainTabControl.SelectedTab = QuickTab;
         }
 
         private void rtbSectorMap_MouseDown(object sender, MouseEventArgs e)
