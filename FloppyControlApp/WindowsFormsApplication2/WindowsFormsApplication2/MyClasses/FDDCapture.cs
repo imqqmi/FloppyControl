@@ -236,7 +236,7 @@ namespace FloppyControlApp
                         }
                     }
                 }
-            }
+            } 
             if (serialPort1.IsOpen)
             {
                 gototrack(StartTrack);
@@ -335,6 +335,7 @@ namespace FloppyControlApp
             updateHistoAndSliders();
             Setrxbufcontrol();
             capturecommand = 0;
+            Disconnect();
         }
 
         /// <summary>

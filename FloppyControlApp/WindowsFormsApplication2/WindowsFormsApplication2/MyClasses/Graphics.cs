@@ -2391,7 +2391,7 @@ namespace FloppyControlApp
             {
                 dragging = true;
                 if( rxbufclickindex < rxbuf.Length-1)
-                tbreiceved.Append("Y: "+e.Y+" val: "+processing.rxbuf[rxbufclickindex]+" rxclickindex: "+rxbufclickindex+"\r\n");
+                //tbreiceved.Append("Y: "+e.Y+" val: "+processing.rxbuf[rxbufclickindex]+" rxclickindex: "+rxbufclickindex+"\r\n");
 
                 xrelative = e.X;
                 AnScatViewoffsetOld = AnScatViewoffset;

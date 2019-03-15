@@ -130,5 +130,65 @@ namespace FloppyControlApp.Properties {
                 this["TRK00Offset"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int FourSix {
+            get {
+                return ((int)(this["FourSix"]));
+            }
+            set {
+                this["FourSix"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int Max {
+            get {
+                return ((int)(this["Max"]));
+            }
+            set {
+                this["Max"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int Min {
+            get {
+                return ((int)(this["Min"]));
+            }
+            set {
+                this["Min"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int Offset {
+            get {
+                return ((int)(this["Offset"]));
+            }
+            set {
+                this["Offset"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int SixEight {
+            get {
+                return ((int)(this["SixEight"]));
+            }
+            set {
+                this["SixEight"] = value;
+            }
+        }
     }
 }

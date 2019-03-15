@@ -11,6 +11,7 @@ using System.Security;
 using System.Collections.Generic;
 using FloppyControlApp.MyClasses;
 using System.Reflection;
+using FloppyControlApp.Properties;
 
 namespace FloppyControlApp
 {
@@ -190,13 +191,25 @@ namespace FloppyControlApp
             PeriodBeyond8uscomboBox.SelectedIndex = 0;
 
             ChangeDiskTypeComboBox.Items.AddRange(Enum.GetNames(typeof(DiskFormat)));
+            QChangeDiskTypeComboBox.Items.AddRange(Enum.GetNames(typeof(DiskFormat)));
             ProcessingModeComboBox.Items.AddRange(Enum.GetNames(typeof(ProcessingType)));
-           
             ProcessingModeComboBox.SelectedItem = ProcessingType.adaptive1.ToString();
+
+            QProcessingModeComboBox.Items.AddRange(Enum.GetNames(typeof(ProcessingType)));
+            QProcessingModeComboBox.SelectedItem = ProcessingType.adaptive1.ToString();
 
             ScanComboBox.Items.AddRange(Enum.GetNames(typeof(ScanMode)));
             ScanComboBox.SelectedItem = ScanMode.AdaptiveRate.ToString();
 
+            QScanComboBox.Items.AddRange(Enum.GetNames(typeof(ScanMode)));
+            QScanComboBox.SelectedItem = ScanMode.AdaptiveRate.ToString();
+
+
+            QMinUpDown.Value = MinvScrollBar.Value;
+            QFourSixUpDown.Value = FourvScrollBar.Value;
+            QSixEightUpDown.Value = SixvScrollBar.Value;
+            QMaxUpDown.Value = EightvScrollBar.Value;
+            QOffsetUpDown.Value = OffsetvScrollBar1.Value;
 
             if (HDCheckBox.Checked)
             {
@@ -519,48 +532,63 @@ namespace FloppyControlApp
             EightLabel.Text = (OffsetvScrollBar1.Value + EightvScrollBar.Value).ToString("X2");
             Offsetlabel.Text = OffsetvScrollBar1.Value.ToString("D2");
 
-            System.Drawing.Graphics formGraphics = Histogrampanel1.CreateGraphics();
-
-            using (var bmp = new System.Drawing.Bitmap(580, 12))
+            Graphics formGraphics = null;
+            if (MainTabControl.SelectedTab == ProcessingTab)
             {
-                LockBitmap lockBitmap = new LockBitmap(bmp);
-                lockBitmap.LockBits();
-                lockBitmap.FillBitmap(SystemColors.Control);
-
-                x = MinvScrollBar.Value - 4 + OffsetvScrollBar1.Value;
-                y = 0;
-                lockBitmap.Line(000 + x, 005 + y, 005 + x, 000 + y, Color.Black);
-                lockBitmap.Line(005 + x, 000 + y, 010 + x, 005 + y, Color.Black);
-                lockBitmap.Line(010 + x, 005 + y, 000 + x, 005 + y, Color.Black);
-
-                x = FourvScrollBar.Value - 4 + OffsetvScrollBar1.Value;
-
-                lockBitmap.Line(000 + x, 005 + y, 005 + x, 000 + y, Color.Black);
-                lockBitmap.Line(005 + x, 000 + y, 010 + x, 005 + y, Color.Black);
-                lockBitmap.Line(010 + x, 005 + y, 000 + x, 005 + y, Color.Black);
-
-                x = SixvScrollBar.Value - 4 + OffsetvScrollBar1.Value;
-
-                lockBitmap.Line(000 + x, 005 + y, 005 + x, 000 + y, Color.Black);
-                lockBitmap.Line(005 + x, 000 + y, 010 + x, 005 + y, Color.Black);
-                lockBitmap.Line(010 + x, 005 + y, 000 + x, 005 + y, Color.Black);
-
-                x = EightvScrollBar.Value - 4 + OffsetvScrollBar1.Value;
-
-                lockBitmap.Line(000 + x, 005 + y, 005 + x, 000 + y, Color.Black);
-                lockBitmap.Line(005 + x, 000 + y, 010 + x, 005 + y, Color.Black);
-                lockBitmap.Line(010 + x, 005 + y, 000 + x, 005 + y, Color.Black);
-
-                lockBitmap.UnlockBits();
-                formGraphics.DrawImage(bmp, 0, 103);
+                formGraphics = Histogrampanel1.CreateGraphics();
+            }
+            if (MainTabControl.SelectedTab == QuickTab)
+            {
+                formGraphics = QHistoPanel.CreateGraphics();
             }
 
-            formGraphics.Dispose();
+            if (formGraphics != null)
+            {
+                using (var bmp = new System.Drawing.Bitmap(580, 12))
+                {
+                    LockBitmap lockBitmap = new LockBitmap(bmp);
+                    lockBitmap.LockBits();
+                    lockBitmap.FillBitmap(SystemColors.Control);
+
+                    x = MinvScrollBar.Value - 4 + OffsetvScrollBar1.Value;
+                    y = 0;
+                    lockBitmap.Line(000 + x, 005 + y, 005 + x, 000 + y, Color.Black);
+                    lockBitmap.Line(005 + x, 000 + y, 010 + x, 005 + y, Color.Black);
+                    lockBitmap.Line(010 + x, 005 + y, 000 + x, 005 + y, Color.Black);
+
+                    x = FourvScrollBar.Value - 4 + OffsetvScrollBar1.Value;
+
+                    lockBitmap.Line(000 + x, 005 + y, 005 + x, 000 + y, Color.Black);
+                    lockBitmap.Line(005 + x, 000 + y, 010 + x, 005 + y, Color.Black);
+                    lockBitmap.Line(010 + x, 005 + y, 000 + x, 005 + y, Color.Black);
+
+                    x = SixvScrollBar.Value - 4 + OffsetvScrollBar1.Value;
+
+                    lockBitmap.Line(000 + x, 005 + y, 005 + x, 000 + y, Color.Black);
+                    lockBitmap.Line(005 + x, 000 + y, 010 + x, 005 + y, Color.Black);
+                    lockBitmap.Line(010 + x, 005 + y, 000 + x, 005 + y, Color.Black);
+
+                    x = EightvScrollBar.Value - 4 + OffsetvScrollBar1.Value;
+
+                    lockBitmap.Line(000 + x, 005 + y, 005 + x, 000 + y, Color.Black);
+                    lockBitmap.Line(005 + x, 000 + y, 010 + x, 005 + y, Color.Black);
+                    lockBitmap.Line(010 + x, 005 + y, 000 + x, 005 + y, Color.Black);
+
+                    lockBitmap.UnlockBits();
+                    formGraphics.DrawImage(bmp, 0, 103);
+                }
+                formGraphics.Dispose();
+            }
         }
 
         
 
         private void ConnectClassbutton_Click(object sender, EventArgs e)
+        {
+            ConnectToFloppyControlHardware();
+        }
+
+        private void ConnectToFloppyControlHardware()
         {
             controlfloppy.binfilecount = binfilecount;
             controlfloppy.DirectStep = DirectStepCheckBox.Checked;
@@ -585,24 +613,25 @@ namespace FloppyControlApp
                 if (controlfloppy.serialPort1.IsOpen)
                 {
                     LabelStatus.Text = "Connected.";
-                    ConnectClassbutton.Text = "Connected";
-                    ConnectClassbutton.BackColor = Color.FromArgb(0xD0, 0xF0, 0xD0);
                 }
                 else
                 {
                     LabelStatus.Text = "Disconnected.";
-                    ConnectClassbutton.Text = "Connect";
-                    ConnectClassbutton.BackColor = Color.FromArgb(0xF0, 0xF0, 0xF0);
                 }
             }
             else // Close connection if open
+                DisconnectFromFloppyControlHardware();
+        }
+
+        private void DisconnectFromFloppyControlHardware()
+        {
+            if (controlfloppy.serialPort1.IsOpen)
             {
                 controlfloppy.Disconnect();
                 LabelStatus.Text = "Disconnected.";
-                ConnectClassbutton.Text = "Connect";
-                ConnectClassbutton.BackColor = Color.FromArgb(0xF0, 0xF0, 0xF0);
             }
         }
+
         // Update scatterplot while capturing
         public void ControlFloppyScatterplotCallback()
         {
@@ -647,7 +676,6 @@ namespace FloppyControlApp
                 processing.indexrxbuf = processing.rxbuf.Length - 1;
                 ControlFloppyScatterplotCallback();
             }
-
 
             if (processing.indexrxbuf > 0)
                 ProcessingTab.Enabled = true;
@@ -697,10 +725,10 @@ namespace FloppyControlApp
         {
             if (processing.indexrxbuf > 0)
             {
-                
+
+                updateAnScatterPlot();
                 ScatterHisto.DoHistogram();
                 updateSliderLabels();
-                updateAnScatterPlot();
             }
         }
 
@@ -708,6 +736,27 @@ namespace FloppyControlApp
         {
             if (!scanactive)
             {
+                QMinUpDown.Value = MinvScrollBar.Value;
+                QFourSixUpDown.Value = FourvScrollBar.Value;
+                QSixEightUpDown.Value = SixvScrollBar.Value;
+                QMaxUpDown.Value = EightvScrollBar.Value;
+                QOffsetUpDown.Value = OffsetvScrollBar1.Value;
+                updateSliderLabels();
+                scatterplot.UpdateScatterPlot();
+                scatterplot.UpdateScatterPlot();
+            }
+        }
+
+        private void QMinUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            if (!scanactive)
+            {
+                MinvScrollBar.Value = (int)QMinUpDown.Value;
+                FourvScrollBar.Value = (int)QFourSixUpDown.Value;
+                SixvScrollBar.Value = (int)QSixEightUpDown.Value;
+                EightvScrollBar.Value = (int)QMaxUpDown.Value;
+                OffsetvScrollBar1.Value = (int)QOffsetUpDown.Value;
+
                 updateSliderLabels();
                 scatterplot.UpdateScatterPlot();
                 scatterplot.UpdateScatterPlot();
@@ -783,6 +832,11 @@ namespace FloppyControlApp
 
         private void resetoutput()
         {
+            HandleTabSwitching();
+            var oldscrollvalue = HistogramhScrollBar1.Value;
+            var oldscrollmaxvalue = HistogramhScrollBar1.Maximum;
+            var qoldscrollvalue = QHistogramhScrollBar1.Value;
+            var qoldscrollmaxvalue = QHistogramhScrollBar1.Maximum;
             var rxbuftemp = (byte[]) processing.rxbuf.Clone();
             for(var i =0; i< processing.mfms.Length;i++)
                 processing.mfms[i] = null;
@@ -814,7 +868,7 @@ namespace FloppyControlApp
 
             fileio.processing = processing;
             if (controlfloppy.serialPort1.IsOpen)
-                ConnectClassbutton.PerformClick();
+                controlfloppy.Disconnect();
             controlfloppy.Disconnect();
             controlfloppy.tempbuffer.Clear();
             controlfloppy.rxbuf = null;
@@ -838,7 +892,7 @@ namespace FloppyControlApp
             EditOptioncomboBox.SelectedIndex = 0;
             EditModecomboBox.SelectedIndex = 0;
             textBoxReceived.AppendText("PortName: " + selectedPortName + "\r\n");
-            MainTabControl.SelectedTab = ProcessingTab;
+            
             BadSectorTooltip.Hide();
             timer5.Start();
             GUITimer.Start();
@@ -853,7 +907,12 @@ namespace FloppyControlApp
             scatterplot.UpdateScatterPlot();
             updateSliderLabels();
             updateAnScatterPlot();
-
+            
+            HistogramhScrollBar1.Maximum = oldscrollmaxvalue;
+            HistogramhScrollBar1.Value = oldscrollvalue;
+            QHistogramhScrollBar1.Maximum = qoldscrollmaxvalue;
+            QHistogramhScrollBar1.Value = qoldscrollvalue;
+            HandleTabSwitching();
             GC.Collect();
         }
 
@@ -920,6 +979,7 @@ namespace FloppyControlApp
                 processing.stop = 1;
 
             controlfloppy.StopCapture();
+            DisconnectFromFloppyControlHardware();
             //indexrxbuf = processing.indexrxbuf;
             rxbufStartUpDown.Maximum = processing.indexrxbuf;
             rxbufEndUpDown.Maximum = processing.indexrxbuf;
@@ -1287,18 +1347,37 @@ namespace FloppyControlApp
 
         private void MainTabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //tbreceived.Append("Tab"+MainTabControl.SelectedTab.Name+" Index: "+MainTabControl.SelectedIndex+"\r\n");
-            
-            if (MainTabControl.SelectedTab == ProcessingTab)
+            HandleTabSwitching();
+        }
+
+        private void HandleTabSwitching()
+        {
+            if (MainTabControl.SelectedTab == ErrorCorrectionTab)
             {
                 //MainTabControl.TabPages[1].Controls.Remove(ThresholdsGroupBox);
-                ProcessingTab.Controls.Add(ThresholdsGroupBox);
+                ErrorCorrectionTab.Controls.Add(ThresholdsGroupBox);
                 ThresholdsGroupBox.Location = new Point(459, 290);
             }
-            else
+            if (MainTabControl.SelectedTab == ProcessingTab)
             {
                 groupBox6.Controls.Add(ThresholdsGroupBox);
                 ThresholdsGroupBox.Location = new Point(600, 16);
+                processing.rtbSectorMap = rtbSectorMap;
+                processing.sectormap.rtbSectorMap = rtbSectorMap;
+                processing.sectormap.RefreshSectorMap();
+                ScatterHisto.setPanel(Histogrampanel1);
+                updateAnScatterPlot();
+            }
+            if (MainTabControl.SelectedTab == QuickTab)
+            {
+                QHistogramhScrollBar1.Minimum = HistogramhScrollBar1.Minimum;
+                QHistogramhScrollBar1.Maximum = HistogramhScrollBar1.Maximum;
+                QHistogramhScrollBar1.Value = HistogramhScrollBar1.Value;
+                processing.rtbSectorMap = QrtbSectorMap;
+                processing.sectormap.rtbSectorMap = QrtbSectorMap;
+                processing.sectormap.RefreshSectorMap();
+                //ScatterHisto.setPanel(QHistoPanel);
+                updateAnScatterPlot();
             }
         }
 
@@ -1693,22 +1772,36 @@ namespace FloppyControlApp
             scatterplot.thresholdmax = EightvScrollBar.Value + OffsetvScrollBar1.Value;
 
             HistogramhScrollBar1.Maximum = processing.indexrxbuf;
+            QHistogramhScrollBar1.Maximum = processing.indexrxbuf;
             if (scatterplot.AnScatViewoffset + scatterplot.AnScatViewlargeoffset < 0)
             {
                 scatterplot.AnScatViewoffset = 0;
                 scatterplot.AnScatViewlargeoffset = 0;
             }
-            if (processing.indexrxbuf != 0)
-                if (scatterplot.AnScatViewlargeoffset < processing.indexrxbuf)
-                    HistogramhScrollBar1.Value = scatterplot.AnScatViewlargeoffset;
+
             if (processing.indexrxbuf > 0)
-                if (MainTabControl.SelectedTab == CaptureTab)
+            {
+                if (MainTabControl.SelectedTab == ProcessingTab)
                 {
                     int offset = scatterplot.AnScatViewoffset + scatterplot.AnScatViewlargeoffset;
                     int length = scatterplot.AnScatViewlength;
                     if (length < 0) length = 4000;
+                    if (scatterplot.AnScatViewlargeoffset < processing.indexrxbuf)
+                        HistogramhScrollBar1.Value = scatterplot.AnScatViewlargeoffset;
+                    ScatterHisto.setPanel(Histogrampanel1);
                     ScatterHisto.DoHistogram(processing.rxbuf, offset, length);
                 }
+                if (MainTabControl.SelectedTab == QuickTab)
+                {
+                    int offset = scatterplot.AnScatViewoffset + scatterplot.AnScatViewlargeoffset;
+                    int length = scatterplot.AnScatViewlength;
+                    if (length < 0) length = 4000;
+                    if (scatterplot.AnScatViewlargeoffset < processing.indexrxbuf)
+                        QHistogramhScrollBar1.Value = scatterplot.AnScatViewlargeoffset;
+                    ScatterHisto.setPanel(QHistoPanel);
+                    ScatterHisto.DoHistogram(processing.rxbuf, offset, length);
+                }
+            }
         }
 
         private void OpenWavefrmbutton_Click_1(object sender, EventArgs e)
@@ -1981,6 +2074,7 @@ namespace FloppyControlApp
 
         private void CaptureClassbutton_Click(object sender, EventArgs e)
         {
+            ConnectToFloppyControlHardware();
             CaptureTracks();
         }
 
@@ -2019,9 +2113,14 @@ namespace FloppyControlApp
         private void HistogramhScrollBar1_Scroll(object sender, EventArgs e)
         {
             scatterplot.AnScatViewlargeoffset = HistogramhScrollBar1.Value;
-            //tbreceived.Append("AnScatViewoffset: " + AnScatViewoffset+"\r\n");
-            //createhistogram();
+            scatterplot.UpdateScatterPlot();
+        }
 
+        private void QHistogramhScrollBar1_Scroll(object sender, EventArgs e)
+        {
+            HistogramhScrollBar1.Value = QHistogramhScrollBar1.Value;
+            scatterplot.AnScatViewlargeoffset = QHistogramhScrollBar1.Value;
+            
             scatterplot.UpdateScatterPlot();
         }
 
@@ -3259,14 +3358,89 @@ namespace FloppyControlApp
 
         }
 
-        private void tabPage5_Click(object sender, EventArgs e)
+        private void FloppyControl_FormClosing(object sender, FormClosingEventArgs e)
         {
-
+            Settings.Default.Save();
         }
 
-        private void fileToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ResetBuffersBtn_Click(object sender, EventArgs e)
         {
+            resetinput();
+        }
 
+        private void button5_Click(object sender, EventArgs e)
+        {
+            resetoutput();
+        }
+
+        private void QProcessingModeComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ProcessingModeComboBox.SelectedIndex = QProcessingModeComboBox.SelectedIndex;
+        }
+
+        private void QChangeDiskTypeComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ChangeDiskTypeComboBox.SelectedIndex = QChangeDiskTypeComboBox.SelectedIndex;
+        }
+
+        private void QScanComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ScanComboBox.SelectedIndex = QScanComboBox.SelectedIndex;
+        }
+
+        private void QClearDatacheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            ClearDatacheckBox.Checked = QClearDatacheckBox.Checked;
+        }
+
+        private void QIgnoreHeaderErrorCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            IgnoreHeaderErrorCheckBox.Checked = QIgnoreHeaderErrorCheckBox.Checked;
+        }
+
+        private void QFindDupesCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            FindDupesCheckBox.Checked = QFindDupesCheckBox.Checked;
+        }
+
+        private void QAutoRefreshSectorMapCheck_CheckedChanged(object sender, EventArgs e)
+        {
+            AutoRefreshSectorMapCheck.Checked = QAutoRefreshSectorMapCheck.Checked;
+        }
+
+        private void QHDCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            HDCheckBox.Checked = QHDCheckBox.Checked;
+        }
+
+        private void QLimitTSCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            LimitTSCheckBox.Checked = QLimitTSCheckBox.Checked;
+        }
+
+        private void QRateOfChange2UpDown_ValueChanged(object sender, EventArgs e)
+        {
+            RateOfChange2UpDown.Value = QRateOfChange2UpDown.Value;
+        }
+
+        private void QRateOfChangeUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            RateOfChangeUpDown.Value = QRateOfChangeUpDown.Value;
+        }
+
+        private void QAdaptOfsset2UpDown_ValueChanged(object sender, EventArgs e)
+        {
+            AdaptOfsset2UpDown.Value = QAdaptOfsset2UpDown.Value;
+        }
+
+        private void QLimitToSectorUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            LimitToSectorUpDown.Value = QLimitToSectorUpDown.Value;
+        }
+
+        private void QLimitToTrackUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            LimitToTrackUpDown.Value = QLimitToTrackUpDown.Value;
         }
     } // end class
 } // End namespace

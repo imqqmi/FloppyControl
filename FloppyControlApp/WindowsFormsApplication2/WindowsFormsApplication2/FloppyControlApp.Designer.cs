@@ -93,49 +93,49 @@
             this.LimitToTrackUpDown = new System.Windows.Forms.NumericUpDown();
             this.label42 = new System.Windows.Forms.Label();
             this.MainTabControl = new System.Windows.Forms.TabControl();
-            this.tabPage5 = new System.Windows.Forms.TabPage();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.QuickTab = new System.Windows.Forms.TabPage();
+            this.QrtbSectorMap = new System.Windows.Forms.RichTextBox();
             this.groupBox13 = new System.Windows.Forms.GroupBox();
+            this.button11 = new System.Windows.Forms.Button();
+            this.button15 = new System.Windows.Forms.Button();
             this.groupBox14 = new System.Windows.Forms.GroupBox();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
+            this.QOnlyBadSectorsRadio = new System.Windows.Forms.RadioButton();
+            this.QECOnRadio = new System.Windows.Forms.RadioButton();
             this.label89 = new System.Windows.Forms.Label();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.QChangeDiskTypeComboBox = new System.Windows.Forms.ComboBox();
+            this.QProcessingModeComboBox = new System.Windows.Forms.ComboBox();
+            this.QClearDatacheckBox = new System.Windows.Forms.CheckBox();
             this.groupBox15 = new System.Windows.Forms.GroupBox();
-            this.numericUpDown15 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown14 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown13 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown12 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown9 = new System.Windows.Forms.NumericUpDown();
+            this.QOffsetUpDown = new System.Windows.Forms.NumericUpDown();
+            this.QMaxUpDown = new System.Windows.Forms.NumericUpDown();
+            this.QSixEightUpDown = new System.Windows.Forms.NumericUpDown();
+            this.QFourSixUpDown = new System.Windows.Forms.NumericUpDown();
+            this.QMinUpDown = new System.Windows.Forms.NumericUpDown();
             this.label97 = new System.Windows.Forms.Label();
             this.label98 = new System.Windows.Forms.Label();
             this.label99 = new System.Windows.Forms.Label();
             this.label100 = new System.Windows.Forms.Label();
             this.label101 = new System.Windows.Forms.Label();
-            this.checkBox6 = new System.Windows.Forms.CheckBox();
-            this.checkBox7 = new System.Windows.Forms.CheckBox();
-            this.checkBox8 = new System.Windows.Forms.CheckBox();
+            this.QFindDupesCheckBox = new System.Windows.Forms.CheckBox();
+            this.QAutoRefreshSectorMapCheck = new System.Windows.Forms.CheckBox();
+            this.QIgnoreHeaderErrorCheckBox = new System.Windows.Forms.CheckBox();
             this.groupBox16 = new System.Windows.Forms.GroupBox();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.label103 = new System.Windows.Forms.Label();
-            this.label104 = new System.Windows.Forms.Label();
-            this.label105 = new System.Windows.Forms.Label();
-            this.trackBar1 = new System.Windows.Forms.TrackBar();
+            this.QHistoPanel = new System.Windows.Forms.Panel();
+            this.QHistogramhScrollBar1 = new System.Windows.Forms.TrackBar();
             this.groupBox17 = new System.Windows.Forms.GroupBox();
-            this.numericUpDown6 = new System.Windows.Forms.NumericUpDown();
+            this.QLimitTSCheckBox = new System.Windows.Forms.CheckBox();
+            this.QRateOfChange2UpDown = new System.Windows.Forms.NumericUpDown();
             this.label88 = new System.Windows.Forms.Label();
             this.label102 = new System.Windows.Forms.Label();
-            this.numericUpDown11 = new System.Windows.Forms.NumericUpDown();
-            this.comboBox4 = new System.Windows.Forms.ComboBox();
+            this.QRateOfChangeUpDown = new System.Windows.Forms.NumericUpDown();
+            this.QScanComboBox = new System.Windows.Forms.ComboBox();
             this.button47 = new System.Windows.Forms.Button();
-            this.numericUpDown7 = new System.Windows.Forms.NumericUpDown();
+            this.QAdaptOfsset2UpDown = new System.Windows.Forms.NumericUpDown();
             this.label90 = new System.Windows.Forms.Label();
-            this.numericUpDown10 = new System.Windows.Forms.NumericUpDown();
+            this.QLimitToSectorUpDown = new System.Windows.Forms.NumericUpDown();
             this.label91 = new System.Windows.Forms.Label();
-            this.numericUpDown8 = new System.Windows.Forms.NumericUpDown();
-            this.checkBox9 = new System.Windows.Forms.CheckBox();
+            this.QLimitToTrackUpDown = new System.Windows.Forms.NumericUpDown();
+            this.QHDCheckBox = new System.Windows.Forms.CheckBox();
             this.label114 = new System.Windows.Forms.Label();
             this.QProcAmigaBtn = new System.Windows.Forms.Button();
             this.QProcPCBtn = new System.Windows.Forms.Button();
@@ -191,7 +191,6 @@
             this.button36 = new System.Windows.Forms.Button();
             this.DirectStepCheckBox = new System.Windows.Forms.CheckBox();
             this.CaptureClassbutton = new System.Windows.Forms.Button();
-            this.ConnectClassbutton = new System.Windows.Forms.Button();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.button4 = new System.Windows.Forms.Button();
@@ -212,7 +211,6 @@
             this.label20 = new System.Windows.Forms.Label();
             this.ProcessingTab = new System.Windows.Forms.TabPage();
             this.button5 = new System.Windows.Forms.Button();
-            this.StopButton = new System.Windows.Forms.Button();
             this.ResetBuffersBtn = new System.Windows.Forms.Button();
             this.DupsUpDown = new System.Windows.Forms.NumericUpDown();
             this.label69 = new System.Windows.Forms.Label();
@@ -268,9 +266,6 @@
             this.IgnoreHeaderErrorCheckBox = new System.Windows.Forms.CheckBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.Histogrampanel1 = new System.Windows.Forms.Panel();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
             this.HistogramhScrollBar1 = new System.Windows.Forms.TrackBar();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.ScanComboBox = new System.Windows.Forms.ComboBox();
@@ -477,6 +472,7 @@
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ThreadsUpDown = new System.Windows.Forms.NumericUpDown();
             this.label59 = new System.Windows.Forms.Label();
+            this.StopButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.ScatterPlottabPage.SuspendLayout();
@@ -489,23 +485,23 @@
             ((System.ComponentModel.ISupportInitialize)(this.LimitToSectorUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.LimitToTrackUpDown)).BeginInit();
             this.MainTabControl.SuspendLayout();
-            this.tabPage5.SuspendLayout();
+            this.QuickTab.SuspendLayout();
             this.groupBox13.SuspendLayout();
             this.groupBox14.SuspendLayout();
             this.groupBox15.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown15)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown14)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown13)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown12)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown9)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QOffsetUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QMaxUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QSixEightUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QFourSixUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QMinUpDown)).BeginInit();
             this.groupBox16.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QHistogramhScrollBar1)).BeginInit();
             this.groupBox17.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown6)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown11)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown7)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown10)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown8)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QRateOfChange2UpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QRateOfChangeUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QAdaptOfsset2UpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QLimitToSectorUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QLimitToTrackUpDown)).BeginInit();
             this.groupBox12.SuspendLayout();
             this.groupBox10.SuspendLayout();
             this.groupBox11.SuspendLayout();
@@ -793,7 +789,7 @@
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Controls.Add(this.ShowSectorTab);
             this.tabControl1.Controls.Add(this.tabPage4);
-            this.tabControl1.Location = new System.Drawing.Point(976, 393);
+            this.tabControl1.Location = new System.Drawing.Point(991, 393);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(616, 473);
@@ -994,7 +990,7 @@
             // 
             this.textBoxReceived.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxReceived.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxReceived.Location = new System.Drawing.Point(976, 6);
+            this.textBoxReceived.Location = new System.Drawing.Point(991, 6);
             this.textBoxReceived.MaxLength = 2000000;
             this.textBoxReceived.Multiline = true;
             this.textBoxReceived.Name = "textBoxReceived";
@@ -1266,7 +1262,7 @@
             this.MainTabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.MainTabControl.Controls.Add(this.tabPage5);
+            this.MainTabControl.Controls.Add(this.QuickTab);
             this.MainTabControl.Controls.Add(this.CaptureTab);
             this.MainTabControl.Controls.Add(this.ProcessingTab);
             this.MainTabControl.Controls.Add(this.ErrorCorrectionTab);
@@ -1277,39 +1273,43 @@
             this.MainTabControl.Location = new System.Drawing.Point(13, 54);
             this.MainTabControl.Name = "MainTabControl";
             this.MainTabControl.SelectedIndex = 0;
-            this.MainTabControl.Size = new System.Drawing.Size(959, 734);
+            this.MainTabControl.Size = new System.Drawing.Size(974, 802);
             this.MainTabControl.TabIndex = 56;
             this.MainTabControl.SelectedIndexChanged += new System.EventHandler(this.MainTabControl_SelectedIndexChanged);
             // 
-            // tabPage5
+            // QuickTab
             // 
-            this.tabPage5.BackColor = System.Drawing.SystemColors.Control;
-            this.tabPage5.Controls.Add(this.richTextBox1);
-            this.tabPage5.Controls.Add(this.groupBox13);
-            this.tabPage5.Controls.Add(this.groupBox12);
-            this.tabPage5.Location = new System.Drawing.Point(4, 23);
-            this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(951, 707);
-            this.tabPage5.TabIndex = 6;
-            this.tabPage5.Text = "Quick";
-            this.tabPage5.Click += new System.EventHandler(this.tabPage5_Click);
+            this.QuickTab.BackColor = System.Drawing.SystemColors.Control;
+            this.QuickTab.Controls.Add(this.QrtbSectorMap);
+            this.QuickTab.Controls.Add(this.groupBox13);
+            this.QuickTab.Controls.Add(this.groupBox12);
+            this.QuickTab.Location = new System.Drawing.Point(4, 23);
+            this.QuickTab.Name = "QuickTab";
+            this.QuickTab.Padding = new System.Windows.Forms.Padding(3);
+            this.QuickTab.Size = new System.Drawing.Size(966, 775);
+            this.QuickTab.TabIndex = 6;
+            this.QuickTab.Text = "Quick";
             // 
-            // richTextBox1
+            // QrtbSectorMap
             // 
-            this.richTextBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.QrtbSectorMap.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.richTextBox1.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.richTextBox1.HideSelection = false;
-            this.richTextBox1.Location = new System.Drawing.Point(1, 378);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(948, 372);
-            this.richTextBox1.TabIndex = 114;
-            this.richTextBox1.Text = "";
+            this.QrtbSectorMap.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.QrtbSectorMap.HideSelection = false;
+            this.QrtbSectorMap.Location = new System.Drawing.Point(1, 378);
+            this.QrtbSectorMap.Name = "QrtbSectorMap";
+            this.QrtbSectorMap.Size = new System.Drawing.Size(963, 397);
+            this.QrtbSectorMap.TabIndex = 114;
+            this.QrtbSectorMap.Text = "";
+            this.QrtbSectorMap.DoubleClick += new System.EventHandler(this.rtbSectorMap_DoubleClick);
+            this.QrtbSectorMap.MouseDown += new System.Windows.Forms.MouseEventHandler(this.rtbSectorMap_MouseDown);
             // 
             // groupBox13
             // 
+            this.groupBox13.BackColor = System.Drawing.SystemColors.Control;
+            this.groupBox13.Controls.Add(this.button11);
+            this.groupBox13.Controls.Add(this.button15);
             this.groupBox13.Controls.Add(this.groupBox14);
             this.groupBox13.Controls.Add(this.QProcAmigaBtn);
             this.groupBox13.Controls.Add(this.QProcPCBtn);
@@ -1320,21 +1320,41 @@
             this.groupBox13.TabStop = false;
             this.groupBox13.Text = "Processing";
             // 
+            // button11
+            // 
+            this.button11.Location = new System.Drawing.Point(0, 158);
+            this.button11.Name = "button11";
+            this.button11.Size = new System.Drawing.Size(67, 38);
+            this.button11.TabIndex = 119;
+            this.button11.Text = "Reset output";
+            this.button11.UseVisualStyleBackColor = true;
+            this.button11.Click += new System.EventHandler(this.button5_Click);
+            // 
+            // button15
+            // 
+            this.button15.Location = new System.Drawing.Point(0, 112);
+            this.button15.Name = "button15";
+            this.button15.Size = new System.Drawing.Size(63, 39);
+            this.button15.TabIndex = 118;
+            this.button15.Text = "Reset input";
+            this.button15.UseVisualStyleBackColor = true;
+            this.button15.Click += new System.EventHandler(this.ResetBuffersBtn_Click);
+            // 
             // groupBox14
             // 
-            this.groupBox14.Controls.Add(this.radioButton1);
-            this.groupBox14.Controls.Add(this.radioButton2);
+            this.groupBox14.Controls.Add(this.QOnlyBadSectorsRadio);
+            this.groupBox14.Controls.Add(this.QECOnRadio);
             this.groupBox14.Controls.Add(this.label89);
-            this.groupBox14.Controls.Add(this.comboBox3);
-            this.groupBox14.Controls.Add(this.comboBox2);
-            this.groupBox14.Controls.Add(this.checkBox2);
+            this.groupBox14.Controls.Add(this.QChangeDiskTypeComboBox);
+            this.groupBox14.Controls.Add(this.QProcessingModeComboBox);
+            this.groupBox14.Controls.Add(this.QClearDatacheckBox);
             this.groupBox14.Controls.Add(this.groupBox15);
-            this.groupBox14.Controls.Add(this.checkBox6);
-            this.groupBox14.Controls.Add(this.checkBox7);
-            this.groupBox14.Controls.Add(this.checkBox8);
+            this.groupBox14.Controls.Add(this.QFindDupesCheckBox);
+            this.groupBox14.Controls.Add(this.QAutoRefreshSectorMapCheck);
+            this.groupBox14.Controls.Add(this.QIgnoreHeaderErrorCheckBox);
             this.groupBox14.Controls.Add(this.groupBox16);
             this.groupBox14.Controls.Add(this.groupBox17);
-            this.groupBox14.Controls.Add(this.checkBox9);
+            this.groupBox14.Controls.Add(this.QHDCheckBox);
             this.groupBox14.Controls.Add(this.label114);
             this.groupBox14.Location = new System.Drawing.Point(94, 14);
             this.groupBox14.Name = "groupBox14";
@@ -1343,27 +1363,27 @@
             this.groupBox14.TabStop = false;
             this.groupBox14.Text = "Processing options";
             // 
-            // radioButton1
+            // QOnlyBadSectorsRadio
             // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(6, 92);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(104, 17);
-            this.radioButton1.TabIndex = 106;
-            this.radioButton1.Text = "Only bad sectors";
-            this.radioButton1.UseVisualStyleBackColor = true;
+            this.QOnlyBadSectorsRadio.AutoSize = true;
+            this.QOnlyBadSectorsRadio.Location = new System.Drawing.Point(6, 92);
+            this.QOnlyBadSectorsRadio.Name = "QOnlyBadSectorsRadio";
+            this.QOnlyBadSectorsRadio.Size = new System.Drawing.Size(104, 17);
+            this.QOnlyBadSectorsRadio.TabIndex = 106;
+            this.QOnlyBadSectorsRadio.Text = "Only bad sectors";
+            this.QOnlyBadSectorsRadio.UseVisualStyleBackColor = true;
             // 
-            // radioButton2
+            // QECOnRadio
             // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Checked = true;
-            this.radioButton2.Location = new System.Drawing.Point(6, 115);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(118, 17);
-            this.radioButton2.TabIndex = 105;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "Use error correction";
-            this.radioButton2.UseVisualStyleBackColor = true;
+            this.QECOnRadio.AutoSize = true;
+            this.QECOnRadio.Checked = true;
+            this.QECOnRadio.Location = new System.Drawing.Point(6, 115);
+            this.QECOnRadio.Name = "QECOnRadio";
+            this.QECOnRadio.Size = new System.Drawing.Size(118, 17);
+            this.QECOnRadio.TabIndex = 105;
+            this.QECOnRadio.TabStop = true;
+            this.QECOnRadio.Text = "Use error correction";
+            this.QECOnRadio.UseVisualStyleBackColor = true;
             // 
             // label89
             // 
@@ -1374,41 +1394,44 @@
             this.label89.TabIndex = 104;
             this.label89.Text = "Disk Format";
             // 
-            // comboBox3
+            // QChangeDiskTypeComboBox
             // 
-            this.comboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Location = new System.Drawing.Point(121, 35);
-            this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(75, 21);
-            this.comboBox3.TabIndex = 102;
+            this.QChangeDiskTypeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.QChangeDiskTypeComboBox.FormattingEnabled = true;
+            this.QChangeDiskTypeComboBox.Location = new System.Drawing.Point(121, 35);
+            this.QChangeDiskTypeComboBox.Name = "QChangeDiskTypeComboBox";
+            this.QChangeDiskTypeComboBox.Size = new System.Drawing.Size(75, 21);
+            this.QChangeDiskTypeComboBox.TabIndex = 102;
+            this.QChangeDiskTypeComboBox.SelectedIndexChanged += new System.EventHandler(this.QChangeDiskTypeComboBox_SelectedIndexChanged);
             // 
-            // comboBox2
+            // QProcessingModeComboBox
             // 
-            this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(6, 35);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(106, 21);
-            this.comboBox2.TabIndex = 103;
+            this.QProcessingModeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.QProcessingModeComboBox.FormattingEnabled = true;
+            this.QProcessingModeComboBox.Location = new System.Drawing.Point(6, 35);
+            this.QProcessingModeComboBox.Name = "QProcessingModeComboBox";
+            this.QProcessingModeComboBox.Size = new System.Drawing.Size(106, 21);
+            this.QProcessingModeComboBox.TabIndex = 103;
+            this.QProcessingModeComboBox.SelectedIndexChanged += new System.EventHandler(this.QProcessingModeComboBox_SelectedIndexChanged);
             // 
-            // checkBox2
+            // QClearDatacheckBox
             // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(6, 69);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(106, 17);
-            this.checkBox2.TabIndex = 101;
-            this.checkBox2.Text = "Clear sector data";
-            this.checkBox2.UseVisualStyleBackColor = true;
+            this.QClearDatacheckBox.AutoSize = true;
+            this.QClearDatacheckBox.Location = new System.Drawing.Point(6, 69);
+            this.QClearDatacheckBox.Name = "QClearDatacheckBox";
+            this.QClearDatacheckBox.Size = new System.Drawing.Size(106, 17);
+            this.QClearDatacheckBox.TabIndex = 101;
+            this.QClearDatacheckBox.Text = "Clear sector data";
+            this.QClearDatacheckBox.UseVisualStyleBackColor = true;
+            this.QClearDatacheckBox.CheckedChanged += new System.EventHandler(this.QClearDatacheckBox_CheckedChanged);
             // 
             // groupBox15
             // 
-            this.groupBox15.Controls.Add(this.numericUpDown15);
-            this.groupBox15.Controls.Add(this.numericUpDown14);
-            this.groupBox15.Controls.Add(this.numericUpDown13);
-            this.groupBox15.Controls.Add(this.numericUpDown12);
-            this.groupBox15.Controls.Add(this.numericUpDown9);
+            this.groupBox15.Controls.Add(this.QOffsetUpDown);
+            this.groupBox15.Controls.Add(this.QMaxUpDown);
+            this.groupBox15.Controls.Add(this.QSixEightUpDown);
+            this.groupBox15.Controls.Add(this.QFourSixUpDown);
+            this.groupBox15.Controls.Add(this.QMinUpDown);
             this.groupBox15.Controls.Add(this.label97);
             this.groupBox15.Controls.Add(this.label98);
             this.groupBox15.Controls.Add(this.label99);
@@ -1421,115 +1444,90 @@
             this.groupBox15.TabStop = false;
             this.groupBox15.Text = "Thresholds";
             // 
-            // numericUpDown15
+            // QOffsetUpDown
             // 
-            this.numericUpDown15.Location = new System.Drawing.Point(196, 40);
-            this.numericUpDown15.Maximum = new decimal(new int[] {
-            2000,
+            this.QOffsetUpDown.Location = new System.Drawing.Point(196, 40);
+            this.QOffsetUpDown.Maximum = new decimal(new int[] {
+            50,
             0,
             0,
             0});
-            this.numericUpDown15.Minimum = new decimal(new int[] {
-            16,
+            this.QOffsetUpDown.Minimum = new decimal(new int[] {
+            50,
             0,
             0,
             -2147483648});
-            this.numericUpDown15.Name = "numericUpDown15";
-            this.numericUpDown15.Size = new System.Drawing.Size(39, 20);
-            this.numericUpDown15.TabIndex = 80;
-            this.numericUpDown15.Value = new decimal(new int[] {
-            11,
-            0,
-            0,
-            0});
+            this.QOffsetUpDown.Name = "QOffsetUpDown";
+            this.QOffsetUpDown.Size = new System.Drawing.Size(39, 20);
+            this.QOffsetUpDown.TabIndex = 80;
+            this.QOffsetUpDown.ValueChanged += new System.EventHandler(this.QMinUpDown_ValueChanged);
             // 
-            // numericUpDown14
+            // QMaxUpDown
             // 
-            this.numericUpDown14.Location = new System.Drawing.Point(148, 40);
-            this.numericUpDown14.Maximum = new decimal(new int[] {
-            2000,
+            this.QMaxUpDown.Location = new System.Drawing.Point(148, 40);
+            this.QMaxUpDown.Maximum = new decimal(new int[] {
+            264,
             0,
             0,
             0});
-            this.numericUpDown14.Minimum = new decimal(new int[] {
-            16,
-            0,
-            0,
-            -2147483648});
-            this.numericUpDown14.Name = "numericUpDown14";
-            this.numericUpDown14.Size = new System.Drawing.Size(39, 20);
-            this.numericUpDown14.TabIndex = 80;
-            this.numericUpDown14.Value = new decimal(new int[] {
-            11,
+            this.QMaxUpDown.Name = "QMaxUpDown";
+            this.QMaxUpDown.Size = new System.Drawing.Size(39, 20);
+            this.QMaxUpDown.TabIndex = 80;
+            this.QMaxUpDown.Value = new decimal(new int[] {
+            147,
             0,
             0,
             0});
+            this.QMaxUpDown.ValueChanged += new System.EventHandler(this.QMinUpDown_ValueChanged);
             // 
-            // numericUpDown13
+            // QSixEightUpDown
             // 
-            this.numericUpDown13.Location = new System.Drawing.Point(97, 39);
-            this.numericUpDown13.Maximum = new decimal(new int[] {
-            2000,
+            this.QSixEightUpDown.Location = new System.Drawing.Point(97, 39);
+            this.QSixEightUpDown.Maximum = new decimal(new int[] {
+            264,
             0,
             0,
             0});
-            this.numericUpDown13.Minimum = new decimal(new int[] {
-            16,
-            0,
-            0,
-            -2147483648});
-            this.numericUpDown13.Name = "numericUpDown13";
-            this.numericUpDown13.Size = new System.Drawing.Size(39, 20);
-            this.numericUpDown13.TabIndex = 80;
-            this.numericUpDown13.Value = new decimal(new int[] {
-            11,
+            this.QSixEightUpDown.Name = "QSixEightUpDown";
+            this.QSixEightUpDown.Size = new System.Drawing.Size(39, 20);
+            this.QSixEightUpDown.TabIndex = 80;
+            this.QSixEightUpDown.Value = new decimal(new int[] {
+            108,
             0,
             0,
             0});
+            this.QSixEightUpDown.ValueChanged += new System.EventHandler(this.QMinUpDown_ValueChanged);
             // 
-            // numericUpDown12
+            // QFourSixUpDown
             // 
-            this.numericUpDown12.Location = new System.Drawing.Point(52, 39);
-            this.numericUpDown12.Maximum = new decimal(new int[] {
-            2000,
+            this.QFourSixUpDown.Location = new System.Drawing.Point(52, 39);
+            this.QFourSixUpDown.Maximum = new decimal(new int[] {
+            264,
             0,
             0,
             0});
-            this.numericUpDown12.Minimum = new decimal(new int[] {
-            16,
-            0,
-            0,
-            -2147483648});
-            this.numericUpDown12.Name = "numericUpDown12";
-            this.numericUpDown12.Size = new System.Drawing.Size(39, 20);
-            this.numericUpDown12.TabIndex = 80;
-            this.numericUpDown12.Value = new decimal(new int[] {
-            11,
+            this.QFourSixUpDown.Name = "QFourSixUpDown";
+            this.QFourSixUpDown.Size = new System.Drawing.Size(39, 20);
+            this.QFourSixUpDown.TabIndex = 80;
+            this.QFourSixUpDown.Value = new decimal(new int[] {
+            69,
             0,
             0,
             0});
+            this.QFourSixUpDown.ValueChanged += new System.EventHandler(this.QMinUpDown_ValueChanged);
             // 
-            // numericUpDown9
+            // QMinUpDown
             // 
-            this.numericUpDown9.Location = new System.Drawing.Point(6, 39);
-            this.numericUpDown9.Maximum = new decimal(new int[] {
-            2000,
+            this.QMinUpDown.Location = new System.Drawing.Point(6, 39);
+            this.QMinUpDown.Maximum = new decimal(new int[] {
+            264,
             0,
             0,
             0});
-            this.numericUpDown9.Minimum = new decimal(new int[] {
-            16,
-            0,
-            0,
-            -2147483648});
-            this.numericUpDown9.Name = "numericUpDown9";
-            this.numericUpDown9.Size = new System.Drawing.Size(39, 20);
-            this.numericUpDown9.TabIndex = 80;
-            this.numericUpDown9.Value = new decimal(new int[] {
-            11,
-            0,
-            0,
-            0});
+            this.QMinUpDown.Name = "QMinUpDown";
+            this.QMinUpDown.Size = new System.Drawing.Size(39, 20);
+            this.QMinUpDown.TabIndex = 80;
+            this.QMinUpDown.ValueChanged += new System.EventHandler(this.QMinUpDown_ValueChanged);
             // 
             // label97
             // 
@@ -1576,49 +1574,49 @@
             this.label101.TabIndex = 58;
             this.label101.Text = "max";
             // 
-            // checkBox6
+            // QFindDupesCheckBox
             // 
-            this.checkBox6.AccessibleDescription = "";
-            this.checkBox6.AutoSize = true;
-            this.checkBox6.Checked = true;
-            this.checkBox6.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox6.Location = new System.Drawing.Point(129, 92);
-            this.checkBox6.Name = "checkBox6";
-            this.checkBox6.Size = new System.Drawing.Size(83, 17);
-            this.checkBox6.TabIndex = 88;
-            this.checkBox6.Text = "Deduplicate";
-            this.checkBox6.UseVisualStyleBackColor = true;
+            this.QFindDupesCheckBox.AccessibleDescription = "";
+            this.QFindDupesCheckBox.AutoSize = true;
+            this.QFindDupesCheckBox.Checked = true;
+            this.QFindDupesCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.QFindDupesCheckBox.Location = new System.Drawing.Point(129, 92);
+            this.QFindDupesCheckBox.Name = "QFindDupesCheckBox";
+            this.QFindDupesCheckBox.Size = new System.Drawing.Size(83, 17);
+            this.QFindDupesCheckBox.TabIndex = 88;
+            this.QFindDupesCheckBox.Text = "Deduplicate";
+            this.QFindDupesCheckBox.UseVisualStyleBackColor = true;
+            this.QFindDupesCheckBox.CheckedChanged += new System.EventHandler(this.QFindDupesCheckBox_CheckedChanged);
             // 
-            // checkBox7
+            // QAutoRefreshSectorMapCheck
             // 
-            this.checkBox7.AccessibleDescription = "";
-            this.checkBox7.AutoSize = true;
-            this.checkBox7.Checked = true;
-            this.checkBox7.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox7.Location = new System.Drawing.Point(129, 118);
-            this.checkBox7.Name = "checkBox7";
-            this.checkBox7.Size = new System.Drawing.Size(135, 17);
-            this.checkBox7.TabIndex = 85;
-            this.checkBox7.Text = "Auto refresh sectormap";
-            this.checkBox7.UseVisualStyleBackColor = true;
+            this.QAutoRefreshSectorMapCheck.AccessibleDescription = "";
+            this.QAutoRefreshSectorMapCheck.AutoSize = true;
+            this.QAutoRefreshSectorMapCheck.Checked = true;
+            this.QAutoRefreshSectorMapCheck.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.QAutoRefreshSectorMapCheck.Location = new System.Drawing.Point(129, 118);
+            this.QAutoRefreshSectorMapCheck.Name = "QAutoRefreshSectorMapCheck";
+            this.QAutoRefreshSectorMapCheck.Size = new System.Drawing.Size(135, 17);
+            this.QAutoRefreshSectorMapCheck.TabIndex = 85;
+            this.QAutoRefreshSectorMapCheck.Text = "Auto refresh sectormap";
+            this.QAutoRefreshSectorMapCheck.UseVisualStyleBackColor = true;
+            this.QAutoRefreshSectorMapCheck.CheckedChanged += new System.EventHandler(this.QAutoRefreshSectorMapCheck_CheckedChanged);
             // 
-            // checkBox8
+            // QIgnoreHeaderErrorCheckBox
             // 
-            this.checkBox8.AutoSize = true;
-            this.checkBox8.Location = new System.Drawing.Point(129, 69);
-            this.checkBox8.Name = "checkBox8";
-            this.checkBox8.Size = new System.Drawing.Size(116, 17);
-            this.checkBox8.TabIndex = 50;
-            this.checkBox8.Text = "Ignore header error";
-            this.checkBox8.UseVisualStyleBackColor = true;
+            this.QIgnoreHeaderErrorCheckBox.AutoSize = true;
+            this.QIgnoreHeaderErrorCheckBox.Location = new System.Drawing.Point(129, 69);
+            this.QIgnoreHeaderErrorCheckBox.Name = "QIgnoreHeaderErrorCheckBox";
+            this.QIgnoreHeaderErrorCheckBox.Size = new System.Drawing.Size(116, 17);
+            this.QIgnoreHeaderErrorCheckBox.TabIndex = 50;
+            this.QIgnoreHeaderErrorCheckBox.Text = "Ignore header error";
+            this.QIgnoreHeaderErrorCheckBox.UseVisualStyleBackColor = true;
+            this.QIgnoreHeaderErrorCheckBox.CheckedChanged += new System.EventHandler(this.QIgnoreHeaderErrorCheckBox_CheckedChanged);
             // 
             // groupBox16
             // 
-            this.groupBox16.Controls.Add(this.panel1);
-            this.groupBox16.Controls.Add(this.label103);
-            this.groupBox16.Controls.Add(this.label104);
-            this.groupBox16.Controls.Add(this.label105);
-            this.groupBox16.Controls.Add(this.trackBar1);
+            this.groupBox16.Controls.Add(this.QHistoPanel);
+            this.groupBox16.Controls.Add(this.QHistogramhScrollBar1);
             this.groupBox16.Location = new System.Drawing.Point(549, 8);
             this.groupBox16.Name = "groupBox16";
             this.groupBox16.Size = new System.Drawing.Size(278, 166);
@@ -1626,92 +1624,81 @@
             this.groupBox16.TabStop = false;
             this.groupBox16.Text = "Histogram";
             // 
-            // panel1
+            // QHistoPanel
             // 
-            this.panel1.Location = new System.Drawing.Point(6, 19);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(260, 109);
-            this.panel1.TabIndex = 36;
+            this.QHistoPanel.Location = new System.Drawing.Point(6, 19);
+            this.QHistoPanel.Name = "QHistoPanel";
+            this.QHistoPanel.Size = new System.Drawing.Size(260, 109);
+            this.QHistoPanel.TabIndex = 36;
+            this.QHistoPanel.Click += new System.EventHandler(this.Histogrampanel1_Click);
+            this.QHistoPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.Histogrampanel1_Paint);
             // 
-            // label103
+            // QHistogramhScrollBar1
             // 
-            this.label103.AutoSize = true;
-            this.label103.Location = new System.Drawing.Point(146, 131);
-            this.label103.Name = "label103";
-            this.label103.Size = new System.Drawing.Size(24, 13);
-            this.label103.TabIndex = 33;
-            this.label103.Text = "8us";
-            // 
-            // label104
-            // 
-            this.label104.AutoSize = true;
-            this.label104.Location = new System.Drawing.Point(106, 131);
-            this.label104.Name = "label104";
-            this.label104.Size = new System.Drawing.Size(24, 13);
-            this.label104.TabIndex = 34;
-            this.label104.Text = "6us";
-            // 
-            // label105
-            // 
-            this.label105.AutoSize = true;
-            this.label105.Location = new System.Drawing.Point(70, 131);
-            this.label105.Name = "label105";
-            this.label105.Size = new System.Drawing.Size(24, 13);
-            this.label105.TabIndex = 35;
-            this.label105.Text = "4us";
-            // 
-            // trackBar1
-            // 
-            this.trackBar1.LargeChange = 10000;
-            this.trackBar1.Location = new System.Drawing.Point(1, 145);
-            this.trackBar1.Maximum = 4000;
-            this.trackBar1.Name = "trackBar1";
-            this.trackBar1.Size = new System.Drawing.Size(277, 45);
-            this.trackBar1.TabIndex = 105;
-            this.trackBar1.TickFrequency = 2000;
-            this.trackBar1.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.QHistogramhScrollBar1.LargeChange = 10000;
+            this.QHistogramhScrollBar1.Location = new System.Drawing.Point(1, 145);
+            this.QHistogramhScrollBar1.Maximum = 4000;
+            this.QHistogramhScrollBar1.Name = "QHistogramhScrollBar1";
+            this.QHistogramhScrollBar1.Size = new System.Drawing.Size(277, 45);
+            this.QHistogramhScrollBar1.TabIndex = 105;
+            this.QHistogramhScrollBar1.TickFrequency = 2000;
+            this.QHistogramhScrollBar1.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.QHistogramhScrollBar1.Scroll += new System.EventHandler(this.QHistogramhScrollBar1_Scroll);
             // 
             // groupBox17
             // 
-            this.groupBox17.Controls.Add(this.numericUpDown6);
+            this.groupBox17.Controls.Add(this.QLimitTSCheckBox);
+            this.groupBox17.Controls.Add(this.QRateOfChange2UpDown);
             this.groupBox17.Controls.Add(this.label88);
             this.groupBox17.Controls.Add(this.label102);
-            this.groupBox17.Controls.Add(this.numericUpDown11);
-            this.groupBox17.Controls.Add(this.comboBox4);
+            this.groupBox17.Controls.Add(this.QRateOfChangeUpDown);
+            this.groupBox17.Controls.Add(this.QScanComboBox);
             this.groupBox17.Controls.Add(this.button47);
-            this.groupBox17.Controls.Add(this.numericUpDown7);
+            this.groupBox17.Controls.Add(this.QAdaptOfsset2UpDown);
             this.groupBox17.Controls.Add(this.label90);
-            this.groupBox17.Controls.Add(this.numericUpDown10);
+            this.groupBox17.Controls.Add(this.QLimitToSectorUpDown);
             this.groupBox17.Controls.Add(this.label91);
-            this.groupBox17.Controls.Add(this.numericUpDown8);
-            this.groupBox17.Location = new System.Drawing.Point(295, 97);
+            this.groupBox17.Controls.Add(this.QLimitToTrackUpDown);
+            this.groupBox17.Location = new System.Drawing.Point(295, 92);
             this.groupBox17.Name = "groupBox17";
-            this.groupBox17.Size = new System.Drawing.Size(249, 114);
+            this.groupBox17.Size = new System.Drawing.Size(248, 119);
             this.groupBox17.TabIndex = 54;
             this.groupBox17.TabStop = false;
             this.groupBox17.Text = "Scan";
             // 
-            // numericUpDown6
+            // QLimitTSCheckBox
             // 
-            this.numericUpDown6.Increment = new decimal(new int[] {
+            this.QLimitTSCheckBox.AutoSize = true;
+            this.QLimitTSCheckBox.Location = new System.Drawing.Point(166, 102);
+            this.QLimitTSCheckBox.Name = "QLimitTSCheckBox";
+            this.QLimitTSCheckBox.Size = new System.Drawing.Size(69, 17);
+            this.QLimitTSCheckBox.TabIndex = 109;
+            this.QLimitTSCheckBox.Text = "Limit T/S";
+            this.QLimitTSCheckBox.UseVisualStyleBackColor = true;
+            this.QLimitTSCheckBox.CheckedChanged += new System.EventHandler(this.QLimitTSCheckBox_CheckedChanged);
+            // 
+            // QRateOfChange2UpDown
+            // 
+            this.QRateOfChange2UpDown.Increment = new decimal(new int[] {
             8,
             0,
             0,
             0});
-            this.numericUpDown6.Location = new System.Drawing.Point(186, 42);
-            this.numericUpDown6.Maximum = new decimal(new int[] {
+            this.QRateOfChange2UpDown.Location = new System.Drawing.Point(186, 42);
+            this.QRateOfChange2UpDown.Maximum = new decimal(new int[] {
             20000,
             0,
             0,
             0});
-            this.numericUpDown6.Name = "numericUpDown6";
-            this.numericUpDown6.Size = new System.Drawing.Size(48, 20);
-            this.numericUpDown6.TabIndex = 108;
-            this.numericUpDown6.Value = new decimal(new int[] {
+            this.QRateOfChange2UpDown.Name = "QRateOfChange2UpDown";
+            this.QRateOfChange2UpDown.Size = new System.Drawing.Size(48, 20);
+            this.QRateOfChange2UpDown.TabIndex = 108;
+            this.QRateOfChange2UpDown.Value = new decimal(new int[] {
             50,
             0,
             0,
             0});
+            this.QRateOfChange2UpDown.ValueChanged += new System.EventHandler(this.QRateOfChange2UpDown_ValueChanged);
             // 
             // label88
             // 
@@ -1731,37 +1718,39 @@
             this.label102.TabIndex = 106;
             this.label102.Text = "Adapt rate";
             // 
-            // numericUpDown11
+            // QRateOfChangeUpDown
             // 
-            this.numericUpDown11.DecimalPlaces = 2;
-            this.numericUpDown11.Increment = new decimal(new int[] {
+            this.QRateOfChangeUpDown.DecimalPlaces = 2;
+            this.QRateOfChangeUpDown.Increment = new decimal(new int[] {
             1,
             0,
             0,
             65536});
-            this.numericUpDown11.Location = new System.Drawing.Point(66, 43);
-            this.numericUpDown11.Maximum = new decimal(new int[] {
+            this.QRateOfChangeUpDown.Location = new System.Drawing.Point(66, 43);
+            this.QRateOfChangeUpDown.Maximum = new decimal(new int[] {
             2000,
             0,
             0,
             0});
-            this.numericUpDown11.Name = "numericUpDown11";
-            this.numericUpDown11.Size = new System.Drawing.Size(48, 20);
-            this.numericUpDown11.TabIndex = 105;
-            this.numericUpDown11.Value = new decimal(new int[] {
+            this.QRateOfChangeUpDown.Name = "QRateOfChangeUpDown";
+            this.QRateOfChangeUpDown.Size = new System.Drawing.Size(48, 20);
+            this.QRateOfChangeUpDown.TabIndex = 105;
+            this.QRateOfChangeUpDown.Value = new decimal(new int[] {
             1,
             0,
             0,
             0});
+            this.QRateOfChangeUpDown.ValueChanged += new System.EventHandler(this.QRateOfChangeUpDown_ValueChanged);
             // 
-            // comboBox4
+            // QScanComboBox
             // 
-            this.comboBox4.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox4.FormattingEnabled = true;
-            this.comboBox4.Location = new System.Drawing.Point(6, 16);
-            this.comboBox4.Name = "comboBox4";
-            this.comboBox4.Size = new System.Drawing.Size(163, 21);
-            this.comboBox4.TabIndex = 104;
+            this.QScanComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.QScanComboBox.FormattingEnabled = true;
+            this.QScanComboBox.Location = new System.Drawing.Point(6, 16);
+            this.QScanComboBox.Name = "QScanComboBox";
+            this.QScanComboBox.Size = new System.Drawing.Size(163, 21);
+            this.QScanComboBox.TabIndex = 104;
+            this.QScanComboBox.SelectedIndexChanged += new System.EventHandler(this.QScanComboBox_SelectedIndexChanged);
             // 
             // button47
             // 
@@ -1773,28 +1762,29 @@
             this.button47.UseVisualStyleBackColor = true;
             this.button47.Click += new System.EventHandler(this.ScanBtn_Click_1);
             // 
-            // numericUpDown7
+            // QAdaptOfsset2UpDown
             // 
-            this.numericUpDown7.DecimalPlaces = 2;
-            this.numericUpDown7.Location = new System.Drawing.Point(186, 66);
-            this.numericUpDown7.Maximum = new decimal(new int[] {
+            this.QAdaptOfsset2UpDown.DecimalPlaces = 2;
+            this.QAdaptOfsset2UpDown.Location = new System.Drawing.Point(186, 66);
+            this.QAdaptOfsset2UpDown.Maximum = new decimal(new int[] {
             2000,
             0,
             0,
             0});
-            this.numericUpDown7.Minimum = new decimal(new int[] {
+            this.QAdaptOfsset2UpDown.Minimum = new decimal(new int[] {
             2000,
             0,
             0,
             -2147483648});
-            this.numericUpDown7.Name = "numericUpDown7";
-            this.numericUpDown7.Size = new System.Drawing.Size(48, 20);
-            this.numericUpDown7.TabIndex = 99;
-            this.numericUpDown7.Value = new decimal(new int[] {
+            this.QAdaptOfsset2UpDown.Name = "QAdaptOfsset2UpDown";
+            this.QAdaptOfsset2UpDown.Size = new System.Drawing.Size(48, 20);
+            this.QAdaptOfsset2UpDown.TabIndex = 99;
+            this.QAdaptOfsset2UpDown.Value = new decimal(new int[] {
             1,
             0,
             0,
             0});
+            this.QAdaptOfsset2UpDown.ValueChanged += new System.EventHandler(this.QAdaptOfsset2UpDown_ValueChanged);
             // 
             // label90
             // 
@@ -1805,27 +1795,28 @@
             this.label90.TabIndex = 78;
             this.label90.Text = "T Limit";
             // 
-            // numericUpDown10
+            // QLimitToSectorUpDown
             // 
-            this.numericUpDown10.Location = new System.Drawing.Point(137, 80);
-            this.numericUpDown10.Maximum = new decimal(new int[] {
+            this.QLimitToSectorUpDown.Location = new System.Drawing.Point(137, 80);
+            this.QLimitToSectorUpDown.Maximum = new decimal(new int[] {
             2000,
             0,
             0,
             0});
-            this.numericUpDown10.Minimum = new decimal(new int[] {
+            this.QLimitToSectorUpDown.Minimum = new decimal(new int[] {
             16,
             0,
             0,
             -2147483648});
-            this.numericUpDown10.Name = "numericUpDown10";
-            this.numericUpDown10.Size = new System.Drawing.Size(39, 20);
-            this.numericUpDown10.TabIndex = 80;
-            this.numericUpDown10.Value = new decimal(new int[] {
+            this.QLimitToSectorUpDown.Name = "QLimitToSectorUpDown";
+            this.QLimitToSectorUpDown.Size = new System.Drawing.Size(39, 20);
+            this.QLimitToSectorUpDown.TabIndex = 80;
+            this.QLimitToSectorUpDown.Value = new decimal(new int[] {
             9,
             0,
             0,
             0});
+            this.QLimitToSectorUpDown.ValueChanged += new System.EventHandler(this.QLimitToSectorUpDown_ValueChanged);
             // 
             // label91
             // 
@@ -1836,38 +1827,40 @@
             this.label91.TabIndex = 80;
             this.label91.Text = "S Limit";
             // 
-            // numericUpDown8
+            // QLimitToTrackUpDown
             // 
-            this.numericUpDown8.Location = new System.Drawing.Point(45, 78);
-            this.numericUpDown8.Maximum = new decimal(new int[] {
+            this.QLimitToTrackUpDown.Location = new System.Drawing.Point(43, 78);
+            this.QLimitToTrackUpDown.Maximum = new decimal(new int[] {
             2000,
             0,
             0,
             0});
-            this.numericUpDown8.Minimum = new decimal(new int[] {
+            this.QLimitToTrackUpDown.Minimum = new decimal(new int[] {
             16,
             0,
             0,
             -2147483648});
-            this.numericUpDown8.Name = "numericUpDown8";
-            this.numericUpDown8.Size = new System.Drawing.Size(39, 20);
-            this.numericUpDown8.TabIndex = 79;
-            this.numericUpDown8.Value = new decimal(new int[] {
+            this.QLimitToTrackUpDown.Name = "QLimitToTrackUpDown";
+            this.QLimitToTrackUpDown.Size = new System.Drawing.Size(39, 20);
+            this.QLimitToTrackUpDown.TabIndex = 79;
+            this.QLimitToTrackUpDown.Value = new decimal(new int[] {
             11,
             0,
             0,
             0});
+            this.QLimitToTrackUpDown.ValueChanged += new System.EventHandler(this.QLimitToTrackUpDown_ValueChanged);
             // 
-            // checkBox9
+            // QHDCheckBox
             // 
-            this.checkBox9.AutoSize = true;
-            this.checkBox9.Enabled = false;
-            this.checkBox9.Location = new System.Drawing.Point(5, 138);
-            this.checkBox9.Name = "checkBox9";
-            this.checkBox9.Size = new System.Drawing.Size(86, 17);
-            this.checkBox9.TabIndex = 51;
-            this.checkBox9.Text = "High Density";
-            this.checkBox9.UseVisualStyleBackColor = true;
+            this.QHDCheckBox.AutoSize = true;
+            this.QHDCheckBox.Enabled = false;
+            this.QHDCheckBox.Location = new System.Drawing.Point(5, 138);
+            this.QHDCheckBox.Name = "QHDCheckBox";
+            this.QHDCheckBox.Size = new System.Drawing.Size(86, 17);
+            this.QHDCheckBox.TabIndex = 51;
+            this.QHDCheckBox.Text = "High Density";
+            this.QHDCheckBox.UseVisualStyleBackColor = true;
+            this.QHDCheckBox.CheckedChanged += new System.EventHandler(this.QHDCheckBox_CheckedChanged);
             // 
             // label114
             // 
@@ -1900,6 +1893,7 @@
             // 
             // groupBox12
             // 
+            this.groupBox12.BackColor = System.Drawing.SystemColors.Control;
             this.groupBox12.Controls.Add(this.button9);
             this.groupBox12.Controls.Add(this.button10);
             this.groupBox12.Controls.Add(this.QRecaptureAllBtn);
@@ -1944,6 +1938,7 @@
             this.QRecaptureAllBtn.Text = "Recapture all";
             this.QRecaptureAllBtn.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.QRecaptureAllBtn.UseVisualStyleBackColor = true;
+            this.QRecaptureAllBtn.Click += new System.EventHandler(this.button48_Click);
             // 
             // MainTabControlImageList
             // 
@@ -1964,6 +1959,7 @@
             this.button12.TabIndex = 117;
             this.button12.Text = "Step >";
             this.button12.UseVisualStyleBackColor = true;
+            this.button12.Click += new System.EventHandler(this.StepForwardBtn_Click);
             // 
             // button13
             // 
@@ -1973,6 +1969,7 @@
             this.button13.TabIndex = 116;
             this.button13.Text = "Step <";
             this.button13.UseVisualStyleBackColor = true;
+            this.button13.Click += new System.EventHandler(this.StepBackBtn_Click);
             // 
             // button14
             // 
@@ -1982,6 +1979,7 @@
             this.button14.TabIndex = 115;
             this.button14.Text = "Microstep 8";
             this.button14.UseVisualStyleBackColor = true;
+            this.button14.Click += new System.EventHandler(this.Microstep8Btn_Click);
             // 
             // checkBox1
             // 
@@ -2007,6 +2005,7 @@
             this.QCaptureBtn.Text = "Capture";
             this.QCaptureBtn.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.QCaptureBtn.UseVisualStyleBackColor = true;
+            this.QCaptureBtn.Click += new System.EventHandler(this.CaptureClassbutton_Click);
             // 
             // groupBox10
             // 
@@ -2051,6 +2050,7 @@
             this.button17.TabIndex = 59;
             this.button17.Text = "1000ms";
             this.button17.UseVisualStyleBackColor = true;
+            this.button17.Click += new System.EventHandler(this.button4_Click);
             // 
             // button22
             // 
@@ -2060,6 +2060,7 @@
             this.button22.TabIndex = 55;
             this.button22.Text = "5000ms";
             this.button22.UseVisualStyleBackColor = true;
+            this.button22.Click += new System.EventHandler(this.button6_Click);
             // 
             // button24
             // 
@@ -2068,6 +2069,7 @@
             this.button24.Size = new System.Drawing.Size(56, 23);
             this.button24.TabIndex = 56;
             this.button24.Text = "78-164";
+            this.button24.Click += new System.EventHandler(this.TrackPreset4Button_Click);
             // 
             // button27
             // 
@@ -2077,6 +2079,7 @@
             this.button27.TabIndex = 52;
             this.button27.Text = "80-90";
             this.button27.UseVisualStyleBackColor = true;
+            this.button27.Click += new System.EventHandler(this.TrackPreset2Button_Click);
             // 
             // button30
             // 
@@ -2085,6 +2088,7 @@
             this.button30.Size = new System.Drawing.Size(56, 23);
             this.button30.TabIndex = 57;
             this.button30.Text = "Default";
+            this.button30.Click += new System.EventHandler(this.TrackPreset3Button_Click);
             // 
             // button37
             // 
@@ -2093,6 +2097,7 @@
             this.button37.Size = new System.Drawing.Size(57, 23);
             this.button37.TabIndex = 58;
             this.button37.Text = "0-10";
+            this.button37.Click += new System.EventHandler(this.TrackPreset1Button_Click_1);
             // 
             // QDuration
             // 
@@ -2235,13 +2240,12 @@
             this.CaptureTab.Controls.Add(this.button36);
             this.CaptureTab.Controls.Add(this.DirectStepCheckBox);
             this.CaptureTab.Controls.Add(this.CaptureClassbutton);
-            this.CaptureTab.Controls.Add(this.ConnectClassbutton);
             this.CaptureTab.Controls.Add(this.groupBox7);
             this.CaptureTab.ImageIndex = 0;
             this.CaptureTab.Location = new System.Drawing.Point(4, 23);
             this.CaptureTab.Name = "CaptureTab";
             this.CaptureTab.Padding = new System.Windows.Forms.Padding(3);
-            this.CaptureTab.Size = new System.Drawing.Size(951, 707);
+            this.CaptureTab.Size = new System.Drawing.Size(966, 775);
             this.CaptureTab.TabIndex = 0;
             this.CaptureTab.Text = "Capture";
             // 
@@ -2366,7 +2370,7 @@
             // 
             // button8
             // 
-            this.button8.Location = new System.Drawing.Point(10, 179);
+            this.button8.Location = new System.Drawing.Point(7, 133);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(98, 23);
             this.button8.TabIndex = 101;
@@ -2375,7 +2379,7 @@
             // 
             // button7
             // 
-            this.button7.Location = new System.Drawing.Point(10, 150);
+            this.button7.Location = new System.Drawing.Point(7, 104);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(98, 23);
             this.button7.TabIndex = 100;
@@ -2407,7 +2411,7 @@
             this.button48.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button48.ImageIndex = 0;
             this.button48.ImageList = this.MainTabControlImageList;
-            this.button48.Location = new System.Drawing.Point(9, 101);
+            this.button48.Location = new System.Drawing.Point(6, 55);
             this.button48.Name = "button48";
             this.button48.Size = new System.Drawing.Size(91, 40);
             this.button48.TabIndex = 97;
@@ -2484,7 +2488,7 @@
             this.CaptureClassbutton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.CaptureClassbutton.ImageIndex = 0;
             this.CaptureClassbutton.ImageList = this.MainTabControlImageList;
-            this.CaptureClassbutton.Location = new System.Drawing.Point(9, 55);
+            this.CaptureClassbutton.Location = new System.Drawing.Point(6, 9);
             this.CaptureClassbutton.Name = "CaptureClassbutton";
             this.CaptureClassbutton.Size = new System.Drawing.Size(69, 40);
             this.CaptureClassbutton.TabIndex = 52;
@@ -2492,16 +2496,6 @@
             this.CaptureClassbutton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.CaptureClassbutton.UseVisualStyleBackColor = true;
             this.CaptureClassbutton.Click += new System.EventHandler(this.CaptureClassbutton_Click);
-            // 
-            // ConnectClassbutton
-            // 
-            this.ConnectClassbutton.Location = new System.Drawing.Point(9, 9);
-            this.ConnectClassbutton.Name = "ConnectClassbutton";
-            this.ConnectClassbutton.Size = new System.Drawing.Size(69, 40);
-            this.ConnectClassbutton.TabIndex = 51;
-            this.ConnectClassbutton.Text = "Connect";
-            this.ConnectClassbutton.UseVisualStyleBackColor = true;
-            this.ConnectClassbutton.Click += new System.EventHandler(this.ConnectClassbutton_Click);
             // 
             // groupBox7
             // 
@@ -2726,7 +2720,6 @@
             // 
             this.ProcessingTab.BackColor = System.Drawing.SystemColors.Control;
             this.ProcessingTab.Controls.Add(this.button5);
-            this.ProcessingTab.Controls.Add(this.StopButton);
             this.ProcessingTab.Controls.Add(this.ResetBuffersBtn);
             this.ProcessingTab.Controls.Add(this.DupsUpDown);
             this.ProcessingTab.Controls.Add(this.label69);
@@ -2740,38 +2733,29 @@
             this.ProcessingTab.Location = new System.Drawing.Point(4, 23);
             this.ProcessingTab.Name = "ProcessingTab";
             this.ProcessingTab.Padding = new System.Windows.Forms.Padding(3);
-            this.ProcessingTab.Size = new System.Drawing.Size(951, 707);
+            this.ProcessingTab.Size = new System.Drawing.Size(966, 775);
             this.ProcessingTab.TabIndex = 1;
             this.ProcessingTab.Text = "Processing";
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(6, 186);
+            this.button5.Location = new System.Drawing.Point(7, 145);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(67, 38);
             this.button5.TabIndex = 117;
             this.button5.Text = "Reset output";
             this.button5.UseVisualStyleBackColor = true;
-            // 
-            // StopButton
-            // 
-            this.StopButton.BackColor = System.Drawing.Color.Cornsilk;
-            this.StopButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.StopButton.Location = new System.Drawing.Point(6, 98);
-            this.StopButton.Name = "StopButton";
-            this.StopButton.Size = new System.Drawing.Size(75, 36);
-            this.StopButton.TabIndex = 95;
-            this.StopButton.Text = "Stop!";
-            this.StopButton.UseVisualStyleBackColor = false;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
             // ResetBuffersBtn
             // 
-            this.ResetBuffersBtn.Location = new System.Drawing.Point(6, 140);
+            this.ResetBuffersBtn.Location = new System.Drawing.Point(7, 99);
             this.ResetBuffersBtn.Name = "ResetBuffersBtn";
             this.ResetBuffersBtn.Size = new System.Drawing.Size(63, 39);
             this.ResetBuffersBtn.TabIndex = 116;
             this.ResetBuffersBtn.Text = "Reset input";
             this.ResetBuffersBtn.UseVisualStyleBackColor = true;
+            this.ResetBuffersBtn.Click += new System.EventHandler(this.ResetBuffersBtn_Click);
             // 
             // DupsUpDown
             // 
@@ -2844,7 +2828,7 @@
             this.rtbSectorMap.HideSelection = false;
             this.rtbSectorMap.Location = new System.Drawing.Point(0, 354);
             this.rtbSectorMap.Name = "rtbSectorMap";
-            this.rtbSectorMap.Size = new System.Drawing.Size(948, 353);
+            this.rtbSectorMap.Size = new System.Drawing.Size(963, 421);
             this.rtbSectorMap.TabIndex = 84;
             this.rtbSectorMap.Text = "";
             this.rtbSectorMap.DoubleClick += new System.EventHandler(this.rtbSectorMap_DoubleClick);
@@ -3251,11 +3235,13 @@
             // 
             // MinvScrollBar
             // 
+            this.MinvScrollBar.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::FloppyControlApp.Properties.Settings.Default, "Min", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.MinvScrollBar.Location = new System.Drawing.Point(13, 39);
             this.MinvScrollBar.Maximum = 264;
             this.MinvScrollBar.Name = "MinvScrollBar";
             this.MinvScrollBar.Size = new System.Drawing.Size(15, 184);
             this.MinvScrollBar.TabIndex = 65;
+            this.MinvScrollBar.Value = global::FloppyControlApp.Properties.Settings.Default.Min;
             this.MinvScrollBar.ValueChanged += new System.EventHandler(this.FourvScrollBar_ValueChanged);
             // 
             // FourLabel
@@ -3305,42 +3291,47 @@
             // 
             // FourvScrollBar
             // 
+            this.FourvScrollBar.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::FloppyControlApp.Properties.Settings.Default, "FourSix", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.FourvScrollBar.Location = new System.Drawing.Point(45, 39);
             this.FourvScrollBar.Maximum = 264;
             this.FourvScrollBar.Name = "FourvScrollBar";
             this.FourvScrollBar.Size = new System.Drawing.Size(15, 184);
             this.FourvScrollBar.TabIndex = 66;
-            this.FourvScrollBar.Value = 69;
+            this.FourvScrollBar.Value = global::FloppyControlApp.Properties.Settings.Default.FourSix;
             this.FourvScrollBar.ValueChanged += new System.EventHandler(this.FourvScrollBar_ValueChanged);
             // 
             // SixvScrollBar
             // 
+            this.SixvScrollBar.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::FloppyControlApp.Properties.Settings.Default, "SixEight", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.SixvScrollBar.Location = new System.Drawing.Point(79, 39);
             this.SixvScrollBar.Maximum = 255;
             this.SixvScrollBar.Name = "SixvScrollBar";
             this.SixvScrollBar.Size = new System.Drawing.Size(15, 184);
             this.SixvScrollBar.TabIndex = 67;
-            this.SixvScrollBar.Value = 108;
+            this.SixvScrollBar.Value = global::FloppyControlApp.Properties.Settings.Default.SixEight;
             this.SixvScrollBar.ValueChanged += new System.EventHandler(this.FourvScrollBar_ValueChanged);
             // 
             // EightvScrollBar
             // 
+            this.EightvScrollBar.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::FloppyControlApp.Properties.Settings.Default, "Max", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.EightvScrollBar.Location = new System.Drawing.Point(118, 39);
             this.EightvScrollBar.Maximum = 264;
             this.EightvScrollBar.Name = "EightvScrollBar";
             this.EightvScrollBar.Size = new System.Drawing.Size(15, 184);
             this.EightvScrollBar.TabIndex = 68;
-            this.EightvScrollBar.Value = 147;
+            this.EightvScrollBar.Value = global::FloppyControlApp.Properties.Settings.Default.Max;
             this.EightvScrollBar.ValueChanged += new System.EventHandler(this.FourvScrollBar_ValueChanged);
             // 
             // OffsetvScrollBar1
             // 
+            this.OffsetvScrollBar1.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::FloppyControlApp.Properties.Settings.Default, "Offset", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.OffsetvScrollBar1.Location = new System.Drawing.Point(147, 39);
             this.OffsetvScrollBar1.Maximum = 50;
             this.OffsetvScrollBar1.Minimum = -50;
             this.OffsetvScrollBar1.Name = "OffsetvScrollBar1";
             this.OffsetvScrollBar1.Size = new System.Drawing.Size(15, 184);
             this.OffsetvScrollBar1.TabIndex = 69;
+            this.OffsetvScrollBar1.Value = global::FloppyControlApp.Properties.Settings.Default.Offset;
             this.OffsetvScrollBar1.ValueChanged += new System.EventHandler(this.FourvScrollBar_ValueChanged);
             // 
             // label30
@@ -3459,9 +3450,6 @@
             // groupBox5
             // 
             this.groupBox5.Controls.Add(this.Histogrampanel1);
-            this.groupBox5.Controls.Add(this.label12);
-            this.groupBox5.Controls.Add(this.label11);
-            this.groupBox5.Controls.Add(this.label10);
             this.groupBox5.Controls.Add(this.HistogramhScrollBar1);
             this.groupBox5.Location = new System.Drawing.Point(307, 13);
             this.groupBox5.Name = "groupBox5";
@@ -3478,33 +3466,6 @@
             this.Histogrampanel1.TabIndex = 36;
             this.Histogrampanel1.Click += new System.EventHandler(this.Histogrampanel1_Click);
             this.Histogrampanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.Histogrampanel1_Paint);
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(146, 131);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(24, 13);
-            this.label12.TabIndex = 33;
-            this.label12.Text = "8us";
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(106, 131);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(24, 13);
-            this.label11.TabIndex = 34;
-            this.label11.Text = "6us";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(70, 131);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(24, 13);
-            this.label10.TabIndex = 35;
-            this.label10.Text = "4us";
             // 
             // HistogramhScrollBar1
             // 
@@ -3654,7 +3615,7 @@
             this.ErrorCorrectionTab.Location = new System.Drawing.Point(4, 23);
             this.ErrorCorrectionTab.Name = "ErrorCorrectionTab";
             this.ErrorCorrectionTab.Padding = new System.Windows.Forms.Padding(3);
-            this.ErrorCorrectionTab.Size = new System.Drawing.Size(951, 707);
+            this.ErrorCorrectionTab.Size = new System.Drawing.Size(966, 775);
             this.ErrorCorrectionTab.TabIndex = 2;
             this.ErrorCorrectionTab.Text = "Error Correction";
             // 
@@ -3861,7 +3822,7 @@
             this.ECInfoTabs.Location = new System.Drawing.Point(6, 316);
             this.ECInfoTabs.Name = "ECInfoTabs";
             this.ECInfoTabs.SelectedIndex = 0;
-            this.ECInfoTabs.Size = new System.Drawing.Size(452, 382);
+            this.ECInfoTabs.Size = new System.Drawing.Size(452, 450);
             this.ECInfoTabs.TabIndex = 4009;
             // 
             // ECTabSectorData
@@ -3870,7 +3831,7 @@
             this.ECTabSectorData.Location = new System.Drawing.Point(4, 22);
             this.ECTabSectorData.Name = "ECTabSectorData";
             this.ECTabSectorData.Padding = new System.Windows.Forms.Padding(3);
-            this.ECTabSectorData.Size = new System.Drawing.Size(444, 356);
+            this.ECTabSectorData.Size = new System.Drawing.Size(444, 424);
             this.ECTabSectorData.TabIndex = 0;
             this.ECTabSectorData.Text = "Sector data";
             this.ECTabSectorData.UseVisualStyleBackColor = true;
@@ -3885,7 +3846,7 @@
             this.antbSectorData.Multiline = true;
             this.antbSectorData.Name = "antbSectorData";
             this.antbSectorData.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.antbSectorData.Size = new System.Drawing.Size(441, 352);
+            this.antbSectorData.Size = new System.Drawing.Size(441, 420);
             this.antbSectorData.TabIndex = 86;
             // 
             // tabPage8
@@ -3894,7 +3855,7 @@
             this.tabPage8.Location = new System.Drawing.Point(4, 22);
             this.tabPage8.Name = "tabPage8";
             this.tabPage8.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage8.Size = new System.Drawing.Size(444, 356);
+            this.tabPage8.Size = new System.Drawing.Size(444, 424);
             this.tabPage8.TabIndex = 1;
             this.tabPage8.Text = "MFM data";
             this.tabPage8.UseVisualStyleBackColor = true;
@@ -4380,7 +4341,7 @@
             this.AnalysisPage.Location = new System.Drawing.Point(4, 23);
             this.AnalysisPage.Name = "AnalysisPage";
             this.AnalysisPage.Padding = new System.Windows.Forms.Padding(3);
-            this.AnalysisPage.Size = new System.Drawing.Size(951, 707);
+            this.AnalysisPage.Size = new System.Drawing.Size(966, 775);
             this.AnalysisPage.TabIndex = 3;
             this.AnalysisPage.Text = "Analysis";
             // 
@@ -4621,7 +4582,7 @@
             this.AnalysisTab2.Location = new System.Drawing.Point(4, 23);
             this.AnalysisTab2.Name = "AnalysisTab2";
             this.AnalysisTab2.Padding = new System.Windows.Forms.Padding(3);
-            this.AnalysisTab2.Size = new System.Drawing.Size(951, 707);
+            this.AnalysisTab2.Size = new System.Drawing.Size(966, 775);
             this.AnalysisTab2.TabIndex = 4;
             this.AnalysisTab2.Text = "Waveform Editor";
             this.AnalysisTab2.Enter += new System.EventHandler(this.AnalysisTab2_Enter_1);
@@ -5504,7 +5465,7 @@
             this.NetworkTab.Location = new System.Drawing.Point(4, 23);
             this.NetworkTab.Name = "NetworkTab";
             this.NetworkTab.Padding = new System.Windows.Forms.Padding(3);
-            this.NetworkTab.Size = new System.Drawing.Size(951, 707);
+            this.NetworkTab.Size = new System.Drawing.Size(966, 775);
             this.NetworkTab.TabIndex = 5;
             this.NetworkTab.Text = "Network";
             // 
@@ -5728,6 +5689,7 @@
             // 
             // SectorUpDown
             // 
+            this.SectorUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.SectorUpDown.Location = new System.Drawing.Point(1127, 373);
             this.SectorUpDown.Maximum = new decimal(new int[] {
             2000,
@@ -5735,7 +5697,7 @@
             0,
             0});
             this.SectorUpDown.Name = "SectorUpDown";
-            this.SectorUpDown.Size = new System.Drawing.Size(39, 20);
+            this.SectorUpDown.Size = new System.Drawing.Size(36, 20);
             this.SectorUpDown.TabIndex = 78;
             this.SectorUpDown.Value = new decimal(new int[] {
             2,
@@ -5746,6 +5708,7 @@
             // 
             // TrackUpDown
             // 
+            this.TrackUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.TrackUpDown.Location = new System.Drawing.Point(1029, 373);
             this.TrackUpDown.Maximum = new decimal(new int[] {
             2000,
@@ -5753,7 +5716,7 @@
             0,
             0});
             this.TrackUpDown.Name = "TrackUpDown";
-            this.TrackUpDown.Size = new System.Drawing.Size(39, 20);
+            this.TrackUpDown.Size = new System.Drawing.Size(36, 20);
             this.TrackUpDown.TabIndex = 77;
             this.TrackUpDown.Value = new decimal(new int[] {
             29,
@@ -5764,6 +5727,7 @@
             // 
             // label39
             // 
+            this.label39.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label39.AutoSize = true;
             this.label39.Location = new System.Drawing.Point(1083, 375);
             this.label39.Name = "label39";
@@ -5773,6 +5737,7 @@
             // 
             // label40
             // 
+            this.label40.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label40.AutoSize = true;
             this.label40.Location = new System.Drawing.Point(988, 375);
             this.label40.Name = "label40";
@@ -5828,6 +5793,7 @@
             // 
             // EditScatterPlotcheckBox
             // 
+            this.EditScatterPlotcheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.EditScatterPlotcheckBox.AutoSize = true;
             this.EditScatterPlotcheckBox.Location = new System.Drawing.Point(1214, 375);
             this.EditScatterPlotcheckBox.Name = "EditScatterPlotcheckBox";
@@ -5839,7 +5805,6 @@
             // 
             // menuStrip1
             // 
-            this.menuStrip1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.menuStrip1.AutoSize = false;
             this.menuStrip1.Dock = System.Windows.Forms.DockStyle.None;
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -5870,7 +5835,6 @@
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 23);
             this.fileToolStripMenuItem.Text = "File";
-            this.fileToolStripMenuItem.Click += new System.EventHandler(this.fileToolStripMenuItem_Click);
             // 
             // openToolStripMenuItem
             // 
@@ -5939,6 +5903,7 @@
             this.scpFileToolStripMenuItem.Name = "scpFileToolStripMenuItem";
             this.scpFileToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
             this.scpFileToolStripMenuItem.Text = "Scp file";
+            this.scpFileToolStripMenuItem.Click += new System.EventHandler(this.button45_Click);
             // 
             // exportToolStripMenuItem
             // 
@@ -5955,18 +5920,21 @@
             this.scpFileToolStripMenuItem1.Name = "scpFileToolStripMenuItem1";
             this.scpFileToolStripMenuItem1.Size = new System.Drawing.Size(143, 22);
             this.scpFileToolStripMenuItem1.Text = "Scp file";
+            this.scpFileToolStripMenuItem1.Click += new System.EventHandler(this.button46_Click);
             // 
             // trimmedBinToolStripMenuItem
             // 
             this.trimmedBinToolStripMenuItem.Name = "trimmedBinToolStripMenuItem";
             this.trimmedBinToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.trimmedBinToolStripMenuItem.Text = "Trimmed bin";
+            this.trimmedBinToolStripMenuItem.Click += new System.EventHandler(this.button49_Click);
             // 
             // badSectorsToolStripMenuItem
             // 
             this.badSectorsToolStripMenuItem.Name = "badSectorsToolStripMenuItem";
             this.badSectorsToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.badSectorsToolStripMenuItem.Text = "Bad sectors";
+            this.badSectorsToolStripMenuItem.Click += new System.EventHandler(this.SaveTrimmedBadbutton_Click);
             // 
             // optionsToolStripMenuItem
             // 
@@ -6030,12 +5998,25 @@
             this.label59.TabIndex = 171;
             this.label59.Text = "Threads";
             // 
+            // StopButton
+            // 
+            this.StopButton.BackColor = System.Drawing.Color.Cornsilk;
+            this.StopButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.StopButton.Location = new System.Drawing.Point(599, 28);
+            this.StopButton.Name = "StopButton";
+            this.StopButton.Size = new System.Drawing.Size(75, 36);
+            this.StopButton.TabIndex = 173;
+            this.StopButton.Text = "Stop!";
+            this.StopButton.UseVisualStyleBackColor = false;
+            this.StopButton.Click += new System.EventHandler(this.StopButton_Click);
+            // 
             // FloppyControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(1604, 910);
+            this.ClientSize = new System.Drawing.Size(1619, 910);
+            this.Controls.Add(this.StopButton);
             this.Controls.Add(this.ThreadsUpDown);
             this.Controls.Add(this.label59);
             this.Controls.Add(this.menuStrip1);
@@ -6060,6 +6041,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "FloppyControl";
             this.Text = "Floppy Control";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FloppyControl_FormClosing);
             this.SizeChanged += new System.EventHandler(this.FloppyControl_SizeChanged);
             this.Click += new System.EventHandler(this.FloppyControl_Click);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FloppyControl_KeyDown);
@@ -6082,27 +6064,27 @@
             ((System.ComponentModel.ISupportInitialize)(this.LimitToSectorUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.LimitToTrackUpDown)).EndInit();
             this.MainTabControl.ResumeLayout(false);
-            this.tabPage5.ResumeLayout(false);
+            this.QuickTab.ResumeLayout(false);
             this.groupBox13.ResumeLayout(false);
             this.groupBox14.ResumeLayout(false);
             this.groupBox14.PerformLayout();
             this.groupBox15.ResumeLayout(false);
             this.groupBox15.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown15)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown14)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown13)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown12)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown9)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QOffsetUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QMaxUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QSixEightUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QFourSixUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QMinUpDown)).EndInit();
             this.groupBox16.ResumeLayout(false);
             this.groupBox16.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QHistogramhScrollBar1)).EndInit();
             this.groupBox17.ResumeLayout(false);
             this.groupBox17.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown6)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown11)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown7)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown10)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown8)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QRateOfChange2UpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QRateOfChangeUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QAdaptOfsset2UpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QLimitToSectorUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QLimitToTrackUpDown)).EndInit();
             this.groupBox12.ResumeLayout(false);
             this.groupBox12.PerformLayout();
             this.groupBox10.ResumeLayout(false);
@@ -6221,7 +6203,7 @@
             this.PerformLayout();
 
         }
-
+         
         #endregion
 
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
@@ -6293,9 +6275,6 @@
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.Panel Histogrampanel1;
-        private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Label label10;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Button ScanButton;
         private System.Windows.Forms.CheckBox HDCheckBox;
@@ -6436,7 +6415,6 @@
         private System.Windows.Forms.Button button29;
         private System.Windows.Forms.NumericUpDown NetworkCaptureTrackStartUpDown;
         private System.Windows.Forms.Label label63;
-        private System.Windows.Forms.Button ConnectClassbutton;
         private System.Windows.Forms.Button CaptureClassbutton;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.NumericUpDown NumberOfPointsUpDown;
@@ -6547,7 +6525,7 @@
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button8;
         private System.Windows.Forms.Button button7;
-        private System.Windows.Forms.TabPage tabPage5;
+        private System.Windows.Forms.TabPage QuickTab;
         private System.Windows.Forms.GroupBox groupBox12;
         private System.Windows.Forms.Button button9;
         private System.Windows.Forms.Button button10;
@@ -6577,13 +6555,13 @@
         private System.Windows.Forms.Label label86;
         private System.Windows.Forms.GroupBox groupBox13;
         private System.Windows.Forms.GroupBox groupBox14;
-        private System.Windows.Forms.RadioButton radioButton1;
-        private System.Windows.Forms.RadioButton radioButton2;
-        private System.Windows.Forms.ComboBox comboBox2;
-        private System.Windows.Forms.CheckBox checkBox2;
-        private System.Windows.Forms.NumericUpDown numericUpDown7;
-        private System.Windows.Forms.NumericUpDown numericUpDown8;
-        private System.Windows.Forms.NumericUpDown numericUpDown10;
+        private System.Windows.Forms.RadioButton QOnlyBadSectorsRadio;
+        private System.Windows.Forms.RadioButton QECOnRadio;
+        private System.Windows.Forms.ComboBox QProcessingModeComboBox;
+        private System.Windows.Forms.CheckBox QClearDatacheckBox;
+        private System.Windows.Forms.NumericUpDown QAdaptOfsset2UpDown;
+        private System.Windows.Forms.NumericUpDown QLimitToTrackUpDown;
+        private System.Windows.Forms.NumericUpDown QLimitToSectorUpDown;
         private System.Windows.Forms.Label label90;
         private System.Windows.Forms.Label label91;
         private System.Windows.Forms.GroupBox groupBox15;
@@ -6592,34 +6570,31 @@
         private System.Windows.Forms.Label label99;
         private System.Windows.Forms.Label label100;
         private System.Windows.Forms.Label label101;
-        private System.Windows.Forms.CheckBox checkBox6;
-        private System.Windows.Forms.CheckBox checkBox7;
-        private System.Windows.Forms.CheckBox checkBox8;
+        private System.Windows.Forms.CheckBox QFindDupesCheckBox;
+        private System.Windows.Forms.CheckBox QAutoRefreshSectorMapCheck;
+        private System.Windows.Forms.CheckBox QIgnoreHeaderErrorCheckBox;
         private System.Windows.Forms.GroupBox groupBox16;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Label label103;
-        private System.Windows.Forms.Label label104;
-        private System.Windows.Forms.Label label105;
-        private System.Windows.Forms.TrackBar trackBar1;
+        private System.Windows.Forms.Panel QHistoPanel;
+        private System.Windows.Forms.TrackBar QHistogramhScrollBar1;
         private System.Windows.Forms.GroupBox groupBox17;
-        private System.Windows.Forms.ComboBox comboBox4;
+        private System.Windows.Forms.ComboBox QScanComboBox;
         private System.Windows.Forms.Button button47;
-        private System.Windows.Forms.CheckBox checkBox9;
+        private System.Windows.Forms.CheckBox QHDCheckBox;
         private System.Windows.Forms.Label label114;
         private System.Windows.Forms.Button QProcAmigaBtn;
         private System.Windows.Forms.Button QProcPCBtn;
-        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.RichTextBox QrtbSectorMap;
         private System.Windows.Forms.Label label89;
-        private System.Windows.Forms.ComboBox comboBox3;
-        private System.Windows.Forms.NumericUpDown numericUpDown15;
-        private System.Windows.Forms.NumericUpDown numericUpDown14;
-        private System.Windows.Forms.NumericUpDown numericUpDown13;
-        private System.Windows.Forms.NumericUpDown numericUpDown12;
-        private System.Windows.Forms.NumericUpDown numericUpDown9;
-        private System.Windows.Forms.NumericUpDown numericUpDown6;
+        private System.Windows.Forms.ComboBox QChangeDiskTypeComboBox;
+        private System.Windows.Forms.NumericUpDown QOffsetUpDown;
+        private System.Windows.Forms.NumericUpDown QMaxUpDown;
+        private System.Windows.Forms.NumericUpDown QSixEightUpDown;
+        private System.Windows.Forms.NumericUpDown QFourSixUpDown;
+        private System.Windows.Forms.NumericUpDown QMinUpDown;
+        private System.Windows.Forms.NumericUpDown QRateOfChange2UpDown;
         private System.Windows.Forms.Label label88;
         private System.Windows.Forms.Label label102;
-        private System.Windows.Forms.NumericUpDown numericUpDown11;
+        private System.Windows.Forms.NumericUpDown QRateOfChangeUpDown;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
@@ -6654,7 +6629,6 @@
         private System.Windows.Forms.Label label32;
         private System.Windows.Forms.Label label31;
         private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.Button StopButton;
         private System.Windows.Forms.Button ResetBuffersBtn;
         private System.Windows.Forms.NumericUpDown jESEnd;
         private System.Windows.Forms.NumericUpDown jESStart;
@@ -6665,6 +6639,10 @@
         private System.Windows.Forms.NumericUpDown iESStart;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Button StopButton;
+        private System.Windows.Forms.Button button11;
+        private System.Windows.Forms.Button button15;
+        private System.Windows.Forms.CheckBox QLimitTSCheckBox;
     }
 }
 
