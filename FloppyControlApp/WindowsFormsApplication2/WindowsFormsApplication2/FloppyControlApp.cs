@@ -463,7 +463,7 @@ namespace FloppyControlApp
         }
 
         // Do the Amiga sector data processing
-        private void ProcessAmigaBtn_Click(object sender, EventArgs e)
+        private void Process2Btn_Click(object sender, EventArgs e)
         {
             processing.stop = 0;
             ProcessAmiga();
@@ -697,7 +697,6 @@ namespace FloppyControlApp
         {
             if (processing.indexrxbuf > 0)
             {
-                
                 ScatterHisto.DoHistogram();
                 updateSliderLabels();
                 updateAnScatterPlot();
@@ -826,7 +825,7 @@ namespace FloppyControlApp
             scatterplot.rxbuf = null;
             scatterplot.UpdateEvent -= updateAnScatterPlot;
             scatterplot.ShowGraph -= ScatterPlotShowGraphCallback;
-             
+            
             scatterplot = null;
             scatterplot = new ScatterPlot(processing, processing.sectordata2, 0, 0, ScatterPictureBox);
             scatterplot.tbreiceved = tbreceived;
@@ -909,7 +908,7 @@ namespace FloppyControlApp
 
         private void FloppyControl_Click(object sender, EventArgs e)
         {
-            ScanButton.Focus();
+            AddDataButton.Focus();
         }
 
         private void StopButton_Click(object sender, EventArgs e)
@@ -1288,12 +1287,13 @@ namespace FloppyControlApp
         private void MainTabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
             //tbreceived.Append("Tab"+MainTabControl.SelectedTab.Name+" Index: "+MainTabControl.SelectedIndex+"\r\n");
-            
-            if (MainTabControl.SelectedTab == ProcessingTab)
+            if (MainTabControl.SelectedIndex == 2)
             {
                 //MainTabControl.TabPages[1].Controls.Remove(ThresholdsGroupBox);
-                ProcessingTab.Controls.Add(ThresholdsGroupBox);
+                MainTabControl.TabPages[2].Controls.Add(ThresholdsGroupBox);
                 ThresholdsGroupBox.Location = new Point(459, 290);
+
+
             }
             else
             {
@@ -1301,6 +1301,8 @@ namespace FloppyControlApp
                 ThresholdsGroupBox.Location = new Point(600, 16);
             }
         }
+
+        
 
         private void ScatterMinUpDown_ValueChanged(object sender, EventArgs e)
         {
@@ -1702,7 +1704,7 @@ namespace FloppyControlApp
                 if (scatterplot.AnScatViewlargeoffset < processing.indexrxbuf)
                     HistogramhScrollBar1.Value = scatterplot.AnScatViewlargeoffset;
             if (processing.indexrxbuf > 0)
-                if (MainTabControl.SelectedTab == CaptureTab)
+                if (MainTabControl.SelectedIndex == 1)
                 {
                     int offset = scatterplot.AnScatViewoffset + scatterplot.AnScatViewlargeoffset;
                     int length = scatterplot.AnScatViewlength;
@@ -2608,7 +2610,7 @@ namespace FloppyControlApp
             }
         }
 
-        private void Microstep8Btn_Click(object sender, EventArgs e)
+        private void button36_Click(object sender, EventArgs e)
         {
             int StepStickMicrostepping = 8;
             int i;
@@ -2622,13 +2624,13 @@ namespace FloppyControlApp
             }
         }
 
-        private void StepBackBtn_Click(object sender, EventArgs e)
+        private void button39_Click(object sender, EventArgs e)
         {
             controlfloppy.serialPort1.Write('g'.ToString()); // increase track number
             Thread.Sleep(controlfloppy.tracktotrackdelay);
         }
 
-        private void StepForwardBtn_Click(object sender, EventArgs e)
+        private void button40_Click(object sender, EventArgs e)
         {
             controlfloppy.serialPort1.Write('t'.ToString()); // increase track number
             Thread.Sleep(controlfloppy.tracktotrackdelay);
@@ -3141,7 +3143,7 @@ namespace FloppyControlApp
             scatterplot.AnScatViewoffset = 0;
             //scatterplot.UpdateScatterPlot();
 
-            
+            //ScatterHisto.DoHistogram(rxbuf, (int)rxbufStartUpDown.Value, (int)rxbufEndUpDown.Value);
             if (processing.indexrxbuf > 0)
                 ProcessingTab.Enabled = true;
             if (controlfloppy.capturecommand == 0)
@@ -3256,16 +3258,6 @@ namespace FloppyControlApp
             Properties.Settings.Default["TRK00Offset"] = 16;
             Properties.Settings.Default["DirectStep"] = false;
             Properties.Settings.Default.Save();
-
-        }
-
-        private void tabPage5_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void fileToolStripMenuItem_Click(object sender, EventArgs e)
-        {
 
         }
     } // end class
