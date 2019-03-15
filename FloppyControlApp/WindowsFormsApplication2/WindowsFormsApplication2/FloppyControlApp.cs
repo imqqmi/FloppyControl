@@ -826,7 +826,7 @@ namespace FloppyControlApp
             scatterplot.rxbuf = null;
             scatterplot.UpdateEvent -= updateAnScatterPlot;
             scatterplot.ShowGraph -= ScatterPlotShowGraphCallback;
-            
+             
             scatterplot = null;
             scatterplot = new ScatterPlot(processing, processing.sectordata2, 0, 0, ScatterPictureBox);
             scatterplot.tbreiceved = tbreceived;
