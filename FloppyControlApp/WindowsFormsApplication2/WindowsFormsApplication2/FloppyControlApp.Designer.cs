@@ -168,6 +168,8 @@
             this.label85 = new System.Windows.Forms.Label();
             this.label86 = new System.Windows.Forms.Label();
             this.CaptureTab = new System.Windows.Forms.TabPage();
+            this.button55 = new System.Windows.Forms.Button();
+            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.button53 = new System.Windows.Forms.Button();
             this.button54 = new System.Windows.Forms.Button();
             this.button52 = new System.Windows.Forms.Button();
@@ -481,7 +483,6 @@
             this.label59 = new System.Windows.Forms.Label();
             this.StopButton = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.ScatterPlottabPage.SuspendLayout();
@@ -520,6 +521,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.QTRK00OffsetUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.QMicrostepsPerTrackUpDown)).BeginInit();
             this.CaptureTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.rxbufEndUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rxbufStartUpDown)).BeginInit();
@@ -602,7 +604,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.TrackUpDown)).BeginInit();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ThreadsUpDown)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
             // 
             // openFileDialog1
@@ -2298,6 +2299,7 @@
             // CaptureTab
             // 
             this.CaptureTab.BackColor = System.Drawing.SystemColors.Control;
+            this.CaptureTab.Controls.Add(this.button55);
             this.CaptureTab.Controls.Add(this.numericUpDown1);
             this.CaptureTab.Controls.Add(this.button53);
             this.CaptureTab.Controls.Add(this.button54);
@@ -2326,6 +2328,23 @@
             this.CaptureTab.Size = new System.Drawing.Size(966, 775);
             this.CaptureTab.TabIndex = 0;
             this.CaptureTab.Text = "Capture";
+            // 
+            // button55
+            // 
+            this.button55.Location = new System.Drawing.Point(405, 133);
+            this.button55.Name = "button55";
+            this.button55.Size = new System.Drawing.Size(91, 40);
+            this.button55.TabIndex = 110;
+            this.button55.Text = "GetTrackOffset";
+            this.button55.UseVisualStyleBackColor = true;
+            this.button55.Click += new System.EventHandler(this.button55_Click);
+            // 
+            // numericUpDown1
+            // 
+            this.numericUpDown1.Location = new System.Drawing.Point(425, 107);
+            this.numericUpDown1.Name = "numericUpDown1";
+            this.numericUpDown1.Size = new System.Drawing.Size(52, 20);
+            this.numericUpDown1.TabIndex = 109;
             // 
             // button53
             // 
@@ -6178,18 +6197,6 @@
             // 
             this.toolTip1.Active = global::FloppyControlApp.Properties.Settings.Default.TooltipDisable;
             // 
-            // numericUpDown1
-            // 
-            this.numericUpDown1.Location = new System.Drawing.Point(425, 107);
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(52, 20);
-            this.numericUpDown1.TabIndex = 109;
-            this.numericUpDown1.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
             // FloppyControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -6277,6 +6284,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.QMicrostepsPerTrackUpDown)).EndInit();
             this.CaptureTab.ResumeLayout(false);
             this.CaptureTab.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.rxbufEndUpDown)).EndInit();
@@ -6379,7 +6387,6 @@
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ThreadsUpDown)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -6833,6 +6840,7 @@
         private System.Windows.Forms.Button button53;
         private System.Windows.Forms.Button button54;
         private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.Button button55;
     }
 }
 

@@ -61,7 +61,8 @@ namespace FloppyControlApp
             public MFMData sectordata { get; set; }
             public int cmd { get; set; }
         }
-
+        private System.Windows.Forms.Timer timerx = new System.Windows.Forms.Timer();
+        private int testtrack, trk00pos;
         private FDDProcessing processing;
         private ControlFloppy controlfloppy;
         private connectsocketNIVisa2 scope = new connectsocketNIVisa2();
@@ -3669,6 +3670,11 @@ namespace FloppyControlApp
                         Thread.Sleep(10);
                     }
 
+                
+                timerx.Interval = 360;
+                timerx.Tick += timerx_Tick;
+
+                timerx.Start();
                 timer1.Start();
             }
             else
@@ -3677,6 +3683,68 @@ namespace FloppyControlApp
         }
 
         private void GotoTrack0()
+        {
+            controlfloppy.serialPort1.Write('0'.ToString()); // TRK00
+            Thread.Sleep(1500);
+            controlfloppy.serialPort1.Write('h'.ToString()); // Head 1
+
+            controlfloppy.serialPort1.Write('g'.ToString()); // previous track
+            Thread.Sleep(10);
+            controlfloppy.serialPort1.Write('g'.ToString()); // previous track
+            Thread.Sleep(10);
+            trk00pos = -2;
+            testtrack = 0;
+        }
+
+        private void button50_Click(object sender, EventArgs e)
+        {
+            tbreceived.Append("Track " + testtrack);
+            
+            if ((testtrack & 1) == 0)
+            {
+                trk00pos -= 2;
+                tbreceived.Append(" head 1 -2" + trk00pos + "\r\n");
+                controlfloppy.serialPort1.Write('j'.ToString()); // Head 1
+                for (int i = 0; i < 16; i++)
+                    controlfloppy.serialPort1.Write('g'.ToString()); // Next track
+            }
+            else
+            {
+                trk00pos += 4;
+                tbreceived.Append(" head 0 +4 "+trk00pos+"\r\n");
+                controlfloppy.serialPort1.Write('h'.ToString()); // Head 1
+                for (int i = 0; i < 32; i++)
+                    controlfloppy.serialPort1.Write('t'.ToString()); // Next track
+            }
+            testtrack++;
+        }
+
+        private void timerx_Tick(object sender, EventArgs e)
+        {
+            tbreceived.Append("Track " + testtrack);
+
+            if ((testtrack & 1) == 0)
+            {
+                trk00pos -= 2;
+                tbreceived.Append(" head 1 -2" + trk00pos + "\r\n");
+                controlfloppy.serialPort1.Write('j'.ToString()); // Head 1
+                for (int i = 0; i < 16; i++)
+                    controlfloppy.serialPort1.Write('g'.ToString()); // Next track
+            }
+            else
+            {
+                trk00pos += 4;
+                tbreceived.Append(" head 0 +4 " + trk00pos + "\r\n");
+                controlfloppy.serialPort1.Write('h'.ToString()); // Head 1
+                for (int i = 0; i < 32; i++)
+                    controlfloppy.serialPort1.Write('t'.ToString()); // Next track
+            }
+            testtrack++;
+
+            if (testtrack > 162) timerx.Stop();
+        }
+
+        private void GotoTrack0org()
         {
             controlfloppy.serialPort1.Write('0'.ToString()); // TRK00
             Thread.Sleep(1500);
@@ -3774,11 +3842,7 @@ namespace FloppyControlApp
             controlfloppy.Disconnect();
         }
 
-        private void button50_Click(object sender, EventArgs e)
-        {
-            for(int i = 0; i < 8; i++)
-                controlfloppy.serialPort1.Write('t'.ToString()); // Next track
-        }
+        
 
         private void button51_Click(object sender, EventArgs e)
         {
@@ -3794,6 +3858,18 @@ namespace FloppyControlApp
         private void button53_Click(object sender, EventArgs e)
         {
             controlfloppy.serialPort1.Write('h'.ToString()); // Head 0
+        }
+
+        private void button55_Click(object sender, EventArgs e)
+        {
+            int offset = 0;
+            for (int i=0; i<10; i++)
+            {
+                if ((i & 1) == 0) offset = i + -2;
+                if ((i & 1) == 1) offset = i + -5;
+                tbreceived.Append(i + " "+(i & 1) +" " + offset + "\r\n");
+            }
+
         }
     } // end class
 } // End namespace
