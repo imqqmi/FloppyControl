@@ -213,30 +213,42 @@ namespace FloppyControlApp
             // 2.5 sec the drive will spin up, after that the track should take 0.2 secs at most to
             // read 11+1 sectors
 
-            if (EndTrack - StartTrack > 0)
-            {
-                if ((StartTrack & 1) == 1)
-                {
 
-                    EndTrack += 4;
-                }
-                else
-                {
-                    if (StartTrack > 1)
-                    {
-                        if (MicrostepsPerTrack == 1)
-                        {
-                            StartTrack -= 2;
-                            EndTrack += 2;
-                        }
-                        if (MicrostepsPerTrack == 8)
-                        {
-                            StartTrack -= 4;
-                            //EndTrack += 2;
-                        }
-                    }
-                }
-            } 
+            //if (EndTrack - StartTrack == 0)
+            //{
+            //    if ((StartTrack & 1) == 1)
+            //    {
+            //        StartTrack--;
+            //        EndTrack--;
+            //    }
+            //}
+            //if (EndTrack - StartTrack > 0)
+            //{
+            //    if ((StartTrack & 1) == 0)
+            //    {
+            //        //StartTrack--;
+            //    }
+            //}
+
+            //        EndTrack += 4;
+            //    }
+            //    else
+            //    {
+            //        if (StartTrack > 1)
+            //        {
+            //            if (MicrostepsPerTrack == 1)
+            //            {
+            //                StartTrack -= 2;
+            //                EndTrack += 2;
+            //            }
+            //            if (MicrostepsPerTrack == 8)
+            //            {
+            //                //StartTrack -= 4;
+            //                //EndTrack += 2;
+            //            }
+            //        }
+            //    }
+            //} 
             if (serialPort1.IsOpen)
             {
                 gototrack(StartTrack);
@@ -277,8 +289,8 @@ namespace FloppyControlApp
             capturecommand = 0;
             if (tbr == null) return;
             tbr.Append("Stopping...\r\n");
-            
 
+            if (!serialPort1.IsOpen) return;
             //Stop motor
             serialPort1.Write('.'.ToString());
             Thread.Sleep(10);
@@ -372,12 +384,13 @@ namespace FloppyControlApp
                 directstepFactor = 1;
 
             GotoTrack = (t * StepStickMicrostepping) / directstepFactor - ((t & 1) * StepStickMicrostepping) + StepStickMicrostepping;
-            tbr.Append("Gototrack:" + GotoTrack + "\r\n");
+            int endtrack = (EndTrack * StepStickMicrostepping) / directstepFactor - ((EndTrack & 1) * StepStickMicrostepping) + StepStickMicrostepping;
+            tbr.Append("t"+t+" Gototrack:" + GotoTrack + "\r\n");
 
-            temp = (((int)EndTrack - t) * StepStickMicrostepping);//(int)StepsPerTrackUpDown.Value;
-                                                     //temp *= ((decimal)microstep / StepsPerTrackUpDown.Value);
-            EndTrackMicrosteps = (int)temp;
-
+            //temp = (((int)EndTrack - t) * StepStickMicrostepping);//(int)StepsPerTrackUpDown.Value;
+                                                                  //temp *= ((decimal)microstep / StepsPerTrackUpDown.Value);
+            EndTrackMicrosteps = endtrack - GotoTrack;
+            tbr.Append("EndTrack"+EndTrack+" endtrack: "+endtrack+" EndTrackMicrosteps"+ EndTrackMicrosteps+"\r\n");
             TrackPosInrxdata[TrackPosInrxdatacount++] = processing.indexrxbuf; // Make a list of all track start positions
             //rxbuf[processing.indexrxbuf++] = 0x02;//Track marker
             //rxbuf[processing.indexrxbuf++] = (byte)((GotoTrack / StepStickMicrostepping) + (CaptureTracks / StepStickMicrostepping));
@@ -404,20 +417,20 @@ namespace FloppyControlApp
             serialPort1.Write('0'.ToString()); // TRK00
             Thread.Sleep(1500);                // Wait for the head to home, if you don't, the PIC will lock up!
             
-            serialPort1.Write('g'.ToString()); // TRK00
-            Thread.Sleep(50);
-            serialPort1.Write('g'.ToString()); // TRK00
-            Thread.Sleep(50);
-            serialPort1.Write('g'.ToString()); // TRK00
-            Thread.Sleep(50);
+            //serialPort1.Write('g'.ToString()); // TRK00
+            //Thread.Sleep(50);
+            //serialPort1.Write('g'.ToString()); // TRK00
+            //Thread.Sleep(50);
+            //serialPort1.Write('g'.ToString()); // TRK00
+            //Thread.Sleep(50);
             
-            if( t == 0)
-            {
-                serialPort1.Write('g'.ToString()); // TRK00
-                Thread.Sleep(50);
-                serialPort1.Write('g'.ToString()); // TRK00
-                Thread.Sleep(50);
-            }
+            //if( t == 0)
+            //{
+            //    serialPort1.Write('g'.ToString()); // TRK00
+            //    Thread.Sleep(50);
+            //    serialPort1.Write('g'.ToString()); // TRK00
+            //    Thread.Sleep(50);
+            //}
             
             
             timer4.Interval = 5;
@@ -466,16 +479,17 @@ namespace FloppyControlApp
                             }
                         
                         // Do microstep offset
-                        if( StepStickMicrostepping == 8)
-                            trk00offset -= 12;
+                        //if( StepStickMicrostepping == 8)
+                        //    trk00offset -= 12;
                         //if (StepStickMicrostepping == 1)
                         //    trk00offset += 1;
 
                         if (DirectStep == false)
                         {
                             tbr.Append("Moving to offset... \r\n");
-                            
-                            for (i = 0; i < Math.Abs(trk00offset); i++)
+                            var absoluteoffset = Math.Abs(trk00offset);
+                            if( absoluteoffset > 0)
+                            for (i = 0; i < absoluteoffset ; i++)
                             {
                                 tbr.Append("step"+i+"\r\n");
                                 if (trk00offset < 0)
@@ -583,7 +597,7 @@ namespace FloppyControlApp
             //serialPort1.Write('.'.ToString()); // Stop capture
             Thread.Sleep(10);
             timer3.Stop();
-            //tbr.Append("CaptureTracks" + CaptureTracks+"\r\n");
+            tbr.Append("CaptureTracks" + CaptureTracks+"\r\n");
             if (CaptureTracks < EndTrackMicrosteps)
             {
                 CaptureTracks += MicrostepsPerTrack;
@@ -593,21 +607,21 @@ namespace FloppyControlApp
                 if ((headselect & 1) == 0)
                 {
                     //tbr.Append("Head j\r\n");
-                    serialPort1.Write('j'.ToString()); //head 0
+                    serialPort1.Write('h'.ToString()); //head 0
                     Thread.Sleep(tracktotrackdelay / MicrostepsPerTrack * 2);
                 }
                 else
                 {
                     //tbr.Append("MicrostepsPerTrack* stepspertrack" + (MicrostepsPerTrack * stepspertrack) + "\r\n");
                     //tbr.Append("Head h\r\n");
-                    serialPort1.Write('h'.ToString()); //head 1
+                    serialPort1.Write('j'.ToString()); //head 1
                     
                     
                 }
                 currenttrackPrintable = (CaptureTracks/ StepStickMicrostepping) + StartTrack;
                 currenttrack = ((GotoTrack / StepStickMicrostepping) + (CaptureTracks / StepStickMicrostepping));
                 //tbr.Append("currenttrack: "+currenttrack+" Currenttrackprintable: "+currenttrackPrintable+"\r\n");
-                if ((currenttrack & 1) == 1 && CaptureTracks > 2)
+                if ((headselect & 1) == 0 && CaptureTracks > 2)
                 {
                     //tbr.Append("Next track\r\n");
                     for (i = 0; i < MicrostepsPerTrack * stepspertrack; i++)
