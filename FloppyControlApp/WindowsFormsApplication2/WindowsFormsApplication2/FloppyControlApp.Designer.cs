@@ -2151,6 +2151,7 @@
             // 
             // QTrackDurationUpDown
             // 
+            this.QTrackDurationUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::FloppyControlApp.Properties.Settings.Default, "TrackDuration", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.QTrackDurationUpDown.Increment = new decimal(new int[] {
             100,
             0,
@@ -2166,11 +2167,7 @@
             this.QTrackDurationUpDown.Size = new System.Drawing.Size(52, 20);
             this.QTrackDurationUpDown.TabIndex = 50;
             this.toolTip1.SetToolTip(this.QTrackDurationUpDown, resources.GetString("QTrackDurationUpDown.ToolTip"));
-            this.QTrackDurationUpDown.Value = new decimal(new int[] {
-            260,
-            0,
-            0,
-            0});
+            this.QTrackDurationUpDown.Value = global::FloppyControlApp.Properties.Settings.Default.TrackDuration;
             // 
             // QStartTrackUpDown
             // 
@@ -2653,6 +2650,7 @@
             // 
             // TrackDurationUpDown
             // 
+            this.TrackDurationUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::FloppyControlApp.Properties.Settings.Default, "TrackDuration", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.TrackDurationUpDown.Increment = new decimal(new int[] {
             100,
             0,
@@ -2667,11 +2665,7 @@
             this.TrackDurationUpDown.Name = "TrackDurationUpDown";
             this.TrackDurationUpDown.Size = new System.Drawing.Size(52, 20);
             this.TrackDurationUpDown.TabIndex = 50;
-            this.TrackDurationUpDown.Value = new decimal(new int[] {
-            330,
-            0,
-            0,
-            0});
+            this.TrackDurationUpDown.Value = global::FloppyControlApp.Properties.Settings.Default.TrackDuration;
             // 
             // StartTrackUpDown
             // 
@@ -5845,7 +5839,7 @@
             // 
             // timer1
             // 
-            this.timer1.Interval = 1000;
+            this.timer1.Interval = 250;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // GCbutton

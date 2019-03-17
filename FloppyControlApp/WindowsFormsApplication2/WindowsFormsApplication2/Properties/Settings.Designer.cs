@@ -202,5 +202,17 @@ namespace FloppyControlApp.Properties {
                 this["TooltipDisable"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("330")]
+        public decimal TrackDuration {
+            get {
+                return ((decimal)(this["TrackDuration"]));
+            }
+            set {
+                this["TrackDuration"] = value;
+            }
+        }
     }
 }

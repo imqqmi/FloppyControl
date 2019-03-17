@@ -596,45 +596,7 @@ namespace FloppyControlApp
 
 
 
-        private void ConnectClassbutton_Click(object sender, EventArgs e)
-        {
-            ConnectToFloppyControlHardware();
-        }
-
-        private void ConnectToFloppyControlHardware()
-        {
-            controlfloppy.binfilecount = binfilecount;
-            controlfloppy.DirectStep = DirectStepCheckBox.Checked;
-            controlfloppy.MicrostepsPerTrack = (int)MicrostepsPerTrackUpDown.Value;
-            controlfloppy.trk00offset = (int)TRK00OffsetUpDown.Value;
-            controlfloppy.EndTrack = (int)EndTracksUpDown.Value;
-            controlfloppy.StartTrack = (int)StartTrackUpDown.Value;
-            controlfloppy.tbr = tbreceived;
-            //processing.indexrxbuf            = indexrxbuf;
-            controlfloppy.StepStickMicrostepping = (int)Properties.Settings.Default["MicroStepping"];
-            controlfloppy.outputfilename = outputfilename.Text;
-            controlfloppy.rxbuf = processing.rxbuf;
-
-            // Callbacks
-            controlfloppy.updateHistoAndSliders = updateHistoAndSliders;
-            controlfloppy.ControlFloppyScatterplotCallback = ControlFloppyScatterplotCallback;
-            controlfloppy.Setrxbufcontrol = Setrxbufcontrol;
-
-            if (!controlfloppy.serialPort1.IsOpen) // Open connection if it's closed
-            {
-                controlfloppy.ConnectFDD();
-                if (controlfloppy.serialPort1.IsOpen)
-                {
-                    LabelStatus.Text = "Connected.";
-                }
-                else
-                {
-                    LabelStatus.Text = "Disconnected.";
-                }
-            }
-            else // Close connection if open
-                DisconnectFromFloppyControlHardware();
-        }
+        
 
         private void DisconnectFromFloppyControlHardware()
         {
@@ -2089,7 +2051,6 @@ namespace FloppyControlApp
             scope.capturetimerstop();
         }
 
-
         private void CaptureClassbutton_Click(object sender, EventArgs e)
         {
             bytesReceived = 0;
@@ -2097,19 +2058,66 @@ namespace FloppyControlApp
             CaptureTracks();
         }
 
+        private void ConnectClassbutton_Click(object sender, EventArgs e)
+        {
+            ConnectToFloppyControlHardware();
+        }
+
+        private void ConnectToFloppyControlHardware()
+        {
+            if (MainTabControl.SelectedTab == ProcessingTab)
+            {
+                controlfloppy.DirectStep = DirectStepCheckBox.Checked;
+                controlfloppy.MicrostepsPerTrack = (int)MicrostepsPerTrackUpDown.Value;
+                controlfloppy.trk00offset = (int)TRK00OffsetUpDown.Value;
+                controlfloppy.EndTrack = (int)EndTracksUpDown.Value;
+                controlfloppy.StartTrack = (int)StartTrackUpDown.Value;
+                controlfloppy.TrackDuration = (int)TrackDurationUpDown.Value;
+
+            }
+            else if (MainTabControl.SelectedTab == QuickTab)
+            {
+                controlfloppy.DirectStep = QDirectStepCheckBox.Checked;
+                controlfloppy.MicrostepsPerTrack = (int)QMicrostepsPerTrackUpDown.Value;
+                controlfloppy.trk00offset = (int)QTRK00OffsetUpDown.Value;
+                controlfloppy.EndTrack = (int)QEndTracksUpDown.Value;
+                controlfloppy.StartTrack = (int)QStartTrackUpDown.Value;
+                controlfloppy.TrackDuration = (int)QTrackDurationUpDown.Value;
+            }
+
+            controlfloppy.binfilecount = binfilecount;
+            controlfloppy.tbr = tbreceived;
+            //processing.indexrxbuf            = indexrxbuf;
+            controlfloppy.StepStickMicrostepping = (int)Properties.Settings.Default["MicroStepping"];
+            controlfloppy.outputfilename = outputfilename.Text;
+            controlfloppy.rxbuf = processing.rxbuf;
+
+            // Callbacks
+            controlfloppy.updateHistoAndSliders = updateHistoAndSliders;
+            controlfloppy.ControlFloppyScatterplotCallback = ControlFloppyScatterplotCallback;
+            controlfloppy.Setrxbufcontrol = Setrxbufcontrol;
+
+            if (!controlfloppy.serialPort1.IsOpen) // Open connection if it's closed
+            {
+                controlfloppy.ConnectFDD();
+                if (controlfloppy.serialPort1.IsOpen)
+                {
+                    LabelStatus.Text = "Connected.";
+                }
+                else
+                {
+                    LabelStatus.Text = "Disconnected.";
+                }
+            }
+            else // Close connection if open
+                DisconnectFromFloppyControlHardware();
+        }
         private void CaptureTracks()
         {
             resetinput();
             processing.entropy = null;
             tabControl1.SelectedTab = ScatterPlottabPage;
-            controlfloppy.MicrostepsPerTrack = (int)MicrostepsPerTrackUpDown.Value;
-            controlfloppy.StepStickMicrostepping = (int)Properties.Settings.Default["StepStickMicrostepping"];
-            controlfloppy.trk00offset = (int)TRK00OffsetUpDown.Value;
-            controlfloppy.EndTrack = (int)EndTracksUpDown.Value;
-            controlfloppy.StartTrack = (int)StartTrackUpDown.Value;
-            //if (controlfloppy.EndTrack == controlfloppy.StartTrack)
-            //    controlfloppy.EndTrack++;
-            controlfloppy.TrackDuration = (int)TrackDurationUpDown.Value;
+
             controlfloppy.outputfilename = outputfilename.Text;
 
             if (controlfloppy.serialPort1.IsOpen)
