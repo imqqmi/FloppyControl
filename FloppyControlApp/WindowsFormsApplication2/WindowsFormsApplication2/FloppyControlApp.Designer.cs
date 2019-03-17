@@ -168,14 +168,6 @@
             this.label85 = new System.Windows.Forms.Label();
             this.label86 = new System.Windows.Forms.Label();
             this.CaptureTab = new System.Windows.Forms.TabPage();
-            this.button55 = new System.Windows.Forms.Button();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            this.button53 = new System.Windows.Forms.Button();
-            this.button54 = new System.Windows.Forms.Button();
-            this.button52 = new System.Windows.Forms.Button();
-            this.button50 = new System.Windows.Forms.Button();
-            this.button51 = new System.Windows.Forms.Button();
-            this.button16 = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.rxbufEndUpDown = new System.Windows.Forms.NumericUpDown();
             this.rxbufStartUpDown = new System.Windows.Forms.NumericUpDown();
@@ -521,7 +513,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.QTRK00OffsetUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.QMicrostepsPerTrackUpDown)).BeginInit();
             this.CaptureTab.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.rxbufEndUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rxbufStartUpDown)).BeginInit();
@@ -807,7 +798,6 @@
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(616, 473);
             this.tabControl1.TabIndex = 42;
-            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
             // ScatterPlottabPage
             // 
@@ -2299,14 +2289,6 @@
             // CaptureTab
             // 
             this.CaptureTab.BackColor = System.Drawing.SystemColors.Control;
-            this.CaptureTab.Controls.Add(this.button55);
-            this.CaptureTab.Controls.Add(this.numericUpDown1);
-            this.CaptureTab.Controls.Add(this.button53);
-            this.CaptureTab.Controls.Add(this.button54);
-            this.CaptureTab.Controls.Add(this.button52);
-            this.CaptureTab.Controls.Add(this.button50);
-            this.CaptureTab.Controls.Add(this.button51);
-            this.CaptureTab.Controls.Add(this.button16);
             this.CaptureTab.Controls.Add(this.groupBox4);
             this.CaptureTab.Controls.Add(this.button8);
             this.CaptureTab.Controls.Add(this.button7);
@@ -2328,87 +2310,6 @@
             this.CaptureTab.Size = new System.Drawing.Size(966, 775);
             this.CaptureTab.TabIndex = 0;
             this.CaptureTab.Text = "Capture";
-            // 
-            // button55
-            // 
-            this.button55.Location = new System.Drawing.Point(405, 133);
-            this.button55.Name = "button55";
-            this.button55.Size = new System.Drawing.Size(91, 40);
-            this.button55.TabIndex = 110;
-            this.button55.Text = "GetTrackOffset";
-            this.button55.UseVisualStyleBackColor = true;
-            this.button55.Click += new System.EventHandler(this.button55_Click);
-            // 
-            // numericUpDown1
-            // 
-            this.numericUpDown1.Location = new System.Drawing.Point(425, 107);
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(52, 20);
-            this.numericUpDown1.TabIndex = 109;
-            // 
-            // button53
-            // 
-            this.button53.Location = new System.Drawing.Point(590, 58);
-            this.button53.Name = "button53";
-            this.button53.Size = new System.Drawing.Size(72, 40);
-            this.button53.TabIndex = 108;
-            this.button53.Text = "Head 1";
-            this.button53.UseVisualStyleBackColor = true;
-            this.button53.Click += new System.EventHandler(this.button53_Click);
-            // 
-            // button54
-            // 
-            this.button54.Location = new System.Drawing.Point(512, 58);
-            this.button54.Name = "button54";
-            this.button54.Size = new System.Drawing.Size(72, 40);
-            this.button54.TabIndex = 107;
-            this.button54.Text = "Head 0";
-            this.button54.UseVisualStyleBackColor = true;
-            this.button54.Click += new System.EventHandler(this.button54_Click);
-            // 
-            // button52
-            // 
-            this.button52.Location = new System.Drawing.Point(408, 55);
-            this.button52.Name = "button52";
-            this.button52.Size = new System.Drawing.Size(72, 40);
-            this.button52.TabIndex = 106;
-            this.button52.Text = "Stop";
-            this.button52.UseVisualStyleBackColor = true;
-            this.button52.Click += new System.EventHandler(this.button52_Click);
-            // 
-            // button50
-            // 
-            this.button50.Location = new System.Drawing.Point(590, 9);
-            this.button50.Name = "button50";
-            this.button50.Size = new System.Drawing.Size(72, 40);
-            this.button50.TabIndex = 105;
-            this.button50.Text = "Step >";
-            this.button50.UseVisualStyleBackColor = true;
-            this.button50.Click += new System.EventHandler(this.button50_Click);
-            // 
-            // button51
-            // 
-            this.button51.Location = new System.Drawing.Point(512, 9);
-            this.button51.Name = "button51";
-            this.button51.Size = new System.Drawing.Size(72, 40);
-            this.button51.TabIndex = 104;
-            this.button51.Text = "Step <";
-            this.button51.UseVisualStyleBackColor = true;
-            this.button51.Click += new System.EventHandler(this.button51_Click);
-            // 
-            // button16
-            // 
-            this.button16.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button16.ImageIndex = 0;
-            this.button16.ImageList = this.MainTabControlImageList;
-            this.button16.Location = new System.Drawing.Point(408, 9);
-            this.button16.Name = "button16";
-            this.button16.Size = new System.Drawing.Size(97, 40);
-            this.button16.TabIndex = 103;
-            this.button16.Text = "CaptureTest";
-            this.button16.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.button16.UseVisualStyleBackColor = true;
-            this.button16.Click += new System.EventHandler(this.button16_Click);
             // 
             // groupBox4
             // 
@@ -3990,7 +3891,6 @@
             this.ECInfoTabs.SelectedIndex = 0;
             this.ECInfoTabs.Size = new System.Drawing.Size(452, 450);
             this.ECInfoTabs.TabIndex = 4009;
-            this.ECInfoTabs.SelectedIndexChanged += new System.EventHandler(this.ECInfoTabs_SelectedIndexChanged);
             // 
             // ECTabSectorData
             // 
@@ -6289,7 +6189,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.QMicrostepsPerTrackUpDown)).EndInit();
             this.CaptureTab.ResumeLayout(false);
             this.CaptureTab.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.rxbufEndUpDown)).EndInit();
@@ -6838,14 +6737,6 @@
         private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem disableTooltipsToolStripMenuItem;
-        private System.Windows.Forms.Button button16;
-        private System.Windows.Forms.Button button50;
-        private System.Windows.Forms.Button button51;
-        private System.Windows.Forms.Button button52;
-        private System.Windows.Forms.Button button53;
-        private System.Windows.Forms.Button button54;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
-        private System.Windows.Forms.Button button55;
     }
 }
 
