@@ -137,7 +137,7 @@ namespace FloppyControlApp
             scatterplot.EditScatterplot = EditScatterPlotcheckBox.Checked;
             processing.indexrxbuf = 0;
 
-            GuiMode = outputfilename.Text = (string)Properties.Settings.Default["GuiMode"];
+            GuiMode = (string)Properties.Settings.Default["GuiMode"];
             SetGuiMode(GuiMode);
             outputfilename.Text = (string)Properties.Settings.Default["BaseFileName"];
             DirectStepCheckBox.Checked = (bool)Properties.Settings.Default["DirectStep"];
@@ -424,7 +424,6 @@ namespace FloppyControlApp
             processing.procsettings.AutoRefreshSectormap = AutoRefreshSectorMapCheck.Checked;
             processing.procsettings.start = (int)rxbufStartUpDown.Value;
             processing.procsettings.end = (int)rxbufEndUpDown.Value;
-
             processing.procsettings.finddupes = FindDupesCheckBox.Checked;
             processing.procsettings.rateofchange = (float)RateOfChangeUpDown.Value;
             //processing.procsettings.platform = platform; // 1 = Amiga
@@ -645,7 +644,7 @@ namespace FloppyControlApp
             {
                 bytesReceived += controlfloppy.bytespersecond;
                 BytesReceivedLabel.Text = string.Format("{0:n0}", bytesReceived);
-                BytesPerSecondLabel.Text = string.Format("{0:n0}", controlfloppy.bytespersecond);
+                BytesPerSecondLabel.Text = string.Format("{0:n0}", controlfloppy.bytespersecond /((double)timer1.Interval/1000.0));
                 CaptureTimeLabel.Text = capturetime.ToString();
                 controlfloppy.bytespersecond = 0;
                 BufferSizeLabel.Text = string.Format("{0:n0}", processing.indexrxbuf);
@@ -2134,7 +2133,7 @@ namespace FloppyControlApp
             controlfloppy.binfilecount = binfilecount;
             controlfloppy.tbr = tbreceived;
             //processing.indexrxbuf            = indexrxbuf;
-            controlfloppy.StepStickMicrostepping = (int)Properties.Settings.Default["MicroStepsPerTrack"];
+            controlfloppy.StepStickMicrostepping = Decimal.ToInt32((decimal)Properties.Settings.Default["StepStickMicrostepping"]);
             controlfloppy.outputfilename = outputfilename.Text;
             controlfloppy.rxbuf = processing.rxbuf;
 
@@ -2376,6 +2375,7 @@ namespace FloppyControlApp
 
             for (i = 0.6f; i < 2f; i += 0.2f)
             {
+                processing.sectordata2.Clear();
                 if (processing.stop == 1)
                     break;
                 RateOfChangeUpDown.Value = (decimal)i;
@@ -2748,10 +2748,10 @@ namespace FloppyControlApp
             if (menudata.cmd == 0)
             {
                 tbreceived.Append("Track: " + menudata.track.ToString("D3") + " S" + menudata.sector + "\r\n");
-                MainTabControl.SelectedTab = CaptureTab;
-                StartTrackUpDown.Value = menudata.track;
-                EndTracksUpDown.Value = menudata.track;
-                TrackDurationUpDown.Value = menudata.duration;
+                //MainTabControl.SelectedTab = CaptureTab;
+                StartTrackUpDown.Value = QStartTrackUpDown.Value = menudata.track;
+                EndTracksUpDown.Value = QEndTracksUpDown.Value = menudata.track;
+                TrackDurationUpDown.Value = QTrackDurationUpDown.Value = menudata.duration;
             }
             else if (menudata.cmd == 1)
             {
@@ -3097,6 +3097,7 @@ namespace FloppyControlApp
                 for (l = -12; l < 13; l += step)
                     for (i = 0.6f; i < 2f; i += 0.2f)
                     {
+                        
                         if (processing.stop == 1)
                             break;
                         RateOfChangeUpDown.Value = (decimal)i;
@@ -3698,7 +3699,15 @@ namespace FloppyControlApp
             Properties.Settings.Default.Save();
         }
 
+        private void QOnlyBadSectorsRadio_CheckedChanged(object sender, EventArgs e)
+        {
+            OnlyBadSectorsRadio.Checked = true;
+        }
 
+        private void QECOnRadio_CheckedChanged(object sender, EventArgs e)
+        {
+            ECOnRadio.Checked = true;
+        }
     } // end class
 } // End namespace
 

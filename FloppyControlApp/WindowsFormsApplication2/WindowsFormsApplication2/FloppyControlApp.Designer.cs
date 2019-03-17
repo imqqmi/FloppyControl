@@ -472,6 +472,7 @@
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.disableTooltipsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.basicModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.devModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -1393,6 +1394,7 @@
             this.toolTip1.SetToolTip(this.QOnlyBadSectorsRadio, "Only reprocess bad sectors. Can only work if some bad sectors have already been f" +
         "ound. This will speed up scanning a lot but may miss some sectors.");
             this.QOnlyBadSectorsRadio.UseVisualStyleBackColor = true;
+            this.QOnlyBadSectorsRadio.CheckedChanged += new System.EventHandler(this.QOnlyBadSectorsRadio_CheckedChanged);
             // 
             // QECOnRadio
             // 
@@ -1407,6 +1409,7 @@
             this.toolTip1.SetToolTip(this.QECOnRadio, "Collects error correction data to help correcting it in the Error Correction tab." +
         " No correction is performed during processing.");
             this.QECOnRadio.UseVisualStyleBackColor = true;
+            this.QECOnRadio.CheckedChanged += new System.EventHandler(this.QECOnRadio_CheckedChanged);
             // 
             // label89
             // 
@@ -6045,6 +6048,7 @@
             this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.settingsToolStripMenuItem,
             this.disableTooltipsToolStripMenuItem,
+            this.toolStripSeparator4,
             this.basicModeToolStripMenuItem,
             this.advancedModeToolStripMenuItem,
             this.devModeToolStripMenuItem});
@@ -6069,6 +6073,11 @@
             this.disableTooltipsToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.disableTooltipsToolStripMenuItem.Text = "Enable tooltips";
             this.disableTooltipsToolStripMenuItem.Click += new System.EventHandler(this.disableTooltipsToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(158, 6);
             // 
             // basicModeToolStripMenuItem
             // 
@@ -6800,6 +6809,7 @@
         private System.Windows.Forms.Button GluedDiskPreset;
         private System.Windows.Forms.Button button10;
         private System.Windows.Forms.Button button9;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
     }
 }
 

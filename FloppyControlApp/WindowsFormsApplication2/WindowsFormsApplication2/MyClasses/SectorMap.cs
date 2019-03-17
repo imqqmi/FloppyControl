@@ -126,6 +126,7 @@ namespace FloppyControlApp.MyClasses
             //tbreceived.Append("Sectormap: " + relativetime() + "ms\r\n");
             for (track = 0; track < 166; track++)
             {
+                Application.DoEvents();
                 //tbSectorMap.ForeColor = colBlack;
                 rtbSectorMap.AppendText("T" + track.ToString("D3") + " ");
                 for (sector = 0; sector < processing.sectorspertrack; sector++)

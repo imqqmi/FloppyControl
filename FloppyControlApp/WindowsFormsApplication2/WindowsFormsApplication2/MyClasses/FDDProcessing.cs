@@ -54,6 +54,7 @@ namespace FloppyControlApp
         public bool LimitTSOn { get; set; }
         public bool IgnoreHeaderError { get; set; }
         public bool AutoRefreshSectormap { get; set; }
+        
         public string outputfilename { get; set; }
 
         public ProcessingType processingtype { get { return pprocessingtype; } set { pprocessingtype = value; } }

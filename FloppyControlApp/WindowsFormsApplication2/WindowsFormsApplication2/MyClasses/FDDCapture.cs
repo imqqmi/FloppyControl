@@ -235,9 +235,10 @@ namespace FloppyControlApp
                         }
                     }
                 }
-
+                
                 timerTrackToTrack.Interval = TrackDuration;
                 timerTrackToTrack.Start();
+                
             }
         }
 

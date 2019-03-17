@@ -42,6 +42,8 @@ namespace FloppyControlApp
             //uint reltime = 0;
             bool debuginfo = false;
             SHA256 mySHA256 = SHA256Managed.Create();
+            int sectordata2oldcnt = sectordata2.Count;
+
 
             byte[] amigamarkerbytes = AMIGAMARKER;
 
@@ -148,6 +150,7 @@ namespace FloppyControlApp
 
                             sectordata.MarkerPositions = i - 32; // start at AAAAAAAA
                             sectordata.rxbufMarkerPositions = rxbufcnt; // start of 44894489 uint32, not at AAAAAAAA
+                            
                             if (!sectordata2.TryAdd(sectordata2.Count, sectordata))
                             {
                                 tbreceived.Append("Failed to add to Sectordata dictionary " + markerpositionscntthread + "\r\n");
@@ -219,7 +222,7 @@ namespace FloppyControlApp
 
             MFMData sectordatathread;
 
-            for (sectorindex = 0; sectorindex < sectordata2.Count; sectorindex++)
+            for (sectorindex = sectordata2oldcnt; sectorindex < sectordata2.Count; sectorindex++)
             {
                 sectordatathread = sectordata2[sectorindex];
 

@@ -19,7 +19,7 @@ namespace FloppyControlApp
             getAvailablePorts();
 
             PathToRecoveredDisksTextBox.Text = Properties.Settings.Default["PathToRecoveredDisks"].ToString();
-            MicroSteppingUpDown.Value = (int) Properties.Settings.Default["StepStickMicrostepping"];
+            MicroSteppingUpDown.Value = (decimal)Properties.Settings.Default["StepStickMicrostepping"];
             comboBoxBaud.Text = Properties.Settings.Default["DefaultBaud"].ToString();
             comboBoxPort.SelectedItem = Properties.Settings.Default["DefaultPort"];
 
@@ -28,7 +28,7 @@ namespace FloppyControlApp
         private void SaveSettingsButton_Click(object sender, EventArgs e)
         {
             Properties.Settings.Default["PathToRecoveredDisks"] = PathToRecoveredDisksTextBox.Text;
-            Properties.Settings.Default["StepStickMicrostepping"] = (int) MicroSteppingUpDown.Value;
+            Properties.Settings.Default["StepStickMicrostepping"] = MicroSteppingUpDown.Value;
             Properties.Settings.Default["DefaultPort"] = comboBoxPort.SelectedItem;
             Properties.Settings.Default["DefaultBaud"] = int.Parse( comboBoxBaud.Text );
             Properties.Settings.Default.Save();

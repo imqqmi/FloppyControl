@@ -37,6 +37,7 @@ namespace FloppyControlApp
                 byte previousheadnr = 0xff;
                 bool debuginfo = false;
                 int limitstart, limitend;
+                int sectordata2oldcnt = sectordata2.Count;
 
                 SHA256 mySHA256 = SHA256Managed.Create();
                 int rxbufcnt, searchcnt, overflow = 0;
@@ -128,7 +129,8 @@ namespace FloppyControlApp
                     /*
                     if (writemfm == true)
                     {
-                        path = subpath + @"\" + outputfilename.Text + @"\";
+                        path = subpath + @"\" + 
+                        + @"\";
                         bool exists = System.IO.Directory.Exists(path);
 
                         if (!exists)
@@ -170,7 +172,7 @@ namespace FloppyControlApp
                     progressesend[threadid] = sectordata2.Count;
                     ProcessStatus[threadid] = "Converting MFM to sectors...";
                     int prevmarkerindex = 0;
-                    for (markerindex = 0; markerindex < sectordata2.Count; markerindex++)
+                    for (markerindex = sectordata2oldcnt; markerindex < sectordata2.Count; markerindex++)
                     {
                         MFMData sectordatathread = sectordata2[markerindex];
                         if (sectordatathread.processed == true || sectordatathread.threadid != threadid) continue; // skip if already processed
