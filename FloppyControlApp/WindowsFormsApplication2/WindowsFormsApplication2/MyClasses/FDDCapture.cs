@@ -117,7 +117,7 @@ namespace FloppyControlApp
             subpath = @FloppyControlApp.Properties.Settings.Default["PathToRecoveredDisks"].ToString();
             selectedBaudRate = (int)FloppyControlApp.Properties.Settings.Default["DefaultBaud"];
             selectedPortName = (string)FloppyControlApp.Properties.Settings.Default["DefaultPort"];
-            StepStickMicrostepping = (int)FloppyControlApp.Properties.Settings.Default["MicroStepping"];
+            StepStickMicrostepping = Decimal.ToInt32((decimal)FloppyControlApp.Properties.Settings.Default["MicroStepsPerTrack"]);
             serialPort1.BaudRate = selectedBaudRate;
             serialPort1.NewLine = "\r\n";
             serialPort1.ReceivedBytesThreshold = 500000;

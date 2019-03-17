@@ -140,8 +140,9 @@
             this.QProcAmigaBtn = new System.Windows.Forms.Button();
             this.QProcPCBtn = new System.Windows.Forms.Button();
             this.groupBox12 = new System.Windows.Forms.GroupBox();
-            this.button9 = new System.Windows.Forms.Button();
-            this.button10 = new System.Windows.Forms.Button();
+            this.GluedDiskPreset = new System.Windows.Forms.Button();
+            this.StepStickPresetBtn = new System.Windows.Forms.Button();
+            this.QDirectStepPresetBtn = new System.Windows.Forms.Button();
             this.QRecaptureAllBtn = new System.Windows.Forms.Button();
             this.MainTabControlImageList = new System.Windows.Forms.ImageList(this.components);
             this.button12 = new System.Windows.Forms.Button();
@@ -151,6 +152,8 @@
             this.QCaptureBtn = new System.Windows.Forms.Button();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
+            this.button10 = new System.Windows.Forms.Button();
+            this.button9 = new System.Windows.Forms.Button();
             this.button17 = new System.Windows.Forms.Button();
             this.button22 = new System.Windows.Forms.Button();
             this.button24 = new System.Windows.Forms.Button();
@@ -1934,8 +1937,9 @@
             // groupBox12
             // 
             this.groupBox12.BackColor = System.Drawing.SystemColors.Control;
-            this.groupBox12.Controls.Add(this.button9);
-            this.groupBox12.Controls.Add(this.button10);
+            this.groupBox12.Controls.Add(this.GluedDiskPreset);
+            this.groupBox12.Controls.Add(this.StepStickPresetBtn);
+            this.groupBox12.Controls.Add(this.QDirectStepPresetBtn);
             this.groupBox12.Controls.Add(this.QRecaptureAllBtn);
             this.groupBox12.Controls.Add(this.button12);
             this.groupBox12.Controls.Add(this.button13);
@@ -1950,27 +1954,38 @@
             this.groupBox12.TabStop = false;
             this.groupBox12.Text = "Capture";
             // 
-            // button9
+            // GluedDiskPreset
             // 
-            this.button9.Location = new System.Drawing.Point(240, 91);
-            this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(98, 23);
-            this.button9.TabIndex = 120;
-            this.button9.Text = "StepStick preset";
-            this.toolTip1.SetToolTip(this.button9, "If you use a stepstick, click this button to setup all settings for this mode of " +
+            this.GluedDiskPreset.Location = new System.Drawing.Point(344, 91);
+            this.GluedDiskPreset.Name = "GluedDiskPreset";
+            this.GluedDiskPreset.Size = new System.Drawing.Size(98, 23);
+            this.GluedDiskPreset.TabIndex = 121;
+            this.GluedDiskPreset.Text = "Glued preset";
+            this.toolTip1.SetToolTip(this.GluedDiskPreset, "If you use a stepstick, click this button to setup all settings for this mode of " +
         "operation.");
-            this.button9.Click += new System.EventHandler(this.button8_Click);
+            this.GluedDiskPreset.Click += new System.EventHandler(this.GluedDiskPreset_Click);
             // 
-            // button10
+            // StepStickPresetBtn
             // 
-            this.button10.Location = new System.Drawing.Point(134, 91);
-            this.button10.Name = "button10";
-            this.button10.Size = new System.Drawing.Size(98, 23);
-            this.button10.TabIndex = 119;
-            this.button10.Text = "Direct preset";
-            this.toolTip1.SetToolTip(this.button10, "If you don\'t use a stepstick, click this button to setup all settings for this mo" +
+            this.StepStickPresetBtn.Location = new System.Drawing.Point(240, 91);
+            this.StepStickPresetBtn.Name = "StepStickPresetBtn";
+            this.StepStickPresetBtn.Size = new System.Drawing.Size(98, 23);
+            this.StepStickPresetBtn.TabIndex = 120;
+            this.StepStickPresetBtn.Text = "StepStick preset";
+            this.toolTip1.SetToolTip(this.StepStickPresetBtn, "If you use a stepstick, click this button to setup all settings for this mode of " +
+        "operation.");
+            this.StepStickPresetBtn.Click += new System.EventHandler(this.StepStickPresetBtn_Click);
+            // 
+            // QDirectStepPresetBtn
+            // 
+            this.QDirectStepPresetBtn.Location = new System.Drawing.Point(134, 91);
+            this.QDirectStepPresetBtn.Name = "QDirectStepPresetBtn";
+            this.QDirectStepPresetBtn.Size = new System.Drawing.Size(98, 23);
+            this.QDirectStepPresetBtn.TabIndex = 119;
+            this.QDirectStepPresetBtn.Text = "Direct preset";
+            this.toolTip1.SetToolTip(this.QDirectStepPresetBtn, "If you don\'t use a stepstick, click this button to setup all settings for this mo" +
         "de of operation.");
-            this.button10.Click += new System.EventHandler(this.DirectPresetBtn_Click);
+            this.QDirectStepPresetBtn.Click += new System.EventHandler(this.DirectPresetBtn_Click);
             // 
             // QRecaptureAllBtn
             // 
@@ -2033,8 +2048,9 @@
             // QDirectStepCheckBox
             // 
             this.QDirectStepCheckBox.AutoSize = true;
-            this.QDirectStepCheckBox.Checked = true;
+            this.QDirectStepCheckBox.Checked = global::FloppyControlApp.Properties.Settings.Default.DirectStep;
             this.QDirectStepCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.QDirectStepCheckBox.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::FloppyControlApp.Properties.Settings.Default, "DirectStep", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.QDirectStepCheckBox.Location = new System.Drawing.Point(614, 97);
             this.QDirectStepCheckBox.Name = "QDirectStepCheckBox";
             this.QDirectStepCheckBox.Size = new System.Drawing.Size(76, 17);
@@ -2082,6 +2098,8 @@
             // 
             // groupBox11
             // 
+            this.groupBox11.Controls.Add(this.button10);
+            this.groupBox11.Controls.Add(this.button9);
             this.groupBox11.Controls.Add(this.button17);
             this.groupBox11.Controls.Add(this.button22);
             this.groupBox11.Controls.Add(this.button24);
@@ -2095,29 +2113,49 @@
             this.groupBox11.TabStop = false;
             this.groupBox11.Text = "Preset capture";
             // 
+            // button10
+            // 
+            this.button10.Location = new System.Drawing.Point(332, 19);
+            this.button10.Name = "button10";
+            this.button10.Size = new System.Drawing.Size(37, 23);
+            this.button10.TabIndex = 61;
+            this.button10.Text = "50s";
+            this.button10.UseVisualStyleBackColor = true;
+            this.button10.Click += new System.EventHandler(this.button10_Click);
+            // 
+            // button9
+            // 
+            this.button9.Location = new System.Drawing.Point(271, 19);
+            this.button9.Name = "button9";
+            this.button9.Size = new System.Drawing.Size(26, 23);
+            this.button9.TabIndex = 60;
+            this.button9.Text = "2s";
+            this.button9.UseVisualStyleBackColor = true;
+            this.button9.Click += new System.EventHandler(this.button9_Click);
+            // 
             // button17
             // 
-            this.button17.Location = new System.Drawing.Point(244, 19);
+            this.button17.Location = new System.Drawing.Point(241, 19);
             this.button17.Name = "button17";
-            this.button17.Size = new System.Drawing.Size(57, 23);
+            this.button17.Size = new System.Drawing.Size(26, 23);
             this.button17.TabIndex = 59;
-            this.button17.Text = "1000ms";
+            this.button17.Text = "1s";
             this.button17.UseVisualStyleBackColor = true;
             this.button17.Click += new System.EventHandler(this.button4_Click);
             // 
             // button22
             // 
-            this.button22.Location = new System.Drawing.Point(303, 19);
+            this.button22.Location = new System.Drawing.Point(300, 19);
             this.button22.Name = "button22";
-            this.button22.Size = new System.Drawing.Size(57, 23);
+            this.button22.Size = new System.Drawing.Size(26, 23);
             this.button22.TabIndex = 55;
-            this.button22.Text = "5000ms";
+            this.button22.Text = "5s";
             this.button22.UseVisualStyleBackColor = true;
             this.button22.Click += new System.EventHandler(this.button6_Click);
             // 
             // button24
             // 
-            this.button24.Location = new System.Drawing.Point(186, 19);
+            this.button24.Location = new System.Drawing.Point(183, 19);
             this.button24.Name = "button24";
             this.button24.Size = new System.Drawing.Size(56, 23);
             this.button24.TabIndex = 56;
@@ -2126,7 +2164,7 @@
             // 
             // button27
             // 
-            this.button27.Location = new System.Drawing.Point(127, 19);
+            this.button27.Location = new System.Drawing.Point(124, 19);
             this.button27.Name = "button27";
             this.button27.Size = new System.Drawing.Size(57, 23);
             this.button27.TabIndex = 52;
@@ -2136,7 +2174,7 @@
             // 
             // button30
             // 
-            this.button30.Location = new System.Drawing.Point(10, 19);
+            this.button30.Location = new System.Drawing.Point(7, 19);
             this.button30.Name = "button30";
             this.button30.Size = new System.Drawing.Size(56, 23);
             this.button30.TabIndex = 57;
@@ -2145,7 +2183,7 @@
             // 
             // button37
             // 
-            this.button37.Location = new System.Drawing.Point(68, 19);
+            this.button37.Location = new System.Drawing.Point(65, 19);
             this.button37.Name = "button37";
             this.button37.Size = new System.Drawing.Size(57, 23);
             this.button37.TabIndex = 58;
@@ -2219,6 +2257,7 @@
             // 
             // QTRK00OffsetUpDown
             // 
+            this.QTRK00OffsetUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::FloppyControlApp.Properties.Settings.Default, "TRK00Offset", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.QTRK00OffsetUpDown.Location = new System.Drawing.Point(102, 34);
             this.QTRK00OffsetUpDown.Minimum = new decimal(new int[] {
             100,
@@ -2230,25 +2269,18 @@
             this.QTRK00OffsetUpDown.TabIndex = 47;
             this.toolTip1.SetToolTip(this.QTRK00OffsetUpDown, "Track offset. When seeking TRK00 you can move farther back if you\'re having troub" +
         "le getting track 0 to capture well. Can be negative.");
-            this.QTRK00OffsetUpDown.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            -2147483648});
+            this.QTRK00OffsetUpDown.Value = global::FloppyControlApp.Properties.Settings.Default.TRK00Offset;
             // 
             // QMicrostepsPerTrackUpDown
             // 
+            this.QMicrostepsPerTrackUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::FloppyControlApp.Properties.Settings.Default, "MicroStepsPerTrack", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.QMicrostepsPerTrackUpDown.Location = new System.Drawing.Point(8, 34);
             this.QMicrostepsPerTrackUpDown.Name = "QMicrostepsPerTrackUpDown";
             this.QMicrostepsPerTrackUpDown.Size = new System.Drawing.Size(52, 20);
             this.QMicrostepsPerTrackUpDown.TabIndex = 46;
             this.toolTip1.SetToolTip(this.QMicrostepsPerTrackUpDown, "If you use a step stick, anything under 8 microsteps will read between the tracks" +
         ". For a glued disk, use 2 microsteps for a full recovery.");
-            this.QMicrostepsPerTrackUpDown.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
+            this.QMicrostepsPerTrackUpDown.Value = global::FloppyControlApp.Properties.Settings.Default.MicroStepsPerTrack;
             // 
             // label83
             // 
@@ -2437,7 +2469,7 @@
             this.button8.Size = new System.Drawing.Size(98, 23);
             this.button8.TabIndex = 101;
             this.button8.Text = "StepStick preset";
-            this.button8.Click += new System.EventHandler(this.button8_Click);
+            this.button8.Click += new System.EventHandler(this.StepStickPresetBtn_Click);
             // 
             // button7
             // 
@@ -2535,8 +2567,9 @@
             // DirectStepCheckBox
             // 
             this.DirectStepCheckBox.AutoSize = true;
-            this.DirectStepCheckBox.Checked = true;
+            this.DirectStepCheckBox.Checked = global::FloppyControlApp.Properties.Settings.Default.DirectStep;
             this.DirectStepCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.DirectStepCheckBox.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::FloppyControlApp.Properties.Settings.Default, "DirectStep", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.DirectStepCheckBox.Location = new System.Drawing.Point(9, 229);
             this.DirectStepCheckBox.Name = "DirectStepCheckBox";
             this.DirectStepCheckBox.Size = new System.Drawing.Size(76, 17);
@@ -6643,8 +6676,8 @@
         private System.Windows.Forms.Button button7;
         private System.Windows.Forms.TabPage QuickTab;
         private System.Windows.Forms.GroupBox groupBox12;
-        private System.Windows.Forms.Button button9;
-        private System.Windows.Forms.Button button10;
+        private System.Windows.Forms.Button StepStickPresetBtn;
+        private System.Windows.Forms.Button QDirectStepPresetBtn;
         private System.Windows.Forms.Button QRecaptureAllBtn;
         private System.Windows.Forms.Button button12;
         private System.Windows.Forms.Button button13;
@@ -6764,6 +6797,9 @@
         private System.Windows.Forms.ToolStripMenuItem basicModeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem advancedModeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem devModeToolStripMenuItem;
+        private System.Windows.Forms.Button GluedDiskPreset;
+        private System.Windows.Forms.Button button10;
+        private System.Windows.Forms.Button button9;
     }
 }
 

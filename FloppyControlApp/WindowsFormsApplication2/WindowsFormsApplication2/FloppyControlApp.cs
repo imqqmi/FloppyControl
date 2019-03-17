@@ -141,12 +141,21 @@ namespace FloppyControlApp
             SetGuiMode(GuiMode);
             outputfilename.Text = (string)Properties.Settings.Default["BaseFileName"];
             DirectStepCheckBox.Checked = (bool)Properties.Settings.Default["DirectStep"];
-            MicrostepsPerTrackUpDown.Value = (int)Properties.Settings.Default["MicroStepping"];
-            TRK00OffsetUpDown.Value = (int)Properties.Settings.Default["TRK00Offset"];
+            //MicrostepsPerTrackUpDown.Value = Properties.Settings.Default["MicroStepsPerTrack"];
+            //TRK00OffsetUpDown.Value = (int)Properties.Settings.Default["TRK00Offset"];
 
+            bool directstep = 
             QDirectStepCheckBox.Checked = (bool)Properties.Settings.Default["DirectStep"];
-            QMicrostepsPerTrackUpDown.Value = (int)Properties.Settings.Default["MicroStepping"];
-            QTRK00OffsetUpDown.Value = (int)Properties.Settings.Default["TRK00Offset"];
+            if( directstep == true)
+            {
+                QDirectStepPresetBtn.PerformClick();
+            }
+            else
+            {
+                StepStickPresetBtn.PerformClick();
+            }
+            //QMicrostepsPerTrackUpDown.Value = (int)Properties.Settings.Default["MicroStepsPerTrack"];
+            //QTRK00OffsetUpDown.Value = (int)Properties.Settings.Default["TRK00Offset"];
 
             subpath = @Properties.Settings.Default["PathToRecoveredDisks"].ToString();
 
@@ -921,13 +930,49 @@ namespace FloppyControlApp
                 updateSliderLabels();
             }
         }
+        private void TrackPreset3Button_Click(object sender, EventArgs e)
+        {
+            StartTrackUpDown.Value = 0;
+            EndTracksUpDown.Value = 164;
+            TrackDurationUpDown.Value = 330;
 
+            QStartTrackUpDown.Value = 0;
+            QEndTracksUpDown.Value = 164;
+            QTrackDurationUpDown.Value = 330;
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            TrackDurationUpDown.Value = 1000;
+            QTrackDurationUpDown.Value = 1000;
+        }
+
+        private void TrackPreset4Button_Click(object sender, EventArgs e)
+        {
+            StartTrackUpDown.Value = 78;
+            EndTracksUpDown.Value = 164;
+            TrackDurationUpDown.Value = 330;
+
+            QStartTrackUpDown.Value = 78;
+            QEndTracksUpDown.Value = 164;
+            QTrackDurationUpDown.Value = 330;
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            TrackDurationUpDown.Value = 2000;
+            QTrackDurationUpDown.Value = 2000;
+        }
         private void button6_Click(object sender, EventArgs e)
         {
             TrackDurationUpDown.Value = 5000;
             QTrackDurationUpDown.Value = 5000;
         }
-
+        private void button10_Click(object sender, EventArgs e)
+        {
+            TrackDurationUpDown.Value = 50000;
+            QTrackDurationUpDown.Value = 50000;
+        }
         private void outputfilename_Enter(object sender, EventArgs e)
         {
             disablecatchkey = 1;
@@ -2089,7 +2134,7 @@ namespace FloppyControlApp
             controlfloppy.binfilecount = binfilecount;
             controlfloppy.tbr = tbreceived;
             //processing.indexrxbuf            = indexrxbuf;
-            controlfloppy.StepStickMicrostepping = (int)Properties.Settings.Default["MicroStepping"];
+            controlfloppy.StepStickMicrostepping = (int)Properties.Settings.Default["MicroStepsPerTrack"];
             controlfloppy.outputfilename = outputfilename.Text;
             controlfloppy.rxbuf = processing.rxbuf;
 
@@ -2355,7 +2400,7 @@ namespace FloppyControlApp
 
         private void MicrostepsPerTrackUpDown_ValueChanged(object sender, EventArgs e)
         {
-            Properties.Settings.Default["Microstepping"] = (int)MicrostepsPerTrackUpDown.Value;
+            Properties.Settings.Default["MicroStepsPerTrack"] = (decimal)MicrostepsPerTrackUpDown.Value;
             Properties.Settings.Default.Save();
         }
 
@@ -3327,33 +3372,7 @@ namespace FloppyControlApp
             }
         }
 
-        private void TrackPreset3Button_Click(object sender, EventArgs e)
-        {
-            StartTrackUpDown.Value = 0;
-            EndTracksUpDown.Value = 166;
-            TrackDurationUpDown.Value = 260;
-
-            QStartTrackUpDown.Value = 0;
-            QEndTracksUpDown.Value = 166;
-            QTrackDurationUpDown.Value = 260;
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-            TrackDurationUpDown.Value = 1000;
-            QTrackDurationUpDown.Value = 1000;
-        }
-
-        private void TrackPreset4Button_Click(object sender, EventArgs e)
-        {
-            StartTrackUpDown.Value = 78;
-            EndTracksUpDown.Value = 164;
-            TrackDurationUpDown.Value = 260;
-
-            QStartTrackUpDown.Value = 78;
-            QEndTracksUpDown.Value = 164;
-            QTrackDurationUpDown.Value = 260;
-        }
+        
 
         public void FilterGuiUpdateCallback()
         {
@@ -3397,7 +3416,7 @@ namespace FloppyControlApp
 
         private void TRK00OffsetUpDown_ValueChanged(object sender, EventArgs e)
         {
-            Properties.Settings.Default["TRK00Offset"] = (int)TRK00OffsetUpDown.Value;
+            Properties.Settings.Default["TRK00Offset"] = (decimal)TRK00OffsetUpDown.Value;
             Properties.Settings.Default.Save();
         }
 
@@ -3415,19 +3434,19 @@ namespace FloppyControlApp
             controlfloppy.MicrostepsPerTrack = 1;
             controlfloppy.DirectStep = true;
 
-            Properties.Settings.Default["StepStickMicrostepping"] = 1;
-            Properties.Settings.Default["Microstepping"] = 1;
-            Properties.Settings.Default["TRK00Offset"] = -1;
+            Properties.Settings.Default["StepStickMicrostepping"] = (decimal)1;
+            Properties.Settings.Default["MicroStepsPerTrack"] = (decimal)1;
+            Properties.Settings.Default["TRK00Offset"] = (decimal)-1;
             Properties.Settings.Default["DirectStep"] = true;
             Properties.Settings.Default.Save();
         }
 
-        private void button8_Click(object sender, EventArgs e)
+        private void StepStickPresetBtn_Click(object sender, EventArgs e)
         {
             TRK00OffsetUpDown.Value = 0;
             MicrostepsPerTrackUpDown.Value = 8;
 
-            QTRK00OffsetUpDown.Value = 16;
+            QTRK00OffsetUpDown.Value = 0;
             QMicrostepsPerTrackUpDown.Value = 8;
 
             DirectStepCheckBox.Checked = false;
@@ -3435,9 +3454,9 @@ namespace FloppyControlApp
             controlfloppy.MicrostepsPerTrack = 8;
             controlfloppy.DirectStep = false;
 
-            Properties.Settings.Default["StepStickMicrostepping"] = 8;
-            Properties.Settings.Default["Microstepping"] = 8;
-            Properties.Settings.Default["TRK00Offset"] = 16;
+            Properties.Settings.Default["StepStickMicrostepping"] = (decimal)8;
+            Properties.Settings.Default["MicroStepsPerTrack"] = (decimal)8;
+            Properties.Settings.Default["TRK00Offset"] = (decimal)0;
             Properties.Settings.Default["DirectStep"] = false;
             Properties.Settings.Default.Save();
 
@@ -3658,6 +3677,28 @@ namespace FloppyControlApp
             }
 
         }
+
+        private void GluedDiskPreset_Click(object sender, EventArgs e)
+        {
+            TRK00OffsetUpDown.Value = 0;
+            MicrostepsPerTrackUpDown.Value = 2;
+
+            QTRK00OffsetUpDown.Value = -16;
+            QMicrostepsPerTrackUpDown.Value = 8;
+
+            DirectStepCheckBox.Checked = false;
+            controlfloppy.StepStickMicrostepping = 8;
+            controlfloppy.MicrostepsPerTrack = 8;
+            controlfloppy.DirectStep = false;
+
+            Properties.Settings.Default["StepStickMicrostepping"] = (decimal)8;
+            Properties.Settings.Default["MicroStepsPerTrack"] = (decimal)2;
+            Properties.Settings.Default["TRK00Offset"] = (decimal)-16;
+            Properties.Settings.Default["DirectStep"] = false;
+            Properties.Settings.Default.Save();
+        }
+
+
     } // end class
 } // End namespace
 

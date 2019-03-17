@@ -5,7 +5,7 @@
     <Setting Name="PathToRecoveredDisks" Type="System.String" Scope="User">
       <Value Profile="(Default)">D:\data\Projects\FloppyControl\DiskRecoveries</Value>
     </Setting>
-    <Setting Name="MicroStepping" Type="System.Int32" Scope="User">
+    <Setting Name="MicroStepsPerTrack" Type="System.Decimal" Scope="User">
       <Value Profile="(Default)">1</Value>
     </Setting>
     <Setting Name="DefaultPort" Type="System.String" Scope="User">
@@ -23,10 +23,10 @@
     <Setting Name="DirectStep" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="StepStickMicrostepping" Type="System.Int32" Scope="User">
+    <Setting Name="StepStickMicrostepping" Type="System.Decimal" Scope="User">
       <Value Profile="(Default)">1</Value>
     </Setting>
-    <Setting Name="TRK00Offset" Type="System.Int32" Scope="User">
+    <Setting Name="TRK00Offset" Type="System.Decimal" Scope="User">
       <Value Profile="(Default)">-1</Value>
     </Setting>
     <Setting Name="FourSix" Type="System.Int32" Scope="User">

@@ -38,12 +38,12 @@ namespace FloppyControlApp.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("1")]
-        public int MicroStepping {
+        public decimal MicroStepsPerTrack {
             get {
-                return ((int)(this["MicroStepping"]));
+                return ((decimal)(this["MicroStepsPerTrack"]));
             }
             set {
-                this["MicroStepping"] = value;
+                this["MicroStepsPerTrack"] = value;
             }
         }
         
@@ -110,9 +110,9 @@ namespace FloppyControlApp.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("1")]
-        public int StepStickMicrostepping {
+        public decimal StepStickMicrostepping {
             get {
-                return ((int)(this["StepStickMicrostepping"]));
+                return ((decimal)(this["StepStickMicrostepping"]));
             }
             set {
                 this["StepStickMicrostepping"] = value;
@@ -122,9 +122,9 @@ namespace FloppyControlApp.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("-1")]
-        public int TRK00Offset {
+        public decimal TRK00Offset {
             get {
-                return ((int)(this["TRK00Offset"]));
+                return ((decimal)(this["TRK00Offset"]));
             }
             set {
                 this["TRK00Offset"] = value;
