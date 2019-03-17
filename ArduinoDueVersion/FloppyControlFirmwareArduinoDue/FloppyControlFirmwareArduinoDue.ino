@@ -435,5 +435,5 @@ void inctrack(void)
     digitalWrite( STEP, LO); //STEP = 0; // pulse a step, 2us pulses
     delayMicroseconds(6);
     digitalWrite( STEP, HI); //STEP = 1;
-    delay(TRACKDELAY); // wait 20ms between pulses
+    delay(3); // wait 3ms between pulses
 }

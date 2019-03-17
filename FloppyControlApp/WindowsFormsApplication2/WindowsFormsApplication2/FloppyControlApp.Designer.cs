@@ -168,12 +168,6 @@
             this.label85 = new System.Windows.Forms.Label();
             this.label86 = new System.Windows.Forms.Label();
             this.CaptureTab = new System.Windows.Forms.TabPage();
-            this.button53 = new System.Windows.Forms.Button();
-            this.button54 = new System.Windows.Forms.Button();
-            this.button52 = new System.Windows.Forms.Button();
-            this.button50 = new System.Windows.Forms.Button();
-            this.button51 = new System.Windows.Forms.Button();
-            this.button16 = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.rxbufEndUpDown = new System.Windows.Forms.NumericUpDown();
             this.rxbufStartUpDown = new System.Windows.Forms.NumericUpDown();
@@ -475,13 +469,15 @@
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.disableTooltipsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.basicModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.advancedModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.devModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ThreadsUpDown = new System.Windows.Forms.NumericUpDown();
             this.label59 = new System.Windows.Forms.Label();
             this.StopButton = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.ScatterPlottabPage.SuspendLayout();
@@ -602,7 +598,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.TrackUpDown)).BeginInit();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ThreadsUpDown)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
             // 
             // openFileDialog1
@@ -806,7 +801,6 @@
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(616, 473);
             this.tabControl1.TabIndex = 42;
-            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
             // ScatterPlottabPage
             // 
@@ -2160,6 +2154,7 @@
             // 
             // QTrackDurationUpDown
             // 
+            this.QTrackDurationUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::FloppyControlApp.Properties.Settings.Default, "TrackDuration", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.QTrackDurationUpDown.Increment = new decimal(new int[] {
             100,
             0,
@@ -2175,11 +2170,7 @@
             this.QTrackDurationUpDown.Size = new System.Drawing.Size(52, 20);
             this.QTrackDurationUpDown.TabIndex = 50;
             this.toolTip1.SetToolTip(this.QTrackDurationUpDown, resources.GetString("QTrackDurationUpDown.ToolTip"));
-            this.QTrackDurationUpDown.Value = new decimal(new int[] {
-            260,
-            0,
-            0,
-            0});
+            this.QTrackDurationUpDown.Value = global::FloppyControlApp.Properties.Settings.Default.TrackDuration;
             // 
             // QStartTrackUpDown
             // 
@@ -2298,13 +2289,6 @@
             // CaptureTab
             // 
             this.CaptureTab.BackColor = System.Drawing.SystemColors.Control;
-            this.CaptureTab.Controls.Add(this.numericUpDown1);
-            this.CaptureTab.Controls.Add(this.button53);
-            this.CaptureTab.Controls.Add(this.button54);
-            this.CaptureTab.Controls.Add(this.button52);
-            this.CaptureTab.Controls.Add(this.button50);
-            this.CaptureTab.Controls.Add(this.button51);
-            this.CaptureTab.Controls.Add(this.button16);
             this.CaptureTab.Controls.Add(this.groupBox4);
             this.CaptureTab.Controls.Add(this.button8);
             this.CaptureTab.Controls.Add(this.button7);
@@ -2326,70 +2310,6 @@
             this.CaptureTab.Size = new System.Drawing.Size(966, 775);
             this.CaptureTab.TabIndex = 0;
             this.CaptureTab.Text = "Capture";
-            // 
-            // button53
-            // 
-            this.button53.Location = new System.Drawing.Point(590, 58);
-            this.button53.Name = "button53";
-            this.button53.Size = new System.Drawing.Size(72, 40);
-            this.button53.TabIndex = 108;
-            this.button53.Text = "Head 1";
-            this.button53.UseVisualStyleBackColor = true;
-            this.button53.Click += new System.EventHandler(this.button53_Click);
-            // 
-            // button54
-            // 
-            this.button54.Location = new System.Drawing.Point(512, 58);
-            this.button54.Name = "button54";
-            this.button54.Size = new System.Drawing.Size(72, 40);
-            this.button54.TabIndex = 107;
-            this.button54.Text = "Head 0";
-            this.button54.UseVisualStyleBackColor = true;
-            this.button54.Click += new System.EventHandler(this.button54_Click);
-            // 
-            // button52
-            // 
-            this.button52.Location = new System.Drawing.Point(408, 55);
-            this.button52.Name = "button52";
-            this.button52.Size = new System.Drawing.Size(72, 40);
-            this.button52.TabIndex = 106;
-            this.button52.Text = "Stop";
-            this.button52.UseVisualStyleBackColor = true;
-            this.button52.Click += new System.EventHandler(this.button52_Click);
-            // 
-            // button50
-            // 
-            this.button50.Location = new System.Drawing.Point(590, 9);
-            this.button50.Name = "button50";
-            this.button50.Size = new System.Drawing.Size(72, 40);
-            this.button50.TabIndex = 105;
-            this.button50.Text = "Step >";
-            this.button50.UseVisualStyleBackColor = true;
-            this.button50.Click += new System.EventHandler(this.button50_Click);
-            // 
-            // button51
-            // 
-            this.button51.Location = new System.Drawing.Point(512, 9);
-            this.button51.Name = "button51";
-            this.button51.Size = new System.Drawing.Size(72, 40);
-            this.button51.TabIndex = 104;
-            this.button51.Text = "Step <";
-            this.button51.UseVisualStyleBackColor = true;
-            this.button51.Click += new System.EventHandler(this.button51_Click);
-            // 
-            // button16
-            // 
-            this.button16.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button16.ImageIndex = 0;
-            this.button16.ImageList = this.MainTabControlImageList;
-            this.button16.Location = new System.Drawing.Point(408, 9);
-            this.button16.Name = "button16";
-            this.button16.Size = new System.Drawing.Size(97, 40);
-            this.button16.TabIndex = 103;
-            this.button16.Text = "CaptureTest";
-            this.button16.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.button16.UseVisualStyleBackColor = true;
-            this.button16.Click += new System.EventHandler(this.button16_Click);
             // 
             // groupBox4
             // 
@@ -2733,6 +2653,7 @@
             // 
             // TrackDurationUpDown
             // 
+            this.TrackDurationUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::FloppyControlApp.Properties.Settings.Default, "TrackDuration", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.TrackDurationUpDown.Increment = new decimal(new int[] {
             100,
             0,
@@ -2747,11 +2668,7 @@
             this.TrackDurationUpDown.Name = "TrackDurationUpDown";
             this.TrackDurationUpDown.Size = new System.Drawing.Size(52, 20);
             this.TrackDurationUpDown.TabIndex = 50;
-            this.TrackDurationUpDown.Value = new decimal(new int[] {
-            260,
-            0,
-            0,
-            0});
+            this.TrackDurationUpDown.Value = global::FloppyControlApp.Properties.Settings.Default.TrackDuration;
             // 
             // StartTrackUpDown
             // 
@@ -2764,6 +2681,11 @@
             this.StartTrackUpDown.Name = "StartTrackUpDown";
             this.StartTrackUpDown.Size = new System.Drawing.Size(52, 20);
             this.StartTrackUpDown.TabIndex = 48;
+            this.StartTrackUpDown.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
             // 
             // EndTracksUpDown
             // 
@@ -2777,7 +2699,7 @@
             this.EndTracksUpDown.Size = new System.Drawing.Size(52, 20);
             this.EndTracksUpDown.TabIndex = 49;
             this.EndTracksUpDown.Value = new decimal(new int[] {
-            166,
+            19,
             0,
             0,
             0});
@@ -3966,7 +3888,6 @@
             this.ECInfoTabs.SelectedIndex = 0;
             this.ECInfoTabs.Size = new System.Drawing.Size(452, 450);
             this.ECInfoTabs.TabIndex = 4009;
-            this.ECInfoTabs.SelectedIndexChanged += new System.EventHandler(this.ECInfoTabs_SelectedIndexChanged);
             // 
             // ECTabSectorData
             // 
@@ -5921,7 +5842,7 @@
             // 
             // timer1
             // 
-            this.timer1.Interval = 1000;
+            this.timer1.Interval = 250;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // GCbutton
@@ -6090,7 +6011,10 @@
             // 
             this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.settingsToolStripMenuItem,
-            this.disableTooltipsToolStripMenuItem});
+            this.disableTooltipsToolStripMenuItem,
+            this.basicModeToolStripMenuItem,
+            this.advancedModeToolStripMenuItem,
+            this.devModeToolStripMenuItem});
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
             this.optionsToolStripMenuItem.Size = new System.Drawing.Size(61, 23);
             this.optionsToolStripMenuItem.Text = "Options";
@@ -6099,7 +6023,7 @@
             // 
             this.settingsToolStripMenuItem.Image = global::FloppyControlApp.Properties.Resources.IconSettings;
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.settingsToolStripMenuItem.Text = "Settings";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.SettingsButton_Click);
             // 
@@ -6109,9 +6033,33 @@
             this.disableTooltipsToolStripMenuItem.CheckOnClick = true;
             this.disableTooltipsToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.disableTooltipsToolStripMenuItem.Name = "disableTooltipsToolStripMenuItem";
-            this.disableTooltipsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.disableTooltipsToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.disableTooltipsToolStripMenuItem.Text = "Enable tooltips";
             this.disableTooltipsToolStripMenuItem.Click += new System.EventHandler(this.disableTooltipsToolStripMenuItem_Click);
+            // 
+            // basicModeToolStripMenuItem
+            // 
+            this.basicModeToolStripMenuItem.CheckOnClick = true;
+            this.basicModeToolStripMenuItem.Name = "basicModeToolStripMenuItem";
+            this.basicModeToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.basicModeToolStripMenuItem.Text = "Basic mode";
+            this.basicModeToolStripMenuItem.Click += new System.EventHandler(this.basicModeToolStripMenuItem_Click);
+            // 
+            // advancedModeToolStripMenuItem
+            // 
+            this.advancedModeToolStripMenuItem.CheckOnClick = true;
+            this.advancedModeToolStripMenuItem.Name = "advancedModeToolStripMenuItem";
+            this.advancedModeToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.advancedModeToolStripMenuItem.Text = "Advanced mode";
+            this.advancedModeToolStripMenuItem.Click += new System.EventHandler(this.advancedModeToolStripMenuItem_Click);
+            // 
+            // devModeToolStripMenuItem
+            // 
+            this.devModeToolStripMenuItem.CheckOnClick = true;
+            this.devModeToolStripMenuItem.Name = "devModeToolStripMenuItem";
+            this.devModeToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.devModeToolStripMenuItem.Text = "Dev mode";
+            this.devModeToolStripMenuItem.Click += new System.EventHandler(this.devModeToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -6177,18 +6125,6 @@
             // toolTip1
             // 
             this.toolTip1.Active = global::FloppyControlApp.Properties.Settings.Default.TooltipDisable;
-            // 
-            // numericUpDown1
-            // 
-            this.numericUpDown1.Location = new System.Drawing.Point(425, 107);
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(52, 20);
-            this.numericUpDown1.TabIndex = 109;
-            this.numericUpDown1.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
             // 
             // FloppyControl
             // 
@@ -6379,7 +6315,6 @@
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ThreadsUpDown)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -6826,13 +6761,9 @@
         private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem disableTooltipsToolStripMenuItem;
-        private System.Windows.Forms.Button button16;
-        private System.Windows.Forms.Button button50;
-        private System.Windows.Forms.Button button51;
-        private System.Windows.Forms.Button button52;
-        private System.Windows.Forms.Button button53;
-        private System.Windows.Forms.Button button54;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.ToolStripMenuItem basicModeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem advancedModeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem devModeToolStripMenuItem;
     }
 }
 

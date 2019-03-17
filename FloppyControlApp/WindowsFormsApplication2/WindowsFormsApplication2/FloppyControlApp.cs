@@ -61,7 +61,7 @@ namespace FloppyControlApp
             public MFMData sectordata { get; set; }
             public int cmd { get; set; }
         }
-
+        private string GuiMode;
         private FDDProcessing processing;
         private ControlFloppy controlfloppy;
         private connectsocketNIVisa2 scope = new connectsocketNIVisa2();
@@ -137,7 +137,8 @@ namespace FloppyControlApp
             scatterplot.EditScatterplot = EditScatterPlotcheckBox.Checked;
             processing.indexrxbuf = 0;
 
-
+            GuiMode = outputfilename.Text = (string)Properties.Settings.Default["GuiMode"];
+            SetGuiMode(GuiMode);
             outputfilename.Text = (string)Properties.Settings.Default["BaseFileName"];
             DirectStepCheckBox.Checked = (bool)Properties.Settings.Default["DirectStep"];
             MicrostepsPerTrackUpDown.Value = (int)Properties.Settings.Default["MicroStepping"];
@@ -596,45 +597,7 @@ namespace FloppyControlApp
 
 
 
-        private void ConnectClassbutton_Click(object sender, EventArgs e)
-        {
-            ConnectToFloppyControlHardware();
-        }
-
-        private void ConnectToFloppyControlHardware()
-        {
-            controlfloppy.binfilecount = binfilecount;
-            controlfloppy.DirectStep = DirectStepCheckBox.Checked;
-            controlfloppy.MicrostepsPerTrack = (int)MicrostepsPerTrackUpDown.Value;
-            controlfloppy.trk00offset = (int)TRK00OffsetUpDown.Value;
-            controlfloppy.EndTrack = (int)EndTracksUpDown.Value;
-            controlfloppy.StartTrack = (int)StartTrackUpDown.Value;
-            controlfloppy.tbr = tbreceived;
-            //processing.indexrxbuf            = indexrxbuf;
-            controlfloppy.StepStickMicrostepping = (int)Properties.Settings.Default["MicroStepping"];
-            controlfloppy.outputfilename = outputfilename.Text;
-            controlfloppy.rxbuf = processing.rxbuf;
-
-            // Callbacks
-            controlfloppy.updateHistoAndSliders = updateHistoAndSliders;
-            controlfloppy.ControlFloppyScatterplotCallback = ControlFloppyScatterplotCallback;
-            controlfloppy.Setrxbufcontrol = Setrxbufcontrol;
-
-            if (!controlfloppy.serialPort1.IsOpen) // Open connection if it's closed
-            {
-                controlfloppy.ConnectFDD();
-                if (controlfloppy.serialPort1.IsOpen)
-                {
-                    LabelStatus.Text = "Connected.";
-                }
-                else
-                {
-                    LabelStatus.Text = "Disconnected.";
-                }
-            }
-            else // Close connection if open
-                DisconnectFromFloppyControlHardware();
-        }
+        
 
         private void DisconnectFromFloppyControlHardware()
         {
@@ -657,7 +620,7 @@ namespace FloppyControlApp
             scatterplot.AnScatViewlength = controlfloppy.recentreadbuflength;
             controlfloppy.recentreadbuflength = 0;
             //scatterplot.UpdateScatterPlot();
-            CurrentTrackLabel.Text = controlfloppy.currenttrackPrintable.ToString();
+            CurrentTrackLabel.Text = controlfloppy.CurrentTrack.ToString("F2");
             updateAllGraphs();
 
         }
@@ -2089,7 +2052,6 @@ namespace FloppyControlApp
             scope.capturetimerstop();
         }
 
-
         private void CaptureClassbutton_Click(object sender, EventArgs e)
         {
             bytesReceived = 0;
@@ -2097,19 +2059,66 @@ namespace FloppyControlApp
             CaptureTracks();
         }
 
+        private void ConnectClassbutton_Click(object sender, EventArgs e)
+        {
+            ConnectToFloppyControlHardware();
+        }
+
+        private void ConnectToFloppyControlHardware()
+        {
+            if (MainTabControl.SelectedTab == ProcessingTab)
+            {
+                controlfloppy.DirectStep = DirectStepCheckBox.Checked;
+                controlfloppy.MicrostepsPerTrack = (int)MicrostepsPerTrackUpDown.Value;
+                controlfloppy.trk00offset = (int)TRK00OffsetUpDown.Value;
+                controlfloppy.EndTrack = (int)EndTracksUpDown.Value;
+                controlfloppy.StartTrack = (int)StartTrackUpDown.Value;
+                controlfloppy.TrackDuration = (int)TrackDurationUpDown.Value;
+
+            }
+            else if (MainTabControl.SelectedTab == QuickTab)
+            {
+                controlfloppy.DirectStep = QDirectStepCheckBox.Checked;
+                controlfloppy.MicrostepsPerTrack = (int)QMicrostepsPerTrackUpDown.Value;
+                controlfloppy.trk00offset = (int)QTRK00OffsetUpDown.Value;
+                controlfloppy.EndTrack = (int)QEndTracksUpDown.Value;
+                controlfloppy.StartTrack = (int)QStartTrackUpDown.Value;
+                controlfloppy.TrackDuration = (int)QTrackDurationUpDown.Value;
+            }
+
+            controlfloppy.binfilecount = binfilecount;
+            controlfloppy.tbr = tbreceived;
+            //processing.indexrxbuf            = indexrxbuf;
+            controlfloppy.StepStickMicrostepping = (int)Properties.Settings.Default["MicroStepping"];
+            controlfloppy.outputfilename = outputfilename.Text;
+            controlfloppy.rxbuf = processing.rxbuf;
+
+            // Callbacks
+            controlfloppy.updateHistoAndSliders = updateHistoAndSliders;
+            controlfloppy.ControlFloppyScatterplotCallback = ControlFloppyScatterplotCallback;
+            controlfloppy.Setrxbufcontrol = Setrxbufcontrol;
+
+            if (!controlfloppy.serialPort1.IsOpen) // Open connection if it's closed
+            {
+                controlfloppy.ConnectFDD();
+                if (controlfloppy.serialPort1.IsOpen)
+                {
+                    LabelStatus.Text = "Connected.";
+                }
+                else
+                {
+                    LabelStatus.Text = "Disconnected.";
+                }
+            }
+            else // Close connection if open
+                DisconnectFromFloppyControlHardware();
+        }
         private void CaptureTracks()
         {
             resetinput();
             processing.entropy = null;
             tabControl1.SelectedTab = ScatterPlottabPage;
-            controlfloppy.MicrostepsPerTrack = (int)MicrostepsPerTrackUpDown.Value;
-            controlfloppy.StepStickMicrostepping = (int)Properties.Settings.Default["StepStickMicrostepping"];
-            controlfloppy.trk00offset = (int)TRK00OffsetUpDown.Value;
-            controlfloppy.EndTrack = (int)EndTracksUpDown.Value;
-            controlfloppy.StartTrack = (int)StartTrackUpDown.Value;
-            //if (controlfloppy.EndTrack == controlfloppy.StartTrack)
-            //    controlfloppy.EndTrack++;
-            controlfloppy.TrackDuration = (int)TrackDurationUpDown.Value;
+
             controlfloppy.outputfilename = outputfilename.Text;
 
             if (controlfloppy.serialPort1.IsOpen)
@@ -3591,209 +3600,63 @@ namespace FloppyControlApp
             else toolTip1.Active = false;
         }
 
-        private void ECInfoTabs_SelectedIndexChanged(object sender, EventArgs e)
+        private void basicModeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            SetGuiMode("basic");
         }
 
-        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        private void advancedModeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            SetGuiMode("advanced");
         }
 
-        private void button16_Click(object sender, EventArgs e)
+        private void devModeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ConnectToFloppyControlHardware();
-            resetinput();
-            processing.entropy = null;
-            tabControl1.SelectedTab = ScatterPlottabPage;
-            controlfloppy.MicrostepsPerTrack = (int)MicrostepsPerTrackUpDown.Value;
-            controlfloppy.StepStickMicrostepping = (int)Properties.Settings.Default["StepStickMicrostepping"];
-            controlfloppy.trk00offset = (int)TRK00OffsetUpDown.Value;
-            controlfloppy.EndTrack = (int)EndTracksUpDown.Value;
-            controlfloppy.StartTrack = (int)StartTrackUpDown.Value;
-            //if (controlfloppy.EndTrack == controlfloppy.StartTrack)
-            //    controlfloppy.EndTrack++;
-            controlfloppy.TrackDuration = (int)TrackDurationUpDown.Value;
-            controlfloppy.outputfilename = outputfilename.Text;
+            SetGuiMode("dev");
+        }
 
-            if (controlfloppy.serialPort1.IsOpen)
+        private void SetGuiMode(string mode)
+        {
+            GuiMode = mode;
+            if ( mode == "basic")
             {
-                controlfloppy.serialPort1.Write(']'.ToString()); // Full step
-                Thread.Sleep(10);
-                controlfloppy.serialPort1.Write('.'.ToString()); // Stop capture
-                Thread.Sleep(10);
-                controlfloppy.serialPort1.Write('a'.ToString()); // Motor on
-                Thread.Sleep(10);
-                controlfloppy.serialPort1.Write('s'.ToString()); // Motor on
-                Thread.Sleep(10);
-                controlfloppy.serialPort1.Write('-'.ToString()); // Inverting step/dir signal for stepstick
+                basicModeToolStripMenuItem.Checked = true;
+                advancedModeToolStripMenuItem.Checked = false;
+                devModeToolStripMenuItem.Checked = false;
 
-                int track = (int)numericUpDown1.Value;
-
-                switch( track )
-                {
-                    case 0:
-                        GotoTrack0();
-                        break;
-                    case 1:
-                        GotoTrack1();
-                        break;
-                    case 2:
-                        GotoTrack2();
-                        break;
-                    case 3:
-                        GotoTrack3();
-                        break;
-                    case 4:
-                        GotoTrack4();
-                        break;
-                    case 5:
-                        GotoTrack5();
-                        break;
-                    case 6:
-                        GotoTrack6();
-                        break;
-                }
-                
-
-
-                controlfloppy.serialPort1.Write(','.ToString()); // TRK00
-
-                controlfloppy.capturecommand = 1;
-
-                if (controlfloppy.StepStickMicrostepping > 1)
-                    for (int i = 0; i < controlfloppy.StepStickMicrostepping - 1; i++)
-                    {
-                        controlfloppy.serialPort1.Write('['.ToString()); // Full step
-                        Thread.Sleep(10);
-                    }
-
-                timer1.Start();
+                MainTabControl.TabPages.Remove(CaptureTab);
+                MainTabControl.TabPages.Remove(ProcessingTab);
+                MainTabControl.TabPages.Remove(AnalysisPage);
+                MainTabControl.TabPages.Remove(AnalysisTab2);
+                MainTabControl.TabPages.Remove(NetworkTab);
             }
-            else
-                tbreceived.Append("Not connected.\r\n");
 
-        }
+            if (mode == "advanced")
+            {
+                basicModeToolStripMenuItem.Checked = false;
+                advancedModeToolStripMenuItem.Checked = true;
+                devModeToolStripMenuItem.Checked = false;
 
-        private void GotoTrack0()
-        {
-            controlfloppy.serialPort1.Write('0'.ToString()); // TRK00
-            Thread.Sleep(1500);
-            controlfloppy.serialPort1.Write('h'.ToString()); // Head 1
+                MainTabControl.TabPages.Remove(CaptureTab);
+                MainTabControl.TabPages.Remove(ProcessingTab);
+                MainTabControl.TabPages.Remove(AnalysisPage);
+                if (!MainTabControl.TabPages.Contains(AnalysisTab2)) MainTabControl.TabPages.Add(AnalysisTab2);
+                if (!MainTabControl.TabPages.Contains(NetworkTab)) MainTabControl.TabPages.Add(NetworkTab);
+            }
 
-            controlfloppy.serialPort1.Write('g'.ToString()); // previous track
-            Thread.Sleep(10);
-            controlfloppy.serialPort1.Write('g'.ToString()); // previous track
-            Thread.Sleep(10);
+            if (mode == "dev")
+            {
+                basicModeToolStripMenuItem.Checked = false;
+                advancedModeToolStripMenuItem.Checked = false;
+                devModeToolStripMenuItem.Checked = true;
 
-        }
+                if (!MainTabControl.TabPages.Contains(CaptureTab)) MainTabControl.TabPages.Add(CaptureTab);
+                if (!MainTabControl.TabPages.Contains(ProcessingTab)) MainTabControl.TabPages.Add(ProcessingTab);
+                if (!MainTabControl.TabPages.Contains(AnalysisPage)) MainTabControl.TabPages.Add(AnalysisPage);
+                if (!MainTabControl.TabPages.Contains(AnalysisTab2)) MainTabControl.TabPages.Add(AnalysisTab2);
+                if (!MainTabControl.TabPages.Contains(NetworkTab)) MainTabControl.TabPages.Add(NetworkTab);
+            }
 
-        private void GotoTrack1()
-        {
-            controlfloppy.serialPort1.Write('0'.ToString()); // TRK00
-            Thread.Sleep(1500);
-            controlfloppy.serialPort1.Write('j'.ToString()); // Head 0
-
-            controlfloppy.serialPort1.Write('g'.ToString()); // previous track
-            Thread.Sleep(10);
-            controlfloppy.serialPort1.Write('g'.ToString()); // previous track
-            Thread.Sleep(10);
-            controlfloppy.serialPort1.Write('g'.ToString()); // previous track
-            Thread.Sleep(10);
-            controlfloppy.serialPort1.Write('g'.ToString()); // previous track
-            Thread.Sleep(10);
-
-        }
-
-        private void GotoTrack2()
-        {
-            controlfloppy.serialPort1.Write('0'.ToString()); // TRK00
-            Thread.Sleep(1500);
-            controlfloppy.serialPort1.Write('h'.ToString()); // Head 1
-        }
-
-
-
-        private void GotoTrack3()
-        {
-            controlfloppy.serialPort1.Write('0'.ToString()); // TRK00
-            Thread.Sleep(1500);
-            controlfloppy.serialPort1.Write('j'.ToString()); // Head 0
-
-            controlfloppy.serialPort1.Write('g'.ToString()); // previous track
-            Thread.Sleep(10);
-            controlfloppy.serialPort1.Write('g'.ToString()); // previous track
-            Thread.Sleep(10);
-        }
-
-        private void GotoTrack4()
-        {
-            controlfloppy.serialPort1.Write('0'.ToString()); // TRK00
-            Thread.Sleep(1500);
-            controlfloppy.serialPort1.Write('h'.ToString()); // Head 1
-
-            controlfloppy.serialPort1.Write('t'.ToString()); // previous track
-            Thread.Sleep(10);
-
-            controlfloppy.serialPort1.Write('t'.ToString()); // previous track
-            Thread.Sleep(10);
-
-
-        }
-
-        private void GotoTrack5()
-        {
-            controlfloppy.serialPort1.Write('0'.ToString()); // TRK00
-            Thread.Sleep(1500);
-            controlfloppy.serialPort1.Write('j'.ToString()); // Head 0
-        }
-
-        private void GotoTrack6()
-        {
-            controlfloppy.serialPort1.Write('0'.ToString()); // TRK00
-            Thread.Sleep(1500);
-            controlfloppy.serialPort1.Write('h'.ToString()); // Head 1
-
-            controlfloppy.serialPort1.Write('t'.ToString()); // previous track
-            Thread.Sleep(10);
-            controlfloppy.serialPort1.Write('t'.ToString()); // previous track
-            Thread.Sleep(10);
-            controlfloppy.serialPort1.Write('t'.ToString()); // previous track
-            Thread.Sleep(10);
-            controlfloppy.serialPort1.Write('t'.ToString()); // previous track
-            Thread.Sleep(10);
-
-        }
-
-        private void button52_Click(object sender, EventArgs e)
-        {
-            controlfloppy.serialPort1.Write('.'.ToString()); // previous track
-            timer1.Stop();
-            controlfloppy.StopCapture();
-            controlfloppy.Disconnect();
-        }
-
-        private void button50_Click(object sender, EventArgs e)
-        {
-            for(int i = 0; i < 8; i++)
-                controlfloppy.serialPort1.Write('t'.ToString()); // Next track
-        }
-
-        private void button51_Click(object sender, EventArgs e)
-        {
-            for (int i = 0; i < 8; i++)
-                controlfloppy.serialPort1.Write('g'.ToString()); // previous track
-        }
-
-        private void button54_Click(object sender, EventArgs e)
-        {
-            controlfloppy.serialPort1.Write('j'.ToString()); // Head 0
-        }
-
-        private void button53_Click(object sender, EventArgs e)
-        {
-            controlfloppy.serialPort1.Write('h'.ToString()); // Head 0
         }
     } // end class
 } // End namespace
