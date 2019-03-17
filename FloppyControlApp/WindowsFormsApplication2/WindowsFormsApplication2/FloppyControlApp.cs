@@ -62,7 +62,8 @@ namespace FloppyControlApp
             public int cmd { get; set; }
         }
         private System.Windows.Forms.Timer timerx = new System.Windows.Forms.Timer();
-        private int testtrack, trk00pos;
+        
+        private double testtrack, trk00pos;
         private FDDProcessing processing;
         private ControlFloppy controlfloppy;
         private connectsocketNIVisa2 scope = new connectsocketNIVisa2();
@@ -107,6 +108,8 @@ namespace FloppyControlApp
 
         public FloppyControl()
         {
+            timerx.Tick += timerx_Tick;
+
             version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
             DateTime buildDate = new DateTime(2000, 1, 1)
                                     .AddDays(version.Build).AddSeconds(version.Revision * 2);
@@ -3630,55 +3633,115 @@ namespace FloppyControlApp
                 Thread.Sleep(10);
                 controlfloppy.serialPort1.Write('-'.ToString()); // Inverting step/dir signal for stepstick
 
-                int track = (int)numericUpDown1.Value;
+                //int track = (int)numericUpDown1.Value;
 
-                switch( track )
-                {
-                    case 0:
-                        GotoTrack0();
-                        break;
-                    case 1:
-                        GotoTrack1();
-                        break;
-                    case 2:
-                        GotoTrack2();
-                        break;
-                    case 3:
-                        GotoTrack3();
-                        break;
-                    case 4:
-                        GotoTrack4();
-                        break;
-                    case 5:
-                        GotoTrack5();
-                        break;
-                    case 6:
-                        GotoTrack6();
-                        break;
-                }
-                
+                //switch( track )
+                //{
+                //    case 0:
+                //        GotoTrack0();
+                //        break;
+                //    case 1:
+                //        GotoTrack1();
+                //        break;
+                //    case 2:
+                //        GotoTrack2();
+                //        break;
+                //    case 3:
+                //        GotoTrack3();
+                //        break;
+                //    case 4:
+                //        GotoTrack4();
+                //        break;
+                //    case 5:
+                //        GotoTrack5();
+                //        break;
+                //    case 6:
+                //        GotoTrack6();
+                //        break;
+                //}
 
-
+                testtrack = (int)controlfloppy.StartTrack * controlfloppy.MicrostepsPerTrack / controlfloppy.StepStickMicrostepping;
+                trk00pos = GotoTrack((int)testtrack);
+                trk00pos = 8;
                 controlfloppy.serialPort1.Write(','.ToString()); // TRK00
 
                 controlfloppy.capturecommand = 1;
 
+                //Do microstepping
                 if (controlfloppy.StepStickMicrostepping > 1)
                     for (int i = 0; i < controlfloppy.StepStickMicrostepping - 1; i++)
                     {
                         controlfloppy.serialPort1.Write('['.ToString()); // Full step
-                        Thread.Sleep(10);
                     }
 
+                // Do offset
+                if (controlfloppy.trk00offset != 0)
+                {
+                    int offset = Math.Abs(controlfloppy.trk00offset);
+                    for (int i = 0; i < offset; i++)
+                    {
+                        if (controlfloppy.trk00offset < 0)
+                        {
+                            controlfloppy.serialPort1.Write('g'.ToString());
+                        }
+                        else
+                        {
+                            controlfloppy.serialPort1.Write('t'.ToString());
+                        }
+                    }
+                }
+
+                capturing = 1;
+                capturetime = 0;
+                timerx.Interval = controlfloppy.TrackDuration;
                 
-                timerx.Interval = 360;
-                timerx.Tick += timerx_Tick;
 
                 timerx.Start();
                 timer1.Start();
             }
             else
                 tbreceived.Append("Not connected.\r\n");
+
+        }
+
+        private int GotoTrack(int t)
+        {
+            controlfloppy.serialPort1.Write('0'.ToString()); // TRK00
+            Thread.Sleep(1500);
+            
+
+            if ((t & 1) == 0)
+            {
+                t -= 2;
+                controlfloppy.serialPort1.Write('h'.ToString()); // Head 1
+            }
+            else
+            {
+                t -= 5;
+                controlfloppy.serialPort1.Write('j'.ToString()); // Head 1
+            }
+
+            int tabs = Math.Abs(t);
+
+            for (int i = 0; i < tabs; i++)
+            {
+                if (t < 0)
+                    controlfloppy.serialPort1.Write('g'.ToString()); // previous track
+                if (t > 0)
+                    controlfloppy.serialPort1.Write('t'.ToString()); // previous track
+            }
+            Thread.Sleep(controlfloppy.TrackDuration);
+            return t;
+
+        }
+
+        private void button55_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < 160; i++)
+            {
+                tbreceived.Append("i " + i + " t offset " + GotoTrack(i)+"\r\n");
+
+            }
 
         }
 
@@ -3700,7 +3763,7 @@ namespace FloppyControlApp
         {
             tbreceived.Append("Track " + testtrack);
             
-            if ((testtrack & 1) == 0)
+            if (((int)testtrack & 1) == 0)
             {
                 trk00pos -= 2;
                 tbreceived.Append(" head 1 -2" + trk00pos + "\r\n");
@@ -3719,16 +3782,24 @@ namespace FloppyControlApp
             testtrack++;
         }
 
+        // Goto next track every tick
         private void timerx_Tick(object sender, EventArgs e)
         {
-            tbreceived.Append("Track " + testtrack);
+            if (testtrack >= (int) controlfloppy.EndTrack )
+            {
+                timerx.Stop();
+                button52.PerformClick();
+                return;
+            }
 
-            if ((testtrack & 1) == 0)
+            tbreceived.Append("Track " + testtrack );
+
+            if (((int)testtrack & 1) == 0)
             {
                 trk00pos -= 2;
-                tbreceived.Append(" head 1 -2" + trk00pos + "\r\n");
+                tbreceived.Append(" head 1 -2 " + trk00pos + "\r\n");
                 controlfloppy.serialPort1.Write('j'.ToString()); // Head 1
-                for (int i = 0; i < 16; i++)
+                for (int i = 0; i < controlfloppy.MicrostepsPerTrack * 2; i++)
                     controlfloppy.serialPort1.Write('g'.ToString()); // Next track
             }
             else
@@ -3736,12 +3807,12 @@ namespace FloppyControlApp
                 trk00pos += 4;
                 tbreceived.Append(" head 0 +4 " + trk00pos + "\r\n");
                 controlfloppy.serialPort1.Write('h'.ToString()); // Head 1
-                for (int i = 0; i < 32; i++)
+                for (int i = 0; i < controlfloppy.MicrostepsPerTrack * 4; i++)
                     controlfloppy.serialPort1.Write('t'.ToString()); // Next track
             }
-            testtrack++;
 
-            if (testtrack > 162) timerx.Stop();
+            testtrack+= ((double)controlfloppy.MicrostepsPerTrack / (double)controlfloppy.StepStickMicrostepping);
+
         }
 
         private void GotoTrack0org()
@@ -3836,7 +3907,7 @@ namespace FloppyControlApp
 
         private void button52_Click(object sender, EventArgs e)
         {
-            controlfloppy.serialPort1.Write('.'.ToString()); // previous track
+            timerx.Stop();
             timer1.Stop();
             controlfloppy.StopCapture();
             controlfloppy.Disconnect();
@@ -3860,17 +3931,7 @@ namespace FloppyControlApp
             controlfloppy.serialPort1.Write('h'.ToString()); // Head 0
         }
 
-        private void button55_Click(object sender, EventArgs e)
-        {
-            int offset = 0;
-            for (int i=0; i<10; i++)
-            {
-                if ((i & 1) == 0) offset = i + -2;
-                if ((i & 1) == 1) offset = i + -5;
-                tbreceived.Append(i + " "+(i & 1) +" " + offset + "\r\n");
-            }
 
-        }
     } // end class
 } // End namespace
 

@@ -2767,7 +2767,7 @@
             this.TrackDurationUpDown.Size = new System.Drawing.Size(52, 20);
             this.TrackDurationUpDown.TabIndex = 50;
             this.TrackDurationUpDown.Value = new decimal(new int[] {
-            260,
+            330,
             0,
             0,
             0});
@@ -2783,6 +2783,11 @@
             this.StartTrackUpDown.Name = "StartTrackUpDown";
             this.StartTrackUpDown.Size = new System.Drawing.Size(52, 20);
             this.StartTrackUpDown.TabIndex = 48;
+            this.StartTrackUpDown.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
             // 
             // EndTracksUpDown
             // 
@@ -2796,7 +2801,7 @@
             this.EndTracksUpDown.Size = new System.Drawing.Size(52, 20);
             this.EndTracksUpDown.TabIndex = 49;
             this.EndTracksUpDown.Value = new decimal(new int[] {
-            166,
+            19,
             0,
             0,
             0});
