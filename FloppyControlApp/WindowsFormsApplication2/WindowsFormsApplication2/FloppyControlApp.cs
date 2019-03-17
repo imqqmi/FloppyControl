@@ -61,7 +61,7 @@ namespace FloppyControlApp
             public MFMData sectordata { get; set; }
             public int cmd { get; set; }
         }
-        
+        private string GuiMode;
         private FDDProcessing processing;
         private ControlFloppy controlfloppy;
         private connectsocketNIVisa2 scope = new connectsocketNIVisa2();
@@ -137,7 +137,8 @@ namespace FloppyControlApp
             scatterplot.EditScatterplot = EditScatterPlotcheckBox.Checked;
             processing.indexrxbuf = 0;
 
-
+            GuiMode = outputfilename.Text = (string)Properties.Settings.Default["GuiMode"];
+            SetGuiMode(GuiMode);
             outputfilename.Text = (string)Properties.Settings.Default["BaseFileName"];
             DirectStepCheckBox.Checked = (bool)Properties.Settings.Default["DirectStep"];
             MicrostepsPerTrackUpDown.Value = (int)Properties.Settings.Default["MicroStepping"];
@@ -3599,6 +3600,64 @@ namespace FloppyControlApp
             else toolTip1.Active = false;
         }
 
+        private void basicModeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SetGuiMode("basic");
+        }
+
+        private void advancedModeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SetGuiMode("advanced");
+        }
+
+        private void devModeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SetGuiMode("dev");
+        }
+
+        private void SetGuiMode(string mode)
+        {
+            GuiMode = mode;
+            if ( mode == "basic")
+            {
+                basicModeToolStripMenuItem.Checked = true;
+                advancedModeToolStripMenuItem.Checked = false;
+                devModeToolStripMenuItem.Checked = false;
+
+                MainTabControl.TabPages.Remove(CaptureTab);
+                MainTabControl.TabPages.Remove(ProcessingTab);
+                MainTabControl.TabPages.Remove(AnalysisPage);
+                MainTabControl.TabPages.Remove(AnalysisTab2);
+                MainTabControl.TabPages.Remove(NetworkTab);
+            }
+
+            if (mode == "advanced")
+            {
+                basicModeToolStripMenuItem.Checked = false;
+                advancedModeToolStripMenuItem.Checked = true;
+                devModeToolStripMenuItem.Checked = false;
+
+                MainTabControl.TabPages.Remove(CaptureTab);
+                MainTabControl.TabPages.Remove(ProcessingTab);
+                MainTabControl.TabPages.Remove(AnalysisPage);
+                if (!MainTabControl.TabPages.Contains(AnalysisTab2)) MainTabControl.TabPages.Add(AnalysisTab2);
+                if (!MainTabControl.TabPages.Contains(NetworkTab)) MainTabControl.TabPages.Add(NetworkTab);
+            }
+
+            if (mode == "dev")
+            {
+                basicModeToolStripMenuItem.Checked = false;
+                advancedModeToolStripMenuItem.Checked = false;
+                devModeToolStripMenuItem.Checked = true;
+
+                if (!MainTabControl.TabPages.Contains(CaptureTab)) MainTabControl.TabPages.Add(CaptureTab);
+                if (!MainTabControl.TabPages.Contains(ProcessingTab)) MainTabControl.TabPages.Add(ProcessingTab);
+                if (!MainTabControl.TabPages.Contains(AnalysisPage)) MainTabControl.TabPages.Add(AnalysisPage);
+                if (!MainTabControl.TabPages.Contains(AnalysisTab2)) MainTabControl.TabPages.Add(AnalysisTab2);
+                if (!MainTabControl.TabPages.Contains(NetworkTab)) MainTabControl.TabPages.Add(NetworkTab);
+            }
+
+        }
     } // end class
 } // End namespace
 

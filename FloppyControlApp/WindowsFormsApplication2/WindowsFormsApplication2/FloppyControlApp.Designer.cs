@@ -469,6 +469,9 @@
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.disableTooltipsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.basicModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.advancedModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.devModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ThreadsUpDown = new System.Windows.Forms.NumericUpDown();
@@ -6008,7 +6011,10 @@
             // 
             this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.settingsToolStripMenuItem,
-            this.disableTooltipsToolStripMenuItem});
+            this.disableTooltipsToolStripMenuItem,
+            this.basicModeToolStripMenuItem,
+            this.advancedModeToolStripMenuItem,
+            this.devModeToolStripMenuItem});
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
             this.optionsToolStripMenuItem.Size = new System.Drawing.Size(61, 23);
             this.optionsToolStripMenuItem.Text = "Options";
@@ -6017,7 +6023,7 @@
             // 
             this.settingsToolStripMenuItem.Image = global::FloppyControlApp.Properties.Resources.IconSettings;
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.settingsToolStripMenuItem.Text = "Settings";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.SettingsButton_Click);
             // 
@@ -6027,9 +6033,33 @@
             this.disableTooltipsToolStripMenuItem.CheckOnClick = true;
             this.disableTooltipsToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.disableTooltipsToolStripMenuItem.Name = "disableTooltipsToolStripMenuItem";
-            this.disableTooltipsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.disableTooltipsToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.disableTooltipsToolStripMenuItem.Text = "Enable tooltips";
             this.disableTooltipsToolStripMenuItem.Click += new System.EventHandler(this.disableTooltipsToolStripMenuItem_Click);
+            // 
+            // basicModeToolStripMenuItem
+            // 
+            this.basicModeToolStripMenuItem.CheckOnClick = true;
+            this.basicModeToolStripMenuItem.Name = "basicModeToolStripMenuItem";
+            this.basicModeToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.basicModeToolStripMenuItem.Text = "Basic mode";
+            this.basicModeToolStripMenuItem.Click += new System.EventHandler(this.basicModeToolStripMenuItem_Click);
+            // 
+            // advancedModeToolStripMenuItem
+            // 
+            this.advancedModeToolStripMenuItem.CheckOnClick = true;
+            this.advancedModeToolStripMenuItem.Name = "advancedModeToolStripMenuItem";
+            this.advancedModeToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.advancedModeToolStripMenuItem.Text = "Advanced mode";
+            this.advancedModeToolStripMenuItem.Click += new System.EventHandler(this.advancedModeToolStripMenuItem_Click);
+            // 
+            // devModeToolStripMenuItem
+            // 
+            this.devModeToolStripMenuItem.CheckOnClick = true;
+            this.devModeToolStripMenuItem.Name = "devModeToolStripMenuItem";
+            this.devModeToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.devModeToolStripMenuItem.Text = "Dev mode";
+            this.devModeToolStripMenuItem.Click += new System.EventHandler(this.devModeToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -6731,6 +6761,9 @@
         private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem disableTooltipsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem basicModeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem advancedModeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem devModeToolStripMenuItem;
     }
 }
 

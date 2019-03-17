@@ -50,5 +50,8 @@
     <Setting Name="TrackDuration" Type="System.Decimal" Scope="User">
       <Value Profile="(Default)">330</Value>
     </Setting>
+    <Setting Name="GuiMode" Type="System.String" Scope="User">
+      <Value Profile="(Default)">basic</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
