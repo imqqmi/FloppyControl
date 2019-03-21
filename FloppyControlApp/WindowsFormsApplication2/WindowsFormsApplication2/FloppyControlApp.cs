@@ -498,8 +498,24 @@ namespace FloppyControlApp
         // Do the Amiga sector data processing
         private void ProcessAmigaBtn_Click(object sender, EventArgs e)
         {
+            syncControlsBetweenTabs();
             processing.stop = 0;
             ProcessAmiga();
+        }
+        private void syncControlsBetweenTabs()
+        {
+            if(MainTabControl.SelectedTab == QuickTab)
+            {
+                RateOfChangeUpDown.Value = QRateOfChangeUpDown.Value;
+                RateOfChange2UpDown.Value = QRateOfChange2UpDown.Value;
+                AdaptOfsset2UpDown.Value = QAdaptOfsset2UpDown.Value;
+            }
+            else if (MainTabControl.SelectedTab == ProcessingTab)
+            {
+                QRateOfChangeUpDown.Value = RateOfChangeUpDown.Value;
+                QRateOfChange2UpDown.Value = RateOfChange2UpDown.Value;
+                QAdaptOfsset2UpDown.Value = AdaptOfsset2UpDown.Value;
+            }
         }
         private void ProcessAmiga()
         {
@@ -524,6 +540,7 @@ namespace FloppyControlApp
 
         private void ProcessPCBtn_Click(object sender, EventArgs e)
         {
+            syncControlsBetweenTabs();
             processing.stop = 0;
             ProcessPC();
             HandleTabSwitching();
@@ -603,10 +620,6 @@ namespace FloppyControlApp
             }
         }
 
-
-
-        
-
         private void DisconnectFromFloppyControlHardware()
         {
             if (controlfloppy.serialPort1.IsOpen)
@@ -619,7 +632,6 @@ namespace FloppyControlApp
         // Update scatterplot while capturing
         public void ControlFloppyScatterplotCallback()
         {
-
             scatterplot.rxbuf = processing.rxbuf;
             scatterplot.AnScatViewlargeoffset = processing.rxbuf.Length - controlfloppy.recentreadbuflength;
             if (scatterplot.AnScatViewlargeoffset < 0)
@@ -652,7 +664,6 @@ namespace FloppyControlApp
                 indexrxbufprevious = processing.rxbuf.Length;
                 //processing.rxbuf = controlfloppy.tempbuffer.Skip(Math.Max(0, controlfloppy.tempbuffer.Count()-30)).SelectMany(a => a).ToArray();
 
-
                 controlfloppy.rxbuf = processing.rxbuf;
                 if (processing.rxbuf.Length > 100000)
                     controlfloppy.recentreadbuflength = 100000; // controlfloppy.recentreadbuflength = processing.indexrxbuf - indexrxbufprevious;
@@ -662,8 +673,6 @@ namespace FloppyControlApp
 
             if (processing.indexrxbuf > 0)
                 ProcessingTab.Enabled = true;
-
-
 
             if (openFilesDlgUsed == true)
             {
@@ -709,7 +718,6 @@ namespace FloppyControlApp
         {
             if (processing.indexrxbuf > 0)
             {
-
                 updateAnScatterPlot();
                 ScatterHisto.DoHistogram();
                 updateSliderLabels();
@@ -720,7 +728,6 @@ namespace FloppyControlApp
         {
             if (!scanactive)
             {
-
                 updateSliderLabels();
                 scatterplot.UpdateScatterPlot();
                 scatterplot.UpdateScatterPlot();
@@ -3260,6 +3267,7 @@ namespace FloppyControlApp
 
         private void ScanBtn_Click_1(object sender, EventArgs e)
         {
+            syncControlsBetweenTabs();
             processing.stop = 0;
             DoScan();
             tbreceived.Append("\r\nDone!\r\n");

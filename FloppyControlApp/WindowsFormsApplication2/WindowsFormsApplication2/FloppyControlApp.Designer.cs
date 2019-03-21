@@ -2225,11 +2225,6 @@
             this.QStartTrackUpDown.Size = new System.Drawing.Size(52, 20);
             this.QStartTrackUpDown.TabIndex = 48;
             this.toolTip1.SetToolTip(this.QStartTrackUpDown, "Start track to capture.");
-            this.QStartTrackUpDown.Value = new decimal(new int[] {
-            40,
-            0,
-            0,
-            0});
             // 
             // QEndTracksUpDown
             // 
@@ -2244,7 +2239,7 @@
             this.QEndTracksUpDown.TabIndex = 49;
             this.toolTip1.SetToolTip(this.QEndTracksUpDown, "End track to capture.");
             this.QEndTracksUpDown.Value = new decimal(new int[] {
-            44,
+            162,
             0,
             0,
             0});

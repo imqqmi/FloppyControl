@@ -37,7 +37,7 @@ namespace FloppyControlApp.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        [global::System.Configuration.DefaultSettingValueAttribute("8")]
         public decimal MicroStepsPerTrack {
             get {
                 return ((decimal)(this["MicroStepsPerTrack"]));
@@ -121,7 +121,7 @@ namespace FloppyControlApp.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("-1")]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public decimal TRK00Offset {
             get {
                 return ((decimal)(this["TRK00Offset"]));

@@ -6,7 +6,7 @@
       <Value Profile="(Default)">D:\data\Projects\FloppyControl\DiskRecoveries</Value>
     </Setting>
     <Setting Name="MicroStepsPerTrack" Type="System.Decimal" Scope="User">
-      <Value Profile="(Default)">1</Value>
+      <Value Profile="(Default)">8</Value>
     </Setting>
     <Setting Name="DefaultPort" Type="System.String" Scope="User">
       <Value Profile="(Default)">COM21</Value>
@@ -27,7 +27,7 @@
       <Value Profile="(Default)">1</Value>
     </Setting>
     <Setting Name="TRK00Offset" Type="System.Decimal" Scope="User">
-      <Value Profile="(Default)">-1</Value>
+      <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="FourSix" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
