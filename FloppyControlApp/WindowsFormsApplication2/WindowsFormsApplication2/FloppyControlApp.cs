@@ -2384,7 +2384,7 @@ namespace FloppyControlApp
 
             for (i = 0.6f; i < 2f; i += 0.2f)
             {
-                processing.sectordata2.Clear();
+                //processing.sectordata2.Clear();
                 if (processing.stop == 1)
                     break;
                 RateOfChangeUpDown.Value = (decimal)i;

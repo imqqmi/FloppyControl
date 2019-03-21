@@ -272,7 +272,7 @@ namespace FloppyControlApp
                 if (t > 0)
                     serialPort1.Write('t'.ToString()); // previous track
             }
-            Thread.Sleep(TrackDuration);
+            //Thread.Sleep(TrackDuration);
             return t;
         }
 

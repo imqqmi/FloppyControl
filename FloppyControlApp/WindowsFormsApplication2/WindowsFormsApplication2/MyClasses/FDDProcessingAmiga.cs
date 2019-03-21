@@ -73,7 +73,17 @@ namespace FloppyControlApp
                     }
                     if (mfms[threadid][i] == 1) // counting 1's matches the number of bytes in rxbuf + start offset
                         rxbufcnt++;
-                    while (rxbuf[rxbufcnt] < 4 && rxbufcnt < indexrxbuf-1) rxbufcnt++;
+
+                    if (rxbufcnt < rxbuf.Length - 1)
+                    {
+                        while (rxbuf[rxbufcnt] < 4)
+                        {
+                            if (rxbufcnt < rxbuf.Length - 1)
+                                rxbufcnt++;
+                        else
+                            break;
+                        }
+                    }
                     for (j = 0; j < amigadsmarkerbytes.Length; j++)
                     {
                         if (mfms[threadid][i + j] == amigadsmarkerbytes[j]) searchcnt++;
