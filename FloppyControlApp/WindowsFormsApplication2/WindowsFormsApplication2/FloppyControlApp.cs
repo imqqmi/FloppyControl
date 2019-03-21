@@ -61,6 +61,7 @@ namespace FloppyControlApp
             public MFMData sectordata { get; set; }
             public int cmd { get; set; }
         }
+
         private string GuiMode;
         private FDDProcessing processing;
         private ControlFloppy controlfloppy;
@@ -2121,6 +2122,7 @@ namespace FloppyControlApp
             {
                 controlfloppy.DirectStep = DirectStepCheckBox.Checked;
                 controlfloppy.MicrostepsPerTrack = (int)MicrostepsPerTrackUpDown.Value;
+                controlfloppy.StepStickMicrostepping = 
                 controlfloppy.trk00offset = (int)TRK00OffsetUpDown.Value;
                 controlfloppy.EndTrack = (int)EndTracksUpDown.Value;
                 controlfloppy.StartTrack = (int)StartTrackUpDown.Value;
@@ -3325,11 +3327,11 @@ namespace FloppyControlApp
         {
             StartTrackUpDown.Value = 0;
             EndTracksUpDown.Value = 10;
-            TrackDurationUpDown.Value = 260;
+            TrackDurationUpDown.Value = 330;
 
             QStartTrackUpDown.Value = 0;
             QEndTracksUpDown.Value = 10;
-            QTrackDurationUpDown.Value = 260;
+            QTrackDurationUpDown.Value = 330;
         }
 
         private void FullHistBtn_Click(object sender, EventArgs e)
@@ -3715,6 +3717,16 @@ namespace FloppyControlApp
         private void QECOnRadio_CheckedChanged(object sender, EventArgs e)
         {
             ECOnRadio.Checked = true;
+        }
+
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ECInfoTabs_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     } // end class
 } // End namespace

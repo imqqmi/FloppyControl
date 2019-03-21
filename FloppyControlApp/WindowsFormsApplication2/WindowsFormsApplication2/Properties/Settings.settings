@@ -21,10 +21,10 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="DirectStep" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
+      <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="StepStickMicrostepping" Type="System.Decimal" Scope="User">
-      <Value Profile="(Default)">1</Value>
+      <Value Profile="(Default)">8</Value>
     </Setting>
     <Setting Name="TRK00Offset" Type="System.Decimal" Scope="User">
       <Value Profile="(Default)">0</Value>
@@ -45,13 +45,13 @@
       <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="TooltipDisable" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
+      <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="TrackDuration" Type="System.Decimal" Scope="User">
       <Value Profile="(Default)">330</Value>
     </Setting>
     <Setting Name="GuiMode" Type="System.String" Scope="User">
-      <Value Profile="(Default)">basic</Value>
+      <Value Profile="(Default)">dev</Value>
     </Setting>
   </Settings>
 </SettingsFile>

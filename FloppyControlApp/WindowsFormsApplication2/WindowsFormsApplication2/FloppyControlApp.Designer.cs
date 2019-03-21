@@ -805,6 +805,7 @@
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(616, 473);
             this.tabControl1.TabIndex = 42;
+            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
             // ScatterPlottabPage
             // 
@@ -2052,7 +2053,6 @@
             // 
             this.QDirectStepCheckBox.AutoSize = true;
             this.QDirectStepCheckBox.Checked = global::FloppyControlApp.Properties.Settings.Default.DirectStep;
-            this.QDirectStepCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.QDirectStepCheckBox.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::FloppyControlApp.Properties.Settings.Default, "DirectStep", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.QDirectStepCheckBox.Location = new System.Drawing.Point(614, 97);
             this.QDirectStepCheckBox.Name = "QDirectStepCheckBox";
@@ -3919,6 +3919,7 @@
             this.ECInfoTabs.SelectedIndex = 0;
             this.ECInfoTabs.Size = new System.Drawing.Size(452, 450);
             this.ECInfoTabs.TabIndex = 4009;
+            this.ECInfoTabs.SelectedIndexChanged += new System.EventHandler(this.ECInfoTabs_SelectedIndexChanged);
             // 
             // ECTabSectorData
             // 
