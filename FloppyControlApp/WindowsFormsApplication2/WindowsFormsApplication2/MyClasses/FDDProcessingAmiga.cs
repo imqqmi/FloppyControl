@@ -635,7 +635,8 @@ namespace FloppyControlApp
             }
             progresses[threadid] = (int)sectordata2.Count;
             ProcessStatus[threadid] = "Done!";
-
+            //progressesstart[threadid] = 0;
+            progressesend[threadid] = (int)sectordata2.Count;
 
             //sectordata[threadid] = sectordatathread;
             //markerpositionscounts[threadid] = markerpositionscntthread;

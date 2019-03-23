@@ -791,11 +791,27 @@ namespace FloppyControlApp
                 int rand = 0;
                 int sectorboundary = 0;
 
+                float[] lowpass4;
+                float[] lowpass6;
+                float[] lowpass8;
 
                 int lowpassradius = (int)procsettings.rateofchange2;
-                float[] lowpass4 = new float[lowpassradius];
-                float[] lowpass6 = new float[lowpassradius];
-                float[] lowpass8 = new float[lowpassradius];
+                try
+                {
+                    lowpass4 = new float[lowpassradius];
+                    lowpass6 = new float[lowpassradius];
+                    lowpass8 = new float[lowpassradius];
+                }
+                catch(OutOfMemoryException e)
+                {
+                    tbreceived.Append("Oops, we ran out of memory. Try restarting FloppyControlApp or use a smaller dataset.\r\n");
+                    lowpass4 = null;
+                    lowpass6 = null;
+                    lowpass8 = null;
+                    GC.Collect();
+                    return;
+                }
+
                 for (i = 0; i < lowpassradius; i++)
                 {
                     lowpass4[i] = fourus;
@@ -893,6 +909,9 @@ namespace FloppyControlApp
                 threshold4 = null;
                 threshold6 = null;
                 threshold8 = null;
+                lowpass4 = null;
+                lowpass6 = null;
+                lowpass8 = null;
                 GC.Collect();
             }
             else
@@ -934,9 +953,26 @@ namespace FloppyControlApp
 
 
                 int lowpassradius = (int)procsettings.rateofchange2;
-                float[] lowpass4 = new float[lowpassradius];
-                float[] lowpass6 = new float[lowpassradius];
-                float[] lowpass8 = new float[lowpassradius];
+                float[] lowpass4;
+                float[] lowpass6;
+                float[] lowpass8;
+                
+                try
+                {
+                    lowpass4 = new float[lowpassradius];
+                    lowpass6 = new float[lowpassradius];
+                    lowpass8 = new float[lowpassradius];
+                }
+                catch (OutOfMemoryException e)
+                {
+                    tbreceived.Append("Oops, we ran out of memory. Try restarting FloppyControlApp or use a smaller dataset.\r\n");
+                    lowpass4 = null;
+                    lowpass6 = null;
+                    lowpass8 = null;
+                    GC.Collect();
+                    return;
+                }
+
                 for (i = 0; i < lowpassradius; i++)
                 {
                     lowpass4[i] = fourus;
@@ -1052,8 +1088,11 @@ namespace FloppyControlApp
                 threshold4 = null;
                 threshold6 = null;
                 threshold8 = null;
+                lowpass4 = null;
+                lowpass6 = null;
+                lowpass8 = null;
                 GC.Collect();
-    }
+            }
             else
             if (processingtype == ProcessingType.adaptivePredict) //************ Adaptive predict ****************
             {
@@ -1090,12 +1129,28 @@ namespace FloppyControlApp
                 Random rnd = new Random();
                 int rand = 0;
                 int sectorboundary = 0;
-
+                
+                float[] lowpass4;
+                float[] lowpass6;
+                float[] lowpass8;
 
                 int lowpassradius = (int)procsettings.rateofchange2;
-                float[] lowpass4 = new float[lowpassradius];
-                float[] lowpass6 = new float[lowpassradius];
-                float[] lowpass8 = new float[lowpassradius];
+                try
+                {
+                    lowpass4 = new float[lowpassradius];
+                    lowpass6 = new float[lowpassradius];
+                    lowpass8 = new float[lowpassradius];
+                }
+                catch (OutOfMemoryException e)
+                {
+                    tbreceived.Append("Oops, we ran out of memory. Try restarting FloppyControlApp or use a smaller dataset.\r\n");
+                    lowpass4 = null;
+                    lowpass6 = null;
+                    lowpass8 = null;
+                    GC.Collect();
+                    return;
+                }
+
                 for (i = 0; i < lowpassradius; i++)
                 {
                     lowpass4[i] = fourus;
@@ -1190,6 +1245,14 @@ namespace FloppyControlApp
                         averagetime = _8us;
                     }
                 }
+                entropy = null;
+                threshold4 = null;
+                threshold6 = null;
+                threshold8 = null;
+                lowpass4 = null;
+                lowpass6 = null;
+                lowpass8 = null;
+                GC.Collect();
             }
             else if (processingtype == ProcessingType.normal) //************ Normal ****************
             {
