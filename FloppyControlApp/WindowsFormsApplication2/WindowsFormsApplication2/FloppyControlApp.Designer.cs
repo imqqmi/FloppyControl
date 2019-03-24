@@ -39,20 +39,25 @@
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.outputfilename = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.OpenBinFilebutton = new System.Windows.Forms.Button();
             this.fileSystemWatcher1 = new System.IO.FileSystemWatcher();
             this.tbSectorMap = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.BytesPerSecondLabel = new System.Windows.Forms.Label();
             this.BytesReceivedLabel = new System.Windows.Forms.Label();
+            this.SaveDiskImageButton = new System.Windows.Forms.Button();
+            this.ResetBuffersBtn = new System.Windows.Forms.Button();
             this.label23 = new System.Windows.Forms.Label();
             this.label24 = new System.Windows.Forms.Label();
             this.label25 = new System.Windows.Forms.Label();
             this.CurrentTrackLabel = new System.Windows.Forms.Label();
             this.label26 = new System.Windows.Forms.Label();
             this.RecoveredSectorsLabel = new System.Windows.Forms.Label();
+            this.button5 = new System.Windows.Forms.Button();
             this.label33 = new System.Windows.Forms.Label();
             this.RecoveredSectorsWithErrorsLabel = new System.Windows.Forms.Label();
             this.label34 = new System.Windows.Forms.Label();
+            this.AddDataButton = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.ScatterPlottabPage = new System.Windows.Forms.TabPage();
             this.label81 = new System.Windows.Forms.Label();
@@ -69,9 +74,11 @@
             this.ShowSectorTab = new System.Windows.Forms.TabPage();
             this.textBoxSector = new System.Windows.Forms.TextBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.StopButton = new System.Windows.Forms.Button();
             this.LabelStatus = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.textBoxReceived = new System.Windows.Forms.TextBox();
+            this.AboutButton = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
             this.hlabel = new System.Windows.Forms.Label();
             this.wlabel = new System.Windows.Forms.Label();
@@ -87,12 +94,24 @@
             this.CaptureTimeLabel = new System.Windows.Forms.Label();
             this.DiskTypeLabel = new System.Windows.Forms.Label();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.iESEnd = new System.Windows.Forms.NumericUpDown();
+            this.iESStart = new System.Windows.Forms.NumericUpDown();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.jESEnd = new System.Windows.Forms.NumericUpDown();
+            this.jESStart = new System.Windows.Forms.NumericUpDown();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label35 = new System.Windows.Forms.Label();
+            this.SavePrjBtn = new System.Windows.Forms.Button();
+            this.LoadPrjBtn = new System.Windows.Forms.Button();
             this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
             this.LimitToSectorUpDown = new System.Windows.Forms.NumericUpDown();
             this.label41 = new System.Windows.Forms.Label();
             this.LimitToTrackUpDown = new System.Windows.Forms.NumericUpDown();
             this.label42 = new System.Windows.Forms.Label();
             this.MainTabControl = new System.Windows.Forms.TabControl();
+<<<<<<< HEAD
+=======
             this.QuickTab = new System.Windows.Forms.TabPage();
             this.QrtbSectorMap = new System.Windows.Forms.RichTextBox();
             this.groupBox13 = new System.Windows.Forms.GroupBox();
@@ -148,7 +167,6 @@
             this.button12 = new System.Windows.Forms.Button();
             this.button13 = new System.Windows.Forms.Button();
             this.button14 = new System.Windows.Forms.Button();
-            this.QDirectStepCheckBox = new System.Windows.Forms.CheckBox();
             this.QCaptureBtn = new System.Windows.Forms.Button();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
@@ -160,39 +178,26 @@
             this.button27 = new System.Windows.Forms.Button();
             this.button30 = new System.Windows.Forms.Button();
             this.button37 = new System.Windows.Forms.Button();
-            this.QTrackDurationUpDown = new System.Windows.Forms.NumericUpDown();
             this.QStartTrackUpDown = new System.Windows.Forms.NumericUpDown();
             this.QEndTracksUpDown = new System.Windows.Forms.NumericUpDown();
             this.label82 = new System.Windows.Forms.Label();
-            this.QTRK00OffsetUpDown = new System.Windows.Forms.NumericUpDown();
-            this.QMicrostepsPerTrackUpDown = new System.Windows.Forms.NumericUpDown();
             this.label83 = new System.Windows.Forms.Label();
             this.label84 = new System.Windows.Forms.Label();
             this.label85 = new System.Windows.Forms.Label();
             this.label86 = new System.Windows.Forms.Label();
+>>>>>>> develop
             this.CaptureTab = new System.Windows.Forms.TabPage();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.rxbufEndUpDown = new System.Windows.Forms.NumericUpDown();
-            this.rxbufStartUpDown = new System.Windows.Forms.NumericUpDown();
-            this.BufferSizeLabel = new System.Windows.Forms.Label();
-            this.HistogramLengthLabel = new System.Windows.Forms.Label();
-            this.HistogramStartLabel = new System.Windows.Forms.Label();
-            this.label29 = new System.Windows.Forms.Label();
-            this.label28 = new System.Windows.Forms.Label();
-            this.label27 = new System.Windows.Forms.Label();
-            this.label32 = new System.Windows.Forms.Label();
-            this.label31 = new System.Windows.Forms.Label();
             this.button8 = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
             this.SaveTrimmedBadbutton = new System.Windows.Forms.Button();
             this.button49 = new System.Windows.Forms.Button();
             this.button48 = new System.Windows.Forms.Button();
+            this.MainTabControlImageList = new System.Windows.Forms.ImageList(this.components);
             this.button46 = new System.Windows.Forms.Button();
             this.button45 = new System.Windows.Forms.Button();
             this.button40 = new System.Windows.Forms.Button();
             this.button39 = new System.Windows.Forms.Button();
             this.button36 = new System.Windows.Forms.Button();
-            this.DirectStepCheckBox = new System.Windows.Forms.CheckBox();
             this.CaptureClassbutton = new System.Windows.Forms.Button();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -202,7 +207,6 @@
             this.TrackPreset2Button = new System.Windows.Forms.Button();
             this.TrackPreset3Button = new System.Windows.Forms.Button();
             this.TrackPreset1Button = new System.Windows.Forms.Button();
-            this.TrackDurationUpDown = new System.Windows.Forms.NumericUpDown();
             this.StartTrackUpDown = new System.Windows.Forms.NumericUpDown();
             this.EndTracksUpDown = new System.Windows.Forms.NumericUpDown();
             this.label22 = new System.Windows.Forms.Label();
@@ -213,23 +217,17 @@
             this.label21 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.ProcessingTab = new System.Windows.Forms.TabPage();
+<<<<<<< HEAD
+=======
             this.button5 = new System.Windows.Forms.Button();
             this.ResetBuffersBtn = new System.Windows.Forms.Button();
+>>>>>>> develop
             this.DupsUpDown = new System.Windows.Forms.NumericUpDown();
             this.label69 = new System.Windows.Forms.Label();
             this.AddNoiseKnumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.label68 = new System.Windows.Forms.Label();
             this.rtbSectorMap = new System.Windows.Forms.RichTextBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.jESEnd = new System.Windows.Forms.NumericUpDown();
-            this.jESStart = new System.Windows.Forms.NumericUpDown();
-            this.label17 = new System.Windows.Forms.Label();
-            this.SettingsLabel = new System.Windows.Forms.Label();
-            this.label35 = new System.Windows.Forms.Label();
-            this.iESEnd = new System.Windows.Forms.NumericUpDown();
-            this.iESStart = new System.Windows.Forms.NumericUpDown();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
             this.FullHistBtn = new System.Windows.Forms.Button();
             this.OnlyBadSectorsRadio = new System.Windows.Forms.RadioButton();
             this.ECOnRadio = new System.Windows.Forms.RadioButton();
@@ -247,16 +245,11 @@
             this.LimitToScttrViewcheckBox = new System.Windows.Forms.CheckBox();
             this.AddNoisecheckBox = new System.Windows.Forms.CheckBox();
             this.ThresholdsGroupBox = new System.Windows.Forms.GroupBox();
-            this.MinvScrollBar = new System.Windows.Forms.VScrollBar();
             this.FourLabel = new System.Windows.Forms.Label();
             this.MinLabel = new System.Windows.Forms.Label();
             this.SixLabel = new System.Windows.Forms.Label();
             this.EightLabel = new System.Windows.Forms.Label();
             this.Offsetlabel = new System.Windows.Forms.Label();
-            this.FourvScrollBar = new System.Windows.Forms.VScrollBar();
-            this.SixvScrollBar = new System.Windows.Forms.VScrollBar();
-            this.EightvScrollBar = new System.Windows.Forms.VScrollBar();
-            this.OffsetvScrollBar1 = new System.Windows.Forms.VScrollBar();
             this.POffsetLabel = new System.Windows.Forms.Label();
             this.PFourSixLabel = new System.Windows.Forms.Label();
             this.PMinLabel = new System.Windows.Forms.Label();
@@ -273,6 +266,17 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.ScanComboBox = new System.Windows.Forms.ComboBox();
             this.ScanButton = new System.Windows.Forms.Button();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.rxbufEndUpDown = new System.Windows.Forms.NumericUpDown();
+            this.rxbufStartUpDown = new System.Windows.Forms.NumericUpDown();
+            this.BufferSizeLabel = new System.Windows.Forms.Label();
+            this.HistogramLengthLabel = new System.Windows.Forms.Label();
+            this.HistogramStartLabel = new System.Windows.Forms.Label();
+            this.label29 = new System.Windows.Forms.Label();
+            this.label28 = new System.Windows.Forms.Label();
+            this.label27 = new System.Windows.Forms.Label();
+            this.label32 = new System.Windows.Forms.Label();
+            this.label31 = new System.Windows.Forms.Label();
             this.HDCheckBox = new System.Windows.Forms.CheckBox();
             this.label37 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -444,15 +448,21 @@
             this.TrackUpDown = new System.Windows.Forms.NumericUpDown();
             this.label39 = new System.Windows.Forms.Label();
             this.label40 = new System.Windows.Forms.Label();
+            this.SettingsLabel = new System.Windows.Forms.Label();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.timer5 = new System.Windows.Forms.Timer(this.components);
             this.ProcessStatusLabel = new System.Windows.Forms.Label();
             this.GUITimer = new System.Windows.Forms.Timer(this.components);
+            this.ThreadsUpDown = new System.Windows.Forms.NumericUpDown();
+            this.label59 = new System.Windows.Forms.Label();
             this.backgroundWorker2 = new System.ComponentModel.BackgroundWorker();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.GCbutton = new System.Windows.Forms.Button();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.SettingsButton = new System.Windows.Forms.Button();
             this.EditScatterPlotcheckBox = new System.Windows.Forms.CheckBox();
+<<<<<<< HEAD
+=======
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -471,7 +481,6 @@
             this.badSectorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.disableTooltipsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.basicModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -481,7 +490,20 @@
             this.ThreadsUpDown = new System.Windows.Forms.NumericUpDown();
             this.label59 = new System.Windows.Forms.Label();
             this.StopButton = new System.Windows.Forms.Button();
+            this.disableTooltipsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.QDirectStepCheckBox = new System.Windows.Forms.CheckBox();
+            this.QTrackDurationUpDown = new System.Windows.Forms.NumericUpDown();
+            this.QTRK00OffsetUpDown = new System.Windows.Forms.NumericUpDown();
+            this.QMicrostepsPerTrackUpDown = new System.Windows.Forms.NumericUpDown();
+            this.DirectStepCheckBox = new System.Windows.Forms.CheckBox();
+            this.TrackDurationUpDown = new System.Windows.Forms.NumericUpDown();
+            this.MinvScrollBar = new System.Windows.Forms.VScrollBar();
+            this.FourvScrollBar = new System.Windows.Forms.VScrollBar();
+            this.SixvScrollBar = new System.Windows.Forms.VScrollBar();
+            this.EightvScrollBar = new System.Windows.Forms.VScrollBar();
+            this.OffsetvScrollBar1 = new System.Windows.Forms.VScrollBar();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+>>>>>>> develop
             ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.ScatterPlottabPage.SuspendLayout();
@@ -491,9 +513,15 @@
             this.ShowSectorTab.SuspendLayout();
             this.tabPage4.SuspendLayout();
             this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.iESEnd)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.iESStart)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.jESEnd)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.jESStart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.LimitToSectorUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.LimitToTrackUpDown)).BeginInit();
             this.MainTabControl.SuspendLayout();
+<<<<<<< HEAD
+=======
             this.QuickTab.SuspendLayout();
             this.groupBox13.SuspendLayout();
             this.groupBox14.SuspendLayout();
@@ -514,18 +542,17 @@
             this.groupBox12.SuspendLayout();
             this.groupBox10.SuspendLayout();
             this.groupBox11.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.QTrackDurationUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.QStartTrackUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.QEndTracksUpDown)).BeginInit();
+<<<<<<< HEAD
             ((System.ComponentModel.ISupportInitialize)(this.QTRK00OffsetUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.QMicrostepsPerTrackUpDown)).BeginInit();
+>>>>>>> develop
+=======
+>>>>>>> release/Release_v1.1.0
             this.CaptureTab.SuspendLayout();
-            this.groupBox4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.rxbufEndUpDown)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.rxbufStartUpDown)).BeginInit();
             this.groupBox7.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.TrackDurationUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.StartTrackUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.EndTracksUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TRK00OffsetUpDown)).BeginInit();
@@ -534,10 +561,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.DupsUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.AddNoiseKnumericUpDown)).BeginInit();
             this.groupBox6.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.jESEnd)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.jESStart)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.iESEnd)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.iESStart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RateOfChange2UpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.AdaptOfsset2UpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RndAmountUpDown)).BeginInit();
@@ -546,6 +569,9 @@
             this.groupBox5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.HistogramhScrollBar1)).BeginInit();
             this.groupBox3.SuspendLayout();
+            this.groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.rxbufEndUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.rxbufStartUpDown)).BeginInit();
             this.ErrorCorrectionTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.CombinationsUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MFMByteLengthUpDown)).BeginInit();
@@ -600,8 +626,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.NetworkCaptureTrackStartUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.SectorUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TrackUpDown)).BeginInit();
-            this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ThreadsUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QTrackDurationUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QTRK00OffsetUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QMicrostepsPerTrackUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TrackDurationUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // openFileDialog1
@@ -610,7 +639,7 @@
             // 
             // outputfilename
             // 
-            this.outputfilename.Location = new System.Drawing.Point(90, 28);
+            this.outputfilename.Location = new System.Drawing.Point(90, 58);
             this.outputfilename.Name = "outputfilename";
             this.outputfilename.Size = new System.Drawing.Size(269, 20);
             this.outputfilename.TabIndex = 0;
@@ -624,11 +653,21 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 31);
+            this.label1.Location = new System.Drawing.Point(12, 61);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(73, 13);
             this.label1.TabIndex = 1;
             this.label1.Text = "Base filename";
+            // 
+            // OpenBinFilebutton
+            // 
+            this.OpenBinFilebutton.Location = new System.Drawing.Point(15, 14);
+            this.OpenBinFilebutton.Name = "OpenBinFilebutton";
+            this.OpenBinFilebutton.Size = new System.Drawing.Size(49, 39);
+            this.OpenBinFilebutton.TabIndex = 1;
+            this.OpenBinFilebutton.Text = "Open";
+            this.OpenBinFilebutton.UseVisualStyleBackColor = true;
+            this.OpenBinFilebutton.Click += new System.EventHandler(this.OpenBinFilebutton_Click);
             // 
             // fileSystemWatcher1
             // 
@@ -681,6 +720,26 @@
             this.BytesReceivedLabel.Size = new System.Drawing.Size(13, 13);
             this.BytesReceivedLabel.TabIndex = 1;
             this.BytesReceivedLabel.Text = "0";
+            // 
+            // SaveDiskImageButton
+            // 
+            this.SaveDiskImageButton.Location = new System.Drawing.Point(505, 14);
+            this.SaveDiskImageButton.Name = "SaveDiskImageButton";
+            this.SaveDiskImageButton.Size = new System.Drawing.Size(95, 40);
+            this.SaveDiskImageButton.TabIndex = 5;
+            this.SaveDiskImageButton.Text = "Save disk image";
+            this.SaveDiskImageButton.UseVisualStyleBackColor = true;
+            this.SaveDiskImageButton.Click += new System.EventHandler(this.SaveDiskImageButton_Click);
+            // 
+            // ResetBuffersBtn
+            // 
+            this.ResetBuffersBtn.Location = new System.Drawing.Point(271, 14);
+            this.ResetBuffersBtn.Name = "ResetBuffersBtn";
+            this.ResetBuffersBtn.Size = new System.Drawing.Size(63, 39);
+            this.ResetBuffersBtn.TabIndex = 9;
+            this.ResetBuffersBtn.Text = "Reset input";
+            this.ResetBuffersBtn.UseVisualStyleBackColor = true;
+            this.ResetBuffersBtn.Click += new System.EventHandler(this.ResetInputBtn_Click);
             // 
             // label23
             // 
@@ -754,6 +813,16 @@
             this.RecoveredSectorsLabel.TabIndex = 27;
             this.RecoveredSectorsLabel.Text = "0";
             // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(340, 14);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(67, 38);
+            this.button5.TabIndex = 11;
+            this.button5.Text = "Reset output";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.ResetOutputBtn_Click);
+            // 
             // label33
             // 
             this.label33.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -790,6 +859,16 @@
             this.label34.TabIndex = 27;
             this.label34.Text = "Disk type:";
             // 
+            // AddDataButton
+            // 
+            this.AddDataButton.Location = new System.Drawing.Point(70, 14);
+            this.AddDataButton.Name = "AddDataButton";
+            this.AddDataButton.Size = new System.Drawing.Size(49, 39);
+            this.AddDataButton.TabIndex = 1;
+            this.AddDataButton.Text = "Add data";
+            this.AddDataButton.UseVisualStyleBackColor = true;
+            this.AddDataButton.Click += new System.EventHandler(this.AddDataButton_Click);
+            // 
             // tabControl1
             // 
             this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -803,7 +882,7 @@
             this.tabControl1.Location = new System.Drawing.Point(991, 393);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(616, 473);
+            this.tabControl1.Size = new System.Drawing.Size(616, 463);
             this.tabControl1.TabIndex = 42;
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
@@ -818,7 +897,7 @@
             this.ScatterPlottabPage.Location = new System.Drawing.Point(4, 22);
             this.ScatterPlottabPage.Name = "ScatterPlottabPage";
             this.ScatterPlottabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.ScatterPlottabPage.Size = new System.Drawing.Size(608, 447);
+            this.ScatterPlottabPage.Size = new System.Drawing.Size(608, 437);
             this.ScatterPlottabPage.TabIndex = 2;
             this.ScatterPlottabPage.Text = "Scatter plot";
             this.ScatterPlottabPage.UseVisualStyleBackColor = true;
@@ -890,7 +969,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(608, 447);
+            this.tabPage1.Size = new System.Drawing.Size(608, 437);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Track info";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -913,7 +992,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(608, 447);
+            this.tabPage2.Size = new System.Drawing.Size(608, 437);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Sector Data";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -924,7 +1003,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(608, 447);
+            this.tabPage3.Size = new System.Drawing.Size(608, 437);
             this.tabPage3.TabIndex = 3;
             this.tabPage3.Text = "Files";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -948,7 +1027,7 @@
             this.ShowSectorTab.Location = new System.Drawing.Point(4, 22);
             this.ShowSectorTab.Name = "ShowSectorTab";
             this.ShowSectorTab.Padding = new System.Windows.Forms.Padding(3);
-            this.ShowSectorTab.Size = new System.Drawing.Size(608, 447);
+            this.ShowSectorTab.Size = new System.Drawing.Size(608, 437);
             this.ShowSectorTab.TabIndex = 4;
             this.ShowSectorTab.Text = "Sector";
             this.ShowSectorTab.UseVisualStyleBackColor = true;
@@ -972,10 +1051,22 @@
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(608, 447);
+            this.tabPage4.Size = new System.Drawing.Size(608, 437);
             this.tabPage4.TabIndex = 5;
             this.tabPage4.Text = "DebugInfo";
             this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // StopButton
+            // 
+            this.StopButton.BackColor = System.Drawing.Color.Cornsilk;
+            this.StopButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.StopButton.Location = new System.Drawing.Point(419, 14);
+            this.StopButton.Name = "StopButton";
+            this.StopButton.Size = new System.Drawing.Size(75, 40);
+            this.StopButton.TabIndex = 3;
+            this.StopButton.Text = "Stop!";
+            this.StopButton.UseVisualStyleBackColor = false;
+            this.StopButton.Click += new System.EventHandler(this.StopButton_Click);
             // 
             // LabelStatus
             // 
@@ -1013,6 +1104,16 @@
             this.textBoxReceived.Size = new System.Drawing.Size(616, 364);
             this.textBoxReceived.TabIndex = 56;
             // 
+            // AboutButton
+            // 
+            this.AboutButton.Location = new System.Drawing.Point(606, 14);
+            this.AboutButton.Name = "AboutButton";
+            this.AboutButton.Size = new System.Drawing.Size(71, 23);
+            this.AboutButton.TabIndex = 9;
+            this.AboutButton.Text = "About";
+            this.AboutButton.UseVisualStyleBackColor = true;
+            this.AboutButton.Click += new System.EventHandler(this.AboutButton_Click);
+            // 
             // panel2
             // 
             this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -1043,7 +1144,7 @@
             this.panel2.Controls.Add(this.label24);
             this.panel2.Controls.Add(this.RecoveredSectorsWithErrorsLabel);
             this.panel2.Controls.Add(this.DiskTypeLabel);
-            this.panel2.Location = new System.Drawing.Point(15, 862);
+            this.panel2.Location = new System.Drawing.Point(15, 852);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(1193, 47);
             this.panel2.TabIndex = 57;
@@ -1205,6 +1306,145 @@
             this.DiskTypeLabel.TabIndex = 27;
             this.DiskTypeLabel.Text = "Unknown";
             // 
+            // iESEnd
+            // 
+            this.iESEnd.Location = new System.Drawing.Point(832, 59);
+            this.iESEnd.Maximum = new decimal(new int[] {
+            2000,
+            0,
+            0,
+            0});
+            this.iESEnd.Minimum = new decimal(new int[] {
+            50,
+            0,
+            0,
+            -2147483648});
+            this.iESEnd.Name = "iESEnd";
+            this.iESEnd.Size = new System.Drawing.Size(39, 20);
+            this.iESEnd.TabIndex = 44;
+            this.iESEnd.Value = new decimal(new int[] {
+            16,
+            0,
+            0,
+            0});
+            // 
+            // iESStart
+            // 
+            this.iESStart.Location = new System.Drawing.Point(832, 33);
+            this.iESStart.Maximum = new decimal(new int[] {
+            2000,
+            0,
+            0,
+            0});
+            this.iESStart.Minimum = new decimal(new int[] {
+            50,
+            0,
+            0,
+            -2147483648});
+            this.iESStart.Name = "iESStart";
+            this.iESStart.Size = new System.Drawing.Size(39, 20);
+            this.iESStart.TabIndex = 43;
+            this.iESStart.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(775, 63);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(47, 13);
+            this.label8.TabIndex = 41;
+            this.label8.Text = "i ES end";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(773, 34);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(49, 13);
+            this.label9.TabIndex = 42;
+            this.label9.Text = "i ES start";
+            // 
+            // jESEnd
+            // 
+            this.jESEnd.Location = new System.Drawing.Point(939, 58);
+            this.jESEnd.Maximum = new decimal(new int[] {
+            2000,
+            0,
+            0,
+            0});
+            this.jESEnd.Minimum = new decimal(new int[] {
+            50,
+            0,
+            0,
+            -2147483648});
+            this.jESEnd.Name = "jESEnd";
+            this.jESEnd.Size = new System.Drawing.Size(39, 20);
+            this.jESEnd.TabIndex = 46;
+            this.jESEnd.Value = new decimal(new int[] {
+            16,
+            0,
+            0,
+            0});
+            // 
+            // jESStart
+            // 
+            this.jESStart.Location = new System.Drawing.Point(939, 32);
+            this.jESStart.Maximum = new decimal(new int[] {
+            2000,
+            0,
+            0,
+            0});
+            this.jESStart.Minimum = new decimal(new int[] {
+            50,
+            0,
+            0,
+            -2147483648});
+            this.jESStart.Name = "jESStart";
+            this.jESStart.Size = new System.Drawing.Size(39, 20);
+            this.jESStart.TabIndex = 45;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(882, 62);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(47, 13);
+            this.label17.TabIndex = 71;
+            this.label17.Text = "j ES end";
+            // 
+            // label35
+            // 
+            this.label35.AutoSize = true;
+            this.label35.Location = new System.Drawing.Point(880, 33);
+            this.label35.Name = "label35";
+            this.label35.Size = new System.Drawing.Size(51, 13);
+            this.label35.TabIndex = 72;
+            this.label35.Text = "j ES Start";
+            // 
+            // SavePrjBtn
+            // 
+            this.SavePrjBtn.Location = new System.Drawing.Point(199, 14);
+            this.SavePrjBtn.Name = "SavePrjBtn";
+            this.SavePrjBtn.Size = new System.Drawing.Size(59, 37);
+            this.SavePrjBtn.TabIndex = 75;
+            this.SavePrjBtn.Text = "Save Project";
+            this.SavePrjBtn.UseVisualStyleBackColor = true;
+            this.SavePrjBtn.Click += new System.EventHandler(this.SavePrjBtn_Click);
+            // 
+            // LoadPrjBtn
+            // 
+            this.LoadPrjBtn.Location = new System.Drawing.Point(125, 14);
+            this.LoadPrjBtn.Name = "LoadPrjBtn";
+            this.LoadPrjBtn.Size = new System.Drawing.Size(68, 37);
+            this.LoadPrjBtn.TabIndex = 76;
+            this.LoadPrjBtn.Text = "Load project";
+            this.LoadPrjBtn.UseVisualStyleBackColor = true;
+            this.LoadPrjBtn.Click += new System.EventHandler(this.LoadPrjBtn_Click);
+            // 
             // openFileDialog2
             // 
             this.openFileDialog2.FileName = "openFileDialog2";
@@ -1277,7 +1517,10 @@
             this.MainTabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+<<<<<<< HEAD
+=======
             this.MainTabControl.Controls.Add(this.QuickTab);
+>>>>>>> develop
             this.MainTabControl.Controls.Add(this.CaptureTab);
             this.MainTabControl.Controls.Add(this.ProcessingTab);
             this.MainTabControl.Controls.Add(this.ErrorCorrectionTab);
@@ -1285,9 +1528,49 @@
             this.MainTabControl.Controls.Add(this.AnalysisTab2);
             this.MainTabControl.Controls.Add(this.NetworkTab);
             this.MainTabControl.ImageList = this.MainTabControlImageList;
-            this.MainTabControl.Location = new System.Drawing.Point(13, 54);
+            this.MainTabControl.Location = new System.Drawing.Point(15, 85);
             this.MainTabControl.Name = "MainTabControl";
             this.MainTabControl.SelectedIndex = 0;
+<<<<<<< HEAD
+            this.MainTabControl.Size = new System.Drawing.Size(959, 777);
+            this.MainTabControl.TabIndex = 56;
+            this.MainTabControl.SelectedIndexChanged += new System.EventHandler(this.MainTabControl_SelectedIndexChanged);
+            // 
+            // CaptureTab
+            // 
+            this.CaptureTab.BackColor = System.Drawing.SystemColors.Control;
+            this.CaptureTab.Controls.Add(this.button8);
+            this.CaptureTab.Controls.Add(this.button7);
+            this.CaptureTab.Controls.Add(this.SaveTrimmedBadbutton);
+            this.CaptureTab.Controls.Add(this.button49);
+            this.CaptureTab.Controls.Add(this.button48);
+            this.CaptureTab.Controls.Add(this.button46);
+            this.CaptureTab.Controls.Add(this.button45);
+            this.CaptureTab.Controls.Add(this.button40);
+            this.CaptureTab.Controls.Add(this.button39);
+            this.CaptureTab.Controls.Add(this.button36);
+            this.CaptureTab.Controls.Add(this.DirectStepCheckBox);
+            this.CaptureTab.Controls.Add(this.CaptureClassbutton);
+            this.CaptureTab.Controls.Add(this.ConnectClassbutton);
+            this.CaptureTab.Controls.Add(this.groupBox7);
+            this.CaptureTab.ImageIndex = 0;
+            this.CaptureTab.Location = new System.Drawing.Point(4, 23);
+            this.CaptureTab.Name = "CaptureTab";
+            this.CaptureTab.Padding = new System.Windows.Forms.Padding(3);
+            this.CaptureTab.Size = new System.Drawing.Size(951, 750);
+            this.CaptureTab.TabIndex = 0;
+            this.CaptureTab.Text = "Capture";
+            // 
+            // button8
+            // 
+            this.button8.Location = new System.Drawing.Point(10, 179);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(98, 23);
+            this.button8.TabIndex = 101;
+            this.button8.Text = "StepStick preset";
+            this.button8.Click += new System.EventHandler(this.button8_Click);
+            // 
+=======
             this.MainTabControl.Size = new System.Drawing.Size(974, 802);
             this.MainTabControl.TabIndex = 56;
             this.MainTabControl.SelectedIndexChanged += new System.EventHandler(this.MainTabControl_SelectedIndexChanged);
@@ -2049,20 +2332,6 @@
             this.button14.UseVisualStyleBackColor = true;
             this.button14.Click += new System.EventHandler(this.Microstep8Btn_Click);
             // 
-            // QDirectStepCheckBox
-            // 
-            this.QDirectStepCheckBox.AutoSize = true;
-            this.QDirectStepCheckBox.Checked = global::FloppyControlApp.Properties.Settings.Default.DirectStep;
-            this.QDirectStepCheckBox.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::FloppyControlApp.Properties.Settings.Default, "DirectStep", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.QDirectStepCheckBox.Location = new System.Drawing.Point(614, 97);
-            this.QDirectStepCheckBox.Name = "QDirectStepCheckBox";
-            this.QDirectStepCheckBox.Size = new System.Drawing.Size(76, 17);
-            this.QDirectStepCheckBox.TabIndex = 114;
-            this.QDirectStepCheckBox.Text = "DirectStep";
-            this.toolTip1.SetToolTip(this.QDirectStepCheckBox, "If you don\'t use a step stick, check this box. If you do, clear it.");
-            this.QDirectStepCheckBox.UseVisualStyleBackColor = true;
-            this.QDirectStepCheckBox.CheckedChanged += new System.EventHandler(this.QDirectStepCheckBox_CheckedChanged);
-            // 
             // QCaptureBtn
             // 
             this.QCaptureBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -2193,26 +2462,6 @@
             this.button37.Text = "0-10";
             this.button37.Click += new System.EventHandler(this.TrackPreset1Button_Click_1);
             // 
-            // QTrackDurationUpDown
-            // 
-            this.QTrackDurationUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::FloppyControlApp.Properties.Settings.Default, "TrackDuration", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.QTrackDurationUpDown.Increment = new decimal(new int[] {
-            100,
-            0,
-            0,
-            0});
-            this.QTrackDurationUpDown.Location = new System.Drawing.Point(323, 35);
-            this.QTrackDurationUpDown.Maximum = new decimal(new int[] {
-            2000000,
-            0,
-            0,
-            0});
-            this.QTrackDurationUpDown.Name = "QTrackDurationUpDown";
-            this.QTrackDurationUpDown.Size = new System.Drawing.Size(52, 20);
-            this.QTrackDurationUpDown.TabIndex = 50;
-            this.toolTip1.SetToolTip(this.QTrackDurationUpDown, resources.GetString("QTrackDurationUpDown.ToolTip"));
-            this.QTrackDurationUpDown.Value = global::FloppyControlApp.Properties.Settings.Default.TrackDuration;
-            // 
             // QStartTrackUpDown
             // 
             this.QStartTrackUpDown.Location = new System.Drawing.Point(200, 35);
@@ -2252,33 +2501,6 @@
             this.label82.Size = new System.Drawing.Size(94, 13);
             this.label82.TabIndex = 53;
             this.label82.Text = "Track Duration ms";
-            // 
-            // QTRK00OffsetUpDown
-            // 
-            this.QTRK00OffsetUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::FloppyControlApp.Properties.Settings.Default, "TRK00Offset", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.QTRK00OffsetUpDown.Location = new System.Drawing.Point(102, 34);
-            this.QTRK00OffsetUpDown.Minimum = new decimal(new int[] {
-            100,
-            0,
-            0,
-            -2147483648});
-            this.QTRK00OffsetUpDown.Name = "QTRK00OffsetUpDown";
-            this.QTRK00OffsetUpDown.Size = new System.Drawing.Size(52, 20);
-            this.QTRK00OffsetUpDown.TabIndex = 47;
-            this.toolTip1.SetToolTip(this.QTRK00OffsetUpDown, "Track offset. When seeking TRK00 you can move farther back if you\'re having troub" +
-        "le getting track 0 to capture well. Can be negative.");
-            this.QTRK00OffsetUpDown.Value = global::FloppyControlApp.Properties.Settings.Default.TRK00Offset;
-            // 
-            // QMicrostepsPerTrackUpDown
-            // 
-            this.QMicrostepsPerTrackUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::FloppyControlApp.Properties.Settings.Default, "MicroStepsPerTrack", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.QMicrostepsPerTrackUpDown.Location = new System.Drawing.Point(8, 34);
-            this.QMicrostepsPerTrackUpDown.Name = "QMicrostepsPerTrackUpDown";
-            this.QMicrostepsPerTrackUpDown.Size = new System.Drawing.Size(52, 20);
-            this.QMicrostepsPerTrackUpDown.TabIndex = 46;
-            this.toolTip1.SetToolTip(this.QMicrostepsPerTrackUpDown, "If you use a step stick, anything under 8 microsteps will read between the tracks" +
-        ". For a glued disk, use 2 microsteps for a full recovery.");
-            this.QMicrostepsPerTrackUpDown.Value = global::FloppyControlApp.Properties.Settings.Default.MicroStepsPerTrack;
             // 
             // label83
             // 
@@ -2330,9 +2552,9 @@
             this.CaptureTab.Controls.Add(this.button40);
             this.CaptureTab.Controls.Add(this.button39);
             this.CaptureTab.Controls.Add(this.button36);
-            this.CaptureTab.Controls.Add(this.DirectStepCheckBox);
             this.CaptureTab.Controls.Add(this.CaptureClassbutton);
             this.CaptureTab.Controls.Add(this.groupBox7);
+            this.CaptureTab.Controls.Add(this.DirectStepCheckBox);
             this.CaptureTab.ImageIndex = 0;
             this.CaptureTab.Location = new System.Drawing.Point(4, 23);
             this.CaptureTab.Name = "CaptureTab";
@@ -2469,6 +2691,7 @@
             this.button8.Text = "StepStick preset";
             this.button8.Click += new System.EventHandler(this.StepStickPresetBtn_Click);
             // 
+>>>>>>> develop
             // button7
             // 
             this.button7.Location = new System.Drawing.Point(7, 104);
@@ -2512,6 +2735,17 @@
             this.button48.UseVisualStyleBackColor = true;
             this.button48.Click += new System.EventHandler(this.button48_Click);
             // 
+            // MainTabControlImageList
+            // 
+            this.MainTabControlImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("MainTabControlImageList.ImageStream")));
+            this.MainTabControlImageList.TransparentColor = System.Drawing.Color.Transparent;
+            this.MainTabControlImageList.Images.SetKeyName(0, "IconRecord.png");
+            this.MainTabControlImageList.Images.SetKeyName(1, "IconCheckmarkGreen.png");
+            this.MainTabControlImageList.Images.SetKeyName(2, "IconScope.png");
+            this.MainTabControlImageList.Images.SetKeyName(3, "IconProcessing2.png");
+            this.MainTabControlImageList.Images.SetKeyName(4, "IconGraphEditor.png");
+            this.MainTabControlImageList.Images.SetKeyName(5, "IconAnalysis.png");
+            // 
             // button46
             // 
             this.button46.Location = new System.Drawing.Point(81, 355);
@@ -2540,7 +2774,7 @@
             this.button40.TabIndex = 94;
             this.button40.Text = "Step >";
             this.button40.UseVisualStyleBackColor = true;
-            this.button40.Click += new System.EventHandler(this.StepForwardBtn_Click);
+            this.button40.Click += new System.EventHandler(this.button40_Click);
             // 
             // button39
             // 
@@ -2550,7 +2784,7 @@
             this.button39.TabIndex = 93;
             this.button39.Text = "Step <";
             this.button39.UseVisualStyleBackColor = true;
-            this.button39.Click += new System.EventHandler(this.StepBackBtn_Click);
+            this.button39.Click += new System.EventHandler(this.button39_Click);
             // 
             // button36
             // 
@@ -2560,21 +2794,7 @@
             this.button36.TabIndex = 92;
             this.button36.Text = "Microstep 8";
             this.button36.UseVisualStyleBackColor = true;
-            this.button36.Click += new System.EventHandler(this.Microstep8Btn_Click);
-            // 
-            // DirectStepCheckBox
-            // 
-            this.DirectStepCheckBox.AutoSize = true;
-            this.DirectStepCheckBox.Checked = global::FloppyControlApp.Properties.Settings.Default.DirectStep;
-            this.DirectStepCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.DirectStepCheckBox.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::FloppyControlApp.Properties.Settings.Default, "DirectStep", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.DirectStepCheckBox.Location = new System.Drawing.Point(9, 229);
-            this.DirectStepCheckBox.Name = "DirectStepCheckBox";
-            this.DirectStepCheckBox.Size = new System.Drawing.Size(76, 17);
-            this.DirectStepCheckBox.TabIndex = 91;
-            this.DirectStepCheckBox.Text = "DirectStep";
-            this.DirectStepCheckBox.UseVisualStyleBackColor = true;
-            this.DirectStepCheckBox.CheckedChanged += new System.EventHandler(this.DirectStepCheckBox_CheckedChanged);
+            this.button36.Click += new System.EventHandler(this.button36_Click);
             // 
             // CaptureClassbutton
             // 
@@ -2681,25 +2901,6 @@
             this.TrackPreset1Button.TabIndex = 58;
             this.TrackPreset1Button.Text = "0-10";
             this.TrackPreset1Button.Click += new System.EventHandler(this.TrackPreset1Button_Click_1);
-            // 
-            // TrackDurationUpDown
-            // 
-            this.TrackDurationUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::FloppyControlApp.Properties.Settings.Default, "TrackDuration", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.TrackDurationUpDown.Increment = new decimal(new int[] {
-            100,
-            0,
-            0,
-            0});
-            this.TrackDurationUpDown.Location = new System.Drawing.Point(10, 207);
-            this.TrackDurationUpDown.Maximum = new decimal(new int[] {
-            2000000,
-            0,
-            0,
-            0});
-            this.TrackDurationUpDown.Name = "TrackDurationUpDown";
-            this.TrackDurationUpDown.Size = new System.Drawing.Size(52, 20);
-            this.TrackDurationUpDown.TabIndex = 50;
-            this.TrackDurationUpDown.Value = global::FloppyControlApp.Properties.Settings.Default.TrackDuration;
             // 
             // StartTrackUpDown
             // 
@@ -2814,8 +3015,11 @@
             // ProcessingTab
             // 
             this.ProcessingTab.BackColor = System.Drawing.SystemColors.Control;
+<<<<<<< HEAD
+=======
             this.ProcessingTab.Controls.Add(this.button5);
             this.ProcessingTab.Controls.Add(this.ResetBuffersBtn);
+>>>>>>> develop
             this.ProcessingTab.Controls.Add(this.DupsUpDown);
             this.ProcessingTab.Controls.Add(this.label69);
             this.ProcessingTab.Controls.Add(this.AddNoiseKnumericUpDown);
@@ -2828,6 +3032,12 @@
             this.ProcessingTab.Location = new System.Drawing.Point(4, 23);
             this.ProcessingTab.Name = "ProcessingTab";
             this.ProcessingTab.Padding = new System.Windows.Forms.Padding(3);
+<<<<<<< HEAD
+            this.ProcessingTab.Size = new System.Drawing.Size(951, 750);
+            this.ProcessingTab.TabIndex = 1;
+            this.ProcessingTab.Text = "Processing";
+            // 
+=======
             this.ProcessingTab.Size = new System.Drawing.Size(966, 775);
             this.ProcessingTab.TabIndex = 1;
             this.ProcessingTab.Text = "Processing";
@@ -2852,9 +3062,10 @@
             this.ResetBuffersBtn.UseVisualStyleBackColor = true;
             this.ResetBuffersBtn.Click += new System.EventHandler(this.ResetBuffersBtn_Click);
             // 
+>>>>>>> develop
             // DupsUpDown
             // 
-            this.DupsUpDown.Location = new System.Drawing.Point(42, 266);
+            this.DupsUpDown.Location = new System.Drawing.Point(51, 249);
             this.DupsUpDown.Maximum = new decimal(new int[] {
             2000,
             0,
@@ -2877,7 +3088,7 @@
             // label69
             // 
             this.label69.AutoSize = true;
-            this.label69.Location = new System.Drawing.Point(6, 268);
+            this.label69.Location = new System.Drawing.Point(15, 251);
             this.label69.Name = "label69";
             this.label69.Size = new System.Drawing.Size(32, 13);
             this.label69.TabIndex = 93;
@@ -2885,7 +3096,7 @@
             // 
             // AddNoiseKnumericUpDown
             // 
-            this.AddNoiseKnumericUpDown.Location = new System.Drawing.Point(41, 240);
+            this.AddNoiseKnumericUpDown.Location = new System.Drawing.Point(50, 223);
             this.AddNoiseKnumericUpDown.Maximum = new decimal(new int[] {
             2000,
             0,
@@ -2908,7 +3119,7 @@
             // label68
             // 
             this.label68.AutoSize = true;
-            this.label68.Location = new System.Drawing.Point(21, 242);
+            this.label68.Location = new System.Drawing.Point(30, 225);
             this.label68.Name = "label68";
             this.label68.Size = new System.Drawing.Size(16, 13);
             this.label68.TabIndex = 91;
@@ -2923,7 +3134,11 @@
             this.rtbSectorMap.HideSelection = false;
             this.rtbSectorMap.Location = new System.Drawing.Point(0, 354);
             this.rtbSectorMap.Name = "rtbSectorMap";
+<<<<<<< HEAD
+            this.rtbSectorMap.Size = new System.Drawing.Size(948, 396);
+=======
             this.rtbSectorMap.Size = new System.Drawing.Size(963, 421);
+>>>>>>> develop
             this.rtbSectorMap.TabIndex = 84;
             this.rtbSectorMap.Text = "";
             this.rtbSectorMap.DoubleClick += new System.EventHandler(this.rtbSectorMap_DoubleClick);
@@ -2931,15 +3146,6 @@
             // 
             // groupBox6
             // 
-            this.groupBox6.Controls.Add(this.jESEnd);
-            this.groupBox6.Controls.Add(this.jESStart);
-            this.groupBox6.Controls.Add(this.label17);
-            this.groupBox6.Controls.Add(this.SettingsLabel);
-            this.groupBox6.Controls.Add(this.label35);
-            this.groupBox6.Controls.Add(this.iESEnd);
-            this.groupBox6.Controls.Add(this.iESStart);
-            this.groupBox6.Controls.Add(this.label8);
-            this.groupBox6.Controls.Add(this.label9);
             this.groupBox6.Controls.Add(this.FullHistBtn);
             this.groupBox6.Controls.Add(this.OnlyBadSectorsRadio);
             this.groupBox6.Controls.Add(this.ECOnRadio);
@@ -2968,6 +3174,7 @@
             this.groupBox6.Controls.Add(this.IgnoreHeaderErrorCheckBox);
             this.groupBox6.Controls.Add(this.groupBox5);
             this.groupBox6.Controls.Add(this.groupBox3);
+            this.groupBox6.Controls.Add(this.groupBox4);
             this.groupBox6.Controls.Add(this.HDCheckBox);
             this.groupBox6.Controls.Add(this.label37);
             this.groupBox6.Controls.Add(this.label2);
@@ -2977,134 +3184,6 @@
             this.groupBox6.TabIndex = 49;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Processing options";
-            // 
-            // jESEnd
-            // 
-            this.jESEnd.Location = new System.Drawing.Point(556, 307);
-            this.jESEnd.Maximum = new decimal(new int[] {
-            2000,
-            0,
-            0,
-            0});
-            this.jESEnd.Minimum = new decimal(new int[] {
-            50,
-            0,
-            0,
-            -2147483648});
-            this.jESEnd.Name = "jESEnd";
-            this.jESEnd.Size = new System.Drawing.Size(39, 20);
-            this.jESEnd.TabIndex = 112;
-            this.jESEnd.Value = new decimal(new int[] {
-            16,
-            0,
-            0,
-            0});
-            // 
-            // jESStart
-            // 
-            this.jESStart.Location = new System.Drawing.Point(556, 281);
-            this.jESStart.Maximum = new decimal(new int[] {
-            2000,
-            0,
-            0,
-            0});
-            this.jESStart.Minimum = new decimal(new int[] {
-            50,
-            0,
-            0,
-            -2147483648});
-            this.jESStart.Name = "jESStart";
-            this.jESStart.Size = new System.Drawing.Size(39, 20);
-            this.jESStart.TabIndex = 111;
-            // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(499, 311);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(47, 13);
-            this.label17.TabIndex = 114;
-            this.label17.Text = "j ES end";
-            // 
-            // SettingsLabel
-            // 
-            this.SettingsLabel.AutoSize = true;
-            this.SettingsLabel.Location = new System.Drawing.Point(392, 263);
-            this.SettingsLabel.Name = "SettingsLabel";
-            this.SettingsLabel.Size = new System.Drawing.Size(49, 13);
-            this.SettingsLabel.TabIndex = 113;
-            this.SettingsLabel.Text = "Counters";
-            // 
-            // label35
-            // 
-            this.label35.AutoSize = true;
-            this.label35.Location = new System.Drawing.Point(497, 282);
-            this.label35.Name = "label35";
-            this.label35.Size = new System.Drawing.Size(51, 13);
-            this.label35.TabIndex = 115;
-            this.label35.Text = "j ES Start";
-            // 
-            // iESEnd
-            // 
-            this.iESEnd.Location = new System.Drawing.Point(449, 308);
-            this.iESEnd.Maximum = new decimal(new int[] {
-            2000,
-            0,
-            0,
-            0});
-            this.iESEnd.Minimum = new decimal(new int[] {
-            50,
-            0,
-            0,
-            -2147483648});
-            this.iESEnd.Name = "iESEnd";
-            this.iESEnd.Size = new System.Drawing.Size(39, 20);
-            this.iESEnd.TabIndex = 110;
-            this.iESEnd.Value = new decimal(new int[] {
-            16,
-            0,
-            0,
-            0});
-            // 
-            // iESStart
-            // 
-            this.iESStart.Location = new System.Drawing.Point(449, 282);
-            this.iESStart.Maximum = new decimal(new int[] {
-            2000,
-            0,
-            0,
-            0});
-            this.iESStart.Minimum = new decimal(new int[] {
-            50,
-            0,
-            0,
-            -2147483648});
-            this.iESStart.Name = "iESStart";
-            this.iESStart.Size = new System.Drawing.Size(39, 20);
-            this.iESStart.TabIndex = 109;
-            this.iESStart.Value = new decimal(new int[] {
-            2,
-            0,
-            0,
-            0});
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(392, 312);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(47, 13);
-            this.label8.TabIndex = 107;
-            this.label8.Text = "i ES end";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(390, 283);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(49, 13);
-            this.label9.TabIndex = 108;
-            this.label9.Text = "i ES start";
             // 
             // FullHistBtn
             // 
@@ -3328,17 +3407,6 @@
             this.ThresholdsGroupBox.TabStop = false;
             this.ThresholdsGroupBox.Text = "Thresholds";
             // 
-            // MinvScrollBar
-            // 
-            this.MinvScrollBar.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::FloppyControlApp.Properties.Settings.Default, "Min", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.MinvScrollBar.Location = new System.Drawing.Point(13, 39);
-            this.MinvScrollBar.Maximum = 264;
-            this.MinvScrollBar.Name = "MinvScrollBar";
-            this.MinvScrollBar.Size = new System.Drawing.Size(15, 184);
-            this.MinvScrollBar.TabIndex = 65;
-            this.MinvScrollBar.Value = global::FloppyControlApp.Properties.Settings.Default.Min;
-            this.MinvScrollBar.ValueChanged += new System.EventHandler(this.FourvScrollBar_ValueChanged);
-            // 
             // FourLabel
             // 
             this.FourLabel.AutoSize = true;
@@ -3383,51 +3451,6 @@
             this.Offsetlabel.Size = new System.Drawing.Size(13, 13);
             this.Offsetlabel.TabIndex = 55;
             this.Offsetlabel.Text = "0";
-            // 
-            // FourvScrollBar
-            // 
-            this.FourvScrollBar.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::FloppyControlApp.Properties.Settings.Default, "FourSix", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.FourvScrollBar.Location = new System.Drawing.Point(45, 39);
-            this.FourvScrollBar.Maximum = 264;
-            this.FourvScrollBar.Name = "FourvScrollBar";
-            this.FourvScrollBar.Size = new System.Drawing.Size(15, 184);
-            this.FourvScrollBar.TabIndex = 66;
-            this.FourvScrollBar.Value = global::FloppyControlApp.Properties.Settings.Default.FourSix;
-            this.FourvScrollBar.ValueChanged += new System.EventHandler(this.FourvScrollBar_ValueChanged);
-            // 
-            // SixvScrollBar
-            // 
-            this.SixvScrollBar.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::FloppyControlApp.Properties.Settings.Default, "SixEight", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.SixvScrollBar.Location = new System.Drawing.Point(79, 39);
-            this.SixvScrollBar.Maximum = 255;
-            this.SixvScrollBar.Name = "SixvScrollBar";
-            this.SixvScrollBar.Size = new System.Drawing.Size(15, 184);
-            this.SixvScrollBar.TabIndex = 67;
-            this.SixvScrollBar.Value = global::FloppyControlApp.Properties.Settings.Default.SixEight;
-            this.SixvScrollBar.ValueChanged += new System.EventHandler(this.FourvScrollBar_ValueChanged);
-            // 
-            // EightvScrollBar
-            // 
-            this.EightvScrollBar.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::FloppyControlApp.Properties.Settings.Default, "Max", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.EightvScrollBar.Location = new System.Drawing.Point(118, 39);
-            this.EightvScrollBar.Maximum = 264;
-            this.EightvScrollBar.Name = "EightvScrollBar";
-            this.EightvScrollBar.Size = new System.Drawing.Size(15, 184);
-            this.EightvScrollBar.TabIndex = 68;
-            this.EightvScrollBar.Value = global::FloppyControlApp.Properties.Settings.Default.Max;
-            this.EightvScrollBar.ValueChanged += new System.EventHandler(this.FourvScrollBar_ValueChanged);
-            // 
-            // OffsetvScrollBar1
-            // 
-            this.OffsetvScrollBar1.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::FloppyControlApp.Properties.Settings.Default, "Offset", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.OffsetvScrollBar1.Location = new System.Drawing.Point(147, 39);
-            this.OffsetvScrollBar1.Maximum = 50;
-            this.OffsetvScrollBar1.Minimum = -50;
-            this.OffsetvScrollBar1.Name = "OffsetvScrollBar1";
-            this.OffsetvScrollBar1.Size = new System.Drawing.Size(15, 184);
-            this.OffsetvScrollBar1.TabIndex = 69;
-            this.OffsetvScrollBar1.Value = global::FloppyControlApp.Properties.Settings.Default.Offset;
-            this.OffsetvScrollBar1.ValueChanged += new System.EventHandler(this.FourvScrollBar_ValueChanged);
             // 
             // POffsetLabel
             // 
@@ -3562,6 +3585,34 @@
             this.Histogrampanel1.Click += new System.EventHandler(this.Histogrampanel1_Click);
             this.Histogrampanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.Histogrampanel1_Paint);
             // 
+<<<<<<< HEAD
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(146, 131);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(24, 13);
+            this.label12.TabIndex = 33;
+            this.label12.Text = "8us";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(106, 131);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(24, 13);
+            this.label11.TabIndex = 34;
+            this.label11.Text = "6us";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(70, 131);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(24, 13);
+            this.label10.TabIndex = 35;
+            this.label10.Text = "4us";
+            // 
             // HistogramhScrollBar1
             // 
             this.HistogramhScrollBar1.LargeChange = 10000;
@@ -3578,7 +3629,7 @@
             // 
             this.groupBox3.Controls.Add(this.ScanComboBox);
             this.groupBox3.Controls.Add(this.ScanButton);
-            this.groupBox3.Location = new System.Drawing.Point(6, 244);
+            this.groupBox3.Location = new System.Drawing.Point(308, 290);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(227, 46);
             this.groupBox3.TabIndex = 54;
@@ -3603,6 +3654,127 @@
             this.ScanButton.Text = "Scan";
             this.ScanButton.UseVisualStyleBackColor = true;
             this.ScanButton.Click += new System.EventHandler(this.ScanBtn_Click_1);
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.rxbufEndUpDown);
+            this.groupBox4.Controls.Add(this.rxbufStartUpDown);
+            this.groupBox4.Controls.Add(this.BufferSizeLabel);
+            this.groupBox4.Controls.Add(this.HistogramLengthLabel);
+            this.groupBox4.Controls.Add(this.HistogramStartLabel);
+            this.groupBox4.Controls.Add(this.label29);
+            this.groupBox4.Controls.Add(this.label28);
+            this.groupBox4.Controls.Add(this.label27);
+            this.groupBox4.Controls.Add(this.label32);
+            this.groupBox4.Controls.Add(this.label31);
+            this.groupBox4.Location = new System.Drawing.Point(8, 258);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(294, 78);
+            this.groupBox4.TabIndex = 52;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Input buffer";
+            // 
+            // rxbufEndUpDown
+            // 
+            this.rxbufEndUpDown.Location = new System.Drawing.Point(65, 51);
+            this.rxbufEndUpDown.Maximum = new decimal(new int[] {
+            2000,
+            0,
+            0,
+            0});
+            this.rxbufEndUpDown.Name = "rxbufEndUpDown";
+            this.rxbufEndUpDown.Size = new System.Drawing.Size(77, 20);
+            this.rxbufEndUpDown.TabIndex = 40;
+            // 
+            // rxbufStartUpDown
+            // 
+            this.rxbufStartUpDown.Location = new System.Drawing.Point(65, 25);
+            this.rxbufStartUpDown.Maximum = new decimal(new int[] {
+            2000,
+            0,
+            0,
+            0});
+            this.rxbufStartUpDown.Name = "rxbufStartUpDown";
+            this.rxbufStartUpDown.Size = new System.Drawing.Size(77, 20);
+            this.rxbufStartUpDown.TabIndex = 39;
+            // 
+            // BufferSizeLabel
+            // 
+            this.BufferSizeLabel.AutoSize = true;
+            this.BufferSizeLabel.Location = new System.Drawing.Point(178, 58);
+            this.BufferSizeLabel.Name = "BufferSizeLabel";
+            this.BufferSizeLabel.Size = new System.Drawing.Size(13, 13);
+            this.BufferSizeLabel.TabIndex = 31;
+            this.BufferSizeLabel.Text = "0";
+            // 
+            // HistogramLengthLabel
+            // 
+            this.HistogramLengthLabel.AutoSize = true;
+            this.HistogramLengthLabel.Location = new System.Drawing.Point(178, 39);
+            this.HistogramLengthLabel.Name = "HistogramLengthLabel";
+            this.HistogramLengthLabel.Size = new System.Drawing.Size(13, 13);
+            this.HistogramLengthLabel.TabIndex = 32;
+            this.HistogramLengthLabel.Text = "0";
+            // 
+            // HistogramStartLabel
+            // 
+            this.HistogramStartLabel.AutoSize = true;
+            this.HistogramStartLabel.Location = new System.Drawing.Point(178, 18);
+            this.HistogramStartLabel.Name = "HistogramStartLabel";
+            this.HistogramStartLabel.Size = new System.Drawing.Size(13, 13);
+            this.HistogramStartLabel.TabIndex = 33;
+            this.HistogramStartLabel.Text = "0";
+            // 
+            // label29
+=======
+            // HistogramhScrollBar1
+>>>>>>> develop
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Location = new System.Drawing.Point(153, 58);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(30, 13);
+            this.label29.TabIndex = 34;
+            this.label29.Text = "Size:";
+            this.label29.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.Location = new System.Drawing.Point(154, 39);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(29, 13);
+            this.label28.TabIndex = 35;
+            this.label28.Text = "End:";
+            this.label28.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Location = new System.Drawing.Point(151, 18);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(32, 13);
+            this.label27.TabIndex = 36;
+            this.label27.Text = "Start:";
+            this.label27.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label32
+            // 
+            this.label32.AutoSize = true;
+            this.label32.Location = new System.Drawing.Point(8, 55);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(51, 13);
+            this.label32.TabIndex = 37;
+            this.label32.Text = "rxbuf end";
+            // 
+            // label31
+            // 
+            this.label31.AutoSize = true;
+            this.label31.Location = new System.Drawing.Point(6, 26);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(53, 13);
+            this.label31.TabIndex = 38;
+            this.label31.Text = "rxbuf start";
             // 
             // HDCheckBox
             // 
@@ -3642,7 +3814,7 @@
             this.ProcessBtn.TabIndex = 4;
             this.ProcessBtn.Text = "Process Amiga!";
             this.ProcessBtn.UseVisualStyleBackColor = true;
-            this.ProcessBtn.Click += new System.EventHandler(this.ProcessAmigaBtn_Click);
+            this.ProcessBtn.Click += new System.EventHandler(this.Process2Btn_Click);
             // 
             // ProcessPCBtn
             // 
@@ -3710,7 +3882,11 @@
             this.ErrorCorrectionTab.Location = new System.Drawing.Point(4, 23);
             this.ErrorCorrectionTab.Name = "ErrorCorrectionTab";
             this.ErrorCorrectionTab.Padding = new System.Windows.Forms.Padding(3);
+<<<<<<< HEAD
+            this.ErrorCorrectionTab.Size = new System.Drawing.Size(951, 750);
+=======
             this.ErrorCorrectionTab.Size = new System.Drawing.Size(966, 775);
+>>>>>>> develop
             this.ErrorCorrectionTab.TabIndex = 2;
             this.ErrorCorrectionTab.Text = "Error Correction";
             // 
@@ -3917,7 +4093,11 @@
             this.ECInfoTabs.Location = new System.Drawing.Point(6, 316);
             this.ECInfoTabs.Name = "ECInfoTabs";
             this.ECInfoTabs.SelectedIndex = 0;
+<<<<<<< HEAD
+            this.ECInfoTabs.Size = new System.Drawing.Size(452, 425);
+=======
             this.ECInfoTabs.Size = new System.Drawing.Size(452, 450);
+>>>>>>> develop
             this.ECInfoTabs.TabIndex = 4009;
             this.ECInfoTabs.SelectedIndexChanged += new System.EventHandler(this.ECInfoTabs_SelectedIndexChanged);
             // 
@@ -3927,7 +4107,11 @@
             this.ECTabSectorData.Location = new System.Drawing.Point(4, 22);
             this.ECTabSectorData.Name = "ECTabSectorData";
             this.ECTabSectorData.Padding = new System.Windows.Forms.Padding(3);
+<<<<<<< HEAD
+            this.ECTabSectorData.Size = new System.Drawing.Size(444, 399);
+=======
             this.ECTabSectorData.Size = new System.Drawing.Size(444, 424);
+>>>>>>> develop
             this.ECTabSectorData.TabIndex = 0;
             this.ECTabSectorData.Text = "Sector data";
             this.ECTabSectorData.UseVisualStyleBackColor = true;
@@ -3942,7 +4126,11 @@
             this.antbSectorData.Multiline = true;
             this.antbSectorData.Name = "antbSectorData";
             this.antbSectorData.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+<<<<<<< HEAD
+            this.antbSectorData.Size = new System.Drawing.Size(441, 395);
+=======
             this.antbSectorData.Size = new System.Drawing.Size(441, 420);
+>>>>>>> develop
             this.antbSectorData.TabIndex = 86;
             // 
             // tabPage8
@@ -3951,7 +4139,11 @@
             this.tabPage8.Location = new System.Drawing.Point(4, 22);
             this.tabPage8.Name = "tabPage8";
             this.tabPage8.Padding = new System.Windows.Forms.Padding(3);
+<<<<<<< HEAD
+            this.tabPage8.Size = new System.Drawing.Size(444, 399);
+=======
             this.tabPage8.Size = new System.Drawing.Size(444, 424);
+>>>>>>> develop
             this.tabPage8.TabIndex = 1;
             this.tabPage8.Text = "MFM data";
             this.tabPage8.UseVisualStyleBackColor = true;
@@ -4437,7 +4629,11 @@
             this.AnalysisPage.Location = new System.Drawing.Point(4, 23);
             this.AnalysisPage.Name = "AnalysisPage";
             this.AnalysisPage.Padding = new System.Windows.Forms.Padding(3);
+<<<<<<< HEAD
+            this.AnalysisPage.Size = new System.Drawing.Size(951, 750);
+=======
             this.AnalysisPage.Size = new System.Drawing.Size(966, 775);
+>>>>>>> develop
             this.AnalysisPage.TabIndex = 3;
             this.AnalysisPage.Text = "Analysis";
             // 
@@ -4678,7 +4874,11 @@
             this.AnalysisTab2.Location = new System.Drawing.Point(4, 23);
             this.AnalysisTab2.Name = "AnalysisTab2";
             this.AnalysisTab2.Padding = new System.Windows.Forms.Padding(3);
+<<<<<<< HEAD
+            this.AnalysisTab2.Size = new System.Drawing.Size(951, 750);
+=======
             this.AnalysisTab2.Size = new System.Drawing.Size(966, 775);
+>>>>>>> develop
             this.AnalysisTab2.TabIndex = 4;
             this.AnalysisTab2.Text = "Waveform Editor";
             this.AnalysisTab2.Enter += new System.EventHandler(this.AnalysisTab2_Enter_1);
@@ -5561,7 +5761,11 @@
             this.NetworkTab.Location = new System.Drawing.Point(4, 23);
             this.NetworkTab.Name = "NetworkTab";
             this.NetworkTab.Padding = new System.Windows.Forms.Padding(3);
+<<<<<<< HEAD
+            this.NetworkTab.Size = new System.Drawing.Size(951, 750);
+=======
             this.NetworkTab.Size = new System.Drawing.Size(966, 775);
+>>>>>>> develop
             this.NetworkTab.TabIndex = 5;
             this.NetworkTab.Text = "Network";
             // 
@@ -5843,11 +6047,24 @@
             this.label40.TabIndex = 76;
             this.label40.Text = "Track";
             // 
+            // SettingsLabel
+            // 
+            this.SettingsLabel.AutoSize = true;
+            this.SettingsLabel.Location = new System.Drawing.Point(784, 12);
+            this.SettingsLabel.Name = "SettingsLabel";
+            this.SettingsLabel.Size = new System.Drawing.Size(49, 13);
+            this.SettingsLabel.TabIndex = 70;
+            this.SettingsLabel.Text = "Counters";
+            // 
             // progressBar1
             // 
+<<<<<<< HEAD
+            this.progressBar1.Location = new System.Drawing.Point(365, 58);
+=======
             this.progressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.progressBar1.Location = new System.Drawing.Point(651, 54);
+>>>>>>> develop
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(334, 8);
             this.progressBar1.TabIndex = 83;
@@ -5861,7 +6078,11 @@
             // 
             this.ProcessStatusLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.ProcessStatusLabel.BackColor = System.Drawing.Color.Transparent;
+<<<<<<< HEAD
+            this.ProcessStatusLabel.Location = new System.Drawing.Point(363, 68);
+=======
             this.ProcessStatusLabel.Location = new System.Drawing.Point(895, 38);
+>>>>>>> develop
             this.ProcessStatusLabel.Name = "ProcessStatusLabel";
             this.ProcessStatusLabel.Size = new System.Drawing.Size(90, 13);
             this.ProcessStatusLabel.TabIndex = 59;
@@ -5872,6 +6093,38 @@
             // 
             this.GUITimer.Tick += new System.EventHandler(this.GUITimer_Tick);
             // 
+            // ThreadsUpDown
+            // 
+            this.ThreadsUpDown.Location = new System.Drawing.Point(726, 38);
+            this.ThreadsUpDown.Maximum = new decimal(new int[] {
+            2000,
+            0,
+            0,
+            0});
+            this.ThreadsUpDown.Minimum = new decimal(new int[] {
+            50,
+            0,
+            0,
+            -2147483648});
+            this.ThreadsUpDown.Name = "ThreadsUpDown";
+            this.ThreadsUpDown.Size = new System.Drawing.Size(39, 20);
+            this.ThreadsUpDown.TabIndex = 85;
+            this.ThreadsUpDown.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.ThreadsUpDown.ValueChanged += new System.EventHandler(this.ThreadsUpDown_ValueChanged);
+            // 
+            // label59
+            // 
+            this.label59.AutoSize = true;
+            this.label59.Location = new System.Drawing.Point(669, 42);
+            this.label59.Name = "label59";
+            this.label59.Size = new System.Drawing.Size(46, 13);
+            this.label59.TabIndex = 84;
+            this.label59.Text = "Threads";
+            // 
             // timer1
             // 
             this.timer1.Interval = 250;
@@ -5879,7 +6132,7 @@
             // 
             // GCbutton
             // 
-            this.GCbutton.Location = new System.Drawing.Point(921, 6);
+            this.GCbutton.Location = new System.Drawing.Point(920, 7);
             this.GCbutton.Name = "GCbutton";
             this.GCbutton.Size = new System.Drawing.Size(49, 23);
             this.GCbutton.TabIndex = 88;
@@ -5892,6 +6145,20 @@
             // 
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
+            // 
+            // SettingsButton
+            // 
+            this.SettingsButton.Image = global::FloppyControlApp.Properties.Resources.IconSettings;
+            this.SettingsButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.SettingsButton.Location = new System.Drawing.Point(683, 14);
+            this.SettingsButton.Name = "SettingsButton";
+            this.SettingsButton.Size = new System.Drawing.Size(71, 23);
+            this.SettingsButton.TabIndex = 9;
+            this.SettingsButton.Text = "Settings";
+            this.SettingsButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.SettingsButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.SettingsButton.UseVisualStyleBackColor = true;
+            this.SettingsButton.Click += new System.EventHandler(this.SettingsButton_Click);
             // 
             // EditScatterPlotcheckBox
             // 
@@ -5906,6 +6173,8 @@
             this.EditScatterPlotcheckBox.UseVisualStyleBackColor = true;
             this.EditScatterPlotcheckBox.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
+<<<<<<< HEAD
+=======
             // menuStrip1
             // 
             this.menuStrip1.AutoSize = false;
@@ -6060,16 +6329,6 @@
             this.settingsToolStripMenuItem.Text = "Settings";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.SettingsButton_Click);
             // 
-            // disableTooltipsToolStripMenuItem
-            // 
-            this.disableTooltipsToolStripMenuItem.Checked = global::FloppyControlApp.Properties.Settings.Default.TooltipDisable;
-            this.disableTooltipsToolStripMenuItem.CheckOnClick = true;
-            this.disableTooltipsToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.disableTooltipsToolStripMenuItem.Name = "disableTooltipsToolStripMenuItem";
-            this.disableTooltipsToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
-            this.disableTooltipsToolStripMenuItem.Text = "Enable tooltips";
-            this.disableTooltipsToolStripMenuItem.Click += new System.EventHandler(this.disableTooltipsToolStripMenuItem_Click);
-            // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
@@ -6160,31 +6419,217 @@
             this.StopButton.UseVisualStyleBackColor = false;
             this.StopButton.Click += new System.EventHandler(this.StopButton_Click);
             // 
+            // disableTooltipsToolStripMenuItem
+            // 
+            this.disableTooltipsToolStripMenuItem.Checked = global::FloppyControlApp.Properties.Settings.Default.TooltipDisable;
+            this.disableTooltipsToolStripMenuItem.CheckOnClick = true;
+            this.disableTooltipsToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.disableTooltipsToolStripMenuItem.Name = "disableTooltipsToolStripMenuItem";
+            this.disableTooltipsToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.disableTooltipsToolStripMenuItem.Text = "Enable tooltips";
+            this.disableTooltipsToolStripMenuItem.Click += new System.EventHandler(this.disableTooltipsToolStripMenuItem_Click);
+            // 
+            // QDirectStepCheckBox
+            // 
+            this.QDirectStepCheckBox.AutoSize = true;
+            this.QDirectStepCheckBox.Checked = global::FloppyControlApp.Properties.Settings.Default.DirectStep;
+            this.QDirectStepCheckBox.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::FloppyControlApp.Properties.Settings.Default, "DirectStep", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.QDirectStepCheckBox.Location = new System.Drawing.Point(614, 97);
+            this.QDirectStepCheckBox.Name = "QDirectStepCheckBox";
+            this.QDirectStepCheckBox.Size = new System.Drawing.Size(76, 17);
+            this.QDirectStepCheckBox.TabIndex = 114;
+            this.QDirectStepCheckBox.Text = "DirectStep";
+            this.toolTip1.SetToolTip(this.QDirectStepCheckBox, "If you don\'t use a step stick, check this box. If you do, clear it.");
+            this.QDirectStepCheckBox.UseVisualStyleBackColor = true;
+            this.QDirectStepCheckBox.CheckedChanged += new System.EventHandler(this.QDirectStepCheckBox_CheckedChanged);
+            // 
+            // QTrackDurationUpDown
+            // 
+            this.QTrackDurationUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::FloppyControlApp.Properties.Settings.Default, "TrackDuration", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.QTrackDurationUpDown.Increment = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.QTrackDurationUpDown.Location = new System.Drawing.Point(323, 35);
+            this.QTrackDurationUpDown.Maximum = new decimal(new int[] {
+            2000000,
+            0,
+            0,
+            0});
+            this.QTrackDurationUpDown.Name = "QTrackDurationUpDown";
+            this.QTrackDurationUpDown.Size = new System.Drawing.Size(52, 20);
+            this.QTrackDurationUpDown.TabIndex = 50;
+            this.toolTip1.SetToolTip(this.QTrackDurationUpDown, resources.GetString("QTrackDurationUpDown.ToolTip"));
+            this.QTrackDurationUpDown.Value = global::FloppyControlApp.Properties.Settings.Default.TrackDuration;
+            // 
+            // QTRK00OffsetUpDown
+            // 
+            this.QTRK00OffsetUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::FloppyControlApp.Properties.Settings.Default, "TRK00Offset", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.QTRK00OffsetUpDown.Location = new System.Drawing.Point(102, 34);
+            this.QTRK00OffsetUpDown.Minimum = new decimal(new int[] {
+            100,
+            0,
+            0,
+            -2147483648});
+            this.QTRK00OffsetUpDown.Name = "QTRK00OffsetUpDown";
+            this.QTRK00OffsetUpDown.Size = new System.Drawing.Size(52, 20);
+            this.QTRK00OffsetUpDown.TabIndex = 47;
+            this.toolTip1.SetToolTip(this.QTRK00OffsetUpDown, "Track offset. When seeking TRK00 you can move farther back if you\'re having troub" +
+        "le getting track 0 to capture well. Can be negative.");
+            this.QTRK00OffsetUpDown.Value = global::FloppyControlApp.Properties.Settings.Default.TRK00Offset;
+            // 
+            // QMicrostepsPerTrackUpDown
+            // 
+            this.QMicrostepsPerTrackUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::FloppyControlApp.Properties.Settings.Default, "MicroStepsPerTrack", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.QMicrostepsPerTrackUpDown.Location = new System.Drawing.Point(8, 34);
+            this.QMicrostepsPerTrackUpDown.Name = "QMicrostepsPerTrackUpDown";
+            this.QMicrostepsPerTrackUpDown.Size = new System.Drawing.Size(52, 20);
+            this.QMicrostepsPerTrackUpDown.TabIndex = 46;
+            this.toolTip1.SetToolTip(this.QMicrostepsPerTrackUpDown, "If you use a step stick, anything under 8 microsteps will read between the tracks" +
+        ". For a glued disk, use 2 microsteps for a full recovery.");
+            this.QMicrostepsPerTrackUpDown.Value = global::FloppyControlApp.Properties.Settings.Default.MicroStepsPerTrack;
+            // 
+            // DirectStepCheckBox
+            // 
+            this.DirectStepCheckBox.AutoSize = true;
+            this.DirectStepCheckBox.Checked = global::FloppyControlApp.Properties.Settings.Default.DirectStep;
+            this.DirectStepCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.DirectStepCheckBox.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::FloppyControlApp.Properties.Settings.Default, "DirectStep", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.DirectStepCheckBox.Location = new System.Drawing.Point(9, 229);
+            this.DirectStepCheckBox.Name = "DirectStepCheckBox";
+            this.DirectStepCheckBox.Size = new System.Drawing.Size(76, 17);
+            this.DirectStepCheckBox.TabIndex = 91;
+            this.DirectStepCheckBox.Text = "DirectStep";
+            this.DirectStepCheckBox.UseVisualStyleBackColor = true;
+            this.DirectStepCheckBox.CheckedChanged += new System.EventHandler(this.DirectStepCheckBox_CheckedChanged);
+            // 
+            // TrackDurationUpDown
+            // 
+            this.TrackDurationUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::FloppyControlApp.Properties.Settings.Default, "TrackDuration", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.TrackDurationUpDown.Increment = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.TrackDurationUpDown.Location = new System.Drawing.Point(10, 207);
+            this.TrackDurationUpDown.Maximum = new decimal(new int[] {
+            2000000,
+            0,
+            0,
+            0});
+            this.TrackDurationUpDown.Name = "TrackDurationUpDown";
+            this.TrackDurationUpDown.Size = new System.Drawing.Size(52, 20);
+            this.TrackDurationUpDown.TabIndex = 50;
+            this.TrackDurationUpDown.Value = global::FloppyControlApp.Properties.Settings.Default.TrackDuration;
+            // 
+            // MinvScrollBar
+            // 
+            this.MinvScrollBar.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::FloppyControlApp.Properties.Settings.Default, "Min", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.MinvScrollBar.Location = new System.Drawing.Point(13, 39);
+            this.MinvScrollBar.Maximum = 264;
+            this.MinvScrollBar.Name = "MinvScrollBar";
+            this.MinvScrollBar.Size = new System.Drawing.Size(15, 184);
+            this.MinvScrollBar.TabIndex = 65;
+            this.MinvScrollBar.Value = global::FloppyControlApp.Properties.Settings.Default.Min;
+            this.MinvScrollBar.ValueChanged += new System.EventHandler(this.FourvScrollBar_ValueChanged);
+            // 
+            // FourvScrollBar
+            // 
+            this.FourvScrollBar.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::FloppyControlApp.Properties.Settings.Default, "FourSix", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.FourvScrollBar.Location = new System.Drawing.Point(45, 39);
+            this.FourvScrollBar.Maximum = 264;
+            this.FourvScrollBar.Name = "FourvScrollBar";
+            this.FourvScrollBar.Size = new System.Drawing.Size(15, 184);
+            this.FourvScrollBar.TabIndex = 66;
+            this.FourvScrollBar.Value = global::FloppyControlApp.Properties.Settings.Default.FourSix;
+            this.FourvScrollBar.ValueChanged += new System.EventHandler(this.FourvScrollBar_ValueChanged);
+            // 
+            // SixvScrollBar
+            // 
+            this.SixvScrollBar.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::FloppyControlApp.Properties.Settings.Default, "SixEight", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.SixvScrollBar.Location = new System.Drawing.Point(79, 39);
+            this.SixvScrollBar.Maximum = 255;
+            this.SixvScrollBar.Name = "SixvScrollBar";
+            this.SixvScrollBar.Size = new System.Drawing.Size(15, 184);
+            this.SixvScrollBar.TabIndex = 67;
+            this.SixvScrollBar.Value = global::FloppyControlApp.Properties.Settings.Default.SixEight;
+            this.SixvScrollBar.ValueChanged += new System.EventHandler(this.FourvScrollBar_ValueChanged);
+            // 
+            // EightvScrollBar
+            // 
+            this.EightvScrollBar.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::FloppyControlApp.Properties.Settings.Default, "Max", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.EightvScrollBar.Location = new System.Drawing.Point(118, 39);
+            this.EightvScrollBar.Maximum = 264;
+            this.EightvScrollBar.Name = "EightvScrollBar";
+            this.EightvScrollBar.Size = new System.Drawing.Size(15, 184);
+            this.EightvScrollBar.TabIndex = 68;
+            this.EightvScrollBar.Value = global::FloppyControlApp.Properties.Settings.Default.Max;
+            this.EightvScrollBar.ValueChanged += new System.EventHandler(this.FourvScrollBar_ValueChanged);
+            // 
+            // OffsetvScrollBar1
+            // 
+            this.OffsetvScrollBar1.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::FloppyControlApp.Properties.Settings.Default, "Offset", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.OffsetvScrollBar1.Location = new System.Drawing.Point(147, 39);
+            this.OffsetvScrollBar1.Maximum = 50;
+            this.OffsetvScrollBar1.Minimum = -50;
+            this.OffsetvScrollBar1.Name = "OffsetvScrollBar1";
+            this.OffsetvScrollBar1.Size = new System.Drawing.Size(15, 184);
+            this.OffsetvScrollBar1.TabIndex = 69;
+            this.OffsetvScrollBar1.Value = global::FloppyControlApp.Properties.Settings.Default.Offset;
+            this.OffsetvScrollBar1.ValueChanged += new System.EventHandler(this.FourvScrollBar_ValueChanged);
+            // 
             // toolTip1
             // 
             this.toolTip1.Active = global::FloppyControlApp.Properties.Settings.Default.TooltipDisable;
             // 
+>>>>>>> develop
             // FloppyControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
+<<<<<<< HEAD
+            this.ClientSize = new System.Drawing.Size(1604, 900);
+=======
             this.ClientSize = new System.Drawing.Size(1619, 910);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.StopButton);
             this.Controls.Add(this.ThreadsUpDown);
             this.Controls.Add(this.label59);
             this.Controls.Add(this.menuStrip1);
+>>>>>>> develop
             this.Controls.Add(this.EditScatterPlotcheckBox);
             this.Controls.Add(this.GCbutton);
+            this.Controls.Add(this.ThreadsUpDown);
+            this.Controls.Add(this.label59);
             this.Controls.Add(this.ProcessStatusLabel);
             this.Controls.Add(this.MainTabControl);
             this.Controls.Add(this.textBoxReceived);
+            this.Controls.Add(this.LoadPrjBtn);
+            this.Controls.Add(this.SavePrjBtn);
+            this.Controls.Add(this.jESEnd);
+            this.Controls.Add(this.jESStart);
+            this.Controls.Add(this.label17);
+            this.Controls.Add(this.SettingsLabel);
+            this.Controls.Add(this.label35);
+            this.Controls.Add(this.iESEnd);
+            this.Controls.Add(this.iESStart);
             this.Controls.Add(this.SectorUpDown);
+            this.Controls.Add(this.label8);
             this.Controls.Add(this.label39);
             this.Controls.Add(this.TrackUpDown);
+            this.Controls.Add(this.label9);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.label40);
+            this.Controls.Add(this.SaveDiskImageButton);
+            this.Controls.Add(this.StopButton);
+            this.Controls.Add(this.button5);
+            this.Controls.Add(this.SettingsButton);
+            this.Controls.Add(this.AboutButton);
+            this.Controls.Add(this.ResetBuffersBtn);
+            this.Controls.Add(this.AddDataButton);
+            this.Controls.Add(this.OpenBinFilebutton);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.outputfilename);
@@ -6192,7 +6637,6 @@
             this.DoubleBuffered = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
-            this.MainMenuStrip = this.menuStrip1;
             this.Name = "FloppyControl";
             this.Text = "Floppy Control";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FloppyControl_FormClosing);
@@ -6215,9 +6659,15 @@
             this.tabPage4.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.iESEnd)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.iESStart)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.jESEnd)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.jESStart)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.LimitToSectorUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.LimitToTrackUpDown)).EndInit();
             this.MainTabControl.ResumeLayout(false);
+<<<<<<< HEAD
+=======
             this.QuickTab.ResumeLayout(false);
             this.groupBox13.ResumeLayout(false);
             this.groupBox14.ResumeLayout(false);
@@ -6244,21 +6694,19 @@
             this.groupBox10.ResumeLayout(false);
             this.groupBox10.PerformLayout();
             this.groupBox11.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.QTrackDurationUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.QStartTrackUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.QEndTracksUpDown)).EndInit();
+<<<<<<< HEAD
             ((System.ComponentModel.ISupportInitialize)(this.QTRK00OffsetUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.QMicrostepsPerTrackUpDown)).EndInit();
+>>>>>>> develop
+=======
+>>>>>>> release/Release_v1.1.0
             this.CaptureTab.ResumeLayout(false);
             this.CaptureTab.PerformLayout();
-            this.groupBox4.ResumeLayout(false);
-            this.groupBox4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.rxbufEndUpDown)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.rxbufStartUpDown)).EndInit();
             this.groupBox7.ResumeLayout(false);
             this.groupBox7.PerformLayout();
             this.groupBox1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.TrackDurationUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.StartTrackUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.EndTracksUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TRK00OffsetUpDown)).EndInit();
@@ -6269,10 +6717,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.AddNoiseKnumericUpDown)).EndInit();
             this.groupBox6.ResumeLayout(false);
             this.groupBox6.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.jESEnd)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.jESStart)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.iESEnd)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.iESStart)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.RateOfChange2UpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.AdaptOfsset2UpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.RndAmountUpDown)).EndInit();
@@ -6283,6 +6727,10 @@
             this.groupBox5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.HistogramhScrollBar1)).EndInit();
             this.groupBox3.ResumeLayout(false);
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.rxbufEndUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.rxbufStartUpDown)).EndInit();
             this.ErrorCorrectionTab.ResumeLayout(false);
             this.ErrorCorrectionTab.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.CombinationsUpDown)).EndInit();
@@ -6350,9 +6798,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.NetworkCaptureTrackStartUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.SectorUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TrackUpDown)).EndInit();
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ThreadsUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QTrackDurationUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QTRK00OffsetUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QMicrostepsPerTrackUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TrackDurationUpDown)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -6363,36 +6813,54 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.TextBox outputfilename;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button OpenBinFilebutton;
         private System.IO.FileSystemWatcher fileSystemWatcher1;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox tbSectorMap;
         private System.Windows.Forms.Label BytesPerSecondLabel;
         private System.Windows.Forms.Label BytesReceivedLabel;
+        private System.Windows.Forms.Button SaveDiskImageButton;
+        private System.Windows.Forms.Button ResetBuffersBtn;
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.Label CurrentTrackLabel;
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.Label RecoveredSectorsLabel;
         private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Label RecoveredSectorsWithErrorsLabel;
         private System.Windows.Forms.Label label33;
         private System.Windows.Forms.Label label34;
+        private System.Windows.Forms.Button AddDataButton;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TextBox TrackInfotextBox;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.TabPage ScatterPlottabPage;
+        private System.Windows.Forms.Button StopButton;
         private System.Windows.Forms.TextBox textBoxReceived;
         private System.Windows.Forms.Label LabelStatus;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Button AboutButton;
+        private System.Windows.Forms.Button SettingsButton;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label CaptureTimeLabel;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.Windows.Forms.NumericUpDown iESEnd;
+        private System.Windows.Forms.NumericUpDown iESStart;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.TextBox textBoxFilesLoaded;
+        private System.Windows.Forms.NumericUpDown jESEnd;
+        private System.Windows.Forms.NumericUpDown jESStart;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label label35;
         private System.Windows.Forms.TabPage ShowSectorTab;
         private System.Windows.Forms.TextBox textBoxSector;
+        private System.Windows.Forms.Button LoadPrjBtn;
+        private System.Windows.Forms.Button SavePrjBtn;
         private System.Windows.Forms.OpenFileDialog openFileDialog2;
         private System.Windows.Forms.NumericUpDown LimitToSectorUpDown;
         private System.Windows.Forms.Label label41;
@@ -6405,6 +6873,7 @@
         private System.Windows.Forms.TabControl MainTabControl;
         private System.Windows.Forms.TabPage CaptureTab;
         private System.Windows.Forms.TabPage ProcessingTab;
+        private System.Windows.Forms.Label SettingsLabel;
         private System.Windows.Forms.Button ProcessPCBtn;
         private System.Windows.Forms.Button ProcessBtn;
         private System.Windows.Forms.GroupBox groupBox6;
@@ -6431,6 +6900,17 @@
         private System.Windows.Forms.Panel Histogrampanel1;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Button ScanButton;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.NumericUpDown rxbufEndUpDown;
+        private System.Windows.Forms.NumericUpDown rxbufStartUpDown;
+        private System.Windows.Forms.Label BufferSizeLabel;
+        private System.Windows.Forms.Label HistogramLengthLabel;
+        private System.Windows.Forms.Label HistogramStartLabel;
+        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.Label label32;
+        private System.Windows.Forms.Label label31;
         private System.Windows.Forms.CheckBox HDCheckBox;
         private System.Windows.Forms.CheckBox IgnoreHeaderErrorCheckBox;
         private System.Windows.Forms.Label label37;
@@ -6519,6 +6999,8 @@
         private System.Windows.Forms.PictureBox ScatterPictureBox;
         private System.Windows.Forms.Label label56;
         private System.Windows.Forms.Label SelectionDifLabel;
+        private System.Windows.Forms.NumericUpDown ThreadsUpDown;
+        private System.Windows.Forms.Label label59;
         private System.Windows.Forms.TextBox AntxtBox;
         private System.Windows.Forms.TextBox antbSectorData;
         private System.Windows.Forms.Button ECZoomOutBtn;
@@ -6679,6 +7161,8 @@
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button8;
         private System.Windows.Forms.Button button7;
+<<<<<<< HEAD
+=======
         private System.Windows.Forms.TabPage QuickTab;
         private System.Windows.Forms.GroupBox groupBox12;
         private System.Windows.Forms.Button StepStickPresetBtn;
@@ -6806,6 +7290,7 @@
         private System.Windows.Forms.Button button10;
         private System.Windows.Forms.Button button9;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+>>>>>>> develop
     }
 }
 
