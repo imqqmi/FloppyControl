@@ -76,7 +76,7 @@ namespace FloppyControlApp.MyClasses
             processing = proc;
 
         }
-
+         
         public void RefreshSectorMap()
         {
             int sector, track;
@@ -100,7 +100,7 @@ namespace FloppyControlApp.MyClasses
             //SectorInfo.Clear();
             //tbreceived.Append("3 Sectormap: " + relativetime() + "ms\r\n");
             rtbSectorMap.Font = new Font(rtbSectorMap.Font.FontFamily, 9);
-
+            rtbSectorMap.ZoomFactor = 1.0f;
             WindowWidth = 1620;
 
             if (processing.diskformat == DiskFormat.amigados) //AmigaDOS
@@ -121,10 +121,12 @@ namespace FloppyControlApp.MyClasses
             {
                 processing.sectorspertrack = 18;
                 rtbSectorMap.Font = new Font(rtbSectorMap.Font.FontFamily, 6);
+                rtbSectorMap.ZoomFactor = 1.1f;
             }
             //tbreceived.Append("Sectormap: " + relativetime() + "ms\r\n");
             for (track = 0; track < 166; track++)
             {
+                Application.DoEvents();
                 //tbSectorMap.ForeColor = colBlack;
                 rtbSectorMap.AppendText("T" + track.ToString("D3") + " ");
                 for (sector = 0; sector < processing.sectorspertrack; sector++)

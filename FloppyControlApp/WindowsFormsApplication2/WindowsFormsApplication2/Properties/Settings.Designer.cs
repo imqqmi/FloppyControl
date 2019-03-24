@@ -12,7 +12,7 @@ namespace FloppyControlApp.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "14.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.3.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -37,13 +37,13 @@ namespace FloppyControlApp.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1")]
-        public int MicroStepping {
+        [global::System.Configuration.DefaultSettingValueAttribute("8")]
+        public decimal MicroStepsPerTrack {
             get {
-                return ((int)(this["MicroStepping"]));
+                return ((decimal)(this["MicroStepsPerTrack"]));
             }
             set {
-                this["MicroStepping"] = value;
+                this["MicroStepsPerTrack"] = value;
             }
         }
         
@@ -97,7 +97,7 @@ namespace FloppyControlApp.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool DirectStep {
             get {
                 return ((bool)(this["DirectStep"]));
@@ -109,10 +109,10 @@ namespace FloppyControlApp.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1")]
-        public int StepStickMicrostepping {
+        [global::System.Configuration.DefaultSettingValueAttribute("8")]
+        public decimal StepStickMicrostepping {
             get {
-                return ((int)(this["StepStickMicrostepping"]));
+                return ((decimal)(this["StepStickMicrostepping"]));
             }
             set {
                 this["StepStickMicrostepping"] = value;
@@ -121,13 +121,109 @@ namespace FloppyControlApp.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("-1")]
-        public int TRK00Offset {
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public decimal TRK00Offset {
             get {
-                return ((int)(this["TRK00Offset"]));
+                return ((decimal)(this["TRK00Offset"]));
             }
             set {
                 this["TRK00Offset"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int FourSix {
+            get {
+                return ((int)(this["FourSix"]));
+            }
+            set {
+                this["FourSix"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int Max {
+            get {
+                return ((int)(this["Max"]));
+            }
+            set {
+                this["Max"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int Min {
+            get {
+                return ((int)(this["Min"]));
+            }
+            set {
+                this["Min"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int Offset {
+            get {
+                return ((int)(this["Offset"]));
+            }
+            set {
+                this["Offset"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int SixEight {
+            get {
+                return ((int)(this["SixEight"]));
+            }
+            set {
+                this["SixEight"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool TooltipDisable {
+            get {
+                return ((bool)(this["TooltipDisable"]));
+            }
+            set {
+                this["TooltipDisable"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("330")]
+        public decimal TrackDuration {
+            get {
+                return ((decimal)(this["TrackDuration"]));
+            }
+            set {
+                this["TrackDuration"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("dev")]
+        public string GuiMode {
+            get {
+                return ((string)(this["GuiMode"]));
+            }
+            set {
+                this["GuiMode"] = value;
             }
         }
     }

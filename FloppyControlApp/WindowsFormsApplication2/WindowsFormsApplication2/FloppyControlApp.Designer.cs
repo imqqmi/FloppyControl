@@ -110,6 +110,86 @@
             this.LimitToTrackUpDown = new System.Windows.Forms.NumericUpDown();
             this.label42 = new System.Windows.Forms.Label();
             this.MainTabControl = new System.Windows.Forms.TabControl();
+<<<<<<< HEAD
+=======
+            this.QuickTab = new System.Windows.Forms.TabPage();
+            this.QrtbSectorMap = new System.Windows.Forms.RichTextBox();
+            this.groupBox13 = new System.Windows.Forms.GroupBox();
+            this.button11 = new System.Windows.Forms.Button();
+            this.button15 = new System.Windows.Forms.Button();
+            this.groupBox14 = new System.Windows.Forms.GroupBox();
+            this.QOnlyBadSectorsRadio = new System.Windows.Forms.RadioButton();
+            this.QECOnRadio = new System.Windows.Forms.RadioButton();
+            this.label89 = new System.Windows.Forms.Label();
+            this.QChangeDiskTypeComboBox = new System.Windows.Forms.ComboBox();
+            this.QProcessingModeComboBox = new System.Windows.Forms.ComboBox();
+            this.QClearDatacheckBox = new System.Windows.Forms.CheckBox();
+            this.groupBox15 = new System.Windows.Forms.GroupBox();
+            this.QOffsetUpDown = new System.Windows.Forms.NumericUpDown();
+            this.QMaxUpDown = new System.Windows.Forms.NumericUpDown();
+            this.QSixEightUpDown = new System.Windows.Forms.NumericUpDown();
+            this.QFourSixUpDown = new System.Windows.Forms.NumericUpDown();
+            this.QMinUpDown = new System.Windows.Forms.NumericUpDown();
+            this.QOffsetLabel = new System.Windows.Forms.Label();
+            this.QFourSixLabel = new System.Windows.Forms.Label();
+            this.QMinLabel = new System.Windows.Forms.Label();
+            this.QSixEightLabel = new System.Windows.Forms.Label();
+            this.QMaxLabel = new System.Windows.Forms.Label();
+            this.QFindDupesCheckBox = new System.Windows.Forms.CheckBox();
+            this.QAutoRefreshSectorMapCheck = new System.Windows.Forms.CheckBox();
+            this.QIgnoreHeaderErrorCheckBox = new System.Windows.Forms.CheckBox();
+            this.groupBox16 = new System.Windows.Forms.GroupBox();
+            this.QHistoPanel = new System.Windows.Forms.Panel();
+            this.QHistogramhScrollBar1 = new System.Windows.Forms.TrackBar();
+            this.groupBox17 = new System.Windows.Forms.GroupBox();
+            this.QLimitTSCheckBox = new System.Windows.Forms.CheckBox();
+            this.QRateOfChange2UpDown = new System.Windows.Forms.NumericUpDown();
+            this.label88 = new System.Windows.Forms.Label();
+            this.label102 = new System.Windows.Forms.Label();
+            this.QRateOfChangeUpDown = new System.Windows.Forms.NumericUpDown();
+            this.QScanComboBox = new System.Windows.Forms.ComboBox();
+            this.button47 = new System.Windows.Forms.Button();
+            this.QAdaptOfsset2UpDown = new System.Windows.Forms.NumericUpDown();
+            this.label90 = new System.Windows.Forms.Label();
+            this.QLimitToSectorUpDown = new System.Windows.Forms.NumericUpDown();
+            this.label91 = new System.Windows.Forms.Label();
+            this.QLimitToTrackUpDown = new System.Windows.Forms.NumericUpDown();
+            this.QHDCheckBox = new System.Windows.Forms.CheckBox();
+            this.label114 = new System.Windows.Forms.Label();
+            this.QProcAmigaBtn = new System.Windows.Forms.Button();
+            this.QProcPCBtn = new System.Windows.Forms.Button();
+            this.groupBox12 = new System.Windows.Forms.GroupBox();
+            this.GluedDiskPreset = new System.Windows.Forms.Button();
+            this.StepStickPresetBtn = new System.Windows.Forms.Button();
+            this.QDirectStepPresetBtn = new System.Windows.Forms.Button();
+            this.QRecaptureAllBtn = new System.Windows.Forms.Button();
+            this.MainTabControlImageList = new System.Windows.Forms.ImageList(this.components);
+            this.button12 = new System.Windows.Forms.Button();
+            this.button13 = new System.Windows.Forms.Button();
+            this.button14 = new System.Windows.Forms.Button();
+            this.QDirectStepCheckBox = new System.Windows.Forms.CheckBox();
+            this.QCaptureBtn = new System.Windows.Forms.Button();
+            this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.groupBox11 = new System.Windows.Forms.GroupBox();
+            this.button10 = new System.Windows.Forms.Button();
+            this.button9 = new System.Windows.Forms.Button();
+            this.button17 = new System.Windows.Forms.Button();
+            this.button22 = new System.Windows.Forms.Button();
+            this.button24 = new System.Windows.Forms.Button();
+            this.button27 = new System.Windows.Forms.Button();
+            this.button30 = new System.Windows.Forms.Button();
+            this.button37 = new System.Windows.Forms.Button();
+            this.QTrackDurationUpDown = new System.Windows.Forms.NumericUpDown();
+            this.QStartTrackUpDown = new System.Windows.Forms.NumericUpDown();
+            this.QEndTracksUpDown = new System.Windows.Forms.NumericUpDown();
+            this.label82 = new System.Windows.Forms.Label();
+            this.QTRK00OffsetUpDown = new System.Windows.Forms.NumericUpDown();
+            this.QMicrostepsPerTrackUpDown = new System.Windows.Forms.NumericUpDown();
+            this.label83 = new System.Windows.Forms.Label();
+            this.label84 = new System.Windows.Forms.Label();
+            this.label85 = new System.Windows.Forms.Label();
+            this.label86 = new System.Windows.Forms.Label();
+>>>>>>> develop
             this.CaptureTab = new System.Windows.Forms.TabPage();
             this.button8 = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
@@ -124,7 +204,6 @@
             this.button36 = new System.Windows.Forms.Button();
             this.DirectStepCheckBox = new System.Windows.Forms.CheckBox();
             this.CaptureClassbutton = new System.Windows.Forms.Button();
-            this.ConnectClassbutton = new System.Windows.Forms.Button();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.button4 = new System.Windows.Forms.Button();
@@ -144,6 +223,11 @@
             this.label21 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.ProcessingTab = new System.Windows.Forms.TabPage();
+<<<<<<< HEAD
+=======
+            this.button5 = new System.Windows.Forms.Button();
+            this.ResetBuffersBtn = new System.Windows.Forms.Button();
+>>>>>>> develop
             this.DupsUpDown = new System.Windows.Forms.NumericUpDown();
             this.label69 = new System.Windows.Forms.Label();
             this.AddNoiseKnumericUpDown = new System.Windows.Forms.NumericUpDown();
@@ -177,11 +261,11 @@
             this.SixvScrollBar = new System.Windows.Forms.VScrollBar();
             this.EightvScrollBar = new System.Windows.Forms.VScrollBar();
             this.OffsetvScrollBar1 = new System.Windows.Forms.VScrollBar();
-            this.label30 = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
-            this.label18 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
-            this.label16 = new System.Windows.Forms.Label();
+            this.POffsetLabel = new System.Windows.Forms.Label();
+            this.PFourSixLabel = new System.Windows.Forms.Label();
+            this.PMinLabel = new System.Windows.Forms.Label();
+            this.PSixEightLabel = new System.Windows.Forms.Label();
+            this.PMaxLabel = new System.Windows.Forms.Label();
             this.FindDupesCheckBox = new System.Windows.Forms.CheckBox();
             this.AutoRefreshSectorMapCheck = new System.Windows.Forms.CheckBox();
             this.label50 = new System.Windows.Forms.Label();
@@ -189,9 +273,6 @@
             this.IgnoreHeaderErrorCheckBox = new System.Windows.Forms.CheckBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.Histogrampanel1 = new System.Windows.Forms.Panel();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
             this.HistogramhScrollBar1 = new System.Windows.Forms.TrackBar();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.ScanComboBox = new System.Windows.Forms.ComboBox();
@@ -391,6 +472,38 @@
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.SettingsButton = new System.Windows.Forms.Button();
             this.EditScatterPlotcheckBox = new System.Windows.Forms.CheckBox();
+<<<<<<< HEAD
+=======
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.loadProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.importToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.scpFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.scpFileToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.trimmedBinToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.badSectorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.disableTooltipsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.basicModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.advancedModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.devModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ThreadsUpDown = new System.Windows.Forms.NumericUpDown();
+            this.label59 = new System.Windows.Forms.Label();
+            this.StopButton = new System.Windows.Forms.Button();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+>>>>>>> develop
             ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.ScatterPlottabPage.SuspendLayout();
@@ -407,6 +520,34 @@
             ((System.ComponentModel.ISupportInitialize)(this.LimitToSectorUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.LimitToTrackUpDown)).BeginInit();
             this.MainTabControl.SuspendLayout();
+<<<<<<< HEAD
+=======
+            this.QuickTab.SuspendLayout();
+            this.groupBox13.SuspendLayout();
+            this.groupBox14.SuspendLayout();
+            this.groupBox15.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.QOffsetUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QMaxUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QSixEightUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QFourSixUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QMinUpDown)).BeginInit();
+            this.groupBox16.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.QHistogramhScrollBar1)).BeginInit();
+            this.groupBox17.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.QRateOfChange2UpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QRateOfChangeUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QAdaptOfsset2UpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QLimitToSectorUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QLimitToTrackUpDown)).BeginInit();
+            this.groupBox12.SuspendLayout();
+            this.groupBox10.SuspendLayout();
+            this.groupBox11.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.QTrackDurationUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QStartTrackUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QEndTracksUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QTRK00OffsetUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QMicrostepsPerTrackUpDown)).BeginInit();
+>>>>>>> develop
             this.CaptureTab.SuspendLayout();
             this.groupBox7.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -498,6 +639,8 @@
             this.outputfilename.Size = new System.Drawing.Size(269, 20);
             this.outputfilename.TabIndex = 0;
             this.outputfilename.Text = "Dump";
+            this.toolTip1.SetToolTip(this.outputfilename, "Before capturing, set a name for the folder and files to be generated during capt" +
+        "ure and saving/exporting data.");
             this.outputfilename.TextChanged += new System.EventHandler(this.outputfilename_TextChanged);
             this.outputfilename.Enter += new System.EventHandler(this.outputfilename_Enter);
             this.outputfilename.Leave += new System.EventHandler(this.outputfilename_Leave);
@@ -557,9 +700,9 @@
             this.BytesPerSecondLabel.AutoSize = true;
             this.BytesPerSecondLabel.Location = new System.Drawing.Point(624, 26);
             this.BytesPerSecondLabel.Name = "BytesPerSecondLabel";
-            this.BytesPerSecondLabel.Size = new System.Drawing.Size(89, 13);
+            this.BytesPerSecondLabel.Size = new System.Drawing.Size(13, 13);
             this.BytesPerSecondLabel.TabIndex = 1;
-            this.BytesPerSecondLabel.Text = "Bytes per second";
+            this.BytesPerSecondLabel.Text = "0";
             // 
             // BytesReceivedLabel
             // 
@@ -569,9 +712,9 @@
             this.BytesReceivedLabel.AutoSize = true;
             this.BytesReceivedLabel.Location = new System.Drawing.Point(624, 13);
             this.BytesReceivedLabel.Name = "BytesReceivedLabel";
-            this.BytesReceivedLabel.Size = new System.Drawing.Size(77, 13);
+            this.BytesReceivedLabel.Size = new System.Drawing.Size(13, 13);
             this.BytesReceivedLabel.TabIndex = 1;
-            this.BytesReceivedLabel.Text = "Bytes received";
+            this.BytesReceivedLabel.Text = "0";
             // 
             // SaveDiskImageButton
             // 
@@ -731,11 +874,12 @@
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Controls.Add(this.ShowSectorTab);
             this.tabControl1.Controls.Add(this.tabPage4);
-            this.tabControl1.Location = new System.Drawing.Point(976, 393);
+            this.tabControl1.Location = new System.Drawing.Point(991, 393);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(616, 463);
             this.tabControl1.TabIndex = 42;
+            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
             // ScatterPlottabPage
             // 
@@ -800,6 +944,9 @@
             this.ScatterPictureBox.Size = new System.Drawing.Size(573, 378);
             this.ScatterPictureBox.TabIndex = 1;
             this.ScatterPictureBox.TabStop = false;
+            this.toolTip1.SetToolTip(this.ScatterPictureBox, "The scatter plot shows you the signal, with pulse length on the vertical axis and" +
+        " datapoints/time on the horizontal axis. \r\nZoom with scroll wheel, drag to move " +
+        "the view.");
             // 
             // label56
             // 
@@ -944,7 +1091,7 @@
             // 
             this.textBoxReceived.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxReceived.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxReceived.Location = new System.Drawing.Point(976, 6);
+            this.textBoxReceived.Location = new System.Drawing.Point(991, 6);
             this.textBoxReceived.MaxLength = 2000000;
             this.textBoxReceived.Multiline = true;
             this.textBoxReceived.Name = "textBoxReceived";
@@ -1365,6 +1512,10 @@
             this.MainTabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+<<<<<<< HEAD
+=======
+            this.MainTabControl.Controls.Add(this.QuickTab);
+>>>>>>> develop
             this.MainTabControl.Controls.Add(this.CaptureTab);
             this.MainTabControl.Controls.Add(this.ProcessingTab);
             this.MainTabControl.Controls.Add(this.ErrorCorrectionTab);
@@ -1375,6 +1526,7 @@
             this.MainTabControl.Location = new System.Drawing.Point(15, 85);
             this.MainTabControl.Name = "MainTabControl";
             this.MainTabControl.SelectedIndex = 0;
+<<<<<<< HEAD
             this.MainTabControl.Size = new System.Drawing.Size(959, 777);
             this.MainTabControl.TabIndex = 56;
             this.MainTabControl.SelectedIndexChanged += new System.EventHandler(this.MainTabControl_SelectedIndexChanged);
@@ -1413,9 +1565,1192 @@
             this.button8.Text = "StepStick preset";
             this.button8.Click += new System.EventHandler(this.button8_Click);
             // 
+=======
+            this.MainTabControl.Size = new System.Drawing.Size(974, 802);
+            this.MainTabControl.TabIndex = 56;
+            this.MainTabControl.SelectedIndexChanged += new System.EventHandler(this.MainTabControl_SelectedIndexChanged);
+            // 
+            // QuickTab
+            // 
+            this.QuickTab.BackColor = System.Drawing.SystemColors.Control;
+            this.QuickTab.Controls.Add(this.QrtbSectorMap);
+            this.QuickTab.Controls.Add(this.groupBox13);
+            this.QuickTab.Controls.Add(this.groupBox12);
+            this.QuickTab.Location = new System.Drawing.Point(4, 23);
+            this.QuickTab.Name = "QuickTab";
+            this.QuickTab.Padding = new System.Windows.Forms.Padding(3);
+            this.QuickTab.Size = new System.Drawing.Size(966, 775);
+            this.QuickTab.TabIndex = 6;
+            this.QuickTab.Text = "Quick";
+            // 
+            // QrtbSectorMap
+            // 
+            this.QrtbSectorMap.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.QrtbSectorMap.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.QrtbSectorMap.HideSelection = false;
+            this.QrtbSectorMap.Location = new System.Drawing.Point(1, 378);
+            this.QrtbSectorMap.Name = "QrtbSectorMap";
+            this.QrtbSectorMap.Size = new System.Drawing.Size(963, 397);
+            this.QrtbSectorMap.TabIndex = 114;
+            this.QrtbSectorMap.Text = "";
+            this.toolTip1.SetToolTip(this.QrtbSectorMap, "The sectormap shows you in detail what the status is for every sector. Right clic" +
+        "k on a sector for more options. Double click to refresh.");
+            this.QrtbSectorMap.DoubleClick += new System.EventHandler(this.rtbSectorMap_DoubleClick);
+            this.QrtbSectorMap.MouseDown += new System.Windows.Forms.MouseEventHandler(this.rtbSectorMap_MouseDown);
+            // 
+            // groupBox13
+            // 
+            this.groupBox13.BackColor = System.Drawing.SystemColors.Control;
+            this.groupBox13.Controls.Add(this.button11);
+            this.groupBox13.Controls.Add(this.button15);
+            this.groupBox13.Controls.Add(this.groupBox14);
+            this.groupBox13.Controls.Add(this.QProcAmigaBtn);
+            this.groupBox13.Controls.Add(this.QProcPCBtn);
+            this.groupBox13.Location = new System.Drawing.Point(6, 138);
+            this.groupBox13.Name = "groupBox13";
+            this.groupBox13.Size = new System.Drawing.Size(933, 234);
+            this.groupBox13.TabIndex = 113;
+            this.groupBox13.TabStop = false;
+            this.groupBox13.Text = "Processing";
+            // 
+            // button11
+            // 
+            this.button11.Location = new System.Drawing.Point(0, 158);
+            this.button11.Name = "button11";
+            this.button11.Size = new System.Drawing.Size(67, 38);
+            this.button11.TabIndex = 119;
+            this.button11.Text = "Reset output";
+            this.toolTip1.SetToolTip(this.button11, "Clears all data generated by processing so you can start fresh with the same inpu" +
+        "t data.");
+            this.button11.UseVisualStyleBackColor = true;
+            this.button11.Click += new System.EventHandler(this.button5_Click);
+            // 
+            // button15
+            // 
+            this.button15.Location = new System.Drawing.Point(0, 112);
+            this.button15.Name = "button15";
+            this.button15.Size = new System.Drawing.Size(63, 39);
+            this.button15.TabIndex = 118;
+            this.button15.Text = "Reset input";
+            this.toolTip1.SetToolTip(this.button15, "Clears the input buffer so you can load or capture new data but keeps recovered s" +
+        "ectors in tact.");
+            this.button15.UseVisualStyleBackColor = true;
+            this.button15.Click += new System.EventHandler(this.ResetBuffersBtn_Click);
+            // 
+            // groupBox14
+            // 
+            this.groupBox14.Controls.Add(this.QOnlyBadSectorsRadio);
+            this.groupBox14.Controls.Add(this.QECOnRadio);
+            this.groupBox14.Controls.Add(this.label89);
+            this.groupBox14.Controls.Add(this.QChangeDiskTypeComboBox);
+            this.groupBox14.Controls.Add(this.QProcessingModeComboBox);
+            this.groupBox14.Controls.Add(this.QClearDatacheckBox);
+            this.groupBox14.Controls.Add(this.groupBox15);
+            this.groupBox14.Controls.Add(this.QFindDupesCheckBox);
+            this.groupBox14.Controls.Add(this.QAutoRefreshSectorMapCheck);
+            this.groupBox14.Controls.Add(this.QIgnoreHeaderErrorCheckBox);
+            this.groupBox14.Controls.Add(this.groupBox16);
+            this.groupBox14.Controls.Add(this.groupBox17);
+            this.groupBox14.Controls.Add(this.QHDCheckBox);
+            this.groupBox14.Controls.Add(this.label114);
+            this.groupBox14.Location = new System.Drawing.Point(94, 14);
+            this.groupBox14.Name = "groupBox14";
+            this.groupBox14.Size = new System.Drawing.Size(833, 217);
+            this.groupBox14.TabIndex = 52;
+            this.groupBox14.TabStop = false;
+            this.groupBox14.Text = "Processing options";
+            // 
+            // QOnlyBadSectorsRadio
+            // 
+            this.QOnlyBadSectorsRadio.AutoSize = true;
+            this.QOnlyBadSectorsRadio.Location = new System.Drawing.Point(6, 92);
+            this.QOnlyBadSectorsRadio.Name = "QOnlyBadSectorsRadio";
+            this.QOnlyBadSectorsRadio.Size = new System.Drawing.Size(104, 17);
+            this.QOnlyBadSectorsRadio.TabIndex = 106;
+            this.QOnlyBadSectorsRadio.Text = "Only bad sectors";
+            this.toolTip1.SetToolTip(this.QOnlyBadSectorsRadio, "Only reprocess bad sectors. Can only work if some bad sectors have already been f" +
+        "ound. This will speed up scanning a lot but may miss some sectors.");
+            this.QOnlyBadSectorsRadio.UseVisualStyleBackColor = true;
+            this.QOnlyBadSectorsRadio.CheckedChanged += new System.EventHandler(this.QOnlyBadSectorsRadio_CheckedChanged);
+            // 
+            // QECOnRadio
+            // 
+            this.QECOnRadio.AutoSize = true;
+            this.QECOnRadio.Checked = true;
+            this.QECOnRadio.Location = new System.Drawing.Point(6, 115);
+            this.QECOnRadio.Name = "QECOnRadio";
+            this.QECOnRadio.Size = new System.Drawing.Size(118, 17);
+            this.QECOnRadio.TabIndex = 105;
+            this.QECOnRadio.TabStop = true;
+            this.QECOnRadio.Text = "Use error correction";
+            this.toolTip1.SetToolTip(this.QECOnRadio, "Collects error correction data to help correcting it in the Error Correction tab." +
+        " No correction is performed during processing.");
+            this.QECOnRadio.UseVisualStyleBackColor = true;
+            this.QECOnRadio.CheckedChanged += new System.EventHandler(this.QECOnRadio_CheckedChanged);
+            // 
+            // label89
+            // 
+            this.label89.AutoSize = true;
+            this.label89.Location = new System.Drawing.Point(118, 19);
+            this.label89.Name = "label89";
+            this.label89.Size = new System.Drawing.Size(63, 13);
+            this.label89.TabIndex = 104;
+            this.label89.Text = "Disk Format";
+            // 
+            // QChangeDiskTypeComboBox
+            // 
+            this.QChangeDiskTypeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.QChangeDiskTypeComboBox.FormattingEnabled = true;
+            this.QChangeDiskTypeComboBox.Location = new System.Drawing.Point(121, 35);
+            this.QChangeDiskTypeComboBox.Name = "QChangeDiskTypeComboBox";
+            this.QChangeDiskTypeComboBox.Size = new System.Drawing.Size(75, 21);
+            this.QChangeDiskTypeComboBox.TabIndex = 102;
+            this.toolTip1.SetToolTip(this.QChangeDiskTypeComboBox, "The format is normally recognized automatically but it may happen that a single d" +
+        "isk contains multiple disk types due to copying disks partly.");
+            this.QChangeDiskTypeComboBox.SelectedIndexChanged += new System.EventHandler(this.QChangeDiskTypeComboBox_SelectedIndexChanged);
+            // 
+            // QProcessingModeComboBox
+            // 
+            this.QProcessingModeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.QProcessingModeComboBox.FormattingEnabled = true;
+            this.QProcessingModeComboBox.Location = new System.Drawing.Point(6, 35);
+            this.QProcessingModeComboBox.Name = "QProcessingModeComboBox";
+            this.QProcessingModeComboBox.Size = new System.Drawing.Size(106, 21);
+            this.QProcessingModeComboBox.TabIndex = 103;
+            this.toolTip1.SetToolTip(this.QProcessingModeComboBox, "Adaptive1 is both fast and accurate. Normal uses simple thresholds which works fi" +
+        "ne for good quality captures. Aufit may recognize the odd sector. Other options " +
+        "are experimental.");
+            this.QProcessingModeComboBox.SelectedIndexChanged += new System.EventHandler(this.QProcessingModeComboBox_SelectedIndexChanged);
+            // 
+            // QClearDatacheckBox
+            // 
+            this.QClearDatacheckBox.AutoSize = true;
+            this.QClearDatacheckBox.Location = new System.Drawing.Point(6, 69);
+            this.QClearDatacheckBox.Name = "QClearDatacheckBox";
+            this.QClearDatacheckBox.Size = new System.Drawing.Size(106, 17);
+            this.QClearDatacheckBox.TabIndex = 101;
+            this.QClearDatacheckBox.Text = "Clear sector data";
+            this.toolTip1.SetToolTip(this.QClearDatacheckBox, "Clear recovered data that was found during the last processing job. This can spee" +
+        "d up scanning.");
+            this.QClearDatacheckBox.UseVisualStyleBackColor = true;
+            this.QClearDatacheckBox.CheckedChanged += new System.EventHandler(this.QClearDatacheckBox_CheckedChanged);
+            // 
+            // groupBox15
+            // 
+            this.groupBox15.Controls.Add(this.QOffsetUpDown);
+            this.groupBox15.Controls.Add(this.QMaxUpDown);
+            this.groupBox15.Controls.Add(this.QSixEightUpDown);
+            this.groupBox15.Controls.Add(this.QFourSixUpDown);
+            this.groupBox15.Controls.Add(this.QMinUpDown);
+            this.groupBox15.Controls.Add(this.QOffsetLabel);
+            this.groupBox15.Controls.Add(this.QFourSixLabel);
+            this.groupBox15.Controls.Add(this.QMinLabel);
+            this.groupBox15.Controls.Add(this.QSixEightLabel);
+            this.groupBox15.Controls.Add(this.QMaxLabel);
+            this.groupBox15.Location = new System.Drawing.Point(295, 15);
+            this.groupBox15.Name = "groupBox15";
+            this.groupBox15.Size = new System.Drawing.Size(246, 71);
+            this.groupBox15.TabIndex = 89;
+            this.groupBox15.TabStop = false;
+            this.groupBox15.Text = "Thresholds";
+            // 
+            // QOffsetUpDown
+            // 
+            this.QOffsetUpDown.Location = new System.Drawing.Point(196, 40);
+            this.QOffsetUpDown.Maximum = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+            this.QOffsetUpDown.Minimum = new decimal(new int[] {
+            50,
+            0,
+            0,
+            -2147483648});
+            this.QOffsetUpDown.Name = "QOffsetUpDown";
+            this.QOffsetUpDown.Size = new System.Drawing.Size(39, 20);
+            this.QOffsetUpDown.TabIndex = 80;
+            this.QOffsetUpDown.ValueChanged += new System.EventHandler(this.QMinUpDown_ValueChanged);
+            // 
+            // QMaxUpDown
+            // 
+            this.QMaxUpDown.Location = new System.Drawing.Point(148, 40);
+            this.QMaxUpDown.Maximum = new decimal(new int[] {
+            264,
+            0,
+            0,
+            0});
+            this.QMaxUpDown.Name = "QMaxUpDown";
+            this.QMaxUpDown.Size = new System.Drawing.Size(39, 20);
+            this.QMaxUpDown.TabIndex = 80;
+            this.QMaxUpDown.Value = new decimal(new int[] {
+            147,
+            0,
+            0,
+            0});
+            this.QMaxUpDown.ValueChanged += new System.EventHandler(this.QMinUpDown_ValueChanged);
+            // 
+            // QSixEightUpDown
+            // 
+            this.QSixEightUpDown.Location = new System.Drawing.Point(97, 39);
+            this.QSixEightUpDown.Maximum = new decimal(new int[] {
+            264,
+            0,
+            0,
+            0});
+            this.QSixEightUpDown.Name = "QSixEightUpDown";
+            this.QSixEightUpDown.Size = new System.Drawing.Size(39, 20);
+            this.QSixEightUpDown.TabIndex = 80;
+            this.QSixEightUpDown.Value = new decimal(new int[] {
+            108,
+            0,
+            0,
+            0});
+            this.QSixEightUpDown.ValueChanged += new System.EventHandler(this.QMinUpDown_ValueChanged);
+            // 
+            // QFourSixUpDown
+            // 
+            this.QFourSixUpDown.Location = new System.Drawing.Point(52, 39);
+            this.QFourSixUpDown.Maximum = new decimal(new int[] {
+            264,
+            0,
+            0,
+            0});
+            this.QFourSixUpDown.Name = "QFourSixUpDown";
+            this.QFourSixUpDown.Size = new System.Drawing.Size(39, 20);
+            this.QFourSixUpDown.TabIndex = 80;
+            this.QFourSixUpDown.Value = new decimal(new int[] {
+            69,
+            0,
+            0,
+            0});
+            this.QFourSixUpDown.ValueChanged += new System.EventHandler(this.QMinUpDown_ValueChanged);
+            // 
+            // QMinUpDown
+            // 
+            this.QMinUpDown.Location = new System.Drawing.Point(6, 39);
+            this.QMinUpDown.Maximum = new decimal(new int[] {
+            264,
+            0,
+            0,
+            0});
+            this.QMinUpDown.Name = "QMinUpDown";
+            this.QMinUpDown.Size = new System.Drawing.Size(39, 20);
+            this.QMinUpDown.TabIndex = 80;
+            this.QMinUpDown.ValueChanged += new System.EventHandler(this.QMinUpDown_ValueChanged);
+            // 
+            // QOffsetLabel
+            // 
+            this.QOffsetLabel.AutoSize = true;
+            this.QOffsetLabel.Location = new System.Drawing.Point(193, 22);
+            this.QOffsetLabel.Name = "QOffsetLabel";
+            this.QOffsetLabel.Size = new System.Drawing.Size(35, 13);
+            this.QOffsetLabel.TabIndex = 56;
+            this.QOffsetLabel.Text = "Offset";
+            // 
+            // QFourSixLabel
+            // 
+            this.QFourSixLabel.AutoSize = true;
+            this.QFourSixLabel.Location = new System.Drawing.Point(51, 23);
+            this.QFourSixLabel.Name = "QFourSixLabel";
+            this.QFourSixLabel.Size = new System.Drawing.Size(24, 13);
+            this.QFourSixLabel.TabIndex = 64;
+            this.QFourSixLabel.Text = "4/6";
+            // 
+            // QMinLabel
+            // 
+            this.QMinLabel.AutoSize = true;
+            this.QMinLabel.Location = new System.Drawing.Point(6, 23);
+            this.QMinLabel.Name = "QMinLabel";
+            this.QMinLabel.Size = new System.Drawing.Size(23, 13);
+            this.QMinLabel.TabIndex = 63;
+            this.QMinLabel.Text = "min";
+            // 
+            // QSixEightLabel
+            // 
+            this.QSixEightLabel.AutoSize = true;
+            this.QSixEightLabel.Location = new System.Drawing.Point(94, 22);
+            this.QSixEightLabel.Name = "QSixEightLabel";
+            this.QSixEightLabel.Size = new System.Drawing.Size(24, 13);
+            this.QSixEightLabel.TabIndex = 61;
+            this.QSixEightLabel.Text = "6/8";
+            // 
+            // QMaxLabel
+            // 
+            this.QMaxLabel.AutoSize = true;
+            this.QMaxLabel.Location = new System.Drawing.Point(148, 22);
+            this.QMaxLabel.Name = "QMaxLabel";
+            this.QMaxLabel.Size = new System.Drawing.Size(26, 13);
+            this.QMaxLabel.TabIndex = 58;
+            this.QMaxLabel.Text = "max";
+            // 
+            // QFindDupesCheckBox
+            // 
+            this.QFindDupesCheckBox.AccessibleDescription = "";
+            this.QFindDupesCheckBox.AutoSize = true;
+            this.QFindDupesCheckBox.Checked = true;
+            this.QFindDupesCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.QFindDupesCheckBox.Location = new System.Drawing.Point(129, 92);
+            this.QFindDupesCheckBox.Name = "QFindDupesCheckBox";
+            this.QFindDupesCheckBox.Size = new System.Drawing.Size(83, 17);
+            this.QFindDupesCheckBox.TabIndex = 88;
+            this.QFindDupesCheckBox.Text = "Deduplicate";
+            this.toolTip1.SetToolTip(this.QFindDupesCheckBox, "When processing, a hash is calculated. If the new sector is unique, it will only " +
+        "then be added to the list. This avoids processing duplicate data and may save ti" +
+        "me.");
+            this.QFindDupesCheckBox.UseVisualStyleBackColor = true;
+            this.QFindDupesCheckBox.CheckedChanged += new System.EventHandler(this.QFindDupesCheckBox_CheckedChanged);
+            // 
+            // QAutoRefreshSectorMapCheck
+            // 
+            this.QAutoRefreshSectorMapCheck.AccessibleDescription = "";
+            this.QAutoRefreshSectorMapCheck.AutoSize = true;
+            this.QAutoRefreshSectorMapCheck.Checked = true;
+            this.QAutoRefreshSectorMapCheck.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.QAutoRefreshSectorMapCheck.Location = new System.Drawing.Point(129, 118);
+            this.QAutoRefreshSectorMapCheck.Name = "QAutoRefreshSectorMapCheck";
+            this.QAutoRefreshSectorMapCheck.Size = new System.Drawing.Size(135, 17);
+            this.QAutoRefreshSectorMapCheck.TabIndex = 85;
+            this.QAutoRefreshSectorMapCheck.Text = "Auto refresh sectormap";
+            this.toolTip1.SetToolTip(this.QAutoRefreshSectorMapCheck, resources.GetString("QAutoRefreshSectorMapCheck.ToolTip"));
+            this.QAutoRefreshSectorMapCheck.UseVisualStyleBackColor = true;
+            this.QAutoRefreshSectorMapCheck.CheckedChanged += new System.EventHandler(this.QAutoRefreshSectorMapCheck_CheckedChanged);
+            // 
+            // QIgnoreHeaderErrorCheckBox
+            // 
+            this.QIgnoreHeaderErrorCheckBox.AutoSize = true;
+            this.QIgnoreHeaderErrorCheckBox.Location = new System.Drawing.Point(129, 69);
+            this.QIgnoreHeaderErrorCheckBox.Name = "QIgnoreHeaderErrorCheckBox";
+            this.QIgnoreHeaderErrorCheckBox.Size = new System.Drawing.Size(116, 17);
+            this.QIgnoreHeaderErrorCheckBox.TabIndex = 50;
+            this.QIgnoreHeaderErrorCheckBox.Text = "Ignore header error";
+            this.toolTip1.SetToolTip(this.QIgnoreHeaderErrorCheckBox, "In rare cases the crc = not ok on some headers can be ignored. On one msx disk th" +
+        "is was some kind of copy protection.");
+            this.QIgnoreHeaderErrorCheckBox.UseVisualStyleBackColor = true;
+            this.QIgnoreHeaderErrorCheckBox.CheckedChanged += new System.EventHandler(this.QIgnoreHeaderErrorCheckBox_CheckedChanged);
+            // 
+            // groupBox16
+            // 
+            this.groupBox16.Controls.Add(this.QHistoPanel);
+            this.groupBox16.Controls.Add(this.QHistogramhScrollBar1);
+            this.groupBox16.Location = new System.Drawing.Point(549, 8);
+            this.groupBox16.Name = "groupBox16";
+            this.groupBox16.Size = new System.Drawing.Size(278, 166);
+            this.groupBox16.TabIndex = 53;
+            this.groupBox16.TabStop = false;
+            this.groupBox16.Text = "Histogram";
+            // 
+            // QHistoPanel
+            // 
+            this.QHistoPanel.Location = new System.Drawing.Point(6, 19);
+            this.QHistoPanel.Name = "QHistoPanel";
+            this.QHistoPanel.Size = new System.Drawing.Size(260, 109);
+            this.QHistoPanel.TabIndex = 36;
+            this.QHistoPanel.Click += new System.EventHandler(this.Histogrampanel1_Click);
+            this.QHistoPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.Histogrampanel1_Paint);
+            // 
+            // QHistogramhScrollBar1
+            // 
+            this.QHistogramhScrollBar1.LargeChange = 10000;
+            this.QHistogramhScrollBar1.Location = new System.Drawing.Point(1, 145);
+            this.QHistogramhScrollBar1.Maximum = 4000;
+            this.QHistogramhScrollBar1.Name = "QHistogramhScrollBar1";
+            this.QHistogramhScrollBar1.Size = new System.Drawing.Size(277, 45);
+            this.QHistogramhScrollBar1.TabIndex = 105;
+            this.QHistogramhScrollBar1.TickFrequency = 2000;
+            this.QHistogramhScrollBar1.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.QHistogramhScrollBar1.Scroll += new System.EventHandler(this.QHistogramhScrollBar1_Scroll);
+            // 
+            // groupBox17
+            // 
+            this.groupBox17.Controls.Add(this.QLimitTSCheckBox);
+            this.groupBox17.Controls.Add(this.QRateOfChange2UpDown);
+            this.groupBox17.Controls.Add(this.label88);
+            this.groupBox17.Controls.Add(this.label102);
+            this.groupBox17.Controls.Add(this.QRateOfChangeUpDown);
+            this.groupBox17.Controls.Add(this.QScanComboBox);
+            this.groupBox17.Controls.Add(this.button47);
+            this.groupBox17.Controls.Add(this.QAdaptOfsset2UpDown);
+            this.groupBox17.Controls.Add(this.label90);
+            this.groupBox17.Controls.Add(this.QLimitToSectorUpDown);
+            this.groupBox17.Controls.Add(this.label91);
+            this.groupBox17.Controls.Add(this.QLimitToTrackUpDown);
+            this.groupBox17.Location = new System.Drawing.Point(295, 92);
+            this.groupBox17.Name = "groupBox17";
+            this.groupBox17.Size = new System.Drawing.Size(248, 119);
+            this.groupBox17.TabIndex = 54;
+            this.groupBox17.TabStop = false;
+            this.groupBox17.Text = "Scan";
+            // 
+            // QLimitTSCheckBox
+            // 
+            this.QLimitTSCheckBox.AutoSize = true;
+            this.QLimitTSCheckBox.Location = new System.Drawing.Point(10, 75);
+            this.QLimitTSCheckBox.Name = "QLimitTSCheckBox";
+            this.QLimitTSCheckBox.Size = new System.Drawing.Size(69, 17);
+            this.QLimitTSCheckBox.TabIndex = 109;
+            this.QLimitTSCheckBox.Text = "Limit T/S";
+            this.toolTip1.SetToolTip(this.QLimitTSCheckBox, "Limits processing to this track and sector.");
+            this.QLimitTSCheckBox.UseVisualStyleBackColor = true;
+            this.QLimitTSCheckBox.CheckedChanged += new System.EventHandler(this.QLimitTSCheckBox_CheckedChanged);
+            // 
+            // QRateOfChange2UpDown
+            // 
+            this.QRateOfChange2UpDown.Increment = new decimal(new int[] {
+            8,
+            0,
+            0,
+            0});
+            this.QRateOfChange2UpDown.Location = new System.Drawing.Point(186, 42);
+            this.QRateOfChange2UpDown.Maximum = new decimal(new int[] {
+            20000,
+            0,
+            0,
+            0});
+            this.QRateOfChange2UpDown.Name = "QRateOfChange2UpDown";
+            this.QRateOfChange2UpDown.Size = new System.Drawing.Size(48, 20);
+            this.QRateOfChange2UpDown.TabIndex = 108;
+            this.toolTip1.SetToolTip(this.QRateOfChange2UpDown, "How quickly to adapt to change, larger number adapts slower to change in the sign" +
+        "al. Use low numbers for glued disks or disks with lots of bad sectors or noise.");
+            this.QRateOfChange2UpDown.Value = new decimal(new int[] {
+            128,
+            0,
+            0,
+            0});
+            this.QRateOfChange2UpDown.ValueChanged += new System.EventHandler(this.QRateOfChange2UpDown_ValueChanged);
+            // 
+            // label88
+            // 
+            this.label88.AutoSize = true;
+            this.label88.Location = new System.Drawing.Point(120, 44);
+            this.label88.Name = "label88";
+            this.label88.Size = new System.Drawing.Size(62, 13);
+            this.label88.TabIndex = 107;
+            this.label88.Text = "Adapt track";
+            // 
+            // label102
+            // 
+            this.label102.AutoSize = true;
+            this.label102.Location = new System.Drawing.Point(7, 45);
+            this.label102.Name = "label102";
+            this.label102.Size = new System.Drawing.Size(56, 13);
+            this.label102.TabIndex = 106;
+            this.label102.Text = "Adapt rate";
+            // 
+            // QRateOfChangeUpDown
+            // 
+            this.QRateOfChangeUpDown.DecimalPlaces = 2;
+            this.QRateOfChangeUpDown.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.QRateOfChangeUpDown.Location = new System.Drawing.Point(66, 43);
+            this.QRateOfChangeUpDown.Maximum = new decimal(new int[] {
+            2000,
+            0,
+            0,
+            0});
+            this.QRateOfChangeUpDown.Name = "QRateOfChangeUpDown";
+            this.QRateOfChangeUpDown.Size = new System.Drawing.Size(48, 20);
+            this.QRateOfChangeUpDown.TabIndex = 105;
+            this.QRateOfChangeUpDown.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.QRateOfChangeUpDown.ValueChanged += new System.EventHandler(this.QRateOfChangeUpDown_ValueChanged);
+            // 
+            // QScanComboBox
+            // 
+            this.QScanComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.QScanComboBox.FormattingEnabled = true;
+            this.QScanComboBox.Location = new System.Drawing.Point(6, 16);
+            this.QScanComboBox.Name = "QScanComboBox";
+            this.QScanComboBox.Size = new System.Drawing.Size(163, 21);
+            this.QScanComboBox.TabIndex = 104;
+            this.QScanComboBox.SelectedIndexChanged += new System.EventHandler(this.QScanComboBox_SelectedIndexChanged);
+            // 
+            // button47
+            // 
+            this.button47.Location = new System.Drawing.Point(175, 14);
+            this.button47.Name = "button47";
+            this.button47.Size = new System.Drawing.Size(40, 23);
+            this.button47.TabIndex = 39;
+            this.button47.Text = "Scan";
+            this.toolTip1.SetToolTip(this.button47, "Use scanning to try different combinations of settings in order to find yet to be" +
+        " recovered sectors.");
+            this.button47.UseVisualStyleBackColor = true;
+            this.button47.Click += new System.EventHandler(this.ScanBtn_Click_1);
+            // 
+            // QAdaptOfsset2UpDown
+            // 
+            this.QAdaptOfsset2UpDown.DecimalPlaces = 2;
+            this.QAdaptOfsset2UpDown.Location = new System.Drawing.Point(186, 66);
+            this.QAdaptOfsset2UpDown.Maximum = new decimal(new int[] {
+            2000,
+            0,
+            0,
+            0});
+            this.QAdaptOfsset2UpDown.Minimum = new decimal(new int[] {
+            2000,
+            0,
+            0,
+            -2147483648});
+            this.QAdaptOfsset2UpDown.Name = "QAdaptOfsset2UpDown";
+            this.QAdaptOfsset2UpDown.Size = new System.Drawing.Size(48, 20);
+            this.QAdaptOfsset2UpDown.TabIndex = 99;
+            this.QAdaptOfsset2UpDown.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.QAdaptOfsset2UpDown.ValueChanged += new System.EventHandler(this.QAdaptOfsset2UpDown_ValueChanged);
+            // 
+            // label90
+            // 
+            this.label90.AutoSize = true;
+            this.label90.Location = new System.Drawing.Point(7, 95);
+            this.label90.Name = "label90";
+            this.label90.Size = new System.Drawing.Size(38, 13);
+            this.label90.TabIndex = 78;
+            this.label90.Text = "T Limit";
+            // 
+            // QLimitToSectorUpDown
+            // 
+            this.QLimitToSectorUpDown.Location = new System.Drawing.Point(130, 94);
+            this.QLimitToSectorUpDown.Maximum = new decimal(new int[] {
+            2000,
+            0,
+            0,
+            0});
+            this.QLimitToSectorUpDown.Minimum = new decimal(new int[] {
+            16,
+            0,
+            0,
+            -2147483648});
+            this.QLimitToSectorUpDown.Name = "QLimitToSectorUpDown";
+            this.QLimitToSectorUpDown.Size = new System.Drawing.Size(39, 20);
+            this.QLimitToSectorUpDown.TabIndex = 80;
+            this.QLimitToSectorUpDown.Value = new decimal(new int[] {
+            9,
+            0,
+            0,
+            0});
+            this.QLimitToSectorUpDown.ValueChanged += new System.EventHandler(this.QLimitToSectorUpDown_ValueChanged);
+            // 
+            // label91
+            // 
+            this.label91.AutoSize = true;
+            this.label91.Location = new System.Drawing.Point(93, 96);
+            this.label91.Name = "label91";
+            this.label91.Size = new System.Drawing.Size(38, 13);
+            this.label91.TabIndex = 80;
+            this.label91.Text = "S Limit";
+            // 
+            // QLimitToTrackUpDown
+            // 
+            this.QLimitToTrackUpDown.Location = new System.Drawing.Point(43, 93);
+            this.QLimitToTrackUpDown.Maximum = new decimal(new int[] {
+            2000,
+            0,
+            0,
+            0});
+            this.QLimitToTrackUpDown.Minimum = new decimal(new int[] {
+            16,
+            0,
+            0,
+            -2147483648});
+            this.QLimitToTrackUpDown.Name = "QLimitToTrackUpDown";
+            this.QLimitToTrackUpDown.Size = new System.Drawing.Size(39, 20);
+            this.QLimitToTrackUpDown.TabIndex = 79;
+            this.QLimitToTrackUpDown.Value = new decimal(new int[] {
+            11,
+            0,
+            0,
+            0});
+            this.QLimitToTrackUpDown.ValueChanged += new System.EventHandler(this.QLimitToTrackUpDown_ValueChanged);
+            // 
+            // QHDCheckBox
+            // 
+            this.QHDCheckBox.AutoSize = true;
+            this.QHDCheckBox.Enabled = false;
+            this.QHDCheckBox.Location = new System.Drawing.Point(5, 138);
+            this.QHDCheckBox.Name = "QHDCheckBox";
+            this.QHDCheckBox.Size = new System.Drawing.Size(86, 17);
+            this.QHDCheckBox.TabIndex = 51;
+            this.QHDCheckBox.Text = "High Density";
+            this.toolTip1.SetToolTip(this.QHDCheckBox, "Is the disk incorrectly recognized as double density or vice versa? Change it her" +
+        "e.");
+            this.QHDCheckBox.UseVisualStyleBackColor = true;
+            this.QHDCheckBox.CheckedChanged += new System.EventHandler(this.QHDCheckBox_CheckedChanged);
+            // 
+            // label114
+            // 
+            this.label114.AutoSize = true;
+            this.label114.Location = new System.Drawing.Point(3, 19);
+            this.label114.Name = "label114";
+            this.label114.Size = new System.Drawing.Size(85, 13);
+            this.label114.TabIndex = 44;
+            this.label114.Text = "MFM processing";
+            // 
+            // QProcAmigaBtn
+            // 
+            this.QProcAmigaBtn.Location = new System.Drawing.Point(0, 19);
+            this.QProcAmigaBtn.Name = "QProcAmigaBtn";
+            this.QProcAmigaBtn.Size = new System.Drawing.Size(75, 40);
+            this.QProcAmigaBtn.TabIndex = 51;
+            this.QProcAmigaBtn.Text = "Process Amiga!";
+            this.QProcAmigaBtn.UseVisualStyleBackColor = true;
+            this.QProcAmigaBtn.Click += new System.EventHandler(this.ProcessAmigaBtn_Click);
+            // 
+            // QProcPCBtn
+            // 
+            this.QProcPCBtn.Location = new System.Drawing.Point(0, 65);
+            this.QProcPCBtn.Name = "QProcPCBtn";
+            this.QProcPCBtn.Size = new System.Drawing.Size(75, 40);
+            this.QProcPCBtn.TabIndex = 50;
+            this.QProcPCBtn.Text = "Process PC!";
+            this.QProcPCBtn.UseVisualStyleBackColor = true;
+            this.QProcPCBtn.Click += new System.EventHandler(this.ProcessPCBtn_Click);
+            // 
+            // groupBox12
+            // 
+            this.groupBox12.BackColor = System.Drawing.SystemColors.Control;
+            this.groupBox12.Controls.Add(this.GluedDiskPreset);
+            this.groupBox12.Controls.Add(this.StepStickPresetBtn);
+            this.groupBox12.Controls.Add(this.QDirectStepPresetBtn);
+            this.groupBox12.Controls.Add(this.QRecaptureAllBtn);
+            this.groupBox12.Controls.Add(this.button12);
+            this.groupBox12.Controls.Add(this.button13);
+            this.groupBox12.Controls.Add(this.button14);
+            this.groupBox12.Controls.Add(this.QDirectStepCheckBox);
+            this.groupBox12.Controls.Add(this.QCaptureBtn);
+            this.groupBox12.Controls.Add(this.groupBox10);
+            this.groupBox12.Location = new System.Drawing.Point(6, 6);
+            this.groupBox12.Name = "groupBox12";
+            this.groupBox12.Size = new System.Drawing.Size(939, 125);
+            this.groupBox12.TabIndex = 112;
+            this.groupBox12.TabStop = false;
+            this.groupBox12.Text = "Capture";
+            // 
+            // GluedDiskPreset
+            // 
+            this.GluedDiskPreset.Location = new System.Drawing.Point(344, 91);
+            this.GluedDiskPreset.Name = "GluedDiskPreset";
+            this.GluedDiskPreset.Size = new System.Drawing.Size(98, 23);
+            this.GluedDiskPreset.TabIndex = 121;
+            this.GluedDiskPreset.Text = "Glued preset";
+            this.toolTip1.SetToolTip(this.GluedDiskPreset, "If you use a stepstick, click this button to setup all settings for this mode of " +
+        "operation.");
+            this.GluedDiskPreset.Click += new System.EventHandler(this.GluedDiskPreset_Click);
+            // 
+            // StepStickPresetBtn
+            // 
+            this.StepStickPresetBtn.Location = new System.Drawing.Point(240, 91);
+            this.StepStickPresetBtn.Name = "StepStickPresetBtn";
+            this.StepStickPresetBtn.Size = new System.Drawing.Size(98, 23);
+            this.StepStickPresetBtn.TabIndex = 120;
+            this.StepStickPresetBtn.Text = "StepStick preset";
+            this.toolTip1.SetToolTip(this.StepStickPresetBtn, "If you use a stepstick, click this button to setup all settings for this mode of " +
+        "operation.");
+            this.StepStickPresetBtn.Click += new System.EventHandler(this.StepStickPresetBtn_Click);
+            // 
+            // QDirectStepPresetBtn
+            // 
+            this.QDirectStepPresetBtn.Location = new System.Drawing.Point(134, 91);
+            this.QDirectStepPresetBtn.Name = "QDirectStepPresetBtn";
+            this.QDirectStepPresetBtn.Size = new System.Drawing.Size(98, 23);
+            this.QDirectStepPresetBtn.TabIndex = 119;
+            this.QDirectStepPresetBtn.Text = "Direct preset";
+            this.toolTip1.SetToolTip(this.QDirectStepPresetBtn, "If you don\'t use a stepstick, click this button to setup all settings for this mo" +
+        "de of operation.");
+            this.QDirectStepPresetBtn.Click += new System.EventHandler(this.DirectPresetBtn_Click);
+            // 
+            // QRecaptureAllBtn
+            // 
+            this.QRecaptureAllBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.QRecaptureAllBtn.ImageIndex = 0;
+            this.QRecaptureAllBtn.ImageList = this.MainTabControlImageList;
+            this.QRecaptureAllBtn.Location = new System.Drawing.Point(6, 65);
+            this.QRecaptureAllBtn.Name = "QRecaptureAllBtn";
+            this.QRecaptureAllBtn.Size = new System.Drawing.Size(91, 40);
+            this.QRecaptureAllBtn.TabIndex = 118;
+            this.QRecaptureAllBtn.Text = "Recapture all";
+            this.QRecaptureAllBtn.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.QRecaptureAllBtn.UseVisualStyleBackColor = true;
+            this.QRecaptureAllBtn.Click += new System.EventHandler(this.button48_Click);
+            // 
+            // MainTabControlImageList
+            // 
+            this.MainTabControlImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("MainTabControlImageList.ImageStream")));
+            this.MainTabControlImageList.TransparentColor = System.Drawing.Color.Transparent;
+            this.MainTabControlImageList.Images.SetKeyName(0, "IconRecord.png");
+            this.MainTabControlImageList.Images.SetKeyName(1, "IconCheckmarkGreen.png");
+            this.MainTabControlImageList.Images.SetKeyName(2, "IconScope.png");
+            this.MainTabControlImageList.Images.SetKeyName(3, "IconProcessing2.png");
+            this.MainTabControlImageList.Images.SetKeyName(4, "IconGraphEditor.png");
+            this.MainTabControlImageList.Images.SetKeyName(5, "IconAnalysis.png");
+            // 
+            // button12
+            // 
+            this.button12.Location = new System.Drawing.Point(861, 92);
+            this.button12.Name = "button12";
+            this.button12.Size = new System.Drawing.Size(72, 25);
+            this.button12.TabIndex = 117;
+            this.button12.Text = "Step >";
+            this.toolTip1.SetToolTip(this.button12, "(micro) step forward. Can be used if the head alignment is off.");
+            this.button12.UseVisualStyleBackColor = true;
+            this.button12.Click += new System.EventHandler(this.StepForwardBtn_Click);
+            // 
+            // button13
+            // 
+            this.button13.Location = new System.Drawing.Point(783, 92);
+            this.button13.Name = "button13";
+            this.button13.Size = new System.Drawing.Size(72, 25);
+            this.button13.TabIndex = 116;
+            this.button13.Text = "Step <";
+            this.toolTip1.SetToolTip(this.button13, "(micro) step back. Can be used if the head alignment is off.");
+            this.button13.UseVisualStyleBackColor = true;
+            this.button13.Click += new System.EventHandler(this.StepBackBtn_Click);
+            // 
+            // button14
+            // 
+            this.button14.Location = new System.Drawing.Point(705, 92);
+            this.button14.Name = "button14";
+            this.button14.Size = new System.Drawing.Size(72, 25);
+            this.button14.TabIndex = 115;
+            this.button14.Text = "Microstep 8";
+            this.toolTip1.SetToolTip(this.button14, "Set microstepping to 8 microsteps.");
+            this.button14.UseVisualStyleBackColor = true;
+            this.button14.Click += new System.EventHandler(this.Microstep8Btn_Click);
+            // 
+            // QDirectStepCheckBox
+            // 
+            this.QDirectStepCheckBox.AutoSize = true;
+            this.QDirectStepCheckBox.Checked = global::FloppyControlApp.Properties.Settings.Default.DirectStep;
+            this.QDirectStepCheckBox.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::FloppyControlApp.Properties.Settings.Default, "DirectStep", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.QDirectStepCheckBox.Location = new System.Drawing.Point(614, 97);
+            this.QDirectStepCheckBox.Name = "QDirectStepCheckBox";
+            this.QDirectStepCheckBox.Size = new System.Drawing.Size(76, 17);
+            this.QDirectStepCheckBox.TabIndex = 114;
+            this.QDirectStepCheckBox.Text = "DirectStep";
+            this.toolTip1.SetToolTip(this.QDirectStepCheckBox, "If you don\'t use a step stick, check this box. If you do, clear it.");
+            this.QDirectStepCheckBox.UseVisualStyleBackColor = true;
+            this.QDirectStepCheckBox.CheckedChanged += new System.EventHandler(this.QDirectStepCheckBox_CheckedChanged);
+            // 
+            // QCaptureBtn
+            // 
+            this.QCaptureBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.QCaptureBtn.ImageIndex = 0;
+            this.QCaptureBtn.ImageList = this.MainTabControlImageList;
+            this.QCaptureBtn.Location = new System.Drawing.Point(6, 19);
+            this.QCaptureBtn.Name = "QCaptureBtn";
+            this.QCaptureBtn.Size = new System.Drawing.Size(69, 40);
+            this.QCaptureBtn.TabIndex = 113;
+            this.QCaptureBtn.Text = "Capture";
+            this.QCaptureBtn.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.toolTip1.SetToolTip(this.QCaptureBtn, "Immediately start capturing using the start track, end track and duration setting" +
+        "s.");
+            this.QCaptureBtn.UseVisualStyleBackColor = true;
+            this.QCaptureBtn.Click += new System.EventHandler(this.CaptureClassbutton_Click);
+            // 
+            // groupBox10
+            // 
+            this.groupBox10.Controls.Add(this.groupBox11);
+            this.groupBox10.Controls.Add(this.QTrackDurationUpDown);
+            this.groupBox10.Controls.Add(this.QStartTrackUpDown);
+            this.groupBox10.Controls.Add(this.QEndTracksUpDown);
+            this.groupBox10.Controls.Add(this.label82);
+            this.groupBox10.Controls.Add(this.QTRK00OffsetUpDown);
+            this.groupBox10.Controls.Add(this.QMicrostepsPerTrackUpDown);
+            this.groupBox10.Controls.Add(this.label83);
+            this.groupBox10.Controls.Add(this.label84);
+            this.groupBox10.Controls.Add(this.label85);
+            this.groupBox10.Controls.Add(this.label86);
+            this.groupBox10.Location = new System.Drawing.Point(134, 16);
+            this.groupBox10.Name = "groupBox10";
+            this.groupBox10.Size = new System.Drawing.Size(799, 70);
+            this.groupBox10.TabIndex = 112;
+            this.groupBox10.TabStop = false;
+            this.groupBox10.Text = "Capture options";
+            // 
+            // groupBox11
+            // 
+            this.groupBox11.Controls.Add(this.button10);
+            this.groupBox11.Controls.Add(this.button9);
+            this.groupBox11.Controls.Add(this.button17);
+            this.groupBox11.Controls.Add(this.button22);
+            this.groupBox11.Controls.Add(this.button24);
+            this.groupBox11.Controls.Add(this.button27);
+            this.groupBox11.Controls.Add(this.button30);
+            this.groupBox11.Controls.Add(this.button37);
+            this.groupBox11.Location = new System.Drawing.Point(421, 17);
+            this.groupBox11.Name = "groupBox11";
+            this.groupBox11.Size = new System.Drawing.Size(372, 53);
+            this.groupBox11.TabIndex = 58;
+            this.groupBox11.TabStop = false;
+            this.groupBox11.Text = "Preset capture";
+            // 
+            // button10
+            // 
+            this.button10.Location = new System.Drawing.Point(332, 19);
+            this.button10.Name = "button10";
+            this.button10.Size = new System.Drawing.Size(37, 23);
+            this.button10.TabIndex = 61;
+            this.button10.Text = "50s";
+            this.button10.UseVisualStyleBackColor = true;
+            this.button10.Click += new System.EventHandler(this.button10_Click);
+            // 
+            // button9
+            // 
+            this.button9.Location = new System.Drawing.Point(271, 19);
+            this.button9.Name = "button9";
+            this.button9.Size = new System.Drawing.Size(26, 23);
+            this.button9.TabIndex = 60;
+            this.button9.Text = "2s";
+            this.button9.UseVisualStyleBackColor = true;
+            this.button9.Click += new System.EventHandler(this.button9_Click);
+            // 
+            // button17
+            // 
+            this.button17.Location = new System.Drawing.Point(241, 19);
+            this.button17.Name = "button17";
+            this.button17.Size = new System.Drawing.Size(26, 23);
+            this.button17.TabIndex = 59;
+            this.button17.Text = "1s";
+            this.button17.UseVisualStyleBackColor = true;
+            this.button17.Click += new System.EventHandler(this.button4_Click);
+            // 
+            // button22
+            // 
+            this.button22.Location = new System.Drawing.Point(300, 19);
+            this.button22.Name = "button22";
+            this.button22.Size = new System.Drawing.Size(26, 23);
+            this.button22.TabIndex = 55;
+            this.button22.Text = "5s";
+            this.button22.UseVisualStyleBackColor = true;
+            this.button22.Click += new System.EventHandler(this.button6_Click);
+            // 
+            // button24
+            // 
+            this.button24.Location = new System.Drawing.Point(183, 19);
+            this.button24.Name = "button24";
+            this.button24.Size = new System.Drawing.Size(56, 23);
+            this.button24.TabIndex = 56;
+            this.button24.Text = "78-164";
+            this.button24.Click += new System.EventHandler(this.TrackPreset4Button_Click);
+            // 
+            // button27
+            // 
+            this.button27.Location = new System.Drawing.Point(124, 19);
+            this.button27.Name = "button27";
+            this.button27.Size = new System.Drawing.Size(57, 23);
+            this.button27.TabIndex = 52;
+            this.button27.Text = "80-90";
+            this.button27.UseVisualStyleBackColor = true;
+            this.button27.Click += new System.EventHandler(this.TrackPreset2Button_Click);
+            // 
+            // button30
+            // 
+            this.button30.Location = new System.Drawing.Point(7, 19);
+            this.button30.Name = "button30";
+            this.button30.Size = new System.Drawing.Size(56, 23);
+            this.button30.TabIndex = 57;
+            this.button30.Text = "Default";
+            this.button30.Click += new System.EventHandler(this.TrackPreset3Button_Click);
+            // 
+            // button37
+            // 
+            this.button37.Location = new System.Drawing.Point(65, 19);
+            this.button37.Name = "button37";
+            this.button37.Size = new System.Drawing.Size(57, 23);
+            this.button37.TabIndex = 58;
+            this.button37.Text = "0-10";
+            this.button37.Click += new System.EventHandler(this.TrackPreset1Button_Click_1);
+            // 
+            // QTrackDurationUpDown
+            // 
+            this.QTrackDurationUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::FloppyControlApp.Properties.Settings.Default, "TrackDuration", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.QTrackDurationUpDown.Increment = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.QTrackDurationUpDown.Location = new System.Drawing.Point(323, 35);
+            this.QTrackDurationUpDown.Maximum = new decimal(new int[] {
+            2000000,
+            0,
+            0,
+            0});
+            this.QTrackDurationUpDown.Name = "QTrackDurationUpDown";
+            this.QTrackDurationUpDown.Size = new System.Drawing.Size(52, 20);
+            this.QTrackDurationUpDown.TabIndex = 50;
+            this.toolTip1.SetToolTip(this.QTrackDurationUpDown, resources.GetString("QTrackDurationUpDown.ToolTip"));
+            this.QTrackDurationUpDown.Value = global::FloppyControlApp.Properties.Settings.Default.TrackDuration;
+            // 
+            // QStartTrackUpDown
+            // 
+            this.QStartTrackUpDown.Location = new System.Drawing.Point(200, 35);
+            this.QStartTrackUpDown.Maximum = new decimal(new int[] {
+            20000,
+            0,
+            0,
+            0});
+            this.QStartTrackUpDown.Name = "QStartTrackUpDown";
+            this.QStartTrackUpDown.Size = new System.Drawing.Size(52, 20);
+            this.QStartTrackUpDown.TabIndex = 48;
+            this.toolTip1.SetToolTip(this.QStartTrackUpDown, "Start track to capture.");
+            // 
+            // QEndTracksUpDown
+            // 
+            this.QEndTracksUpDown.Location = new System.Drawing.Point(262, 35);
+            this.QEndTracksUpDown.Maximum = new decimal(new int[] {
+            20000,
+            0,
+            0,
+            0});
+            this.QEndTracksUpDown.Name = "QEndTracksUpDown";
+            this.QEndTracksUpDown.Size = new System.Drawing.Size(52, 20);
+            this.QEndTracksUpDown.TabIndex = 49;
+            this.toolTip1.SetToolTip(this.QEndTracksUpDown, "End track to capture.");
+            this.QEndTracksUpDown.Value = new decimal(new int[] {
+            162,
+            0,
+            0,
+            0});
+            // 
+            // label82
+            // 
+            this.label82.AutoSize = true;
+            this.label82.Location = new System.Drawing.Point(321, 19);
+            this.label82.Name = "label82";
+            this.label82.Size = new System.Drawing.Size(94, 13);
+            this.label82.TabIndex = 53;
+            this.label82.Text = "Track Duration ms";
+            // 
+            // QTRK00OffsetUpDown
+            // 
+            this.QTRK00OffsetUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::FloppyControlApp.Properties.Settings.Default, "TRK00Offset", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.QTRK00OffsetUpDown.Location = new System.Drawing.Point(102, 34);
+            this.QTRK00OffsetUpDown.Minimum = new decimal(new int[] {
+            100,
+            0,
+            0,
+            -2147483648});
+            this.QTRK00OffsetUpDown.Name = "QTRK00OffsetUpDown";
+            this.QTRK00OffsetUpDown.Size = new System.Drawing.Size(52, 20);
+            this.QTRK00OffsetUpDown.TabIndex = 47;
+            this.toolTip1.SetToolTip(this.QTRK00OffsetUpDown, "Track offset. When seeking TRK00 you can move farther back if you\'re having troub" +
+        "le getting track 0 to capture well. Can be negative.");
+            this.QTRK00OffsetUpDown.Value = global::FloppyControlApp.Properties.Settings.Default.TRK00Offset;
+            // 
+            // QMicrostepsPerTrackUpDown
+            // 
+            this.QMicrostepsPerTrackUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::FloppyControlApp.Properties.Settings.Default, "MicroStepsPerTrack", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.QMicrostepsPerTrackUpDown.Location = new System.Drawing.Point(8, 34);
+            this.QMicrostepsPerTrackUpDown.Name = "QMicrostepsPerTrackUpDown";
+            this.QMicrostepsPerTrackUpDown.Size = new System.Drawing.Size(52, 20);
+            this.QMicrostepsPerTrackUpDown.TabIndex = 46;
+            this.toolTip1.SetToolTip(this.QMicrostepsPerTrackUpDown, "If you use a step stick, anything under 8 microsteps will read between the tracks" +
+        ". For a glued disk, use 2 microsteps for a full recovery.");
+            this.QMicrostepsPerTrackUpDown.Value = global::FloppyControlApp.Properties.Settings.Default.MicroStepsPerTrack;
+            // 
+            // label83
+            // 
+            this.label83.AutoSize = true;
+            this.label83.Location = new System.Drawing.Point(100, 19);
+            this.label83.Name = "label83";
+            this.label83.Size = new System.Drawing.Size(70, 13);
+            this.label83.TabIndex = 54;
+            this.label83.Text = "TRK00 offset";
+            // 
+            // label84
+            // 
+            this.label84.AutoSize = true;
+            this.label84.Location = new System.Drawing.Point(6, 17);
+            this.label84.Name = "label84";
+            this.label84.Size = new System.Drawing.Size(88, 13);
+            this.label84.TabIndex = 55;
+            this.label84.Text = "Track microsteps";
+            // 
+            // label85
+            // 
+            this.label85.AutoSize = true;
+            this.label85.Location = new System.Drawing.Point(196, 19);
+            this.label85.Name = "label85";
+            this.label85.Size = new System.Drawing.Size(56, 13);
+            this.label85.TabIndex = 56;
+            this.label85.Text = "Start track";
+            // 
+            // label86
+            // 
+            this.label86.AutoSize = true;
+            this.label86.Location = new System.Drawing.Point(259, 19);
+            this.label86.Name = "label86";
+            this.label86.Size = new System.Drawing.Size(53, 13);
+            this.label86.TabIndex = 57;
+            this.label86.Text = "End track";
+            // 
+            // CaptureTab
+            // 
+            this.CaptureTab.BackColor = System.Drawing.SystemColors.Control;
+            this.CaptureTab.Controls.Add(this.groupBox4);
+            this.CaptureTab.Controls.Add(this.button8);
+            this.CaptureTab.Controls.Add(this.button7);
+            this.CaptureTab.Controls.Add(this.SaveTrimmedBadbutton);
+            this.CaptureTab.Controls.Add(this.button49);
+            this.CaptureTab.Controls.Add(this.button48);
+            this.CaptureTab.Controls.Add(this.button46);
+            this.CaptureTab.Controls.Add(this.button45);
+            this.CaptureTab.Controls.Add(this.button40);
+            this.CaptureTab.Controls.Add(this.button39);
+            this.CaptureTab.Controls.Add(this.button36);
+            this.CaptureTab.Controls.Add(this.DirectStepCheckBox);
+            this.CaptureTab.Controls.Add(this.CaptureClassbutton);
+            this.CaptureTab.Controls.Add(this.groupBox7);
+            this.CaptureTab.ImageIndex = 0;
+            this.CaptureTab.Location = new System.Drawing.Point(4, 23);
+            this.CaptureTab.Name = "CaptureTab";
+            this.CaptureTab.Padding = new System.Windows.Forms.Padding(3);
+            this.CaptureTab.Size = new System.Drawing.Size(966, 775);
+            this.CaptureTab.TabIndex = 0;
+            this.CaptureTab.Text = "Capture";
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.rxbufEndUpDown);
+            this.groupBox4.Controls.Add(this.rxbufStartUpDown);
+            this.groupBox4.Controls.Add(this.BufferSizeLabel);
+            this.groupBox4.Controls.Add(this.HistogramLengthLabel);
+            this.groupBox4.Controls.Add(this.HistogramStartLabel);
+            this.groupBox4.Controls.Add(this.label29);
+            this.groupBox4.Controls.Add(this.label28);
+            this.groupBox4.Controls.Add(this.label27);
+            this.groupBox4.Controls.Add(this.label32);
+            this.groupBox4.Controls.Add(this.label31);
+            this.groupBox4.Location = new System.Drawing.Point(638, 611);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(294, 78);
+            this.groupBox4.TabIndex = 102;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Input buffer";
+            this.groupBox4.Visible = false;
+            // 
+            // rxbufEndUpDown
+            // 
+            this.rxbufEndUpDown.Location = new System.Drawing.Point(65, 51);
+            this.rxbufEndUpDown.Maximum = new decimal(new int[] {
+            2000,
+            0,
+            0,
+            0});
+            this.rxbufEndUpDown.Name = "rxbufEndUpDown";
+            this.rxbufEndUpDown.Size = new System.Drawing.Size(77, 20);
+            this.rxbufEndUpDown.TabIndex = 40;
+            // 
+            // rxbufStartUpDown
+            // 
+            this.rxbufStartUpDown.Location = new System.Drawing.Point(65, 25);
+            this.rxbufStartUpDown.Maximum = new decimal(new int[] {
+            2000,
+            0,
+            0,
+            0});
+            this.rxbufStartUpDown.Name = "rxbufStartUpDown";
+            this.rxbufStartUpDown.Size = new System.Drawing.Size(77, 20);
+            this.rxbufStartUpDown.TabIndex = 39;
+            // 
+            // BufferSizeLabel
+            // 
+            this.BufferSizeLabel.AutoSize = true;
+            this.BufferSizeLabel.Location = new System.Drawing.Point(178, 58);
+            this.BufferSizeLabel.Name = "BufferSizeLabel";
+            this.BufferSizeLabel.Size = new System.Drawing.Size(13, 13);
+            this.BufferSizeLabel.TabIndex = 31;
+            this.BufferSizeLabel.Text = "0";
+            // 
+            // HistogramLengthLabel
+            // 
+            this.HistogramLengthLabel.AutoSize = true;
+            this.HistogramLengthLabel.Location = new System.Drawing.Point(178, 39);
+            this.HistogramLengthLabel.Name = "HistogramLengthLabel";
+            this.HistogramLengthLabel.Size = new System.Drawing.Size(13, 13);
+            this.HistogramLengthLabel.TabIndex = 32;
+            this.HistogramLengthLabel.Text = "0";
+            // 
+            // HistogramStartLabel
+            // 
+            this.HistogramStartLabel.AutoSize = true;
+            this.HistogramStartLabel.Location = new System.Drawing.Point(178, 18);
+            this.HistogramStartLabel.Name = "HistogramStartLabel";
+            this.HistogramStartLabel.Size = new System.Drawing.Size(13, 13);
+            this.HistogramStartLabel.TabIndex = 33;
+            this.HistogramStartLabel.Text = "0";
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Location = new System.Drawing.Point(153, 58);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(30, 13);
+            this.label29.TabIndex = 34;
+            this.label29.Text = "Size:";
+            this.label29.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.Location = new System.Drawing.Point(154, 39);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(29, 13);
+            this.label28.TabIndex = 35;
+            this.label28.Text = "End:";
+            this.label28.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Location = new System.Drawing.Point(151, 18);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(32, 13);
+            this.label27.TabIndex = 36;
+            this.label27.Text = "Start:";
+            this.label27.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label32
+            // 
+            this.label32.AutoSize = true;
+            this.label32.Location = new System.Drawing.Point(8, 55);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(51, 13);
+            this.label32.TabIndex = 37;
+            this.label32.Text = "rxbuf end";
+            // 
+            // label31
+            // 
+            this.label31.AutoSize = true;
+            this.label31.Location = new System.Drawing.Point(6, 26);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(53, 13);
+            this.label31.TabIndex = 38;
+            this.label31.Text = "rxbuf start";
+            // 
+            // button8
+            // 
+            this.button8.Location = new System.Drawing.Point(7, 133);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(98, 23);
+            this.button8.TabIndex = 101;
+            this.button8.Text = "StepStick preset";
+            this.button8.Click += new System.EventHandler(this.StepStickPresetBtn_Click);
+            // 
+>>>>>>> develop
             // button7
             // 
-            this.button7.Location = new System.Drawing.Point(10, 150);
+            this.button7.Location = new System.Drawing.Point(7, 104);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(98, 23);
             this.button7.TabIndex = 100;
@@ -1447,7 +2782,7 @@
             this.button48.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button48.ImageIndex = 0;
             this.button48.ImageList = this.MainTabControlImageList;
-            this.button48.Location = new System.Drawing.Point(9, 101);
+            this.button48.Location = new System.Drawing.Point(6, 55);
             this.button48.Name = "button48";
             this.button48.Size = new System.Drawing.Size(91, 40);
             this.button48.TabIndex = 97;
@@ -1520,8 +2855,9 @@
             // DirectStepCheckBox
             // 
             this.DirectStepCheckBox.AutoSize = true;
-            this.DirectStepCheckBox.Checked = true;
+            this.DirectStepCheckBox.Checked = global::FloppyControlApp.Properties.Settings.Default.DirectStep;
             this.DirectStepCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.DirectStepCheckBox.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::FloppyControlApp.Properties.Settings.Default, "DirectStep", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.DirectStepCheckBox.Location = new System.Drawing.Point(9, 229);
             this.DirectStepCheckBox.Name = "DirectStepCheckBox";
             this.DirectStepCheckBox.Size = new System.Drawing.Size(76, 17);
@@ -1535,7 +2871,7 @@
             this.CaptureClassbutton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.CaptureClassbutton.ImageIndex = 0;
             this.CaptureClassbutton.ImageList = this.MainTabControlImageList;
-            this.CaptureClassbutton.Location = new System.Drawing.Point(9, 55);
+            this.CaptureClassbutton.Location = new System.Drawing.Point(6, 9);
             this.CaptureClassbutton.Name = "CaptureClassbutton";
             this.CaptureClassbutton.Size = new System.Drawing.Size(69, 40);
             this.CaptureClassbutton.TabIndex = 52;
@@ -1543,16 +2879,6 @@
             this.CaptureClassbutton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.CaptureClassbutton.UseVisualStyleBackColor = true;
             this.CaptureClassbutton.Click += new System.EventHandler(this.CaptureClassbutton_Click);
-            // 
-            // ConnectClassbutton
-            // 
-            this.ConnectClassbutton.Location = new System.Drawing.Point(9, 9);
-            this.ConnectClassbutton.Name = "ConnectClassbutton";
-            this.ConnectClassbutton.Size = new System.Drawing.Size(69, 40);
-            this.ConnectClassbutton.TabIndex = 51;
-            this.ConnectClassbutton.Text = "Connect";
-            this.ConnectClassbutton.UseVisualStyleBackColor = true;
-            this.ConnectClassbutton.Click += new System.EventHandler(this.ConnectClassbutton_Click);
             // 
             // groupBox7
             // 
@@ -1648,6 +2974,7 @@
             // 
             // TrackDurationUpDown
             // 
+            this.TrackDurationUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::FloppyControlApp.Properties.Settings.Default, "TrackDuration", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.TrackDurationUpDown.Increment = new decimal(new int[] {
             100,
             0,
@@ -1662,11 +2989,7 @@
             this.TrackDurationUpDown.Name = "TrackDurationUpDown";
             this.TrackDurationUpDown.Size = new System.Drawing.Size(52, 20);
             this.TrackDurationUpDown.TabIndex = 50;
-            this.TrackDurationUpDown.Value = new decimal(new int[] {
-            260,
-            0,
-            0,
-            0});
+            this.TrackDurationUpDown.Value = global::FloppyControlApp.Properties.Settings.Default.TrackDuration;
             // 
             // StartTrackUpDown
             // 
@@ -1679,6 +3002,11 @@
             this.StartTrackUpDown.Name = "StartTrackUpDown";
             this.StartTrackUpDown.Size = new System.Drawing.Size(52, 20);
             this.StartTrackUpDown.TabIndex = 48;
+            this.StartTrackUpDown.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
             // 
             // EndTracksUpDown
             // 
@@ -1692,7 +3020,7 @@
             this.EndTracksUpDown.Size = new System.Drawing.Size(52, 20);
             this.EndTracksUpDown.TabIndex = 49;
             this.EndTracksUpDown.Value = new decimal(new int[] {
-            166,
+            19,
             0,
             0,
             0});
@@ -1776,6 +3104,11 @@
             // ProcessingTab
             // 
             this.ProcessingTab.BackColor = System.Drawing.SystemColors.Control;
+<<<<<<< HEAD
+=======
+            this.ProcessingTab.Controls.Add(this.button5);
+            this.ProcessingTab.Controls.Add(this.ResetBuffersBtn);
+>>>>>>> develop
             this.ProcessingTab.Controls.Add(this.DupsUpDown);
             this.ProcessingTab.Controls.Add(this.label69);
             this.ProcessingTab.Controls.Add(this.AddNoiseKnumericUpDown);
@@ -1788,10 +3121,37 @@
             this.ProcessingTab.Location = new System.Drawing.Point(4, 23);
             this.ProcessingTab.Name = "ProcessingTab";
             this.ProcessingTab.Padding = new System.Windows.Forms.Padding(3);
+<<<<<<< HEAD
             this.ProcessingTab.Size = new System.Drawing.Size(951, 750);
             this.ProcessingTab.TabIndex = 1;
             this.ProcessingTab.Text = "Processing";
             // 
+=======
+            this.ProcessingTab.Size = new System.Drawing.Size(966, 775);
+            this.ProcessingTab.TabIndex = 1;
+            this.ProcessingTab.Text = "Processing";
+            // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(7, 145);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(67, 38);
+            this.button5.TabIndex = 117;
+            this.button5.Text = "Reset output";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
+            // ResetBuffersBtn
+            // 
+            this.ResetBuffersBtn.Location = new System.Drawing.Point(7, 99);
+            this.ResetBuffersBtn.Name = "ResetBuffersBtn";
+            this.ResetBuffersBtn.Size = new System.Drawing.Size(63, 39);
+            this.ResetBuffersBtn.TabIndex = 116;
+            this.ResetBuffersBtn.Text = "Reset input";
+            this.ResetBuffersBtn.UseVisualStyleBackColor = true;
+            this.ResetBuffersBtn.Click += new System.EventHandler(this.ResetBuffersBtn_Click);
+            // 
+>>>>>>> develop
             // DupsUpDown
             // 
             this.DupsUpDown.Location = new System.Drawing.Point(51, 249);
@@ -1863,7 +3223,11 @@
             this.rtbSectorMap.HideSelection = false;
             this.rtbSectorMap.Location = new System.Drawing.Point(0, 354);
             this.rtbSectorMap.Name = "rtbSectorMap";
+<<<<<<< HEAD
             this.rtbSectorMap.Size = new System.Drawing.Size(948, 396);
+=======
+            this.rtbSectorMap.Size = new System.Drawing.Size(963, 421);
+>>>>>>> develop
             this.rtbSectorMap.TabIndex = 84;
             this.rtbSectorMap.Text = "";
             this.rtbSectorMap.DoubleClick += new System.EventHandler(this.rtbSectorMap_DoubleClick);
@@ -2008,7 +3372,7 @@
             this.RateOfChange2UpDown.Size = new System.Drawing.Size(48, 20);
             this.RateOfChange2UpDown.TabIndex = 100;
             this.RateOfChange2UpDown.Value = new decimal(new int[] {
-            50,
+            128,
             0,
             0,
             0});
@@ -2120,11 +3484,11 @@
             this.ThresholdsGroupBox.Controls.Add(this.SixvScrollBar);
             this.ThresholdsGroupBox.Controls.Add(this.EightvScrollBar);
             this.ThresholdsGroupBox.Controls.Add(this.OffsetvScrollBar1);
-            this.ThresholdsGroupBox.Controls.Add(this.label30);
-            this.ThresholdsGroupBox.Controls.Add(this.label14);
-            this.ThresholdsGroupBox.Controls.Add(this.label18);
-            this.ThresholdsGroupBox.Controls.Add(this.label15);
-            this.ThresholdsGroupBox.Controls.Add(this.label16);
+            this.ThresholdsGroupBox.Controls.Add(this.POffsetLabel);
+            this.ThresholdsGroupBox.Controls.Add(this.PFourSixLabel);
+            this.ThresholdsGroupBox.Controls.Add(this.PMinLabel);
+            this.ThresholdsGroupBox.Controls.Add(this.PSixEightLabel);
+            this.ThresholdsGroupBox.Controls.Add(this.PMaxLabel);
             this.ThresholdsGroupBox.Location = new System.Drawing.Point(604, 16);
             this.ThresholdsGroupBox.Name = "ThresholdsGroupBox";
             this.ThresholdsGroupBox.Size = new System.Drawing.Size(175, 250);
@@ -2134,11 +3498,13 @@
             // 
             // MinvScrollBar
             // 
+            this.MinvScrollBar.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::FloppyControlApp.Properties.Settings.Default, "Min", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.MinvScrollBar.Location = new System.Drawing.Point(13, 39);
             this.MinvScrollBar.Maximum = 264;
             this.MinvScrollBar.Name = "MinvScrollBar";
             this.MinvScrollBar.Size = new System.Drawing.Size(15, 184);
             this.MinvScrollBar.TabIndex = 65;
+            this.MinvScrollBar.Value = global::FloppyControlApp.Properties.Settings.Default.Min;
             this.MinvScrollBar.ValueChanged += new System.EventHandler(this.FourvScrollBar_ValueChanged);
             // 
             // FourLabel
@@ -2188,88 +3554,93 @@
             // 
             // FourvScrollBar
             // 
+            this.FourvScrollBar.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::FloppyControlApp.Properties.Settings.Default, "FourSix", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.FourvScrollBar.Location = new System.Drawing.Point(45, 39);
             this.FourvScrollBar.Maximum = 264;
             this.FourvScrollBar.Name = "FourvScrollBar";
             this.FourvScrollBar.Size = new System.Drawing.Size(15, 184);
             this.FourvScrollBar.TabIndex = 66;
-            this.FourvScrollBar.Value = 69;
+            this.FourvScrollBar.Value = global::FloppyControlApp.Properties.Settings.Default.FourSix;
             this.FourvScrollBar.ValueChanged += new System.EventHandler(this.FourvScrollBar_ValueChanged);
             // 
             // SixvScrollBar
             // 
+            this.SixvScrollBar.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::FloppyControlApp.Properties.Settings.Default, "SixEight", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.SixvScrollBar.Location = new System.Drawing.Point(79, 39);
             this.SixvScrollBar.Maximum = 255;
             this.SixvScrollBar.Name = "SixvScrollBar";
             this.SixvScrollBar.Size = new System.Drawing.Size(15, 184);
             this.SixvScrollBar.TabIndex = 67;
-            this.SixvScrollBar.Value = 108;
+            this.SixvScrollBar.Value = global::FloppyControlApp.Properties.Settings.Default.SixEight;
             this.SixvScrollBar.ValueChanged += new System.EventHandler(this.FourvScrollBar_ValueChanged);
             // 
             // EightvScrollBar
             // 
+            this.EightvScrollBar.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::FloppyControlApp.Properties.Settings.Default, "Max", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.EightvScrollBar.Location = new System.Drawing.Point(118, 39);
             this.EightvScrollBar.Maximum = 264;
             this.EightvScrollBar.Name = "EightvScrollBar";
             this.EightvScrollBar.Size = new System.Drawing.Size(15, 184);
             this.EightvScrollBar.TabIndex = 68;
-            this.EightvScrollBar.Value = 147;
+            this.EightvScrollBar.Value = global::FloppyControlApp.Properties.Settings.Default.Max;
             this.EightvScrollBar.ValueChanged += new System.EventHandler(this.FourvScrollBar_ValueChanged);
             // 
             // OffsetvScrollBar1
             // 
+            this.OffsetvScrollBar1.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::FloppyControlApp.Properties.Settings.Default, "Offset", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.OffsetvScrollBar1.Location = new System.Drawing.Point(147, 39);
             this.OffsetvScrollBar1.Maximum = 50;
             this.OffsetvScrollBar1.Minimum = -50;
             this.OffsetvScrollBar1.Name = "OffsetvScrollBar1";
             this.OffsetvScrollBar1.Size = new System.Drawing.Size(15, 184);
             this.OffsetvScrollBar1.TabIndex = 69;
+            this.OffsetvScrollBar1.Value = global::FloppyControlApp.Properties.Settings.Default.Offset;
             this.OffsetvScrollBar1.ValueChanged += new System.EventHandler(this.FourvScrollBar_ValueChanged);
             // 
-            // label30
+            // POffsetLabel
             // 
-            this.label30.AutoSize = true;
-            this.label30.Location = new System.Drawing.Point(142, 23);
-            this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(35, 13);
-            this.label30.TabIndex = 56;
-            this.label30.Text = "Offset";
+            this.POffsetLabel.AutoSize = true;
+            this.POffsetLabel.Location = new System.Drawing.Point(142, 23);
+            this.POffsetLabel.Name = "POffsetLabel";
+            this.POffsetLabel.Size = new System.Drawing.Size(35, 13);
+            this.POffsetLabel.TabIndex = 56;
+            this.POffsetLabel.Text = "Offset";
             // 
-            // label14
+            // PFourSixLabel
             // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(40, 23);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(24, 13);
-            this.label14.TabIndex = 64;
-            this.label14.Text = "4/6";
+            this.PFourSixLabel.AutoSize = true;
+            this.PFourSixLabel.Location = new System.Drawing.Point(40, 23);
+            this.PFourSixLabel.Name = "PFourSixLabel";
+            this.PFourSixLabel.Size = new System.Drawing.Size(24, 13);
+            this.PFourSixLabel.TabIndex = 64;
+            this.PFourSixLabel.Text = "4/6";
             // 
-            // label18
+            // PMinLabel
             // 
-            this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(12, 23);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(23, 13);
-            this.label18.TabIndex = 63;
-            this.label18.Text = "min";
+            this.PMinLabel.AutoSize = true;
+            this.PMinLabel.Location = new System.Drawing.Point(12, 23);
+            this.PMinLabel.Name = "PMinLabel";
+            this.PMinLabel.Size = new System.Drawing.Size(23, 13);
+            this.PMinLabel.TabIndex = 63;
+            this.PMinLabel.Text = "min";
             // 
-            // label15
+            // PSixEightLabel
             // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(74, 23);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(24, 13);
-            this.label15.TabIndex = 61;
-            this.label15.Text = "6/8";
+            this.PSixEightLabel.AutoSize = true;
+            this.PSixEightLabel.Location = new System.Drawing.Point(74, 23);
+            this.PSixEightLabel.Name = "PSixEightLabel";
+            this.PSixEightLabel.Size = new System.Drawing.Size(24, 13);
+            this.PSixEightLabel.TabIndex = 61;
+            this.PSixEightLabel.Text = "6/8";
             // 
-            // label16
+            // PMaxLabel
             // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(113, 23);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(26, 13);
-            this.label16.TabIndex = 58;
-            this.label16.Text = "max";
+            this.PMaxLabel.AutoSize = true;
+            this.PMaxLabel.Location = new System.Drawing.Point(113, 23);
+            this.PMaxLabel.Name = "PMaxLabel";
+            this.PMaxLabel.Size = new System.Drawing.Size(26, 13);
+            this.PMaxLabel.TabIndex = 58;
+            this.PMaxLabel.Text = "max";
             // 
             // FindDupesCheckBox
             // 
@@ -2342,9 +3713,6 @@
             // groupBox5
             // 
             this.groupBox5.Controls.Add(this.Histogrampanel1);
-            this.groupBox5.Controls.Add(this.label12);
-            this.groupBox5.Controls.Add(this.label11);
-            this.groupBox5.Controls.Add(this.label10);
             this.groupBox5.Controls.Add(this.HistogramhScrollBar1);
             this.groupBox5.Location = new System.Drawing.Point(307, 13);
             this.groupBox5.Name = "groupBox5";
@@ -2362,6 +3730,7 @@
             this.Histogrampanel1.Click += new System.EventHandler(this.Histogrampanel1_Click);
             this.Histogrampanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.Histogrampanel1_Paint);
             // 
+<<<<<<< HEAD
             // label12
             // 
             this.label12.AutoSize = true;
@@ -2502,6 +3871,9 @@
             this.HistogramStartLabel.Text = "0";
             // 
             // label29
+=======
+            // HistogramhScrollBar1
+>>>>>>> develop
             // 
             this.label29.AutoSize = true;
             this.label29.Location = new System.Drawing.Point(153, 58);
@@ -2655,7 +4027,11 @@
             this.ErrorCorrectionTab.Location = new System.Drawing.Point(4, 23);
             this.ErrorCorrectionTab.Name = "ErrorCorrectionTab";
             this.ErrorCorrectionTab.Padding = new System.Windows.Forms.Padding(3);
+<<<<<<< HEAD
             this.ErrorCorrectionTab.Size = new System.Drawing.Size(951, 750);
+=======
+            this.ErrorCorrectionTab.Size = new System.Drawing.Size(966, 775);
+>>>>>>> develop
             this.ErrorCorrectionTab.TabIndex = 2;
             this.ErrorCorrectionTab.Text = "Error Correction";
             // 
@@ -2862,8 +4238,13 @@
             this.ECInfoTabs.Location = new System.Drawing.Point(6, 316);
             this.ECInfoTabs.Name = "ECInfoTabs";
             this.ECInfoTabs.SelectedIndex = 0;
+<<<<<<< HEAD
             this.ECInfoTabs.Size = new System.Drawing.Size(452, 425);
+=======
+            this.ECInfoTabs.Size = new System.Drawing.Size(452, 450);
+>>>>>>> develop
             this.ECInfoTabs.TabIndex = 4009;
+            this.ECInfoTabs.SelectedIndexChanged += new System.EventHandler(this.ECInfoTabs_SelectedIndexChanged);
             // 
             // ECTabSectorData
             // 
@@ -2871,7 +4252,11 @@
             this.ECTabSectorData.Location = new System.Drawing.Point(4, 22);
             this.ECTabSectorData.Name = "ECTabSectorData";
             this.ECTabSectorData.Padding = new System.Windows.Forms.Padding(3);
+<<<<<<< HEAD
             this.ECTabSectorData.Size = new System.Drawing.Size(444, 399);
+=======
+            this.ECTabSectorData.Size = new System.Drawing.Size(444, 424);
+>>>>>>> develop
             this.ECTabSectorData.TabIndex = 0;
             this.ECTabSectorData.Text = "Sector data";
             this.ECTabSectorData.UseVisualStyleBackColor = true;
@@ -2886,7 +4271,11 @@
             this.antbSectorData.Multiline = true;
             this.antbSectorData.Name = "antbSectorData";
             this.antbSectorData.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+<<<<<<< HEAD
             this.antbSectorData.Size = new System.Drawing.Size(441, 395);
+=======
+            this.antbSectorData.Size = new System.Drawing.Size(441, 420);
+>>>>>>> develop
             this.antbSectorData.TabIndex = 86;
             // 
             // tabPage8
@@ -2895,7 +4284,11 @@
             this.tabPage8.Location = new System.Drawing.Point(4, 22);
             this.tabPage8.Name = "tabPage8";
             this.tabPage8.Padding = new System.Windows.Forms.Padding(3);
+<<<<<<< HEAD
             this.tabPage8.Size = new System.Drawing.Size(444, 399);
+=======
+            this.tabPage8.Size = new System.Drawing.Size(444, 424);
+>>>>>>> develop
             this.tabPage8.TabIndex = 1;
             this.tabPage8.Text = "MFM data";
             this.tabPage8.UseVisualStyleBackColor = true;
@@ -3381,7 +4774,11 @@
             this.AnalysisPage.Location = new System.Drawing.Point(4, 23);
             this.AnalysisPage.Name = "AnalysisPage";
             this.AnalysisPage.Padding = new System.Windows.Forms.Padding(3);
+<<<<<<< HEAD
             this.AnalysisPage.Size = new System.Drawing.Size(951, 750);
+=======
+            this.AnalysisPage.Size = new System.Drawing.Size(966, 775);
+>>>>>>> develop
             this.AnalysisPage.TabIndex = 3;
             this.AnalysisPage.Text = "Analysis";
             // 
@@ -3622,7 +5019,11 @@
             this.AnalysisTab2.Location = new System.Drawing.Point(4, 23);
             this.AnalysisTab2.Name = "AnalysisTab2";
             this.AnalysisTab2.Padding = new System.Windows.Forms.Padding(3);
+<<<<<<< HEAD
             this.AnalysisTab2.Size = new System.Drawing.Size(951, 750);
+=======
+            this.AnalysisTab2.Size = new System.Drawing.Size(966, 775);
+>>>>>>> develop
             this.AnalysisTab2.TabIndex = 4;
             this.AnalysisTab2.Text = "Waveform Editor";
             this.AnalysisTab2.Enter += new System.EventHandler(this.AnalysisTab2_Enter_1);
@@ -4505,7 +5906,11 @@
             this.NetworkTab.Location = new System.Drawing.Point(4, 23);
             this.NetworkTab.Name = "NetworkTab";
             this.NetworkTab.Padding = new System.Windows.Forms.Padding(3);
+<<<<<<< HEAD
             this.NetworkTab.Size = new System.Drawing.Size(951, 750);
+=======
+            this.NetworkTab.Size = new System.Drawing.Size(966, 775);
+>>>>>>> develop
             this.NetworkTab.TabIndex = 5;
             this.NetworkTab.Text = "Network";
             // 
@@ -4729,6 +6134,7 @@
             // 
             // SectorUpDown
             // 
+            this.SectorUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.SectorUpDown.Location = new System.Drawing.Point(1127, 373);
             this.SectorUpDown.Maximum = new decimal(new int[] {
             2000,
@@ -4736,8 +6142,9 @@
             0,
             0});
             this.SectorUpDown.Name = "SectorUpDown";
-            this.SectorUpDown.Size = new System.Drawing.Size(39, 20);
+            this.SectorUpDown.Size = new System.Drawing.Size(36, 20);
             this.SectorUpDown.TabIndex = 78;
+            this.toolTip1.SetToolTip(this.SectorUpDown, "Show data for this sector in Sector data tab.");
             this.SectorUpDown.Value = new decimal(new int[] {
             2,
             0,
@@ -4747,6 +6154,7 @@
             // 
             // TrackUpDown
             // 
+            this.TrackUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.TrackUpDown.Location = new System.Drawing.Point(1029, 373);
             this.TrackUpDown.Maximum = new decimal(new int[] {
             2000,
@@ -4754,8 +6162,9 @@
             0,
             0});
             this.TrackUpDown.Name = "TrackUpDown";
-            this.TrackUpDown.Size = new System.Drawing.Size(39, 20);
+            this.TrackUpDown.Size = new System.Drawing.Size(36, 20);
             this.TrackUpDown.TabIndex = 77;
+            this.toolTip1.SetToolTip(this.TrackUpDown, "Show data for this track in Sector data tab.");
             this.TrackUpDown.Value = new decimal(new int[] {
             29,
             0,
@@ -4765,6 +6174,7 @@
             // 
             // label39
             // 
+            this.label39.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label39.AutoSize = true;
             this.label39.Location = new System.Drawing.Point(1083, 375);
             this.label39.Name = "label39";
@@ -4774,6 +6184,7 @@
             // 
             // label40
             // 
+            this.label40.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label40.AutoSize = true;
             this.label40.Location = new System.Drawing.Point(988, 375);
             this.label40.Name = "label40";
@@ -4792,7 +6203,13 @@
             // 
             // progressBar1
             // 
+<<<<<<< HEAD
             this.progressBar1.Location = new System.Drawing.Point(365, 58);
+=======
+            this.progressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.progressBar1.Location = new System.Drawing.Point(651, 54);
+>>>>>>> develop
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(334, 8);
             this.progressBar1.TabIndex = 83;
@@ -4804,13 +6221,18 @@
             // 
             // ProcessStatusLabel
             // 
-            this.ProcessStatusLabel.AutoSize = true;
+            this.ProcessStatusLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.ProcessStatusLabel.BackColor = System.Drawing.Color.Transparent;
+<<<<<<< HEAD
             this.ProcessStatusLabel.Location = new System.Drawing.Point(363, 68);
+=======
+            this.ProcessStatusLabel.Location = new System.Drawing.Point(895, 38);
+>>>>>>> develop
             this.ProcessStatusLabel.Name = "ProcessStatusLabel";
             this.ProcessStatusLabel.Size = new System.Drawing.Size(90, 13);
             this.ProcessStatusLabel.TabIndex = 59;
             this.ProcessStatusLabel.Text = "Processing status";
+            this.ProcessStatusLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // GUITimer
             // 
@@ -4850,7 +6272,7 @@
             // 
             // timer1
             // 
-            this.timer1.Interval = 1000;
+            this.timer1.Interval = 250;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // GCbutton
@@ -4861,6 +6283,7 @@
             this.GCbutton.TabIndex = 88;
             this.GCbutton.Text = "GC";
             this.GCbutton.UseVisualStyleBackColor = true;
+            this.GCbutton.Visible = false;
             this.GCbutton.Click += new System.EventHandler(this.GCbutton_Click);
             // 
             // contextMenuStrip1
@@ -4884,27 +6307,298 @@
             // 
             // EditScatterPlotcheckBox
             // 
+            this.EditScatterPlotcheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.EditScatterPlotcheckBox.AutoSize = true;
             this.EditScatterPlotcheckBox.Location = new System.Drawing.Point(1214, 375);
             this.EditScatterPlotcheckBox.Name = "EditScatterPlotcheckBox";
             this.EditScatterPlotcheckBox.Size = new System.Drawing.Size(98, 17);
             this.EditScatterPlotcheckBox.TabIndex = 167;
             this.EditScatterPlotcheckBox.Text = "Edit Scatterplot";
+            this.toolTip1.SetToolTip(this.EditScatterPlotcheckBox, "Edit the flux period length manually. Only for Amiga formatted disks for now.");
             this.EditScatterPlotcheckBox.UseVisualStyleBackColor = true;
             this.EditScatterPlotcheckBox.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
+<<<<<<< HEAD
+=======
+            // menuStrip1
+            // 
+            this.menuStrip1.AutoSize = false;
+            this.menuStrip1.Dock = System.Windows.Forms.DockStyle.None;
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem,
+            this.optionsToolStripMenuItem,
+            this.helpToolStripMenuItem});
+            this.menuStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
+            this.menuStrip1.Location = new System.Drawing.Point(1, 1);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(300, 27);
+            this.menuStrip1.Stretch = false;
+            this.menuStrip1.TabIndex = 168;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // fileToolStripMenuItem
+            // 
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openToolStripMenuItem,
+            this.addToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.saveToolStripMenuItem,
+            this.toolStripSeparator2,
+            this.loadProjectToolStripMenuItem,
+            this.saveProjectToolStripMenuItem,
+            this.toolStripSeparator3,
+            this.importToolStripMenuItem,
+            this.exportToolStripMenuItem});
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 23);
+            this.fileToolStripMenuItem.Text = "File";
+            // 
+            // openToolStripMenuItem
+            // 
+            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
+            this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
+            this.openToolStripMenuItem.Text = "Open";
+            this.openToolStripMenuItem.Click += new System.EventHandler(this.OpenBinFilebutton_Click);
+            // 
+            // addToolStripMenuItem
+            // 
+            this.addToolStripMenuItem.Name = "addToolStripMenuItem";
+            this.addToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
+            this.addToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
+            this.addToolStripMenuItem.Text = "Add";
+            this.addToolStripMenuItem.Click += new System.EventHandler(this.AddDataButton_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(195, 6);
+            // 
+            // saveToolStripMenuItem
+            // 
+            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+            this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
+            this.saveToolStripMenuItem.Text = "Save disk image";
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.SaveDiskImageButton_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(195, 6);
+            // 
+            // loadProjectToolStripMenuItem
+            // 
+            this.loadProjectToolStripMenuItem.Name = "loadProjectToolStripMenuItem";
+            this.loadProjectToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
+            this.loadProjectToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
+            this.loadProjectToolStripMenuItem.Text = "Load project";
+            this.loadProjectToolStripMenuItem.Click += new System.EventHandler(this.LoadPrjBtn_Click);
+            // 
+            // saveProjectToolStripMenuItem
+            // 
+            this.saveProjectToolStripMenuItem.Name = "saveProjectToolStripMenuItem";
+            this.saveProjectToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
+            this.saveProjectToolStripMenuItem.Text = "Save project";
+            this.saveProjectToolStripMenuItem.Click += new System.EventHandler(this.SavePrjBtn_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(195, 6);
+            // 
+            // importToolStripMenuItem
+            // 
+            this.importToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.scpFileToolStripMenuItem});
+            this.importToolStripMenuItem.Name = "importToolStripMenuItem";
+            this.importToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
+            this.importToolStripMenuItem.Text = "Import";
+            // 
+            // scpFileToolStripMenuItem
+            // 
+            this.scpFileToolStripMenuItem.Name = "scpFileToolStripMenuItem";
+            this.scpFileToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.scpFileToolStripMenuItem.Text = "Scp file";
+            this.scpFileToolStripMenuItem.Click += new System.EventHandler(this.button45_Click);
+            // 
+            // exportToolStripMenuItem
+            // 
+            this.exportToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.scpFileToolStripMenuItem1,
+            this.trimmedBinToolStripMenuItem,
+            this.badSectorsToolStripMenuItem});
+            this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
+            this.exportToolStripMenuItem.Text = "Export";
+            // 
+            // scpFileToolStripMenuItem1
+            // 
+            this.scpFileToolStripMenuItem1.Name = "scpFileToolStripMenuItem1";
+            this.scpFileToolStripMenuItem1.Size = new System.Drawing.Size(143, 22);
+            this.scpFileToolStripMenuItem1.Text = "Scp file";
+            this.scpFileToolStripMenuItem1.Click += new System.EventHandler(this.button46_Click);
+            // 
+            // trimmedBinToolStripMenuItem
+            // 
+            this.trimmedBinToolStripMenuItem.Name = "trimmedBinToolStripMenuItem";
+            this.trimmedBinToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.trimmedBinToolStripMenuItem.Text = "Trimmed bin";
+            this.trimmedBinToolStripMenuItem.Click += new System.EventHandler(this.button49_Click);
+            // 
+            // badSectorsToolStripMenuItem
+            // 
+            this.badSectorsToolStripMenuItem.Name = "badSectorsToolStripMenuItem";
+            this.badSectorsToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.badSectorsToolStripMenuItem.Text = "Bad sectors";
+            this.badSectorsToolStripMenuItem.Click += new System.EventHandler(this.SaveTrimmedBadbutton_Click);
+            // 
+            // optionsToolStripMenuItem
+            // 
+            this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.settingsToolStripMenuItem,
+            this.disableTooltipsToolStripMenuItem,
+            this.toolStripSeparator4,
+            this.basicModeToolStripMenuItem,
+            this.advancedModeToolStripMenuItem,
+            this.devModeToolStripMenuItem});
+            this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(61, 23);
+            this.optionsToolStripMenuItem.Text = "Options";
+            // 
+            // settingsToolStripMenuItem
+            // 
+            this.settingsToolStripMenuItem.Image = global::FloppyControlApp.Properties.Resources.IconSettings;
+            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.settingsToolStripMenuItem.Text = "Settings";
+            this.settingsToolStripMenuItem.Click += new System.EventHandler(this.SettingsButton_Click);
+            // 
+            // disableTooltipsToolStripMenuItem
+            // 
+            this.disableTooltipsToolStripMenuItem.Checked = global::FloppyControlApp.Properties.Settings.Default.TooltipDisable;
+            this.disableTooltipsToolStripMenuItem.CheckOnClick = true;
+            this.disableTooltipsToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.disableTooltipsToolStripMenuItem.Name = "disableTooltipsToolStripMenuItem";
+            this.disableTooltipsToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.disableTooltipsToolStripMenuItem.Text = "Enable tooltips";
+            this.disableTooltipsToolStripMenuItem.Click += new System.EventHandler(this.disableTooltipsToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(158, 6);
+            // 
+            // basicModeToolStripMenuItem
+            // 
+            this.basicModeToolStripMenuItem.CheckOnClick = true;
+            this.basicModeToolStripMenuItem.Name = "basicModeToolStripMenuItem";
+            this.basicModeToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.basicModeToolStripMenuItem.Text = "Basic mode";
+            this.basicModeToolStripMenuItem.Click += new System.EventHandler(this.basicModeToolStripMenuItem_Click);
+            // 
+            // advancedModeToolStripMenuItem
+            // 
+            this.advancedModeToolStripMenuItem.CheckOnClick = true;
+            this.advancedModeToolStripMenuItem.Name = "advancedModeToolStripMenuItem";
+            this.advancedModeToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.advancedModeToolStripMenuItem.Text = "Advanced mode";
+            this.advancedModeToolStripMenuItem.Click += new System.EventHandler(this.advancedModeToolStripMenuItem_Click);
+            // 
+            // devModeToolStripMenuItem
+            // 
+            this.devModeToolStripMenuItem.CheckOnClick = true;
+            this.devModeToolStripMenuItem.Name = "devModeToolStripMenuItem";
+            this.devModeToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.devModeToolStripMenuItem.Text = "Dev mode";
+            this.devModeToolStripMenuItem.Click += new System.EventHandler(this.devModeToolStripMenuItem_Click);
+            // 
+            // helpToolStripMenuItem
+            // 
+            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.aboutToolStripMenuItem});
+            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 23);
+            this.helpToolStripMenuItem.Text = "Help";
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.aboutToolStripMenuItem.Text = "About";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.AboutButton_Click);
+            // 
+            // ThreadsUpDown
+            // 
+            this.ThreadsUpDown.Location = new System.Drawing.Point(868, 9);
+            this.ThreadsUpDown.Maximum = new decimal(new int[] {
+            2000,
+            0,
+            0,
+            0});
+            this.ThreadsUpDown.Minimum = new decimal(new int[] {
+            50,
+            0,
+            0,
+            -2147483648});
+            this.ThreadsUpDown.Name = "ThreadsUpDown";
+            this.ThreadsUpDown.Size = new System.Drawing.Size(39, 20);
+            this.ThreadsUpDown.TabIndex = 172;
+            this.ThreadsUpDown.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.ThreadsUpDown.Visible = false;
+            // 
+            // label59
+            // 
+            this.label59.AutoSize = true;
+            this.label59.Location = new System.Drawing.Point(811, 13);
+            this.label59.Name = "label59";
+            this.label59.Size = new System.Drawing.Size(46, 13);
+            this.label59.TabIndex = 171;
+            this.label59.Text = "Threads";
+            this.label59.Visible = false;
+            // 
+            // StopButton
+            // 
+            this.StopButton.BackColor = System.Drawing.Color.Cornsilk;
+            this.StopButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.StopButton.Location = new System.Drawing.Point(651, 13);
+            this.StopButton.Name = "StopButton";
+            this.StopButton.Size = new System.Drawing.Size(75, 36);
+            this.StopButton.TabIndex = 173;
+            this.StopButton.Text = "Stop!";
+            this.toolTip1.SetToolTip(this.StopButton, "Stops all capturing, error correction and processing tasks.");
+            this.StopButton.UseVisualStyleBackColor = false;
+            this.StopButton.Click += new System.EventHandler(this.StopButton_Click);
+            // 
+            // toolTip1
+            // 
+            this.toolTip1.Active = global::FloppyControlApp.Properties.Settings.Default.TooltipDisable;
+            // 
+>>>>>>> develop
             // FloppyControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
+<<<<<<< HEAD
             this.ClientSize = new System.Drawing.Size(1604, 900);
+=======
+            this.ClientSize = new System.Drawing.Size(1619, 910);
+            this.Controls.Add(this.progressBar1);
+            this.Controls.Add(this.StopButton);
+            this.Controls.Add(this.ThreadsUpDown);
+            this.Controls.Add(this.label59);
+            this.Controls.Add(this.menuStrip1);
+>>>>>>> develop
             this.Controls.Add(this.EditScatterPlotcheckBox);
             this.Controls.Add(this.GCbutton);
             this.Controls.Add(this.ThreadsUpDown);
             this.Controls.Add(this.label59);
             this.Controls.Add(this.ProcessStatusLabel);
-            this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.MainTabControl);
             this.Controls.Add(this.textBoxReceived);
             this.Controls.Add(this.LoadPrjBtn);
@@ -4940,6 +6634,7 @@
             this.KeyPreview = true;
             this.Name = "FloppyControl";
             this.Text = "Floppy Control";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FloppyControl_FormClosing);
             this.SizeChanged += new System.EventHandler(this.FloppyControl_SizeChanged);
             this.Click += new System.EventHandler(this.FloppyControl_Click);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FloppyControl_KeyDown);
@@ -4966,6 +6661,40 @@
             ((System.ComponentModel.ISupportInitialize)(this.LimitToSectorUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.LimitToTrackUpDown)).EndInit();
             this.MainTabControl.ResumeLayout(false);
+<<<<<<< HEAD
+=======
+            this.QuickTab.ResumeLayout(false);
+            this.groupBox13.ResumeLayout(false);
+            this.groupBox14.ResumeLayout(false);
+            this.groupBox14.PerformLayout();
+            this.groupBox15.ResumeLayout(false);
+            this.groupBox15.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.QOffsetUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QMaxUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QSixEightUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QFourSixUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QMinUpDown)).EndInit();
+            this.groupBox16.ResumeLayout(false);
+            this.groupBox16.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.QHistogramhScrollBar1)).EndInit();
+            this.groupBox17.ResumeLayout(false);
+            this.groupBox17.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.QRateOfChange2UpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QRateOfChangeUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QAdaptOfsset2UpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QLimitToSectorUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QLimitToTrackUpDown)).EndInit();
+            this.groupBox12.ResumeLayout(false);
+            this.groupBox12.PerformLayout();
+            this.groupBox10.ResumeLayout(false);
+            this.groupBox10.PerformLayout();
+            this.groupBox11.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.QTrackDurationUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QStartTrackUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QEndTracksUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QTRK00OffsetUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QMicrostepsPerTrackUpDown)).EndInit();
+>>>>>>> develop
             this.CaptureTab.ResumeLayout(false);
             this.CaptureTab.PerformLayout();
             this.groupBox7.ResumeLayout(false);
@@ -5068,7 +6797,7 @@
             this.PerformLayout();
 
         }
-
+         
         #endregion
 
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
@@ -5148,20 +6877,17 @@
         private System.Windows.Forms.VScrollBar MinvScrollBar;
         private System.Windows.Forms.VScrollBar FourvScrollBar;
         private System.Windows.Forms.Label Offsetlabel;
-        private System.Windows.Forms.Label label30;
+        private System.Windows.Forms.Label POffsetLabel;
         private System.Windows.Forms.Label EightLabel;
-        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label PMaxLabel;
         private System.Windows.Forms.Label SixLabel;
         private System.Windows.Forms.Label MinLabel;
-        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label PSixEightLabel;
         private System.Windows.Forms.Label FourLabel;
-        private System.Windows.Forms.Label label18;
-        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label PMinLabel;
+        private System.Windows.Forms.Label PFourSixLabel;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.Panel Histogrampanel1;
-        private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Label label10;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Button ScanButton;
         private System.Windows.Forms.GroupBox groupBox4;
@@ -5315,7 +7041,6 @@
         private System.Windows.Forms.Button button29;
         private System.Windows.Forms.NumericUpDown NetworkCaptureTrackStartUpDown;
         private System.Windows.Forms.Label label63;
-        private System.Windows.Forms.Button ConnectClassbutton;
         private System.Windows.Forms.Button CaptureClassbutton;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.NumericUpDown NumberOfPointsUpDown;
@@ -5426,6 +7151,136 @@
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button8;
         private System.Windows.Forms.Button button7;
+<<<<<<< HEAD
+=======
+        private System.Windows.Forms.TabPage QuickTab;
+        private System.Windows.Forms.GroupBox groupBox12;
+        private System.Windows.Forms.Button StepStickPresetBtn;
+        private System.Windows.Forms.Button QDirectStepPresetBtn;
+        private System.Windows.Forms.Button QRecaptureAllBtn;
+        private System.Windows.Forms.Button button12;
+        private System.Windows.Forms.Button button13;
+        private System.Windows.Forms.Button button14;
+        private System.Windows.Forms.CheckBox QDirectStepCheckBox;
+        private System.Windows.Forms.Button QCaptureBtn;
+        private System.Windows.Forms.GroupBox groupBox10;
+        private System.Windows.Forms.GroupBox groupBox11;
+        private System.Windows.Forms.Button button17;
+        private System.Windows.Forms.Button button22;
+        private System.Windows.Forms.Button button24;
+        private System.Windows.Forms.Button button27;
+        private System.Windows.Forms.Button button30;
+        private System.Windows.Forms.Button button37;
+        private System.Windows.Forms.NumericUpDown QTrackDurationUpDown;
+        private System.Windows.Forms.NumericUpDown QStartTrackUpDown;
+        private System.Windows.Forms.NumericUpDown QEndTracksUpDown;
+        private System.Windows.Forms.Label label82;
+        private System.Windows.Forms.NumericUpDown QTRK00OffsetUpDown;
+        private System.Windows.Forms.NumericUpDown QMicrostepsPerTrackUpDown;
+        private System.Windows.Forms.Label label83;
+        private System.Windows.Forms.Label label84;
+        private System.Windows.Forms.Label label85;
+        private System.Windows.Forms.Label label86;
+        private System.Windows.Forms.GroupBox groupBox13;
+        private System.Windows.Forms.GroupBox groupBox14;
+        private System.Windows.Forms.RadioButton QOnlyBadSectorsRadio;
+        private System.Windows.Forms.RadioButton QECOnRadio;
+        private System.Windows.Forms.ComboBox QProcessingModeComboBox;
+        private System.Windows.Forms.CheckBox QClearDatacheckBox;
+        private System.Windows.Forms.NumericUpDown QAdaptOfsset2UpDown;
+        private System.Windows.Forms.NumericUpDown QLimitToTrackUpDown;
+        private System.Windows.Forms.NumericUpDown QLimitToSectorUpDown;
+        private System.Windows.Forms.Label label90;
+        private System.Windows.Forms.Label label91;
+        private System.Windows.Forms.GroupBox groupBox15;
+        private System.Windows.Forms.Label QOffsetLabel;
+        private System.Windows.Forms.Label QFourSixLabel;
+        private System.Windows.Forms.Label QMinLabel;
+        private System.Windows.Forms.Label QSixEightLabel;
+        private System.Windows.Forms.Label QMaxLabel;
+        private System.Windows.Forms.CheckBox QFindDupesCheckBox;
+        private System.Windows.Forms.CheckBox QAutoRefreshSectorMapCheck;
+        private System.Windows.Forms.CheckBox QIgnoreHeaderErrorCheckBox;
+        private System.Windows.Forms.GroupBox groupBox16;
+        private System.Windows.Forms.Panel QHistoPanel;
+        private System.Windows.Forms.TrackBar QHistogramhScrollBar1;
+        private System.Windows.Forms.GroupBox groupBox17;
+        private System.Windows.Forms.ComboBox QScanComboBox;
+        private System.Windows.Forms.Button button47;
+        private System.Windows.Forms.CheckBox QHDCheckBox;
+        private System.Windows.Forms.Label label114;
+        private System.Windows.Forms.Button QProcAmigaBtn;
+        private System.Windows.Forms.Button QProcPCBtn;
+        private System.Windows.Forms.RichTextBox QrtbSectorMap;
+        private System.Windows.Forms.Label label89;
+        private System.Windows.Forms.ComboBox QChangeDiskTypeComboBox;
+        private System.Windows.Forms.NumericUpDown QOffsetUpDown;
+        private System.Windows.Forms.NumericUpDown QMaxUpDown;
+        private System.Windows.Forms.NumericUpDown QSixEightUpDown;
+        private System.Windows.Forms.NumericUpDown QFourSixUpDown;
+        private System.Windows.Forms.NumericUpDown QMinUpDown;
+        private System.Windows.Forms.NumericUpDown QRateOfChange2UpDown;
+        private System.Windows.Forms.Label label88;
+        private System.Windows.Forms.Label label102;
+        private System.Windows.Forms.NumericUpDown QRateOfChangeUpDown;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem addToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem loadProjectToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveProjectToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripMenuItem importToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem scpFileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem scpFileToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem trimmedBinToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem badSectorsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
+        private System.Windows.Forms.NumericUpDown ThreadsUpDown;
+        private System.Windows.Forms.Label label59;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.NumericUpDown rxbufEndUpDown;
+        private System.Windows.Forms.NumericUpDown rxbufStartUpDown;
+        private System.Windows.Forms.Label BufferSizeLabel;
+        private System.Windows.Forms.Label HistogramLengthLabel;
+        private System.Windows.Forms.Label HistogramStartLabel;
+        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.Label label32;
+        private System.Windows.Forms.Label label31;
+        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button ResetBuffersBtn;
+        private System.Windows.Forms.NumericUpDown jESEnd;
+        private System.Windows.Forms.NumericUpDown jESStart;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label SettingsLabel;
+        private System.Windows.Forms.Label label35;
+        private System.Windows.Forms.NumericUpDown iESEnd;
+        private System.Windows.Forms.NumericUpDown iESStart;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Button StopButton;
+        private System.Windows.Forms.Button button11;
+        private System.Windows.Forms.Button button15;
+        private System.Windows.Forms.CheckBox QLimitTSCheckBox;
+        private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem disableTooltipsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem basicModeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem advancedModeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem devModeToolStripMenuItem;
+        private System.Windows.Forms.Button GluedDiskPreset;
+        private System.Windows.Forms.Button button10;
+        private System.Windows.Forms.Button button9;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+>>>>>>> develop
     }
 }
 

@@ -219,10 +219,13 @@ namespace FloppyControlApp.MyClasses
                 //Application.DoEvents();
             }
 
-            byte[] extra = new byte[processing.indexrxbuf];
-            tempbuf.Add(extra);
+            if (processing.rxbuf.Length < 100000)
+            {
+                byte[] extra = new byte[100000];
+                tempbuf.Add(extra);
+            }
+
             processing.rxbuf = tempbuf.SelectMany(a => a).ToArray();
-            
         }
 
         public void SaveDiskImage()

@@ -1515,6 +1515,7 @@ namespace FloppyControlApp
         public byte[] data { get; set; }
         public int offset { get; set; }
         public int length { get; set; }
+        public StringBuilder tbreceived { get; set; }
 
         public Histogram()
         {
@@ -1586,8 +1587,7 @@ namespace FloppyControlApp
                 }
             }
 
-            scaling = ((float)100 / histogrammaxprev);
-
+            scaling = ((float)100 / histogrammax);
             int temp;
             //Scale the histogram to fit inside 256x100 pixels
             for (i = 0; i < 256; i++)
@@ -2391,7 +2391,7 @@ namespace FloppyControlApp
             {
                 dragging = true;
                 if( rxbufclickindex < rxbuf.Length-1)
-                tbreiceved.Append("Y: "+e.Y+" val: "+processing.rxbuf[rxbufclickindex]+" rxclickindex: "+rxbufclickindex+"\r\n");
+                //tbreiceved.Append("Y: "+e.Y+" val: "+processing.rxbuf[rxbufclickindex]+" rxclickindex: "+rxbufclickindex+"\r\n");
 
                 xrelative = e.X;
                 AnScatViewoffsetOld = AnScatViewoffset;

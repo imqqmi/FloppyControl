@@ -84,6 +84,9 @@ char recvchar = 0;
 char recvbuf;
 char curtrk = 0;
 char microstep = 1;
+char HI = 1;
+char LO = 0;
+
 
 volatile byte* buf;
 unsigned long bufindex;
@@ -199,7 +202,7 @@ void menu(void)
             break;
             case 'r':
                 //txstring("STEP enabled\r\n");
-                digitalWrite( STEP, 1); //STEP = 1;
+                digitalWrite( STEP, HI); //STEP = 1;
             break;                
 //**************************************************************
             case 'a': // Select drive
@@ -220,7 +223,7 @@ void menu(void)
             break;
             case 'f':
                 //txstring("STEP disabled\r\n");
-                digitalWrite( STEP, 0); //STEP = 0;
+                digitalWrite( STEP, LO); //STEP = 0;
             break;
 //***************************************************************            
             case '0': // Seek track 00
@@ -247,9 +250,9 @@ void menu(void)
                 curtrk--;
                 digitalWrite( DIR, 1); //DIR = 1; // decrement
     
-                digitalWrite( STEP, 0); //STEP = 0; // pulse a step, 2us pulses
+                digitalWrite( STEP, LO); //STEP = 0; // pulse a step, 2us pulses
                 delayMicroseconds(6);
-                digitalWrite( STEP, 1); //STEP = 1;
+                digitalWrite( STEP, HI); //STEP = 1;
                 delay(TRACKDELAY); // wait 20ms between pulses
                 //CLRWDT();
             break;
@@ -259,6 +262,14 @@ void menu(void)
                 digitalWrite(LED_BUILTIN, LOW);
                 stop = 1;
 
+            break;
+            case '-': // invert step and dir signal (Step stick)
+                HI = 0;
+                LO = 1;
+            break;
+            case '+': // in inverted step and dir signal (For direct floppy connection)
+                HI = 1;
+                LO = 0;
             break;
             case ',': // Continue capture
                 // stop received
@@ -349,9 +360,9 @@ void seektrk00(void)
         if( !digitalRead(TRK00) ) //If the interrupt triggered, exit the loop
             break;
         
-        digitalWrite( STEP, 0); //STEP = 0; // pulse a step, 10 us pulses
+        digitalWrite( STEP, LO); //STEP = 0; // pulse a step, 10 us pulses
         delayMicroseconds(20);
-        digitalWrite( STEP, 1); //STEP = 1;
+        digitalWrite( STEP, HI); //STEP = 1;
         delay(3); // wait 20ms between pulses
     }
     
@@ -359,22 +370,22 @@ void seektrk00(void)
     digitalWrite( DIR, 0); //DIR = 0;
     for( i=0; i<10; i++)
     {
-        digitalWrite( STEP, 0); //STEP = 0; // pulse a step, 2us pulses
+        digitalWrite( STEP, LO); //STEP = 0; // pulse a step, 2us pulses
         delayMicroseconds(20); 
-        digitalWrite( STEP, 1); //STEP = 1;
+        digitalWrite( STEP, HI); //STEP = 1;
         delay(3); 
     }
 
     // Seek slowly for accuracy
     digitalWrite( DIR, 1); //DIR = 1;
-    for( i=0; i<250; i++)
+    for( i=0; i<20; i++)
     {
         if( !digitalRead(TRK00) ) //If the interrupt triggered, exit the loop
             break;
         
-        digitalWrite( STEP, 0); //STEP = 0; // pulse a step, 10 us pulses
+        digitalWrite( STEP, LO); //STEP = 0; // pulse a step, 10 us pulses
         delayMicroseconds(100);
-        digitalWrite( STEP, 1); //STEP = 1;
+        digitalWrite( STEP, HI); //STEP = 1;
         delay(15); // wait 20ms between pulses
     }
 
@@ -406,9 +417,9 @@ void gototrack(char t)
     for( cnt = 0; cnt <number_of_steps; cnt++)
     {
         
-        digitalWrite( STEP, 0); //STEP = 0; // pulse a step, 2us pulses
+        digitalWrite( STEP, LO); //STEP = 0; // pulse a step, 2us pulses
         delay(1); 
-        digitalWrite( STEP, 1); //STEP = 1;
+        digitalWrite( STEP, HI); //STEP = 1;
         delay(2); 
     }
     
@@ -421,8 +432,8 @@ void inctrack(void)
     digitalWrite( DIR, 0); //DIR = 0;
     // Go to requested track
         
-    digitalWrite( STEP, 0); //STEP = 0; // pulse a step, 2us pulses
+    digitalWrite( STEP, LO); //STEP = 0; // pulse a step, 2us pulses
     delayMicroseconds(6);
-    digitalWrite( STEP, 1); //STEP = 1;
-    delay(TRACKDELAY); // wait 20ms between pulses
+    digitalWrite( STEP, HI); //STEP = 1;
+    delay(3); // wait 3ms between pulses
 }

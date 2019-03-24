@@ -42,6 +42,8 @@ namespace FloppyControlApp
             //uint reltime = 0;
             bool debuginfo = false;
             SHA256 mySHA256 = SHA256Managed.Create();
+            int sectordata2oldcnt = sectordata2.Count;
+
 
             byte[] amigamarkerbytes = AMIGAMARKER;
 
@@ -71,7 +73,17 @@ namespace FloppyControlApp
                     }
                     if (mfms[threadid][i] == 1) // counting 1's matches the number of bytes in rxbuf + start offset
                         rxbufcnt++;
-                    while (rxbuf[rxbufcnt] < 4 && rxbufcnt < indexrxbuf-1) rxbufcnt++;
+
+                    if (rxbufcnt < rxbuf.Length - 1)
+                    {
+                        while (rxbuf[rxbufcnt] < 4)
+                        {
+                            if (rxbufcnt < rxbuf.Length - 1)
+                                rxbufcnt++;
+                        else
+                            break;
+                        }
+                    }
                     for (j = 0; j < amigadsmarkerbytes.Length; j++)
                     {
                         if (mfms[threadid][i + j] == amigadsmarkerbytes[j]) searchcnt++;
@@ -148,6 +160,7 @@ namespace FloppyControlApp
 
                             sectordata.MarkerPositions = i - 32; // start at AAAAAAAA
                             sectordata.rxbufMarkerPositions = rxbufcnt; // start of 44894489 uint32, not at AAAAAAAA
+                            
                             if (!sectordata2.TryAdd(sectordata2.Count, sectordata))
                             {
                                 tbreceived.Append("Failed to add to Sectordata dictionary " + markerpositionscntthread + "\r\n");
@@ -219,7 +232,7 @@ namespace FloppyControlApp
 
             MFMData sectordatathread;
 
-            for (sectorindex = 0; sectorindex < sectordata2.Count; sectorindex++)
+            for (sectorindex = sectordata2oldcnt; sectorindex < sectordata2.Count; sectorindex++)
             {
                 sectordatathread = sectordata2[sectorindex];
 
@@ -622,7 +635,8 @@ namespace FloppyControlApp
             }
             progresses[threadid] = (int)sectordata2.Count;
             ProcessStatus[threadid] = "Done!";
-
+            //progressesstart[threadid] = 0;
+            progressesend[threadid] = (int)sectordata2.Count;
 
             //sectordata[threadid] = sectordatathread;
             //markerpositionscounts[threadid] = markerpositionscntthread;
