@@ -497,7 +497,7 @@ namespace FloppyControlApp
         }
 
         // Do the Amiga sector data processing
-        private void Process2Btn_Click(object sender, EventArgs e)
+        private void ProcessAmigaBtn_Click(object sender, EventArgs e)
         {
             syncControlsBetweenTabs();
             processing.stop = 0;
@@ -719,10 +719,7 @@ namespace FloppyControlApp
         {
             if (processing.indexrxbuf > 0)
             {
-<<<<<<< HEAD
-=======
                 updateAnScatterPlot();
->>>>>>> develop
                 ScatterHisto.DoHistogram();
                 updateSliderLabels();
             }
@@ -1000,7 +997,7 @@ namespace FloppyControlApp
 
         private void FloppyControl_Click(object sender, EventArgs e)
         {
-            AddDataButton.Focus();
+            ScanButton.Focus();
         }
 
         private void StopButton_Click(object sender, EventArgs e)
@@ -1379,13 +1376,6 @@ namespace FloppyControlApp
 
         private void MainTabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
-<<<<<<< HEAD
-            //tbreceived.Append("Tab"+MainTabControl.SelectedTab.Name+" Index: "+MainTabControl.SelectedIndex+"\r\n");
-            if (MainTabControl.SelectedIndex == 2)
-            {
-                //MainTabControl.TabPages[1].Controls.Remove(ThresholdsGroupBox);
-                MainTabControl.TabPages[2].Controls.Add(ThresholdsGroupBox);
-=======
             HandleTabSwitching();
         }
 
@@ -1395,10 +1385,7 @@ namespace FloppyControlApp
             {
                 //MainTabControl.TabPages[1].Controls.Remove(ThresholdsGroupBox);
                 ErrorCorrectionTab.Controls.Add(ThresholdsGroupBox);
->>>>>>> develop
                 ThresholdsGroupBox.Location = new Point(459, 290);
-
-
             }
             if (MainTabControl.SelectedTab == ProcessingTab)
             {
@@ -1426,8 +1413,6 @@ namespace FloppyControlApp
                 updateAnScatterPlot();
             }
         }
-
-        
 
         private void ScatterMinUpDown_ValueChanged(object sender, EventArgs e)
         {
@@ -1828,9 +1813,6 @@ namespace FloppyControlApp
             }
 
             if (processing.indexrxbuf > 0)
-<<<<<<< HEAD
-                if (MainTabControl.SelectedIndex == 1)
-=======
             {
                 if (MainTabControl.SelectedTab == ProcessingTab)
                 {
@@ -1843,7 +1825,6 @@ namespace FloppyControlApp
                     ScatterHisto.DoHistogram(processing.rxbuf, offset, length);
                 }
                 if (MainTabControl.SelectedTab == QuickTab)
->>>>>>> develop
                 {
                     int offset = scatterplot.AnScatViewoffset + scatterplot.AnScatViewlargeoffset;
                     int length = scatterplot.AnScatViewlength;
@@ -2824,7 +2805,7 @@ namespace FloppyControlApp
             }
         }
 
-        private void button36_Click(object sender, EventArgs e)
+        private void Microstep8Btn_Click(object sender, EventArgs e)
         {
             int StepStickMicrostepping = 8;
             int i;
@@ -2838,13 +2819,13 @@ namespace FloppyControlApp
             }
         }
 
-        private void button39_Click(object sender, EventArgs e)
+        private void StepBackBtn_Click(object sender, EventArgs e)
         {
             controlfloppy.serialPort1.Write('g'.ToString()); // increase track number
             Thread.Sleep(controlfloppy.tracktotrackdelay);
         }
 
-        private void button40_Click(object sender, EventArgs e)
+        private void StepForwardBtn_Click(object sender, EventArgs e)
         {
             controlfloppy.serialPort1.Write('t'.ToString()); // increase track number
             Thread.Sleep(controlfloppy.tracktotrackdelay);
@@ -3378,11 +3359,7 @@ namespace FloppyControlApp
             scatterplot.AnScatViewoffset = 0;
             //scatterplot.UpdateScatterPlot();
 
-<<<<<<< HEAD
-            //ScatterHisto.DoHistogram(rxbuf, (int)rxbufStartUpDown.Value, (int)rxbufEndUpDown.Value);
-=======
 
->>>>>>> develop
             if (processing.indexrxbuf > 0)
                 ProcessingTab.Enabled = true;
             if (controlfloppy.capturecommand == 0)
@@ -3741,8 +3718,6 @@ namespace FloppyControlApp
         {
             ECOnRadio.Checked = true;
         }
-<<<<<<< HEAD
-=======
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -3753,7 +3728,6 @@ namespace FloppyControlApp
         {
 
         }
->>>>>>> develop
     } // end class
 } // End namespace
 
