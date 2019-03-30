@@ -17,7 +17,7 @@ namespace FloppyControlApp.MyClasses
         public int length { get; set; }
     }
 
-    class FileIO
+    public class FileIO
     {
         public bool AddData { get; set; }
         public string[] OpenFilesPaths { get; set; }

@@ -20,7 +20,7 @@ namespace FloppyControlApp
     public class ProcSettings : ICloneable
     {
         private int poffset, pmin, pfour, psix, pmax, pstart, pend, ppattern;
-        private int pplatform; // 0 = PC, 1 = Amiga
+        
         private float prateofchange;
         bool pSkipPeriodData, pfinddupes, pUseErrorCorrection, pAddnoise;
         ProcessingType pprocessingtype;
@@ -32,7 +32,7 @@ namespace FloppyControlApp
         public int max { get { return pmax; } set { pmax = value; } }
         public int start { get { return pstart; } set { pstart = value; } }
         public int end { get { return pend; } set { pend = value; } }
-        public int platform { get { return pplatform; } set { pplatform = value; } }
+        public Platform platform { get; set; }
         public int pattern { get { return ppattern; } set { ppattern = value; } }
         public int addnoiselimitstart { get; set; }
         public int addnoiselimitend { get; set; }
@@ -307,7 +307,7 @@ namespace FloppyControlApp
             }
         }
 
-        public void StartProcessing(int platform)
+        public void StartProcessing(Platform platform)
         {
             int threadid = 0, t, i;
             SW.Reset();
@@ -1462,9 +1462,9 @@ namespace FloppyControlApp
             //SW.Restart();
 
             // Continue processing MFM data depending on platform
-            if (procsettings.platform == 0)
+            if (procsettings.platform == Platform.PC)
                 ProcessPCMFM2Sectordata(procsettings, threadid);
-            else if (procsettings.platform == 1)
+            else if (procsettings.platform == Platform.Amiga)
                 ProcessAmigaMFMbytes(procsettings, threadid);
 
             //tbreceived.Append("mfm to sector:"+ SW.ElapsedMilliseconds + "ms\r\n");

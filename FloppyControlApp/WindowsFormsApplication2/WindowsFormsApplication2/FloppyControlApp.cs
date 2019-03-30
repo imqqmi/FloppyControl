@@ -246,16 +246,6 @@ namespace FloppyControlApp
 
             ProcessStatusLabel.BackColor = Color.Transparent;
             HandleTabSwitching();
-            
-            //BSEditByteUpDown.Tag = 0;
-
-            // build gradient for scatter plot
-
-            //int p;
-
-            // 3F 64 8D
-            // 63 100 141
-
         }
 
         private void ScatterPlotShowGraphCallback()
@@ -473,7 +463,8 @@ namespace FloppyControlApp
                 {
                     RateOfChange2UpDown.Focus();
                     Application.DoEvents();
-                    processing.StartProcessing(1);
+                    ProcessAmiga();
+                    //processing.StartProcessing(1);
                 }
                 if (e.KeyCode == Keys.P)
                     ProcessPC();
@@ -525,7 +516,7 @@ namespace FloppyControlApp
             //textBoxReceived.Clear();
             processing.scatterplotstart = scatterplot.AnScatViewlargeoffset + scatterplot.AnScatViewoffset;
             processing.scatterplotend = scatterplot.AnScatViewlargeoffset + scatterplot.AnScatViewoffset + scatterplot.AnScatViewlength;
-            processing.StartProcessing(1);
+            processing.StartProcessing(Platform.Amiga);
         }
 
         private void ProcessPC()
@@ -535,7 +526,7 @@ namespace FloppyControlApp
             //textBoxReceived.Clear();
             processing.scatterplotstart = scatterplot.AnScatViewlargeoffset + scatterplot.AnScatViewoffset;
             processing.scatterplotend = scatterplot.AnScatViewlargeoffset + scatterplot.AnScatViewoffset + scatterplot.AnScatViewlength;
-            processing.StartProcessing(0);
+            processing.StartProcessing(Platform.PC);
             ChangeDiskTypeComboBox.SelectedItem = processing.diskformat.ToString();
         }
 
@@ -1206,9 +1197,9 @@ namespace FloppyControlApp
                         if (processing.stop == 1)
                             break;
                         if (processing.diskformat == DiskFormat.amigados || processing.diskformat == DiskFormat.diskspare)
-                            processing.StartProcessing(1);
+                            processing.StartProcessing(Platform.Amiga);
                         else
-                            processing.StartProcessing(0);
+                            processing.StartProcessing(Platform.PC);
                         this.updateForm();
                     }
                 }
@@ -1577,9 +1568,9 @@ namespace FloppyControlApp
                     break;
                 MinvScrollBar.Value = i;
                 if ((int)processing.diskformat <= 2)
-                    processing.StartProcessing(1);
+                    processing.StartProcessing(Platform.Amiga);
                 else
-                    processing.StartProcessing(0);
+                    processing.StartProcessing(Platform.PC);
                 processing.sectormap.RefreshSectorMap();
                 this.updateForm();
             }
@@ -1591,9 +1582,9 @@ namespace FloppyControlApp
                     break;
                 FourvScrollBar.Value = i;
                 if ((int)processing.diskformat <= 2)
-                    processing.StartProcessing(1);
+                    processing.StartProcessing(Platform.Amiga);
                 else
-                    processing.StartProcessing(0);
+                    processing.StartProcessing(Platform.PC);
                 processing.sectormap.RefreshSectorMap();
                 this.updateForm();
             }
