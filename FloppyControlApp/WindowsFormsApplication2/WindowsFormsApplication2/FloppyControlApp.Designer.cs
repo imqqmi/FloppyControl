@@ -95,7 +95,7 @@
             this.MainTabControl = new System.Windows.Forms.TabControl();
             this.QuickTab = new System.Windows.Forms.TabPage();
             this.QrtbSectorMap = new System.Windows.Forms.RichTextBox();
-            this.groupBox13 = new System.Windows.Forms.GroupBox();
+            this.QProcessingGroupBox = new System.Windows.Forms.GroupBox();
             this.button11 = new System.Windows.Forms.Button();
             this.button15 = new System.Windows.Forms.Button();
             this.groupBox14 = new System.Windows.Forms.GroupBox();
@@ -148,6 +148,7 @@
             this.button12 = new System.Windows.Forms.Button();
             this.button13 = new System.Windows.Forms.Button();
             this.button14 = new System.Windows.Forms.Button();
+            this.QDirectStepCheckBox = new System.Windows.Forms.CheckBox();
             this.QCaptureBtn = new System.Windows.Forms.Button();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
@@ -159,9 +160,12 @@
             this.button27 = new System.Windows.Forms.Button();
             this.button30 = new System.Windows.Forms.Button();
             this.button37 = new System.Windows.Forms.Button();
+            this.QTrackDurationUpDown = new System.Windows.Forms.NumericUpDown();
             this.QStartTrackUpDown = new System.Windows.Forms.NumericUpDown();
             this.QEndTracksUpDown = new System.Windows.Forms.NumericUpDown();
             this.label82 = new System.Windows.Forms.Label();
+            this.QTRK00OffsetUpDown = new System.Windows.Forms.NumericUpDown();
+            this.QMicrostepsPerTrackUpDown = new System.Windows.Forms.NumericUpDown();
             this.label83 = new System.Windows.Forms.Label();
             this.label84 = new System.Windows.Forms.Label();
             this.label85 = new System.Windows.Forms.Label();
@@ -197,6 +201,7 @@
             this.TrackPreset2Button = new System.Windows.Forms.Button();
             this.TrackPreset3Button = new System.Windows.Forms.Button();
             this.TrackPreset1Button = new System.Windows.Forms.Button();
+            this.TrackDurationUpDown = new System.Windows.Forms.NumericUpDown();
             this.StartTrackUpDown = new System.Windows.Forms.NumericUpDown();
             this.EndTracksUpDown = new System.Windows.Forms.NumericUpDown();
             this.label22 = new System.Windows.Forms.Label();
@@ -206,6 +211,7 @@
             this.label36 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
+            this.DirectStepCheckBox = new System.Windows.Forms.CheckBox();
             this.ProcessingTab = new System.Windows.Forms.TabPage();
             this.button5 = new System.Windows.Forms.Button();
             this.ResetBuffersBtn = new System.Windows.Forms.Button();
@@ -241,11 +247,16 @@
             this.LimitToScttrViewcheckBox = new System.Windows.Forms.CheckBox();
             this.AddNoisecheckBox = new System.Windows.Forms.CheckBox();
             this.ThresholdsGroupBox = new System.Windows.Forms.GroupBox();
+            this.MinvScrollBar = new System.Windows.Forms.VScrollBar();
             this.FourLabel = new System.Windows.Forms.Label();
             this.MinLabel = new System.Windows.Forms.Label();
             this.SixLabel = new System.Windows.Forms.Label();
             this.EightLabel = new System.Windows.Forms.Label();
             this.Offsetlabel = new System.Windows.Forms.Label();
+            this.FourvScrollBar = new System.Windows.Forms.VScrollBar();
+            this.SixvScrollBar = new System.Windows.Forms.VScrollBar();
+            this.EightvScrollBar = new System.Windows.Forms.VScrollBar();
+            this.OffsetvScrollBar1 = new System.Windows.Forms.VScrollBar();
             this.POffsetLabel = new System.Windows.Forms.Label();
             this.PFourSixLabel = new System.Windows.Forms.Label();
             this.PMinLabel = new System.Windows.Forms.Label();
@@ -460,6 +471,7 @@
             this.badSectorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.disableTooltipsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.basicModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -469,19 +481,8 @@
             this.ThreadsUpDown = new System.Windows.Forms.NumericUpDown();
             this.label59 = new System.Windows.Forms.Label();
             this.StopButton = new System.Windows.Forms.Button();
-            this.disableTooltipsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.QDirectStepCheckBox = new System.Windows.Forms.CheckBox();
-            this.QTrackDurationUpDown = new System.Windows.Forms.NumericUpDown();
-            this.QTRK00OffsetUpDown = new System.Windows.Forms.NumericUpDown();
-            this.QMicrostepsPerTrackUpDown = new System.Windows.Forms.NumericUpDown();
-            this.DirectStepCheckBox = new System.Windows.Forms.CheckBox();
-            this.TrackDurationUpDown = new System.Windows.Forms.NumericUpDown();
-            this.MinvScrollBar = new System.Windows.Forms.VScrollBar();
-            this.FourvScrollBar = new System.Windows.Forms.VScrollBar();
-            this.SixvScrollBar = new System.Windows.Forms.VScrollBar();
-            this.EightvScrollBar = new System.Windows.Forms.VScrollBar();
-            this.OffsetvScrollBar1 = new System.Windows.Forms.VScrollBar();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.ExploreHereBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.ScatterPlottabPage.SuspendLayout();
@@ -495,7 +496,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.LimitToTrackUpDown)).BeginInit();
             this.MainTabControl.SuspendLayout();
             this.QuickTab.SuspendLayout();
-            this.groupBox13.SuspendLayout();
+            this.QProcessingGroupBox.SuspendLayout();
             this.groupBox14.SuspendLayout();
             this.groupBox15.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.QOffsetUpDown)).BeginInit();
@@ -514,14 +515,18 @@
             this.groupBox12.SuspendLayout();
             this.groupBox10.SuspendLayout();
             this.groupBox11.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.QTrackDurationUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.QStartTrackUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.QEndTracksUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QTRK00OffsetUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QMicrostepsPerTrackUpDown)).BeginInit();
             this.CaptureTab.SuspendLayout();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.rxbufEndUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rxbufStartUpDown)).BeginInit();
             this.groupBox7.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.TrackDurationUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.StartTrackUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.EndTracksUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TRK00OffsetUpDown)).BeginInit();
@@ -598,10 +603,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.TrackUpDown)).BeginInit();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ThreadsUpDown)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.QTrackDurationUpDown)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.QTRK00OffsetUpDown)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.QMicrostepsPerTrackUpDown)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.TrackDurationUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // openFileDialog1
@@ -613,7 +614,7 @@
             this.outputfilename.Location = new System.Drawing.Point(90, 28);
             this.outputfilename.Name = "outputfilename";
             this.outputfilename.Size = new System.Drawing.Size(269, 20);
-            this.outputfilename.TabIndex = 0;
+            this.outputfilename.TabIndex = 1;
             this.outputfilename.Text = "Dump";
             this.toolTip1.SetToolTip(this.outputfilename, "Before capturing, set a name for the folder and files to be generated during capt" +
         "ure and saving/exporting data.");
@@ -1296,8 +1297,9 @@
             // 
             this.QuickTab.BackColor = System.Drawing.SystemColors.Control;
             this.QuickTab.Controls.Add(this.QrtbSectorMap);
-            this.QuickTab.Controls.Add(this.groupBox13);
+            this.QuickTab.Controls.Add(this.QProcessingGroupBox);
             this.QuickTab.Controls.Add(this.groupBox12);
+            this.QuickTab.ImageIndex = 3;
             this.QuickTab.Location = new System.Drawing.Point(4, 23);
             this.QuickTab.Name = "QuickTab";
             this.QuickTab.Padding = new System.Windows.Forms.Padding(3);
@@ -1322,20 +1324,21 @@
             this.QrtbSectorMap.DoubleClick += new System.EventHandler(this.rtbSectorMap_DoubleClick);
             this.QrtbSectorMap.MouseDown += new System.Windows.Forms.MouseEventHandler(this.rtbSectorMap_MouseDown);
             // 
-            // groupBox13
+            // QProcessingGroupBox
             // 
-            this.groupBox13.BackColor = System.Drawing.SystemColors.Control;
-            this.groupBox13.Controls.Add(this.button11);
-            this.groupBox13.Controls.Add(this.button15);
-            this.groupBox13.Controls.Add(this.groupBox14);
-            this.groupBox13.Controls.Add(this.QProcAmigaBtn);
-            this.groupBox13.Controls.Add(this.QProcPCBtn);
-            this.groupBox13.Location = new System.Drawing.Point(6, 138);
-            this.groupBox13.Name = "groupBox13";
-            this.groupBox13.Size = new System.Drawing.Size(933, 234);
-            this.groupBox13.TabIndex = 113;
-            this.groupBox13.TabStop = false;
-            this.groupBox13.Text = "Processing";
+            this.QProcessingGroupBox.BackColor = System.Drawing.SystemColors.Control;
+            this.QProcessingGroupBox.Controls.Add(this.button11);
+            this.QProcessingGroupBox.Controls.Add(this.button15);
+            this.QProcessingGroupBox.Controls.Add(this.groupBox14);
+            this.QProcessingGroupBox.Controls.Add(this.QProcAmigaBtn);
+            this.QProcessingGroupBox.Controls.Add(this.QProcPCBtn);
+            this.QProcessingGroupBox.Enabled = false;
+            this.QProcessingGroupBox.Location = new System.Drawing.Point(6, 138);
+            this.QProcessingGroupBox.Name = "QProcessingGroupBox";
+            this.QProcessingGroupBox.Size = new System.Drawing.Size(933, 234);
+            this.QProcessingGroupBox.TabIndex = 113;
+            this.QProcessingGroupBox.TabStop = false;
+            this.QProcessingGroupBox.Text = "Processing";
             // 
             // button11
             // 
@@ -1779,10 +1782,10 @@
             this.QRateOfChangeUpDown.Size = new System.Drawing.Size(48, 20);
             this.QRateOfChangeUpDown.TabIndex = 105;
             this.QRateOfChangeUpDown.Value = new decimal(new int[] {
-            1,
+            12,
             0,
             0,
-            0});
+            65536});
             this.QRateOfChangeUpDown.ValueChanged += new System.EventHandler(this.QRateOfChangeUpDown_ValueChanged);
             // 
             // QScanComboBox
@@ -2049,6 +2052,20 @@
             this.button14.UseVisualStyleBackColor = true;
             this.button14.Click += new System.EventHandler(this.Microstep8Btn_Click);
             // 
+            // QDirectStepCheckBox
+            // 
+            this.QDirectStepCheckBox.AutoSize = true;
+            this.QDirectStepCheckBox.Checked = global::FloppyControlApp.Properties.Settings.Default.DirectStep;
+            this.QDirectStepCheckBox.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::FloppyControlApp.Properties.Settings.Default, "DirectStep", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.QDirectStepCheckBox.Location = new System.Drawing.Point(614, 97);
+            this.QDirectStepCheckBox.Name = "QDirectStepCheckBox";
+            this.QDirectStepCheckBox.Size = new System.Drawing.Size(76, 17);
+            this.QDirectStepCheckBox.TabIndex = 114;
+            this.QDirectStepCheckBox.Text = "DirectStep";
+            this.toolTip1.SetToolTip(this.QDirectStepCheckBox, "If you don\'t use a step stick, check this box. If you do, clear it.");
+            this.QDirectStepCheckBox.UseVisualStyleBackColor = true;
+            this.QDirectStepCheckBox.CheckedChanged += new System.EventHandler(this.QDirectStepCheckBox_CheckedChanged);
+            // 
             // QCaptureBtn
             // 
             this.QCaptureBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -2179,6 +2196,26 @@
             this.button37.Text = "0-10";
             this.button37.Click += new System.EventHandler(this.TrackPreset1Button_Click_1);
             // 
+            // QTrackDurationUpDown
+            // 
+            this.QTrackDurationUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::FloppyControlApp.Properties.Settings.Default, "TrackDuration", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.QTrackDurationUpDown.Increment = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.QTrackDurationUpDown.Location = new System.Drawing.Point(323, 35);
+            this.QTrackDurationUpDown.Maximum = new decimal(new int[] {
+            2000000,
+            0,
+            0,
+            0});
+            this.QTrackDurationUpDown.Name = "QTrackDurationUpDown";
+            this.QTrackDurationUpDown.Size = new System.Drawing.Size(52, 20);
+            this.QTrackDurationUpDown.TabIndex = 50;
+            this.toolTip1.SetToolTip(this.QTrackDurationUpDown, resources.GetString("QTrackDurationUpDown.ToolTip"));
+            this.QTrackDurationUpDown.Value = global::FloppyControlApp.Properties.Settings.Default.TrackDuration;
+            // 
             // QStartTrackUpDown
             // 
             this.QStartTrackUpDown.Location = new System.Drawing.Point(200, 35);
@@ -2189,7 +2226,7 @@
             0});
             this.QStartTrackUpDown.Name = "QStartTrackUpDown";
             this.QStartTrackUpDown.Size = new System.Drawing.Size(52, 20);
-            this.QStartTrackUpDown.TabIndex = 48;
+            this.QStartTrackUpDown.TabIndex = 0;
             this.toolTip1.SetToolTip(this.QStartTrackUpDown, "Start track to capture.");
             // 
             // QEndTracksUpDown
@@ -2218,6 +2255,33 @@
             this.label82.Size = new System.Drawing.Size(94, 13);
             this.label82.TabIndex = 53;
             this.label82.Text = "Track Duration ms";
+            // 
+            // QTRK00OffsetUpDown
+            // 
+            this.QTRK00OffsetUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::FloppyControlApp.Properties.Settings.Default, "TRK00Offset", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.QTRK00OffsetUpDown.Location = new System.Drawing.Point(102, 34);
+            this.QTRK00OffsetUpDown.Minimum = new decimal(new int[] {
+            100,
+            0,
+            0,
+            -2147483648});
+            this.QTRK00OffsetUpDown.Name = "QTRK00OffsetUpDown";
+            this.QTRK00OffsetUpDown.Size = new System.Drawing.Size(52, 20);
+            this.QTRK00OffsetUpDown.TabIndex = 47;
+            this.toolTip1.SetToolTip(this.QTRK00OffsetUpDown, "Track offset. When seeking TRK00 you can move farther back if you\'re having troub" +
+        "le getting track 0 to capture well. Can be negative.");
+            this.QTRK00OffsetUpDown.Value = global::FloppyControlApp.Properties.Settings.Default.TRK00Offset;
+            // 
+            // QMicrostepsPerTrackUpDown
+            // 
+            this.QMicrostepsPerTrackUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::FloppyControlApp.Properties.Settings.Default, "MicroStepsPerTrack", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.QMicrostepsPerTrackUpDown.Location = new System.Drawing.Point(8, 34);
+            this.QMicrostepsPerTrackUpDown.Name = "QMicrostepsPerTrackUpDown";
+            this.QMicrostepsPerTrackUpDown.Size = new System.Drawing.Size(52, 20);
+            this.QMicrostepsPerTrackUpDown.TabIndex = 46;
+            this.toolTip1.SetToolTip(this.QMicrostepsPerTrackUpDown, "If you use a step stick, anything under 8 microsteps will read between the tracks" +
+        ". For a glued disk, use 2 microsteps for a full recovery.");
+            this.QMicrostepsPerTrackUpDown.Value = global::FloppyControlApp.Properties.Settings.Default.MicroStepsPerTrack;
             // 
             // label83
             // 
@@ -2607,6 +2671,25 @@
             this.TrackPreset1Button.Text = "0-10";
             this.TrackPreset1Button.Click += new System.EventHandler(this.TrackPreset1Button_Click_1);
             // 
+            // TrackDurationUpDown
+            // 
+            this.TrackDurationUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::FloppyControlApp.Properties.Settings.Default, "TrackDuration", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.TrackDurationUpDown.Increment = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.TrackDurationUpDown.Location = new System.Drawing.Point(10, 207);
+            this.TrackDurationUpDown.Maximum = new decimal(new int[] {
+            2000000,
+            0,
+            0,
+            0});
+            this.TrackDurationUpDown.Name = "TrackDurationUpDown";
+            this.TrackDurationUpDown.Size = new System.Drawing.Size(52, 20);
+            this.TrackDurationUpDown.TabIndex = 50;
+            this.TrackDurationUpDown.Value = global::FloppyControlApp.Properties.Settings.Default.TrackDuration;
+            // 
             // StartTrackUpDown
             // 
             this.StartTrackUpDown.Location = new System.Drawing.Point(10, 122);
@@ -2716,6 +2799,20 @@
             this.label20.Size = new System.Drawing.Size(53, 13);
             this.label20.TabIndex = 57;
             this.label20.Text = "End track";
+            // 
+            // DirectStepCheckBox
+            // 
+            this.DirectStepCheckBox.AutoSize = true;
+            this.DirectStepCheckBox.Checked = global::FloppyControlApp.Properties.Settings.Default.DirectStep;
+            this.DirectStepCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.DirectStepCheckBox.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::FloppyControlApp.Properties.Settings.Default, "DirectStep", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.DirectStepCheckBox.Location = new System.Drawing.Point(9, 229);
+            this.DirectStepCheckBox.Name = "DirectStepCheckBox";
+            this.DirectStepCheckBox.Size = new System.Drawing.Size(76, 17);
+            this.DirectStepCheckBox.TabIndex = 91;
+            this.DirectStepCheckBox.Text = "DirectStep";
+            this.DirectStepCheckBox.UseVisualStyleBackColor = true;
+            this.DirectStepCheckBox.CheckedChanged += new System.EventHandler(this.DirectStepCheckBox_CheckedChanged);
             // 
             // ProcessingTab
             // 
@@ -3234,6 +3331,17 @@
             this.ThresholdsGroupBox.TabStop = false;
             this.ThresholdsGroupBox.Text = "Thresholds";
             // 
+            // MinvScrollBar
+            // 
+            this.MinvScrollBar.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::FloppyControlApp.Properties.Settings.Default, "Min", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.MinvScrollBar.Location = new System.Drawing.Point(13, 39);
+            this.MinvScrollBar.Maximum = 264;
+            this.MinvScrollBar.Name = "MinvScrollBar";
+            this.MinvScrollBar.Size = new System.Drawing.Size(15, 184);
+            this.MinvScrollBar.TabIndex = 65;
+            this.MinvScrollBar.Value = global::FloppyControlApp.Properties.Settings.Default.Min;
+            this.MinvScrollBar.ValueChanged += new System.EventHandler(this.FourvScrollBar_ValueChanged);
+            // 
             // FourLabel
             // 
             this.FourLabel.AutoSize = true;
@@ -3278,6 +3386,51 @@
             this.Offsetlabel.Size = new System.Drawing.Size(13, 13);
             this.Offsetlabel.TabIndex = 55;
             this.Offsetlabel.Text = "0";
+            // 
+            // FourvScrollBar
+            // 
+            this.FourvScrollBar.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::FloppyControlApp.Properties.Settings.Default, "FourSix", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.FourvScrollBar.Location = new System.Drawing.Point(45, 39);
+            this.FourvScrollBar.Maximum = 264;
+            this.FourvScrollBar.Name = "FourvScrollBar";
+            this.FourvScrollBar.Size = new System.Drawing.Size(15, 184);
+            this.FourvScrollBar.TabIndex = 66;
+            this.FourvScrollBar.Value = global::FloppyControlApp.Properties.Settings.Default.FourSix;
+            this.FourvScrollBar.ValueChanged += new System.EventHandler(this.FourvScrollBar_ValueChanged);
+            // 
+            // SixvScrollBar
+            // 
+            this.SixvScrollBar.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::FloppyControlApp.Properties.Settings.Default, "SixEight", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.SixvScrollBar.Location = new System.Drawing.Point(79, 39);
+            this.SixvScrollBar.Maximum = 255;
+            this.SixvScrollBar.Name = "SixvScrollBar";
+            this.SixvScrollBar.Size = new System.Drawing.Size(15, 184);
+            this.SixvScrollBar.TabIndex = 67;
+            this.SixvScrollBar.Value = global::FloppyControlApp.Properties.Settings.Default.SixEight;
+            this.SixvScrollBar.ValueChanged += new System.EventHandler(this.FourvScrollBar_ValueChanged);
+            // 
+            // EightvScrollBar
+            // 
+            this.EightvScrollBar.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::FloppyControlApp.Properties.Settings.Default, "Max", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.EightvScrollBar.Location = new System.Drawing.Point(118, 39);
+            this.EightvScrollBar.Maximum = 264;
+            this.EightvScrollBar.Name = "EightvScrollBar";
+            this.EightvScrollBar.Size = new System.Drawing.Size(15, 184);
+            this.EightvScrollBar.TabIndex = 68;
+            this.EightvScrollBar.Value = global::FloppyControlApp.Properties.Settings.Default.Max;
+            this.EightvScrollBar.ValueChanged += new System.EventHandler(this.FourvScrollBar_ValueChanged);
+            // 
+            // OffsetvScrollBar1
+            // 
+            this.OffsetvScrollBar1.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::FloppyControlApp.Properties.Settings.Default, "Offset", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.OffsetvScrollBar1.Location = new System.Drawing.Point(147, 39);
+            this.OffsetvScrollBar1.Maximum = 50;
+            this.OffsetvScrollBar1.Minimum = -50;
+            this.OffsetvScrollBar1.Name = "OffsetvScrollBar1";
+            this.OffsetvScrollBar1.Size = new System.Drawing.Size(15, 184);
+            this.OffsetvScrollBar1.TabIndex = 69;
+            this.OffsetvScrollBar1.Value = global::FloppyControlApp.Properties.Settings.Default.Offset;
+            this.OffsetvScrollBar1.ValueChanged += new System.EventHandler(this.FourvScrollBar_ValueChanged);
             // 
             // POffsetLabel
             // 
@@ -5910,6 +6063,16 @@
             this.settingsToolStripMenuItem.Text = "Settings";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.SettingsButton_Click);
             // 
+            // disableTooltipsToolStripMenuItem
+            // 
+            this.disableTooltipsToolStripMenuItem.Checked = global::FloppyControlApp.Properties.Settings.Default.TooltipDisable;
+            this.disableTooltipsToolStripMenuItem.CheckOnClick = true;
+            this.disableTooltipsToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.disableTooltipsToolStripMenuItem.Name = "disableTooltipsToolStripMenuItem";
+            this.disableTooltipsToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.disableTooltipsToolStripMenuItem.Text = "Enable tooltips";
+            this.disableTooltipsToolStripMenuItem.Click += new System.EventHandler(this.disableTooltipsToolStripMenuItem_Click);
+            // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
@@ -6000,169 +6163,19 @@
             this.StopButton.UseVisualStyleBackColor = false;
             this.StopButton.Click += new System.EventHandler(this.StopButton_Click);
             // 
-            // disableTooltipsToolStripMenuItem
-            // 
-            this.disableTooltipsToolStripMenuItem.Checked = global::FloppyControlApp.Properties.Settings.Default.TooltipDisable;
-            this.disableTooltipsToolStripMenuItem.CheckOnClick = true;
-            this.disableTooltipsToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.disableTooltipsToolStripMenuItem.Name = "disableTooltipsToolStripMenuItem";
-            this.disableTooltipsToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
-            this.disableTooltipsToolStripMenuItem.Text = "Enable tooltips";
-            this.disableTooltipsToolStripMenuItem.Click += new System.EventHandler(this.disableTooltipsToolStripMenuItem_Click);
-            // 
-            // QDirectStepCheckBox
-            // 
-            this.QDirectStepCheckBox.AutoSize = true;
-            this.QDirectStepCheckBox.Checked = global::FloppyControlApp.Properties.Settings.Default.DirectStep;
-            this.QDirectStepCheckBox.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::FloppyControlApp.Properties.Settings.Default, "DirectStep", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.QDirectStepCheckBox.Location = new System.Drawing.Point(614, 97);
-            this.QDirectStepCheckBox.Name = "QDirectStepCheckBox";
-            this.QDirectStepCheckBox.Size = new System.Drawing.Size(76, 17);
-            this.QDirectStepCheckBox.TabIndex = 114;
-            this.QDirectStepCheckBox.Text = "DirectStep";
-            this.toolTip1.SetToolTip(this.QDirectStepCheckBox, "If you don\'t use a step stick, check this box. If you do, clear it.");
-            this.QDirectStepCheckBox.UseVisualStyleBackColor = true;
-            this.QDirectStepCheckBox.CheckedChanged += new System.EventHandler(this.QDirectStepCheckBox_CheckedChanged);
-            // 
-            // QTrackDurationUpDown
-            // 
-            this.QTrackDurationUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::FloppyControlApp.Properties.Settings.Default, "TrackDuration", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.QTrackDurationUpDown.Increment = new decimal(new int[] {
-            100,
-            0,
-            0,
-            0});
-            this.QTrackDurationUpDown.Location = new System.Drawing.Point(323, 35);
-            this.QTrackDurationUpDown.Maximum = new decimal(new int[] {
-            2000000,
-            0,
-            0,
-            0});
-            this.QTrackDurationUpDown.Name = "QTrackDurationUpDown";
-            this.QTrackDurationUpDown.Size = new System.Drawing.Size(52, 20);
-            this.QTrackDurationUpDown.TabIndex = 50;
-            this.toolTip1.SetToolTip(this.QTrackDurationUpDown, resources.GetString("QTrackDurationUpDown.ToolTip"));
-            this.QTrackDurationUpDown.Value = global::FloppyControlApp.Properties.Settings.Default.TrackDuration;
-            // 
-            // QTRK00OffsetUpDown
-            // 
-            this.QTRK00OffsetUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::FloppyControlApp.Properties.Settings.Default, "TRK00Offset", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.QTRK00OffsetUpDown.Location = new System.Drawing.Point(102, 34);
-            this.QTRK00OffsetUpDown.Minimum = new decimal(new int[] {
-            100,
-            0,
-            0,
-            -2147483648});
-            this.QTRK00OffsetUpDown.Name = "QTRK00OffsetUpDown";
-            this.QTRK00OffsetUpDown.Size = new System.Drawing.Size(52, 20);
-            this.QTRK00OffsetUpDown.TabIndex = 47;
-            this.toolTip1.SetToolTip(this.QTRK00OffsetUpDown, "Track offset. When seeking TRK00 you can move farther back if you\'re having troub" +
-        "le getting track 0 to capture well. Can be negative.");
-            this.QTRK00OffsetUpDown.Value = global::FloppyControlApp.Properties.Settings.Default.TRK00Offset;
-            // 
-            // QMicrostepsPerTrackUpDown
-            // 
-            this.QMicrostepsPerTrackUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::FloppyControlApp.Properties.Settings.Default, "MicroStepsPerTrack", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.QMicrostepsPerTrackUpDown.Location = new System.Drawing.Point(8, 34);
-            this.QMicrostepsPerTrackUpDown.Name = "QMicrostepsPerTrackUpDown";
-            this.QMicrostepsPerTrackUpDown.Size = new System.Drawing.Size(52, 20);
-            this.QMicrostepsPerTrackUpDown.TabIndex = 46;
-            this.toolTip1.SetToolTip(this.QMicrostepsPerTrackUpDown, "If you use a step stick, anything under 8 microsteps will read between the tracks" +
-        ". For a glued disk, use 2 microsteps for a full recovery.");
-            this.QMicrostepsPerTrackUpDown.Value = global::FloppyControlApp.Properties.Settings.Default.MicroStepsPerTrack;
-            // 
-            // DirectStepCheckBox
-            // 
-            this.DirectStepCheckBox.AutoSize = true;
-            this.DirectStepCheckBox.Checked = global::FloppyControlApp.Properties.Settings.Default.DirectStep;
-            this.DirectStepCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.DirectStepCheckBox.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::FloppyControlApp.Properties.Settings.Default, "DirectStep", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.DirectStepCheckBox.Location = new System.Drawing.Point(9, 229);
-            this.DirectStepCheckBox.Name = "DirectStepCheckBox";
-            this.DirectStepCheckBox.Size = new System.Drawing.Size(76, 17);
-            this.DirectStepCheckBox.TabIndex = 91;
-            this.DirectStepCheckBox.Text = "DirectStep";
-            this.DirectStepCheckBox.UseVisualStyleBackColor = true;
-            this.DirectStepCheckBox.CheckedChanged += new System.EventHandler(this.DirectStepCheckBox_CheckedChanged);
-            // 
-            // TrackDurationUpDown
-            // 
-            this.TrackDurationUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::FloppyControlApp.Properties.Settings.Default, "TrackDuration", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.TrackDurationUpDown.Increment = new decimal(new int[] {
-            100,
-            0,
-            0,
-            0});
-            this.TrackDurationUpDown.Location = new System.Drawing.Point(10, 207);
-            this.TrackDurationUpDown.Maximum = new decimal(new int[] {
-            2000000,
-            0,
-            0,
-            0});
-            this.TrackDurationUpDown.Name = "TrackDurationUpDown";
-            this.TrackDurationUpDown.Size = new System.Drawing.Size(52, 20);
-            this.TrackDurationUpDown.TabIndex = 50;
-            this.TrackDurationUpDown.Value = global::FloppyControlApp.Properties.Settings.Default.TrackDuration;
-            // 
-            // MinvScrollBar
-            // 
-            this.MinvScrollBar.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::FloppyControlApp.Properties.Settings.Default, "Min", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.MinvScrollBar.Location = new System.Drawing.Point(13, 39);
-            this.MinvScrollBar.Maximum = 264;
-            this.MinvScrollBar.Name = "MinvScrollBar";
-            this.MinvScrollBar.Size = new System.Drawing.Size(15, 184);
-            this.MinvScrollBar.TabIndex = 65;
-            this.MinvScrollBar.Value = global::FloppyControlApp.Properties.Settings.Default.Min;
-            this.MinvScrollBar.ValueChanged += new System.EventHandler(this.FourvScrollBar_ValueChanged);
-            // 
-            // FourvScrollBar
-            // 
-            this.FourvScrollBar.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::FloppyControlApp.Properties.Settings.Default, "FourSix", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.FourvScrollBar.Location = new System.Drawing.Point(45, 39);
-            this.FourvScrollBar.Maximum = 264;
-            this.FourvScrollBar.Name = "FourvScrollBar";
-            this.FourvScrollBar.Size = new System.Drawing.Size(15, 184);
-            this.FourvScrollBar.TabIndex = 66;
-            this.FourvScrollBar.Value = global::FloppyControlApp.Properties.Settings.Default.FourSix;
-            this.FourvScrollBar.ValueChanged += new System.EventHandler(this.FourvScrollBar_ValueChanged);
-            // 
-            // SixvScrollBar
-            // 
-            this.SixvScrollBar.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::FloppyControlApp.Properties.Settings.Default, "SixEight", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.SixvScrollBar.Location = new System.Drawing.Point(79, 39);
-            this.SixvScrollBar.Maximum = 255;
-            this.SixvScrollBar.Name = "SixvScrollBar";
-            this.SixvScrollBar.Size = new System.Drawing.Size(15, 184);
-            this.SixvScrollBar.TabIndex = 67;
-            this.SixvScrollBar.Value = global::FloppyControlApp.Properties.Settings.Default.SixEight;
-            this.SixvScrollBar.ValueChanged += new System.EventHandler(this.FourvScrollBar_ValueChanged);
-            // 
-            // EightvScrollBar
-            // 
-            this.EightvScrollBar.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::FloppyControlApp.Properties.Settings.Default, "Max", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.EightvScrollBar.Location = new System.Drawing.Point(118, 39);
-            this.EightvScrollBar.Maximum = 264;
-            this.EightvScrollBar.Name = "EightvScrollBar";
-            this.EightvScrollBar.Size = new System.Drawing.Size(15, 184);
-            this.EightvScrollBar.TabIndex = 68;
-            this.EightvScrollBar.Value = global::FloppyControlApp.Properties.Settings.Default.Max;
-            this.EightvScrollBar.ValueChanged += new System.EventHandler(this.FourvScrollBar_ValueChanged);
-            // 
-            // OffsetvScrollBar1
-            // 
-            this.OffsetvScrollBar1.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::FloppyControlApp.Properties.Settings.Default, "Offset", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.OffsetvScrollBar1.Location = new System.Drawing.Point(147, 39);
-            this.OffsetvScrollBar1.Maximum = 50;
-            this.OffsetvScrollBar1.Minimum = -50;
-            this.OffsetvScrollBar1.Name = "OffsetvScrollBar1";
-            this.OffsetvScrollBar1.Size = new System.Drawing.Size(15, 184);
-            this.OffsetvScrollBar1.TabIndex = 69;
-            this.OffsetvScrollBar1.Value = global::FloppyControlApp.Properties.Settings.Default.Offset;
-            this.OffsetvScrollBar1.ValueChanged += new System.EventHandler(this.FourvScrollBar_ValueChanged);
-            // 
             // toolTip1
             // 
             this.toolTip1.Active = global::FloppyControlApp.Properties.Settings.Default.TooltipDisable;
+            // 
+            // ExploreHereBtn
+            // 
+            this.ExploreHereBtn.Location = new System.Drawing.Point(365, 28);
+            this.ExploreHereBtn.Name = "ExploreHereBtn";
+            this.ExploreHereBtn.Size = new System.Drawing.Size(76, 23);
+            this.ExploreHereBtn.TabIndex = 174;
+            this.ExploreHereBtn.Text = "Explore here";
+            this.ExploreHereBtn.UseVisualStyleBackColor = true;
+            this.ExploreHereBtn.Click += new System.EventHandler(this.ExploreHereBtn_Click);
             // 
             // FloppyControl
             // 
@@ -6170,6 +6183,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(1619, 910);
+            this.Controls.Add(this.ExploreHereBtn);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.StopButton);
             this.Controls.Add(this.ThreadsUpDown);
@@ -6219,7 +6233,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.LimitToTrackUpDown)).EndInit();
             this.MainTabControl.ResumeLayout(false);
             this.QuickTab.ResumeLayout(false);
-            this.groupBox13.ResumeLayout(false);
+            this.QProcessingGroupBox.ResumeLayout(false);
             this.groupBox14.ResumeLayout(false);
             this.groupBox14.PerformLayout();
             this.groupBox15.ResumeLayout(false);
@@ -6244,8 +6258,11 @@
             this.groupBox10.ResumeLayout(false);
             this.groupBox10.PerformLayout();
             this.groupBox11.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.QTrackDurationUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.QStartTrackUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.QEndTracksUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QTRK00OffsetUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.QMicrostepsPerTrackUpDown)).EndInit();
             this.CaptureTab.ResumeLayout(false);
             this.CaptureTab.PerformLayout();
             this.groupBox4.ResumeLayout(false);
@@ -6255,6 +6272,7 @@
             this.groupBox7.ResumeLayout(false);
             this.groupBox7.PerformLayout();
             this.groupBox1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.TrackDurationUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.StartTrackUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.EndTracksUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TRK00OffsetUpDown)).EndInit();
@@ -6349,10 +6367,6 @@
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ThreadsUpDown)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.QTrackDurationUpDown)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.QTRK00OffsetUpDown)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.QMicrostepsPerTrackUpDown)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.TrackDurationUpDown)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -6707,7 +6721,7 @@
         private System.Windows.Forms.Label label84;
         private System.Windows.Forms.Label label85;
         private System.Windows.Forms.Label label86;
-        private System.Windows.Forms.GroupBox groupBox13;
+        private System.Windows.Forms.GroupBox QProcessingGroupBox;
         private System.Windows.Forms.GroupBox groupBox14;
         private System.Windows.Forms.RadioButton QOnlyBadSectorsRadio;
         private System.Windows.Forms.RadioButton QECOnRadio;
@@ -6806,6 +6820,7 @@
         private System.Windows.Forms.Button button10;
         private System.Windows.Forms.Button button9;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.Button ExploreHereBtn;
     }
 }
 

@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using FloppyControlApp.MyClasses;
 using System.Reflection;
 using FloppyControlApp.Properties;
+using System.Diagnostics;
 
 namespace FloppyControlApp
 {
@@ -246,6 +247,7 @@ namespace FloppyControlApp
 
             ProcessStatusLabel.BackColor = Color.Transparent;
             HandleTabSwitching();
+            this.ActiveControl = QMinUpDown;
         }
 
         private void ScatterPlotShowGraphCallback()
@@ -664,12 +666,16 @@ namespace FloppyControlApp
             }
 
             if (processing.indexrxbuf > 0)
+            {
                 ProcessingTab.Enabled = true;
+                QProcessingGroupBox.Enabled = true;
+            }
 
             if (openFilesDlgUsed == true)
             {
                 openFilesDlgUsed = false;
                 fileio.openfiles();
+                QProcessingGroupBox.Enabled = true;
                 UpdateHistoAndScatterplot();
                 BytesReceivedLabel.Text = String.Format("{0:n0}", processing.indexrxbuf);
                 //createhistogram1();
@@ -773,6 +779,7 @@ namespace FloppyControlApp
         {
             int i;
             ProcessingTab.Enabled = false;
+            QProcessingGroupBox.Enabled = false;
             processing.badsectorhash = null;
             processing.badsectorhash = new byte[5000000][];
 
@@ -2695,6 +2702,14 @@ namespace FloppyControlApp
                 menudata[menudataindex] = new SectorMapContextMenu();
                 menudata[menudataindex].sector = sector;
                 menudata[menudataindex].track = track;
+                menudata[menudataindex].duration = 1000;
+                menudata[menudataindex].cmd = 0;
+                item[menudataindex] = smmenu.Items.Add("Recapture T" + track.ToString("D3") + " 1 sec", MainTabControlImageList.Images[0]);
+                item[menudataindex].Tag = menudata[menudataindex];
+
+                menudata[menudataindex] = new SectorMapContextMenu();
+                menudata[menudataindex].sector = sector;
+                menudata[menudataindex].track = track;
                 menudata[menudataindex].duration = 5000;
                 menudata[menudataindex].cmd = 0;
                 item[menudataindex] = smmenu.Items.Add("Recapture T" + track.ToString("D3") + " 5 sec", MainTabControlImageList.Images[0]);
@@ -2735,6 +2750,15 @@ namespace FloppyControlApp
                 menudata[menudataindex].track = track;
                 menudata[menudataindex].cmd = 3;
                 item[menudataindex] = smmenu.Items.Add("Limit rxdata T" + track.ToString("D3") + " S" + sector, MainTabControlImageList.Images[2]);
+                item[menudataindex].Tag = menudata[menudataindex];
+
+                // Limit processing to Track/Sector
+                menudataindex++;
+                menudata[menudataindex] = new SectorMapContextMenu();
+                menudata[menudataindex].sector = sector;
+                menudata[menudataindex].track = track;
+                menudata[menudataindex].cmd = 4;
+                item[menudataindex] = smmenu.Items.Add("Limit processing T" + track.ToString("D3") + " S" + sector, MainTabControlImageList.Images[2]);
                 item[menudataindex].Tag = menudata[menudataindex];
 
                 Point ShowHere = new Point(Cursor.Position.X, Cursor.Position.Y + 10);
@@ -2781,6 +2805,19 @@ namespace FloppyControlApp
                         break;
                     }
                 }
+            }
+            else if (menudata.cmd == 4)
+            {
+                int i;
+
+                QLimitTSCheckBox.Checked = true;
+                QLimitToTrackUpDown.Value = menudata.track;
+                QLimitToSectorUpDown.Value = menudata.sector;
+
+                LimitTSCheckBox.Checked = true;
+                LimitToTrackUpDown.Value = menudata.track;
+                LimitToSectorUpDown.Value = menudata.sector;
+
             }
         }
 
@@ -3718,6 +3755,11 @@ namespace FloppyControlApp
         private void ECInfoTabs_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void ExploreHereBtn_Click(object sender, EventArgs e)
+        {
+            Process.Start("explorer.exe", fileio.PathToRecoveredDisks+@"\"+fileio.BaseFileName);
         }
     } // end class
 } // End namespace

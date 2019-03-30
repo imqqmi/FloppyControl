@@ -365,6 +365,21 @@ namespace FloppyControlApp
 
                                             int q;
                                             int rxstart = (sectordata2[i].rxbufMarkerPositions - 500);
+                                            if (oldindexrxbuf + 8600 > rxbuf.Length)
+                                            {
+                                                List<byte[]> tempbuffer = new List<byte[]>();
+                                                byte[] addbuffer = new byte[10000000];
+
+                                                tempbuffer.Add(rxbuf);
+                                                tempbuffer.Add(addbuffer);
+                                                rxbuf = tempbuffer.SelectMany(a => a).ToArray();
+
+                                                addbuffer = null;
+                                                tempbuffer.Clear();
+                                                GC.Collect();
+
+                                                tbreceived.Append("Increased buffer by 10MB.\r\n");
+                                            }
                                             for (int x = 0; x < procsettings.NumberOfDups; x++)
                                                 for (q = 0; q < 8500; q++)
                                                     rxbuf[oldindexrxbuf++] = rxbuf[rxstart + q];
