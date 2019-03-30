@@ -2247,7 +2247,7 @@ namespace FloppyControlApp
                 // Show marker positions if available
                 MFMData sectordata;
                 if (sectordata2 != null)
-                    for (i = 0; i < sectordata2.Count; i++)
+                    for (i = processing.sectordata2oldcnt; i < sectordata2.Count; i++)
                     {
                         sectordata = sectordata2[i];
 

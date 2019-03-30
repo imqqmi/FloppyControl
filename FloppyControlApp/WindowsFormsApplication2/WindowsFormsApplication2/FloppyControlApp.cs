@@ -218,10 +218,10 @@ namespace FloppyControlApp
             QProcessingModeComboBox.SelectedItem = ProcessingType.adaptive1.ToString();
 
             ScanComboBox.Items.AddRange(Enum.GetNames(typeof(ScanMode)));
-            ScanComboBox.SelectedItem = ScanMode.AdaptiveRate.ToString();
+            ScanComboBox.SelectedItem = ScanMode.AdaptiveDeep.ToString();
 
             QScanComboBox.Items.AddRange(Enum.GetNames(typeof(ScanMode)));
-            QScanComboBox.SelectedItem = ScanMode.AdaptiveRate.ToString();
+            QScanComboBox.SelectedItem = ScanMode.AdaptiveDeep.ToString();
 
 
             QMinUpDown.Value = MinvScrollBar.Value;
@@ -1797,6 +1797,8 @@ namespace FloppyControlApp
 
         private void updateAnScatterPlot()
         {
+            if (processing.processing == 1)
+                return;
             scatterplot.thresholdmin = MinvScrollBar.Value + OffsetvScrollBar1.Value;
             scatterplot.threshold4us = FourvScrollBar.Value + OffsetvScrollBar1.Value;
             scatterplot.threshold6us = SixvScrollBar.Value + OffsetvScrollBar1.Value;
@@ -3122,6 +3124,7 @@ namespace FloppyControlApp
         {
             int j, l;
             float i, k;
+            processing.processing = 1;
             float adaptrate = (float)RateOfChangeUpDown.Value;
             int FOUR = FourvScrollBar.Value;
             int SIX = SixvScrollBar.Value;
@@ -3149,6 +3152,7 @@ namespace FloppyControlApp
 
             }
             OffsetvScrollBar1.Value = OFFSET;
+            processing.processing = 0;
             //processing.sectormap.RefreshSectorMap();
         }
 

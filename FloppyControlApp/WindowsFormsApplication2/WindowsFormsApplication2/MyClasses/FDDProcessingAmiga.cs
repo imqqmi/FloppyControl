@@ -873,7 +873,7 @@ namespace FloppyControlApp
                         {
                             disk[i + diskoffset] = data[i];
                         }
-                        sectormap.RefreshSectorMap();
+                        //sectormap.RefreshSectorMap();
                         tbreceived.Append("\r\n");
                         Application.DoEvents();
                         //return q;

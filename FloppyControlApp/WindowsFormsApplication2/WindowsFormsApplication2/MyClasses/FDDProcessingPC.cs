@@ -25,6 +25,7 @@ namespace FloppyControlApp
         public int peak3 { get; set; }
         public int GoodSectorHeaderCount { get; set; }
         uint checksum;
+        public int sectordata2oldcnt;
 
         private void ProcessPCMFM2Sectordata(ProcSettings procsettings, int threadid)
         {
@@ -37,7 +38,7 @@ namespace FloppyControlApp
                 byte previousheadnr = 0xff;
                 bool debuginfo = false;
                 int limitstart, limitend;
-                int sectordata2oldcnt = sectordata2.Count;
+                sectordata2oldcnt = sectordata2.Count;
 
                 SHA256 mySHA256 = SHA256Managed.Create();
                 int rxbufcnt, searchcnt, overflow = 0;
@@ -1128,7 +1129,7 @@ namespace FloppyControlApp
                             {
                                 disk[i + diskoffset] = data[i + 4];
                             }
-                            sectormap.RefreshSectorMap();
+                            //sectormap.RefreshSectorMap();
                             tbreceived.Append("\r\n");
                             Application.DoEvents();
                             //return q;
