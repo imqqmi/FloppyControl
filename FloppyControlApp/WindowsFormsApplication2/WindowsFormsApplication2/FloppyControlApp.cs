@@ -466,10 +466,15 @@ namespace FloppyControlApp
                     RateOfChange2UpDown.Focus();
                     Application.DoEvents();
                     ProcessAmiga();
-                    //processing.StartProcessing(1);
+                    processing.sectormap.RefreshSectorMap();
                 }
                 if (e.KeyCode == Keys.P)
+                {
+                    RateOfChange2UpDown.Focus();
+                    Application.DoEvents();
                     ProcessPC();
+                    processing.sectormap.RefreshSectorMap();
+                }
                 if (e.KeyCode == Keys.S)
                     ScanButton.PerformClick();
 
@@ -3102,17 +3107,19 @@ namespace FloppyControlApp
 
         private void button49_Click(object sender, EventArgs e)
         {
-            fileio.SaveTrimmedBadBinFile(
+            
+            fileio.SaveTrimmedBinFile(
                     FourvScrollBar.Value,
                     SixvScrollBar.Value,
                     EightvScrollBar.Value,
-                    ProcessingModeComboBox.SelectedItem.ToString()
+                    ProcessingModeComboBox.SelectedItem.ToString(),
+                    false
                 );
         }
 
         private void SaveTrimmedBadbutton_Click(object sender, EventArgs e)
         {
-            fileio.SaveTrimmedBadBinFile(
+            fileio.SaveTrimmedBinFile(
                     (int)FourvScrollBar.Value,
                     (int)SixvScrollBar.Value,
                     (int)EightvScrollBar.Value,

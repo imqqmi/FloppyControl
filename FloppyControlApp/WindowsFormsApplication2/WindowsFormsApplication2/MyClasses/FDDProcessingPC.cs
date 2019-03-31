@@ -236,7 +236,7 @@ namespace FloppyControlApp
                             if (headercrcchk == 0)
                             {
                                 GoodSectorHeaderCount++;
-                                sectordatathread.mfmMarkerStatus = SectorMapStatus.AmigaCrcOk;
+                                sectordatathread.mfmMarkerStatus = SectorMapStatus.CrcOk;
                                 sectordatathread.sector = sectornr;
                                 sectordatathread.track = track;
                                 sectordatathread.MarkerType = MarkerType.header;
@@ -249,7 +249,7 @@ namespace FloppyControlApp
 
                             if (headercrcchk == 0)
                             {
-                                sectormap.sectorokLatestScan[track, sectornr]++;
+                                sectormap.sectorokLatestScan[track, sectornr] = SectorMapStatus.CrcOk;
                             }
 
 
@@ -415,7 +415,12 @@ namespace FloppyControlApp
                             sectorspertrack = 11;
 
                         //If the checksum is correct and sector and track numbers within range and no sector data has already been captured
-
+                        if (track == 57 && sectornr == 7)
+                        {
+                            int haha = 1;
+                            var sok = sectormap.sectorok[track, sectornr];
+                            int qqqqq = 1;
+                        }
                         if (sectorbuf.Length > 500)
                             if (headercrcchk == 0x00)
                                 if (datacrcchk == 0x00 && sectornr >= 0 && sectornr < 18 && headnr < 3 && tracknr >= 0 && tracknr < 82 && sectormap.sectorok[track, sectornr] != SectorMapStatus.CrcOk)
@@ -456,6 +461,7 @@ namespace FloppyControlApp
 
                                         // Check if there's a duplicate
                                         int isunique = -1;
+                                        if(procsettings.finddupes)
                                         for (i = 0; i < sectordata2.Count; i++)
                                         {
                                             isunique = IndexOfBytes(badsectorhash[i], secthash, 0, 32);
@@ -479,6 +485,8 @@ namespace FloppyControlApp
                                             {
                                                 //int badsectorcnt2 = badsectorcnt;
                                                 //badsectorcnt++;
+
+                                                
                                                 badsectorhash[markerindex] = secthash;
                                                 if (threadid != sectordatathread.threadid)
                                                     tbreceived.Append("threadid mismatch!\r\n");
@@ -490,11 +498,19 @@ namespace FloppyControlApp
                                                 sectordatathread.crc = (int)datacrc;
                                                 sectordatathread.sectorbytes = b;
                                                 sectordatathread.MarkerType = MarkerType.data;
-                                                sectordata2[prevmarkerindex].DataIndex = markerindex;
+                                                if (sectordata2[prevmarkerindex].sector == sectornr && 
+                                                    sectordata2[prevmarkerindex].track == track &&
+                                                    sectordata2[prevmarkerindex].mfmMarkerStatus == SectorMapStatus.CrcOk)
+                                                {
+                                                    sectordata2[prevmarkerindex].DataIndex = markerindex;
+                                                }
                                             }
                                         }
                                     }
-
+                                    if (track == 57 && sectornr == 7)
+                                    {
+                                        int haha = 1;
+                                    }
                                     sectormap.sectorok[track, sectornr] = SectorMapStatus.CrcOk; // Sector is CRC pass
                                                                                                  // T 0 S0 H0 = 0x0000
                                                                                                  // T 1 S0 H0 = 0x2400
@@ -628,7 +644,11 @@ namespace FloppyControlApp
                                                     sectordatathread.crc = (int)datacrc;
                                                     sectordatathread.sectorbytes = b;
                                                     sectordatathread.MarkerType = MarkerType.data;
-                                                    sectordata2[prevmarkerindex].DataIndex = markerindex;
+                                                    if (sectordata2[prevmarkerindex].sector == sectornr &&
+                                                    sectordata2[prevmarkerindex].track == track )
+                                                    {
+                                                        sectordata2[prevmarkerindex].DataIndex = markerindex;
+                                                    }
                                                 }
                                             }
                                             else

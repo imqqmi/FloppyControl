@@ -26,7 +26,7 @@ namespace FloppyControlApp.MyClasses
         public FDDProcessing processing { get; set; }
         public TextBox textBoxFilesLoaded { get; set; }
         public RichTextBox rtbSectorMap { get; set; }
-        public StringBuilder tbreceived { get;set;}
+        public StringBuilder tbreceived { get; set; }
 
         public Action FilesAvailableCallback { get; set; }
         public Action resetinput { get; set; }
@@ -41,7 +41,7 @@ namespace FloppyControlApp.MyClasses
 
         public FileIO()
         {
-            BaseFileName         = (string)Properties.Settings.Default["BaseFileName"];
+            BaseFileName = (string)Properties.Settings.Default["BaseFileName"];
             PathToRecoveredDisks = (string)Properties.Settings.Default["PathToRecoveredDisks"];
             openFileDialog1 = new OpenFileDialog();
             openFileDialog1.Multiselect = true;
@@ -112,7 +112,7 @@ namespace FloppyControlApp.MyClasses
             string path1 = @"";
 
             List<byte[]> tempbuf = new List<byte[]>();
-            
+
             numberOfFiles = OpenFilesPaths.Length;
 
             if (AddData == false) // If open is clicked, replace the current data
@@ -623,130 +623,199 @@ namespace FloppyControlApp.MyClasses
             //ShowDiskFormat();
         }
 
-        public void SaveTrimmedBadBinFile(int four, int six, int eight, string Processingmode)
+        /// <summary>
+        /// Saves the rxbuf data with only good or only bad sectors. Can be saved as a single bin file or separate files per sector (in a sector folder). 
+        /// The separate sectors will overwrite already written data and is for debugging only.
+        /// </summary>
+        /// <param name="four"></param>
+        /// <param name="six"></param>
+        /// <param name="eight"></param>
+        /// <param name="Processingmode"></param>
+        /// <param name="OnlyBadSectors"></param>
+        /// <param name="FilePerSector"></param>
+        public void SaveTrimmedBinFile(int four, int six, int eight, string Processingmode, bool OnlyBadSectors = true, bool FilePerSector = false)
         {
             int i, j;
             string extension = "";
             int ioerror = 0;
-            int qq = 0;
+            
             var sectordata2 = processing.sectordata2;
 
-            // First check if there's sectordata2 data available and that all sectors are ok in sectorok array
-            int sectorspertrack = processing.diskGeometry[processing.diskformat].sectorsPerTrack;
-            int tracksperdisk = processing.diskGeometry[processing.diskformat].tracksPerDisk;
-            int sectorsize = processing.diskGeometry[processing.diskformat].sectorSize;
-            int numberofheads = processing.diskGeometry[processing.diskformat].numberOfHeads;
-
-            //TrackSectorOffset[,] tsoffset = new TrackSectorOffset[200, 20];
-
-
-            int sectorstotal = sectorspertrack * tracksperdisk * numberofheads;
-
-            byte scpformat;
-            //int[] tracklengthrxbuf = new int[200];
-
-            int averagetimecompensation;
-            ProcessingType procmode = ProcessingType.adaptive1;
-            if (Processingmode != "")
-                procmode = (ProcessingType)Enum.Parse(typeof(ProcessingType), Processingmode, true);
-
-            if (procmode == ProcessingType.adaptive1 || procmode == ProcessingType.adaptive2 || procmode == ProcessingType.adaptive3)
-                averagetimecompensation = ((80 - four) + (120 - six) + (160 - eight)) / 3;
-            else
-                averagetimecompensation = 5;
-
-            // FloppyControl app DiskFormat to SCP format
-            byte[] fca2ScpDiskFormat = new byte[] {
-                0, // 0 not used
-                0x04, // 1 AmigaDOS
-                0x04, // 2 DiskSpare
-                0x41, // 3 PC DS DD 
-                0x43, // 4 PC HD
-                0x43, // 5 PC 2M
-                0x40, // 6 PC SS DD
-                0x04, // DiskSpare 984KB
-            };
-
-            scpformat = fca2ScpDiskFormat[(int)processing.diskformat];
-
-            //Checking sectorok data
-            int track = 0, sector = 0;
-            int trackhead = tracksperdisk * numberofheads;
             i = 0;
             int q = 0;
 
             // Write period data to disk in bin format
-            extension = "_trimmedBad.bin";
-            string path = PathToRecoveredDisks + @"\" + BaseFileName + @"\" +BaseFileName + "_" + binfilecount.ToString("D3") + extension;
+            if( OnlyBadSectors == true)
+                extension = "_trimmedbad.bin";
+            else extension = "_trimmed.bin";
+
+            string path = "";
+
+            if (FilePerSector == true)
+            {
+                path = PathToRecoveredDisks + @"\" + BaseFileName + @"\sectors\";
+                bool exists = System.IO.Directory.Exists(path);
+                if (!exists)
+                    System.IO.Directory.CreateDirectory(path);
+            }
+            else
+            {
+                path = PathToRecoveredDisks + @"\" + BaseFileName + @"\" + BaseFileName + "_" + binfilecount.ToString("D3") + extension;
+                bool exists = System.IO.Directory.Exists(path);
+
+                while (File.Exists(path))
+                {
+                    binfilecount++;
+                    path = PathToRecoveredDisks + @"\" + BaseFileName + @"\" + BaseFileName + "_" + binfilecount.ToString("D3") + extension;
+                }
+
+                try
+                {
+                    writer = new BinaryWriter(new FileStream(path, FileMode.Create));
+                }
+                catch (IOException ex)
+                {
+                    tbreceived.Append("IO error: " + ex.ToString());
+                    ioerror = 1;
+                    return;
+                }
+            }
 
             tbreceived.Append("Path:" + path + "\r\n");
 
-            bool exists = System.IO.Directory.Exists(path);
-
-            while (File.Exists(path))
-            {
-                binfilecount++;
-                path = PathToRecoveredDisks + @"\" +BaseFileName + @"\" +BaseFileName + "_" + binfilecount.ToString("D3") + extension;
-            }
-
             //Only save if there's any data to save
 
-            //if (processing.diskformat == 3 || processing.diskformat == 4) //PC 720 KB dd or 1440KB hd
-            //{
-            try
-            {
-                writer = new BinaryWriter(new FileStream(path, FileMode.Create));
-            }
-            catch (IOException ex)
-            {
-                tbreceived.Append("IO error: " + ex.ToString());
-                ioerror = 1;
-            }
             int badsectorcnt = 0;
+            int bytessaved = 0;
             // Save all bad sectors
-
+            int smallercount = 0;
+            int increaseRange = 10;
+            // longer offsets means often noise at the end, header was not found due to noise. If the noise is at the start of the next 
+            // sector data, the adaptive period detector gets confused, missing the header enitrely.
+            // To remedy this, use more of the data before the header.
+            
+            byte[,] sectordone = new byte[255, 25];
             MFMData sectordataheader, sectordata;
             if (processing.procsettings.platform == 0) // PC
             {
                 for (i = 0; i < sectordata2.Count; i++)
                 {
                     sectordataheader = sectordata2[i];
+                    if (sectordataheader.track == 57 && sectordataheader.sector == 7)
+                    {
+                        int aaa = 1;
+                    }
+                    if (sectordataheader.track == 115 && sectordataheader.sector == 3)
+                    {
+                        int aaa = 2;
+                    }
                     if (sectordataheader.MarkerType == MarkerType.header || sectordataheader.MarkerType == MarkerType.headerAndData)
                     {
                         if (sectordataheader.DataIndex != 0)
                             sectordata = sectordata2[sectordataheader.DataIndex];
                         else continue;
-                        if (sectordata.mfmMarkerStatus == SectorMapStatus.HeadOkDataBad)
+
+                        if (!OnlyBadSectors)
                         {
-                            if (processing.sectormap.sectorok[sectordata.track, sectordata.sector] != SectorMapStatus.HeadOkDataBad)
-                                continue; // skip if sector is already good
-                            TrackSectorOffset tso = new TrackSectorOffset();
-                            tso.offsetstart = sectordataheader.rxbufMarkerPositions;
-                            for (q = i + 1; q < sectordata2.Count; q++)
+
+                            if (sectordata.mfmMarkerStatus == SectorMapStatus.CrcOk || sectordata.mfmMarkerStatus == SectorMapStatus.SectorOKButZeroed)
                             {
-                                if (sectordata2[q].mfmMarkerStatus != 0 &&
-                                    (sectordata2[q].MarkerType == MarkerType.header || sectordata2[q].MarkerType == MarkerType.headerAndData))
+                                if (processing.sectormap.sectorok[sectordata.track, sectordata.sector] == SectorMapStatus.CrcOk ||
+                                    processing.sectormap.sectorok[sectordata.track, sectordata.sector] == SectorMapStatus.SectorOKButZeroed)
                                 {
-                                    tso.offsetend = sectordata2[q].rxbufMarkerPositions;
-                                    break;
+                                    if (sectordone[sectordata.track, sectordata.sector] == 1)
+                                        continue; // skip sectors that are done already.
+                                    if (sectordataheader.track == 57 && sectordataheader.sector == 7)
+                                    {
+                                        int aaa = 1;
+                                    }
+                                    TrackSectorOffset tso = new TrackSectorOffset();
+
+                                    tso.offsetstart = sectordataheader.rxbufMarkerPositions;
+
+                                    tso.offsetend = tso.offsetstart + 6000;
+                                    tso.length = tso.offsetend - tso.offsetstart;
+                                    badsectorcnt++;
+                                    tso.offsetstart -= increaseRange;
+                                    tso.offsetend += increaseRange;
+
+                                    //writer.Write("T" + track.ToString("D3") + "S" + sector);
+                                    if (tso.offsetstart < 0) tso.offsetstart = 0;
+
+                                    string path1 = path + BaseFileName+"_T" + sectordata.track.ToString("D3") + "_S" + sectordata.sector.ToString("D2")+extension;
+
+                                    if (FilePerSector == true) // Save 1 file per sector for debugging
+                                    {
+                                        try
+                                        {
+                                            writer = new BinaryWriter(new FileStream(path1, FileMode.Create));
+                                        }
+                                        catch (IOException ex)
+                                        {
+                                            tbreceived.Append("IO error: " + ex.ToString());
+                                            ioerror = 1;
+                                        }
+
+                                        for (q = tso.offsetstart; q < tso.offsetend; q++, bytessaved++)
+                                            writer.Write((byte)(processing.rxbuf[q]));
+                                        //tsoffset[track, sector] = tso;
+                                        sectordone[sectordata.track, sectordata.sector] = 1;
+                                        int len = tso.length;
+                                        writer.Flush();
+                                        writer.Close();
+                                        writer.Dispose();
+                                    }
+                                    else // save 1 bin file for all data.
+                                    {
+                                        for (q = tso.offsetstart; q < tso.offsetend; q++, bytessaved++)
+                                            writer.Write((byte)(processing.rxbuf[q]));
+                                        //tsoffset[track, sector] = tso;
+                                        sectordone[sectordata.track, sectordata.sector] = 1;
+                                        int len = tso.length;
+                                    }
                                 }
                             }
-                            if (tso.offsetend == 0) tso.offsetend = tso.offsetstart + 10000;
-                            tso.length = tso.offsetend - tso.offsetstart;
-                            if (tso.length > 10000)
-                            {
-
-                                tso.offsetend = tso.offsetstart + 10000;
-                                tso.length = tso.offsetend - tso.offsetstart;
-                            }
-                            badsectorcnt++;
-                            //writer.Write("T" + track.ToString("D3") + "S" + sector);
-                            for (q = tso.offsetstart; q < tso.offsetend; q++)
-                                writer.Write((byte)(processing.rxbuf[q]));
-                            //tsoffset[track, sector] = tso;
                         }
+
+                        else
+                        {
+                            if (sectordata.mfmMarkerStatus == SectorMapStatus.HeadOkDataBad)
+                            {
+                                if (processing.sectormap.sectorok[sectordata.track, sectordata.sector] != SectorMapStatus.HeadOkDataBad)
+                                    continue; // skip if sector is already good
+                                TrackSectorOffset tso = new TrackSectorOffset();
+                                tso.offsetstart = sectordataheader.rxbufMarkerPositions;
+                                for (q = i + 1; q < sectordata2.Count; q++)
+                                {
+                                    if (sectordata2[q].mfmMarkerStatus != 0 &&
+                                        (sectordata2[q].MarkerType == MarkerType.header || sectordata2[q].MarkerType == MarkerType.headerAndData))
+                                    {
+                                        tso.offsetend = sectordata2[q].rxbufMarkerPositions;
+                                        break;
+                                    }
+                                }
+                                if (tso.offsetend == 0) tso.offsetend = tso.offsetstart + 10000;
+                                tso.length = tso.offsetend - tso.offsetstart;
+                                if (tso.length < 8000)
+                                {
+
+                                    tso.offsetend = tso.offsetstart + 20000 - tso.length;
+                                    tso.length = tso.offsetend - tso.offsetstart;
+                                }
+                                badsectorcnt++;
+                                //writer.Write("T" + track.ToString("D3") + "S" + sector);
+                                for (q = tso.offsetstart; q < tso.offsetend; q++, bytessaved++)
+                                    writer.Write((byte)(processing.rxbuf[q]));
+                                //tsoffset[track, sector] = tso;
+                            }
+                        }
+
                     }
+
                 }
+
+                sectordone = null;
+                int aaaa = smallercount;
             }
             else // Amiga
             {
@@ -784,12 +853,21 @@ namespace FloppyControlApp.MyClasses
                 }
             }
 
-            tbreceived.Append("Bad sectors: " + badsectorcnt + " Trimmed bin file saved succesfully.\r\n");
+            tbreceived.Append("Sectors: " + badsectorcnt + " Trimmed bin file saved succesfully.\r\n");
             if (writer != null)
             {
-                writer.Flush();
-                writer.Close();
-                writer.Dispose();
+                
+                try
+                {
+                    writer.Flush();
+                    writer.Close();
+                    writer.Dispose();
+                }
+                catch(Exception e)
+                {
+                    tbreceived.Append("File already closed.");
+                }
+                
             }
         }
 
@@ -834,7 +912,7 @@ namespace FloppyControlApp.MyClasses
                             processing.rxbuf[processing.indexrxbuf++] = (byte)((temp[i] << 8 | temp[i + 1]) >> 1);
                             //processing.rxbuf[processing.indexrxbuf++] = (byte)((temp[i] << 8 | temp[i + 1]) - 127);
                         }
-                        
+
                     }
 
                     reader.Close();

@@ -839,10 +839,10 @@ namespace FloppyControlApp
 
                 float val4 = 0, val6 = 0, val8 = 0;
 
-                entropy = new float[indexrxbuf];
-                threshold4 = new float[indexrxbuf];
-                threshold6 = new float[indexrxbuf];
-                threshold8 = new float[indexrxbuf];
+                //entropy = new float[indexrxbuf];
+                //threshold4 = new float[indexrxbuf];
+                //threshold6 = new float[indexrxbuf];
+                //threshold8 = new float[indexrxbuf];
 
                 for (i = start; i < end - lookahead; i++)
                 {
@@ -920,10 +920,10 @@ namespace FloppyControlApp
                         averagetime = _8us;
                     }
                 }
-                entropy = null;
-                threshold4 = null;
-                threshold6 = null;
-                threshold8 = null;
+                //entropy = null;
+                //threshold4 = null;
+                //threshold6 = null;
+                //threshold8 = null;
                 lowpass4 = null;
                 lowpass6 = null;
                 lowpass8 = null;
@@ -1002,11 +1002,22 @@ namespace FloppyControlApp
 
                 int length = rxbuf.Length;
 
-                entropy = new float[length];
-                threshold4 = new float[length];
-                threshold6 = new float[length];
-                threshold8 = new float[length];
-
+                try
+                {
+                    entropy = new float[length];
+                    threshold4 = new float[length];
+                    threshold6 = new float[length];
+                    threshold8 = new float[length];
+                }
+                catch(OutOfMemoryException e)
+                {
+                    tbreceived.Append("Oops, we ran out of memory. Try restarting FloppyControlApp or use a smaller dataset or don't use entropy version of Adaptive.\r\n");
+                    lowpass4 = null;
+                    lowpass6 = null;
+                    lowpass8 = null;
+                    GC.Collect();
+                    return;
+                }
                 for (i = start; i < end - lookahead; i++)
                 {
                     if (i % 250000 == 249999) { progresses[threadid] = i; if (stop == 1) break; }
@@ -1099,10 +1110,10 @@ namespace FloppyControlApp
                     }
                 }
 
-                entropy = null;
-                threshold4 = null;
-                threshold6 = null;
-                threshold8 = null;
+                //entropy = null;
+                //threshold4 = null;
+                //threshold6 = null;
+                //threshold8 = null;
                 lowpass4 = null;
                 lowpass6 = null;
                 lowpass8 = null;

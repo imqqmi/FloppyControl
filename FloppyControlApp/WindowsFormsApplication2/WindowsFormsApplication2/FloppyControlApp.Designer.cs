@@ -1615,8 +1615,6 @@
             // 
             this.QFindDupesCheckBox.AccessibleDescription = "";
             this.QFindDupesCheckBox.AutoSize = true;
-            this.QFindDupesCheckBox.Checked = true;
-            this.QFindDupesCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.QFindDupesCheckBox.Location = new System.Drawing.Point(129, 92);
             this.QFindDupesCheckBox.Name = "QFindDupesCheckBox";
             this.QFindDupesCheckBox.Size = new System.Drawing.Size(83, 17);
@@ -3481,8 +3479,6 @@
             // 
             this.FindDupesCheckBox.AccessibleDescription = "";
             this.FindDupesCheckBox.AutoSize = true;
-            this.FindDupesCheckBox.Checked = true;
-            this.FindDupesCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.FindDupesCheckBox.Location = new System.Drawing.Point(129, 158);
             this.FindDupesCheckBox.Name = "FindDupesCheckBox";
             this.FindDupesCheckBox.Size = new System.Drawing.Size(83, 17);
