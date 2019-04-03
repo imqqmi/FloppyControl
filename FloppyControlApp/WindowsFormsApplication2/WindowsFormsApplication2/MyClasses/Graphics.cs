@@ -2285,7 +2285,11 @@ namespace FloppyControlApp
                                     if (sectordata.mfmMarkerStatus == SectorMapStatus.AmigaCrcOk)
                                         rectf = new RectangleF(posx, 266, 90, 20);
                                     else
-                                        rectf = new RectangleF(posx, 256, 90, 20);
+                                    {
+                                        if(sectordata.MarkerType != MarkerType.data)
+                                            rectf = new RectangleF(posx, 266, 90, 20);
+                                        else rectf = new RectangleF(posx, 256, 90, 20);
+                                    }
                                     g.DrawString(tracksector, new Font("Tahoma", 8), Brushes.Black, rectf);
                                     lockBitmap.LockBits();
                                 }

@@ -306,7 +306,7 @@ namespace FloppyControlApp
                 return;
             }
 
-            tbr.Append("Track " + CurrentTrack);
+            //tbr.Append("Track " + CurrentTrack);
 
             if (directstep == true)
             {
@@ -326,7 +326,7 @@ namespace FloppyControlApp
                 if (((int)CurrentTrack & 1) == 0)
                 {
                     trk00pos -= 2;
-                    tbr.Append(" head 1 -2 " + trk00pos + "\r\n");
+                    //tbr.Append(" head 1 -2 " + trk00pos + "\r\n");
                     serialPort1.Write('j'.ToString()); // Head 0
                     for (int i = 0; i < MicrostepsPerTrack * 2; i++)
                         serialPort1.Write('g'.ToString()); // Next track
@@ -335,7 +335,7 @@ namespace FloppyControlApp
                 {
                     trk00pos += 4;
 
-                    tbr.Append(" head 0 +4 " + trk00pos + "\r\n");
+                    //tbr.Append(" head 0 +4 " + trk00pos + "\r\n");
                     serialPort1.Write('h'.ToString()); // Head 1
                     for (int i = 0; i < MicrostepsPerTrack * 4; i++)
                         serialPort1.Write('t'.ToString()); // Next track

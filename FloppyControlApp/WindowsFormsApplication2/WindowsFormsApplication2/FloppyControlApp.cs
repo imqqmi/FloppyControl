@@ -86,7 +86,7 @@ namespace FloppyControlApp
         private string[] openfilespaths;
         private int disablecatchkey = 0;
         private int binfilecount = 0; // Keep saving each capture under a different filename as to keep all captured data
-        private int capturetime = 0;
+        private float capturetime = 0;
         private int capturing = 0;
         private int selectedBaudRate = 5000000;
         private int graphselect = 0;
@@ -646,8 +646,8 @@ namespace FloppyControlApp
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            if (capturing == 1 || processing.processing == 1)
-                capturetime++;
+            if (controlfloppy.capturecommand == 1 || processing.processing == 1)
+                capturetime += timer1.Interval/1000f;
             // bytes per second
             // and total bytes received
 
@@ -656,7 +656,7 @@ namespace FloppyControlApp
                 bytesReceived += controlfloppy.bytespersecond;
                 BytesReceivedLabel.Text = string.Format("{0:n0}", bytesReceived);
                 BytesPerSecondLabel.Text = string.Format("{0:n0}", controlfloppy.bytespersecond /((double)timer1.Interval/1000.0));
-                CaptureTimeLabel.Text = capturetime.ToString();
+                CaptureTimeLabel.Text = ((int)capturetime).ToString();
                 controlfloppy.bytespersecond = 0;
                 BufferSizeLabel.Text = string.Format("{0:n0}", processing.indexrxbuf);
 
@@ -3472,10 +3472,10 @@ namespace FloppyControlApp
 
         private void DirectPresetBtn_Click(object sender, EventArgs e)
         {
-            TRK00OffsetUpDown.Value = -1;
+            TRK00OffsetUpDown.Value = 0;
             MicrostepsPerTrackUpDown.Value = 1;
 
-            QTRK00OffsetUpDown.Value = -1;
+            QTRK00OffsetUpDown.Value = 0;
             QMicrostepsPerTrackUpDown.Value = 1;
 
             DirectStepCheckBox.Checked = true;
@@ -3486,7 +3486,7 @@ namespace FloppyControlApp
 
             Properties.Settings.Default["StepStickMicrostepping"] = (decimal)1;
             Properties.Settings.Default["MicroStepsPerTrack"] = (decimal)1;
-            Properties.Settings.Default["TRK00Offset"] = (decimal)-1;
+            Properties.Settings.Default["TRK00Offset"] = (decimal) 0;
             Properties.Settings.Default["DirectStep"] = true;
             Properties.Settings.Default.Save();
         }
@@ -3596,11 +3596,12 @@ namespace FloppyControlApp
 
         private void QDirectStepCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            DirectStepCheckBox.Checked = QDirectStepCheckBox.Checked;
+            //DirectStepCheckBox.Checked = QDirectStepCheckBox.Checked;
 
-            Properties.Settings.Default["DirectStep"] = DirectStepCheckBox.Checked;
-            Properties.Settings.Default.Save();
+            //Properties.Settings.Default["DirectStep"] = DirectStepCheckBox.Checked;
+            //Properties.Settings.Default.Save();
             controlfloppy.DirectStep = DirectStepCheckBox.Checked;
+
         }
 
         private void setThresholdLabels(ProcessingType type)
