@@ -163,7 +163,10 @@ namespace arduino_due
         
         volatile byte* get_buf() 
         { return _ctx_.get_buf(); }
-         
+
+        void add_Index()
+        { _ctx_.add_Index(); }
+
         void get_bufready( volatile bool &is_buf1ready, volatile bool &is_buf2ready)
         {
            _ctx_.get_bufready( is_buf1ready, is_buf2ready);
@@ -241,6 +244,10 @@ namespace arduino_due
           timer::enable_interrupts(); 
         }
 
+
+        
+
+        
       private:
 
         using timer = tc_core<TIMER>;
@@ -316,6 +323,20 @@ namespace arduino_due
             if(is_stopped(the_status) && do_restart) restart();
 
             return the_status; 
+          }
+          
+          void add_Index()
+          {
+            buf[bufindex++] = 1; // Index signal detected, insert into stream
+            if( bufindex == TX_BUF_SIZE)
+            {
+               buf1ready = true;
+            }
+            if( bufindex == TX_BUF_SIZE << 1 )
+            {
+               bufindex = 0;
+               buf2ready = true;
+            }
           }
           
           volatile byte* get_buf()
@@ -427,6 +448,8 @@ namespace arduino_due
             }
           }
 
+          
+          
           void rc_matched() { ra=duty=period=0; }
               
           // capture values

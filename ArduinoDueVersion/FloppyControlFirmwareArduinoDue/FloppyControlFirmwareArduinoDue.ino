@@ -89,13 +89,13 @@ char LO = 0;
 
 
 volatile byte* buf;
-unsigned long bufindex;
 volatile bool buf1ready;
 volatile bool buf2ready;
 volatile char stop = 1;
+volatile int indextriggered = 0;
 
 void setup() {
-  bufindex = 0;
+  //bufindex = 0;
   buf1ready = false;
   buf1ready = false;
   pinMode( LED_BUILTIN, OUTPUT);
@@ -144,6 +144,8 @@ void setup() {
   SerialUSB.begin(0);
   while (!SerialUSB);
   SerialUSB.setTimeout(100);
+  
+  attachInterrupt(digitalPinToInterrupt(INDEX), indexSignalISR, FALLING );
 }
 
 void loop() {
@@ -164,7 +166,7 @@ void loop() {
       capture_pin2.reset_buf2ready();
     }
   }
-
+  
   // Read from serial port
   rxLength = SerialUSB.available();
   if( rxLength > 0 )
@@ -304,6 +306,13 @@ void menu(void)
                 break;
         }
     }
+}
+
+void indexSignalISR()
+{
+  //if( stop == 1) return;
+  capture_pin2.add_Index();
+  
 }
 
 // Set microstepping depending on the user chonsen microstep

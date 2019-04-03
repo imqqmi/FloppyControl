@@ -208,7 +208,7 @@ namespace FloppyControlApp
                 //CurrentTrack = (int)StartTrack * MicrostepsPerTrack / StepStickMicrostepping;
                 trk00pos = GotoTrack((int)CurrentTrack);
                 trk00pos = 8;
-                serialPort1.Write(','.ToString()); // TRK00
+                serialPort1.Write(','.ToString()); // Start capture
 
                 capturecommand = 1;
 
@@ -251,26 +251,47 @@ namespace FloppyControlApp
             serialPort1.Write('0'.ToString()); // TRK00
             Thread.Sleep(1500);
 
-
-            if ((t & 1) == 0)
+            if (directstep == true)
             {
-                t -= 2;
-                serialPort1.Write('h'.ToString()); // Head 1
+                if((t & 1) == 0)
+                {
+                    serialPort1.Write('h'.ToString()); // Head 0
+
+                }
+                else
+                {
+                    serialPort1.Write('j'.ToString()); // Head 1
+                }
+
+                int tabs = Math.Abs(t/2);
+
+                for (int i = 0; i < tabs; i++)
+                {
+                    serialPort1.Write('t'.ToString()); // previous track
+                }
             }
             else
             {
-                t -= 5;
-                serialPort1.Write('j'.ToString()); // Head 1
-            }
+                if((t & 1) == 0)
+                {
+                    t -= 2;
+                    serialPort1.Write('h'.ToString()); // Head 1
+                }
+                else
+                {
+                    t -= 5;
+                    serialPort1.Write('j'.ToString()); // Head 1
+                }
 
-            int tabs = Math.Abs(t);
+                int tabs = Math.Abs(t);
 
-            for (int i = 0; i < tabs; i++)
-            {
-                if (t < 0)
-                    serialPort1.Write('g'.ToString()); // previous track
-                if (t > 0)
-                    serialPort1.Write('t'.ToString()); // previous track
+                for (int i = 0; i < tabs; i++)
+                {
+                    if (t < 0)
+                        serialPort1.Write('g'.ToString()); // previous track
+                    if (t > 0)
+                        serialPort1.Write('t'.ToString()); // previous track
+                }
             }
             //Thread.Sleep(TrackDuration);
             return t;
@@ -287,22 +308,38 @@ namespace FloppyControlApp
 
             tbr.Append("Track " + CurrentTrack);
 
-            if (((int)CurrentTrack & 1) == 0)
+            if (directstep == true)
             {
-                trk00pos -= 2;
-                tbr.Append(" head 1 -2 " + trk00pos + "\r\n");
-                serialPort1.Write('j'.ToString()); // Head 1
-                for (int i = 0; i < MicrostepsPerTrack * 2; i++)
-                    serialPort1.Write('g'.ToString()); // Next track
+                if (((int)CurrentTrack & 1) == 0)
+                {
+                    serialPort1.Write('j'.ToString()); // Head 0
+                    
+                }
+                else
+                {
+                    serialPort1.Write('h'.ToString()); // Head 1
+                    serialPort1.Write('t'.ToString()); // Next track
+                }
             }
             else
             {
-                trk00pos += 4;
+                if (((int)CurrentTrack & 1) == 0)
+                {
+                    trk00pos -= 2;
+                    tbr.Append(" head 1 -2 " + trk00pos + "\r\n");
+                    serialPort1.Write('j'.ToString()); // Head 0
+                    for (int i = 0; i < MicrostepsPerTrack * 2; i++)
+                        serialPort1.Write('g'.ToString()); // Next track
+                }
+                else
+                {
+                    trk00pos += 4;
 
-                tbr.Append(" head 0 +4 " + trk00pos + "\r\n");
-                serialPort1.Write('h'.ToString()); // Head 1
-                for (int i = 0; i < MicrostepsPerTrack * 4; i++)
-                    serialPort1.Write('t'.ToString()); // Next track
+                    tbr.Append(" head 0 +4 " + trk00pos + "\r\n");
+                    serialPort1.Write('h'.ToString()); // Head 1
+                    for (int i = 0; i < MicrostepsPerTrack * 4; i++)
+                        serialPort1.Write('t'.ToString()); // Next track
+                }
             }
             CurrentTrack += ((double)MicrostepsPerTrack / (double)StepStickMicrostepping);
         }
@@ -354,6 +391,8 @@ namespace FloppyControlApp
             //capturing = 0; // Indicate seconds counter to stop
             // Add double the captured buffer if user is going to use only bad sector option
             //int actualindexrxbuf = processing.indexrxbuf;
+            if (processing.indexrxbuf <= 0) return;
+
             byte[] extra = new byte[processing.indexrxbuf]; 
             tempbuffer.Add(extra);
             processing.rxbuf = tempbuffer.SelectMany(a => a).ToArray();
