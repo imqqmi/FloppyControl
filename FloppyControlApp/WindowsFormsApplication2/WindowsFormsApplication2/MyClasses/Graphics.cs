@@ -2398,6 +2398,7 @@ namespace FloppyControlApp
                 //tbreiceved.Append("Y: "+e.Y+" val: "+processing.rxbuf[rxbufclickindex]+" rxclickindex: "+rxbufclickindex+"\r\n");
 
                 xrelative = e.X;
+                tbreiceved.Append("xrelative:"+xrelative+"\r\n");
                 AnScatViewoffsetOld = AnScatViewoffset;
                 AnScatViewlargeoffsetold = AnScatViewlargeoffset;
             }
@@ -2417,11 +2418,9 @@ namespace FloppyControlApp
         private void PictureBox_MouseMove(object sender, MouseEventArgs e)
         {
             rxbufclickindex = ViewToGraphIndex(e.X);
+            
             if (e.Button == MouseButtons.Left)
             {
-                //int offset;
-
-                
                 DoDragging(sender,  e);
             }
         }
@@ -2439,6 +2438,7 @@ namespace FloppyControlApp
             if( EditScatterplot  == true && AnScatViewlength <= 10)
             {
                 int xoffset = (int)(panel.Width / AnScatViewlength)/2;
+                
                 rxbufclickindex = ViewToGraphIndex(e.X+xoffset);
                 processing.rxbuf[rxbufclickindex] = (byte)e.Y;
                 //tbreiceved.Append("Y: " + e.Y + " val: " + processing.rxbuf[rxbufclickindex] + " rxclickindex: " + rxbufclickindex + "\r\n");
@@ -2453,27 +2453,19 @@ namespace FloppyControlApp
 
                 AnScatViewoffset = AnScatViewoffsetOld + offset;
 
-                if (AnScatViewoffset + offset < 0)
-                {
-                    AnScatViewlargeoffset = AnScatViewlargeoffsetold + offset;
-                    if (AnScatViewlargeoffset < 0)
-                        AnScatViewlargeoffset = 0;
-                    offset = 0;
-                    AnScatViewoffset = 0;
-                }
-
                 if (AnScatViewoffset + AnScatViewlength + offset > maxdots - 1)
                 {
                     AnScatViewlargeoffset = AnScatViewlargeoffsetold + offset;
                     if (AnScatViewlargeoffset + AnScatViewlength > processing.rxbuf.Length - 1)
                         AnScatViewlargeoffset = processing.rxbuf.Length - 1;
-                    offset = 0;
+                    //offset = 0;
                     AnScatViewoffset = (maxdots - 1) - AnScatViewlength;
                 }
-
+                
                 bmpxoffset = 0;
                 start = AnScatViewoffset;
                 end = start + AnScatViewlength;
+                
                 UpdateScatterPlot();
             }
         }
