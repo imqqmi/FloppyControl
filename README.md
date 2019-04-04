@@ -17,7 +17,9 @@ This is the first commit of the project. I will call it version 1.0. It's capabl
 
 ## Hardware
 The first version I made was based on a PIC16F1938 overclocked at 80MHz. An USB2RS232 donlge with a PL2303 chip was used at 5mbit/s.
-The second (current) version uses a standard Arduino Due. I'm in the process of designing a shield for it. The native usb is used which eliminates the USB2RS232 dongle and makes things a lot more stable.
+The second (current) version uses a standard Arduino Due. I've designed a shield for it so it can easily be built. The native usb is used which eliminates the USB2RS232 dongle and makes things a lot more stable.
+
+![Arduino Due shield pcb](/ArduinoDueVersion/Pix/IMG_20190311_211409088a.jpg)
 
 ## Software
 The real magic happens in the software that converts the flux transitions (or periods) into MFM, then into data and finally into sectors and disk images.
