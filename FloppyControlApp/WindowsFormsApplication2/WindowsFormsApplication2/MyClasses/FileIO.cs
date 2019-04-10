@@ -635,14 +635,14 @@ namespace FloppyControlApp.MyClasses
         /// <param name="FilePerSector"></param>
         public void SaveTrimmedBinFile(int four, int six, int eight, string Processingmode, bool OnlyBadSectors = true, bool FilePerSector = false)
         {
-            int i, j;
+            int i;
             string extension = "";
-            int ioerror = 0;
+            int ioerror;
             
             var sectordata2 = processing.sectordata2;
 
-            i = 0;
-            int q = 0;
+            
+            int q;
 
             // Write period data to disk in bin format
             if( OnlyBadSectors == true)
@@ -701,14 +701,14 @@ namespace FloppyControlApp.MyClasses
                 for (i = 0; i < sectordata2.Count; i++)
                 {
                     sectordataheader = sectordata2[i];
-                    if (sectordataheader.track == 57 && sectordataheader.sector == 7)
-                    {
-                        int aaa = 1;
-                    }
-                    if (sectordataheader.track == 115 && sectordataheader.sector == 3)
-                    {
-                        int aaa = 2;
-                    }
+                    //if (sectordataheader.track == 57 && sectordataheader.sector == 7)
+                    //{
+                    //    int aaa = 1;
+                    //}
+                    //if (sectordataheader.track == 115 && sectordataheader.sector == 3)
+                    //{
+                    //    int aaa = 2;
+                    //}
                     if (sectordataheader.MarkerType == MarkerType.header || sectordataheader.MarkerType == MarkerType.headerAndData)
                     {
                         if (sectordataheader.DataIndex != 0)
@@ -725,10 +725,10 @@ namespace FloppyControlApp.MyClasses
                                 {
                                     if (sectordone[sectordata.track, sectordata.sector] == 1)
                                         continue; // skip sectors that are done already.
-                                    if (sectordataheader.track == 57 && sectordataheader.sector == 7)
-                                    {
-                                        int aaa = 1;
-                                    }
+                                    //if (sectordataheader.track == 57 && sectordataheader.sector == 7)
+                                    //{
+                                    //    int aaa = 1;
+                                    //}
                                     TrackSectorOffset tso = new TrackSectorOffset();
 
                                     tso.offsetstart = sectordataheader.rxbufMarkerPositions;
@@ -863,7 +863,7 @@ namespace FloppyControlApp.MyClasses
                     writer.Close();
                     writer.Dispose();
                 }
-                catch(Exception e)
+                catch(Exception)
                 {
                     tbreceived.Append("File already closed.");
                 }
@@ -923,10 +923,10 @@ namespace FloppyControlApp.MyClasses
 
         public void SaveSCP(int four, int six, int eight, string Processingmode)
         {
-            int i, j;
+            int i;
             string extension = "";
             int ioerror = 0;
-            int qq = 0;
+            
             var sectordata2 = processing.sectordata2;
 
             // First check if there's sectordata2 data available and that all sectors are ok in sectorok array
@@ -1016,9 +1016,8 @@ namespace FloppyControlApp.MyClasses
                 return;
             }
 
-            int offset = 0;
-            i = 0;
-            int q = 0;
+            
+            int q;
 
             MFMData sectordataheader;
             MFMData sectordata;
@@ -1213,7 +1212,7 @@ namespace FloppyControlApp.MyClasses
                     writer.Write((UInt32)((offsettable[track]) + headeroffset));
                 }
 
-                qq = 0;
+                //int qq;
                 for (track = 0; track < trackhead; track++)
                 {
 
@@ -1240,8 +1239,8 @@ namespace FloppyControlApp.MyClasses
                             if (val < 4 + averagetimecompensation) continue;
                             b1 = (byte)((val >> 7) & 1);
                             b2 = (byte)(val << 1);
-                            if (b2 == 0x1a)
-                                qq = 2;
+                            //if (b2 == 0x1a)
+                            //    qq = 2;
                             writer.Write((byte)b1);
                             writer.Write((byte)b2);
                         }

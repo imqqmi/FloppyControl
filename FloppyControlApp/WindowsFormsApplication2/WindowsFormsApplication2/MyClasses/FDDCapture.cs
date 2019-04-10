@@ -21,17 +21,14 @@ namespace FloppyControlApp
 
     public class MFMData
     {
-        private int pMarkerPositions, prxbufMarkerPositions, pmfmMarkerStatus, ptrack, psector;
-        private int pthreadid, pcrc, psectorlength;
-
-        public int crc { get { return pcrc; } set { pcrc = value; } }
-        public int threadid { get { return pthreadid; } set { pthreadid = value; } }
-        public int MarkerPositions { get { return pMarkerPositions; } set { pMarkerPositions = value; } }
-        public int rxbufMarkerPositions { get { return prxbufMarkerPositions; } set { prxbufMarkerPositions = value; } }
+        public int crc { get; set; }
+        public int threadid { get; set; }
+        public int MarkerPositions { get; set; }
+        public int rxbufMarkerPositions { get; set; }
         public SectorMapStatus mfmMarkerStatus { get; set; }
-        public int track { get { return ptrack; } set { ptrack = value; } }
-        public int sector { get { return psector; } set { psector = value; } }
-        public int sectorlength { get { return psectorlength; } set { psectorlength = value; } }
+        public int track { get; set; }
+        public int sector { get; set; }
+        public int sectorlength { get; set; }
         public int DataIndex { get; set; }
         public byte[] sectorbytes { get; set; }
         public MarkerType MarkerType { get; set; }
@@ -43,8 +40,6 @@ namespace FloppyControlApp
     {
         public SerialPort serialPort1 = new SerialPort();
         public FDDProcessing processing { get; set; }
-        //int capturetime = 0;
-        //int capturing = 0;
         public double CurrentTrack = 0;
         int trk00pos = 0;
         public List<byte[]> tempbuffer = new List<byte[]>();
@@ -52,7 +47,7 @@ namespace FloppyControlApp
         public int tracktotrackdelay = 8;                 // delay in ms
         public int currenttrack { get; set; }
         //public int currenttrackPrintable { get; set; }
-        int stepspertrack = 2;                                  // Number of full steps per track. If DirectStep == true, stepspertrack = 1 else = 2
+        
         public int StepStickMicrostepping { get; set; }         // number of microsteps of the stepstick
         public int MicrostepsPerTrack { get; set; }             // number of microsteps per track (2x microstep = 1 full track)
         public int gototrackdone { get; set; }
@@ -81,17 +76,7 @@ namespace FloppyControlApp
         public Action Setrxbufcontrol { get; set; }
         System.Diagnostics.Stopwatch SW = new System.Diagnostics.Stopwatch();
 
-        private bool directstep;
-        public bool DirectStep
-        {
-            get { return directstep; }
-            set
-            {
-                directstep = value;
-                if (value == true) stepspertrack = 1;
-                else stepspertrack = 2;
-            }
-        } // If true there's no stepstick, /STEP signal directly connected to FDD, a full track is 1x step pulse)
+        public bool DirectStep { get; set; } // If true there's no stepstick, /STEP signal directly connected to FDD, a full track is 1x step pulse)
 
         int selectedBaudRate = 0;
         string selectedPortName = "";
@@ -120,7 +105,7 @@ namespace FloppyControlApp
             StepStickMicrostepping = Decimal.ToInt32((decimal)FloppyControlApp.Properties.Settings.Default["MicroStepsPerTrack"]);
             serialPort1.BaudRate = selectedBaudRate;
             serialPort1.NewLine = "\r\n";
-            serialPort1.ReceivedBytesThreshold = 500000;
+            serialPort1.ReceivedBytesThreshold = 250000;
             serialPort1.ReadBufferSize = 1048576;
             serialPort1.DtrEnable = true;
             if (selectedPortName.Length != 0)
@@ -129,7 +114,7 @@ namespace FloppyControlApp
             StartTrack = 0;
             EndTrack = 0;
             EndTrackMicrosteps = 0;
-            timerDataCapture.Interval = 10;
+            timerDataCapture.Interval = 5;
             timerDataCapture.Tick += timerDataCapture_Tick; // Add handler
             timerTrackToTrack.Interval = 200;
             timerTrackToTrack.Tick += timerTrackToTrack_Tick; // Add handler
@@ -251,7 +236,7 @@ namespace FloppyControlApp
             serialPort1.Write('0'.ToString()); // TRK00
             Thread.Sleep(1500);
 
-            if (directstep == true)
+            if (DirectStep == true)
             {
                 if((t & 1) == 0)
                 {
@@ -308,7 +293,7 @@ namespace FloppyControlApp
 
             //tbr.Append("Track " + CurrentTrack);
 
-            if (directstep == true)
+            if (DirectStep == true)
             {
                 if (((int)CurrentTrack & 1) == 0)
                 {
@@ -745,7 +730,7 @@ namespace FloppyControlApp
                 data = client.ReadByteArray();
                 receivedlength = data.Length;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 receivedlength = 0;
             }

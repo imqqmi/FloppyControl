@@ -817,7 +817,7 @@ namespace FloppyControlApp
                     lowpass6 = new float[lowpassradius];
                     lowpass8 = new float[lowpassradius];
                 }
-                catch(OutOfMemoryException e)
+                catch(OutOfMemoryException)
                 {
                     tbreceived.Append("Oops, we ran out of memory. Try restarting FloppyControlApp or use a smaller dataset.\r\n");
                     lowpass4 = null;
@@ -978,7 +978,7 @@ namespace FloppyControlApp
                     lowpass6 = new float[lowpassradius];
                     lowpass8 = new float[lowpassradius];
                 }
-                catch (OutOfMemoryException e)
+                catch (OutOfMemoryException)
                 {
                     tbreceived.Append("Oops, we ran out of memory. Try restarting FloppyControlApp or use a smaller dataset.\r\n");
                     lowpass4 = null;
@@ -1009,7 +1009,7 @@ namespace FloppyControlApp
                     threshold6 = new float[length];
                     threshold8 = new float[length];
                 }
-                catch(OutOfMemoryException e)
+                catch(OutOfMemoryException)
                 {
                     tbreceived.Append("Oops, we ran out of memory. Try restarting FloppyControlApp or use a smaller dataset or don't use entropy version of Adaptive.\r\n");
                     lowpass4 = null;
@@ -1167,7 +1167,7 @@ namespace FloppyControlApp
                     lowpass6 = new float[lowpassradius];
                     lowpass8 = new float[lowpassradius];
                 }
-                catch (OutOfMemoryException e)
+                catch (OutOfMemoryException)
                 {
                     tbreceived.Append("Oops, we ran out of memory. Try restarting FloppyControlApp or use a smaller dataset.\r\n");
                     lowpass4 = null;

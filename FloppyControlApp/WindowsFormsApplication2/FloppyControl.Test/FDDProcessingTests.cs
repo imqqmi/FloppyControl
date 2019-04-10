@@ -43,7 +43,7 @@ namespace FloppyControl.Test
 
             fileio.openfiles();
 
-            ProcessingType procmode = ProcessingType.adaptive1;
+            
             processing.procsettings.NumberOfDups = 1;
             processing.procsettings.pattern = 0;
             //tbreceived.Append("Combobox:" + PeriodBeyond8uscomboBox.SelectedIndex + "\r\n");
@@ -131,8 +131,7 @@ namespace FloppyControl.Test
             fileio.OpenFilesPaths = file;
 
             fileio.openfiles();
-
-            ProcessingType procmode = ProcessingType.adaptive1;
+            
             processing.procsettings.NumberOfDups = 1;
             processing.procsettings.pattern = 0;
             //tbreceived.Append("Combobox:" + PeriodBeyond8uscomboBox.SelectedIndex + "\r\n");
