@@ -67,10 +67,10 @@ namespace FloppyControlApp
         private FDDProcessing processing;
         private ControlFloppy controlfloppy;
         private connectsocketNIVisa2 scope = new connectsocketNIVisa2();
-        private BinaryReader reader;
+        //private BinaryReader reader;
         private StringBuilder SectorInfo = new StringBuilder();
         private StringBuilder tbtxt = new StringBuilder();
-        private BinaryWriter writer;
+        //private BinaryWriter writer;
         private Point BadSectorTooltipPos;
         private StringBuilder tbreceived = new StringBuilder();
         private int bytesReceived = 0;
@@ -81,21 +81,21 @@ namespace FloppyControlApp
         private static readonly object lockaddmarker = new object();
         //private static uint markerpositionscnt;
         private string subpath;
-        private string path = "";
+        //private string path = "";
         private string selectedPortName;
-        private string[] openfilespaths;
+        //private string[] openfilespaths;
         private int disablecatchkey = 0;
         private int binfilecount = 0; // Keep saving each capture under a different filename as to keep all captured data
         private float capturetime = 0;
-        private int capturing = 0;
+        //private int capturing = 0;
         private int selectedBaudRate = 5000000;
         private int graphselect = 0;
-        private int maxthreads = 2;
+        //private int maxthreads = 2;
         private int byteinsector = 0;
         //private int stepspertrack = 8;
         private byte[] TempSector = new byte[550];
         private byte[][] graphwaveform = new byte[15][];
-        private bool AddData = false;
+        //private bool AddData = false;
         private bool openFilesDlgUsed = false;
         private bool scanactive = false;
         private bool stopupdatingGraph = false;
@@ -116,7 +116,6 @@ namespace FloppyControlApp
             ECHisto = new Histogram();
             ScatterHisto = new Histogram();
 
-            int i;
             InitializeComponent();
             this.Text += " v" + version.ToString();
             processing = new FDDProcessing();
@@ -293,7 +292,6 @@ namespace FloppyControlApp
                 {
                     case 0:
                         return;
-                        break;
                     case 1: //AmigaDos
                         offsetmfmindex = 48;
                         break;
@@ -1363,6 +1361,9 @@ namespace FloppyControlApp
         private void GUITimer_Tick(object sender, EventArgs e)
         {
             ProcessStatusLabel.Text = processing.ProcessStatus[processing.mfmsindex];
+
+            if (!(processing.progressesstart[processing.mfmsindex] > 0 && processing.progressesend[processing.mfmsindex] > 1)) return;
+
             progressBar1.Minimum = processing.progressesstart[processing.mfmsindex];
             progressBar1.Maximum = processing.progressesend[processing.mfmsindex];
 
@@ -2356,7 +2357,6 @@ namespace FloppyControlApp
             int indexS1, threadid;
 
             ECSettings ecSettings = new ECSettings();
-            ECResult sectorresult;
             ecSettings.sectortextbox = textBoxSector;
 
             if (BadSectorListBox.SelectedIndices.Count >= 1)
@@ -2815,8 +2815,6 @@ namespace FloppyControlApp
             }
             else if (menudata.cmd == 4)
             {
-                int i;
-
                 QLimitTSCheckBox.Checked = true;
                 QLimitToTrackUpDown.Value = menudata.track;
                 QLimitToSectorUpDown.Value = menudata.sector;
@@ -2926,7 +2924,7 @@ namespace FloppyControlApp
         {
             int[] combi = new int[32];
             int[] combilimit = new int[32];
-            int i, j, p, q, k;
+            int i, j, q, k;
             int combinations = 0;
             int NumberOfMfmBytes = 3;
             int MaxIndex = 32;
@@ -2995,7 +2993,7 @@ namespace FloppyControlApp
 
         private void AdaptiveScan2()
         {
-            int j, k, l;
+            int l;
             float i;
             int FOUR = FourvScrollBar.Value;
             int SIX = SixvScrollBar.Value;
@@ -3129,7 +3127,7 @@ namespace FloppyControlApp
 
         private void AdaptiveScan3()
         {
-            int j, l;
+            int l;
             float i, k;
             processing.processing = 1;
             float adaptrate = (float)RateOfChangeUpDown.Value;
@@ -3165,8 +3163,8 @@ namespace FloppyControlApp
 
         private void AdaptiveScan4()
         {
-            int j, l;
-            float i, k;
+            int l;
+            float i;
             float adaptrate = (float)RateOfChangeUpDown.Value;
             int FOUR = FourvScrollBar.Value;
             int SIX = SixvScrollBar.Value;
@@ -3193,8 +3191,7 @@ namespace FloppyControlApp
         }
         private void AdaptiveNarrow()
         {
-            int j, l;
-            float i, k;
+            int l;
             float adaptrate = (float)RateOfChangeUpDown.Value;
             int FOUR = FourvScrollBar.Value;
             int SIX = SixvScrollBar.Value;
@@ -3221,8 +3218,8 @@ namespace FloppyControlApp
         }
         private void AdaptiveNarrowRate()
         {
-            int j, l;
-            float i, k;
+            int l;
+            float i;
             float adaptrate = (float)RateOfChangeUpDown.Value;
             int FOUR = FourvScrollBar.Value;
             int SIX = SixvScrollBar.Value;

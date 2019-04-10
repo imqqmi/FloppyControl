@@ -27,7 +27,6 @@ namespace FloppyControlApp
             {
                 case 0:
                     return;
-                    break;
                 case 1:
                     offset = 0;
                     break;
@@ -146,10 +145,10 @@ namespace FloppyControlApp
 
                 float f = 512.0f / sectorlength;
 
-                if (f == 0.5f)
-                {
-                    int qq = 2;
-                }
+                //if (f == 0.5f)
+                //{
+                //    int qq = 2;
+                //}
 
                 for (i = 0; i < sectorlength; i++)
                 {
@@ -193,7 +192,6 @@ namespace FloppyControlApp
         }
         private void BadMFMSectorDraw()
         {
-            int i; //, datapoints, start, end, scrollbarcurrentpos;
             //decimal posx;
             int indexS1 = -1, indexS2 = -1;
             int offset = 4, diskoffset;
@@ -212,7 +210,6 @@ namespace FloppyControlApp
                 case DiskFormat.unknown:
                     textBoxReceived.AppendText("\r\nMissing disk format definition, can't draw map. See method BadMFMSectorDraw().\r\n");
                     return;
-                    break;
                 case DiskFormat.amigados: //AmigaDos
                     offset = 0;
                     lengthmfm = 8704;
@@ -341,8 +338,8 @@ namespace FloppyControlApp
 
                 byte value1 = 0, value2 = 0, colorR = 0, colorB = 0;
 
-                int y2, q;
-                int width = 40;
+                //int y2;
+                //int width = 40;
 
                 int height = 32; //sectors.Length / width;
                 int sectorsindex = 0;
@@ -352,10 +349,10 @@ namespace FloppyControlApp
 
                 float f = 512.0f / sectorlength;
 
-                if (f == 0.5f)
-                {
-                    int qq = 2;
-                }
+                //if (f == 0.5f)
+                //{
+                //    int qq = 2;
+                //}
 
                 if (sectors.Length > 0)
 
@@ -447,7 +444,6 @@ namespace FloppyControlApp
                     {
                         case 0:
                             return;
-                            break;
                         case 1: //AmigaDos
                             offset = -48;
                             lengthmfm = 8704;
@@ -595,7 +591,6 @@ namespace FloppyControlApp
             {
                 case 0:
                     return;
-                    break;
                 case 1:
                     offset = 0;
                     break;
@@ -781,7 +776,6 @@ namespace FloppyControlApp
             {
                 case 0:
                     return;
-                    break;
                 case 1:
                     offset = 0;
                     break;
@@ -827,7 +821,6 @@ namespace FloppyControlApp
                 {
                     case 0:
                         return;
-                        break;
                     case 1: //AmigaDos
                         offset = 0;
                         lengthmfm = 8704;

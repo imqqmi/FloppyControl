@@ -34,7 +34,6 @@ namespace FloppyControlApp
             uint j;
             uint searchcnt = 0;
             int rxbufcnt = 0;
-            int overflow = 0;
             int markerpositionscntthread = 0;
             int bytespersectorthread = 512;
             int badsectorcntthread = 0;
@@ -130,7 +129,6 @@ namespace FloppyControlApp
 
             searchcnt = 0;
             rxbufcnt = 0;
-            overflow = 0;
             //Find AmigaDOS markers
             //=============================================================================================
             if ((diskformat == DiskFormat.unknown || diskformat == DiskFormat.amigados))
@@ -656,7 +654,7 @@ namespace FloppyControlApp
             int i;
 
             byte[] Marker = new byte[0];
-            int periodshift = 0;
+            int periodshift;
             byte[] crcinsectordatadecoded = new byte[100];
 
             int bitshifted = 0;
