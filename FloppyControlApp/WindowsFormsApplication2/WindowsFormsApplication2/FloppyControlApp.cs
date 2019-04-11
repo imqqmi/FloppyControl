@@ -1362,8 +1362,14 @@ namespace FloppyControlApp
         {
             ProcessStatusLabel.Text = processing.ProcessStatus[processing.mfmsindex];
 
-            if (!(processing.progressesstart[processing.mfmsindex] > 0 && processing.progressesend[processing.mfmsindex] > 1)) return;
-
+            if (processing.progressesstart[processing.mfmsindex] < 0 )
+            {
+                if (processing.progressesend[processing.mfmsindex] < 1)
+                {
+                    processing.progressesstart[processing.mfmsindex] = 0;
+                    processing.progressesend[processing.mfmsindex] = 1;
+                }
+            }
             progressBar1.Minimum = processing.progressesstart[processing.mfmsindex];
             progressBar1.Maximum = processing.progressesend[processing.mfmsindex];
 
