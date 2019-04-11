@@ -17,7 +17,9 @@ This is the first commit of the project. I will call it version 1.0. It's capabl
 
 ## Hardware
 The first version I made was based on a PIC16F1938 overclocked at 80MHz. An USB2RS232 donlge with a PL2303 chip was used at 5mbit/s.
-The second (current) version uses a standard Arduino Due. I'm in the process of designing a shield for it. The native usb is used which eliminates the USB2RS232 dongle and makes things a lot more stable.
+The second (current) version uses a standard Arduino Due. I've designed a shield for it so it can easily be built. The native usb is used which eliminates the USB2RS232 dongle and makes things a lot more stable.
+
+![Arduino Due shield pcb](/ArduinoDueVersion/Pix/IMG_20190311_211409088a.jpg)
 
 ## Software
 The real magic happens in the software that converts the flux transitions (or periods) into MFM, then into data and finally into sectors and disk images.
@@ -50,7 +52,9 @@ Other features include:
   - FloppyControl uses a base folder in which the captures are stored. The Base filename is used to create a folder and naming the files inside that folder using a counter. It will never overwrite data (for .bin, .prj and dsk/adf files).
   - bin files with bad sectors can be saved as bad sectors only. This makes them much smaller for reprocessing and finding that illusive good sector.
   - You can choose 'bad sectors only' during processing. This does the same as saving just the bad sectors, it'll reduce the amount of data processed (all good sectors are skipped, they are found already so no point in reprocessing them).
-  
+
+![FloppyControl app](/FloppyControlApp/Pix/ScreenshotFloppyControlv1.1.0b.png)
+
 The sources are released as GPL v3.0.
 
 The firmware can be compiled using Arduino Studio v1.8.8.
@@ -59,7 +63,7 @@ The project makes use of DPLL class which is based on US patent 4,780,844 and wr
 
 The FloppyControl App can be compiled using Visual Studio 2015 or 2017 community edition. You may need to install VC redistributables to run the software as stand alone.
 
-The PCB for the PIC version is created in Eagle v7.3. Newer versions of eagle (free/community edition should work). 
+The PCB for the PIC and Arduino Due shield version is created in Eagle v7.3. Newer versions of eagle (free/community edition should work). 
 
 Please let me know if you have any questions. Contributions to the project is appreciated. Please send the pull requests, I'll see if I can integrate them.
 
