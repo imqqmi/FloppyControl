@@ -20,7 +20,7 @@ namespace FloppyControlApp
     public class ProcSettings : ICloneable
     {
         private int poffset, pmin, pfour, psix, pmax, pstart, pend, ppattern;
-        private int pplatform; // 0 = PC, 1 = Amiga
+        
         private float prateofchange;
         bool pSkipPeriodData, pfinddupes, pUseErrorCorrection, pAddnoise;
         ProcessingType pprocessingtype;
@@ -32,7 +32,7 @@ namespace FloppyControlApp
         public int max { get { return pmax; } set { pmax = value; } }
         public int start { get { return pstart; } set { pstart = value; } }
         public int end { get { return pend; } set { pend = value; } }
-        public int platform { get { return pplatform; } set { pplatform = value; } }
+        public Platform platform { get; set; }
         public int pattern { get { return ppattern; } set { ppattern = value; } }
         public int addnoiselimitstart { get; set; }
         public int addnoiselimitend { get; set; }
@@ -307,7 +307,7 @@ namespace FloppyControlApp
             }
         }
 
-        public void StartProcessing(int platform)
+        public void StartProcessing(Platform platform)
         {
             int threadid = 0, t, i;
             SW.Reset();
@@ -365,6 +365,21 @@ namespace FloppyControlApp
 
                                             int q;
                                             int rxstart = (sectordata2[i].rxbufMarkerPositions - 500);
+                                            if (oldindexrxbuf + 8600 > rxbuf.Length)
+                                            {
+                                                List<byte[]> tempbuffer = new List<byte[]>();
+                                                byte[] addbuffer = new byte[10000000];
+
+                                                tempbuffer.Add(rxbuf);
+                                                tempbuffer.Add(addbuffer);
+                                                rxbuf = tempbuffer.SelectMany(a => a).ToArray();
+
+                                                addbuffer = null;
+                                                tempbuffer.Clear();
+                                                GC.Collect();
+
+                                                tbreceived.Append("Increased buffer by 10MB.\r\n");
+                                            }
                                             for (int x = 0; x < procsettings.NumberOfDups; x++)
                                                 for (q = 0; q < 8500; q++)
                                                     rxbuf[oldindexrxbuf++] = rxbuf[rxstart + q];
@@ -495,8 +510,8 @@ namespace FloppyControlApp
                     Application.DoEvents();
                     mfmsindex += NumberOfThreads;
 
-                    if (procsettings.AutoRefreshSectormap)
-                        sectormap.RefreshSectorMap();
+                    //if (procsettings.AutoRefreshSectormap)
+                    //    sectormap.RefreshSectorMap();
                 }
             }
 
@@ -802,7 +817,7 @@ namespace FloppyControlApp
                     lowpass6 = new float[lowpassradius];
                     lowpass8 = new float[lowpassradius];
                 }
-                catch(OutOfMemoryException e)
+                catch(OutOfMemoryException)
                 {
                     tbreceived.Append("Oops, we ran out of memory. Try restarting FloppyControlApp or use a smaller dataset.\r\n");
                     lowpass4 = null;
@@ -824,10 +839,10 @@ namespace FloppyControlApp
 
                 float val4 = 0, val6 = 0, val8 = 0;
 
-                entropy = new float[indexrxbuf];
-                threshold4 = new float[indexrxbuf];
-                threshold6 = new float[indexrxbuf];
-                threshold8 = new float[indexrxbuf];
+                //entropy = new float[indexrxbuf];
+                //threshold4 = new float[indexrxbuf];
+                //threshold6 = new float[indexrxbuf];
+                //threshold8 = new float[indexrxbuf];
 
                 for (i = start; i < end - lookahead; i++)
                 {
@@ -905,10 +920,10 @@ namespace FloppyControlApp
                         averagetime = _8us;
                     }
                 }
-                entropy = null;
-                threshold4 = null;
-                threshold6 = null;
-                threshold8 = null;
+                //entropy = null;
+                //threshold4 = null;
+                //threshold6 = null;
+                //threshold8 = null;
                 lowpass4 = null;
                 lowpass6 = null;
                 lowpass8 = null;
@@ -963,7 +978,7 @@ namespace FloppyControlApp
                     lowpass6 = new float[lowpassradius];
                     lowpass8 = new float[lowpassradius];
                 }
-                catch (OutOfMemoryException e)
+                catch (OutOfMemoryException)
                 {
                     tbreceived.Append("Oops, we ran out of memory. Try restarting FloppyControlApp or use a smaller dataset.\r\n");
                     lowpass4 = null;
@@ -987,11 +1002,22 @@ namespace FloppyControlApp
 
                 int length = rxbuf.Length;
 
-                entropy = new float[length];
-                threshold4 = new float[length];
-                threshold6 = new float[length];
-                threshold8 = new float[length];
-
+                try
+                {
+                    entropy = new float[length];
+                    threshold4 = new float[length];
+                    threshold6 = new float[length];
+                    threshold8 = new float[length];
+                }
+                catch(OutOfMemoryException)
+                {
+                    tbreceived.Append("Oops, we ran out of memory. Try restarting FloppyControlApp or use a smaller dataset or don't use entropy version of Adaptive.\r\n");
+                    lowpass4 = null;
+                    lowpass6 = null;
+                    lowpass8 = null;
+                    GC.Collect();
+                    return;
+                }
                 for (i = start; i < end - lookahead; i++)
                 {
                     if (i % 250000 == 249999) { progresses[threadid] = i; if (stop == 1) break; }
@@ -1084,10 +1110,10 @@ namespace FloppyControlApp
                     }
                 }
 
-                entropy = null;
-                threshold4 = null;
-                threshold6 = null;
-                threshold8 = null;
+                //entropy = null;
+                //threshold4 = null;
+                //threshold6 = null;
+                //threshold8 = null;
                 lowpass4 = null;
                 lowpass6 = null;
                 lowpass8 = null;
@@ -1141,7 +1167,7 @@ namespace FloppyControlApp
                     lowpass6 = new float[lowpassradius];
                     lowpass8 = new float[lowpassradius];
                 }
-                catch (OutOfMemoryException e)
+                catch (OutOfMemoryException)
                 {
                     tbreceived.Append("Oops, we ran out of memory. Try restarting FloppyControlApp or use a smaller dataset.\r\n");
                     lowpass4 = null;
@@ -1462,9 +1488,9 @@ namespace FloppyControlApp
             //SW.Restart();
 
             // Continue processing MFM data depending on platform
-            if (procsettings.platform == 0)
+            if (procsettings.platform == Platform.PC)
                 ProcessPCMFM2Sectordata(procsettings, threadid);
-            else if (procsettings.platform == 1)
+            else if (procsettings.platform == Platform.Amiga)
                 ProcessAmigaMFMbytes(procsettings, threadid);
 
             //tbreceived.Append("mfm to sector:"+ SW.ElapsedMilliseconds + "ms\r\n");
