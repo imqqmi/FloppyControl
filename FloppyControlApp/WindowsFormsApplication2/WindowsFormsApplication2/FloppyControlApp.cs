@@ -1154,10 +1154,14 @@ namespace FloppyControlApp
             offset = (track * 512 * processing.sectorspertrack) + (512 * sector);
 
             //txtstring.Append();
-
+            int index;
+            int size = processing.disk.Length;
             for (i = 0; i < 512; i++)
             {
-                databyte = (byte)processing.disk[track * 512 * processing.sectorspertrack + (512 * sector) + i];
+                index = track * 512 * processing.sectorspertrack + (512 * sector) + i;
+                if (index > size)
+                    break;
+                databyte = (byte)processing.disk[index];
                 bytesstring.Append(databyte.ToString("X2"));
                 if (databyte > 32 && databyte < 127)
                     txtstring.Append((char)databyte);
