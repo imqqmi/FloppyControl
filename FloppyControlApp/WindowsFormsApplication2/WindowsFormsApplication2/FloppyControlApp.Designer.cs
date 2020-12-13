@@ -52,7 +52,6 @@ namespace FloppyControlApp
         /// </summary>
         private void InitializeComponent()
         {
-            Trace.TraceInformation("Start initialize");
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FloppyControl));
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
@@ -488,6 +487,8 @@ namespace FloppyControlApp
             this.scpFileToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.trimmedBinToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.badSectorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.disableTooltipsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -825,7 +826,6 @@ namespace FloppyControlApp
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(616, 473);
             this.tabControl1.TabIndex = 42;
-            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
             // ScatterPlottabPage
             // 
@@ -3937,7 +3937,6 @@ namespace FloppyControlApp
             this.ECInfoTabs.SelectedIndex = 0;
             this.ECInfoTabs.Size = new System.Drawing.Size(452, 450);
             this.ECInfoTabs.TabIndex = 4009;
-            this.ECInfoTabs.SelectedIndexChanged += new System.EventHandler(this.ECInfoTabs_SelectedIndexChanged);
             // 
             // ECTabSectorData
             // 
@@ -5952,7 +5951,9 @@ namespace FloppyControlApp
             this.saveProjectToolStripMenuItem,
             this.toolStripSeparator3,
             this.importToolStripMenuItem,
-            this.exportToolStripMenuItem});
+            this.exportToolStripMenuItem,
+            this.toolStripSeparator5,
+            this.closeToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 23);
             this.fileToolStripMenuItem.Text = "File";
@@ -6039,23 +6040,35 @@ namespace FloppyControlApp
             // scpFileToolStripMenuItem1
             // 
             this.scpFileToolStripMenuItem1.Name = "scpFileToolStripMenuItem1";
-            this.scpFileToolStripMenuItem1.Size = new System.Drawing.Size(143, 22);
+            this.scpFileToolStripMenuItem1.Size = new System.Drawing.Size(141, 22);
             this.scpFileToolStripMenuItem1.Text = "Scp file";
             this.scpFileToolStripMenuItem1.Click += new System.EventHandler(this.button46_Click);
             // 
             // trimmedBinToolStripMenuItem
             // 
             this.trimmedBinToolStripMenuItem.Name = "trimmedBinToolStripMenuItem";
-            this.trimmedBinToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.trimmedBinToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
             this.trimmedBinToolStripMenuItem.Text = "Trimmed bin";
             this.trimmedBinToolStripMenuItem.Click += new System.EventHandler(this.button49_Click);
             // 
             // badSectorsToolStripMenuItem
             // 
             this.badSectorsToolStripMenuItem.Name = "badSectorsToolStripMenuItem";
-            this.badSectorsToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.badSectorsToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
             this.badSectorsToolStripMenuItem.Text = "Bad sectors";
             this.badSectorsToolStripMenuItem.Click += new System.EventHandler(this.SaveTrimmedBadbutton_Click);
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(195, 6);
+            // 
+            // closeToolStripMenuItem
+            // 
+            this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
+            this.closeToolStripMenuItem.Text = "Close";
+            this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
             // 
             // optionsToolStripMenuItem
             // 
@@ -6836,6 +6849,8 @@ namespace FloppyControlApp
         private System.Windows.Forms.Button button9;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.Button ExploreHereBtn;
+        private ToolStripSeparator toolStripSeparator5;
+        private ToolStripMenuItem closeToolStripMenuItem;
     }
 }
 

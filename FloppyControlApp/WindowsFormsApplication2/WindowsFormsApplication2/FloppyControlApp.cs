@@ -3768,19 +3768,16 @@ namespace FloppyControlApp
             ECOnRadio.Checked = true;
         }
 
-        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void ECInfoTabs_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void ExploreHereBtn_Click(object sender, EventArgs e)
         {
             Process.Start("explorer.exe", fileio.PathToRecoveredDisks+@"\"+fileio.BaseFileName);
+        }
+
+        private void closeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            scope.Disconnect();
+            this.Close();
+            return;
         }
     } // end class
 } // End namespace
