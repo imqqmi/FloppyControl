@@ -307,6 +307,32 @@ namespace FloppyControlApp
             }
         }
 
+        /// <summary>
+        /// Increases the rxbuf size if the requested length is larger. Returns true if succesful.
+        /// </summary>
+        /// <param name="length"></param>
+        /// <returns>true if succesful</returns>
+        public bool IncreaseBufSize(int length)
+        {
+            int sizediff = length - rxbuf.Length;
+
+            if (sizediff > 0)
+            {
+                List<byte[]> tempbuffer = new List<byte[]>();
+                byte[] addbuffer = new byte[sizediff];
+
+                tempbuffer.Add(rxbuf);
+                tempbuffer.Add(addbuffer);
+                rxbuf = tempbuffer.SelectMany(a => a).ToArray();
+
+                addbuffer = null;
+                tempbuffer.Clear();
+                GC.Collect();
+                return true;
+            }
+            return false;
+        }
+
         public void StartProcessing(Platform platform)
         {
             int threadid = 0, t, i;

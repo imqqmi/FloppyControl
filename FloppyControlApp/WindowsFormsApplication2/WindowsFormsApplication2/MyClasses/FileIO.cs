@@ -902,11 +902,11 @@ namespace FloppyControlApp.MyClasses
                     if (ext == ".scp")
                     {
                         //reader.BaseStream.Length
-                        long length = reader.BaseStream.Length;
+                        int length = (int)reader.BaseStream.Length;
 
                         temp = reader.ReadBytes((int)length);
                         int i;
-
+                        processing.IncreaseBufSize(processing.indexrxbuf+length);
                         for (i = 0; i < length - 2; i += 2)
                         {
                             processing.rxbuf[processing.indexrxbuf++] = (byte)((temp[i] << 8 | temp[i + 1]) >> 1);
