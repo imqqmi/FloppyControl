@@ -1,4 +1,9 @@
-﻿namespace FloppyControlApp
+﻿using System;
+using System.Diagnostics;
+using System.IO;
+using System.Windows.Forms;
+
+namespace FloppyControlApp
 {
     partial class FloppyControl
     {
@@ -15,7 +20,20 @@
         {
             if (scope != null)
             {
-                scope.Disconnect();
+                try
+                {
+                    scope.Disconnect();
+                }
+                catch (FileNotFoundException e)
+                {
+                    // National instruments wasn't loaded, ignore the exception.
+                    Trace.TraceInformation(e.ToString());
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
+                    Trace.TraceInformation(e.ToString());
+                }
             }
 
             if (disposing && (components != null))
@@ -34,6 +52,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            Trace.TraceInformation("Start initialize");
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FloppyControl));
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
