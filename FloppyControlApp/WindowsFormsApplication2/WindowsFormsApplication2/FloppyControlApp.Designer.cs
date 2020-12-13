@@ -3517,6 +3517,7 @@ namespace FloppyControlApp
             this.AutoRefreshSectorMapCheck.TabIndex = 85;
             this.AutoRefreshSectorMapCheck.Text = "Auto refresh sectormap";
             this.AutoRefreshSectorMapCheck.UseVisualStyleBackColor = true;
+            this.AutoRefreshSectorMapCheck.CheckedChanged += new System.EventHandler(this.AutoRefreshSectorMapCheck_CheckedChanged);
             // 
             // label50
             // 

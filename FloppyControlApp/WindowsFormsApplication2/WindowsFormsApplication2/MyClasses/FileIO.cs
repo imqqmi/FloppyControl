@@ -901,6 +901,16 @@ namespace FloppyControlApp.MyClasses
 
                     if (ext == ".scp")
                     {
+                        resetinput();
+                        
+                        processing.indexrxbuf = 0;
+
+                        //MFMData sectordata;
+                        if (processing.sectordata2 != null)
+                        {
+                            processing.sectordata2.Clear();
+                            //sectordata2.TryTake(out sectordata);
+                        }
                         //reader.BaseStream.Length
                         int length = (int)reader.BaseStream.Length;
 
@@ -917,6 +927,7 @@ namespace FloppyControlApp.MyClasses
 
                     reader.Close();
                     reader.Dispose();
+                    FilesAvailableCallback();
                 }
             }
         }

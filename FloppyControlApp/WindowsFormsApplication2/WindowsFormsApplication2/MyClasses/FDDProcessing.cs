@@ -536,8 +536,8 @@ namespace FloppyControlApp
                     Application.DoEvents();
                     mfmsindex += NumberOfThreads;
 
-                    //if (procsettings.AutoRefreshSectormap)
-                    //    sectormap.RefreshSectorMap();
+                    if (procsettings.AutoRefreshSectormap)
+                        sectormap.RefreshSectorMap();
                 }
             }
 

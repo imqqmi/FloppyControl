@@ -96,7 +96,8 @@ namespace FloppyControlApp
         private byte[] TempSector = new byte[550];
         private byte[][] graphwaveform = new byte[15][];
         //private bool AddData = false;
-        private bool openFilesDlgUsed = false;
+        public bool openFilesDlgUsed = false;
+        public bool ScpOpenFilesDlgUsed = false;
         private bool scanactive = false;
         private bool stopupdatingGraph = false;
         private int[] mfmbyteenc = new int[256];
@@ -161,7 +162,7 @@ namespace FloppyControlApp
             subpath = @Properties.Settings.Default["PathToRecoveredDisks"].ToString();
 
             fileio = new FileIO();
-            fileio.FilesAvailableCallback += FilesAvailableCallback;
+            //fileio.FilesAvailableCallback += FilesAvailableCallback;
             fileio.processing = processing;
             fileio.resetinput += resetinput;
             fileio.textBoxFilesLoaded = textBoxFilesLoaded;
@@ -683,11 +684,25 @@ namespace FloppyControlApp
                 BytesReceivedLabel.Text = String.Format("{0:n0}", processing.indexrxbuf);
                 //createhistogram1();
             }
+
+            if (ScpOpenFilesDlgUsed == true)
+            {
+                ScpOpenFilesDlgUsed = false;
+                QProcessingGroupBox.Enabled = true;
+                UpdateHistoAndScatterplot();
+                BytesReceivedLabel.Text = String.Format("{0:n0}", processing.indexrxbuf);
+                //createhistogram1();
+            }
         }
 
         void FilesAvailableCallback()
         {
             openFilesDlgUsed = true;
+        }
+        
+        void ScpFilesAvailableCallback()
+        {
+            ScpOpenFilesDlgUsed = true;
         }
 
         void UpdateHistoAndScatterplot()
@@ -707,11 +722,15 @@ namespace FloppyControlApp
 
         private void OpenBinFilebutton_Click(object sender, EventArgs e)
         {
+            fileio.FilesAvailableCallback += FilesAvailableCallback;
+            fileio.FilesAvailableCallback -= ScpFilesAvailableCallback;
             fileio.ShowOpenBinFiles();
         }
 
         private void AddDataButton_Click(object sender, EventArgs e)
         {
+            fileio.FilesAvailableCallback += FilesAvailableCallback;
+            fileio.FilesAvailableCallback -= ScpFilesAvailableCallback;
             fileio.ShowAddBinFiles();
         }
 
@@ -993,10 +1012,7 @@ namespace FloppyControlApp
         {
             //tbreceived.Append("Output changed to: "+outputfilename.Text+"\r\n");
             disablecatchkey = 0;
-            openFileDialog1.InitialDirectory = subpath + @"\" + outputfilename.Text;
-            openFileDialog2.InitialDirectory = subpath + @"\" + outputfilename.Text;
-            Properties.Settings.Default["BaseFileName"] = outputfilename.Text;
-            Properties.Settings.Default.Save();
+            setBaseName();
         }
 
         private void FloppyControl_Click(object sender, EventArgs e)
@@ -1617,7 +1633,11 @@ namespace FloppyControlApp
 
         private void outputfilename_TextChanged(object sender, EventArgs e)
         {
-            //tbreceived.Append("Output changed to: " + outputfilename.Text + "\r\n");
+            setBaseName();
+        }
+        
+        private void setBaseName()
+        {
             if (outputfilename.Text != "")
             {
                 openFileDialog1.InitialDirectory = subpath + @"\" + outputfilename.Text;
@@ -2986,6 +3006,8 @@ namespace FloppyControlApp
         //Open SCP
         private void button45_Click(object sender, EventArgs e)
         {
+            fileio.FilesAvailableCallback -= FilesAvailableCallback;
+            fileio.FilesAvailableCallback += ScpFilesAvailableCallback;
             fileio.OpenScp();
             rxbufEndUpDown.Maximum = processing.indexrxbuf;
             rxbufEndUpDown.Value = processing.indexrxbuf;
@@ -3778,6 +3800,11 @@ namespace FloppyControlApp
             scope.Disconnect();
             this.Close();
             return;
+        }
+
+        private void AutoRefreshSectorMapCheck_CheckedChanged(object sender, EventArgs e)
+        {
+            processing.procsettings.AutoRefreshSectormap = AutoRefreshSectorMapCheck.Checked;
         }
     } // end class
 } // End namespace
