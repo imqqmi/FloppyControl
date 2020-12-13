@@ -2129,8 +2129,14 @@ namespace FloppyControlApp
 
             start = bufstart + AnScatViewlargeoffset;
             end = bufend + AnScatViewlargeoffset;
-            int datalength = end - start;
+            if (start > end)
+            {
+                start = 0;
+                end = 100000;
+            }
 
+            int datalength = end - start;
+            
             datapoints = end - start;
             if (bufend == 0) return;
             if (rxbuf == null)

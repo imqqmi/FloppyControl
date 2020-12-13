@@ -802,6 +802,7 @@ namespace FloppyControlApp
             //mfmlength = 0;
             processing.rxbuf = null;
             processing.rxbuf = new byte[200000];
+
             //Array.Clear(processing.rxbuf, 0, processing.rxbuf.Length);
             //TrackPosInrxdatacount = 0;
             processing.indexrxbuf = 0;
@@ -816,6 +817,8 @@ namespace FloppyControlApp
             scatterplot.AnScatViewlargeoffset = 0;
             scatterplot.AnScatViewoffsetOld = 0;
             scatterplot.UpdateScatterPlot();
+            UpdateHistoAndScatterplot();
+            BytesReceivedLabel.Text = String.Format("{0:n0}", processing.indexrxbuf);
             GC.Collect();
         }
 
@@ -1615,12 +1618,15 @@ namespace FloppyControlApp
         private void outputfilename_TextChanged(object sender, EventArgs e)
         {
             //tbreceived.Append("Output changed to: " + outputfilename.Text + "\r\n");
-            openFileDialog1.InitialDirectory = subpath + @"\" + outputfilename.Text;
-            openFileDialog2.InitialDirectory = subpath + @"\" + outputfilename.Text;
-            if (fileio != null)
-                fileio.BaseFileName = outputfilename.Text;
-            Properties.Settings.Default["BaseFileName"] = outputfilename.Text;
-            Properties.Settings.Default.Save();
+            if (outputfilename.Text != "")
+            {
+                openFileDialog1.InitialDirectory = subpath + @"\" + outputfilename.Text;
+                openFileDialog2.InitialDirectory = subpath + @"\" + outputfilename.Text;
+                if (fileio != null)
+                    fileio.BaseFileName = outputfilename.Text;
+                Properties.Settings.Default["BaseFileName"] = outputfilename.Text;
+                Properties.Settings.Default.Save();
+            }
         }
 
         private void CreateGraphs()
