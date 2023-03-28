@@ -562,7 +562,10 @@ namespace FloppyControlApp
             }
             else if (processingtype == ProcessingType.normal) //************ Normal ****************
             {
-                //tbreceived.Append("Normal\r\n");
+                var Processingtypes = new ProcessingTypes();
+                m = Processingtypes.ProcTypeNormal(ProctypeArgs, threadid, ref stop);
+
+                /*//tbreceived.Append("Normal\r\n");
 
                 // This ensures that the period data can be synched with mfm and marker data
                 // Which is important for error correction methods
@@ -670,7 +673,7 @@ namespace FloppyControlApp
                                 m[mfmlengths[threadid]++] = 0;
                                 m[mfmlengths[threadid]++] = 0;
                             }
-                            /*
+                            *//*
                             int r = rnd.Next(0, 3);
                             if( r != 0)
                             {
@@ -679,11 +682,11 @@ namespace FloppyControlApp
                                 for (k = 0; k <  r; k++)
                                     m[mfmlengths[threadid]++] = 0;
                             }
-                            */
+                            *//*
 
                         }
                     }
-                }
+                }*/
             }
             else if (processingtype == ProcessingType.aufit) //************ Aufit ****************
             {
