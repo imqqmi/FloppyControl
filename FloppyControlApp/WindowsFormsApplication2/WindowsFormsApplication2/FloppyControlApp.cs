@@ -3349,7 +3349,7 @@ namespace FloppyControlApp
                 case ProcessingType.adaptive2:
                 case ProcessingType.adaptive3:
                     RateOfChangeUpDown.Value = (decimal)1.1;
-                    RateOfChange2UpDown.Value = 128;
+                    RateOfChange2UpDown.Value = 1300;
 
                     FindPeaks();
                     scatterplot.showEntropy = false;
