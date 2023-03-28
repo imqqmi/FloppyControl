@@ -567,49 +567,8 @@ namespace FloppyControlApp
             }
             else if (processingtype == ProcessingType.aufit) //************ Aufit ****************
             {
-                int bitwindow = 0;
-                int currenttime = 0;
-                if (scatterplotend - scatterplotstart > 10000) scatterplotend = scatterplotstart + 2000;
-                DPLL dpll = new DPLL();
-
-                for (i = start; i < end; i++)
-                {
-                    if (i % 250000 == 249999) { progresses[threadid] = i; if (stop == 1) break; }
-                    if (rxbuf[i] < 4 && procsettings.UseErrorCorrection == false) continue;
-                    currenttime += (int)(((rxbuf[i] << procsettings.hd) + FOURUS) * MINUS);
-
-                    bitwindow = dpll.bitSpacing(currenttime);
-
-                    //if (i > scatterplotstart && i < scatterplotend)
-                    //    tbreceived.Append("" + rxbuf[i] + "\t" + bitwindow + "\t" + currenttime +"\t"+dpll.error+ "\r\n");
-
-                    int check = mfmlengths[threadid];
-                    if (bitwindow == 2)
-                    {
-                        m[mfmlengths[threadid]++] = 1;
-                        m[mfmlengths[threadid]++] = 0;
-                    }
-                    else
-                    if (bitwindow == 3)
-                    {
-                        m[mfmlengths[threadid]++] = 1;
-                        m[mfmlengths[threadid]++] = 0;
-                        m[mfmlengths[threadid]++] = 0;
-                    }
-                    else
-                    if (bitwindow == 4)
-                    {
-                        m[mfmlengths[threadid]++] = 1;
-                        m[mfmlengths[threadid]++] = 0;
-                        m[mfmlengths[threadid]++] = 0;
-                        m[mfmlengths[threadid]++] = 0;
-                    }
-                    else
-                    {
-                        m[mfmlengths[threadid]++] = 1;
-                        m[mfmlengths[threadid]++] = 0;
-                    }
-                }
+                var Processingtypes = new ProcessingTypes();
+                m = Processingtypes.ProcTypeAufit(ProctypeArgs, threadid, ref stop);
             }
 
             // The last pulse ends here, so no following pulse is there
