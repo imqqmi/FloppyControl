@@ -20,7 +20,7 @@ namespace FloppyControlApp.MyClasses
         AmigaHeadOkDataBad = 12
     }
 
-    public enum ProcessingType { adaptive1, normal, aufit, adaptive2, adaptive3, adaptivePredict, adaptiveEntropy }
+    public enum ProcessingType { adaptive1, normal, aufit, adaptive2, adaptive3, adaptivePredict, adaptiveEntropy,adaptivea }
     public enum FluxEncoding { MFM = 1, FM = 2, GRC = 3 }
     public enum ScanMode { AuScan, OffsetScan, OffsetScan2, ExtremeScan, AdaptiveRate, AdaptiveOffsetRate, AdaptiveDeep, AdaptiveShallow, AdaptiveNarrow, AdaptiveNarrowRate }
 
