@@ -12,6 +12,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters.Binary;
 using FloppyControlApp.MyClasses;
+using FloppyControlApp.MyClasses.Processing;
 
 namespace FloppyControlApp
 {

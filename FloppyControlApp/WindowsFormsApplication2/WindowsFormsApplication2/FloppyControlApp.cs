@@ -13,6 +13,7 @@ using FloppyControlApp.MyClasses;
 using System.Reflection;
 using FloppyControlApp.Properties;
 using System.Diagnostics;
+using FloppyControlApp.MyClasses.Processing;
 
 namespace FloppyControlApp
 {

@@ -105,11 +105,14 @@
     <Compile Include="FloppyControlErrorCorrection.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyClasses\FDDProcessingAmiga.cs" />
-    <Compile Include="MyClasses\FDDProcessingPC.cs" />
+    <Compile Include="MyClasses\Processing\ECSettings.cs" />
+    <Compile Include="MyClasses\Processing\DiskGeometry.cs" />
+    <Compile Include="MyClasses\Processing\ProcSettings.cs" />
+    <Compile Include="MyClasses\Processing\FDDProcessingAmiga.cs" />
+    <Compile Include="MyClasses\Processing\FDDProcessingPC.cs" />
     <Compile Include="MyClasses\FileIO.cs" />
     <Compile Include="MyClasses\Helpers.cs" />
-    <Compile Include="MyClasses\FDDProcessing.cs" />
+    <Compile Include="MyClasses\Processing\FDDProcessing.cs" />
     <Compile Include="MyClasses\WaveformEdit.cs" />
     <Compile Include="MyClasses\SectorMap.cs" />
     <Compile Include="MyClasses\Utils.cs" />
@@ -178,6 +181,9 @@
   <ItemGroup>
     <Content Include="FloppyControlLogo128.ico" />
     <Content Include="Pix\IconRecord.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="MyClasses\Processing\ProcessingTypes\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
