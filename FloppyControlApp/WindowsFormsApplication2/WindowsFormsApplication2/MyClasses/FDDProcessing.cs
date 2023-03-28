@@ -611,8 +611,9 @@ namespace FloppyControlApp
             int rxbuflength = rxbuf.Length;
             if (start > rxbuflength || end > rxbuflength)
             {
-                tbreceived.Append("Start or end are larger than rxbuf length.\r\n");
-                return;
+                tbreceived.Append("Start or end are larger than rxbuf length. Resetting to start=0 and end = rxbuflength\r\n");
+                start = 0;
+                end = rxbuflength - 1;
             }
 
             if (end < 0 || start < 0)
