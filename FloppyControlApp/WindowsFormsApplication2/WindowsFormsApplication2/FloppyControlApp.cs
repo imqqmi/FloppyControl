@@ -865,8 +865,6 @@ namespace FloppyControlApp
             processing.sectormap = null;
             processing = null;
 
-
-
             ECHisto = new Histogram();
             ScatterHisto = new Histogram();
             processing = new FDDProcessing();
