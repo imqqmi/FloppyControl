@@ -14,6 +14,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using FloppyControlApp.MyClasses;
 using FDCPackage;
 using FloppyControlApp.MyClasses.Processing;
+using FloppyControlApp.MyClasses.Processing.ProcessingTypes;
 
 namespace FloppyControlApp
 {
@@ -59,7 +60,7 @@ namespace FloppyControlApp
         public string[] ProcessStatus = new string[50000]; // threadid is the key
         public int sectorspertrack = 0;
         public int bytespersector = 512; // 1024 for 2M, 512 for everything else
-        public int stop { get; set; }
+        public int stop;
         private Thread[] threads { get; set; }
         public int NumberOfThreads { get; set; }
         public int processing = 0;
@@ -447,7 +448,6 @@ namespace FloppyControlApp
 
         }
 
-        // The first four params represents the thresholds for the timing pulses
         private void Period2MFM(ProcSettings procsettings, int threadid)
         {
             int i;
@@ -508,57 +508,26 @@ namespace FloppyControlApp
             }
             if (MINUS < 0) MINUS = 0;
 
+            var ProctypeArgs = new ProcTypeArgs
+            {
+                MINUS = MINUS,
+                FOURUS = FOURUS,
+                SIXUS = SIXUS,
+                EIGHTUS = EIGHTUS,
+                Rxbuf = rxbuf,
+                Mfmlengths = mfmlengths,
+                RateOfChange = RateOfChange,
+                Progresses = progresses,
+
+                Procsettings = procsettings,
+
+                Tbreceived = tbreceived,
+            };
+
             if (processingtype == ProcessingType.adaptive2) //************ Adaptive2 ****************
             {
-                float threshold4us;
-                float threshold6us;
-                float _4us = FOURUS, _6us = SIXUS, _8us = EIGHTUS;
-
-                //tbreceived.Append("Adaptive\r\n");
-
-                for (i = start; i < end; i++)
-                {
-                    if (i % 250000 == 249999) { progresses[threadid] = i; if (stop == 1) break; }
-                    value = (rxbuf[i] << procsettings.hd); // If it's a HD (user selectable option), multiply data by 2
-
-                    //if (value < 5 ) continue;
-
-                    if (_4us >= _6us || _6us >= _8us) // if out of control, reset
-                    {
-                        _4us = FOURUS;
-                        _6us = SIXUS;
-                        _8us = EIGHTUS;
-                    }
-
-                    threshold4us = (_4us + ((_6us - _4us) / 2));
-                    threshold6us = (_6us + ((_8us - _6us) / 2));
-
-                    if (value <= threshold4us) // 4us
-                    {
-                        //m[mfmlengths[threadid]++]
-                        m[mfmlengths[threadid]++] = 1;
-                        m[mfmlengths[threadid]++] = 0;
-                        _4us = _4us + (int)((value - _4us) / RateOfChange);
-
-                    }
-                    else
-                    if (value > threshold4us && value < threshold6us) // 6us
-                    {
-                        m[mfmlengths[threadid]++] = 1;
-                        m[mfmlengths[threadid]++] = 0;
-                        m[mfmlengths[threadid]++] = 0;
-                        _6us = _6us + (int)((value - _6us) / RateOfChange);
-                    }
-                    else
-                    if (value >= threshold6us) // 8us
-                    {
-                        m[mfmlengths[threadid]++] = 1;
-                        m[mfmlengths[threadid]++] = 0;
-                        m[mfmlengths[threadid]++] = 0;
-                        m[mfmlengths[threadid]++] = 0;
-                        _8us = _8us + (int)((value - _8us) / RateOfChange);
-                    }
-                }
+                var Processingtypes = new ProcessingTypes();
+                m = Processingtypes.ProcTypeAdaptive2(ProctypeArgs, threadid, ref stop);
             }
             else
             if (processingtype == ProcessingType.adaptive3) //************ Adaptive 3 ****************

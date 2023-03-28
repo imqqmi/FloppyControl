@@ -40,9 +40,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -108,6 +108,9 @@
     <Compile Include="MyClasses\Processing\ECResult.cs" />
     <Compile Include="MyClasses\Processing\ECSettings.cs" />
     <Compile Include="MyClasses\Processing\DiskGeometry.cs" />
+    <Compile Include="MyClasses\Processing\MFMByteEncPreset.cs" />
+    <Compile Include="MyClasses\Processing\ProcessingTypes\ProcTypeAdaptive2.cs" />
+    <Compile Include="MyClasses\Processing\ProcessingTypes\ProcTypeArgs.cs" />
     <Compile Include="MyClasses\Processing\ProcSettings.cs" />
     <Compile Include="MyClasses\Processing\FDDProcessingAmiga.cs" />
     <Compile Include="MyClasses\Processing\FDDProcessingPC.cs" />
@@ -183,9 +186,7 @@
     <Content Include="FloppyControlLogo128.ico" />
     <Content Include="Pix\IconRecord.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="MyClasses\Processing\ProcessingTypes\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
