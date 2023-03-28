@@ -3199,7 +3199,38 @@ namespace FloppyControlApp
             processing.processing = 0;
             //processing.sectormap.RefreshSectorMap();
         }
+        private void AdaptiveDeepScan()
+        {
+            int l;
+            float i, k;
+            processing.processing = 1;
+            float adaptrate = (float)RateOfChangeUpDown.Value;
+            int FOUR = FourvScrollBar.Value;
+            int SIX = SixvScrollBar.Value;
+            int EIGHT = EightvScrollBar.Value;
+            int OFFSET = OffsetvScrollBar1.Value;
+            int step = (int)iESStart.Value;
+            for (k = 2048; k > 2; k /= 2)
+            {
+                RateOfChange2UpDown.Value = (int)k;
+                for (l = -12; l < 13; l += step)
+                {
+                    if (processing.stop == 1)
+                        break;
 
+                    OffsetvScrollBar1.Value = OFFSET + l;
+
+                    Application.DoEvents();
+                    if (processing.procsettings.platform == 0)
+                        ProcessPC();
+                    else
+                        ProcessAmiga();
+                }  
+            }
+            OffsetvScrollBar1.Value = OFFSET;
+            processing.processing = 0;
+            //processing.sectormap.RefreshSectorMap();
+        }
         private void AdaptiveScan4()
         {
             int l;
@@ -3367,7 +3398,7 @@ namespace FloppyControlApp
                     AdaptiveScan2();
                     break;
                 case ScanMode.AdaptiveDeep:
-                    AdaptiveScan3();
+                    AdaptiveDeepScan();
                     break;
                 case ScanMode.AdaptiveShallow:
                     AdaptiveScan4();
