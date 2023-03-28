@@ -3340,7 +3340,7 @@ namespace FloppyControlApp
                     scatterplot.showEntropy = false;
                     break;
                 case ProcessingType.aufit:
-                    MinvScrollBar.Value = 0x32;
+                    MinvScrollBar.Value = 32;
                     FourvScrollBar.Value = 0x0C;
                     OffsetvScrollBar1.Value = 0;
                     scatterplot.showEntropy = false;

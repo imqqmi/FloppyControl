@@ -109,6 +109,8 @@
     <Compile Include="MyClasses\Processing\ECSettings.cs" />
     <Compile Include="MyClasses\Processing\DiskGeometry.cs" />
     <Compile Include="MyClasses\Processing\MFMByteEncPreset.cs" />
+    <Compile Include="MyClasses\Processing\ProcessingTypes\ProcTypeAdaptivePredict.cs" />
+    <Compile Include="MyClasses\Processing\ProcessingTypes\ProcTypeAdaptiveEntropy.cs" />
     <Compile Include="MyClasses\Processing\ProcessingTypes\ProcTypeAdaptive.cs" />
     <Compile Include="MyClasses\Processing\ProcessingTypes\ProcTypeAdaptive3.cs" />
     <Compile Include="MyClasses\Processing\ProcessingTypes\ProcTypeAdaptive2.cs" />
