@@ -3174,7 +3174,7 @@ namespace FloppyControlApp
             int EIGHT = EightvScrollBar.Value;
             int OFFSET = OffsetvScrollBar1.Value;
             int step = (int)iESStart.Value;
-            for (k = 2; k < 1200; k *= 2)
+            for (k = 2048; k > 2; k /= 2)
             {
                 RateOfChange2UpDown.Value = (int)k;
                 for (l = -12; l < 13; l += step)
