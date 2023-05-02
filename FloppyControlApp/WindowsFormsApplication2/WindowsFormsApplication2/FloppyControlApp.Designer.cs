@@ -1067,7 +1067,7 @@ namespace FloppyControlApp
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(1193, 47);
             this.panel2.TabIndex = 57;
-            this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
+            
             // 
             // hlabel
             // 
@@ -3185,7 +3185,6 @@ namespace FloppyControlApp
             this.ProcessingModeComboBox.Name = "ProcessingModeComboBox";
             this.ProcessingModeComboBox.Size = new System.Drawing.Size(106, 21);
             this.ProcessingModeComboBox.TabIndex = 103;
-            this.ProcessingModeComboBox.SelectedIndexChanged += new System.EventHandler(this.ProcessingModeComboBox_SelectedIndexChanged);
             // 
             // ClearDatacheckBox
             // 
@@ -4040,7 +4039,6 @@ namespace FloppyControlApp
             this.ScatterMinUpDown.Name = "ScatterMinUpDown";
             this.ScatterMinUpDown.Size = new System.Drawing.Size(56, 20);
             this.ScatterMinUpDown.TabIndex = 4005;
-            this.ScatterMinUpDown.ValueChanged += new System.EventHandler(this.ScatterMinUpDown_ValueChanged);
             // 
             // ScatterMaxUpDown
             // 
@@ -4063,7 +4061,6 @@ namespace FloppyControlApp
             0,
             0,
             0});
-            this.ScatterMaxUpDown.ValueChanged += new System.EventHandler(this.ScatterMinUpDown_ValueChanged);
             // 
             // ScatterMaxTrackBar
             // 

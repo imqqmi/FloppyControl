@@ -234,6 +234,7 @@ namespace FloppyControlApp
             TrackDurationUpDown.Value = 50000;
             QTrackDurationUpDown.Value = 50000;
         }
+
         private void outputfilename_Enter(object sender, EventArgs e)
         {
             disablecatchkey = 1;
@@ -241,7 +242,6 @@ namespace FloppyControlApp
 
         private void outputfilename_Leave(object sender, EventArgs e)
         {
-            //tbreceived.Append("Output changed to: "+outputfilename.Text+"\r\n");
             disablecatchkey = 0;
             setBaseName();
         }
@@ -301,110 +301,12 @@ namespace FloppyControlApp
         {
             wlabel.Text = this.Width.ToString();
             hlabel.Text = this.Height.ToString();
-            /*
-            if (this.Width < 1600)
-            {
-                label6.Hide();
-                textBoxReceived.Hide();
-            }
-            if (this.Width >= 1600)
-            {
-                label6.Show();
-                textBoxReceived.Show();
-            }
-            */
         }
-
-        private void OffsetScan()
-        {
-            int i;
-            //NormalradioButton.Checked = true;
-            ProcessingModeComboBox.SelectedItem = ProcessingType.normal.ToString();
-            capturetime = 0;
-            processing.processing = 1;
-            processing.stop = 0;
-            for (i = -15; i < 19; i += 3)
-            {
-                SettingsLabel.Text = "i = " + i;
-                if (processing.stop == 1)
-                    break;
-                OffsetvScrollBar1.Value = i;
-                ScanButton.PerformClick();
-
-                //RefreshSectorMap();
-                //this.updateForm();
-            }
-            processing.stop = 0;
-            processing.processing = 0;
-        }
-
-        private void OffsetScan2()
-        {
-            int i;
-            ProcessingModeComboBox.SelectedItem = ProcessingType.normal.ToString();
-            //NormalradioButton.Checked = true;
-            capturetime = 0;
-            processing.processing = 1;
-            processing.stop = 0;
-
-            for (i = 0; i < 28; i += 1)
-            {
-                SettingsLabel.Text = "i = " + i;
-                if (processing.stop == 1)
-                    break;
-                OffsetvScrollBar1.Value = ((28 - i) * -1) + 3;
-                ScanButton.PerformClick();
-
-                OffsetvScrollBar1.Value = 29 - i;
-                ScanButton.PerformClick();
-
-                this.updateForm();
-            }
-
-            processing.stop = 0;
-            processing.processing = 0;
-        }
-
-
 
         // Display sector data, only works for PC for now
         private void TrackUpDown2_ValueChanged(object sender, EventArgs e)
         {
             ShowDiskSector();
-        }
-
-        private void ShowDiskSector()
-        {
-            int i, track, sector, offset;
-            byte databyte;
-            StringBuilder bytesstring = new StringBuilder();
-            StringBuilder txtstring = new StringBuilder();
-
-            track = (int)TrackUpDown.Value;
-            sector = (int)SectorUpDown.Value;
-            offset = (track * 512 * processing.sectorspertrack) + (512 * sector);
-
-            //txtstring.Append();
-            int index;
-            int size = processing.disk.Length;
-            for (i = 0; i < 512; i++)
-            {
-                index = track * 512 * processing.sectorspertrack + (512 * sector) + i;
-                if (index > size)
-                    break;
-                databyte = (byte)processing.disk[index];
-                bytesstring.Append(databyte.ToString("X2"));
-                if (databyte > 32 && databyte < 127)
-                    txtstring.Append((char)databyte);
-                else txtstring.Append(".");
-                if (i % 32 == 31)
-                {
-                    txtstring.Append("\r\n");
-                    bytesstring.Append("\r\n");
-                }
-            }
-            textBoxSector.Text = txtstring.ToString() + "\r\n\r\n";
-            textBoxSector.Text += bytesstring.ToString() + "\r\n";
         }
 
         private void SavePrjBtn_Click(object sender, EventArgs e)
@@ -417,66 +319,6 @@ namespace FloppyControlApp
             fileio.ShowLoadProjectFiles();
         }
 
-        private void ExtremeScan()
-        {
-            int i, j, k;
-
-            //OffsetvScrollBar1.Value = 0;
-            //MinvScrollBar.Value = 0x04;
-            //EightvScrollBar.Value = 0xFE;
-            int kmax = (int)AddNoiseKnumericUpDown.Value;
-            int hd = HDCheckBox.Checked ? 1 : 0;
-            int gc_cnt = 0;
-            int step = 1 << hd;
-            int _4us = FourvScrollBar.Value;
-            int _6us = SixvScrollBar.Value;
-            processing.stop = 0;
-            ProcessingModeComboBox.SelectedItem = ProcessingType.normal.ToString();
-            //NormalradioButton.Checked = true;
-
-            uint ESTime;
-            ESTime = (uint)(Environment.TickCount + Int32.MaxValue);
-
-            for (i = (int)iESStart.Value; i < (int)iESEnd.Value; i += step)
-            {
-                //GC.Collect(); // Allow the system to recover some memory
-                for (j = (int)jESStart.Value; j < (int)jESEnd.Value; j += step)
-                {
-                    if (processing.stop == 1)
-                        break;
-
-                    FourvScrollBar.Value = _4us + j;
-                    SixvScrollBar.Value = _6us + i;
-
-                    if (MinvScrollBar.Value < 4)
-                        MinvScrollBar.Value = 4;
-                    Application.DoEvents();
-                    updateHistoAndSliders();
-                    for (k = 0; k < kmax; k++)
-                    {
-                        SettingsLabel.Text = "i = " + i + " j = " + j + " k = " + k;
-                        gc_cnt++;
-                        if (gc_cnt % 50 == 0)
-                            GC.Collect();
-                        if (processing.stop == 1)
-                            break;
-                        if (processing.diskformat == DiskFormat.amigados || processing.diskformat == DiskFormat.diskspare)
-                            processing.StartProcessing(Platform.Amiga);
-                        else
-                            processing.StartProcessing(Platform.PC);
-                        this.updateForm();
-                    }
-                }
-                if (processing.stop == 1)
-                    break;
-            }
-            processing.stop = 0;
-            FourvScrollBar.Value = _4us;
-            SixvScrollBar.Value = _6us;
-            //ESTime = (uint)(Environment.TickCount + Int32.MaxValue);
-            tbreceived.Append("Time: " + (uint)(Environment.TickCount + Int32.MaxValue - ESTime) + "ms\r\n");
-        }
-
         private void ECSectorOverlayBtn_Click(object sender, EventArgs e)
         {
             ECSectorOverlay();
@@ -485,45 +327,6 @@ namespace FloppyControlApp
         private void BadSectorListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             updateECInterface();
-        }
-        private void updateECInterface()
-        {
-            ScatterMinUpDown.Value = ScatterMinTrackBar.Value + ScatterOffsetTrackBar.Value;
-            ScatterMaxUpDown.Value = ScatterMaxTrackBar.Value + ScatterOffsetTrackBar.Value;
-            ScatterOffsetUpDown.Value = ScatterOffsetTrackBar.Value;
-
-            SelectionDifLabel.Text = "Periods:" + (ScatterMaxUpDown.Value - ScatterMinUpDown.Value).ToString();
-            BadSectorDraw();
-            BadSectorToolTip();
-            var currentcontrol = FindFocusedControl(this);
-            tabControl1.SelectedTab = ScatterPlottabPage;
-            currentcontrol.Focus();
-            ShowSectorData();
-        }
-        private void ShowSectorData()
-        {
-            int indexS1, threadid;
-            int i;
-            if (BadSectorListBox.SelectedIndices.Count >= 1)
-            {
-                indexS1 = ((badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[0]]).id;
-                threadid = ((badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[0]]).threadid;
-
-            }
-            else return;
-
-            antbSectorData.Clear();
-            antbSectorData.Text = (processing.BytesToHexa(processing.sectordata2[indexS1].sectorbytes, 0, processing.sectordata2[indexS1].sectorbytes.Length));
-
-            int mfmoffset = processing.sectordata2[indexS1].MarkerPositions;
-            int length = (processing.sectordata2[indexS1].sectorlength + 1000) * 16;
-            //threadid = sectordata[threadid][indexS1].threadid;
-            StringBuilder mfmtxt = new StringBuilder();
-            for (i = 0; i < length; i++)
-            {
-                mfmtxt.Append((char)(processing.mfms[threadid][i + mfmoffset] + 48));
-            }
-            ECtbMFM.Text = mfmtxt.ToString();
         }
 
         private void BadSectorPanel_MouseDown(object sender, MouseEventArgs e)
@@ -569,6 +372,32 @@ namespace FloppyControlApp
             BadSectorTooltip.Location = BadSectorTooltipPos;
         }
 
+        private void GUITimer_Tick(object sender, EventArgs e)
+        {
+            ProcessStatusLabel.Text = processing.ProcessStatus[processing.mfmsindex];
+
+            if (processing.progressesstart[processing.mfmsindex] < 0)
+            {
+                if (processing.progressesend[processing.mfmsindex] < 1)
+                {
+                    processing.progressesstart[processing.mfmsindex] = 0;
+                    processing.progressesend[processing.mfmsindex] = 1;
+                }
+            }
+            progressBar1.Minimum = processing.progressesstart[processing.mfmsindex];
+            progressBar1.Maximum = processing.progressesend[processing.mfmsindex];
+
+            if (processing.progresses[processing.mfmsindex] >= processing.progressesstart[processing.mfmsindex] &&
+                processing.progresses[processing.mfmsindex] <= processing.progressesend[processing.mfmsindex])
+                if (processing.progresses[processing.mfmsindex] <= progressBar1.Maximum &&
+                    processing.progresses[processing.mfmsindex] >= progressBar1.Minimum)
+                    progressBar1.Value = processing.progresses[processing.mfmsindex];
+
+            textBoxReceived.AppendText(tbreceived.ToString());
+            tbreceived.Clear();
+            this.updateForm();
+        }
+
         private void BluetoRedByteCopyToolBtn_Click(object sender, EventArgs e)
         {
             if ((int)(BluetoRedByteCopyToolBtn.Tag) == 0)
@@ -606,36 +435,6 @@ namespace FloppyControlApp
         private void Sector1UpDown_ValueChanged(object sender, EventArgs e)
         {
             BadSectorDraw();
-        }
-
-        private void panel2_Paint(object sender, PaintEventArgs e)
-        {
-        }
-
-        private void GUITimer_Tick(object sender, EventArgs e)
-        {
-            ProcessStatusLabel.Text = processing.ProcessStatus[processing.mfmsindex];
-
-            if (processing.progressesstart[processing.mfmsindex] < 0 )
-            {
-                if (processing.progressesend[processing.mfmsindex] < 1)
-                {
-                    processing.progressesstart[processing.mfmsindex] = 0;
-                    processing.progressesend[processing.mfmsindex] = 1;
-                }
-            }
-            progressBar1.Minimum = processing.progressesstart[processing.mfmsindex];
-            progressBar1.Maximum = processing.progressesend[processing.mfmsindex];
-
-            if (processing.progresses[processing.mfmsindex] >= processing.progressesstart[processing.mfmsindex] &&
-                processing.progresses[processing.mfmsindex] <= processing.progressesend[processing.mfmsindex])
-                if (processing.progresses[processing.mfmsindex] <= progressBar1.Maximum &&
-                    processing.progresses[processing.mfmsindex] >= progressBar1.Minimum)
-                    progressBar1.Value = processing.progresses[processing.mfmsindex];
-
-            textBoxReceived.AppendText(tbreceived.ToString());
-            tbreceived.Clear();
-            this.updateForm();
         }
 
         private void MainTabControl_SelectedIndexChanged(object sender, EventArgs e)
@@ -678,12 +477,6 @@ namespace FloppyControlApp
             }
         }
 
-        private void ScatterMinUpDown_ValueChanged(object sender, EventArgs e)
-        {
-            //ScatterMinTrackBar.Value = (int)ScatterMinUpDown.Value;
-            //ScatterMaxTrackBar.Value = (int)ScatterMaxUpDown.Value;
-        }
-
         private void ThreadsUpDown_ValueChanged(object sender, EventArgs e)
         {
             processing.NumberOfThreads = (int)ThreadsUpDown.Value;
@@ -691,179 +484,17 @@ namespace FloppyControlApp
 
         private void BadSectorListBox_KeyDown(object sender, KeyEventArgs e)
         {
-            //tbreceived.Append("KeyCode: "+(int)e.KeyCode+"\r\n");
-            if (e.KeyCode == Keys.Delete) //Delete key
-            {
-                var selectedItems = BadSectorListBox.SelectedItems;
-                var qq = selectedItems[0];
-                if (BadSectorListBox.SelectedIndex != -1)
-                {
-                    for (int i = selectedItems.Count - 1; i >= 0; i--)
-                    {
-                        var badsectoritem = (badsectorkeyval)selectedItems[i];
-
-                        for (int j = 0; j < JumpTocomboBox.Items.Count; j++)
-                        {
-                            var jumpboxitem = (ComboboxItem)JumpTocomboBox.Items[j];
-
-                            if (jumpboxitem.id == badsectoritem.id)
-                                JumpTocomboBox.Items.RemoveAt(j);
-                        }
-
-                        BadSectorListBox.Items.Remove(selectedItems[i]);
-                    }
-                }
-            }
+            UpdateBadSectorListview(e);
         }
 
         private void ECZoomOutBtn_Click(object sender, EventArgs e)
         {
-            int indexS1, threadid;
-
-            if (BadSectorListBox.SelectedIndices.Count >= 1)
-            {
-                indexS1 = ((badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[0]]).id;
-                threadid = ((badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[0]]).threadid;
-
-                int sectorlength = processing.sectordata2[indexS1].sectorlength;
-
-                int factor = sectorlength / 512;
-
-                ScatterMinTrackBar.Value = 0;
-                ScatterMaxTrackBar.Value = 4500 * factor;
-                updateECInterface();
-            }
+            ECZoomOutBtnHandler();
         }
 
         private void ECRealign4E_Click(object sender, EventArgs e)
         {
-            int indexS1, listlength = 0, i, threadid;
-            var selected = BadSectorListBox.SelectedIndices;
-            listlength = selected.Count;
-
-            ECSettings ecSettings = new ECSettings();
-            ECResult sectorresult;
-            ecSettings.sectortextbox = textBoxSector;
-
-            if (ScatterMaxTrackBar.Value - ScatterMinTrackBar.Value > 50)
-            {
-                tbreceived.Append("Error: selection can't be larger than 50!\r\n");
-                return;
-            }
-
-            if (listlength >= 1)
-            {
-                for (i = 0; i < listlength; i++)
-                {
-                    if (processing.stop == 1)
-                        break;
-                    indexS1 = ((badsectorkeyval)BadSectorListBox.Items[selected[i]]).id;
-                    threadid = ((badsectorkeyval)BadSectorListBox.Items[selected[i]]).threadid;
-                    ecSettings.indexS1 = indexS1;
-                    ecSettings.periodSelectionStart = (int)ScatterMinUpDown.Value;
-                    ecSettings.periodSelectionEnd = (int)ScatterMaxUpDown.Value;
-                    ecSettings.threadid = threadid;
-                    if ((int)processing.diskformat > 2)
-                    {
-                        sectorresult = processing.ProcessRealign4E(ecSettings);
-                        if (sectorresult != null)
-                        {
-                            AddRealignedToLists(sectorresult);
-                        }
-                    }
-                    else
-                    {
-                        sectorresult = processing.ProcessRealignAmiga(ecSettings);
-                        if (sectorresult != null)
-                        {
-                            AddRealignedToLists(sectorresult);
-                        }
-                    }
-                }
-            }
-            else
-            {
-                textBoxReceived.AppendText("Error, no data selected.");
-                return;
-            }
-        }
-
-        private void AddRealignedToLists(ECResult sectorresult)
-        {
-            MFMData sectordata = sectorresult.sectordata;
-            int badsectorcnt2 = sectorresult.index;
-            int track = sectordata.track;
-            int sector = sectordata.sector;
-
-            var currentcontrol = FindFocusedControl(this);
-            tabControl1.SelectedTab = ShowSectorTab;
-            currentcontrol.Focus();
-
-            string key = "Aligned: T" + track + " s" + sector;
-            int index = BadSectorListBox.Items.Add(new badsectorkeyval
-            {
-                name = "i: " + badsectorcnt2 + " " + key,
-                id = badsectorcnt2,
-                threadid = sectordata.threadid
-            });
-            //JumpTocomboBox.Items.Add()
-            int index2 = JumpTocomboBox.Items.Add(new ComboboxItem
-            {
-                Text = "i: " + badsectorcnt2 + " " + key,
-                id = badsectorcnt2,
-            });
-        }
-
-        public static Control FindFocusedControl(Control control)
-        {
-            var container = control as IContainerControl;
-            while (container != null)
-            {
-                control = container.ActiveControl;
-                container = control as IContainerControl;
-            }
-            return control;
-        }
-
-
-
-        private void AuScan()
-        {
-            int i;
-            processing.stop = 0;
-            //AufitRadioButton.Checked = true;
-            ProcessingModeComboBox.SelectedItem = ProcessingType.aufit.ToString();
-            scanactive = true;
-            for (i = 0x2E; i < 0x3A; i += 2)
-            {
-                SettingsLabel.Text = "1. i = " + i;
-                if (processing.stop == 1)
-                    break;
-                MinvScrollBar.Value = i;
-                if ((int)processing.diskformat <= 2)
-                    processing.StartProcessing(Platform.Amiga);
-                else
-                    processing.StartProcessing(Platform.PC);
-                processing.sectormap.RefreshSectorMap();
-                this.updateForm();
-            }
-            MinvScrollBar.Value = 0x32;
-            for (i = 0x07; i < 0x18; i += 2)
-            {
-                SettingsLabel.Text = "2. i = " + i;
-                if (processing.stop == 1)
-                    break;
-                FourvScrollBar.Value = i;
-                if ((int)processing.diskformat <= 2)
-                    processing.StartProcessing(Platform.Amiga);
-                else
-                    processing.StartProcessing(Platform.PC);
-                processing.sectormap.RefreshSectorMap();
-                this.updateForm();
-            }
-
-            scanactive = false;
-            processing.stop = 0;
+            ErrorCorrectRealign4E();
         }
 
         private void outputfilename_TextChanged(object sender, EventArgs e)
@@ -886,10 +517,7 @@ namespace FloppyControlApp
 
         private void CreateGraphs()
         {
-
             Graph1SelRadioButton.Checked = true;
-
-
         }
 
         private void GraphOffsetTrackBar_Scroll(object sender, EventArgs e)
@@ -945,7 +573,6 @@ namespace FloppyControlApp
 
         private void Graph2SelRadioButton_CheckedChanged(object sender, EventArgs e)
         {
-
             if (oscilloscope.graphset.Graphs.Count >= 2)
             {
 
@@ -958,8 +585,6 @@ namespace FloppyControlApp
 
         private void Graph3SelRadioButton_CheckedChanged(object sender, EventArgs e)
         {
-
-
             if (oscilloscope.graphset.Graphs.Count >= 3)
             {
                 graphselect = 2;
@@ -998,123 +623,12 @@ namespace FloppyControlApp
             oscilloscope.graphset.editperiodextend = (int)PeriodExtendUpDown.Value;
         }
 
-        private void updateGraphCallback()
-        {
-            if (stopupdatingGraph == false)
-            {
-                AnDensityUpDown.Value = oscilloscope.graphset.Graphs[0].density;
-                int index = 0;
-                if (Graph1SelRadioButton.Checked) index = 0;
-                else
-                if (Graph2SelRadioButton.Checked) index = 1;
-                else
-                if (Graph3SelRadioButton.Checked) index = 2;
-                else
-                if (Graph4SelRadioButton.Checked) index = 3;
-                else
-                if (Graph5SelRadioButton.Checked) index = 4;
-
-                oscilloscope.graphset.Graphs[index].changed = true;
-
-                oscilloscope.graphset.Graphs[graphselect].yscale = (GraphYScaleTrackBar.Value / 100.0f);
-                GraphScaleYLabel.Text = (GraphYScaleTrackBar.Value / 100.0f).ToString();
-                /*
-                foreach ( var gr in graphset.Graphs)
-                {
-                    gr.density = density;
-                }
-                AnDensityUpDown.Value = density;
-                */
-                GraphLengthLabel.Text = string.Format("{0:n0}", oscilloscope.graphset.Graphs[0].datalength);
-                GraphXOffsetLabel.Text = string.Format("{0:n0}", oscilloscope.graphset.Graphs[0].dataoffset);
-                int i;
-                int centerposition = oscilloscope.graphset.Graphs[0].dataoffset;
-                //int centerposition = graphset.Graphs[0].dataoffset + (graphset.Graphs[0].datalength / 2);
-                if (processing.sectordata2 != null && processing.rxbuftograph != null)
-                {
-                    for (i = 0; i < processing.rxbuftograph.Length; i++)
-                    {
-                        if (processing.rxbuftograph[i] > centerposition)
-                            break;
-
-                    }
-                    tbreceived.Append("rxbuftograph i " + i + "\r\n");
-                    if (i < processing.rxbuftograph.Length - 1)
-                    {
-                        int rxbufoffset = i;
-
-                        for (i = 0; i < processing.sectordata2.Count; i++)
-                        {
-                            if (processing.sectordata2[i].rxbufMarkerPositions > rxbufoffset)
-                            {
-                                break;
-                            }
-                        }
-                        tbreceived.Append("sectordata i " + i + "\r\n");
-                        if (i > 1)
-                        {
-                            MFMData sectordata = processing.sectordata2[i - 1];
-                            int sectoroffset = rxbufoffset - sectordata.rxbufMarkerPositions;
-
-
-                            rxbufOffsetLabel.Text = "T" + sectordata.track.ToString("D3") + " S" + sectordata.sector + " o:" + sectoroffset.ToString();
-                        }
-                    }
-                }
-                Undolevelslabel.Text = "Undo levels: " + (oscilloscope.graphset.Graphs[0].undo.Count).ToString();
-                //graphset.UpdateGraphs();
-                scatterplot.UpdateScatterPlot();
-
-            }
-        }
-
-        private void updateAnScatterPlot()
-        {
-            if (processing.processing == 1)
-                return;
-            scatterplot.thresholdmin = MinvScrollBar.Value + OffsetvScrollBar1.Value;
-            scatterplot.threshold4us = FourvScrollBar.Value + OffsetvScrollBar1.Value;
-            scatterplot.threshold6us = SixvScrollBar.Value + OffsetvScrollBar1.Value;
-            scatterplot.thresholdmax = EightvScrollBar.Value + OffsetvScrollBar1.Value;
-
-            HistogramhScrollBar1.Maximum = processing.indexrxbuf;
-            QHistogramhScrollBar1.Maximum = processing.indexrxbuf;
-            if (scatterplot.AnScatViewoffset + scatterplot.AnScatViewlargeoffset < 0)
-            {
-                scatterplot.AnScatViewoffset = 0;
-                scatterplot.AnScatViewlargeoffset = 0;
-            }
-
-            if (processing.indexrxbuf > 0)
-            {
-                if (MainTabControl.SelectedTab == ProcessingTab)
-                {
-                    int offset = scatterplot.AnScatViewoffset + scatterplot.AnScatViewlargeoffset;
-                    int length = scatterplot.AnScatViewlength;
-                    if (length < 0) length = 4000;
-                    if (scatterplot.AnScatViewlargeoffset < processing.indexrxbuf)
-                        HistogramhScrollBar1.Value = scatterplot.AnScatViewlargeoffset;
-                    ScatterHisto.setPanel(Histogrampanel1);
-                    ScatterHisto.DoHistogram(processing.rxbuf, offset, length);
-                }
-                if (MainTabControl.SelectedTab == QuickTab)
-                {
-                    int offset = scatterplot.AnScatViewoffset + scatterplot.AnScatViewlargeoffset;
-                    int length = scatterplot.AnScatViewlength;
-                    if (length < 0) length = 4000;
-                    if (scatterplot.AnScatViewlargeoffset < processing.indexrxbuf)
-                        QHistogramhScrollBar1.Value = scatterplot.AnScatViewlargeoffset;
-                    ScatterHisto.setPanel(QHistoPanel);
-                    ScatterHisto.DoHistogram(processing.rxbuf, offset, length);
-                }
-            }
-        }
-
         private void OpenWavefrmbutton_Click_1(object sender, EventArgs e)
         {
             oscilloscope.OpenOscilloscopeFile();
             UpdateHistoAndScatterplot();
         }
+
         public void GraphFilterButton_Click(object sender, EventArgs e)
         {
             oscilloscope.Filter(
@@ -1174,199 +688,12 @@ namespace FloppyControlApp
         // Process the read data signal captured using the scope
         private void button19_Click(object sender, EventArgs e)
         {
-            int i;
-            //double val = 0;
-            //double val2 = 0;
-            //double RateOfChange = (float)GraphFilterUpDown.Value;
-            int diffdist = (int)DiffDistUpDown.Value;
-            float diffgain = (float)DiffGainUpDown.Value;
-            int diffdist2 = (int)DiffDistUpDown2.Value;
-            if (graphwaveform[2] == null) return;
-            int length = graphwaveform[2].Length;
-
-            int diffthreshold = (int)DiffThresholdUpDown.Value;
-
-            // The captured data has the high and low at 119 and 108
-            float[] t = new float[graphwaveform[0].Length];
-            //indexrxbuf = 0;
-            processing.indexrxbuf = 0;
-            int j;
-            int old = 0;
-            int period;
-            //Smoothing pass
-            for (i = 0; i < length; i++)
-            {
-                if (graphwaveform[2][i] < 113)
-                {
-                    period = i - old;
-                    processing.rxbuf[processing.indexrxbuf++] = (byte)period;
-                    old = i;
-                    for (j = 0; j < 100; j++) // skip to end of pulse
-                    {
-                        if (graphwaveform[2][i] > 113)
-                        {
-                            break;
-                        }
-                        if (i < length - 1)
-                            i++;
-                        else break;
-                    }
-                }
-
-            }
-
-            rxbufEndUpDown.Maximum = processing.indexrxbuf;
-            rxbufStartUpDown.Maximum = processing.indexrxbuf;
-
-            rxbufEndUpDown.Value = processing.indexrxbuf;
-            HistogramhScrollBar1.Minimum = 0;
-            HistogramhScrollBar1.Maximum = processing.indexrxbuf;
-            oscilloscope.graphset.SetAllChanged();
-
-            oscilloscope.graphset.UpdateGraphs();
+            ProcessOscilloscopeCapturedTrack();
         }
-
 
         private void CaptureDataBtn_Click(object sender, EventArgs e)
         {
-            int i;
-
-            scope.tbr = tbreceived;
-
-            string connection = (string)Properties.Settings.Default["ScopeConnection"];
-            scope.Connect(connection);
-            for (i = 0; i < 20; i++)
-            {
-                Thread.Sleep(50);
-                if (scope.connectionStatus == 1)
-                    break;
-            }
-            if (i == 19)
-            {
-                tbreceived.Append("Connection failed\r\n");
-            }
-            else
-            {
-                controlfloppy.binfilecount = binfilecount;
-                controlfloppy.DirectStep = DirectStepCheckBox.Checked;
-                controlfloppy.MicrostepsPerTrack = (int)MicrostepsPerTrackUpDown.Value;
-                controlfloppy.trk00offset = (int)TRK00OffsetUpDown.Value;
-                controlfloppy.EndTrack = (int)EndTracksUpDown.Value;
-                controlfloppy.StartTrack = (int)StartTrackUpDown.Value;
-                controlfloppy.tbr = tbreceived;
-                //processing.indexrxbuf            = indexrxbuf;
-
-                controlfloppy.outputfilename = outputfilename.Text;
-                controlfloppy.rxbuf = processing.rxbuf;
-
-                selectedBaudRate = (int)Properties.Settings.Default["DefaultBaud"];
-                selectedPortName = (string)Properties.Settings.Default["DefaultPort"];
-                scope.serialPort1.PortName = selectedPortName;
-                scope.serialPort1.BaudRate = selectedBaudRate;
-                scope.ScopeMemDepth = (int)NumberOfPointsUpDown.Value;
-                scope.UseAveraging = NetworkUseAveragingCheckBox.Checked;
-
-                controlfloppy.binfilecount = binfilecount;
-                controlfloppy.DirectStep = DirectStepCheckBox.Checked;
-                controlfloppy.MicrostepsPerTrack = (int)MicrostepsPerTrackUpDown.Value;
-                controlfloppy.StepStickMicrostepping = (int)Properties.Settings.Default["StepStickMicrostepping"];
-                controlfloppy.trk00offset = (int)TRK00OffsetUpDown.Value;
-                controlfloppy.EndTrack = (int)NetworkCaptureTrackEndUpDown.Value;
-
-                controlfloppy.tbr = tbreceived;
-                //processing.indexrxbuf = indexrxbuf;
-
-                controlfloppy.outputfilename = outputfilename.Text;
-                controlfloppy.rxbuf = processing.rxbuf;
-
-                // Callbacks
-                controlfloppy.updateHistoAndSliders = updateHistoAndSliders;
-                controlfloppy.ControlFloppyScatterplotCallback = ControlFloppyScatterplotCallback;
-                controlfloppy.Setrxbufcontrol = Setrxbufcontrol;
-
-
-                scope.controlfloppy = controlfloppy; // reference the controlfloppy class
-
-                if (NetCaptureRangecheckBox.Checked)
-                {
-                    int start, end;
-
-                    start = (int)NetworkCaptureTrackStartUpDown.Value;
-                    end = (int)NetworkCaptureTrackEndUpDown.Value;
-
-                    for (i = start; i < end + 1; i++)
-                    {
-                        controlfloppy.EndTrack = i;
-                        controlfloppy.StartTrack = i;
-
-                        scope.capturedataindex = 0;
-                        scope.capturedatablocklength = 250000;
-                        scope.stop = 0;
-                        scope.capturedatastate = 0;
-                        scope.xscalemv = (int)xscalemvUpDown.Value;
-                        scope.capturetimerstart();
-                        while (scope.SaveFinished == false && processing.stop != 1)
-                        {
-                            Thread.Sleep(100);
-                            Application.DoEvents();
-                        }
-                        scope.SaveFinished = false;
-                        if (processing.stop == 1)
-                            break;
-                    }
-                }
-                else if (NetworkDoAllBad.Checked)
-                {
-                    int start, end;
-
-                    start = (int)NetworkCaptureTrackStartUpDown.Value;
-                    end = (int)NetworkCaptureTrackEndUpDown.Value;
-
-                    int j, dotrack = 0;
-
-                    for (i = start; i < end + 1; i++)
-                    {
-                        for (j = 0; j < processing.sectorspertrack; j++)
-                            if (processing.sectormap.sectorok[i, j] == SectorMapStatus.empty || processing.sectormap.sectorok[i, j] == SectorMapStatus.HeadOkDataBad)
-                            {
-                                dotrack = 1;
-                                break;
-                            }
-                            else
-                            {
-                                dotrack = 0;
-                            }
-                        if (dotrack == 1)
-                        {
-                            controlfloppy.StartTrack = i;
-
-                            scope.capturedataindex = 0;
-                            scope.capturedatablocklength = 250000;
-                            scope.stop = 0;
-                            scope.capturedatastate = 0;
-                            scope.capturetimerstart();
-                            while (scope.SaveFinished == false && processing.stop != 1)
-                            {
-                                Thread.Sleep(100);
-                                Application.DoEvents();
-                            }
-                        }
-                        scope.SaveFinished = false;
-                        if (processing.stop == 1)
-                            break;
-                    }
-                }
-                else
-                {
-                    controlfloppy.StartTrack = (int)NetworkCaptureTrackStartUpDown.Value;
-
-                    scope.capturedataindex = 0;
-                    scope.capturedatablocklength = 250000;
-                    scope.stop = 0;
-                    scope.capturedatastate = 0;
-                    scope.capturetimerstart();
-                }
-            }
+            CaptureOscilloscopeTrack();
         }
 
         private void button29_Click(object sender, EventArgs e)
@@ -1387,81 +714,6 @@ namespace FloppyControlApp
         private void ConnectClassbutton_Click(object sender, EventArgs e)
         {
             ConnectToFloppyControlHardware();
-        }
-
-        private void ConnectToFloppyControlHardware()
-        {
-            if (MainTabControl.SelectedTab == ProcessingTab)
-            {
-                controlfloppy.DirectStep = DirectStepCheckBox.Checked;
-                controlfloppy.MicrostepsPerTrack = (int)MicrostepsPerTrackUpDown.Value;
-                controlfloppy.StepStickMicrostepping = 
-                controlfloppy.trk00offset = (int)TRK00OffsetUpDown.Value;
-                controlfloppy.EndTrack = (int)EndTracksUpDown.Value;
-                controlfloppy.StartTrack = (int)StartTrackUpDown.Value;
-                controlfloppy.TrackDuration = (int)TrackDurationUpDown.Value;
-
-            }
-            else if (MainTabControl.SelectedTab == QuickTab)
-            {
-                controlfloppy.DirectStep = QDirectStepCheckBox.Checked;
-                controlfloppy.MicrostepsPerTrack = (int)QMicrostepsPerTrackUpDown.Value;
-                controlfloppy.trk00offset = (int)QTRK00OffsetUpDown.Value;
-                controlfloppy.EndTrack = (int)QEndTracksUpDown.Value;
-                controlfloppy.StartTrack = (int)QStartTrackUpDown.Value;
-                controlfloppy.TrackDuration = (int)QTrackDurationUpDown.Value;
-            }
-
-            controlfloppy.binfilecount = binfilecount;
-            controlfloppy.tbr = tbreceived;
-            //processing.indexrxbuf            = indexrxbuf;
-            controlfloppy.StepStickMicrostepping = Decimal.ToInt32((decimal)Properties.Settings.Default["StepStickMicrostepping"]);
-            controlfloppy.outputfilename = outputfilename.Text;
-            controlfloppy.rxbuf = processing.rxbuf;
-
-            // Callbacks
-            controlfloppy.updateHistoAndSliders = updateHistoAndSliders;
-            controlfloppy.ControlFloppyScatterplotCallback = ControlFloppyScatterplotCallback;
-            controlfloppy.Setrxbufcontrol = Setrxbufcontrol;
-
-            if (!controlfloppy.serialPort1.IsOpen) // Open connection if it's closed
-            {
-                controlfloppy.ConnectFDD();
-                if (controlfloppy.serialPort1.IsOpen)
-                {
-                    LabelStatus.Text = "Connected.";
-                }
-                else
-                {
-                    LabelStatus.Text = "Disconnected.";
-                }
-            }
-            else // Close connection if open
-                DisconnectFromFloppyControlHardware();
-        }
-        private void CaptureTracks()
-        {
-            resetinput();
-            processing.entropy = null;
-            tabControl1.SelectedTab = ScatterPlottabPage;
-
-            controlfloppy.outputfilename = outputfilename.Text;
-
-            if (controlfloppy.serialPort1.IsOpen)
-                controlfloppy.StartCapture();
-            else
-                tbreceived.Append("Not connected.\r\n");
-        }
-
-        public void Setrxbufcontrol()
-        {
-            //indexrxbuf = processing.indexrxbuf;
-            rxbufStartUpDown.Maximum = processing.rxbuf.Length;
-            rxbufEndUpDown.Maximum = processing.rxbuf.Length;
-            rxbufEndUpDown.Value = processing.rxbuf.Length;
-            HistogramhScrollBar1.Minimum = 0;
-            HistogramhScrollBar1.Maximum = processing.indexrxbuf;
-            scatterplot.rxbuf = processing.rxbuf;
         }
 
         private void HistogramhScrollBar1_Scroll(object sender, EventArgs e)
@@ -1523,9 +775,7 @@ namespace FloppyControlApp
 
         private void FloppyControl_SizeChanged(object sender, EventArgs e)
         {
-            int i;
-
-            for (i = 0; i < oscilloscope.graphset.Graphs.Count; i++)
+            for (int i = 0; i < oscilloscope.graphset.Graphs.Count; i++)
             {
                 oscilloscope.graphset.Graphs[i].width = GraphPictureBox.Width;
                 oscilloscope.graphset.Graphs[i].height = GraphPictureBox.Height;
@@ -1536,26 +786,7 @@ namespace FloppyControlApp
         // Undo
         private void button31_Click_1(object sender, EventArgs e)
         {
-            int i;
-            if (oscilloscope.graphset.Graphs.Count > 1)
-                if (oscilloscope.graphset.Graphs[0].undo.Count > 0)
-                {
-                    var undo = oscilloscope.graphset.Graphs[0].undo;
-                    int undolistindex = undo.Count - 1;
-                    int offset = undo[undolistindex].offset;
-                    byte[] d = undo[undolistindex].undodata;
-                    int length = d.Length;
-
-                    for (i = 0; i < length; i++)
-                    {
-                        oscilloscope.graphset.Graphs[0].data[i + offset] = d[i];
-                    }
-                    undo.Remove(undo[undolistindex]);
-
-                    oscilloscope.graphset.Graphs[0].changed = true;
-                    oscilloscope.graphset.UpdateGraphs();
-                }
-        }
+            EditScopePlotUndo();        }
 
         private void SaveWaveformButton_Click(object sender, EventArgs e)
         {
@@ -1565,31 +796,7 @@ namespace FloppyControlApp
         //Copy graph[0]
         private void button32_Click(object sender, EventArgs e)
         {
-            Graph2 src = oscilloscope.graphset.Graphs[0];
-
-            if (oscilloscope.graphset.Graphs.Count < 5)
-                oscilloscope.graphset.AddGraph((byte[])src.data.Clone());
-
-            Graph2 dst = oscilloscope.graphset.Graphs[4];
-
-            dst.changed = true;
-            dst.data = Clone4(src.data);
-            dst.datalength = src.datalength;
-            dst.dataoffset = src.dataoffset;
-            dst.density = src.density;
-
-            dst.yscale = src.yscale;
-            dst.yoffset = src.yoffset;
-            src.zorder = 10;
-            dst.zorder = 9;
-            oscilloscope.graphset.UpdateGraphs();
-        }
-
-        static byte[] Clone4(byte[] array)
-        {
-            byte[] result = new byte[array.Length];
-            Buffer.BlockCopy(array, 0, result, 0, array.Length * sizeof(byte));
-            return result;
+            EditScopePlotCopy();
         }
 
         private void button33_Click(object sender, EventArgs e)
@@ -1605,12 +812,14 @@ namespace FloppyControlApp
             oscilloscope.graphset.Graphs[graphselect].changed = true;
             oscilloscope.graphset.UpdateGraphs();
         }
+
         private void button3_Click(object sender, EventArgs e)
         {
             oscilloscope.graphset.Graphs[graphselect].Lowpass2((int)SmoothingUpDown.Value);
             oscilloscope.graphset.Graphs[graphselect].changed = true;
             oscilloscope.graphset.UpdateGraphs();
         }
+        
         private void button33_Click_1(object sender, EventArgs e)
         {
             oscilloscope.graphset.Graphs[graphselect].Highpass((int)HighpassThresholdUpDown.Value);
@@ -1618,60 +827,13 @@ namespace FloppyControlApp
             oscilloscope.graphset.UpdateGraphs();
         }
 
-
         private void button1_Click(object sender, EventArgs e)
         {
-            int indexS1, threadid;
-
-            ECSettings ecSettings = new ECSettings();
-            ecSettings.sectortextbox = textBoxSector;
-
-            if (BadSectorListBox.SelectedIndices.Count >= 1)
-            {
-                indexS1 = ((badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[0]]).id;
-                threadid = ((badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[0]]).threadid;
-                ecSettings.indexS1 = indexS1;
-                ecSettings.periodSelectionStart = (int)ScatterMinUpDown.Value;
-                ecSettings.periodSelectionEnd = (int)ScatterMaxUpDown.Value;
-                ecSettings.combinations = (int)CombinationsUpDown.Value;
-                ecSettings.threadid = threadid;
-                ecSettings.C6Start = (int)C6StartUpDown.Value;
-                ecSettings.C8Start = (int)C8StartUpDown.Value;
-            }
-            else
-            {
-                textBoxReceived.AppendText("Error, no data selected.");
-                return;
-            }
-            if (processing.procsettings.platform == 0)
-            {
-                processing.ECCluster2(ecSettings);
-            }
-            else processing.ProcessClusterAmiga(ecSettings);
-        }
-
-        private void AdaptiveScan()
-        {
-            float i;
-
-            for (i = 0.6f; i < 2f; i += 0.2f)
-            {
-                //processing.sectordata2.Clear();
-                if (processing.stop == 1)
-                    break;
-                RateOfChangeUpDown.Value = (decimal)i;
-                Application.DoEvents();
-                if (processing.procsettings.platform == 0)
-                    ProcessPC();
-                else
-                    ProcessAmiga();
-            }
-            //processing.sectormap.RefreshSectorMap();
+            DoErrorCorrectionOnSelection();
         }
 
         private void DirectStepCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-
             QDirectStepCheckBox.Checked = DirectStepCheckBox.Checked;
 
             Properties.Settings.Default["DirectStep"] = DirectStepCheckBox.Checked;
@@ -1708,7 +870,6 @@ namespace FloppyControlApp
             if (AnAutoUpdateCheckBox.Checked)
                 GraphFilterButton.PerformClick();
         }
-
 
         // Waveform editor tab, fix 8us method, an attempt to find and fix 8us waveform distortions
         private void button34_Click(object sender, EventArgs e)
@@ -1792,58 +953,6 @@ namespace FloppyControlApp
             }
         }
 
-        private void FindPeaks()
-        {
-
-            if (processing.indexrxbuf == 0) return;
-            processing.FindPeaks(HistogramhScrollBar1.Value);
-            SuspendLayout();
-            int peak1 = processing.peak1;
-            int peak2 = processing.peak2;
-            int peak3 = processing.peak3;
-            ProcessingType procmode = ProcessingType.adaptive1;
-            if (ProcessingModeComboBox.SelectedItem.ToString() != "")
-                procmode = (ProcessingType)Enum.Parse(typeof(ProcessingType), ProcessingModeComboBox.SelectedItem.ToString(), true);
-            tbreceived.Append("Selected: " + procmode.ToString() + "\r\n");
-
-            switch (procmode)
-            {
-                case ProcessingType.normal:
-                    FourvScrollBar.Value = peak1 + ((peak2 - peak1) / 2);
-                    SixvScrollBar.Value = peak2 + ((peak3 - peak2) / 2);
-                    break;
-                case ProcessingType.aufit:
-                    break;
-                case ProcessingType.adaptive1:
-                case ProcessingType.adaptive2:
-                case ProcessingType.adaptive3:
-                case ProcessingType.adaptivePredict:
-
-                    QFourSixUpDown.Value = FourvScrollBar.Value = peak1 + 4;
-                    QSixEightUpDown.Value = SixvScrollBar.Value = peak2 + 2;
-                    QMaxUpDown.Value = EightvScrollBar.Value = peak3;
-
-                    break;
-            }
-            Application.DoEvents();
-            ResumeLayout();
-            /*
-            if (AdaptradioButton.Checked)
-            {
-                FourvScrollBar.Value = peak1;
-                SixvScrollBar.Value = peak2;
-                EightvScrollBar.Value = peak3;
-            }
-            else if (NormalradioButton.Checked)
-            {
-                FourvScrollBar.Value = peak1 + ((peak2 - peak1) / 2);
-                SixvScrollBar.Value = peak2 + ((peak3 - peak2) / 2);
-                //EightvScrollBar.Value = peak3;
-            }
-            */
-            //updateSliderLabels();
-        }
-
         private void Histogrampanel1_Click(object sender, EventArgs e)
         {
             FindPeaks();
@@ -1852,245 +961,18 @@ namespace FloppyControlApp
 
         private void JumpTocomboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            int grphcnt = oscilloscope.graphset.Graphs.Count;
-            int i;
-            int index = JumpTocomboBox.SelectedIndex;
-            ComboboxItem item;
-            item = (ComboboxItem)JumpTocomboBox.Items[index];
-
-            int id = item.id;
-            //tbreceived.Append("Item: " + id+"\r\n");
-
-
-            // First position the scatterplot on the selected area
-            int offset = 0;
-            for (i = 1; i < processing.sectordata2.Count; i++)
-            {
-                if (processing.sectordata2[i].rxbufMarkerPositions > scatterplot.rxbufclickindex)
-                {
-                    offset = scatterplot.rxbufclickindex - processing.sectordata2[i - 1].rxbufMarkerPositions;
-                    break;
-                }
-            }
-            //ScatterMinTrackBar.Value = offset;
-            //ScatterMaxTrackBar.Value = offset + 14;
-            //updateECInterface();
-
-            int scatoffset = processing.sectordata2[id].rxbufMarkerPositions + (int)ScatterMinTrackBar.Value + (int)ScatterOffsetTrackBar.Value;
-            int scatlength = processing.sectordata2[id].rxbufMarkerPositions + (int)ScatterMaxTrackBar.Value + (int)ScatterOffsetTrackBar.Value - scatoffset;
-            int graphoffset = scatoffset + (scatlength / 2);
-            scatterplot.AnScatViewlargeoffset = scatoffset;
-            scatterplot.AnScatViewoffset = 0;
-            scatterplot.AnScatViewlength = scatlength;
-            scatterplot.UpdateScatterPlot();
-
-            if (grphcnt == 0)
-            {
-                return;
-            }
-            for (i = 0; i < grphcnt; i++)
-            {
-                oscilloscope.graphset.Graphs[i].datalength = 2000;
-                oscilloscope.graphset.Graphs[i].dataoffset = processing.rxbuftograph[graphoffset] - 1000;
-
-                if (oscilloscope.graphset.Graphs[i].dataoffset < 0)
-                    oscilloscope.graphset.Graphs[i].dataoffset = 0;
-
-                oscilloscope.graphset.Graphs[i].changed = true;
-                oscilloscope.graphset.Graphs[i].density = 1;
-            }
-            //tbreceived.Append("rxbuf pos: "+ (processing.sectordata2[id].rxbufMarkerPositions + offset + 1000));
-            oscilloscope.graphset.UpdateGraphs();
-            MainTabControl.SelectedTab = QuickTab;
+            JumpTocomboBoxUpdateScopePlot();
         }
 
+        //Rich text box sector map interactions
         private void rtbSectorMap_MouseDown(object sender, MouseEventArgs e)
         {
-            RichTextBox rtb = null;
-            if ( MainTabControl.SelectedTab == QuickTab)
-            {
-                rtb = QrtbSectorMap;
-            }
-            else if (MainTabControl.SelectedTab == ProcessingTab)
-            {
-                rtb = rtbSectorMap;
-            }
-            ContextMenuStrip smmenu = new ContextMenuStrip();
-            int sector, track;
-            int i;
-            int div = processing.sectorspertrack + 6;
-            LimitToTrackUpDown.Value = track = (rtb.SelectionStart / div);
-            LimitToSectorUpDown.Value = sector = (rtb.SelectionStart % div - 5);
-
-            if (sector < 0) return;
-            TrackUpDown.Value = track;
-            SectorUpDown.Value = sector;
-
-            if (e.Button == MouseButtons.Left)
-            {
-                tbreceived.Append("Track: " + track + " sector: " + sector + " div:" + div + "\r\n");
-                for (i = 0; i < processing.sectordata2.Count; i++)
-                {
-                    if (processing.sectordata2 == null) continue;
-                    if (processing.sectordata2.Count != 0)
-                    {
-                        if (processing.sectordata2[i].track == track && processing.sectordata2[i].sector == sector)
-                        {
-                            //int track1 = track, sector1 = sector;
-                            if (processing.sectordata2[i].mfmMarkerStatus == processing.sectormap.sectorok[track, sector])
-                            {
-                                if (processing.sectordata2.Count - 1 > i)
-                                {
-                                    scatterplot.AnScatViewlargeoffset = processing.sectordata2[i].rxbufMarkerPositions - 50;
-                                    scatterplot.AnScatViewoffset = 0;
-
-                                    scatterplot.AnScatViewlength = processing.sectordata2[i + 1].rxbufMarkerPositions - scatterplot.AnScatViewlargeoffset + 100;
-                                    //tbreceived.Append("AnScatViewOffset"+ AnScatViewoffset+"\r\n");
-                                    scatterplot.UpdateScatterPlot();
-                                }
-                                break;
-
-                            }
-                        }
-                    }
-                }
-            }
-            else if (e.Button == MouseButtons.Right)
-            {
-                int index = rtb.GetCharIndexFromPosition(new Point(e.X, e.Y));
-                tbreceived.Append("Index: " + index + "\r\n");
-                div = processing.sectorspertrack + 6;
-                LimitToTrackUpDown.Value = track = (index / div);
-                LimitToSectorUpDown.Value = sector = (index % div - 5);
-                tbreceived.Append("Track: " + track + " sector: " + sector + " div:" + div);
-                if (sector < 0) return;
-
-                smmenu.ItemClicked += Smmenu_ItemClicked;
-                tbreceived.Append("Track: " + track + "\r\n");
-
-                SectorMapContextMenu[] menudata = new SectorMapContextMenu[10];
-                ToolStripItem[] item = new ToolStripItem[10];
-                int menudataindex = 0;
-                // Capture tab
-
-                menudata[menudataindex] = new SectorMapContextMenu();
-                menudata[menudataindex].sector = sector;
-                menudata[menudataindex].track = track;
-                menudata[menudataindex].duration = 1000;
-                menudata[menudataindex].cmd = 0;
-                item[menudataindex] = smmenu.Items.Add("Recapture T" + track.ToString("D3") + " 1 sec", MainTabControlImageList.Images[0]);
-                item[menudataindex].Tag = menudata[menudataindex];
-
-                menudata[menudataindex] = new SectorMapContextMenu();
-                menudata[menudataindex].sector = sector;
-                menudata[menudataindex].track = track;
-                menudata[menudataindex].duration = 5000;
-                menudata[menudataindex].cmd = 0;
-                item[menudataindex] = smmenu.Items.Add("Recapture T" + track.ToString("D3") + " 5 sec", MainTabControlImageList.Images[0]);
-                item[menudataindex].Tag = menudata[menudataindex];
-
-                // Capture tab
-                menudataindex++;
-                menudata[menudataindex] = new SectorMapContextMenu();
-                menudata[menudataindex].sector = sector;
-                menudata[menudataindex].track = track;
-                menudata[menudataindex].duration = 50000;
-                menudata[menudataindex].cmd = 0;
-                item[menudataindex] = smmenu.Items.Add("Recapture T" + track.ToString("D3") + " 50 sec", MainTabControlImageList.Images[0]);
-                item[menudataindex].Tag = menudata[menudataindex];
-
-                //Error correction tab
-                menudataindex++;
-                menudata[menudataindex] = new SectorMapContextMenu();
-                menudata[menudataindex].sector = sector;
-                menudata[menudataindex].track = track;
-                menudata[menudataindex].cmd = 1;
-                item[menudataindex] = smmenu.Items.Add("Error Correct T" + track.ToString("D3") + " S" + sector, MainTabControlImageList.Images[1]);
-                item[menudataindex].Tag = menudata[menudataindex];
-
-                //Scope waveform capture
-                menudataindex++;
-                menudata[menudataindex] = new SectorMapContextMenu();
-                menudata[menudataindex].sector = sector;
-                menudata[menudataindex].track = track;
-                menudata[menudataindex].cmd = 2;
-                item[menudataindex] = smmenu.Items.Add("Get waveform T" + track.ToString("D3") + " S" + sector, MainTabControlImageList.Images[2]);
-                item[menudataindex].Tag = menudata[menudataindex];
-
-                //Select rxdata
-                menudataindex++;
-                menudata[menudataindex] = new SectorMapContextMenu();
-                menudata[menudataindex].sector = sector;
-                menudata[menudataindex].track = track;
-                menudata[menudataindex].cmd = 3;
-                item[menudataindex] = smmenu.Items.Add("Limit rxdata T" + track.ToString("D3") + " S" + sector, MainTabControlImageList.Images[2]);
-                item[menudataindex].Tag = menudata[menudataindex];
-
-                // Limit processing to Track/Sector
-                menudataindex++;
-                menudata[menudataindex] = new SectorMapContextMenu();
-                menudata[menudataindex].sector = sector;
-                menudata[menudataindex].track = track;
-                menudata[menudataindex].cmd = 4;
-                item[menudataindex] = smmenu.Items.Add("Limit processing T" + track.ToString("D3") + " S" + sector, MainTabControlImageList.Images[2]);
-                item[menudataindex].Tag = menudata[menudataindex];
-
-                Point ShowHere = new Point(Cursor.Position.X, Cursor.Position.Y + 10);
-                smmenu.Show(ShowHere);
-            }
+            SectorMapInteractions(e);
         }
 
         private void Smmenu_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
-            SectorMapContextMenu menudata = (SectorMapContextMenu)e.ClickedItem.Tag;
-            if (menudata.cmd == 0)
-            {
-                tbreceived.Append("Track: " + menudata.track.ToString("D3") + " S" + menudata.sector + "\r\n");
-                //MainTabControl.SelectedTab = CaptureTab;
-                StartTrackUpDown.Value = QStartTrackUpDown.Value = menudata.track;
-                EndTracksUpDown.Value = QEndTracksUpDown.Value = menudata.track;
-                TrackDurationUpDown.Value = QTrackDurationUpDown.Value = menudata.duration;
-            }
-            else if (menudata.cmd == 1)
-            {
-                MainTabControl.SelectedTab = ErrorCorrectionTab;
-                Track1UpDown.Value = menudata.track;
-                Sector1UpDown.Value = menudata.sector;
-                Track2UpDown.Value = menudata.track;
-                Sector2UpDown.Value = menudata.sector;
-            }
-            else if (menudata.cmd == 2)
-            {
-                MainTabControl.SelectedTab = NetworkTab;
-                NetworkCaptureTrackStartUpDown.Value = menudata.track;
-                NetworkCaptureTrackEndUpDown.Value = menudata.track;
-            }
-            else if (menudata.cmd == 3)
-            {
-                int i;
-                var sd = processing.sectordata2;
-                for (i = 0; i < processing.sectordata2.Count; i++)
-                {
-                    if (sd[i].sector == menudata.sector && sd[i].track == menudata.track && sd[i].mfmMarkerStatus == SectorMapStatus.HeadOkDataBad)
-                    {
-                        rxbufStartUpDown.Maximum = processing.indexrxbuf;
-                        rxbufStartUpDown.Value = sd[i].rxbufMarkerPositions - 100;
-                        rxbufEndUpDown.Value = 15000;
-                        break;
-                    }
-                }
-            }
-            else if (menudata.cmd == 4)
-            {
-                QLimitTSCheckBox.Checked = true;
-                QLimitToTrackUpDown.Value = menudata.track;
-                QLimitToSectorUpDown.Value = menudata.sector;
-
-                LimitTSCheckBox.Checked = true;
-                LimitToTrackUpDown.Value = menudata.track;
-                LimitToSectorUpDown.Value = menudata.sector;
-
-            }
+            SectorMapRightclickMenuHandler(e);
         }
 
         private void button38_Click(object sender, EventArgs e)
@@ -2159,83 +1041,13 @@ namespace FloppyControlApp
 
         private void ECMFMByteEncbutton_Click(object sender, EventArgs e)
         {
-            int indexS1, threadid;
-            ECSettings ecSettings = new ECSettings();
-
-            ecSettings.sectortextbox = textBoxSector;
-
-            if (BadSectorListBox.SelectedIndices.Count >= 1)
-            {
-                indexS1 = ((badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[0]]).id;
-                threadid = ((badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[0]]).threadid;
-                ecSettings.indexS1 = indexS1;
-                ecSettings.periodSelectionStart = (int)ScatterMinUpDown.Value;
-                ecSettings.periodSelectionEnd = (int)ScatterMaxUpDown.Value;
-                //ecSettings.combinations = (int)CombinationsUpDown.Value;
-                ecSettings.threadid = threadid;
-                ecSettings.MFMByteStart = (int)MFMByteStartUpDown.Value;
-                ecSettings.MFMByteLength = (int)MFMByteLengthUpDown.Value;
-            }
-            else
-            {
-                textBoxReceived.AppendText("Error, no data selected.");
-                return;
-            }
-            if (processing.procsettings.platform == 0)
-                processing.ProcessClusterMFMEnc(ecSettings);
-            else processing.ProcessClusterAmigaMFMEnc(ecSettings);
+            ECMFMByteEnc();
         }
 
         //Iterator test 
         private void button44_Click(object sender, EventArgs e)
         {
-            int[] combi = new int[32];
-            int[] combilimit = new int[32];
-            int i, j, q, k;
-            int combinations = 0;
-            int NumberOfMfmBytes = 3;
-            int MaxIndex = 32;
-            int iterations;
-            for (i = 0; i < NumberOfMfmBytes; i++)
-            {
-                combilimit[i] = 1;
-            }
-            for (j = 0; j < MaxIndex; j++)
-            {
-
-                for (q = 0; q < NumberOfMfmBytes; q++)
-                {
-                    combilimit[q]++;
-
-                }
-
-                int temp = combilimit[0];
-                iterations = temp;
-                for (q = 0; q < NumberOfMfmBytes - 1; q++)
-                {
-                    iterations *= temp;
-                }
-                tbreceived.Append("Iterations: " + iterations + "\r\n");
-
-                for (i = 0; i < iterations; i++)
-                {
-                    //printarray(combi, NumberOfMfmBytes);
-                    combi[0]++;
-                    for (k = 0; k < NumberOfMfmBytes; k++)
-                    {
-
-                        if (combi[k] >= combilimit[0])
-                        {
-                            combi[k] = 0;
-                            combi[k + 1]++;
-                        }
-                    }
-
-                    combinations++;
-                }
-
-            }
-            tbreceived.Append("Combinations:" + combinations + "\r\n");
+            ECIteratorTest();
         }
 
         //Open SCP
@@ -2248,7 +1060,6 @@ namespace FloppyControlApp
             rxbufEndUpDown.Value = processing.indexrxbuf;
         }
 
-
         //Save SCP
         private void button46_Click(object sender, EventArgs e)
         {
@@ -2258,63 +1069,6 @@ namespace FloppyControlApp
                     EightvScrollBar.Value,
                     ProcessingModeComboBox.SelectedItem.ToString()
                 );
-        }
-
-        private void AdaptiveScan2()
-        {
-            int l;
-            float i;
-            int FOUR = FourvScrollBar.Value;
-            int SIX = SixvScrollBar.Value;
-            int EIGHT = EightvScrollBar.Value;
-            int OFFSET = OffsetvScrollBar1.Value;
-            int step = (int)iESStart.Value;
-            for (l = -12; l < 13; l += step)
-                for (i = 0.6f; i < 2f; i += 0.2f)
-                {
-                    if (processing.stop == 1)
-                        break;
-                    RateOfChangeUpDown.Value = (decimal)i;
-                    OffsetvScrollBar1.Value = OFFSET + l;
-
-                    Application.DoEvents();
-
-                    if (processing.procsettings.platform == 0)
-                        ProcessPC();
-                    else
-                        ProcessAmiga();
-                }
-
-            OffsetvScrollBar1.Value = OFFSET;
-            //processing.sectormap.RefreshSectorMap();
-            /*
-            if (processing.stop == 0)
-                for (j = -9; j < 10; j += 3)
-                    for (k = -9; k < 10; k += 3)
-                    {
-                        GC.Collect();
-                        for (l = -9; l < 10; l += 3)
-                            for (i = 1f; i < 2f; i += 0.1f)
-                            {
-                                if (processing.stop == 1)
-                                    break;
-                                RateOfChangeUpDown.Value = (decimal)i;
-                                FourvScrollBar.Value = FOUR + l;
-                                SixvScrollBar.Value = SIX + k;
-                                EightvScrollBar.Value = EIGHT + j;
-
-                                Application.DoEvents();
-                                processing.stop = 0;
-                                if (processing.procsettings.platform == 0)
-                                    ProcessPC();
-                                else
-                                    ProcessAmiga();
-                            }
-                        processing.sectormap.RefreshSectorMap();
-
-                    }
-            */
-            //processing.sectormap.RefreshSectorMap();
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -2330,46 +1084,7 @@ namespace FloppyControlApp
 
         private void button48_Click(object sender, EventArgs e)
         {
-            int track, sector;
-
-            var sectorok = processing.sectormap.sectorok;
-            int starttrack = (int)StartTrackUpDown.Value;
-            int endtrack = (int)EndTracksUpDown.Value;
-
-            MainTabControl.SelectedTab = ProcessingTab;
-            processing.stop = 0;
-
-            for (track = starttrack; track < endtrack + 1; track++)
-            {
-                for (sector = 0; sector < processing.sectorspertrack; sector++)
-                {
-                    if (sectorok[track, sector] == 0 || sectorok[track, sector] == SectorMapStatus.HeadOkDataBad)
-                    {
-                        tbreceived.Append("Track: " + track);
-                        StartTrackUpDown.Value = track;
-
-                        EndTracksUpDown.Value = track;
-                        CaptureTracks();
-                        while (controlfloppy.capturecommand == 1)
-                        {
-                            Thread.Sleep(20);
-                            Application.DoEvents();
-                        }
-                        Application.DoEvents();
-                        AdaptiveScan();
-                        Application.DoEvents();
-                        if (processing.stop == 1)
-                            break;
-                        break;
-                    }
-                }
-                if (processing.stop == 1)
-                    break;
-            }
-            StartTrackUpDown.Value = starttrack;
-            EndTracksUpDown.Value = endtrack;
-
-            tbreceived.Append("Done!\r\n");
+            RecaptureAllBadSectors();
         }
 
         private void button49_Click(object sender, EventArgs e)
@@ -2394,153 +1109,8 @@ namespace FloppyControlApp
                 );
         }
 
-        private void AdaptiveScan3()
-        {
-            processing.processing = 1;
-            float adaptrate = (float)RateOfChangeUpDown.Value;
-            int FOUR = FourvScrollBar.Value;
-            int SIX = SixvScrollBar.Value;
-            int EIGHT = EightvScrollBar.Value;
-            int OFFSET = OffsetvScrollBar1.Value;
-            int step = (int)iESStart.Value;
-            for (float k = 2048; k > 2; k /= 2)
-            {
-                RateOfChange2UpDown.Value = (int)k;
-                for (int l = -12; l < 13; l += step)
-                    for (float i = 0.6f; i < 2f; i += 0.2f)
-                    {
-                        
-                        if (processing.stop == 1)
-                            break;
-                        RateOfChangeUpDown.Value = (decimal)i;
-                        OffsetvScrollBar1.Value = OFFSET + l;
-
-                        Application.DoEvents();
-                        if (processing.procsettings.platform == 0)
-                            ProcessPC();
-                        else
-                            ProcessAmiga();
-                    }
-
-            }
-            OffsetvScrollBar1.Value = OFFSET;
-            processing.processing = 0;
-            //processing.sectormap.RefreshSectorMap();
-        }
-        private void AdaptiveDeepScan()
-        {
-            processing.processing = 1;
-            float adaptrate = (float)RateOfChangeUpDown.Value;
-            int FOUR = FourvScrollBar.Value;
-            int SIX = SixvScrollBar.Value;
-            int EIGHT = EightvScrollBar.Value;
-            int OFFSET = OffsetvScrollBar1.Value;
-            int step = (int)iESStart.Value;
-            for (float k = 2048; k > 2; k /= 2)
-            {
-                RateOfChange2UpDown.Value = (int)k;
-                for (int l = -12; l < 13; l += step)
-                {
-                    if (processing.stop == 1)
-                        break;
-
-                    OffsetvScrollBar1.Value = OFFSET + l;
-
-                    Application.DoEvents();
-                    if (processing.procsettings.platform == 0)
-                        ProcessPC();
-                    else
-                        ProcessAmiga();
-                }  
-            }
-            OffsetvScrollBar1.Value = OFFSET;
-            processing.processing = 0;
-            //processing.sectormap.RefreshSectorMap();
-        }
-        private void AdaptiveScan4()
-        {
-            int l;
-            float i;
-            float adaptrate = (float)RateOfChangeUpDown.Value;
-            int FOUR = FourvScrollBar.Value;
-            int SIX = SixvScrollBar.Value;
-            int EIGHT = EightvScrollBar.Value;
-            int OFFSET = OffsetvScrollBar1.Value;
-            int step = (int)iESStart.Value;
-
-            for (l = 0; l < 4; l += step)
-                for (i = 0.6f; i < 2f; i += 0.2f)
-                {
-                    if (processing.stop == 1)
-                        break;
-                    RateOfChangeUpDown.Value = (decimal)i;
-                    OffsetvScrollBar1.Value = OFFSET + l;
-
-                    Application.DoEvents();
-                    if (processing.procsettings.platform == 0)
-                        ProcessPC();
-                    else
-                        ProcessAmiga();
-                }
-
-            OffsetvScrollBar1.Value = OFFSET;
-        }
-        private void AdaptiveNarrow()
-        {
-            int l;
-            float adaptrate = (float)RateOfChangeUpDown.Value;
-            int FOUR = FourvScrollBar.Value;
-            int SIX = SixvScrollBar.Value;
-            int EIGHT = EightvScrollBar.Value;
-            int OFFSET = OffsetvScrollBar1.Value;
-            int step = (int)iESStart.Value;
-
-            for (l = 0; l < 8; l += step)
-            //for (i = 0.5f; i < 2f; i += 0.2f)
-            {
-                if (processing.stop == 1) break;
-                //RateOfChangeUpDown.Value = (decimal)i;
-                FourvScrollBar.Value = FOUR + l;
-                EightvScrollBar.Value = EIGHT - l;
-                Application.DoEvents();
-                if (processing.procsettings.platform == 0)
-                    ProcessPC();
-                else
-                    ProcessAmiga();
-            }
-            FourvScrollBar.Value = FOUR;
-            EightvScrollBar.Value = EIGHT;
-            OffsetvScrollBar1.Value = OFFSET;
-        }
-        private void AdaptiveNarrowRate()
-        {
-            int l;
-            float i;
-            float adaptrate = (float)RateOfChangeUpDown.Value;
-            int FOUR = FourvScrollBar.Value;
-            int SIX = SixvScrollBar.Value;
-            int EIGHT = EightvScrollBar.Value;
-            int OFFSET = OffsetvScrollBar1.Value;
-            int step = (int)iESStart.Value;
-
-            for (l = 0; l < 8; l += step)
-                for (i = 0.5f; i < 2f; i += 0.2f)
-                {
-                    if (processing.stop == 1) break;
-                    RateOfChangeUpDown.Value = (decimal)i;
-                    FourvScrollBar.Value = FOUR + l;
-                    EightvScrollBar.Value = EIGHT - l;
-                    Application.DoEvents();
-                    processing.stop = 0;
-                    if (processing.procsettings.platform == 0)
-                        ProcessPC();
-                    else
-                        ProcessAmiga();
-                }
-            FourvScrollBar.Value = FOUR;
-            EightvScrollBar.Value = EIGHT;
-            OffsetvScrollBar1.Value = OFFSET;
-        }
+        
+        
 
         private void ProcessingModeComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
