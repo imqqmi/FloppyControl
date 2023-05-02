@@ -34,279 +34,12 @@ namespace FloppyControlApp
 
     public partial class FloppyControl : Form
     {
-        class badsectorkeyval
-        {
-            public string name { get; set; }
-            public int id { get; set; }
-            public int threadid { get; set; }
-        }
-
-
-        public class ComboboxItem
-        {
-            public string Text { get; set; }
-            public int id { get; set; }
-
-            public override string ToString()
-            {
-                return Text;
-            }
-        }
-
-
-
-        class SectorMapContextMenu
-        {
-            public int track { get; set; }
-            public int sector { get; set; }
-            public int duration { get; set; }
-            public MFMData sectordata { get; set; }
-            public int cmd { get; set; }
-        }
-
-        private string GuiMode;
-        private FDDProcessing processing;
-        private ControlFloppy controlfloppy;
-        private connectsocketNIVisa2 scope = new connectsocketNIVisa2();
-        //private BinaryReader reader;
-        private StringBuilder SectorInfo = new StringBuilder();
-        private StringBuilder tbtxt = new StringBuilder();
-        //private BinaryWriter writer;
-        private Point BadSectorTooltipPos;
-        private StringBuilder tbreceived = new StringBuilder();
-        private int bytesReceived = 0;
-        //private Graphset graphset;
-        private Histogram ECHisto;
-        private Histogram ScatterHisto;
-        private ScatterPlot scatterplot;
-        private static readonly object lockaddmarker = new object();
-        //private static uint markerpositionscnt;
-        private string subpath;
-        //private string path = "";
-        private string selectedPortName;
-        //private string[] openfilespaths;
-        private int disablecatchkey = 0;
-        private int binfilecount = 0; // Keep saving each capture under a different filename as to keep all captured data
-        private float capturetime = 0;
-        //private int capturing = 0;
-        private int selectedBaudRate = 5000000;
-        private int graphselect = 0;
-        //private int maxthreads = 2;
-        private int byteinsector = 0;
-        //private int stepspertrack = 8;
-        private byte[] TempSector = new byte[550];
-        private byte[][] graphwaveform = new byte[15][];
-        //private bool AddData = false;
-        public bool openFilesDlgUsed = false;
-        public bool ScpOpenFilesDlgUsed = false;
-        private bool scanactive = false;
-        private bool stopupdatingGraph = false;
-        private int[] mfmbyteenc = new int[256];
-        private int indexrxbufprevious = 0;
-        private Version version;
-        private FileIO fileio;
-        private WaveformEdit oscilloscope;
-
-
         public FloppyControl()
         {
             InitializeFloppyControl();
         }
 
-        private void ScatterPlotShowGraphCallback()
-        {
-            int grphcnt = oscilloscope.graphset.Graphs.Count;
-
-            int i;
-
-
-            if (MainTabControl.SelectedTab == ErrorCorrectionTab)
-            {
-                int offset = 0;
-                for (i = 0; i < processing.sectordata2.Count; i++)
-                {
-                    if (processing.sectordata2[i].rxbufMarkerPositions > scatterplot.rxbufclickindex)
-                    {
-                        offset = scatterplot.rxbufclickindex - processing.sectordata2[i - 1].rxbufMarkerPositions;
-                        break;
-                    }
-                }
-
-                MFMData sd = processing.sectordata2[i - 1];
-
-                var mfms = processing.mfms[sd.threadid];
-                int index = 0;
-                for (i = 0; i < mfms.Length; i++)
-                {
-                    if (mfms[i + sd.MarkerPositions] == 1)
-                    {
-                        index++;
-                    }
-                    if (index == offset)
-                    {
-                        break;
-                    }
-                }
-
-                int mfmindex = i;
-                mfmindex /= 8;
-                mfmindex *= 8;
-                int offsetmfmindex = 0;
-                switch ((int)processing.diskformat)
-                {
-                    case 0:
-                        return;
-                    case 1: //AmigaDos
-                        offsetmfmindex = 48;
-                        break;
-                    case 2://diskspare
-                        offsetmfmindex = 24;
-                        break;
-                    case 3://pc2m
-                        offsetmfmindex = 0;
-                        break;
-                    case 4://pcdd
-                        offsetmfmindex = 0;
-                        break;
-                    case 5://pchd
-                        offsetmfmindex = 0;
-                        break;
-                }
-
-
-                MFMByteStartUpDown.Value = mfmindex + offsetmfmindex;
-                ScatterMinTrackBar.Value = offset;
-                ScatterMaxTrackBar.Value = offset + 14;
-                updateECInterface();
-            }
-            else
-            {
-                if (grphcnt == 0)
-                {
-                    return;
-                }
-                for (i = 0; i < grphcnt; i++)
-                {
-                    oscilloscope.graphset.Graphs[i].datalength = 1000;
-                    oscilloscope.graphset.Graphs[i].dataoffset = scatterplot.graphindex - 500;
-
-                    if (oscilloscope.graphset.Graphs[i].dataoffset < 0)
-                        oscilloscope.graphset.Graphs[i].dataoffset = 0;
-
-                    oscilloscope.graphset.Graphs[i].changed = true;
-                    oscilloscope.graphset.Graphs[i].density = 1;
-                }
-
-                oscilloscope.graphset.UpdateGraphs();
-                MainTabControl.SelectedTab = AnalysisTab2;
-            }
-
-        }
-
-        private void SectorMapUpdateGUICallback()
-        {
-            RecoveredSectorsLabel.Text = processing.sectormap.recoveredsectorcount.ToString();
-            RecoveredSectorsWithErrorsLabel.Text = processing.sectormap.RecoveredSectorWithErrorsCount.ToString();
-            GoodHdrCntLabel.Text = processing.GoodSectorHeaderCount.ToString();
-            MarkersLabel.Text = processing.sectordata2.Count.ToString();
-            BadSectorsCntLabel.Text = processing.sectormap.badsectorcnt.ToString();
-            statsLabel.Text = processing.sectormap.s1.ToString("0.00") + " " +
-                                processing.sectormap.s2.ToString("0.00") + " " +
-                                processing.sectormap.s3.ToString("0.00");
-
-            if (this.Width == 1620 || this.Width == 1630 || this.Width == 1680)
-            {
-                this.Width = processing.sectormap.WindowWidth;
-            }
-
-            switch ((int)processing.diskformat)
-            {
-                case 0:
-                    DiskTypeLabel.Text = "Unknown";
-                    //processing.processing.sectorspertrack = 0;
-                    break;
-                case 1:
-                    DiskTypeLabel.Text = "AmigaDOS";
-                    //processing.sectorspertrack = 11;
-                    break;
-                case 2:
-                    DiskTypeLabel.Text = "DiskSpare";
-                    //processing.sectorspertrack = 12;
-                    break;
-                case 3:
-                    DiskTypeLabel.Text = "PC/MSX DD";
-                    //processing.sectorspertrack = 9;
-                    break;
-                case 4:
-                    DiskTypeLabel.Text = "PC HD";
-                    //processing.sectorspertrack = 18;
-                    break;
-                case 5:
-                    DiskTypeLabel.Text = "PC 2M";
-                    //processing.sectorspertrack = 11;
-                    break;
-
-                default:
-                    DiskTypeLabel.Text = processing.diskformat.ToString();
-                    break;
-            }
-
-        }
-        private void ProcessingGUICallback()
-        {
-
-        }
-
-        private void GetProcSettingsCallback()
-        {
-            ProcessingType procmode = ProcessingType.adaptive1;
-            if (ProcessingModeComboBox.SelectedItem.ToString() != "")
-                procmode = (ProcessingType)Enum.Parse(typeof(ProcessingType), ProcessingModeComboBox.SelectedItem.ToString(), true);
-            processing.procsettings.processingtype = procmode;
-            //if (NormalradioButton.Checked == true) processing.procsettings.processingtype = ProcessingType.normal;
-            //else if (AdaptradioButton.Checked == true) processing.procsettings.processingtype = ProcessingType.adaptive;
-            //else if (AufitRadioButton.Checked == true) processing.procsettings.processingtype = ProcessingType.aufit;
-            processing.procsettings.NumberOfDups = (int)DupsUpDown.Value;
-            processing.procsettings.pattern = PeriodBeyond8uscomboBox.SelectedIndex;
-            //tbreceived.Append("Combobox:" + PeriodBeyond8uscomboBox.SelectedIndex + "\r\n");
-
-            processing.procsettings.offset = OffsetvScrollBar1.Value;
-            processing.procsettings.min = MinvScrollBar.Value + processing.procsettings.offset;
-            processing.procsettings.four = FourvScrollBar.Value + processing.procsettings.offset;
-            processing.procsettings.six = SixvScrollBar.Value + processing.procsettings.offset;
-            processing.procsettings.max = EightvScrollBar.Value + processing.procsettings.offset;
-            processing.procsettings.SkipPeriodData = false;
-            processing.procsettings.AutoRefreshSectormap = AutoRefreshSectorMapCheck.Checked;
-            processing.procsettings.start = (int)rxbufStartUpDown.Value;
-            processing.procsettings.end = (int)rxbufEndUpDown.Value;
-            processing.procsettings.finddupes = FindDupesCheckBox.Checked;
-            processing.procsettings.rateofchange = (float)RateOfChangeUpDown.Value;
-            //processing.procsettings.platform = platform; // 1 = Amiga
-            processing.procsettings.UseErrorCorrection = ECOnRadio.Checked;
-            processing.procsettings.OnlyBadSectors = OnlyBadSectorsRadio.Checked;
-            processing.procsettings.AddNoise = AddNoisecheckBox.Checked;
-
-            processing.procsettings.limittotrack = (int)LimitToTrackUpDown.Value;
-            processing.procsettings.limittosector = (int)LimitToSectorUpDown.Value;
-            processing.procsettings.NumberOfDups = (int)DupsUpDown.Value;
-            processing.procsettings.LimitTSOn = LimitTSCheckBox.Checked;
-            processing.procsettings.IgnoreHeaderError = IgnoreHeaderErrorCheckBox.Checked;
-            //processing.procsettings.AdaptOffset = (int)AdaptOffsetUpDown.Value;
-            processing.procsettings.AdaptOffset2 = (float)AdaptOfsset2UpDown.Value;
-            processing.procsettings.rateofchange2 = (int)RateOfChange2UpDown.Value;
-
-            if (LimitToScttrViewcheckBox.Checked == true && OnlyBadSectorsRadio.Checked == true)
-            {
-                processing.procsettings.addnoiselimitstart = ScatterMinTrackBar.Value + 50;
-                processing.procsettings.addnoiselimitend = ScatterMaxTrackBar.Value + 50;
-            }
-            else
-            {
-                processing.procsettings.addnoiselimitstart = 0;
-                processing.procsettings.addnoiselimitend = processing.indexrxbuf;
-            }
-            processing.procsettings.addnoiserndamount = (int)RndAmountUpDown.Value;
-        }
+        
 
 
 
@@ -314,46 +47,7 @@ namespace FloppyControlApp
 
         private void FloppyControl_KeyDown(object sender, KeyEventArgs e)
         {
-            processing.stop = 0;
-            if (disablecatchkey == 0)
-            {
-                if (e.KeyCode == Keys.Escape)
-                {
-                    scope.Disconnect();
-                    this.Close();
-                    return;
-                }
-                if (e.KeyCode == Keys.A)
-                {
-                    RateOfChange2UpDown.Focus();
-                    Application.DoEvents();
-                    ProcessAmiga();
-                    processing.sectormap.RefreshSectorMap();
-                }
-                if (e.KeyCode == Keys.P)
-                {
-                    RateOfChange2UpDown.Focus();
-                    Application.DoEvents();
-                    ProcessPC();
-                    processing.sectormap.RefreshSectorMap();
-                }
-                if (e.KeyCode == Keys.S)
-                    ScanButton.PerformClick();
-
-                if (MainTabControl.SelectedTab == AnalysisTab2)
-                {
-                    if (e.KeyCode == Keys.D1)
-                        EditOptioncomboBox.SelectedIndex = 0;
-                    if (e.KeyCode == Keys.D2)
-                        EditOptioncomboBox.SelectedIndex = 1;
-                    if (e.KeyCode == Keys.D3)
-                        EditOptioncomboBox.SelectedIndex = 2;
-
-                    if (e.Modifiers == Keys.Control && e.KeyCode == Keys.Z)
-                        EditUndobutton.PerformClick();
-                }
-
-            }
+            KeyboardShortcutHandler(e);
         }
 
         // Do the Amiga sector data processing
@@ -3026,8 +2720,6 @@ namespace FloppyControlApp
 
         private void AdaptiveScan3()
         {
-            int l;
-            float i, k;
             processing.processing = 1;
             float adaptrate = (float)RateOfChangeUpDown.Value;
             int FOUR = FourvScrollBar.Value;
@@ -3035,11 +2727,11 @@ namespace FloppyControlApp
             int EIGHT = EightvScrollBar.Value;
             int OFFSET = OffsetvScrollBar1.Value;
             int step = (int)iESStart.Value;
-            for (k = 2048; k > 2; k /= 2)
+            for (float k = 2048; k > 2; k /= 2)
             {
                 RateOfChange2UpDown.Value = (int)k;
-                for (l = -12; l < 13; l += step)
-                    for (i = 0.6f; i < 2f; i += 0.2f)
+                for (int l = -12; l < 13; l += step)
+                    for (float i = 0.6f; i < 2f; i += 0.2f)
                     {
                         
                         if (processing.stop == 1)
@@ -3061,8 +2753,6 @@ namespace FloppyControlApp
         }
         private void AdaptiveDeepScan()
         {
-            int l;
-            float i, k;
             processing.processing = 1;
             float adaptrate = (float)RateOfChangeUpDown.Value;
             int FOUR = FourvScrollBar.Value;
@@ -3070,10 +2760,10 @@ namespace FloppyControlApp
             int EIGHT = EightvScrollBar.Value;
             int OFFSET = OffsetvScrollBar1.Value;
             int step = (int)iESStart.Value;
-            for (k = 2048; k > 2; k /= 2)
+            for (float k = 2048; k > 2; k /= 2)
             {
                 RateOfChange2UpDown.Value = (int)k;
-                for (l = -12; l < 13; l += step)
+                for (int l = -12; l < 13; l += step)
                 {
                     if (processing.stop == 1)
                         break;
