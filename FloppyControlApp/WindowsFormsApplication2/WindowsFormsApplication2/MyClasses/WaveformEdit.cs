@@ -38,7 +38,7 @@ namespace FloppyControlApp.MyClasses
         public Action FilterGuiUpdateCallback { get; set; }
         public Action Filter2GuiCallback { get; set; }
 
-        public WaveformEdit(PictureBox GraphPictureBox, FileIO fio, FDDProcessing proc)
+        public WaveformEdit(PictureBox GraphPictureBox, FileIO fio, FDDProcessing proc, Action GraphsetGetControlValuesCallback)
         {
             fileio = fio;
             processing = proc;

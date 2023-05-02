@@ -1446,7 +1446,7 @@ namespace FloppyControlApp
             fileio.tbreceived = tbreceived;
             fileio.rtbSectorMap = rtbSectorMap;
 
-            oscilloscope = new WaveformEdit(GraphPictureBox, fileio, processing);
+            oscilloscope = new WaveformEdit(GraphPictureBox, fileio, processing, GraphsetGetControlValuesCallback);
 
             oscilloscope.updateGraphCallback += updateGraphCallback;
             oscilloscope.GraphsetGetControlValuesCallback += GraphsetGetControlValuesCallback;
