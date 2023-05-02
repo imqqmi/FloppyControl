@@ -51,6 +51,7 @@ namespace FloppyControlApp
             processing.stop = 0;
             ProcessAmiga();
         }
+
         private void syncControlsBetweenTabs()
         {
             if(MainTabControl.SelectedTab == QuickTab)
@@ -66,6 +67,7 @@ namespace FloppyControlApp
                 QAdaptOfsset2UpDown.Value = AdaptOfsset2UpDown.Value;
             }
         }
+        
         private void ProcessAmiga()
         {
             if (ClearDatacheckBox.Checked)
@@ -1283,8 +1285,6 @@ namespace FloppyControlApp
             controlfloppy.DirectStep = DirectStepCheckBox.Checked;
 
         }
-
-        
 
         private void disableTooltipsToolStripMenuItem_Click(object sender, EventArgs e)
         {

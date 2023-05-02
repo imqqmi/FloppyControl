@@ -1153,7 +1153,10 @@ namespace FloppyControlApp
 
         public void Resize()
         {
-            bmp = new Bitmap(panel.Width, panel.Height);
+            if(    panel != null 
+                && panel.Height != 0 
+                && panel.Width != 0)
+                bmp = new Bitmap(panel.Width, panel.Height);
         }
 
         public void AddGraph(byte[] data)
@@ -1385,10 +1388,17 @@ namespace FloppyControlApp
             }
             else if (e.Button == MouseButtons.Right)
             {
+                if( Graphs.Count > 0)
                 if (Graphs[0].datalength < 2001)
                 {
                     //editmode = 
+                    if (GetControlValues == null)
+                    {
+                        tbreceived.Append("GetControlValues not set!");
+                        return;
+                    }
                     GetControlValues();
+
 
                     int index = Graphs[0].ViewToGraphIndex(e.X);
 
@@ -1450,7 +1460,7 @@ namespace FloppyControlApp
             }
             else if (e.Button == MouseButtons.Right)
             {
-                
+                if (Graphs.Count == 0) return;
                 int datay = Graphs[0].ViewToDataY(e.Y);
                 //byte data = Graphs[0].data[index];
                 Graphs[0].editgraphactive = false;
@@ -1489,6 +1499,7 @@ namespace FloppyControlApp
             else
             if (e.Button == MouseButtons.Right)
             {
+                if( Graphs.Count > 0)
                 if (Graphs[0].datalength < 2000)
                 {
                     int datay = Graphs[0].ViewToDataY(e.Y);
