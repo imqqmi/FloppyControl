@@ -525,6 +525,45 @@ namespace FloppyControlApp
             }
         }
 
+        public void FilterGuiUpdateCallback()
+        {
+            FindPeaks();
+            rxbufEndUpDown.Maximum = processing.indexrxbuf;
+            rxbufStartUpDown.Maximum = processing.indexrxbuf;
+
+            rxbufEndUpDown.Value = processing.indexrxbuf;
+            HistogramhScrollBar1.Minimum = 0;
+            HistogramhScrollBar1.Maximum = processing.indexrxbuf;
+
+            oscilloscope.graphset.SetAllChanged();
+
+            if (scatterplot.AnScatViewlength == 0 || scatterplot.AnScatViewlength == 100000)
+                scatterplot.AnScatViewlength = processing.indexrxbuf - 1;
+            scatterplot.UpdateScatterPlot();
+            oscilloscope.graphset.UpdateGraphs();
+            if (processing.indexrxbuf > 0)
+                ProcessingTab.Enabled = true;
+        }
+
+        public void Filter2GuiCallback()
+        {
+            rxbufEndUpDown.Maximum = processing.indexrxbuf;
+            rxbufStartUpDown.Maximum = processing.indexrxbuf;
+
+            rxbufEndUpDown.Value = processing.indexrxbuf;
+            HistogramhScrollBar1.Minimum = 0;
+            HistogramhScrollBar1.Maximum = processing.indexrxbuf;
+            //processing.indexrxbuf = indexrxbuf;
+
+            oscilloscope.graphset.SetAllChanged();
+
+            if (scatterplot.AnScatViewlength == 0)
+                scatterplot.AnScatViewlength = processing.indexrxbuf - 1;
+            scatterplot.UpdateScatterPlot();
+            oscilloscope.graphset.UpdateGraphs();
+            if (processing.indexrxbuf > 0)
+                ProcessingTab.Enabled = true;
+        }
 
         #endregion
 
@@ -718,6 +757,52 @@ namespace FloppyControlApp
                 }
             }
         }
+
+        private void updateAllGraphs()
+        {
+            if (controlfloppy.capturecommand == 1)
+            {
+                processing.rxbuf = controlfloppy.tempbuffer.Skip(Math.Max(0, controlfloppy.tempbuffer.Count() - 30)).SelectMany(a => a).ToArray();
+            }
+            else
+            {
+                processing.rxbuf = controlfloppy.tempbuffer.SelectMany(a => a).ToArray();
+            }
+            //processing.rxbuf = controlfloppy.tempbuffer.SelectMany(a => a).ToArray();
+
+            Setrxbufcontrol();
+
+            if (processing.indexrxbuf < 100000)
+                scatterplot.AnScatViewlength = processing.indexrxbuf;
+            else scatterplot.AnScatViewlength = 99999;
+            scatterplot.AnScatViewoffset = 0;
+            //scatterplot.UpdateScatterPlot();
+
+
+            if (processing.indexrxbuf > 0)
+                ProcessingTab.Enabled = true;
+            if (controlfloppy.capturecommand == 0)
+            {
+                if (HistogramhScrollBar1.Maximum < 0)
+                    HistogramhScrollBar1.Maximum = 0;
+                HistogramhScrollBar1.Value = 0;
+            }
+            if (processing.indexrxbuf > 0)
+            {
+                //updateAnScatterPlot();
+                scatterplot.AnScatViewlargeoffset = HistogramhScrollBar1.Value;
+                scatterplot.UpdateScatterPlot();
+                if (controlfloppy.capturecommand == 0)
+                {
+                    ScatterHisto.DoHistogram();
+                    updateSliderLabels();
+                    updateHistoAndSliders();
+                }
+
+            }
+        }
+
+        
 
         #endregion
 
@@ -922,6 +1007,49 @@ namespace FloppyControlApp
         }
 
         #region Scan methods
+
+        private void DoScan()
+        {
+            ScanMode procmode = ScanMode.AdaptiveRate;
+            if (ScanComboBox.SelectedItem.ToString() != "")
+                procmode = (ScanMode)Enum.Parse(typeof(ScanMode), ScanComboBox.SelectedItem.ToString(), true);
+            tbreceived.Append("Selected: " + procmode.ToString() + "\r\n");
+
+
+            switch (procmode)
+            {
+                case ScanMode.AdaptiveRate:
+                    AdaptiveScan();
+                    break;
+                case ScanMode.AdaptiveOffsetRate:
+                    AdaptiveScan2();
+                    break;
+                case ScanMode.AdaptiveDeep:
+                    AdaptiveDeepScan();
+                    break;
+                case ScanMode.AdaptiveShallow:
+                    AdaptiveScan4();
+                    break;
+                case ScanMode.AuScan:
+                    AuScan();
+                    break;
+                case ScanMode.ExtremeScan:
+                    ExtremeScan();
+                    break;
+                case ScanMode.OffsetScan:
+                    OffsetScan();
+                    break;
+                case ScanMode.OffsetScan2:
+                    OffsetScan2();
+                    break;
+                case ScanMode.AdaptiveNarrow:
+                    AdaptiveNarrow();
+                    break;
+                case ScanMode.AdaptiveNarrowRate:
+                    AdaptiveNarrowRate();
+                    break;
+            }
+        }
 
         private void OffsetScan()
         {
@@ -2229,6 +2357,157 @@ namespace FloppyControlApp
             tbreceived.Append("Done!\r\n");
         }
 
+        void DoChangeProcMode()
+        {
+            ProcessingType procmode = ProcessingType.adaptive1;
+            if (ProcessingModeComboBox.SelectedItem.ToString() != "")
+                procmode = (ProcessingType)Enum.Parse(typeof(ProcessingType), ProcessingModeComboBox.SelectedItem.ToString(), true);
+            tbreceived.Append("Selected: " + procmode.ToString() + "\r\n");
+            setThresholdLabels(procmode);
 
+            switch (procmode)
+            {
+                case ProcessingType.normal:
+                    FindPeaks();
+                    EightvScrollBar.Value = 0xff;
+                    scatterplot.showEntropy = false;
+                    break;
+                case ProcessingType.aufit:
+                    MinvScrollBar.Value = 33;
+                    FourvScrollBar.Value = 0x0C;
+                    OffsetvScrollBar1.Value = 0;
+                    scatterplot.showEntropy = false;
+                    break;
+                case ProcessingType.adaptive1:
+                case ProcessingType.adaptive2:
+                case ProcessingType.adaptive3:
+                    RateOfChangeUpDown.Value = (decimal)1.1;
+                    RateOfChange2UpDown.Value = 1300;
+
+                    FindPeaks();
+                    scatterplot.showEntropy = false;
+                    break;
+                case ProcessingType.adaptivePredict:
+                    RateOfChangeUpDown.Value = (decimal)3;
+                    RateOfChange2UpDown.Value = 600;
+                    FindPeaks();
+                    scatterplot.showEntropy = false;
+                    break;
+                case ProcessingType.adaptiveEntropy:
+                    scatterplot.showEntropy = true;
+                    break;
+            }
+
+            scanactive = true; // prevent triggering events on updown controls
+            CopyThresholdsToQuick();
+            scanactive = false;
+            updateSliderLabels();
+        }
+
+        #region Presets
+
+        private void setThresholdLabels(ProcessingType type)
+        {
+            switch (type)
+            {
+                case ProcessingType.adaptive1:
+                case ProcessingType.adaptive2:
+                case ProcessingType.adaptive3:
+                case ProcessingType.adaptiveEntropy:
+                case ProcessingType.adaptivePredict:
+                    PMinLabel.Text = QMinLabel.Text = "min";
+                    PFourSixLabel.Text = QFourSixLabel.Text = "Peak1";
+                    PSixEightLabel.Text = QSixEightLabel.Text = "Peak2";
+                    PMaxLabel.Text = QMaxLabel.Text = "Peak3";
+                    POffsetLabel.Text = QOffsetLabel.Text = "Offset";
+                    break;
+                case ProcessingType.normal:
+                    PMinLabel.Text = QMinLabel.Text = "min";
+                    PFourSixLabel.Text = QFourSixLabel.Text = "4/6";
+                    PSixEightLabel.Text = QSixEightLabel.Text = "6/8";
+                    PMaxLabel.Text = QMaxLabel.Text = "max";
+                    POffsetLabel.Text = QOffsetLabel.Text = "Offset";
+                    break;
+                case ProcessingType.aufit:
+                    PMinLabel.Text = QMinLabel.Text = "Factor";
+                    PFourSixLabel.Text = QFourSixLabel.Text = "Offset";
+                    PSixEightLabel.Text = QSixEightLabel.Text = "";
+                    PMaxLabel.Text = QMaxLabel.Text = "";
+                    POffsetLabel.Text = QOffsetLabel.Text = "";
+                    break;
+                default:
+                    PMinLabel.Text = QMinLabel.Text = "min";
+                    PFourSixLabel.Text = QFourSixLabel.Text = "Peak1";
+                    PSixEightLabel.Text = QSixEightLabel.Text = "Peak2";
+                    PMaxLabel.Text = QMaxLabel.Text = "Peak3";
+                    POffsetLabel.Text = QOffsetLabel.Text = "Offset";
+                    break;
+            }
+        }
+
+        private void CopyThresholdsToQuick()
+        {
+            QMinUpDown.Value = MinvScrollBar.Value;
+            QFourSixUpDown.Value = FourvScrollBar.Value;
+            QSixEightUpDown.Value = SixvScrollBar.Value;
+            QMaxUpDown.Value = EightvScrollBar.Value;
+            QOffsetUpDown.Value = OffsetvScrollBar1.Value;
+        }
+
+        private void CopyThresholdsToProcessing()
+        {
+            MinvScrollBar.Value = (int)QMinUpDown.Value;
+            FourvScrollBar.Value = (int)QFourSixUpDown.Value;
+            SixvScrollBar.Value = (int)QSixEightUpDown.Value;
+            EightvScrollBar.Value = (int)QMaxUpDown.Value;
+            OffsetvScrollBar1.Value = (int)QOffsetUpDown.Value;
+
+        }
+
+        #endregion
+
+        private void SetGuiMode(string mode)
+        {
+            GuiMode = mode;
+            if (mode == "basic")
+            {
+                basicModeToolStripMenuItem.Checked = true;
+                advancedModeToolStripMenuItem.Checked = false;
+                devModeToolStripMenuItem.Checked = false;
+
+                MainTabControl.TabPages.Remove(CaptureTab);
+                MainTabControl.TabPages.Remove(ProcessingTab);
+                MainTabControl.TabPages.Remove(AnalysisPage);
+                MainTabControl.TabPages.Remove(AnalysisTab2);
+                MainTabControl.TabPages.Remove(NetworkTab);
+            }
+
+            if (mode == "advanced")
+            {
+                basicModeToolStripMenuItem.Checked = false;
+                advancedModeToolStripMenuItem.Checked = true;
+                devModeToolStripMenuItem.Checked = false;
+
+                MainTabControl.TabPages.Remove(CaptureTab);
+                MainTabControl.TabPages.Remove(ProcessingTab);
+                MainTabControl.TabPages.Remove(AnalysisPage);
+                if (!MainTabControl.TabPages.Contains(AnalysisTab2)) MainTabControl.TabPages.Add(AnalysisTab2);
+                if (!MainTabControl.TabPages.Contains(NetworkTab)) MainTabControl.TabPages.Add(NetworkTab);
+            }
+
+            if (mode == "dev")
+            {
+                basicModeToolStripMenuItem.Checked = false;
+                advancedModeToolStripMenuItem.Checked = false;
+                devModeToolStripMenuItem.Checked = true;
+
+                if (!MainTabControl.TabPages.Contains(CaptureTab)) MainTabControl.TabPages.Add(CaptureTab);
+                if (!MainTabControl.TabPages.Contains(ProcessingTab)) MainTabControl.TabPages.Add(ProcessingTab);
+                if (!MainTabControl.TabPages.Contains(AnalysisPage)) MainTabControl.TabPages.Add(AnalysisPage);
+                if (!MainTabControl.TabPages.Contains(AnalysisTab2)) MainTabControl.TabPages.Add(AnalysisTab2);
+                if (!MainTabControl.TabPages.Contains(NetworkTab)) MainTabControl.TabPages.Add(NetworkTab);
+            }
+
+        }
     }
 }
