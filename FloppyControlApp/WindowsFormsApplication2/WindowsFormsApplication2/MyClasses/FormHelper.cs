@@ -234,6 +234,7 @@ namespace FloppyControlApp
         }
 
         // Callbacks
+        #region callbacks
         private void ScatterPlotShowGraphCallback()
         {
             int grphcnt = oscilloscope.graphset.Graphs.Count;
@@ -425,6 +426,33 @@ namespace FloppyControlApp
             processing.procsettings.addnoiserndamount = (int)RndAmountUpDown.Value;
         }
 
+        // Update scatterplot while capturing
+        public void ControlFloppyScatterplotCallback()
+        {
+            scatterplot.rxbuf = processing.rxbuf;
+            scatterplot.AnScatViewlargeoffset = processing.rxbuf.Length - controlfloppy.recentreadbuflength;
+            if (scatterplot.AnScatViewlargeoffset < 0)
+                scatterplot.AnScatViewlargeoffset = 0;
+            scatterplot.AnScatViewoffset = 0;
+            scatterplot.AnScatViewlength = controlfloppy.recentreadbuflength;
+            controlfloppy.recentreadbuflength = 0;
+            //scatterplot.UpdateScatterPlot();
+            CurrentTrackLabel.Text = controlfloppy.CurrentTrack.ToString("F2");
+            updateAllGraphs();
+
+        }
+
+        void FilesAvailableCallback()
+        {
+            openFilesDlgUsed = true;
+        }
+
+        void ScpFilesAvailableCallback()
+        {
+            ScpOpenFilesDlgUsed = true;
+        }
+        #endregion
+
 
         private void KeyboardShortcutHandler(KeyEventArgs e)
         {
@@ -470,11 +498,296 @@ namespace FloppyControlApp
             }
         }
 
+        // Updates the labels under the sliders
+        // as well as the indicators under the histogram
+        #region Update form elements
+        private void updateSliderLabels()
+        {
 
+            int x, y;
 
+            if ((OffsetvScrollBar1.Value + MinvScrollBar.Value) < 0)
+                MinLabel.Text = 0.ToString("X2");
+            else MinLabel.Text = (OffsetvScrollBar1.Value + MinvScrollBar.Value).ToString("X2");
+            FourLabel.Text = (OffsetvScrollBar1.Value + FourvScrollBar.Value).ToString("X2");
+            SixLabel.Text = (OffsetvScrollBar1.Value + SixvScrollBar.Value).ToString("X2");
+            EightLabel.Text = (OffsetvScrollBar1.Value + EightvScrollBar.Value).ToString("X2");
+            Offsetlabel.Text = OffsetvScrollBar1.Value.ToString("D2");
 
+            Graphics formGraphics = null;
+            if (MainTabControl.SelectedTab == ProcessingTab)
+            {
+                formGraphics = Histogrampanel1.CreateGraphics();
+            }
+            if (MainTabControl.SelectedTab == QuickTab)
+            {
+                formGraphics = QHistoPanel.CreateGraphics();
+            }
 
+            if (formGraphics != null)
+            {
+                using (var bmp = new System.Drawing.Bitmap(580, 12))
+                {
+                    LockBitmap lockBitmap = new LockBitmap(bmp);
+                    lockBitmap.LockBits();
+                    lockBitmap.FillBitmap(SystemColors.Control);
 
+                    x = MinvScrollBar.Value - 4 + OffsetvScrollBar1.Value;
+                    y = 0;
+                    lockBitmap.Line(000 + x, 005 + y, 005 + x, 000 + y, Color.Black);
+                    lockBitmap.Line(005 + x, 000 + y, 010 + x, 005 + y, Color.Black);
+                    lockBitmap.Line(010 + x, 005 + y, 000 + x, 005 + y, Color.Black);
+
+                    x = FourvScrollBar.Value - 4 + OffsetvScrollBar1.Value;
+
+                    lockBitmap.Line(000 + x, 005 + y, 005 + x, 000 + y, Color.Black);
+                    lockBitmap.Line(005 + x, 000 + y, 010 + x, 005 + y, Color.Black);
+                    lockBitmap.Line(010 + x, 005 + y, 000 + x, 005 + y, Color.Black);
+
+                    x = SixvScrollBar.Value - 4 + OffsetvScrollBar1.Value;
+
+                    lockBitmap.Line(000 + x, 005 + y, 005 + x, 000 + y, Color.Black);
+                    lockBitmap.Line(005 + x, 000 + y, 010 + x, 005 + y, Color.Black);
+                    lockBitmap.Line(010 + x, 005 + y, 000 + x, 005 + y, Color.Black);
+
+                    x = EightvScrollBar.Value - 4 + OffsetvScrollBar1.Value;
+
+                    lockBitmap.Line(000 + x, 005 + y, 005 + x, 000 + y, Color.Black);
+                    lockBitmap.Line(005 + x, 000 + y, 010 + x, 005 + y, Color.Black);
+                    lockBitmap.Line(010 + x, 005 + y, 000 + x, 005 + y, Color.Black);
+
+                    lockBitmap.UnlockBits();
+                    formGraphics.DrawImage(bmp, 0, 103);
+                }
+                formGraphics.Dispose();
+            }
+        }
+
+        void UpdateHistoAndScatterplot()
+        {
+            Setrxbufcontrol();
+            outputfilename.Text = fileio.BaseFileName;
+            if (processing.indexrxbuf < 100000)
+                scatterplot.AnScatViewlength = processing.indexrxbuf;
+            else scatterplot.AnScatViewlength = 99999;
+            scatterplot.AnScatViewoffset = 0;
+            scatterplot.UpdateScatterPlot();
+            updateHistoAndSliders();
+            //ScatterHisto.DoHistogram(rxbuf, (int)rxbufStartUpDown.Value, (int)rxbufEndUpDown.Value);
+            if (processing.indexrxbuf > 0)
+                ProcessingTab.Enabled = true;
+        }
+
+        private void updateHistoAndSliders()
+        {
+            if (!LimitTSCheckBox.Checked)
+            {
+                //createhistogram();
+                updateSliderLabels();
+            }
+        }
+
+        #endregion
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            if (controlfloppy.capturecommand == 1 || processing.processing == 1)
+                capturetime += timer1.Interval / 1000f;
+            // bytes per second
+            // and total bytes received
+
+            if (controlfloppy.capturecommand == 1)
+            {
+                bytesReceived += controlfloppy.bytespersecond;
+                BytesReceivedLabel.Text = string.Format("{0:n0}", bytesReceived);
+                BytesPerSecondLabel.Text = string.Format("{0:n0}", controlfloppy.bytespersecond / ((double)timer1.Interval / 1000.0));
+                CaptureTimeLabel.Text = ((int)capturetime).ToString();
+                controlfloppy.bytespersecond = 0;
+                BufferSizeLabel.Text = string.Format("{0:n0}", processing.indexrxbuf);
+
+                indexrxbufprevious = processing.rxbuf.Length;
+                //processing.rxbuf = controlfloppy.tempbuffer.Skip(Math.Max(0, controlfloppy.tempbuffer.Count()-30)).SelectMany(a => a).ToArray();
+
+                controlfloppy.rxbuf = processing.rxbuf;
+                if (processing.rxbuf.Length > 100000)
+                    controlfloppy.recentreadbuflength = 100000; // controlfloppy.recentreadbuflength = processing.indexrxbuf - indexrxbufprevious;
+                processing.indexrxbuf = processing.rxbuf.Length - 1;
+                ControlFloppyScatterplotCallback();
+            }
+
+            if (processing.indexrxbuf > 0)
+            {
+                ProcessingTab.Enabled = true;
+                QProcessingGroupBox.Enabled = true;
+            }
+
+            if (openFilesDlgUsed == true)
+            {
+                openFilesDlgUsed = false;
+                fileio.openfiles();
+                QProcessingGroupBox.Enabled = true;
+                UpdateHistoAndScatterplot();
+                BytesReceivedLabel.Text = String.Format("{0:n0}", processing.indexrxbuf);
+                //createhistogram1();
+            }
+
+            if (ScpOpenFilesDlgUsed == true)
+            {
+                ScpOpenFilesDlgUsed = false;
+                QProcessingGroupBox.Enabled = true;
+                UpdateHistoAndScatterplot();
+                BytesReceivedLabel.Text = String.Format("{0:n0}", processing.indexrxbuf);
+                //createhistogram1();
+            }
+        }
+
+        // Resets all data that was produced by processing but keeps rxbuf intact
+        private void resetprocesseddata()
+        {
+            int i;
+            processing.badsectorhash = new byte[5000000][];
+
+            BadSectorListBox.Items.Clear();
+            processing.sectordata2.Clear();
+
+            for (i = 0; i < processing.mfmsindex; i++)
+            {
+
+                //BadSectors[i] = new byte[0];
+                processing.mfms[i] = new byte[0];
+            }
+            OnlyBadSectorsRadio.Checked = false; // When the input buffer is changed or empty, we can't scan for only bad sectors
+            processing.mfmsindex = 0;
+            GC.Collect();
+        }
+
+        private void resetinput()
+        {
+            int i;
+            ProcessingTab.Enabled = false;
+            QProcessingGroupBox.Enabled = false;
+            processing.badsectorhash = null;
+            processing.badsectorhash = new byte[5000000][];
+
+            BadSectorListBox.Items.Clear();
+            processing.sectordata2.Clear();
+
+            for (i = 0; i < processing.mfmsindex; i++)
+            {
+
+                //BadSectors[i] = new byte[0];
+                processing.mfms[i] = null;
+                processing.mfms[i] = new byte[0];
+            }
+            OnlyBadSectorsRadio.Checked = false; // When the input buffer is changed or empty, we can't scan for only bad sectors
+            ECOnRadio.Checked = true;
+            StringBuilder t = new StringBuilder();
+            //mfmlength = 0;
+            processing.rxbuf = null;
+            processing.rxbuf = new byte[200000];
+
+            //Array.Clear(processing.rxbuf, 0, processing.rxbuf.Length);
+            //TrackPosInrxdatacount = 0;
+            processing.indexrxbuf = 0;
+            processing.mfmsindex = 0;
+
+            rxbufStartUpDown.Maximum = processing.indexrxbuf;
+            rxbufEndUpDown.Maximum = processing.indexrxbuf;
+            rxbufEndUpDown.Value = processing.indexrxbuf;
+            updateHistoAndSliders();
+            scatterplot.AnScatViewlength = 100000;
+            scatterplot.AnScatViewoffset = 0;
+            scatterplot.AnScatViewlargeoffset = 0;
+            scatterplot.AnScatViewoffsetOld = 0;
+            scatterplot.UpdateScatterPlot();
+            UpdateHistoAndScatterplot();
+            BytesReceivedLabel.Text = String.Format("{0:n0}", processing.indexrxbuf);
+            GC.Collect();
+        }
+
+        private void resetoutput()
+        {
+            HandleTabSwitching();
+            var oldscrollvalue = HistogramhScrollBar1.Value;
+            var oldscrollmaxvalue = HistogramhScrollBar1.Maximum;
+            var qoldscrollvalue = QHistogramhScrollBar1.Value;
+            var qoldscrollmaxvalue = QHistogramhScrollBar1.Maximum;
+            var rxbuftemp = (byte[])processing.rxbuf.Clone();
+            for (var i = 0; i < processing.mfms.Length; i++)
+                processing.mfms[i] = null;
+            processing.rxbuf = null;
+            processing.disk = null;
+            processing.mfmlengths = null;
+            processing.badsectorhash = null;
+            processing.progresses = null;
+            processing.progressesstart = null;
+            processing.progressesend = null;
+            processing.ProcessStatus = null;
+            processing.sectormap.sectorok = null;
+            processing.sectormap.sectorokLatestScan = null;
+            processing.sectormap = null;
+            processing = null;
+
+            ECHisto = new Histogram();
+            ScatterHisto = new Histogram();
+            processing = new FDDProcessing();
+            processing.rxbuf = rxbuftemp;
+            processing.indexrxbuf = processing.rxbuf.Length / 2; // Divide by two as loading .bin files doubles the buffer
+            processing.GetProcSettingsCallback += GetProcSettingsCallback;
+            processing.rtbSectorMap = rtbSectorMap;
+            processing.tbreceived = tbreceived;
+            processing.sectormap.SectorMapUpdateGUICallback += SectorMapUpdateGUICallback;
+            processing.sectormap.rtbSectorMap = rtbSectorMap;
+
+            fileio.processing = processing;
+            if (controlfloppy.serialPort1.IsOpen)
+                controlfloppy.Disconnect();
+            controlfloppy.Disconnect();
+            controlfloppy.tempbuffer.Clear();
+            controlfloppy.rxbuf = null;
+            controlfloppy = null;
+            controlfloppy = new ControlFloppy();
+            controlfloppy.rxbuf = rxbuftemp;
+            controlfloppy.processing = processing;
+            scatterplot.removeEvents();
+            scatterplot.rxbuf = null;
+            scatterplot.UpdateEvent -= updateAnScatterPlot;
+            scatterplot.ShowGraph -= ScatterPlotShowGraphCallback;
+
+            scatterplot = null;
+            scatterplot = new ScatterPlot(processing, processing.sectordata2, 0, 0, ScatterPictureBox);
+            scatterplot.tbreiceved = tbreceived;
+            scatterplot.rxbuf = rxbuftemp;
+            scatterplot.UpdateEvent += updateAnScatterPlot;
+            scatterplot.ShowGraph += ScatterPlotShowGraphCallback;
+            scatterplot.EditScatterplot = EditScatterPlotcheckBox.Checked;
+
+            EditOptioncomboBox.SelectedIndex = 0;
+            EditModecomboBox.SelectedIndex = 0;
+            textBoxReceived.AppendText("PortName: " + selectedPortName + "\r\n");
+
+            BadSectorTooltip.Hide();
+            timer5.Start();
+            GUITimer.Start();
+            BluetoRedByteCopyToolBtn.Tag = new int();
+            BluetoRedByteCopyToolBtn.Tag = 0;
+            ECHisto.setPanel(AnHistogramPanel);
+            ScatterHisto.setPanel(Histogrampanel1);
+            if (processing.indexrxbuf < 100000)
+                scatterplot.AnScatViewlength = processing.indexrxbuf;
+            else scatterplot.AnScatViewlength = 99999;
+            scatterplot.AnScatViewoffset = 0;
+            scatterplot.UpdateScatterPlot();
+            updateSliderLabels();
+            updateAnScatterPlot();
+
+            HistogramhScrollBar1.Maximum = oldscrollmaxvalue;
+            HistogramhScrollBar1.Value = oldscrollvalue;
+            QHistogramhScrollBar1.Maximum = qoldscrollmaxvalue;
+            QHistogramhScrollBar1.Value = qoldscrollvalue;
+            HandleTabSwitching();
+            GC.Collect();
+        }
 
 
 

@@ -637,7 +637,6 @@ namespace FloppyControlApp.MyClasses
         {
             int i;
             string extension = "";
-            int ioerror;
             
             var sectordata2 = processing.sectordata2;
 
@@ -676,7 +675,6 @@ namespace FloppyControlApp.MyClasses
                 catch (IOException ex)
                 {
                     tbreceived.Append("IO error: " + ex.ToString());
-                    ioerror = 1;
                     return;
                 }
             }
@@ -753,7 +751,6 @@ namespace FloppyControlApp.MyClasses
                                         catch (IOException ex)
                                         {
                                             tbreceived.Append("IO error: " + ex.ToString());
-                                            ioerror = 1;
                                         }
 
                                         for (q = tso.offsetstart; q < tso.offsetend; q++, bytessaved++)

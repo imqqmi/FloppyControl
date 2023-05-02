@@ -11,9 +11,6 @@ namespace FloppyControlApp.MyClasses.Processing.ProcessingTypes
     {
         public byte[] ProcTypeAufit(ProcTypeArgs ProctypeArgs, int ThreadId, ref int Stop)
         {
-            int i;
-            int value;
-
             int MINUS, FOURUS, SIXUS, EIGHTUS, start, end;
             float RateOfChange;
             System.Diagnostics.Stopwatch SW = new System.Diagnostics.Stopwatch();
@@ -77,7 +74,7 @@ namespace FloppyControlApp.MyClasses.Processing.ProcessingTypes
             
             DPLL dpll = new DPLL();
 
-            for (i = start; i < end; i++)
+            for (int i = start; i < end; i++)
             {
                 if (i % 250000 == 249999) { Progresses[ThreadId] = i; if (Stop == 1) break; }
                 if (rxbuf[i] < 4 && Procsettings.UseErrorCorrection == false) continue;

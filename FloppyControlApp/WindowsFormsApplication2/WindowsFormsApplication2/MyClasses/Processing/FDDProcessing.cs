@@ -453,7 +453,6 @@ namespace FloppyControlApp
         private void Period2MFM(ProcSettings procsettings, int threadid)
         {
             int i;
-            int value;
 
             bool writemfm = false;
 

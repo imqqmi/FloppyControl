@@ -1384,7 +1384,7 @@ namespace FloppyControlApp
             mfmSelectionEnd = i - 1;
 
             tbreceived.Append("mfmSelectionStart:" + mfmSelectionStart + " mfmselectionendAligned: " + (mfmSelectionEnd + bitshifted) + "\r\n");
-            int datacrcchk = 0;
+            int datacrcchk;
             byte[] checksum;
             byte[] datachecksum;
             int j;

@@ -170,13 +170,13 @@ namespace FloppyControlApp
             this.QCaptureBtn = new System.Windows.Forms.Button();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
-            this.button10 = new System.Windows.Forms.Button();
-            this.button9 = new System.Windows.Forms.Button();
-            this.button17 = new System.Windows.Forms.Button();
-            this.button22 = new System.Windows.Forms.Button();
-            this.button24 = new System.Windows.Forms.Button();
-            this.button27 = new System.Windows.Forms.Button();
-            this.button30 = new System.Windows.Forms.Button();
+            this.PresetCaptureDuration50s = new System.Windows.Forms.Button();
+            this.PresetCaptureDuration2s = new System.Windows.Forms.Button();
+            this.PresetCaptureDuration1s = new System.Windows.Forms.Button();
+            this.PresetCaptureDuration5s = new System.Windows.Forms.Button();
+            this.PresetTrack78_164 = new System.Windows.Forms.Button();
+            this.PresetTrack80_90 = new System.Windows.Forms.Button();
+            this.PresetCaptureDefaultBtn = new System.Windows.Forms.Button();
             this.button37 = new System.Windows.Forms.Button();
             this.QTrackDurationUpDown = new System.Windows.Forms.NumericUpDown();
             this.QStartTrackUpDown = new System.Windows.Forms.NumericUpDown();
@@ -2121,13 +2121,13 @@ namespace FloppyControlApp
             // 
             // groupBox11
             // 
-            this.groupBox11.Controls.Add(this.button10);
-            this.groupBox11.Controls.Add(this.button9);
-            this.groupBox11.Controls.Add(this.button17);
-            this.groupBox11.Controls.Add(this.button22);
-            this.groupBox11.Controls.Add(this.button24);
-            this.groupBox11.Controls.Add(this.button27);
-            this.groupBox11.Controls.Add(this.button30);
+            this.groupBox11.Controls.Add(this.PresetCaptureDuration50s);
+            this.groupBox11.Controls.Add(this.PresetCaptureDuration2s);
+            this.groupBox11.Controls.Add(this.PresetCaptureDuration1s);
+            this.groupBox11.Controls.Add(this.PresetCaptureDuration5s);
+            this.groupBox11.Controls.Add(this.PresetTrack78_164);
+            this.groupBox11.Controls.Add(this.PresetTrack80_90);
+            this.groupBox11.Controls.Add(this.PresetCaptureDefaultBtn);
             this.groupBox11.Controls.Add(this.button37);
             this.groupBox11.Location = new System.Drawing.Point(421, 17);
             this.groupBox11.Name = "groupBox11";
@@ -2136,73 +2136,73 @@ namespace FloppyControlApp
             this.groupBox11.TabStop = false;
             this.groupBox11.Text = "Preset capture";
             // 
-            // button10
+            // PresetCaptureDuration50s
             // 
-            this.button10.Location = new System.Drawing.Point(332, 19);
-            this.button10.Name = "button10";
-            this.button10.Size = new System.Drawing.Size(37, 23);
-            this.button10.TabIndex = 61;
-            this.button10.Text = "50s";
-            this.button10.UseVisualStyleBackColor = true;
-            this.button10.Click += new System.EventHandler(this.button10_Click);
+            this.PresetCaptureDuration50s.Location = new System.Drawing.Point(332, 19);
+            this.PresetCaptureDuration50s.Name = "PresetCaptureDuration50s";
+            this.PresetCaptureDuration50s.Size = new System.Drawing.Size(37, 23);
+            this.PresetCaptureDuration50s.TabIndex = 61;
+            this.PresetCaptureDuration50s.Text = "50s";
+            this.PresetCaptureDuration50s.UseVisualStyleBackColor = true;
+            this.PresetCaptureDuration50s.Click += new System.EventHandler(this.PresetCaptureDuration50s_Click);
             // 
-            // button9
+            // PresetCaptureDuration2s
             // 
-            this.button9.Location = new System.Drawing.Point(271, 19);
-            this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(26, 23);
-            this.button9.TabIndex = 60;
-            this.button9.Text = "2s";
-            this.button9.UseVisualStyleBackColor = true;
-            this.button9.Click += new System.EventHandler(this.button9_Click);
+            this.PresetCaptureDuration2s.Location = new System.Drawing.Point(271, 19);
+            this.PresetCaptureDuration2s.Name = "PresetCaptureDuration2s";
+            this.PresetCaptureDuration2s.Size = new System.Drawing.Size(26, 23);
+            this.PresetCaptureDuration2s.TabIndex = 60;
+            this.PresetCaptureDuration2s.Text = "2s";
+            this.PresetCaptureDuration2s.UseVisualStyleBackColor = true;
+            this.PresetCaptureDuration2s.Click += new System.EventHandler(this.PresetCaptureDuration2s_Click);
             // 
-            // button17
+            // PresetCaptureDuration1s
             // 
-            this.button17.Location = new System.Drawing.Point(241, 19);
-            this.button17.Name = "button17";
-            this.button17.Size = new System.Drawing.Size(26, 23);
-            this.button17.TabIndex = 59;
-            this.button17.Text = "1s";
-            this.button17.UseVisualStyleBackColor = true;
-            this.button17.Click += new System.EventHandler(this.button4_Click);
+            this.PresetCaptureDuration1s.Location = new System.Drawing.Point(241, 19);
+            this.PresetCaptureDuration1s.Name = "PresetCaptureDuration1s";
+            this.PresetCaptureDuration1s.Size = new System.Drawing.Size(26, 23);
+            this.PresetCaptureDuration1s.TabIndex = 59;
+            this.PresetCaptureDuration1s.Text = "1s";
+            this.PresetCaptureDuration1s.UseVisualStyleBackColor = true;
+            this.PresetCaptureDuration1s.Click += new System.EventHandler(this.PresetCaptureDuration1s_Click);
             // 
-            // button22
+            // PresetCaptureDuration5s
             // 
-            this.button22.Location = new System.Drawing.Point(300, 19);
-            this.button22.Name = "button22";
-            this.button22.Size = new System.Drawing.Size(26, 23);
-            this.button22.TabIndex = 55;
-            this.button22.Text = "5s";
-            this.button22.UseVisualStyleBackColor = true;
-            this.button22.Click += new System.EventHandler(this.button6_Click);
+            this.PresetCaptureDuration5s.Location = new System.Drawing.Point(300, 19);
+            this.PresetCaptureDuration5s.Name = "PresetCaptureDuration5s";
+            this.PresetCaptureDuration5s.Size = new System.Drawing.Size(26, 23);
+            this.PresetCaptureDuration5s.TabIndex = 55;
+            this.PresetCaptureDuration5s.Text = "5s";
+            this.PresetCaptureDuration5s.UseVisualStyleBackColor = true;
+            this.PresetCaptureDuration5s.Click += new System.EventHandler(this.PresetCaptureDuration5s_Click);
             // 
-            // button24
+            // PresetTrack78_164
             // 
-            this.button24.Location = new System.Drawing.Point(183, 19);
-            this.button24.Name = "button24";
-            this.button24.Size = new System.Drawing.Size(56, 23);
-            this.button24.TabIndex = 56;
-            this.button24.Text = "78-164";
-            this.button24.Click += new System.EventHandler(this.TrackPreset4Button_Click);
+            this.PresetTrack78_164.Location = new System.Drawing.Point(183, 19);
+            this.PresetTrack78_164.Name = "PresetTrack78_164";
+            this.PresetTrack78_164.Size = new System.Drawing.Size(56, 23);
+            this.PresetTrack78_164.TabIndex = 56;
+            this.PresetTrack78_164.Text = "78-164";
+            this.PresetTrack78_164.Click += new System.EventHandler(this.PresetTrack78_164_Click);
             // 
-            // button27
+            // PresetTrack80_90
             // 
-            this.button27.Location = new System.Drawing.Point(124, 19);
-            this.button27.Name = "button27";
-            this.button27.Size = new System.Drawing.Size(57, 23);
-            this.button27.TabIndex = 52;
-            this.button27.Text = "80-90";
-            this.button27.UseVisualStyleBackColor = true;
-            this.button27.Click += new System.EventHandler(this.TrackPreset2Button_Click);
+            this.PresetTrack80_90.Location = new System.Drawing.Point(124, 19);
+            this.PresetTrack80_90.Name = "PresetTrack80_90";
+            this.PresetTrack80_90.Size = new System.Drawing.Size(57, 23);
+            this.PresetTrack80_90.TabIndex = 52;
+            this.PresetTrack80_90.Text = "80-90";
+            this.PresetTrack80_90.UseVisualStyleBackColor = true;
+            this.PresetTrack80_90.Click += new System.EventHandler(this.PresetTrack80_90_Click);
             // 
-            // button30
+            // PresetCaptureDefaultBtn
             // 
-            this.button30.Location = new System.Drawing.Point(7, 19);
-            this.button30.Name = "button30";
-            this.button30.Size = new System.Drawing.Size(56, 23);
-            this.button30.TabIndex = 57;
-            this.button30.Text = "Default";
-            this.button30.Click += new System.EventHandler(this.TrackPreset3Button_Click);
+            this.PresetCaptureDefaultBtn.Location = new System.Drawing.Point(7, 19);
+            this.PresetCaptureDefaultBtn.Name = "PresetCaptureDefaultBtn";
+            this.PresetCaptureDefaultBtn.Size = new System.Drawing.Size(56, 23);
+            this.PresetCaptureDefaultBtn.TabIndex = 57;
+            this.PresetCaptureDefaultBtn.Text = "Default";
+            this.PresetCaptureDefaultBtn.Click += new System.EventHandler(this.PresetCaptureDefaultBtn_Click);
             // 
             // button37
             // 
@@ -2211,7 +2211,7 @@ namespace FloppyControlApp
             this.button37.Size = new System.Drawing.Size(57, 23);
             this.button37.TabIndex = 58;
             this.button37.Text = "0-10";
-            this.button37.Click += new System.EventHandler(this.TrackPreset1Button_Click_1);
+            this.button37.Click += new System.EventHandler(this.PresetTrack0_10_Click);
             // 
             // QTrackDurationUpDown
             // 
@@ -2639,7 +2639,7 @@ namespace FloppyControlApp
             this.button4.TabIndex = 59;
             this.button4.Text = "1000ms";
             this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.button4.Click += new System.EventHandler(this.PresetCaptureDuration1s_Click);
             // 
             // button6
             // 
@@ -2649,7 +2649,7 @@ namespace FloppyControlApp
             this.button6.TabIndex = 55;
             this.button6.Text = "5000ms";
             this.button6.UseVisualStyleBackColor = true;
-            this.button6.Click += new System.EventHandler(this.button6_Click);
+            this.button6.Click += new System.EventHandler(this.PresetCaptureDuration5s_Click);
             // 
             // TrackPreset4Button
             // 
@@ -2658,7 +2658,7 @@ namespace FloppyControlApp
             this.TrackPreset4Button.Size = new System.Drawing.Size(56, 23);
             this.TrackPreset4Button.TabIndex = 56;
             this.TrackPreset4Button.Text = "78-164";
-            this.TrackPreset4Button.Click += new System.EventHandler(this.TrackPreset4Button_Click);
+            this.TrackPreset4Button.Click += new System.EventHandler(this.PresetTrack78_164_Click);
             // 
             // TrackPreset2Button
             // 
@@ -2668,7 +2668,7 @@ namespace FloppyControlApp
             this.TrackPreset2Button.TabIndex = 52;
             this.TrackPreset2Button.Text = "80-90";
             this.TrackPreset2Button.UseVisualStyleBackColor = true;
-            this.TrackPreset2Button.Click += new System.EventHandler(this.TrackPreset2Button_Click);
+            this.TrackPreset2Button.Click += new System.EventHandler(this.PresetTrack80_90_Click);
             // 
             // TrackPreset3Button
             // 
@@ -2677,7 +2677,7 @@ namespace FloppyControlApp
             this.TrackPreset3Button.Size = new System.Drawing.Size(56, 23);
             this.TrackPreset3Button.TabIndex = 57;
             this.TrackPreset3Button.Text = "Default";
-            this.TrackPreset3Button.Click += new System.EventHandler(this.TrackPreset3Button_Click);
+            this.TrackPreset3Button.Click += new System.EventHandler(this.PresetCaptureDefaultBtn_Click);
             // 
             // TrackPreset1Button
             // 
@@ -2686,7 +2686,7 @@ namespace FloppyControlApp
             this.TrackPreset1Button.Size = new System.Drawing.Size(57, 23);
             this.TrackPreset1Button.TabIndex = 58;
             this.TrackPreset1Button.Text = "0-10";
-            this.TrackPreset1Button.Click += new System.EventHandler(this.TrackPreset1Button_Click_1);
+            this.TrackPreset1Button.Click += new System.EventHandler(this.PresetTrack0_10_Click);
             // 
             // TrackDurationUpDown
             // 
@@ -6733,11 +6733,11 @@ namespace FloppyControlApp
         private System.Windows.Forms.Button QCaptureBtn;
         private System.Windows.Forms.GroupBox groupBox10;
         private System.Windows.Forms.GroupBox groupBox11;
-        private System.Windows.Forms.Button button17;
-        private System.Windows.Forms.Button button22;
-        private System.Windows.Forms.Button button24;
-        private System.Windows.Forms.Button button27;
-        private System.Windows.Forms.Button button30;
+        private System.Windows.Forms.Button PresetCaptureDuration1s;
+        private System.Windows.Forms.Button PresetCaptureDuration5s;
+        private System.Windows.Forms.Button PresetTrack78_164;
+        private System.Windows.Forms.Button PresetTrack80_90;
+        private System.Windows.Forms.Button PresetCaptureDefaultBtn;
         private System.Windows.Forms.Button button37;
         private System.Windows.Forms.NumericUpDown QTrackDurationUpDown;
         private System.Windows.Forms.NumericUpDown QStartTrackUpDown;
@@ -6845,8 +6845,8 @@ namespace FloppyControlApp
         private System.Windows.Forms.ToolStripMenuItem advancedModeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem devModeToolStripMenuItem;
         private System.Windows.Forms.Button GluedDiskPreset;
-        private System.Windows.Forms.Button button10;
-        private System.Windows.Forms.Button button9;
+        private System.Windows.Forms.Button PresetCaptureDuration50s;
+        private System.Windows.Forms.Button PresetCaptureDuration2s;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.Button ExploreHereBtn;
         private ToolStripSeparator toolStripSeparator5;
