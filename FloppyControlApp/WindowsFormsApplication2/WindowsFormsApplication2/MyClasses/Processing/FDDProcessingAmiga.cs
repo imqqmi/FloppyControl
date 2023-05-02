@@ -7,8 +7,6 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Security.Cryptography;
 using System.Collections.Concurrent;
-
-//using FDCPackage;
 using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters.Binary;
 using FloppyControlApp.MyClasses;
@@ -99,7 +97,7 @@ namespace FloppyControlApp
                             MFMData sectordata = new MFMData();
                             sectordata.MarkerPositions = i - 16;
                             sectordata.rxbufMarkerPositions = rxbufcnt; // start of 44894489 uint32, not at AAAAAAAA
-
+                            // Todo: bottleneck for multithreading!
                             if (!sectordata2.TryAdd(sectordata2.Count, sectordata))
                             {
                                 tbreceived.Append("Failed to add to Sectordata dictionary " + markerpositionscntthread + "\r\n");
