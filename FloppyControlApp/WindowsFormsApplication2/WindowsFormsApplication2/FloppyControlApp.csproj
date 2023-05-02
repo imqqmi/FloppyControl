@@ -105,6 +105,7 @@
     <Compile Include="FloppyControlErrorCorrection.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="MyClasses\FormHelper.cs">
       <SubType>Form</SubType>
     </Compile>

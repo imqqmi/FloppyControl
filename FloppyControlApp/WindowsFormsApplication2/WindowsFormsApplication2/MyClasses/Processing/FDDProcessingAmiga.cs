@@ -26,33 +26,19 @@ namespace FloppyControlApp
         public int scatterplotend { get; set; }
         
 
-        // bytes version of ProcessAmiga
-        private void ProcessAmigaMFMbytes(ProcSettings procsettings, int threadid)
+        private void GetAllMFMMarkerPositionsDiskspare(int threadid)
         {
-            int i;
-            uint j;
+            byte[] amigamarkerbytes = AMIGAMARKER;
             uint searchcnt = 0;
             int rxbufcnt = 0;
             int markerpositionscntthread = 0;
-            int bytespersectorthread = 512;
-            int badsectorcntthread = 0;
-            //uint totaltime = 0;
-            //uint reltime = 0;
-            bool debuginfo = false;
-            SHA256 mySHA256 = SHA256Managed.Create();
-            int sectordata2oldcnt = sectordata2.Count;
-
-
-            byte[] amigamarkerbytes = AMIGAMARKER;
 
             // Find all the sector markers
 
             //DiskSpare marker
             byte[] amigadsmarkerbytes = AMIGADSMARKER;
 
-            //tbreceived.Append("mfmlength: " + mfmlengths[threadid] + " ");
-            //totaltime += reltime = relativetime();
-            //int previousSDcount = sectordata2.Count;
+
             //=============================================================================================
             //Find diskspare sector markers
             if (indexrxbuf > rxbuf.Length) indexrxbuf = rxbuf.Length - 1;
@@ -62,7 +48,7 @@ namespace FloppyControlApp
                 rxbufcnt = procsettings.start;
                 searchcnt = 0;
                 // Find markers
-                for (i = 0; i < mfmlengths[threadid]; i++)
+                for (int i = 0; i < mfmlengths[threadid]; i++)
                 {
                     if (i % 1048576 == 1048575)
                     {
@@ -78,11 +64,11 @@ namespace FloppyControlApp
                         {
                             if (rxbufcnt < rxbuf.Length - 1)
                                 rxbufcnt++;
-                        else
-                            break;
+                            else
+                                break;
                         }
                     }
-                    for (j = 0; j < amigadsmarkerbytes.Length; j++)
+                    for (int j = 0; j < amigadsmarkerbytes.Length; j++)
                     {
                         if (mfms[threadid][i + j] == amigadsmarkerbytes[j]) searchcnt++;
                         else
@@ -108,7 +94,6 @@ namespace FloppyControlApp
                             break;
                         }
                     }
-                    //if (overflow == 1) break;
                 }
                 if (markerpositionscntthread > 0)
                 {
@@ -123,8 +108,14 @@ namespace FloppyControlApp
 
                 }
             }
-            progresses[threadid] = (int)mfmlengths[threadid];
-            ProcessStatus[threadid] = "Find AmigaDOS MFM markers...";
+        }
+
+        private void GetAllMFMMarkerPositionsADOS(int threadid)
+        {
+            byte[] amigamarkerbytes = AMIGAMARKER;
+            uint searchcnt = 0;
+            int rxbufcnt = 0;
+            int markerpositionscntthread = 0;
 
             searchcnt = 0;
             rxbufcnt = 0;
@@ -135,14 +126,14 @@ namespace FloppyControlApp
                 rxbufcnt = procsettings.start;
                 searchcnt = 0;
                 // Find AmigaDOS markers
-                for (i = 0; i < mfmlengths[threadid]; i++)
+                for (int i = 0; i < mfmlengths[threadid]; i++)
                 {
                     if (i % 1048576 == 1048575) { progresses[threadid] = i; }
                     if (mfms[threadid][i] == 1) // counting 1's matches the number of bytes in rxbuf + start offset
                         rxbufcnt++;
                     if (rxbufcnt >= rxbuf.Length) break;
-                    while (rxbuf[rxbufcnt] < 4 && rxbufcnt < indexrxbuf-1) rxbufcnt++;
-                    for (j = 0; j < amigamarkerbytes.Length; j++)
+                    while (rxbuf[rxbufcnt] < 4 && rxbufcnt < indexrxbuf - 1) rxbufcnt++;
+                    for (int j = 0; j < amigamarkerbytes.Length; j++)
                     {
                         if (mfms[threadid][i + j] == amigamarkerbytes[j]) searchcnt++;
                         else
@@ -157,7 +148,7 @@ namespace FloppyControlApp
 
                             sectordata.MarkerPositions = i - 32; // start at AAAAAAAA
                             sectordata.rxbufMarkerPositions = rxbufcnt; // start of 44894489 uint32, not at AAAAAAAA
-                            
+
                             if (!sectordata2.TryAdd(sectordata2.Count, sectordata))
                             {
                                 tbreceived.Append("Failed to add to Sectordata dictionary " + markerpositionscntthread + "\r\n");
@@ -180,7 +171,215 @@ namespace FloppyControlApp
                 }
             }
             progresses[threadid] = (int)mfmlengths[threadid];
+        }
 
+        public class MFM2Sector
+        {
+            public byte Tracknr;
+            public byte Sectornr;
+            public bool Headerok;
+            public bool Dataok;
+            public byte[] DecodedData;
+        }
+
+        private MFM2Sector MFMToBytesADOS(int threadid, int sectorindex, StringBuilder trackboxtemp)
+        {
+            byte[] headerchecksum;
+            byte[] datachecksum;
+            byte[] checksum;
+            byte[] savechecksum = new byte[4];
+            MFMData sectordatathread;
+            sectordatathread = sectordata2[sectorindex];
+
+            if (sectorindex % 50 == 49) { progresses[threadid] = (int)sectorindex; }
+            if (stop == 1) return null;
+            int mrkridx;
+            mrkridx = (int)sectordatathread.MarkerPositions;
+
+            byte[] dec1 = new byte[1];
+
+            string checksumok;
+            byte headercheckok = 0;
+            byte datacheckok = 0;
+
+            byte tracknr = 0;
+            byte sectornr = 0;
+            byte gapoffset;
+
+            //Decode mfm to bytes
+            //====================================================================================================
+            //AmigaDOS disk format for ADOS and PFS
+            
+            //Get checksums first:
+            headerchecksum = amigamfmdecodebytes(mfms[threadid], mrkridx + (48 * 8), 4 * 16); // At uint 6
+            datachecksum = amigamfmdecodebytes(mfms[threadid], mrkridx + (56 * 8), 4 * 16); // At uint 6
+
+            dec1 = amigamfmdecodebytes(mfms[threadid], mrkridx + (8 * 8), 4 * 16); //At byte position 8
+
+            tracknr = dec1[1];
+            sectornr = dec1[2];
+            gapoffset = dec1[3];
+
+            checksum = amigachecksum(mfms[threadid], mrkridx + (8 * 8), 4 * 16); // Get header checksum from sector header
+
+            // Compare disk stored checksum and calculated checksum when decoding:
+            if (headerchecksum.SequenceEqual(checksum))
+            {
+                checksumok = "H:OK ";
+                headercheckok = 1;
+            }
+            else checksumok = "H:ER ";
+
+            //Sector data
+            dec1 = amigamfmdecodebytes(mfms[threadid], mrkridx + (64 * 8), 512 * 16); ;
+            checksum = amigachecksum(mfms[threadid], mrkridx + (64 * 8), 512 * 16); // Get header checksum from sector header
+            savechecksum[0] = checksum[0]; savechecksum[1] = checksum[1]; savechecksum[2] = checksum[2]; savechecksum[3] = checksum[3];
+            // Do the data checksum check:
+            if (datachecksum.SequenceEqual(checksum)) // checksum is changed everytime amigamfmdecode() is called
+            {
+                //checksumok = "D:OK ";
+                datacheckok = 1;
+            }
+            else checksumok = "D:ER ";
+            trackboxtemp.Append(checksumok);
+            
+
+            return new MFM2Sector()
+            {
+                Tracknr = tracknr,
+                Sectornr = sectornr,
+                Headerok = headercheckok == 1,
+                Dataok = datacheckok == 1,
+                DecodedData = dec1
+            };
+        }
+
+        private MFM2Sector MFMToBytesDiskSpare(int threadid, int sectorindex, StringBuilder trackboxtemp)
+        {
+            byte[] savechecksum = new byte[4];
+            MFMData sectordatathread;
+            sectordatathread = sectordata2[sectorindex];
+
+            if (sectorindex % 50 == 49) { progresses[threadid] = (int)sectorindex; }
+            if (stop == 1) return null;
+            int mrkridx;
+            mrkridx = (int)sectordatathread.MarkerPositions;
+
+            byte[] dec1;
+
+            string checksumok;
+            byte headercheckok;
+            byte datacheckok;
+
+            byte tracknr;
+            byte sectornr;
+            byte gapoffset;
+
+            //Decode mfm to bytes
+            //====================================================================================================
+            //AmigaDOS disk format for ADOS and PFS
+
+            //Diskspare sector format:
+            // <AAAA><4489><4489><AAAA> <TT><SS> <OddChkHi> <OddChkLo> <EvenChkHi> <EvenChkLo>
+
+            byte[] dsdatachecksum = new byte[4];
+
+            headercheckok = 1; // Diskspare doesn't do separate header and data checksums
+
+            // Get track sector and checksum within one uint32: 0xTTSSCCCC
+            dec1 = amigamfmdecodebytes(mfms[threadid], mrkridx + 8 * 8, 4 * 16); //At uint 0
+
+            tracknr = dec1[0];
+            sectornr = dec1[1];
+            dsdatachecksum[0] = dec1[2];
+            dsdatachecksum[1] = dec1[3];
+            dsdatachecksum[2] = 0;
+            dsdatachecksum[3] = 0;
+
+            //Clear display info buffer
+            trackboxtemp.Clear();
+
+            uint dchecksum;
+
+            uint offset;
+            byte[] tmp;
+            dec1 = new byte[520];
+
+            for (int j = 0; j < 512; j += 4)
+            {
+                tmp = amigamfmdecodebytes(mfms[threadid], mrkridx + (int)j * 16 + 16 * 8, 4 * 16);
+                dec1[j] = tmp[0];
+                dec1[j + 1] = tmp[1];
+                dec1[j + 2] = tmp[2];
+                dec1[j + 3] = tmp[3];
+            }
+
+            dchecksum = (uint)((mfm2ushort(mfms[threadid], mrkridx + 8 * 16)) & 0x7FFF);
+            ushort tmp1;
+            offset = 9;
+            for (uint j = offset; j < 520; j++)
+            {
+                tmp1 = mfm2ushort(mfms[threadid], (int)(mrkridx + j * 16));
+                dchecksum ^= (uint)(tmp1 & 0xffff);
+            }
+            savechecksum[0] = (byte)(dchecksum >> 8);
+            savechecksum[1] = (byte)(dchecksum & 0xFF);
+            savechecksum[2] = 0;
+            savechecksum[3] = 0;
+
+            // Do the data checksum check:
+            if (dsdatachecksum.SequenceEqual(savechecksum)) // checksum is changed everytime amigamfmdecode() is called
+            {
+                checksumok = "D:OK ";
+                datacheckok = 1;
+            }
+            else
+            {
+                checksumok = "D:ER ";
+                datacheckok = 0;
+                headercheckok = 1; // If diskspare, data = bad? header can't be trusted
+            }
+
+            trackboxtemp.Append(checksumok + "\r\n");
+
+            if (checksumok == "D:OK ")
+                trackboxtemp.Clear();
+            else trackboxtemp.Append(checksumok);
+
+
+            return new MFM2Sector()
+            {
+                Tracknr = tracknr,
+                Sectornr = sectornr,
+                Headerok = headercheckok == 1,
+                Dataok = datacheckok == 1,
+                DecodedData = dec1
+            };
+        }
+
+        // bytes version of ProcessAmiga
+        private void ProcessAmigaMFMbytes(ProcSettings procsettings, int threadid)
+        {
+            int i;
+            uint j;
+            
+            int markerpositionscntthread = 0;
+            int bytespersectorthread = 512;
+            int badsectorcntthread = 0;
+            //uint totaltime = 0;
+            //uint reltime = 0;
+            bool debuginfo = false;
+            SHA256 mySHA256 = SHA256Managed.Create();
+            int sectordata2oldcnt = sectordata2.Count;
+#region Find markers
+            GetAllMFMMarkerPositionsDiskspare(threadid);
+
+            progresses[threadid] = (int)mfmlengths[threadid];
+            ProcessStatus[threadid] = "Find AmigaDOS MFM markers...";
+
+            GetAllMFMMarkerPositionsADOS(threadid);
+
+#endregion
             //totaltime += reltime = relativetime();
             //tbreceived.Append(reltime + "ms finding markers.\r\n");
             tbreceived.Append("Marker count: " + markerpositionscntthread.ToString() + " ");
@@ -200,22 +399,13 @@ namespace FloppyControlApp
 
             uint[][] mfmmarkerdata = new uint[markerpositionscntthread][];
 
-            //int x;
-            StringBuilder txtbuild = new StringBuilder();
-
-            StringBuilder txtbox = new StringBuilder();
             StringBuilder trackbox = new StringBuilder();
             StringBuilder trackboxtemp = new StringBuilder();
-            StringBuilder decodedamigaText2 = new StringBuilder();
             StringBuilder decodedamigaText = new StringBuilder();
-
 
             int sectorindex;
             byte[] savechecksum = new byte[4];
-
-            //totaltime += reltime = relativetime();
-            //tbreceived.Append(reltime + "ms Putting all markers and sector data in two dim array. \r\n");
-
+            
             ProcessStatus[threadid] = "Converting mfm to sectors...";
             progressesstart[threadid] = 0;
             progressesend[threadid] = (int)markerpositionscntthread;
@@ -239,159 +429,35 @@ namespace FloppyControlApp
 
                 byte[] dec1 = new byte[1];
 
-                string checksumok = "";
-                byte headercheckok = 0;
-                byte datacheckok = 0;
+                string checksumok;
+                bool headercheckok = false;
+                bool datacheckok = false;
 
                 byte tracknr = 0;
                 byte sectornr = 0;
-                byte gapoffset = 0;
+                byte gapoffset;
+
+                MFM2Sector Mfm2Sector = null;
 
                 //Decode mfm to bytes
-                //====================================================================================================
                 //AmigaDOS disk format for ADOS and PFS
                 if (diskformat == DiskFormat.amigados) //AmigaDOS disk format for ADOS and PFS
                 {
-
-                    //Get checksums first:
-                    headerchecksum = amigamfmdecodebytes(mfms[threadid], mrkridx + (48 * 8), 4 * 16); // At uint 6
-                    datachecksum = amigamfmdecodebytes(mfms[threadid], mrkridx + (56 * 8), 4 * 16); // At uint 6
-
-                    dec1 = amigamfmdecodebytes(mfms[threadid], mrkridx + (8 * 8), 4 * 16); //At byte position 8
-
-                    tracknr = dec1[1];
-                    sectornr = dec1[2];
-                    gapoffset = dec1[3];
-
-                    checksum = amigachecksum(mfms[threadid], mrkridx + (8 * 8), 4 * 16); // Get header checksum from sector header
-
-                    // Compare disk stored checksum and calculated checksum when decoding:
-                    if (headerchecksum.SequenceEqual(checksum))
-                    {
-                        checksumok = "H:OK ";
-                        headercheckok = 1;
-                    }
-                    else checksumok = "H:ER ";
-                    trackboxtemp.Append(checksumok);
-
-                    //Sector data
-                    dec1 = amigamfmdecodebytes(mfms[threadid], mrkridx + (64 * 8), 512 * 16); ;
-                    checksum = amigachecksum(mfms[threadid], mrkridx + (64 * 8), 512 * 16); // Get header checksum from sector header
-                    savechecksum[0] = checksum[0]; savechecksum[1] = checksum[1]; savechecksum[2] = checksum[2]; savechecksum[3] = checksum[3];
-                    // Do the data checksum check:
-                    if (datachecksum.SequenceEqual(checksum)) // checksum is changed everytime amigamfmdecode() is called
-                    {
-                        //checksumok = "D:OK ";
-                        datacheckok = 1;
-                    }
-                    else checksumok = "D:ER ";
+                    Mfm2Sector = MFMToBytesADOS(threadid, sectorindex, trackboxtemp);
                 }
-                //====================================================================================================
-
                 else if (diskformat == DiskFormat.diskspare) // Assume it's DiskSpare format
                 {
-                    //Diskspare sector format:
-                    // <AAAA><4489><4489><AAAA> <TT><SS> <OddChkHi> <OddChkLo> <EvenChkHi> <EvenChkLo>
-
-                    uint header;
-                    byte[] dsdatachecksum = new byte[4];
-                    //int test;
-
-                    headercheckok = 1; // Diskspare doesn't do separate header and data checksums
-
-                    // Get track sector and checksum within one uint32: 0xTTSSCCCC
-                    dec1 = amigamfmdecodebytes(mfms[threadid], mrkridx + 8 * 8, 4 * 16); //At uint 0
-                    header = dec1[0];
-                    tracknr = dec1[0];
-                    sectornr = dec1[1];
-                    dsdatachecksum[0] = dec1[2];
-                    dsdatachecksum[1] = dec1[3];
-                    dsdatachecksum[2] = 0;
-                    dsdatachecksum[3] = 0;
-
-                    //Clear display info buffer
-                    trackboxtemp.Clear();
-
-                    uint dchecksum = 0;
-                    uint testcount = 0;
-
-                    uint offset;
-                    byte[] tmp;
-                    dec1 = new byte[520];
-                    offset = 4;
-                    //int cnt = 0;
-
-                    //checksum = 0;
-                    for (j = 0; j < 512; j += 4)
-                    {
-                        tmp = amigamfmdecodebytes(mfms[threadid], mrkridx + (int)j * 16 + 16 * 8, 4 * 16);
-                        dec1[j] = tmp[0];
-                        dec1[j + 1] = tmp[1];
-                        dec1[j + 2] = tmp[2];
-                        dec1[j + 3] = tmp[3];
-                    }
-
-                    dchecksum = (uint)((mfm2ushort(mfms[threadid], mrkridx + 8 * 16)) & 0x7FFF);
-                    ushort tmp1 = 0;
-                    offset = 9;
-                    for (j = offset; j < 520; j++)
-                    {
-                        tmp1 = mfm2ushort(mfms[threadid], (int)(mrkridx + j * 16));
-                        dchecksum ^= (uint)(tmp1 & 0xffff);
-                    }
-                    savechecksum[0] = (byte)(dchecksum >> 8);
-                    savechecksum[1] = (byte)(dchecksum & 0xFF);
-                    savechecksum[2] = 0;
-                    savechecksum[3] = 0;
-
-                    if (debuginfo)
-                    {
-                        tbreceived.Append("testcount: " + testcount);
-                        tbreceived.Append(mfmmarkerdata[sectorindex][offset].ToString("X8") + " " + header.ToString("X8") +
-                            "dsdatachecksum: " + dsdatachecksum[0].ToString("X2") + dsdatachecksum[1].ToString("X2") +
-                            " markerpos: " + sectordatathread.MarkerPositions.ToString() +
-                            " checksum: " + dchecksum.ToString("X4") + "\r\n");
-                    }
-
-                    // Do the data checksum check:
-                    if (dsdatachecksum.SequenceEqual(savechecksum)) // checksum is changed everytime amigamfmdecode() is called
-                    {
-                        checksumok = "D:OK ";
-                        datacheckok = 1;
-                    }
-                    else
-                    {
-                        checksumok = "D:ER ";
-                        datacheckok = 0;
-                        headercheckok = 1; // If diskspare, data = bad? header can't be trusted
-                    }
-
-                    trackboxtemp.Append(checksumok + "\r\n");
-
-                    if (checksumok == "D:OK ")
-                        trackboxtemp.Clear();
-                    else trackbox.Append(trackboxtemp);
+                    Mfm2Sector = MFMToBytesDiskSpare(threadid, sectorindex, trackboxtemp);
                 }
-                //====================================================================================================
 
-                /*
-                if (debuginfo)
-                    for (i = 0; i < dec1.Length; i++)
-                    {
-                        t = dec1[i];
-                        decodedamigaText.Append(t.ToString("X8") + " ");
-                        t1 = (char)(t >> 24 & 0xff);
-                        t2 = (char)(t >> 16 & 0xff);
-                        t3 = (char)(t >> 8 & 0xff);
-                        t4 = (char)(t & 0xff);
-
-                        if (t1 > 32 && t1 < 128) decodedamigaText2.Append(t1);
-                        if (t2 > 32 && t2 < 128) decodedamigaText2.Append(t2);
-                        if (t3 > 32 && t3 < 128) decodedamigaText2.Append(t3);
-                        if (t4 > 32 && t4 < 128) decodedamigaText2.Append(t4);
-
-                    }
-                */
+                if( Mfm2Sector != null)
+                {
+                    tracknr         = Mfm2Sector.Tracknr;
+                    sectornr        = Mfm2Sector.Sectornr;
+                    headercheckok   = Mfm2Sector.Headerok;
+                    datacheckok     = Mfm2Sector.Dataok;
+                    dec1            = Mfm2Sector.DecodedData;
+                }
 
                 sectorspertrack = 11;
 
@@ -404,16 +470,16 @@ namespace FloppyControlApp
                 // at disk[6144] etc
                 if (diskformat == DiskFormat.diskspare) // DiskSpare doesn't have header checksum
                 {
-                    if (tracknr < 164 && sectornr < 20)
-                        if (datacheckok == 1) sectormap.sectorokLatestScan[tracknr, sectornr]++;
+                    if (tracknr < 164 && sectornr < sectorspertrack)
+                        if (datacheckok) sectormap.sectorokLatestScan[tracknr, sectornr]++;
                 }
-                else if (headercheckok == 1)
+                else if (headercheckok)
                     if (tracknr < 164 && sectornr < 20) sectormap.sectorokLatestScan[tracknr, sectornr]++;
 
 
                 //If the checksum is correct and sector and track numbers within range and no sector data has already been captured
                 //if (headercheckok == 1 && datacheckok == 1 && sectornr >= 0 && sectornr < 13 && tracknr >= 0 && tracknr < 164 && sectormap.sectorok[tracknr, sectornr] != 1)
-                if (headercheckok == 1 && datacheckok == 1 && sectornr >= 0 && sectornr < 13 && tracknr >= 0 && tracknr < 164) // collect good sectors
+                if (headercheckok && datacheckok && sectornr >= 0 && sectornr < 13 && tracknr >= 0 && tracknr < 164) // collect good sectors
                 {
                     // add error correction data
                     if (procsettings.UseErrorCorrection)
@@ -500,7 +566,7 @@ namespace FloppyControlApp
                         if (sum == 0) sectormap.sectorok[tracknr, sectornr] = SectorMapStatus.SectorOKButZeroed; // If the entire sector is zeroes, allow new data
                     }
                 }
-                else if (headercheckok == 1 && datacheckok == 0 && sectornr >= 0 && sectornr < 13 && tracknr >= 0 && tracknr < 164) // collect good sectors
+                else if (headercheckok && !datacheckok && sectornr >= 0 && sectornr < 13 && tracknr >= 0 && tracknr < 164) // collect good headers but bad sectors
                 {
                     if (sectormap.sectorok[tracknr, sectornr] == SectorMapStatus.empty)
                         sectormap.sectorok[tracknr, sectornr] = SectorMapStatus.HeadOkDataBad;
