@@ -350,7 +350,7 @@ namespace FloppyControlApp
                     }
                     //SW.Restart();
                     //tbreceived.Append("after thread:" + SW.ElapsedMilliseconds + "ms\r\n");
-                    // Synch
+                    // Sync
                     for (t = 0; t < NumberOfThreads; t++)
                     {
                         while (!threads[t].Join(5))
@@ -398,6 +398,7 @@ namespace FloppyControlApp
                     // Synch
                     for (t = 0; t < NumberOfThreads; t++)
                     {
+                        if(threads[t]!=null)
                         while (!threads[t].Join(5))
                         {
                             Application.DoEvents();
