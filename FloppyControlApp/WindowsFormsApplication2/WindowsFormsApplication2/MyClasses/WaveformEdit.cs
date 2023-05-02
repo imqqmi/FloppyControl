@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace FloppyControlApp.MyClasses
 {
-    class ZeroCrossingData
+    public class ZeroCrossingData
     {
         public int before;
         public int after;
@@ -18,7 +18,7 @@ namespace FloppyControlApp.MyClasses
         public int index;
     }
 
-    class WaveformEdit
+    public class WaveformEdit
     {
         public FileIO fileio { get; set; }
         public Graphset graphset { get; set; }
