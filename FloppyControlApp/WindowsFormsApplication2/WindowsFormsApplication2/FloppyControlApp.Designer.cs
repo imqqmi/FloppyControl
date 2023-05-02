@@ -6167,7 +6167,7 @@ namespace FloppyControlApp
             0,
             0,
             0});
-            this.ThreadsUpDown.Visible = false;
+            this.ThreadsUpDown.ValueChanged += new System.EventHandler(this.ThreadsUpDown_ValueChanged);
             // 
             // label59
             // 
@@ -6177,7 +6177,6 @@ namespace FloppyControlApp
             this.label59.Size = new System.Drawing.Size(46, 13);
             this.label59.TabIndex = 171;
             this.label59.Text = "Threads";
-            this.label59.Visible = false;
             // 
             // StopButton
             // 
