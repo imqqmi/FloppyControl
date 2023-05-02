@@ -112,6 +112,7 @@
     <Compile Include="MyClasses\Processing\ECResult.cs" />
     <Compile Include="MyClasses\Processing\ECSettings.cs" />
     <Compile Include="MyClasses\Processing\DiskGeometry.cs" />
+    <Compile Include="MyClasses\Processing\FDDProcessingAmigaEC.cs" />
     <Compile Include="MyClasses\Processing\MFMByteEncPreset.cs" />
     <Compile Include="MyClasses\Processing\ProcessingTypes\ProcTypeAufit.cs" />
     <Compile Include="MyClasses\Processing\ProcessingTypes\ProcTypeNormal.cs" />
