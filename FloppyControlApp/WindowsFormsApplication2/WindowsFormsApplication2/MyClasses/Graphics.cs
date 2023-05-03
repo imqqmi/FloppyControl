@@ -793,7 +793,8 @@ namespace FloppyControlApp
             float dresult;
 
             radius += extendradius;
-
+            
+            // Tried to get a smooth curve to manipulate the waveform. PeriodExtend controls the width and may be negative. -19 is max.
             if (editgraphactive)
             {
                 if (editmode == 0)
