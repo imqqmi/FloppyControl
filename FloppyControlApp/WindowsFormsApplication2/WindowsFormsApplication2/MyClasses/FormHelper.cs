@@ -2081,8 +2081,8 @@ namespace FloppyControlApp
                 case ProcessingType.adaptive3:
                 case ProcessingType.adaptivePredict:
 
-                    QFourSixUpDown.Value = FourvScrollBar.Value = peak1 + 4;
-                    QSixEightUpDown.Value = SixvScrollBar.Value = peak2 + 2;
+                    QFourSixUpDown.Value = FourvScrollBar.Value = peak1;
+                    QSixEightUpDown.Value = SixvScrollBar.Value = peak2;
                     QMaxUpDown.Value = EightvScrollBar.Value = peak3;
 
                     break;
