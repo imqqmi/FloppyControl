@@ -2145,8 +2145,9 @@ namespace FloppyControlApp
                                 {
                                     scatterplot.AnScatViewlargeoffset = processing.sectordata2[i].rxbufMarkerPositions - 50;
                                     scatterplot.AnScatViewoffset = 0;
-
-                                    scatterplot.AnScatViewlength = processing.sectordata2[i + 1].rxbufMarkerPositions - scatterplot.AnScatViewlargeoffset + 100;
+                                    int markerSize = 2;
+                                    if (processing.procsettings.platform == Platform.Amiga) markerSize = 1;
+                                    scatterplot.AnScatViewlength = processing.sectordata2[i + markerSize].rxbufMarkerPositions - scatterplot.AnScatViewlargeoffset + 100;
                                     //tbreceived.Append("AnScatViewOffset"+ AnScatViewoffset+"\r\n");
                                     scatterplot.UpdateScatterPlot();
                                 }
