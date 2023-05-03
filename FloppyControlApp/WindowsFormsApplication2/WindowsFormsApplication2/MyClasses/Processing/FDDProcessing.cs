@@ -608,7 +608,7 @@ namespace FloppyControlApp
 
             // Continue processing MFM data depending on platform
             if (procsettings.platform == Platform.PC)
-                ProcessPCMFM2Sectordata(procsettings, threadid);
+                ProcessPCMFM2Sectordata(procsettings, threadid, tbreceived);
             else if (procsettings.platform == Platform.Amiga)
                 ProcessAmigaMFMbytes(procsettings, threadid);
 
