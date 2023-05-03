@@ -2134,28 +2134,20 @@ namespace FloppyControlApp
                 for (i = 0; i < processing.sectordata2.Count; i++)
                 {
                     if (processing.sectordata2 == null) continue;
-                    if (processing.sectordata2.Count != 0)
-                    {
-                        if (processing.sectordata2[i].track == track && processing.sectordata2[i].sector == sector)
-                        {
-                            //int track1 = track, sector1 = sector;
-                            if (processing.sectordata2[i].mfmMarkerStatus == processing.sectormap.sectorok[track, sector])
-                            {
-                                if (processing.sectordata2.Count - 1 > i)
-                                {
-                                    scatterplot.AnScatViewlargeoffset = processing.sectordata2[i].rxbufMarkerPositions - 50;
-                                    scatterplot.AnScatViewoffset = 0;
-                                    int markerSize = 2;
-                                    if (processing.procsettings.platform == Platform.Amiga) markerSize = 1;
-                                    scatterplot.AnScatViewlength = processing.sectordata2[i + markerSize].rxbufMarkerPositions - scatterplot.AnScatViewlargeoffset + 100;
-                                    //tbreceived.Append("AnScatViewOffset"+ AnScatViewoffset+"\r\n");
-                                    scatterplot.UpdateScatterPlot();
-                                }
-                                break;
-
-                            }
-                        }
-                    }
+                    if (processing.sectordata2.Count == 0) continue;
+                    if (! (   processing.sectordata2[i].track  == track 
+                           && processing.sectordata2[i].sector == sector) ) continue;
+                    if (processing.sectordata2[i].mfmMarkerStatus != processing.sectormap.sectorok[track, sector]) continue;
+                    if (processing.sectordata2.Count - 1 <= i) continue;
+                    
+                    scatterplot.AnScatViewlargeoffset = processing.sectordata2[i].rxbufMarkerPositions - 50;
+                    scatterplot.AnScatViewoffset = 0;
+                    int markerSize = 2;
+                    if (processing.procsettings.platform == Platform.Amiga) markerSize = 1;
+                    scatterplot.AnScatViewlength = processing.sectordata2[i + markerSize].rxbufMarkerPositions - scatterplot.AnScatViewlargeoffset + 100;
+                    //tbreceived.Append("AnScatViewOffset"+ AnScatViewoffset+"\r\n");
+                    scatterplot.UpdateScatterPlot();
+                    break;
                 }
             }
             else if (e.Button == MouseButtons.Right)
