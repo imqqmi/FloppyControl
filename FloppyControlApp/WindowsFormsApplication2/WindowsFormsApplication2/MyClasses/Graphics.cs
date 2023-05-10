@@ -2441,6 +2441,18 @@ namespace FloppyControlApp
             {
                 DoDragging(sender,  e);
             }
+            if (e.Button == MouseButtons.Right)
+            {
+                if (EditScatterplot == true && AnScatViewlength <= 0x40)
+                {
+                    int xoffset = (int)(panel.Width / AnScatViewlength) / 2;
+
+                    rxbufclickindex = ViewToGraphIndex(e.X + xoffset);
+                    processing.rxbuf[rxbufclickindex] = (byte)e.Y;
+                    //tbreiceved.Append("Y: " + e.Y + " val: " + processing.rxbuf[rxbufclickindex] + " rxclickindex: " + rxbufclickindex + "\r\n");
+                    UpdateScatterPlot();
+                }
+            }
         }
 
         private void PictureBox_MouseUp(object sender, MouseEventArgs e)
@@ -2451,42 +2463,32 @@ namespace FloppyControlApp
                 DoDragging(sender, e);
             }
         }
+
         private void DoDragging(object sender, MouseEventArgs e)
         {
-            if( EditScatterplot  == true && AnScatViewlength <= 10)
+            int offset;
+            float factor = AnScatViewlength / (float)panel.Width;
+
+            offset = (int)((xrelative - e.X) * factor);
+
+            AnScatViewoffset = AnScatViewoffsetOld + offset;
+
+            if (AnScatViewoffset + AnScatViewlength + offset > maxdots - 1)
             {
-                int xoffset = (int)(panel.Width / AnScatViewlength)/2;
-                
-                rxbufclickindex = ViewToGraphIndex(e.X+xoffset);
-                processing.rxbuf[rxbufclickindex] = (byte)e.Y;
-                //tbreiceved.Append("Y: " + e.Y + " val: " + processing.rxbuf[rxbufclickindex] + " rxclickindex: " + rxbufclickindex + "\r\n");
-                UpdateScatterPlot();
+                AnScatViewlargeoffset = AnScatViewlargeoffsetold + offset;
+                if (AnScatViewlargeoffset + AnScatViewlength > processing.rxbuf.Length - 1)
+                    AnScatViewlargeoffset = processing.rxbuf.Length - 1;
+                //offset = 0;
+                AnScatViewoffset = (maxdots - 1) - AnScatViewlength;
             }
-            else
-            {
-                int offset;
-                float factor = AnScatViewlength / (float)panel.Width;
-
-                offset = (int)((xrelative - e.X) * factor);
-
-                AnScatViewoffset = AnScatViewoffsetOld + offset;
-
-                if (AnScatViewoffset + AnScatViewlength + offset > maxdots - 1)
-                {
-                    AnScatViewlargeoffset = AnScatViewlargeoffsetold + offset;
-                    if (AnScatViewlargeoffset + AnScatViewlength > processing.rxbuf.Length - 1)
-                        AnScatViewlargeoffset = processing.rxbuf.Length - 1;
-                    //offset = 0;
-                    AnScatViewoffset = (maxdots - 1) - AnScatViewlength;
-                }
                 
-                bmpxoffset = 0;
-                start = AnScatViewoffset;
-                end = start + AnScatViewlength;
+            bmpxoffset = 0;
+            start = AnScatViewoffset;
+            end = start + AnScatViewlength;
                 
-                UpdateScatterPlot();
-            }
+            UpdateScatterPlot();
         }
+
         public int ViewToGraphIndex(int x)
         {
             float offsetfactor = (float)x / (float)panel.Width;
