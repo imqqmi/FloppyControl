@@ -132,6 +132,9 @@
   <metadata name="menuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>209, 46</value>
   </metadata>
+  <data name="QAutoRefreshSectorMapCheck.ToolTip" xml:space="preserve">
+    <value>When processing is done, update the sectormap. In scan mode, this can slow down scanning and is turned off automatically. To see recovered sectors after scanning, double click anywhere in the sectormap.</value>
+  </data>
   <metadata name="MainTabControlImageList.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 46</value>
   </metadata>
@@ -140,7 +143,7 @@
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
         LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
         ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAADK
-        DgAAAk1TRnQBSQFMAgEBBgEAAfABAwHwAQMBEAEAARABAAT/ASEBAAj/AUIBTQE2BwABNgMAASgDAAFA
+        DgAAAk1TRnQBSQFMAgEBBgEAAfgBAwH4AQMBEAEAARABAAT/ASEBAAj/AUIBTQE2BwABNgMAASgDAAFA
         AwABIAMAAQEBAAEgBgABIBUAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/
         AwAB/wMAAf8DAAH/AwAB/wMAAf/DAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/
         AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/BwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/
@@ -173,7 +176,7 @@
         AyEBMAEAAY8BAAH/AQABjwEAAf8BAAGPAQAB/wNUAa8jAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/
         AwAB/wMABf8BwQHAAb8B/wMAAf8DAAH/AwAB/wMAAf8B0wHSAdEB/wMAAf8DAA3/AwAN/wMADf8DAAH/
         AwAB/wMAAf8YAAMXASADWQG/A1kBvwMMARAlAAGPAQAB/wEAAY8BAAH/AQABjwEAAf8BAAGPAQAB/wEA
-        AY8BAAH/A0wBjxwABP8DAAH/AwAB/wMAAf8D7QX/AwAB/wMAAf8BgwGAAQEJ/wMAAf8DAAH/AwAB/wMA
+        AY8BAAH/A0wBjxwABP8DAAH/AwAB/wMAAf8D7QX/AwAB/wMAAf8BgwGAAQAJ/wMAAf8DAAH/AwAB/wMA
         Bf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMA
         Af8DAAH/FAADFwEgAgABnAH/AgABnAH/AgABnAH/AgABnAH/IAADTAGPAQABjwEAAf8BAAGPAQAB/wEA
         AY8BAAH/AzoBYAEAAY8BAAH/AQABjwEAAf8DOgFgGAAE/wMAAf8DAAH/AwAJ/wGdApsB/wMAAf8B0wHS
@@ -184,7 +187,7 @@
         IQABjwEAAf8QAANcAd8BAAGPAQAB/wEAAY8BAAH/AwwBEBAAAa8CrQH/AcoByQHIBf8D7QH/AwAB/wGd
         ApsF/wMABf8BrwKtAf8BygHJAcgR/wMAAf8DAAH/AwAF/wMADf8DAA3/AwAF/wMAAf8DAAH/AwAB/xQA
         AwwBEAIAAZwB/wIAAZwB/wIAAZwB/wIAAZwB/z0AAY8BAAH/AQABjwEAAf8BAAGPAQAB/xMAAf8DAAH/
-        AwAB/wMAAf8DAAH/AwAF/wP2Bf8DAAH/AwAB/wGDAYABAQH/A+0B/wPtAf8DAAH/AwAB/wMAAf8DAAH/
+        AwAB/wMAAf8DAAH/AwAF/wP2Bf8DAAH/AwAB/wGDAYABAAH/A+0B/wPtAf8DAAH/AwAB/wMAAf8DAAH/
         AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8cAANU
         Aa8DUQGfRQABjwEAAf8BAAGPAQAB/wEAAY8BAAH/DwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/AcEBwAG/
         Cf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMAAf8DAAH/AwAB/wMA
@@ -206,9 +209,6 @@
         BAAE/wQABP8EAAs=
 </value>
   </data>
-  <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>316, 7</value>
-  </metadata>
   <data name="QTrackDurationUpDown.ToolTip" xml:space="preserve">
     <value>The number of milliseconds to capture from the same track. A track takes about 200ms, which is the absolute minimum. 260ms is recommended for a little overlap. For really stubborn tracks you can try 1000-50000ms.</value>
   </data>
@@ -308,9 +308,6 @@
   <metadata name="openFileDialog2.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>664, 7</value>
   </metadata>
-  <data name="QAutoRefreshSectorMapCheck.ToolTip" xml:space="preserve">
-    <value>When processing is done, update the sectormap. In scan mode, this can slow down scanning and is turned off automatically. To see recovered sectors after scanning, double click anywhere in the sectormap.</value>
-  </data>
   <metadata name="timer5.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>804, 7</value>
   </metadata>
