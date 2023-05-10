@@ -443,6 +443,10 @@ namespace FloppyControlApp
             EightLabel.Text = (OffsetvScrollBar1.Value + EightvScrollBar.Value).ToString("X2");
             Offsetlabel.Text = OffsetvScrollBar1.Value.ToString("D2");
 
+            processing.peak1 = OffsetvScrollBar1.Value + FourvScrollBar.Value;
+            processing.peak2 = OffsetvScrollBar1.Value + SixvScrollBar.Value;
+            processing.peak3 = OffsetvScrollBar1.Value + EightvScrollBar.Value;
+
             Graphics formGraphics = null;
             if (MainTabControl.SelectedTab == ProcessingTab)
             {
@@ -927,6 +931,7 @@ namespace FloppyControlApp
             int EIGHT = EightvScrollBar.Value;
             int OFFSET = OffsetvScrollBar1.Value;
             int step = (int)iESStart.Value;
+            int oldRateOfChange2UpDown = (int)RateOfChange2UpDown.Value;
             for (float k = 2048; k > 2; k /= 2)
             {
                 RateOfChange2UpDown.Value = (int)k;
@@ -946,6 +951,7 @@ namespace FloppyControlApp
             }
             OffsetvScrollBar1.Value = OFFSET;
             processing.processing = 0;
+            RateOfChange2UpDown.Value = (decimal)oldRateOfChange2UpDown;
             //processing.sectormap.RefreshSectorMap();
         }
 
