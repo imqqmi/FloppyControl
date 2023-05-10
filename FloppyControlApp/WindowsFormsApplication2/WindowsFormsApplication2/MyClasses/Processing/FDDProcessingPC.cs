@@ -91,323 +91,470 @@ namespace FloppyControlApp
 
         private void ProcessPCMFM2Sectordata(ProcSettings procsettings, int threadid, StringBuilder tbReceived)
         {
-            lock (lockbadsector)
+            //bool writemfm = true;
+            int badsectorcntthread = 0;
+            int i;
+            int previoustrack = 0xff;
+            byte previousheadnr = 0xff;
+            bool debuginfo = false;
+            int limitstart, limitend;
+            sectordata2oldcnt = sectordata2.Count;
+
+            SHA256 mySHA256 = SHA256Managed.Create();
+                
+            int j;
+
+            int markerpositionscntthread = 0;
+
+            limitstart = procsettings.limittotrack;
+            limitend = procsettings.limittosector;
+
+            // Load good sector found info so we can append to it, then at the end
+
+            byte[] A1markerbytes = A1MARKER;
+
+            progressesstart[threadid] = 0;
+            progressesend[threadid] = mfmlengths[threadid];
+            ProcessStatus[threadid] = "Find MFM markers...";
+            //if (i % 250000 == 249999) { progresses[threadid] = i; }
+
+            if (stop != 0) return;
+            byte[] m = mfms[threadid];
+
+            // Find markers
+
+            // with multithreading, the counting of rxbuf is misaligned with mfms, because
+            // it doesn't start at the start of rxbuf. There's no way to know at this point
+            // how many 1's there are up to this point. Either do the calculation after processing
+            // then adjust the values or not use multithreading.
+
+            //m = mfms[threadid]; // speed up processing by removing one extra reference
+            int A1MarkerLength = A1markerbytes.Length;
+            int A1MarkerLengthMinusOne = A1markerbytes.Length - 1;
+            int mfmlength = mfmlengths[threadid];
+            if (indexrxbuf > rxbuf.Length) indexrxbuf = rxbuf.Length - 1;
+                
+            FindAllPCMarkers(threadid);
+
+            if (sectordata2.Count > 0 && diskformat == DiskFormat.unknown) // if markers are found and the diskformat has not been set previously, assume PC DD
+                diskformat = DiskFormat.pcdd;
+
+            tbreceived.Append(" Markers: " + markerpositionscntthread + " ");
+            int markerindex;
+
+            //StringBuilder tbtrackinfo = new StringBuilder();
+
+            byte[] bytebuf = new byte[5000];
+            byte[] sectorbuf = new byte[2050];
+            byte[] crctemp = new byte[6];
+            byte sectornr = 0xff, tracknr = 0xff, headnr = 0xff;
+            ushort headercrc, datacrc, headercrcchk = 0xFFFF, datacrcchk = 0xFFFF; //headercrc is from the captured data, the chk is calculated from the data.
+            int track = -1;
+            int bytespersectorthread;
+
+            GoodSectorHeaderCount = 0;
+            progressesstart[threadid] = 0;
+            progressesend[threadid] = sectordata2.Count;
+            ProcessStatus[threadid] = "Converting MFM to sectors...";
+            int prevmarkerindex = 0;
+            for (markerindex = sectordata2oldcnt; markerindex < sectordata2.Count; markerindex++)
             {
-                //bool writemfm = true;
-                int badsectorcntthread = 0;
-                int i;
-                int previoustrack = 0xff;
-                byte previousheadnr = 0xff;
-                bool debuginfo = false;
-                int limitstart, limitend;
-                sectordata2oldcnt = sectordata2.Count;
+                MFMData sectordatathread = sectordata2[markerindex];
+                if (sectordatathread.processed == true || sectordatathread.threadid != threadid) continue; // skip if already processed
+                sectordatathread.processed = true; // mark as processed
+                                                    // was the marker placed by the correct thread? If not, continue to next marker
+                if (markerindex % 250 == 249) { progresses[threadid] = markerindex; if (stop == 1) break; }
+                Crc16Ccitt crc = new Crc16Ccitt(InitialCrcValue.NonZero1);
+                sectornr = 0xff;
+                tracknr = 0xff;
+                headnr = 0xff;
+                datacrc = 0;
 
-                SHA256 mySHA256 = SHA256Managed.Create();
-                
-                int j;
+                headercrcchk = 0xFFFF;
+                datacrcchk = 0xFFFF;
 
-                int markerpositionscntthread = 0;
+                // First find the IDAM, 10 bytes
 
-                limitstart = procsettings.limittotrack;
-                limitend = procsettings.limittosector;
-
-                // Load good sector found info so we can append to it, then at the end
-
-                byte[] A1markerbytes = A1MARKER;
-
-                progressesstart[threadid] = 0;
-                progressesend[threadid] = mfmlengths[threadid];
-                ProcessStatus[threadid] = "Find MFM markers...";
-                //if (i % 250000 == 249999) { progresses[threadid] = i; }
-
-                if (stop != 0) return;
-                byte[] m = mfms[threadid];
-
-                // Find markers
-
-                // with multithreading, the counting of rxbuf is misaligned with mfms, because
-                // it doesn't start at the start of rxbuf. There's no way to know at this point
-                // how many 1's there are up to this point. Either do the calculation after processing
-                // then adjust the values or not use multithreading.
-
-                //m = mfms[threadid]; // speed up processing by removing one extra reference
-                int A1MarkerLength = A1markerbytes.Length;
-                int A1MarkerLengthMinusOne = A1markerbytes.Length - 1;
-                int mfmlength = mfmlengths[threadid];
-                if (indexrxbuf > rxbuf.Length) indexrxbuf = rxbuf.Length - 1;
-                
-                FindAllPCMarkers(threadid);
-
-                if (sectordata2.Count > 0 && diskformat == DiskFormat.unknown) // if markers are found and the diskformat has not been set previously, assume PC DD
-                    diskformat = DiskFormat.pcdd;
-
-                tbreceived.Append(" Markers: " + markerpositionscntthread + " ");
-                int markerindex;
-
-                //StringBuilder tbtrackinfo = new StringBuilder();
-
-                byte[] bytebuf = new byte[5000];
-                byte[] sectorbuf = new byte[2050];
-                byte[] crctemp = new byte[6];
-                byte sectornr = 0xff, tracknr = 0xff, headnr = 0xff;
-                ushort headercrc, datacrc, headercrcchk = 0xFFFF, datacrcchk = 0xFFFF; //headercrc is from the captured data, the chk is calculated from the data.
-                int track = -1;
-                int bytespersectorthread;
-
-                GoodSectorHeaderCount = 0;
-                progressesstart[threadid] = 0;
-                progressesend[threadid] = sectordata2.Count;
-                ProcessStatus[threadid] = "Converting MFM to sectors...";
-                int prevmarkerindex = 0;
-                for (markerindex = sectordata2oldcnt; markerindex < sectordata2.Count; markerindex++)
+                for (i = 0; i < 10; i++)
                 {
-                    MFMData sectordatathread = sectordata2[markerindex];
-                    if (sectordatathread.processed == true || sectordatathread.threadid != threadid) continue; // skip if already processed
-                    sectordatathread.processed = true; // mark as processed
-                                                        // was the marker placed by the correct thread? If not, continue to next marker
-                    if (markerindex % 250 == 249) { progresses[threadid] = markerindex; if (stop == 1) break; }
-                    Crc16Ccitt crc = new Crc16Ccitt(InitialCrcValue.NonZero1);
-                    sectornr = 0xff;
-                    tracknr = 0xff;
-                    headnr = 0xff;
-                    datacrc = 0;
+                    bytebuf[i] = MFMBits2BINbyte(ref mfms[threadid], sectordatathread.MarkerPositions + (i * 16));
+                    if (debuginfo) tbreceived.Append(bytebuf[i].ToString("X2"));
+                }
 
-                    headercrcchk = 0xFFFF;
-                    datacrcchk = 0xFFFF;
+                int offset = 0;
 
-                    // First find the IDAM, 10 bytes
+                if (bytebuf[3] == 0xFE)
+                {
+                    if (debuginfo) tbreceived.Append(" IDAM");
 
-                    for (i = 0; i < 10; i++)
+                    tracknr = bytebuf[4];
+                    headnr = bytebuf[5];
+                    sectornr = (byte)(bytebuf[6] - 1);
+                    bytespersectorthread = 128 << bytebuf[7];
+                    if (bytespersectorthread > 1024)
                     {
-                        bytebuf[i] = MFMBits2BINbyte(ref mfms[threadid], sectordatathread.MarkerPositions + (i * 16));
-                        if (debuginfo) tbreceived.Append(bytebuf[i].ToString("X2"));
-                    }
+                        tbreceived.Append("Error: T" + (tracknr * 2 + headnr).ToString("d3") + " S" + sectornr + " size too large: " + bytespersectorthread + "\r\n");
 
-                    int offset = 0;
-
-                    if (bytebuf[3] == 0xFE)
-                    {
-                        if (debuginfo) tbreceived.Append(" IDAM");
-
-                        tracknr = bytebuf[4];
-                        headnr = bytebuf[5];
-                        sectornr = (byte)(bytebuf[6] - 1);
-                        bytespersectorthread = 128 << bytebuf[7];
-                        if (bytespersectorthread > 1024)
+                        if (procsettings.IgnoreHeaderError == true)
                         {
-                            tbreceived.Append("Error: T" + (tracknr * 2 + headnr).ToString("d3") + " S" + sectornr + " size too large: " + bytespersectorthread + "\r\n");
-
-                            if (procsettings.IgnoreHeaderError == true)
-                            {
-                                bytespersectorthread = 512;
-                            }
-                            else
-                                continue; // skip to next sector
-                        }
-                        headercrc = (ushort)((bytebuf[8] << 8) | bytebuf[9]);
-
-                        if (debuginfo) tbreceived.Append("\r\n MFM:");
-                        for (i = 0; i < crctemp.Length; i++)
-                        {
-                            if (debuginfo) tbreceived.Append(crctemp[i].ToString("X2"));
-                        }
-
-                        // Check header crc
-                        // If headercrcchk == 0000, data integrety is good.
-                        // The CRC is calculated from the A1A1A1FE header to and including the CRC16 code.
-                        headercrcchk = crc.ComputeChecksum(bytebuf.SubArray(0, 10));
-
-                        track = (tracknr * 2) + headnr;
-
-                        if (headercrcchk == 0)
-                        {
-                            GoodSectorHeaderCount++;
-                            sectordatathread.mfmMarkerStatus = SectorMapStatus.CrcOk;
-                            sectordatathread.sector = sectornr;
-                            sectordatathread.track = track;
-                            sectordatathread.MarkerType = MarkerType.header;
-
+                            bytespersectorthread = 512;
                         }
                         else
-                        {
-                            sectordatathread.mfmMarkerStatus = SectorMapStatus.AmigaHeadOkDataBad;
-                        }
-
-                        if (headercrcchk == 0)
-                        {
-                            sectormap.sectorokLatestScan[track, sectornr] = SectorMapStatus.CrcOk;
-                        }
-
-
-                        // If the headerchecksum is non zero, there's an error in the header. 
-                        // There's code further on to guess the sector and track based on surrounding
-                        // sectors with correct header, but to speed things up I'll try continueing 
-                        // Checking the IgnoreHeaderErrorCheckBox skips this part and does decode the sector data
-
-                        if (headercrcchk != 0 && procsettings.IgnoreHeaderError == false)
-                        {
-                            continue;
-                        }
-
-                        //Get sector data and checksum
-                        // First find the DAM
-
-                        //*********************
-                        // Potential problem if marker for sector data skips to another marker unintentionally
-                        // Should test if the offset isn't impossibly high
-                        prevmarkerindex = markerindex; //Go to next marker
-
-                        // Find the next marker which should be the sector data
-                        // Make sure the correct threadid is used since other threads also add to the
-                        // dictionary. They are sequential though so we only need to search from markerindex
-                        try
-                        {
-                            int q;
-                            for (q = markerindex + 1; q < sectordata2.Count; q++)
-                            {
-                                if (sectordata2[q].threadid == threadid)
-                                {
-                                    markerindex = q;
-                                    sectordatathread = sectordata2[q];
-                                    break;
-                                }
-                            }
-                        }
-                        catch (Exception)
-                        {
-                            tbreceived.Append("Error: could not find sectordata: " + markerindex + "\r\n");
-                            continue;
-                        }
-
-                        if (debuginfo) tbreceived.Append("\r\nT" + track + " S" + sectornr + " Sector data:\r\n");
-
-                        for (i = 0; i < bytespersectorthread + 16; i++)
-                        {
-                            bytebuf[i] = MFMBits2BINbyte(ref mfms[threadid], sectordatathread.MarkerPositions + (i * 16));
-                            if (debuginfo)
-                            {
-                                tbreceived.Append(bytebuf[i].ToString("X2"));
-                                if (i == 517) tbreceived.Append("\r\n");
-                            }
-
-                        }
-                        if (debuginfo) tbreceived.Append("\r\n\r\n");
-                        if (bytebuf[3] == 0xFB || bytebuf[3] == 0xF8)
-                        {
-                            datacrc = (ushort)((bytebuf[bytespersectorthread + 4] << 8) | bytebuf[bytespersectorthread + 5]);
-
-                            datacrcchk = crc.ComputeChecksum(bytebuf.SubArray(0, bytespersectorthread + 6));
-                            if (datacrcchk != 0)
-                            {
-                                datacrcchk = crc.ComputeChecksum(bytebuf.SubArray(0, 512 + 6));
-                            }
-                            if (diskformat == DiskFormat.pc2m && track == 0)
-                                sectorbuf = bytebuf.SubArray(4, 514);
-                            else sectorbuf = bytebuf.SubArray(4, bytespersectorthread + 2);
-                            //sectorbuf = bytebuf.SubArray(4, bytespersectorthread);
-                        }
-                        else // if marker of the sector isn't good, backtrack one marker and continue
-                        {
-                            markerindex = prevmarkerindex;
-                            continue;
-                        }
+                            continue; // skip to next sector
                     }
-                    else if (procsettings.IgnoreHeaderError)
+                    headercrc = (ushort)((bytebuf[8] << 8) | bytebuf[9]);
+
+                    if (debuginfo) tbreceived.Append("\r\n MFM:");
+                    for (i = 0; i < crctemp.Length; i++)
                     {
-                        headercrcchk = 1; // force ignore header
+                        if (debuginfo) tbreceived.Append(crctemp[i].ToString("X2"));
+                    }
 
-                        bytespersectorthread = 512;
-                        for (i = 0; i < bytespersectorthread + 16; i++)
-                        {
-                            bytebuf[i] = MFMBits2BINbyte(ref mfms[threadid], sectordatathread.MarkerPositions + (i * 16));
-                            if (debuginfo)
-                            {
-                                tbreceived.Append(bytebuf[i].ToString("X2"));
-                                if (i == 517) tbreceived.Append("\r\n");
-                            }
+                    // Check header crc
+                    // If headercrcchk == 0000, data integrety is good.
+                    // The CRC is calculated from the A1A1A1FE header to and including the CRC16 code.
+                    headercrcchk = crc.ComputeChecksum(bytebuf.SubArray(0, 10));
 
-                        }
-                        if (debuginfo) tbreceived.Append("\r\n\r\n");
-                        if (bytebuf[3] == 0xFB || bytebuf[3] == 0xF8)
-                        {
-                            datacrc = (ushort)((bytebuf[bytespersectorthread + 4] << 8) | bytebuf[bytespersectorthread + 5]);
+                    track = (tracknr * 2) + headnr;
 
-                            datacrcchk = crc.ComputeChecksum(bytebuf.SubArray(0, bytespersectorthread + 6));
-                            if (datacrcchk != 0)
-                            {
-                                datacrcchk = crc.ComputeChecksum(bytebuf.SubArray(0, 512 + 6));
-                            }
+                    if (headercrcchk == 0)
+                    {
+                        GoodSectorHeaderCount++;
+                        sectordatathread.mfmMarkerStatus = SectorMapStatus.CrcOk;
+                        sectordatathread.sector = sectornr;
+                        sectordatathread.track = track;
+                        sectordatathread.MarkerType = MarkerType.header;
 
-                            sectorbuf = bytebuf.SubArray(4, bytespersectorthread + 2);
-                            //sectorbuf = bytebuf.SubArray(4, bytespersectorthread);
-                        }
-                        if (datacrcchk == 0x00 && sectorbuf.Length > 500)
-                        {
-                            track = (previoustrack * 2) + previousheadnr;
-                            headnr = (byte)previousheadnr;
-                            if (track < 200)
-                            {
-                                for (i = 0; i < 9; i++)
-                                {
-                                    if (sectormap.sectorok[track, i] == SectorMapStatus.empty)
-                                        break;
-                                }
+                    }
+                    else
+                    {
+                        sectordatathread.mfmMarkerStatus = SectorMapStatus.AmigaHeadOkDataBad;
+                    }
 
-                                // Now assuming the sectornr = i, and we're using previoustrack because
-                                // the tracknr info in the header may not be correct
-                                sectornr = (byte)i;
-                                if (sectormap.sectorok[track, sectornr] == 0 || sectormap.sectorok[track, i] == SectorMapStatus.HeadOkDataBad) // do not overwrite any existing good data
-                                {
-                                    sectormap.sectorok[track, sectornr] = SectorMapStatus.DuplicatesFound; // Header is not CRC pass, attempt to reconstuct
-                                                                                                            //offset = (track * sectorspertrack * bytespersectorthread * 2) + (previousheadnr * sectorspertrack * bytespersectorthread) + (i * bytespersectorthread);
+                    if (headercrcchk == 0)
+                    {
+                        sectormap.sectorokLatestScan[track, sectornr] = SectorMapStatus.CrcOk;
+                    }
 
-                                    offset = (previoustrack * sectorspertrack * bytespersectorthread * 2)
-                                        + (headnr * sectorspertrack * bytespersectorthread)
-                                        + (sectornr * bytespersectorthread);
-                                    for (i = 0; i < bytespersectorthread; i++)
-                                    {
-                                        //if (disk[i + offset] == 0)
-                                        disk[i + offset] = sectorbuf[i];
-                                    }
-                                    //stop = 1;
-                                }
-                            }
-                        }
+
+                    // If the headerchecksum is non zero, there's an error in the header. 
+                    // There's code further on to guess the sector and track based on surrounding
+                    // sectors with correct header, but to speed things up I'll try continueing 
+                    // Checking the IgnoreHeaderErrorCheckBox skips this part and does decode the sector data
+
+                    if (headercrcchk != 0 && procsettings.IgnoreHeaderError == false)
+                    {
                         continue;
                     }
-                    else continue; // If no 0xFE is found
 
-                    if (diskformat == DiskFormat.pcdd) // DD
-                        sectorspertrack = 9;
-                    else if (diskformat == DiskFormat.pchd) // HD
-                        sectorspertrack = 18;
-                    else if (diskformat == DiskFormat.pc2m) //2M
-                        sectorspertrack = 11;
+                    //Get sector data and checksum
+                    // First find the DAM
 
-                    //If the checksum is correct and sector and track numbers within range and no sector data has already been captured
-                    //if (track == 57 && sectornr == 7)
-                    //{
-                    //    int haha = 1;
-                    //    var sok = sectormap.sectorok[track, sectornr];
-                    //    int qqqqq = 1;
-                    //}
-                    if (sectorbuf.Length > 500)
-                        if (headercrcchk == 0x00)
-                            if (datacrcchk == 0x00 && sectornr >= 0 && sectornr < 18 && headnr < 3 && tracknr >= 0 && tracknr < 82 && sectormap.sectorok[track, sectornr] != SectorMapStatus.CrcOk)
-                            //if (datacrcchk == 0x00 && sectornr >= 0 && sectornr < 18 && headnr < 3 && tracknr >= 0 && tracknr < 82)
+                    //*********************
+                    // Potential problem if marker for sector data skips to another marker unintentionally
+                    // Should test if the offset isn't impossibly high
+                    prevmarkerindex = markerindex; //Go to next marker
+
+                    // Find the next marker which should be the sector data
+                    // Make sure the correct threadid is used since other threads also add to the
+                    // dictionary. They are sequential though so we only need to search from markerindex
+                    try
+                    {
+                        int q;
+                        for (q = markerindex + 1; q < sectordata2.Count; q++)
+                        {
+                            if (sectordata2[q].threadid == threadid)
                             {
-                                // Determine diskformat
-                                if (sectornr > 8 && diskformat != DiskFormat.pc2m) // from DD to HD
+                                markerindex = q;
+                                sectordatathread = sectordata2[q];
+                                break;
+                            }
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        tbreceived.Append("Error: could not find sectordata: " + markerindex + "\r\n");
+                        continue;
+                    }
+
+                    if (debuginfo) tbreceived.Append("\r\nT" + track + " S" + sectornr + " Sector data:\r\n");
+
+                    for (i = 0; i < bytespersectorthread + 16; i++)
+                    {
+                        bytebuf[i] = MFMBits2BINbyte(ref mfms[threadid], sectordatathread.MarkerPositions + (i * 16));
+                        if (debuginfo)
+                        {
+                            tbreceived.Append(bytebuf[i].ToString("X2"));
+                            if (i == 517) tbreceived.Append("\r\n");
+                        }
+
+                    }
+                    if (debuginfo) tbreceived.Append("\r\n\r\n");
+                    if (bytebuf[3] == 0xFB || bytebuf[3] == 0xF8)
+                    {
+                        datacrc = (ushort)((bytebuf[bytespersectorthread + 4] << 8) | bytebuf[bytespersectorthread + 5]);
+
+                        datacrcchk = crc.ComputeChecksum(bytebuf.SubArray(0, bytespersectorthread + 6));
+                        if (datacrcchk != 0)
+                        {
+                            datacrcchk = crc.ComputeChecksum(bytebuf.SubArray(0, 512 + 6));
+                        }
+                        if (diskformat == DiskFormat.pc2m && track == 0)
+                            sectorbuf = bytebuf.SubArray(4, 514);
+                        else sectorbuf = bytebuf.SubArray(4, bytespersectorthread + 2);
+                        //sectorbuf = bytebuf.SubArray(4, bytespersectorthread);
+                    }
+                    else // if marker of the sector isn't good, backtrack one marker and continue
+                    {
+                        markerindex = prevmarkerindex;
+                        continue;
+                    }
+                }
+                else if (procsettings.IgnoreHeaderError)
+                {
+                    headercrcchk = 1; // force ignore header
+
+                    bytespersectorthread = 512;
+                    for (i = 0; i < bytespersectorthread + 16; i++)
+                    {
+                        bytebuf[i] = MFMBits2BINbyte(ref mfms[threadid], sectordatathread.MarkerPositions + (i * 16));
+                        if (debuginfo)
+                        {
+                            tbreceived.Append(bytebuf[i].ToString("X2"));
+                            if (i == 517) tbreceived.Append("\r\n");
+                        }
+
+                    }
+                    if (debuginfo) tbreceived.Append("\r\n\r\n");
+                    if (bytebuf[3] == 0xFB || bytebuf[3] == 0xF8)
+                    {
+                        datacrc = (ushort)((bytebuf[bytespersectorthread + 4] << 8) | bytebuf[bytespersectorthread + 5]);
+
+                        datacrcchk = crc.ComputeChecksum(bytebuf.SubArray(0, bytespersectorthread + 6));
+                        if (datacrcchk != 0)
+                        {
+                            datacrcchk = crc.ComputeChecksum(bytebuf.SubArray(0, 512 + 6));
+                        }
+
+                        sectorbuf = bytebuf.SubArray(4, bytespersectorthread + 2);
+                        //sectorbuf = bytebuf.SubArray(4, bytespersectorthread);
+                    }
+                    if (datacrcchk == 0x00 && sectorbuf.Length > 500)
+                    {
+                        track = (previoustrack * 2) + previousheadnr;
+                        headnr = (byte)previousheadnr;
+                        if (track < 200)
+                        {
+                            for (i = 0; i < 9; i++)
+                            {
+                                if (sectormap.sectorok[track, i] == SectorMapStatus.empty)
+                                    break;
+                            }
+
+                            // Now assuming the sectornr = i, and we're using previoustrack because
+                            // the tracknr info in the header may not be correct
+                            sectornr = (byte)i;
+                            if (sectormap.sectorok[track, sectornr] == 0 || sectormap.sectorok[track, i] == SectorMapStatus.HeadOkDataBad) // do not overwrite any existing good data
+                            {
+                                sectormap.sectorok[track, sectornr] = SectorMapStatus.DuplicatesFound; // Header is not CRC pass, attempt to reconstuct
+                                                                                                        //offset = (track * sectorspertrack * bytespersectorthread * 2) + (previousheadnr * sectorspertrack * bytespersectorthread) + (i * bytespersectorthread);
+
+                                offset = (previoustrack * sectorspertrack * bytespersectorthread * 2)
+                                    + (headnr * sectorspertrack * bytespersectorthread)
+                                    + (sectornr * bytespersectorthread);
+                                for (i = 0; i < bytespersectorthread; i++)
+                                {
+                                    //if (disk[i + offset] == 0)
+                                    disk[i + offset] = sectorbuf[i];
+                                }
+                                //stop = 1;
+                            }
+                        }
+                    }
+                    continue;
+                }
+                else continue; // If no 0xFE is found
+
+                if (diskformat == DiskFormat.pcdd) // DD
+                    sectorspertrack = 9;
+                else if (diskformat == DiskFormat.pchd) // HD
+                    sectorspertrack = 18;
+                else if (diskformat == DiskFormat.pc2m) //2M
+                    sectorspertrack = 11;
+
+                //If the checksum is correct and sector and track numbers within range and no sector data has already been captured
+                //if (track == 57 && sectornr == 7)
+                //{
+                //    int haha = 1;
+                //    var sok = sectormap.sectorok[track, sectornr];
+                //    int qqqqq = 1;
+                //}
+                if (sectorbuf.Length > 500)
+                    if (headercrcchk == 0x00)
+                        if (datacrcchk == 0x00 && sectornr >= 0 && sectornr < 18 && headnr < 3 && tracknr >= 0 && tracknr < 82 && sectormap.sectorok[track, sectornr] != SectorMapStatus.CrcOk)
+                        //if (datacrcchk == 0x00 && sectornr >= 0 && sectornr < 18 && headnr < 3 && tracknr >= 0 && tracknr < 82)
+                        {
+                            // Determine diskformat
+                            if (sectornr > 8 && diskformat != DiskFormat.pc2m) // from DD to HD
+                            {
+                                diskformat = DiskFormat.pchd; // Assume HD
+                                sectorspertrack = 18;
+                            }
+
+                            if (tracknr == 0 && sectornr == 0 && diskformat == DiskFormat.pchd) // From HD to 2M, reset sectormap.sectorok
+                            {
+                                if (sectorbuf[401] == '2' && sectorbuf[402] == 'M') // Detect 2M format
+                                {
+                                    diskformat = DiskFormat.pc2m; // Assume 2M
+                                    sectorspertrack = 11;
+                                    //bytespersectorthread = 1024;
+                                    // When we're in the process and only detecting 2M after many other sectors were processed,
+                                    // the previous sectors were processed with assumption diskformat = HD. We need to invalidate all found sectors
+                                    // except T000
+                                    for (i = 0; i < 200; i++)
+                                    {
+                                        for (j = 0; j < 25; j++)
+                                        {
+                                            sectormap.sectorok[i, j] = SectorMapStatus.empty;
+                                        }
+                                    }
+                                }
+                            }
+                            if (procsettings.UseErrorCorrection)
+                            {
+                                //Create hash
+                                sectorbuf[bytespersectorthread] = (byte)track;
+                                sectorbuf[bytespersectorthread + 1] = sectornr;
+                                byte[] secthash = mySHA256.ComputeHash(sectorbuf);
+
+                                // Check if there's a duplicate
+                                int isunique = -1;
+                                if(procsettings.finddupes)
+                                for (i = 0; i < sectordata2.Count; i++)
+                                {
+                                    isunique = IndexOfBytes(badsectorhash[i], secthash, 0, 32);
+                                    if (isunique != -1)
+                                    {
+                                        //tbreceived.Append("Duplicate found!\r\n");
+                                        break;
+                                    }
+                                }
+
+                                if (isunique == -1 || !procsettings.finddupes)
+                                {
+                                    byte[] b = new byte[bytespersectorthread + 16];
+
+                                    for (i = 0; i < bytespersectorthread + 16; i++)
+                                    {
+                                        b[i] = bytebuf[i];
+                                    }
+
+                                    //lock (lockbadsector)
+                                    {
+                                        //int badsectorcnt2 = badsectorcnt;
+                                        //badsectorcnt++;
+
+                                                
+                                        badsectorhash[markerindex] = secthash;
+                                        if (threadid != sectordatathread.threadid)
+                                            tbreceived.Append("threadid mismatch!\r\n");
+                                        //sectordatathread.threadid = threadid;
+                                        sectordatathread.mfmMarkerStatus = SectorMapStatus.CrcOk; // 1 = good sector data
+                                        sectordatathread.track = track;
+                                        sectordatathread.sector = sectornr;
+                                        sectordatathread.sectorlength = bytespersectorthread;
+                                        sectordatathread.crc = (int)datacrc;
+                                        sectordatathread.sectorbytes = b;
+                                        sectordatathread.MarkerType = MarkerType.data;
+                                        if (sectordata2[prevmarkerindex].sector == sectornr && 
+                                            sectordata2[prevmarkerindex].track == track &&
+                                            sectordata2[prevmarkerindex].mfmMarkerStatus == SectorMapStatus.CrcOk)
+                                        {
+                                            sectordata2[prevmarkerindex].DataIndex = markerindex;
+                                        }
+                                    }
+                                }
+                            }
+                            //if (track == 57 && sectornr == 7)
+                            //{
+                            //    int haha = 1;
+                            //}
+                            sectormap.sectorok[track, sectornr] = SectorMapStatus.CrcOk; // Sector is CRC pass
+                                                                                            // T 0 S0 H0 = 0x0000
+                                                                                            // T 1 S0 H0 = 0x2400
+                                                                                            // T 1 S0 H1 = 
+                            offset = (tracknr * sectorspertrack * bytespersectorthread * 2)
+                                + (headnr * sectorspertrack * bytespersectorthread)
+                                + (sectornr * bytespersectorthread);
+                            //offset2 = (tracks * sectorspertrack * bytespersector) + (sectornr * bytespersector);
+
+
+                            //string method = "";
+
+                            FoundGoodSectorInfo.Append("T" + tracknr.ToString("D3") + " S" + sectornr + " crc:" +
+                                datacrcchk.ToString("X4") + " rxbufindex:" + sectordatathread.rxbufMarkerPositions + " Method: ");
+
+
+                            if (procsettings.processingtype == ProcessingType.aufit)
+                            {
+                                FoundGoodSectorInfo.Append("Aufit min:" + procsettings.min.ToString("X2") + " 4/6:" + procsettings.four.ToString("X2"));
+                            }
+                            else
+                            if (procsettings.processingtype == ProcessingType.adaptive1)
+                            {
+                                FoundGoodSectorInfo.Append("Adaptive Rate:" + procsettings.rateofchange);
+                            }
+                            else
+                            if (procsettings.processingtype == ProcessingType.normal)
+                            {
+                                FoundGoodSectorInfo.Append("Normal min:" + procsettings.min.ToString("X2") + " 4/6:" + procsettings.four.ToString("X2") +
+                                    " 6/8:" + procsettings.six.ToString("X2") + " max:" + procsettings.max.ToString("X2") +
+                                    " offset:" + procsettings.offset.ToString());
+                            }
+                            FoundGoodSectorInfo.Append("\r\n");
+                            FoundGoodSectorInfo.Append(CurrentFiles);
+
+                            //if (offset != offset2)
+                            //    textBoxFilesLoaded.Text += "*** offset doesn't match with sectormap.sectorok!!! ***"+offset+" "+offset2+"\r\n";
+                            int bytespersectortemp = bytespersectorthread;
+                            int sum = 0;
+                            if (track == 0) bytespersectorthread = 512;
+                            if (offset < 2000000 - bytespersectorthread)
+                            {
+                                if (sectorbuf.Length == bytespersectorthread + 2)
+                                {
+                                    for (i = 0; i < bytespersectorthread; i++)
+                                    {
+                                        disk[i + offset] = sectorbuf[i];
+                                        sum += sectorbuf[i];
+                                    }
+                                    if (sum == 0) sectormap.sectorok[track, sectornr] = SectorMapStatus.SectorOKButZeroed; // If the entire sector is zeroes, allow new data
+                                }
+
+                            }
+                            bytespersectorthread = bytespersectortemp;
+                        }
+                        //If checksum is not ok, we can still use the data, better than nothing strategy, we will show it in the sectormap
+                        else if (datacrcchk != 0x00 && sectornr >= 0 && sectornr < 18 && headnr < 3 && tracknr >= 0 && tracknr < 82)
+                        {
+                            if (sectormap.sectorok[track, sectornr] == SectorMapStatus.empty)
+                                sectormap.sectorok[track, sectornr] = SectorMapStatus.HeadOkDataBad;
+                            else if (sectormap.sectorok[track, sectornr] != SectorMapStatus.HeadOkDataBad) // if it's a bad sector, capture more data, otherwise, go to next marker
+                                continue;
+
+                            if (sectorbuf.Length > 500)
+                            {
+                                if (sectornr > 8 && diskformat != DiskFormat.pc2m)
                                 {
                                     diskformat = DiskFormat.pchd; // Assume HD
                                     sectorspertrack = 18;
                                 }
 
-                                if (tracknr == 0 && sectornr == 0 && diskformat == DiskFormat.pchd) // From HD to 2M, reset sectormap.sectorok
+                                if (tracknr == 0 && sectornr == 0 && diskformat == DiskFormat.pchd)
                                 {
                                     if (sectorbuf[401] == '2' && sectorbuf[402] == 'M') // Detect 2M format
                                     {
-                                        diskformat = DiskFormat.pc2m; // Assume 2M
+                                        diskformat = DiskFormat.pc2m;
                                         sectorspertrack = 11;
                                         //bytespersectorthread = 1024;
                                         // When we're in the process and only detecting 2M after many other sectors were processed,
@@ -422,6 +569,7 @@ namespace FloppyControlApp
                                         }
                                     }
                                 }
+
                                 if (procsettings.UseErrorCorrection)
                                 {
                                     //Create hash
@@ -431,7 +579,6 @@ namespace FloppyControlApp
 
                                     // Check if there's a duplicate
                                     int isunique = -1;
-                                    if(procsettings.finddupes)
                                     for (i = 0; i < sectordata2.Count; i++)
                                     {
                                         isunique = IndexOfBytes(badsectorhash[i], secthash, 0, 32);
@@ -454,216 +601,67 @@ namespace FloppyControlApp
                                         //lock (lockbadsector)
                                         {
                                             //int badsectorcnt2 = badsectorcnt;
-                                            //badsectorcnt++;
-
-                                                
+                                            badsectorcntthread++;
                                             badsectorhash[markerindex] = secthash;
-                                            if (threadid != sectordatathread.threadid)
-                                                tbreceived.Append("threadid mismatch!\r\n");
+
                                             //sectordatathread.threadid = threadid;
-                                            sectordatathread.mfmMarkerStatus = SectorMapStatus.CrcOk; // 1 = good sector data
+                                            sectordatathread.mfmMarkerStatus = SectorMapStatus.HeadOkDataBad; // 2 = bad sector data
                                             sectordatathread.track = track;
                                             sectordatathread.sector = sectornr;
                                             sectordatathread.sectorlength = bytespersectorthread;
                                             sectordatathread.crc = (int)datacrc;
                                             sectordatathread.sectorbytes = b;
                                             sectordatathread.MarkerType = MarkerType.data;
-                                            if (sectordata2[prevmarkerindex].sector == sectornr && 
-                                                sectordata2[prevmarkerindex].track == track &&
-                                                sectordata2[prevmarkerindex].mfmMarkerStatus == SectorMapStatus.CrcOk)
+                                            if (sectordata2[prevmarkerindex].sector == sectornr &&
+                                            sectordata2[prevmarkerindex].track == track )
                                             {
                                                 sectordata2[prevmarkerindex].DataIndex = markerindex;
                                             }
                                         }
                                     }
+                                    else
+                                    {
+                                        //tbreceived.Append("Bad sector duplicate found, skipping \r\n");
+                                    }
                                 }
-                                //if (track == 57 && sectornr == 7)
-                                //{
-                                //    int haha = 1;
-                                //}
-                                sectormap.sectorok[track, sectornr] = SectorMapStatus.CrcOk; // Sector is CRC pass
-                                                                                                // T 0 S0 H0 = 0x0000
-                                                                                                // T 1 S0 H0 = 0x2400
-                                                                                                // T 1 S0 H1 = 
+
+
+
                                 offset = (tracknr * sectorspertrack * bytespersectorthread * 2)
                                     + (headnr * sectorspertrack * bytespersectorthread)
                                     + (sectornr * bytespersectorthread);
-                                //offset2 = (tracks * sectorspertrack * bytespersector) + (sectornr * bytespersector);
-
-
-                                //string method = "";
-
-                                FoundGoodSectorInfo.Append("T" + tracknr.ToString("D3") + " S" + sectornr + " crc:" +
-                                    datacrcchk.ToString("X4") + " rxbufindex:" + sectordatathread.rxbufMarkerPositions + " Method: ");
-
-
-                                if (procsettings.processingtype == ProcessingType.aufit)
-                                {
-                                    FoundGoodSectorInfo.Append("Aufit min:" + procsettings.min.ToString("X2") + " 4/6:" + procsettings.four.ToString("X2"));
-                                }
-                                else
-                                if (procsettings.processingtype == ProcessingType.adaptive1)
-                                {
-                                    FoundGoodSectorInfo.Append("Adaptive Rate:" + procsettings.rateofchange);
-                                }
-                                else
-                                if (procsettings.processingtype == ProcessingType.normal)
-                                {
-                                    FoundGoodSectorInfo.Append("Normal min:" + procsettings.min.ToString("X2") + " 4/6:" + procsettings.four.ToString("X2") +
-                                        " 6/8:" + procsettings.six.ToString("X2") + " max:" + procsettings.max.ToString("X2") +
-                                        " offset:" + procsettings.offset.ToString());
-                                }
-                                FoundGoodSectorInfo.Append("\r\n");
-                                FoundGoodSectorInfo.Append(CurrentFiles);
-
-                                //if (offset != offset2)
-                                //    textBoxFilesLoaded.Text += "*** offset doesn't match with sectormap.sectorok!!! ***"+offset+" "+offset2+"\r\n";
                                 int bytespersectortemp = bytespersectorthread;
-                                int sum = 0;
-                                if (track == 0) bytespersectorthread = 512;
-                                if (offset < 2000000 - bytespersectorthread)
-                                {
-                                    if (sectorbuf.Length == bytespersectorthread + 2)
-                                    {
+
+                                if (sectormap.sectorok[track, sectornr] == SectorMapStatus.empty)
+                                    if (offset < 2000000 - bytespersectorthread && bytespersectorthread == sectorbuf.Length + 2)
                                         for (i = 0; i < bytespersectorthread; i++)
                                         {
-                                            disk[i + offset] = sectorbuf[i];
-                                            sum += sectorbuf[i];
+                                            if (disk[i + offset] == 0)
+                                                disk[i + offset] = sectorbuf[i];
                                         }
-                                        if (sum == 0) sectormap.sectorok[track, sectornr] = SectorMapStatus.SectorOKButZeroed; // If the entire sector is zeroes, allow new data
-                                    }
-
-                                }
+                                //sectormap.sectorok[track, sectornr] = SectorMapType.headokbaddata; // Sector is not CRC pass
                                 bytespersectorthread = bytespersectortemp;
                             }
-                            //If checksum is not ok, we can still use the data, better than nothing strategy, we will show it in the sectormap
-                            else if (datacrcchk != 0x00 && sectornr >= 0 && sectornr < 18 && headnr < 3 && tracknr >= 0 && tracknr < 82)
-                            {
-                                if (sectormap.sectorok[track, sectornr] == SectorMapStatus.empty)
-                                    sectormap.sectorok[track, sectornr] = SectorMapStatus.HeadOkDataBad;
-                                else if (sectormap.sectorok[track, sectornr] != SectorMapStatus.HeadOkDataBad) // if it's a bad sector, capture more data, otherwise, go to next marker
-                                    continue;
+                        }
 
-                                if (sectorbuf.Length > 500)
-                                {
-                                    if (sectornr > 8 && diskformat != DiskFormat.pc2m)
-                                    {
-                                        diskformat = DiskFormat.pchd; // Assume HD
-                                        sectorspertrack = 18;
-                                    }
-
-                                    if (tracknr == 0 && sectornr == 0 && diskformat == DiskFormat.pchd)
-                                    {
-                                        if (sectorbuf[401] == '2' && sectorbuf[402] == 'M') // Detect 2M format
-                                        {
-                                            diskformat = DiskFormat.pc2m;
-                                            sectorspertrack = 11;
-                                            //bytespersectorthread = 1024;
-                                            // When we're in the process and only detecting 2M after many other sectors were processed,
-                                            // the previous sectors were processed with assumption diskformat = HD. We need to invalidate all found sectors
-                                            // except T000
-                                            for (i = 0; i < 200; i++)
-                                            {
-                                                for (j = 0; j < 25; j++)
-                                                {
-                                                    sectormap.sectorok[i, j] = SectorMapStatus.empty;
-                                                }
-                                            }
-                                        }
-                                    }
-
-                                    if (procsettings.UseErrorCorrection)
-                                    {
-                                        //Create hash
-                                        sectorbuf[bytespersectorthread] = (byte)track;
-                                        sectorbuf[bytespersectorthread + 1] = sectornr;
-                                        byte[] secthash = mySHA256.ComputeHash(sectorbuf);
-
-                                        // Check if there's a duplicate
-                                        int isunique = -1;
-                                        for (i = 0; i < sectordata2.Count; i++)
-                                        {
-                                            isunique = IndexOfBytes(badsectorhash[i], secthash, 0, 32);
-                                            if (isunique != -1)
-                                            {
-                                                //tbreceived.Append("Duplicate found!\r\n");
-                                                break;
-                                            }
-                                        }
-
-                                        if (isunique == -1 || !procsettings.finddupes)
-                                        {
-                                            byte[] b = new byte[bytespersectorthread + 16];
-
-                                            for (i = 0; i < bytespersectorthread + 16; i++)
-                                            {
-                                                b[i] = bytebuf[i];
-                                            }
-
-                                            //lock (lockbadsector)
-                                            {
-                                                //int badsectorcnt2 = badsectorcnt;
-                                                badsectorcntthread++;
-                                                badsectorhash[markerindex] = secthash;
-
-                                                //sectordatathread.threadid = threadid;
-                                                sectordatathread.mfmMarkerStatus = SectorMapStatus.HeadOkDataBad; // 2 = bad sector data
-                                                sectordatathread.track = track;
-                                                sectordatathread.sector = sectornr;
-                                                sectordatathread.sectorlength = bytespersectorthread;
-                                                sectordatathread.crc = (int)datacrc;
-                                                sectordatathread.sectorbytes = b;
-                                                sectordatathread.MarkerType = MarkerType.data;
-                                                if (sectordata2[prevmarkerindex].sector == sectornr &&
-                                                sectordata2[prevmarkerindex].track == track )
-                                                {
-                                                    sectordata2[prevmarkerindex].DataIndex = markerindex;
-                                                }
-                                            }
-                                        }
-                                        else
-                                        {
-                                            //tbreceived.Append("Bad sector duplicate found, skipping \r\n");
-                                        }
-                                    }
+                // EXPERIMENTAL, not safe to use! Makes assumptions that are incorrect in some cases
+                // This is an attempt to recover a sector with a bad header but good sector data
+                // This only works if all the data is already processed and a single sector per track is missing
+                // This sector can't be sector 0 on the track. It takes the previous succesful track
+                // Then finds the first bad sector on it and puts the good data/bad header in the disk array
 
 
-
-                                    offset = (tracknr * sectorspertrack * bytespersectorthread * 2)
-                                        + (headnr * sectorspertrack * bytespersectorthread)
-                                        + (sectornr * bytespersectorthread);
-                                    int bytespersectortemp = bytespersectorthread;
-
-                                    if (sectormap.sectorok[track, sectornr] == SectorMapStatus.empty)
-                                        if (offset < 2000000 - bytespersectorthread && bytespersectorthread == sectorbuf.Length + 2)
-                                            for (i = 0; i < bytespersectorthread; i++)
-                                            {
-                                                if (disk[i + offset] == 0)
-                                                    disk[i + offset] = sectorbuf[i];
-                                            }
-                                    //sectormap.sectorok[track, sectornr] = SectorMapType.headokbaddata; // Sector is not CRC pass
-                                    bytespersectorthread = bytespersectortemp;
-                                }
-                            }
-
-                    // EXPERIMENTAL, not safe to use! Makes assumptions that are incorrect in some cases
-                    // This is an attempt to recover a sector with a bad header but good sector data
-                    // This only works if all the data is already processed and a single sector per track is missing
-                    // This sector can't be sector 0 on the track. It takes the previous succesful track
-                    // Then finds the first bad sector on it and puts the good data/bad header in the disk array
-
-
-                    if (headercrcchk == 0x00 && tracknr < 82) // use the previous known good tracknr in case of a reconstruction
-                    {
-                        previousheadnr = headnr;
-                        previoustrack = tracknr;
-                    }
+                if (headercrcchk == 0x00 && tracknr < 82) // use the previous known good tracknr in case of a reconstruction
+                {
+                    previousheadnr = headnr;
+                    previoustrack = tracknr;
                 }
-                progresses[threadid] = sectordata2.Count;
-                //tbreceived.Append(relativetime().ToString() + "Convert MFM to sector data.\r\n");
-                //tbreceived.Append(tbreceived.ToString());
-                tbReceived.Append(tbreceived);
             }
+            progresses[threadid] = sectordata2.Count;
+            //tbreceived.Append(relativetime().ToString() + "Convert MFM to sector data.\r\n");
+            //tbreceived.Append(tbreceived.ToString());
+            tbReceived.Append(tbreceived);
+            
 
             // If the bootsector is found, get the correct disk format based on FAT12 spec
             if (sectormap.sectorok[0, 0] == SectorMapStatus.CrcOk)
