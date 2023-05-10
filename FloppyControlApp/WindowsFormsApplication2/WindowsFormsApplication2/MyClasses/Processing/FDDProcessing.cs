@@ -212,7 +212,7 @@ namespace FloppyControlApp
             int threadid = 0, t, i;
             SW.Reset();
             SW.Start();
-
+            threads = null;
             //ProcessingType processingtype = ProcessingType.normal;
 
             if (GetProcSettingsCallback != null) GetProcSettingsCallback();
@@ -415,7 +415,9 @@ namespace FloppyControlApp
                         sectormap.RefreshSectorMap();
                 }
             }
-
+            for( i=0; i< NumberOfThreads; i++)
+                threads[0] = null;
+            
             SW.Stop();
             tbreceived.Append(SW.ElapsedMilliseconds + "ms\r\n");
             //SaveGoodSectorFoundInfo();
