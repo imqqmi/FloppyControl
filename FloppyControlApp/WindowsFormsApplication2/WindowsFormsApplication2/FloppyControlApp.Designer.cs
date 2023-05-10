@@ -1067,7 +1067,6 @@ namespace FloppyControlApp
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(1193, 47);
             this.panel2.TabIndex = 57;
-            
             // 
             // hlabel
             // 
@@ -3287,7 +3286,7 @@ namespace FloppyControlApp
             this.RndAmountUpDown.Size = new System.Drawing.Size(39, 20);
             this.RndAmountUpDown.TabIndex = 95;
             this.RndAmountUpDown.Value = new decimal(new int[] {
-            12,
+            4,
             0,
             0,
             0});
