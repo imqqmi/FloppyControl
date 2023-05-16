@@ -733,13 +733,13 @@ namespace FloppyControlApp
         /// <param name="threadid"></param>
         /// <param name="sectordatathread"></param>
         /// <returns></returns>
-        public byte[] MFM2Bytes(ref byte[] mfmbits, int offset, int length, int threadid, MFMData sectordatathread)
+        public byte[] MFM2Bytes(int offset, int length, int threadid)
         {
             byte[] bytebuf = new byte[length];
 
             for (int i = 0; i < length; i++)
             {
-                bytebuf[i] = MFMBits2BINbyte(ref mfms[threadid], sectordatathread.MarkerPositions + (i * 16));
+                bytebuf[i] = MFMBits2BINbyte(ref mfms[threadid], offset + (i * 16));
             }
             return bytebuf;
         }

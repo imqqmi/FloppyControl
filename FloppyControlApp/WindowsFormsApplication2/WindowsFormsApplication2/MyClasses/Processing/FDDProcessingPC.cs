@@ -171,7 +171,7 @@ namespace FloppyControlApp
                 datacrcchk = 0xFFFF;
 
                 // First find the IDAM, 10 bytes
-                var Idam = MFM2Bytes(ref mfms[threadid], sectordatathread.MarkerPositions, 10, threadid, sectordatathread);
+                var Idam = MFM2Bytes(sectordatathread.MarkerPositions, 10, threadid);
 
                 int offset;
 
@@ -269,11 +269,7 @@ namespace FloppyControlApp
                     }
 
                     if (debuginfo) TBReceived.Append("\r\nT" + track + " S" + sectornr + " Sector data:\r\n");
-                    SectorBlock = MFM2Bytes(ref mfms[threadid], 
-                                            sectordatathread.MarkerPositions + (i * 16),
-                                            bytespersectorthread + 16, 
-                                            threadid, 
-                                            sectordatathread);
+                    SectorBlock = MFM2Bytes(sectordatathread.MarkerPositions, bytespersectorthread + 16, threadid);
                     
                     if (debuginfo) TBReceived.Append("\r\n\r\n");
                     if (SectorBlock[3] == 0xFB || SectorBlock[3] == 0xF8)
@@ -299,7 +295,7 @@ namespace FloppyControlApp
                 else if (procsettings.IgnoreHeaderError)
                 {
                     bytespersectorthread = 512;
-                    SectorBlock = MFM2Bytes(ref mfms[threadid], sectordatathread.MarkerPositions, bytespersectorthread + 16, threadid, sectordatathread);
+                    SectorBlock = MFM2Bytes(sectordatathread.MarkerPositions, bytespersectorthread + 16, threadid);
                     
                     if (debuginfo) TBReceived.Append("\r\n\r\n");
                     if (SectorBlock[3] == 0xFB || SectorBlock[3] == 0xF8)
