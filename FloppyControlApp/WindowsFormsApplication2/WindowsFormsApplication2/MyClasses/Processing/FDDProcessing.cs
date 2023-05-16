@@ -179,7 +179,6 @@ namespace FloppyControlApp
         public void ClearNonBadSectors()
         {
             int i;
-            MFMData deleted;
             for (i = 0; i < sectordata2.Count; i++)
             {
                 if (sectordata2[i].mfmMarkerStatus != SectorMapStatus.HeadOkDataBad)
@@ -442,8 +441,7 @@ namespace FloppyControlApp
         /// Write period data to disk in hex/text format, one value per line to be read in excel for analysis
         /// </summary>
         /// <param name="procsettings"></param>
-        /// <param name="threadid"></param>
-        public void writeMFMAsSingleValuePerLine(ProcSettings procsettings, int threadid)
+        public void WriteMFMAsSingleValuePerLine(ProcSettings procsettings)
         {
             int i;
             // Write period data to disk in hex/text format, one value per line to be read in excel for analysis
@@ -596,7 +594,6 @@ namespace FloppyControlApp
 
             ///if (procsettings.UseErrorCorrection)
             mfms[threadid] = m;
-            m = null;
             if (writemfm == true)
             {
                 string subpath = @Properties.Settings.Default["PathToRecoveredDisks"].ToString();
@@ -638,7 +635,7 @@ namespace FloppyControlApp
         {
             byte[] data;
 
-            int length = 0;
+            int length;
             if (Indexrxbuf < 100000)
                 length = Indexrxbuf;
             else length = 100000;
@@ -652,7 +649,7 @@ namespace FloppyControlApp
 
             int[] histogramint = new int[256];
 
-            int histogrammax, histogrammaxprev;
+            int histogrammax;
 
             if (length == 0) length = data.Length;
 
@@ -667,64 +664,43 @@ namespace FloppyControlApp
 
             // Find the maximum value so we can normalize the histogram down to 100 to fit inside histogram graph
 
-            peak1 = 0;
-            peak2 = 0;
-            peak3 = 0;
+            Peak1 = 0;
+            Peak2 = 0;
+            Peak3 = 0;
 
             histogrammax = 0;
-            histogrammaxprev = 0;
             for (i = 1; i < 256; i++)
             {
                 if (histogramint[i] > histogrammax)
                 {
-                    histogrammaxprev = histogrammax;
                     histogrammax = histogramint[i];
-                    peak1 = i;
+                    Peak1 = i;
                 }
             }
 
             histogrammax = 0;
-            histogrammaxprev = 0;
-            for (i = peak1 + 20; i < 256; i++)
+            for (i = Peak1 + 20; i < 256; i++)
             {
                 if (histogramint[i] > histogrammax)
                 {
-                    histogrammaxprev = histogrammax;
                     histogrammax = histogramint[i];
-                    peak2 = i;
+                    Peak2 = i;
                 }
             }
 
             histogrammax = 0;
-            histogrammaxprev = 0;
-            for (i = peak2 + 20; i < 256; i++)
+            for (i = Peak2 + 20; i < 256; i++)
             {
                 if (histogramint[i] > histogrammax)
                 {
-                    histogrammaxprev = histogrammax;
                     histogrammax = histogramint[i];
-                    peak3 = i;
+                    Peak3 = i;
                 }
             }
 
 
-            TBReceived.Append("Peak1: " + peak1.ToString("X2") + "Peak2: " + peak2.ToString("X2") + "Peak3: " + peak3.ToString("X2") + "\r\n");
+            TBReceived.Append("Peak1: " + Peak1.ToString("X2") + "Peak2: " + Peak2.ToString("X2") + "Peak3: " + Peak3.ToString("X2") + "\r\n");
         }
-
-        // Dumps an object to tbreceived
-        private void PrintProperties(Object myObj)
-        {
-            foreach (var prop in myObj.GetType().GetProperties())
-            {
-                TBReceived.Append(prop.Name + ": " + prop.GetValue(myObj, null));
-            }
-
-            foreach (var field in myObj.GetType().GetFields())
-            {
-                TBReceived.Append(field.Name + ": " + field.GetValue(myObj));
-            }
-        }
-
 
         /*
         // mfmbits[] contains mfmbits encoded in single bytes 0 and 1 per byte
@@ -918,7 +894,7 @@ namespace FloppyControlApp
         // Converts two uint32 of MFM data into one uint32 and returns it.
         public uint MFM2BINuint(uint mfmhi, uint mfmlo)
         {
-            uint hex = 0, temp;
+            uint hex = 0;
             int i;
             mfmhi &= 0x55555555;
             mfmlo &= 0x55555555;
@@ -933,7 +909,6 @@ namespace FloppyControlApp
 
             for (i = 16; i < 32; i++)
             {
-                temp = (mfmlo & 0x80000000);
                 hex |= ((mfmlo & 0x80000000) >> i);
                 mfmlo <<= 2;
             }
@@ -944,7 +919,7 @@ namespace FloppyControlApp
         // Amiga style mfm to byte
         public byte MFM2BINbyte(byte mfmhi, byte mfmlo)
         {
-            byte hex = 0, temp;
+            byte hex = 0;
             int i;
             mfmhi &= 0x55;
             mfmlo &= 0x55;
@@ -959,7 +934,6 @@ namespace FloppyControlApp
 
             for (i = 4; i < 8; i++)
             {
-                temp = (byte)(mfmlo & 0x80);
                 hex |= (byte)((mfmlo & 0x80) >> i);
                 mfmlo <<= 2;
             }
@@ -999,7 +973,7 @@ namespace FloppyControlApp
             int mindex = 0;
             byte[] m = new byte[length / 8];
 
-            byte hex = 0;
+            byte hex;
             for (i = offset; i < offset + length; i += 8)
             {
                 hex = 0;
@@ -1086,8 +1060,7 @@ namespace FloppyControlApp
         {
             string subpath = @Properties.Settings.Default["PathToRecoveredDisks"].ToString();
             string path = subpath + @"\" + ProcSettings.outputfilename + @"\";
-
-            path = subpath + @"\" + ProcSettings.outputfilename + @"\";
+            
             try
             {
                 File.WriteAllText(path + ProcSettings.outputfilename + "_FoundGoodSectorInfo.txt", FoundGoodSectorInfo.ToString());
@@ -1102,8 +1075,7 @@ namespace FloppyControlApp
         {
             string subpath = @Properties.Settings.Default["PathToRecoveredDisks"].ToString();
             string path = subpath + @"\" + ProcSettings.outputfilename + @"\";
-
-            path = subpath + @"\" + ProcSettings.outputfilename + @"\";
+            
             try
             {
                 FoundGoodSectorInfo.Clear();

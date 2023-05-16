@@ -22,13 +22,9 @@ namespace FloppyControlApp
             int i;
 
             byte[] Marker = new byte[0];
-            //int periodshift;
-            byte[] crcinsectordatadecoded = new byte[100];
-
             int bitshifted = 0;
-            byte[] lasttwosectorbytes = new byte[100];
-            int periodSelectionStart;//, mfmSelectionStart = 0;
-            int periodSelectionEnd;//, mfmSelectionEnd = 0;
+            int periodSelectionStart;
+            int periodSelectionEnd;
             int mfmAlignedStart, mfmAlignedEnd;
 
             int[] combi = new int[32];
@@ -157,9 +153,9 @@ namespace FloppyControlApp
 
                     if (diskformat == DiskFormat.amigados)
                     {
-                        datachecksum = amigamfmdecodebytes(mfmaligned, (56 * 8), 4 * 16); // At uint 6
-                        data = amigamfmdecodebytes(mfmaligned, (64 * 8), 512 * 16);
-                        checksum = amigachecksum(mfmaligned, (64 * 8), 512 * 16); // Get header checksum from sector header
+                        datachecksum = AmigaMfmDecodeBytes(mfmaligned, (56 * 8), 4 * 16); // At uint 6
+                        data = AmigaMfmDecodeBytes(mfmaligned, (64 * 8), 512 * 16);
+                        checksum = AmigaChecksum(mfmaligned, (64 * 8), 512 * 16); // Get header checksum from sector header
 
                         // Do the data checksum check:
                         if (datachecksum.SequenceEqual(checksum)) // checksum is changed everytime amigamfmdecode() is called
@@ -172,7 +168,7 @@ namespace FloppyControlApp
                         byte[] dsdatachecksum = new byte[4];
 
                         // Get track sector and checksum within one uint32: 0xTTSSCCCC
-                        byte[] dec1 = amigamfmdecodebytes(mfmaligned, 8 * 8, 4 * 16); //At uint 0
+                        byte[] dec1 = AmigaMfmDecodeBytes(mfmaligned, 8 * 8, 4 * 16); //At uint 0
 
                         //tracknr = data[0];
                         //sectornr = data[1];
@@ -190,19 +186,19 @@ namespace FloppyControlApp
                         //checksum = 0;
                         for (p = 0; p < 512; p += 4)
                         {
-                            tmp = amigamfmdecodebytes(mfmaligned, (int)p * 16 + 16 * 8, 4 * 16);
+                            tmp = AmigaMfmDecodeBytes(mfmaligned, (int)p * 16 + 16 * 8, 4 * 16);
                             data[p] = tmp[0];
                             data[p + 1] = tmp[1];
                             data[p + 2] = tmp[2];
                             data[p + 3] = tmp[3];
                         }
 
-                        dchecksum = (uint)((mfm2ushort(mfmaligned, 8 * 16)) & 0x7FFF);
+                        dchecksum = (uint)((Mfm2UShort(mfmaligned, 8 * 16)) & 0x7FFF);
                         ushort tmp1 = 0;
                         offset = 9;
                         for (p = (int)offset; p < 520; p++)
                         {
-                            tmp1 = mfm2ushort(mfmaligned, (int)(p * 16));
+                            tmp1 = Mfm2UShort(mfmaligned, (int)(p * 16));
                             dchecksum ^= (uint)(tmp1 & 0xffff);
                         }
                         byte[] savechecksum = new byte[4];
@@ -222,7 +218,7 @@ namespace FloppyControlApp
                     {
                         detectioncnt++;
                         TBReceived.Append("CRC ok! iteration: " + combinations + "\r\n");
-                        printarray(combi, NumberOfMfmBytes);
+                        PrintArray(combi, NumberOfMfmBytes);
                         for (i = 0; i < 512; i++)
                         {
                             TBReceived.Append(data[i].ToString("X2") + " ");
@@ -275,10 +271,7 @@ namespace FloppyControlApp
 
             byte[] Marker = new byte[0];
             int periodshift = 0;
-            byte[] crcinsectordatadecoded = new byte[100];
-
             int bitshifted = 0;
-            byte[] lasttwosectorbytes = new byte[100];
             int periodSelectionStart, mfmSelectionStart = 0;
             int periodSelectionEnd, mfmSelectionEnd = 0;
             int bytestart, byteend;
@@ -416,12 +409,10 @@ namespace FloppyControlApp
             ulong c8 = 0;
             int c6_max;
             int c8_max;
-            int numberofitmssq = 1 << numberofitems;
             uint c6cnt = 0;
             uint c8cnt = 0;
             int combs = ecSettings.combinations;
-
-            mfmcorrectedindex = 0;
+            
             stop = 0;
             // Brute force with weighing of 4/6/8us
             for (c8_max = ecSettings.C8Start; c8_max < numberofitems; c8_max++)
@@ -474,9 +465,9 @@ namespace FloppyControlApp
 
                         if (diskformat == DiskFormat.amigados)
                         {
-                            datachecksum = amigamfmdecodebytes(mfmaligned, (56 * 8), 4 * 16); // At uint 6
-                            data = amigamfmdecodebytes(mfmaligned, (64 * 8), 512 * 16);
-                            checksum = amigachecksum(mfmaligned, (64 * 8), 512 * 16); // Get header checksum from sector header
+                            datachecksum = AmigaMfmDecodeBytes(mfmaligned, (56 * 8), 4 * 16); // At uint 6
+                            data = AmigaMfmDecodeBytes(mfmaligned, (64 * 8), 512 * 16);
+                            checksum = AmigaChecksum(mfmaligned, (64 * 8), 512 * 16); // Get header checksum from sector header
 
                             // Do the data checksum check:
                             if (datachecksum.SequenceEqual(checksum)) // checksum is changed everytime amigamfmdecode() is called
@@ -489,7 +480,7 @@ namespace FloppyControlApp
                             byte[] dsdatachecksum = new byte[4];
 
                             // Get track sector and checksum within one uint32: 0xTTSSCCCC
-                            byte[] dec1 = amigamfmdecodebytes(mfmaligned, 8 * 8, 4 * 16); //At uint 0
+                            byte[] dec1 = AmigaMfmDecodeBytes(mfmaligned, 8 * 8, 4 * 16); //At uint 0
 
                             //tracknr = data[0];
                             //sectornr = data[1];
@@ -498,7 +489,7 @@ namespace FloppyControlApp
                             dsdatachecksum[2] = 0;
                             dsdatachecksum[3] = 0;
 
-                            uint dchecksum = 0;
+                            uint dchecksum;
                             uint offset;
                             byte[] tmp;
 
@@ -507,19 +498,19 @@ namespace FloppyControlApp
                             //checksum = 0;
                             for (j = 0; j < 512; j += 4)
                             {
-                                tmp = amigamfmdecodebytes(mfmaligned, (int)j * 16 + 16 * 8, 4 * 16);
+                                tmp = AmigaMfmDecodeBytes(mfmaligned, (int)j * 16 + 16 * 8, 4 * 16);
                                 data[j] = tmp[0];
                                 data[j + 1] = tmp[1];
                                 data[j + 2] = tmp[2];
                                 data[j + 3] = tmp[3];
                             }
 
-                            dchecksum = (uint)((mfm2ushort(mfmaligned, 8 * 16)) & 0x7FFF);
+                            dchecksum = (uint)((Mfm2UShort(mfmaligned, 8 * 16)) & 0x7FFF);
                             ushort tmp1 = 0;
                             offset = 9;
                             for (j = (int)offset; j < 520; j++)
                             {
-                                tmp1 = mfm2ushort(mfmaligned, (int)(j * 16));
+                                tmp1 = Mfm2UShort(mfmaligned, (int)(j * 16));
                                 dchecksum ^= (uint)(tmp1 & 0xffff);
                             }
                             byte[] savechecksum = new byte[4];
@@ -562,7 +553,6 @@ namespace FloppyControlApp
                             stop = 1;
                             break;
                         }
-                        mfmcorrectedindex = 0;
 
                         c6 = 0;
                         while (c6 == 0)
@@ -611,7 +601,6 @@ namespace FloppyControlApp
 
             byte[] Marker = new byte[0];
             int periodshift = 0;
-            byte[] crcinsectordatadecoded = new byte[100];
 
             int bitshifted = 0;
             byte[] lasttwosectorbytes = new byte[100];
@@ -767,9 +756,9 @@ namespace FloppyControlApp
 
             if (diskformat == DiskFormat.amigados)
             {
-                datachecksum = amigamfmdecodebytes(mfmaligned, (56 * 8), 4 * 16); // At uint 6
-                data = amigamfmdecodebytes(mfmaligned, (64 * 8), 512 * 16);
-                checksum = amigachecksum(mfmaligned, (64 * 8), 512 * 16); // Get header checksum from sector header
+                datachecksum = AmigaMfmDecodeBytes(mfmaligned, (56 * 8), 4 * 16); // At uint 6
+                data = AmigaMfmDecodeBytes(mfmaligned, (64 * 8), 512 * 16);
+                checksum = AmigaChecksum(mfmaligned, (64 * 8), 512 * 16); // Get header checksum from sector header
 
                 // Do the data checksum check:
                 // Todo, actually use datacrcchk or can it be removed?
@@ -783,14 +772,14 @@ namespace FloppyControlApp
                 byte[] dsdatachecksum = new byte[4];
 
                 // Get track sector and checksum within one uint32: 0xTTSSCCCC
-                byte[] dec1 = amigamfmdecodebytes(mfmaligned, 8 * 8, 4 * 16); //At uint 0
+                byte[] dec1 = AmigaMfmDecodeBytes(mfmaligned, 8 * 8, 4 * 16); //At uint 0
 
                 dsdatachecksum[0] = dec1[2];
                 dsdatachecksum[1] = dec1[3];
                 dsdatachecksum[2] = 0;
                 dsdatachecksum[3] = 0;
 
-                uint dchecksum = 0;
+                uint dchecksum;
                 uint offset;
                 byte[] tmp;
 
@@ -799,19 +788,19 @@ namespace FloppyControlApp
                 //checksum = 0;
                 for (j = 0; j < 512; j += 4)
                 {
-                    tmp = amigamfmdecodebytes(mfmaligned, (int)j * 16 + 16 * 8, 4 * 16);
+                    tmp = AmigaMfmDecodeBytes(mfmaligned, (int)j * 16 + 16 * 8, 4 * 16);
                     data[j] = tmp[0];
                     data[j + 1] = tmp[1];
                     data[j + 2] = tmp[2];
                     data[j + 3] = tmp[3];
                 }
 
-                dchecksum = (uint)((mfm2ushort(mfmaligned, 8 * 16)) & 0x7FFF);
+                dchecksum = (uint)((Mfm2UShort(mfmaligned, 8 * 16)) & 0x7FFF);
                 ushort tmp1 = 0;
                 offset = 9;
                 for (j = (int)offset; j < 520; j++)
                 {
-                    tmp1 = mfm2ushort(mfmaligned, (int)(j * 16));
+                    tmp1 = Mfm2UShort(mfmaligned, (int)(j * 16));
                     dchecksum ^= (uint)(tmp1 & 0xffff);
                 }
                 byte[] savechecksum = new byte[4];
@@ -852,20 +841,20 @@ namespace FloppyControlApp
             }
             */
             int badsectorold = indexS1;
-            int badsectorcnt2 = sectordata2.Count;
-            //badsectorhash[badsectorcnt2];
-            MFMData sectordata = new MFMData();
+            MFMData sectordata = new MFMData
+            {
 
-            //sectordata[threadid][badsectorcnt2].threadid = sectordata[threadid][badsectorold].threadid;
-            sectordata.threadid = threadid;
-            sectordata.MarkerPositions = sectordata2[badsectorold].MarkerPositions;
-            sectordata.rxbufMarkerPositions = sectordata2[badsectorold].rxbufMarkerPositions;
-            sectordata.mfmMarkerStatus = sectordata2[badsectorold].mfmMarkerStatus; // 2 = bad sector data
-            sectordata.track = sectordata2[badsectorold].track;
-            sectordata.sector = sectordata2[badsectorold].sector;
-            sectordata.sectorlength = sectordata2[badsectorold].sectorlength;
-            sectordata.crc = sectordata2[badsectorold].crc;
-            sectordata.sectorbytes = data;
+                
+                threadid = threadid,
+                MarkerPositions = sectordata2[badsectorold].MarkerPositions,
+                rxbufMarkerPositions = sectordata2[badsectorold].rxbufMarkerPositions,
+                mfmMarkerStatus = sectordata2[badsectorold].mfmMarkerStatus, // 2 = bad sector data
+                track = sectordata2[badsectorold].track,
+                sector = sectordata2[badsectorold].sector,
+                sectorlength = sectordata2[badsectorold].sectorlength,
+                crc = sectordata2[badsectorold].crc,
+                sectorbytes = data
+            };
 
             sectordata2.TryAdd(sectordata2.Count, sectordata);
             //sectordata2[badsectorcnt2].sectorbytes = bytebuf;

@@ -28,9 +28,8 @@ namespace FloppyControlApp
 
         private void GetAllMFMMarkerPositionsDiskspare(int threadid)
         {
-            byte[] amigamarkerbytes = AMIGAMARKER;
-            uint searchcnt = 0;
-            int rxbufcnt = 0;
+            uint searchcnt;
+            int rxbufcnt;
             int markerpositionscntthread = 0;
 
             // Find all the sector markers
@@ -80,9 +79,11 @@ namespace FloppyControlApp
                         {
                             searchcnt = 0;
 
-                            MFMData sectordata = new MFMData();
-                            sectordata.MarkerPositions = i - 16;
-                            sectordata.rxbufMarkerPositions = rxbufcnt; // start of 44894489 uint32, not at AAAAAAAA
+                            MFMData sectordata = new MFMData
+                            {
+                                MarkerPositions = i - 16,
+                                rxbufMarkerPositions = rxbufcnt // start of 44894489 uint32, not at AAAAAAAA
+                            };
                             // Todo: bottleneck for multithreading!
                             if (!sectordata2.TryAdd(sectordata2.Count, sectordata))
                             {
@@ -142,10 +143,11 @@ namespace FloppyControlApp
                         if (searchcnt == amigamarkerbytes.Length - 1)
                         {
                             searchcnt = 0;
-                            MFMData sectordata = new MFMData();
-
-                            sectordata.MarkerPositions = i - 32; // start at AAAAAAAA
-                            sectordata.rxbufMarkerPositions = rxbufcnt; // start of 44894489 uint32, not at AAAAAAAA
+                            MFMData sectordata = new MFMData
+                            {
+                                MarkerPositions = i - 32, // start at AAAAAAAA
+                                rxbufMarkerPositions = rxbufcnt // start of 44894489 uint32, not at AAAAAAAA
+                            };
 
                             if (!sectordata2.TryAdd(sectordata2.Count, sectordata))
                             {
@@ -194,31 +196,23 @@ namespace FloppyControlApp
             int mrkridx;
             mrkridx = (int)sectordatathread.MarkerPositions;
 
-            byte[] dec1 = new byte[1];
-
             string checksumok;
             byte headercheckok = 0;
             byte datacheckok = 0;
-
-            byte tracknr = 0;
-            byte sectornr = 0;
-            byte gapoffset;
 
             //Decode mfm to bytes
             //====================================================================================================
             //AmigaDOS disk format for ADOS and PFS
             
             //Get checksums first:
-            headerchecksum = amigamfmdecodebytes(mfms[threadid], mrkridx + (48 * 8), 4 * 16); // At uint 6
-            datachecksum = amigamfmdecodebytes(mfms[threadid], mrkridx + (56 * 8), 4 * 16); // At uint 6
+            headerchecksum = AmigaMfmDecodeBytes(mfms[threadid], mrkridx + (48 * 8), 4 * 16); // At uint 6
+            datachecksum = AmigaMfmDecodeBytes(mfms[threadid], mrkridx + (56 * 8), 4 * 16); // At uint 6
 
-            dec1 = amigamfmdecodebytes(mfms[threadid], mrkridx + (8 * 8), 4 * 16); //At byte position 8
+            var dec1 = AmigaMfmDecodeBytes(mfms[threadid], mrkridx + (8 * 8), 4 * 16); //At byte position 8
+            var tracknr = dec1[1];
+            var sectornr = dec1[2];
 
-            tracknr = dec1[1];
-            sectornr = dec1[2];
-            gapoffset = dec1[3];
-
-            checksum = amigachecksum(mfms[threadid], mrkridx + (8 * 8), 4 * 16); // Get header checksum from sector header
+            checksum = AmigaChecksum(mfms[threadid], mrkridx + (8 * 8), 4 * 16); // Get header checksum from sector header
 
             // Compare disk stored checksum and calculated checksum when decoding:
             if (headerchecksum.SequenceEqual(checksum))
@@ -229,8 +223,8 @@ namespace FloppyControlApp
             else checksumok = "H:ER ";
 
             //Sector data
-            dec1 = amigamfmdecodebytes(mfms[threadid], mrkridx + (64 * 8), 512 * 16); ;
-            checksum = amigachecksum(mfms[threadid], mrkridx + (64 * 8), 512 * 16); // Get header checksum from sector header
+            dec1 = AmigaMfmDecodeBytes(mfms[threadid], mrkridx + (64 * 8), 512 * 16); ;
+            checksum = AmigaChecksum(mfms[threadid], mrkridx + (64 * 8), 512 * 16); // Get header checksum from sector header
             savechecksum[0] = checksum[0]; savechecksum[1] = checksum[1]; savechecksum[2] = checksum[2]; savechecksum[3] = checksum[3];
             // Do the data checksum check:
             if (datachecksum.SequenceEqual(checksum)) // checksum is changed everytime amigamfmdecode() is called
@@ -284,7 +278,7 @@ namespace FloppyControlApp
             headercheckok = 1; // Diskspare doesn't do separate header and data checksums
 
             // Get track sector and checksum within one uint32: 0xTTSSCCCC
-            dec1 = amigamfmdecodebytes(mfms[threadid], mrkridx + 8 * 8, 4 * 16); //At uint 0
+            dec1 = AmigaMfmDecodeBytes(mfms[threadid], mrkridx + 8 * 8, 4 * 16); //At uint 0
 
             tracknr = dec1[0];
             sectornr = dec1[1];
@@ -304,19 +298,19 @@ namespace FloppyControlApp
 
             for (int j = 0; j < 512; j += 4)
             {
-                tmp = amigamfmdecodebytes(mfms[threadid], mrkridx + (int)j * 16 + 16 * 8, 4 * 16);
+                tmp = AmigaMfmDecodeBytes(mfms[threadid], mrkridx + (int)j * 16 + 16 * 8, 4 * 16);
                 dec1[j] = tmp[0];
                 dec1[j + 1] = tmp[1];
                 dec1[j + 2] = tmp[2];
                 dec1[j + 3] = tmp[3];
             }
 
-            dchecksum = (uint)((mfm2ushort(mfms[threadid], mrkridx + 8 * 16)) & 0x7FFF);
+            dchecksum = (uint)((Mfm2UShort(mfms[threadid], mrkridx + 8 * 16)) & 0x7FFF);
             ushort tmp1;
             offset = 9;
             for (uint j = offset; j < 520; j++)
             {
-                tmp1 = mfm2ushort(mfms[threadid], (int)(mrkridx + j * 16));
+                tmp1 = Mfm2UShort(mfms[threadid], (int)(mrkridx + j * 16));
                 dchecksum ^= (uint)(tmp1 & 0xffff);
             }
             savechecksum[0] = (byte)(dchecksum >> 8);
@@ -392,10 +386,7 @@ namespace FloppyControlApp
             // can be safely cut off. 8705 is the number of bits. We're going from MFM bits to uint32
             //So 8705/32 = 272. We'll take 300.
             //uint[,] mfmmarkerdata = new uint[markerpositionscntthread, mfmsectorlength];
-
-            uint[][] mfmmarkerdata = new uint[markerpositionscntthread][];
-
-            StringBuilder trackbox = new StringBuilder();
+            
             StringBuilder trackboxtemp = new StringBuilder();
             StringBuilder decodedamigaText = new StringBuilder();
 
@@ -406,9 +397,7 @@ namespace FloppyControlApp
             progressesstart[threadid] = 0;
             progressesend[threadid] = (int)markerpositionscntthread;
 
-            int mrkridx;
             //Now loop through all sectors to decode data
-
             MFMData sectordatathread;
 
             for (sectorindex = sectordata2oldcnt; sectorindex < sectordata2.Count; sectorindex++)
@@ -417,16 +406,11 @@ namespace FloppyControlApp
 
                 if (sectorindex % 50 == 49) { progresses[threadid] = (int)sectorindex; if (stop == 1) break; }
 
-                mrkridx = (int)sectordatathread.MarkerPositions;
-
                 byte[] dec1 = new byte[1];
-
                 bool headercheckok = false;
                 bool datacheckok = false;
-
                 byte tracknr = 0;
                 byte sectornr = 0;
-                
                 MFM2Sector Mfm2Sector = null;
 
                 //Decode mfm to bytes
@@ -709,23 +693,18 @@ namespace FloppyControlApp
         // checksum is a global (not yet implemented => probably going to do it externally)
         // Each byte consists of 4 bits at index 0+offset and 4 bits at index + offset + length/2
         // The former are the odd bits, the latter the even bits. 
-        public byte[] amigamfmdecodebytes(byte[] mfm, int offset, int length)
+        public byte[] AmigaMfmDecodeBytes(byte[] mfm, int offset, int length)
         {
-            int i, j;
             byte[] output = new byte[length / 16];
-
             byte b;
-            //byte m1, m2;
 
             if (mfm.Length > length + offset)
             {
-                for (i = 0; i < length / 16; i++) // cycle through byte blocks
+                for (int i = 0; i < length / 16; i++) // cycle through byte blocks
                 {
                     b = 0;
-                    for (j = 0; j < 8; j += 2) // cycle through mfm bits
+                    for (int j = 0; j < 8; j += 2) // cycle through mfm bits
                     {
-                        //m1 = mfm[i * 8 + j + 1];
-                        //m2 = mfm[i * 8 + j + (length / 2) + 1];
                         b = (byte)(b << 1);
                         b = (byte)(b | mfm[offset + i * 8 + j + 1]);
                         b = (byte)(b << 1);
@@ -738,7 +717,7 @@ namespace FloppyControlApp
             return output;
         }
 
-        public byte[] amigamfmencodebytes(byte[] data, int offset, int length)
+        public byte[] AmigaMfmEncodeBytes(byte[] data, int offset, int length)
         {
             int i, j;
             byte[] output = new byte[length * 16];
@@ -801,9 +780,9 @@ namespace FloppyControlApp
                
         // Decode Amiga MFM
         // length in bytes, dividable by 4, data should be 2x length
-        // checksum is a global, so if you want to check the data, do so before calling
-        // this function again or the checksum will be overwritten.
-        public uint[] amigamfmdecode(ref uint[] data, int offset, int length)
+        // Checksum is written into checksum parameter. 
+        // Todo: create wrapper class/object for output sector data and checksum.
+        public uint[] Amigamfmdecode(ref uint[] data, int offset, int length, out uint checksum)
         {
             int i, cnt;
             uint even, odd;
@@ -828,7 +807,7 @@ namespace FloppyControlApp
         // Checksum on amiga is normally applied to mfm data
         // This routine uses the mfm data, splits even and odd, 
         // then outputs the checksum as 4 element byte array
-        public byte[] amigachecksum(byte[] mfm, int offset, int length)
+        public byte[] AmigaChecksum(byte[] mfm, int offset, int length)
         {
             int i, j, k;
             byte e, o;
@@ -864,7 +843,7 @@ namespace FloppyControlApp
             return chk;
         }
 
-        public ushort mfm2ushort(byte[] mfm, int offset)
+        public ushort Mfm2UShort(byte[] mfm, int offset)
         {
             int i;
             ushort result = 0;

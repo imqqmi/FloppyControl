@@ -435,9 +435,9 @@ namespace FloppyControlApp
             EightLabel.Text = (OffsetvScrollBar1.Value + EightvScrollBar.Value).ToString("X2");
             Offsetlabel.Text = OffsetvScrollBar1.Value.ToString("D2");
 
-            processing.peak1 = OffsetvScrollBar1.Value + FourvScrollBar.Value;
-            processing.peak2 = OffsetvScrollBar1.Value + SixvScrollBar.Value;
-            processing.peak3 = OffsetvScrollBar1.Value + EightvScrollBar.Value;
+            processing.Peak1 = OffsetvScrollBar1.Value + FourvScrollBar.Value;
+            processing.Peak2 = OffsetvScrollBar1.Value + SixvScrollBar.Value;
+            processing.Peak3 = OffsetvScrollBar1.Value + EightvScrollBar.Value;
 
             Graphics formGraphics = null;
             if (MainTabControl.SelectedTab == ProcessingTab)
@@ -553,7 +553,7 @@ namespace FloppyControlApp
                     if (length < 0) length = 4000;
                     if (scatterplot.AnScatViewlargeoffset < processing.Indexrxbuf)
                         HistogramhScrollBar1.Value = scatterplot.AnScatViewlargeoffset;
-                    ScatterHisto.setPanel(Histogrampanel1);
+                    ScatterHisto.SetPanel(Histogrampanel1);
                     ScatterHisto.DoHistogram(processing.RxBbuf, offset, length);
                 }
                 if (MainTabControl.SelectedTab == QuickTab)
@@ -563,7 +563,7 @@ namespace FloppyControlApp
                     if (length < 0) length = 4000;
                     if (scatterplot.AnScatViewlargeoffset < processing.Indexrxbuf)
                         QHistogramhScrollBar1.Value = scatterplot.AnScatViewlargeoffset;
-                    ScatterHisto.setPanel(QHistoPanel);
+                    ScatterHisto.SetPanel(QHistoPanel);
                     ScatterHisto.DoHistogram(processing.RxBbuf, offset, length);
                 }
             }
@@ -1424,9 +1424,9 @@ namespace FloppyControlApp
 
             //ScatterPictureBox.MouseWheel += ScatterPictureBox_MouseWheel;
 
-            ECHisto.setPanel(AnHistogramPanel);
+            ECHisto.SetPanel(AnHistogramPanel);
             ECHisto.TBReceived = tbreceived;
-            ScatterHisto.setPanel(Histogrampanel1);
+            ScatterHisto.SetPanel(Histogrampanel1);
             ScatterHisto.TBReceived = tbreceived;
             ProcessingTab.Enabled = false;
             PeriodBeyond8uscomboBox.SelectedIndex = 0;
@@ -1675,7 +1675,7 @@ namespace FloppyControlApp
                 rxbuf = rxbuftemp,
                 processing = processing
             };
-            scatterplot.removeEvents();
+            scatterplot.RemoveEvents();
             scatterplot.Rxbuf = null;
             scatterplot.UpdateEvent -= UpdateAnScatterPlot;
             scatterplot.ShowGraph -= ScatterPlotShowGraphCallback;
@@ -1699,8 +1699,8 @@ namespace FloppyControlApp
             GUITimer.Start();
             BluetoRedByteCopyToolBtn.Tag = new int();
             BluetoRedByteCopyToolBtn.Tag = 0;
-            ECHisto.setPanel(AnHistogramPanel);
-            ScatterHisto.setPanel(Histogrampanel1);
+            ECHisto.SetPanel(AnHistogramPanel);
+            ScatterHisto.SetPanel(Histogrampanel1);
             if (processing.Indexrxbuf < 100000)
                 scatterplot.AnScatViewlength = processing.Indexrxbuf;
             else scatterplot.AnScatViewlength = 99999;
@@ -2004,9 +2004,9 @@ namespace FloppyControlApp
             if (processing.Indexrxbuf == 0) return;
             processing.FindPeaks(HistogramhScrollBar1.Value);
             SuspendLayout();
-            int peak1 = processing.peak1;
-            int peak2 = processing.peak2;
-            int peak3 = processing.peak3;
+            int peak1 = processing.Peak1;
+            int peak2 = processing.Peak2;
+            int peak3 = processing.Peak3;
             ProcessingType procmode = ProcessingType.adaptive1;
             if (ProcessingModeComboBox.SelectedItem.ToString() != "")
                 procmode = (ProcessingType)Enum.Parse(typeof(ProcessingType), ProcessingModeComboBox.SelectedItem.ToString(), true);

@@ -21,11 +21,10 @@ namespace FloppyControlApp
         private static readonly Object lockbadsector = new Object();
         public static byte[] A1MARKER = { 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1 };
         public Action GetProcSettingsCallback { get; set; }
-        public int peak1 { get; set; }
-        public int peak2 { get; set; }
-        public int peak3 { get; set; }
+        public int Peak1 { get; set; }
+        public int Peak2 { get; set; }
+        public int Peak3 { get; set; }
         public int GoodSectorHeaderCount { get; set; }
-        uint checksum;
         public int sectordata2oldcnt;
 
 
@@ -134,11 +133,7 @@ namespace FloppyControlApp
             // it doesn't start at the start of rxbuf. There's no way to know at this point
             // how many 1's there are up to this point. Either do the calculation after processing
             // then adjust the values or not use multithreading.
-
-            //m = mfms[threadid]; // speed up processing by removing one extra reference
-            int A1MarkerLength = A1markerbytes.Length;
-            int A1MarkerLengthMinusOne = A1markerbytes.Length - 1;
-            int mfmlength = mfmlengths[threadid];
+            
             if (Indexrxbuf > RxBbuf.Length) Indexrxbuf = RxBbuf.Length - 1;
                 
             FindAllPCMarkers(threadid);
@@ -303,24 +298,22 @@ namespace FloppyControlApp
                 }
                 else if (procsettings.IgnoreHeaderError)
                 {
-                    headercrcchk = 1; // force ignore header
-
                     bytespersectorthread = 512;
                     SectorBlock = MFM2Bytes(ref mfms[threadid], sectordatathread.MarkerPositions, bytespersectorthread + 16, threadid, sectordatathread);
                     
                     if (debuginfo) TBReceived.Append("\r\n\r\n");
                     if (SectorBlock[3] == 0xFB || SectorBlock[3] == 0xF8)
                     {
-                        datacrc = (ushort)((SectorBlock[bytespersectorthread + 4] << 8) | SectorBlock[bytespersectorthread + 5]);
-
+                        //Checksum is at the end of the header, so when that is passed into the crc it should result in good = 0x0000
                         datacrcchk = crc.ComputeChecksum(SectorBlock.SubArray(0, bytespersectorthread + 6));
+                        
+                        // Todo: seems duplicate of above, doesn't make sense? Can probably be removed.
                         if (datacrcchk != 0)
                         {
                             datacrcchk = crc.ComputeChecksum(SectorBlock.SubArray(0, 512 + 6));
                         }
 
                         sectorbuf = SectorBlock.SubArray(4, bytespersectorthread + 2);
-                        //sectorbuf = bytebuf.SubArray(4, bytespersectorthread);
                     }
                     if (datacrcchk == 0x00 && sectorbuf.Length > 500)
                     {
@@ -719,8 +712,7 @@ namespace FloppyControlApp
 
             // Copy mfm data from mfms
             int sectorlength = sectordata2[indexS1].sectorlength;
-
-            byte[] mfmcorrected = new byte[(sectorlength + 6) * 16 + 1000];
+            
             byte[] mfmbuf = mfms[sectordata2[indexS1].threadid].SubArray(sectordata2[indexS1].MarkerPositions, (sectorlength + 100) * 16);
             byte[] bytebuf = new byte[sectorlength + 6];
 
@@ -913,7 +905,7 @@ namespace FloppyControlApp
             int periodSelectionStart, mfmSelectionStart = 0;
             int periodSelectionEnd, mfmSelectionEnd = 0;
             int bytestart, byteend;
-            int mfmAlignedStart, mfmAlignedEnd;
+            int mfmAlignedStart;
             int indexS1 = ecSettings.indexS1;
             int threadid = ecSettings.threadid;
 
@@ -959,7 +951,6 @@ namespace FloppyControlApp
             byteend = mfmSelectionEnd / 16;
 
             mfmAlignedStart = bytestart * 16;
-            mfmAlignedEnd = (byteend + 1) * 16;
 
             TBReceived.Append("bytestart: " + bytestart + " byte end: " + byteend + "\r\n");
 
@@ -1314,7 +1305,7 @@ namespace FloppyControlApp
                     {
                         detectioncnt++;
                         TBReceived.Append("CRC ok! iteration: " + combinations + "\r\n");
-                        printarray(combi, NumberOfMfmBytes);
+                        PrintArray(combi, NumberOfMfmBytes);
                         for (i = 0; i < 528; i++)
                         {
                             TBReceived.Append(data[i].ToString("X2") + " ");
@@ -1355,7 +1346,7 @@ namespace FloppyControlApp
             TBReceived.Append("Combinations:" + combinations + "\r\n");
         }
 
-        public void printarray(int[] a, int length)
+        public void PrintArray(int[] a, int length)
         {
             int i;
             for (i = 0; i < length; i++)

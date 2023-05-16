@@ -461,7 +461,7 @@ namespace FloppyControlApp
                 processing.RtbSectorMap = rtbSectorMap;
                 processing.SectorMap.rtbSectorMap = rtbSectorMap;
                 processing.SectorMap.RefreshSectorMap();
-                ScatterHisto.setPanel(Histogrampanel1);
+                ScatterHisto.SetPanel(Histogrampanel1);
                 UpdateAnScatterPlot();
             }
             if (MainTabControl.SelectedTab == QuickTab)

@@ -119,7 +119,7 @@ namespace FloppyControlApp
 
 
             ECHisto.DoHistogram(sectors, offset, sectorlength);
-            HistScalingLabel.Text = "Scale: " + ECHisto.getScaling().ToString(); ;
+            HistScalingLabel.Text = "Scale: " + ECHisto.GetScaling().ToString(); ;
 
             if (!BSBlueSectormapRadio.Checked) // there's no relevant data when this radio button is checked
             {
@@ -387,7 +387,7 @@ namespace FloppyControlApp
                             if (sectorsindex >= sectors.Length)
                                 break;
 
-                            lockBitmap.filledsquare(x, y, w, h, Color.FromArgb(255, colorR, 0, colorB));
+                            lockBitmap.FilledSquare(x, y, w, h, Color.FromArgb(255, colorR, 0, colorB));
 
                         }
                         if (sectorsindex >= sectors.Length)

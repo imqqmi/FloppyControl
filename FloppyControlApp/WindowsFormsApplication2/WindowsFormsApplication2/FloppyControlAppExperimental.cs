@@ -56,7 +56,7 @@ namespace FloppyControlApp
                 // Convert mfm to string
                 tbMFM.Text = Encoding.ASCII.GetString(processing.BIN2MFMbits(ref bytes, bytes.Count(), 0, true));
 
-                bytebuf = processing.amigamfmdecodebytes(mfmbytes, 0, mfmbytes.Length); // This doesn't convert sector properly yet
+                bytebuf = processing.AmigaMfmDecodeBytes(mfmbytes, 0, mfmbytes.Length); // This doesn't convert sector properly yet
 
                 // Convert mfm back to bytes
                 for (i = 0; i < bytebuf.Length; i++)
@@ -75,13 +75,13 @@ namespace FloppyControlApp
                 byte[] mfmbytes;
 
                 // Convert bytes to Amiga mfm
-                mfmbytes = processing.amigamfmencodebytes(bytes, 0, bytes.Length);
+                mfmbytes = processing.AmigaMfmEncodeBytes(bytes, 0, bytes.Length);
                 byte[] bytebuf = new byte[tbBIN.Text.Length];
 
                 // Convert mfm to string
                 tbMFM.Text = Encoding.ASCII.GetString(processing.BIN2MFMbits(ref bytes, bytes.Count(), 0, true));
 
-                bytebuf = processing.amigamfmdecodebytes(mfmbytes, 0, mfmbytes.Length); // This doesn't convert sector properly yet
+                bytebuf = processing.AmigaMfmDecodeBytes(mfmbytes, 0, mfmbytes.Length); // This doesn't convert sector properly yet
 
                 // Convert mfm back to bytes
                 for (i = 0; i < bytebuf.Length; i++)
@@ -151,11 +151,11 @@ namespace FloppyControlApp
             byte[] mfmbytes;
 
             // Convert bytes to Amiga mfm
-            mfmbytes = processing.amigamfmencodebytes(bytes, 0, bytes.Length);
+            mfmbytes = processing.AmigaMfmEncodeBytes(bytes, 0, bytes.Length);
 
             byte[] checksum;
 
-            checksum = processing.amigachecksum(mfmbytes, 0, mfmbytes.Length);
+            checksum = processing.AmigaChecksum(mfmbytes, 0, mfmbytes.Length);
 
             tbt.Append("Checksum:" + checksum[0].ToString("X2") + checksum[1].ToString("X2") + checksum[2].ToString("X2") + checksum[3].ToString("X2"));
 
