@@ -23,9 +23,11 @@ namespace FloppyControl.Test
             FileIO fileio = new FileIO();
             
             FDDProcessing processing = new FDDProcessing();
-            processing = new FDDProcessing();
-            processing.Indexrxbuf = 0;
-            processing.TBReceived = new System.Text.StringBuilder();
+            processing = new FDDProcessing
+            {
+                Indexrxbuf = 0,
+                TBReceived = new System.Text.StringBuilder()
+            };
             processing.GetProcSettingsCallback += GetProcSettingsCallback;
 
             fileio.processing = processing;
@@ -112,9 +114,11 @@ namespace FloppyControl.Test
             FileIO fileio = new FileIO();
 
             FDDProcessing processing = new FDDProcessing();
-            processing = new FDDProcessing();
-            processing.Indexrxbuf = 0;
-            processing.TBReceived = new System.Text.StringBuilder();
+            processing = new FDDProcessing
+            {
+                Indexrxbuf = 0,
+                TBReceived = new System.Text.StringBuilder()
+            };
             processing.GetProcSettingsCallback += GetProcSettingsCallback;
 
             fileio.processing = processing;

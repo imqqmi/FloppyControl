@@ -31,7 +31,6 @@ namespace FloppyControlApp
             int combilimit;
 
             int indexS1 = ecSettings.indexS1;
-            int threadid = ecSettings.threadid;
 
             mfmAlignedStart = ecSettings.MFMByteStart;
             mfmAlignedEnd = mfmAlignedStart + (ecSettings.MFMByteLength * 8);
@@ -75,7 +74,6 @@ namespace FloppyControlApp
 
 
             byte[] mfmbuf = mfms[sectordata2[indexS1].threadid].SubArray(sectordata2[indexS1].MarkerPositions, (sectorlength + 100) * 16);
-            byte[] bytebuf = new byte[sectorlength + 6];
 
             TBReceived.Append("mfmAlignedstart: " + mfmAlignedStart + " mfmAlignedEnd: " + mfmAlignedEnd + "\r\n");
 
@@ -177,13 +175,10 @@ namespace FloppyControlApp
                         dsdatachecksum[2] = 0;
                         dsdatachecksum[3] = 0;
 
-                        uint dchecksum = 0;
+                        uint dchecksum;
                         uint offset;
                         byte[] tmp;
 
-                        offset = 4;
-
-                        //checksum = 0;
                         for (p = 0; p < 512; p += 4)
                         {
                             tmp = AmigaMfmDecodeBytes(mfmaligned, (int)p * 16 + 16 * 8, 4 * 16);
@@ -194,7 +189,7 @@ namespace FloppyControlApp
                         }
 
                         dchecksum = (uint)((Mfm2UShort(mfmaligned, 8 * 16)) & 0x7FFF);
-                        ushort tmp1 = 0;
+                        ushort tmp1;
                         offset = 9;
                         for (p = (int)offset; p < 520; p++)
                         {
@@ -277,7 +272,6 @@ namespace FloppyControlApp
             int bytestart, byteend;
             int mfmAlignedStart, mfmAlignedEnd;
             int indexS1 = ecSettings.indexS1;
-            int threadid = ecSettings.threadid;
 
             if (diskformat == DiskFormat.amigados)
             {
@@ -317,7 +311,6 @@ namespace FloppyControlApp
 
 
             byte[] mfmbuf = mfms[sectordata2[indexS1].threadid].SubArray(sectordata2[indexS1].MarkerPositions, (sectorlength + 100) * 16);
-            byte[] bytebuf = new byte[sectorlength + 6];
 
             int cntperiods = 0;
             // Find where in the mfm data the periodSelectionStart is
@@ -365,7 +358,7 @@ namespace FloppyControlApp
 
             TBReceived.Append("Bitshift: " + bitshifted + "\r\n");
 
-            mfmSelectionEnd = mfmSelectionEnd - bitshifted;
+            mfmSelectionEnd -= bitshifted;
 
             // Copy mfm data to aligned array
             byte[] mfmaligned = new byte[mfmbuf.Length + 32];
@@ -405,7 +398,7 @@ namespace FloppyControlApp
             int detectioncnt = 0;
             int numberofitems = periodSelectionEnd - periodSelectionStart;
             int numberofmfmitems = mfmSelectionEnd - mfmSelectionStart;
-            ulong c6 = 0;
+            ulong c6;
             ulong c8 = 0;
             int c6_max;
             int c8_max;
@@ -493,9 +486,6 @@ namespace FloppyControlApp
                             uint offset;
                             byte[] tmp;
 
-                            offset = 4;
-
-                            //checksum = 0;
                             for (j = 0; j < 512; j += 4)
                             {
                                 tmp = AmigaMfmDecodeBytes(mfmaligned, (int)j * 16 + 16 * 8, 4 * 16);
@@ -506,7 +496,7 @@ namespace FloppyControlApp
                             }
 
                             dchecksum = (uint)((Mfm2UShort(mfmaligned, 8 * 16)) & 0x7FFF);
-                            ushort tmp1 = 0;
+                            ushort tmp1;
                             offset = 9;
                             for (j = (int)offset; j < 520; j++)
                             {
@@ -601,9 +591,7 @@ namespace FloppyControlApp
 
             byte[] Marker = new byte[0];
             int periodshift = 0;
-
             int bitshifted = 0;
-            byte[] lasttwosectorbytes = new byte[100];
             int periodSelectionStart, mfmSelectionStart = 0;
             int periodSelectionEnd, mfmSelectionEnd = 0;
             int bytestart, byteend;
@@ -647,8 +635,6 @@ namespace FloppyControlApp
 
             // Copy mfm data from mfms
             int sectorlength = sectordata2[indexS1].sectorlength;
-            int track = sectordata2[indexS1].track;
-            int sector = sectordata2[indexS1].sector;
 
             //Get the mfm data from the large mfms array
             byte[] mfms1 = mfms[sectordata2[indexS1].threadid];
@@ -701,7 +687,7 @@ namespace FloppyControlApp
 
             TBReceived.Append("Bitshift: " + bitshifted + "\r\n");
 
-            mfmSelectionEnd = mfmSelectionEnd - bitshifted;
+            mfmSelectionEnd -= bitshifted;
 
             // Copy mfm data to aligned array
             byte[] mfmaligned = new byte[mfmbuf.Length + 32];
@@ -722,7 +708,7 @@ namespace FloppyControlApp
             mfmSelectionStart = i;
 
             // Copy aligned end of the sectors
-            int end = 0;
+            int end;
             if (bitshifted < 0)
                 end = 0;
             else end = bitshifted;
@@ -745,11 +731,6 @@ namespace FloppyControlApp
             //int datacrcchk;
             byte[] checksum;
             byte[] datachecksum;
-            int j;
-            byte[] combinations = new byte[100];
-            int numberofitems = periodSelectionEnd - periodSelectionStart;
-            int numberofmfmitems = mfmSelectionEnd - mfmSelectionStart;
-            int numberofitmssq = 1 << numberofitems;
             stop = 0;
             // Brute force with weighing of 4/6/8us
 
@@ -783,10 +764,7 @@ namespace FloppyControlApp
                 uint offset;
                 byte[] tmp;
 
-                offset = 4;
-
-                //checksum = 0;
-                for (j = 0; j < 512; j += 4)
+                for (int j = 0; j < 512; j += 4)
                 {
                     tmp = AmigaMfmDecodeBytes(mfmaligned, (int)j * 16 + 16 * 8, 4 * 16);
                     data[j] = tmp[0];
@@ -796,9 +774,9 @@ namespace FloppyControlApp
                 }
 
                 dchecksum = (uint)((Mfm2UShort(mfmaligned, 8 * 16)) & 0x7FFF);
-                ushort tmp1 = 0;
+                ushort tmp1;
                 offset = 9;
-                for (j = (int)offset; j < 520; j++)
+                for (int j = (int)offset; j < 520; j++)
                 {
                     tmp1 = Mfm2UShort(mfmaligned, (int)(j * 16));
                     dchecksum ^= (uint)(tmp1 & 0xffff);
@@ -860,10 +838,11 @@ namespace FloppyControlApp
             //sectordata2[badsectorcnt2].sectorbytes = bytebuf;
 
             //return sectordata;
-            ECResult result = new ECResult();
-
-            result.index = sectordata2.Count - 1;
-            result.sectordata = sectordata;
+            ECResult result = new ECResult
+            {
+                index = sectordata2.Count - 1,
+                sectordata = sectordata
+            };
 
             return result;
         } // End ProcessRealignAmiga

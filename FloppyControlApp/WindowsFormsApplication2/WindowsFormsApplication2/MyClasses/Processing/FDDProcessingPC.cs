@@ -18,7 +18,6 @@ namespace FloppyControlApp
 {
     public partial class FDDProcessing
     {
-        private static readonly Object lockbadsector = new Object();
         public static byte[] A1MARKER = { 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1 };
         public Action GetProcSettingsCallback { get; set; }
         public int Peak1 { get; set; }
@@ -34,7 +33,7 @@ namespace FloppyControlApp
 
             byte[] m = mfms[threadid];
             int rxbufcnt, searchcnt;
-            int retries = 0;
+            int retries;
             byte[] A1markerbytes = A1MARKER;
             int markerpositionscntthread = 0;
             // with multithreading, the counting of rxbuf is misaligned with mfms, because
@@ -64,12 +63,13 @@ namespace FloppyControlApp
                     if (searchcnt == A1MarkerLengthMinusOne)
                     {
                         searchcnt = 0;
-                        MFMData sectordata = new MFMData();
-
-                        sectordata.MarkerPositions = i;
-                        sectordata.rxbufMarkerPositions = rxbufcnt;
-                        sectordata.processed = false;
-                        sectordata.threadid = threadid;
+                        MFMData sectordata = new MFMData
+                        {
+                            MarkerPositions = i,
+                            rxbufMarkerPositions = rxbufcnt,
+                            processed = false,
+                            threadid = threadid
+                        };
                         retries = 0;
 
                         while (!sectordata2.TryAdd(sectordata2.Count, sectordata) || retries > 100)
@@ -103,7 +103,6 @@ namespace FloppyControlApp
             int previoustrack = 0xff;
             byte previousheadnr = 0xff;
             bool debuginfo = false;
-            int limitstart, limitend;
             sectordata2oldcnt = sectordata2.Count;
 
             SHA256 mySHA256 = SHA256Managed.Create();
@@ -111,13 +110,8 @@ namespace FloppyControlApp
             int j;
 
             int markerpositionscntthread = 0;
-
-            limitstart = procsettings.limittotrack;
-            limitend = procsettings.limittosector;
-
+            
             // Load good sector found info so we can append to it, then at the end
-
-            byte[] A1markerbytes = A1MARKER;
 
             progressesstart[threadid] = 0;
             progressesend[threadid] = mfmlengths[threadid];
@@ -125,7 +119,6 @@ namespace FloppyControlApp
             //if (i % 250000 == 249999) { progresses[threadid] = i; }
 
             if (stop != 0) return;
-            byte[] m = mfms[threadid];
 
             // Find markers
 
@@ -158,7 +151,7 @@ namespace FloppyControlApp
             progressesstart[threadid] = 0;
             progressesend[threadid] = sectordata2.Count;
             ProcessStatus[threadid] = "Converting MFM to sectors...";
-            int prevmarkerindex = 0;
+            int prevmarkerindex;
             for (markerindex = sectordata2oldcnt; markerindex < sectordata2.Count; markerindex++)
             {
                 MFMData sectordatathread = sectordata2[markerindex];
@@ -488,7 +481,6 @@ namespace FloppyControlApp
 
                             //if (offset != offset2)
                             //    textBoxFilesLoaded.Text += "*** offset doesn't match with sectormap.sectorok!!! ***"+offset+" "+offset2+"\r\n";
-                            int bytespersectortemp = bytespersectorthread;
                             int sum = 0;
                             if (track == 0) bytespersectorthread = 512;
                             if (offset < 2000000 - bytespersectorthread)
@@ -502,9 +494,7 @@ namespace FloppyControlApp
                                     }
                                     if (sum == 0) SectorMap.sectorok[track, sectornr] = SectorMapStatus.SectorOKButZeroed; // If the entire sector is zeroes, allow new data
                                 }
-
                             }
-                            bytespersectorthread = bytespersectortemp;
                         }
                         //If checksum is not ok, we can still use the data, better than nothing strategy, we will show it in the sectormap
                         else if (datacrcchk != 0x00 && sectornr >= 0 && sectornr < 18 && headnr < 3 && tracknr >= 0 && tracknr < 82)
@@ -602,7 +592,6 @@ namespace FloppyControlApp
                                 offset = (tracknr * sectorspertrack * bytespersectorthread * 2)
                                     + (headnr * sectorspertrack * bytespersectorthread)
                                     + (sectornr * bytespersectorthread);
-                                int bytespersectortemp = bytespersectorthread;
 
                                 if (SectorMap.sectorok[track, sectornr] == SectorMapStatus.empty)
                                     if (offset < 2000000 - bytespersectorthread && bytespersectorthread == sectorbuf.Length + 2)
@@ -612,7 +601,6 @@ namespace FloppyControlApp
                                                 disk[i + offset] = sectorbuf[i];
                                         }
                                 //sectormap.sectorok[track, sectornr] = SectorMapType.headokbaddata; // Sector is not CRC pass
-                                bytespersectorthread = bytespersectortemp;
                             }
                         }
 
@@ -639,7 +627,6 @@ namespace FloppyControlApp
             if (SectorMap.sectorok[0, 0] == SectorMapStatus.CrcOk)
             {
                 int bytesPerSector = disk[12] * 256 + disk[11];
-                int sectorsPerCluster = disk[13];
                 int totalSectorCount = disk[20] * 256 + disk[19];
 
                 int disksize = bytesPerSector * totalSectorCount;
@@ -666,13 +653,7 @@ namespace FloppyControlApp
         } // Method closed
 
         
-
-
-
-
-        
-
-        
+ 
 
         // Some bad sectors only contain a cluster of bad periods
         // These can easily be reprocessed brute force wise if they
@@ -683,10 +664,10 @@ namespace FloppyControlApp
             byte[] _4EMarker = { 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0 };// 3x 4E
                                                                                                                                                                                   //byte[] _4489EMarker = { 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1 };// 44894489
                                                                                                                                                                                   //01000100100010010100010010001001
-            int markerindex = 0;
+            int markerindex;
             byte[] crcinsectordatadecoded = new byte[100];
-            int crcinsectordata = 0;
-            int bitshifted = 0;
+            int crcinsectordata;
+            int bitshifted;
             byte[] lasttwosectorbytes = new byte[100];
             int periodSelectionStart, mfmSelectionStart = 0;
             int periodSelectionEnd, mfmSelectionEnd = 0;
@@ -846,37 +827,34 @@ namespace FloppyControlApp
                     if (mfmbuf[mfmAlignedStart - i] == 1)
                         break;
                 }
-                int startcondition = i;
 
                 // Add the newly created aligned bad sector to the bad sector list
                 // First clone all the data
 
                 int badsectorold = indexS1;
-                int badsectorcnt2 = sectordata2.Count;
 
-
-                //badsectorhash[badsectorcnt2];
-                MFMData sectordata = new MFMData();
-
-                //sectordata[threadid][badsectorcnt2].threadid = sectordata[threadid][badsectorold].threadid;
-                sectordata.threadid = threadid;
-                sectordata.MarkerPositions = sectordata2[badsectorold].MarkerPositions;
-                sectordata.rxbufMarkerPositions = sectordata2[badsectorold].rxbufMarkerPositions;
-                sectordata.mfmMarkerStatus = sectordata2[badsectorold].mfmMarkerStatus; // 2 = bad sector data
-                sectordata.track = sectordata2[badsectorold].track;
-                sectordata.sector = sectordata2[badsectorold].sector;
-                sectordata.sectorlength = sectordata2[badsectorold].sectorlength;
-                sectordata.crc = sectordata2[badsectorold].crc;
-                sectordata.sectorbytes = bytebuf;
+                MFMData sectordata = new MFMData
+                {
+                    threadid = threadid,
+                    MarkerPositions = sectordata2[badsectorold].MarkerPositions,
+                    rxbufMarkerPositions = sectordata2[badsectorold].rxbufMarkerPositions,
+                    mfmMarkerStatus = sectordata2[badsectorold].mfmMarkerStatus, // 2 = bad sector data
+                    track = sectordata2[badsectorold].track,
+                    sector = sectordata2[badsectorold].sector,
+                    sectorlength = sectordata2[badsectorold].sectorlength,
+                    crc = sectordata2[badsectorold].crc,
+                    sectorbytes = bytebuf
+                };
 
                 sectordata2.TryAdd(sectordata2.Count, sectordata);
                 //sectordata2[badsectorcnt2].sectorbytes = bytebuf;
 
                 //return sectordata;
-                ECResult result = new ECResult();
-
-                result.index = sectordata2.Count - 1;
-                result.sectordata = sectordata;
+                ECResult result = new ECResult
+                {
+                    index = sectordata2.Count - 1,
+                    sectordata = sectordata
+                };
 
                 return result;
 
@@ -893,19 +871,14 @@ namespace FloppyControlApp
         {
             int i;
             byte[] _4EMarker = { 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0 };// 3x 4E
-            int _4Eindex = 0;
-            byte[] crcinsectordatadecoded = new byte[100];
-
-            int bitshifted = 0;
-            byte[] lasttwosectorbytes = new byte[100];
+            int _4Eindex;
+            int bitshifted;
             int periodSelectionStart, mfmSelectionStart = 0;
             int periodSelectionEnd, mfmSelectionEnd = 0;
             int bytestart, byteend;
             int mfmAlignedStart;
             int indexS1 = ecSettings.indexS1;
-            int threadid = ecSettings.threadid;
 
-            //StopWatch sw = new StopWatch;
             System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
             sw.Reset();
             sw.Start();
@@ -924,7 +897,6 @@ namespace FloppyControlApp
             // Copy mfm data from mfms
             int sectorlength = sectordata2[indexS1].sectorlength;
             byte[] mfmbuf = mfms[sectordata2[indexS1].threadid].SubArray(sectordata2[indexS1].MarkerPositions, (sectorlength + 100) * 16);
-            byte[] bytebuf = new byte[sectorlength + 6];
 
             int cntperiods = 0;
             //Find where in the mfm data the periodSelectionStart is
@@ -963,7 +935,7 @@ namespace FloppyControlApp
             // If there's a bitshift estimate the most likely number of missing periods, add to end of selection.
             //periodSelectionEnd = periodSelectionEnd;// + (-bitshifted / 2);
             // Add bitshift of mfmselection end
-            mfmSelectionEnd = mfmSelectionEnd - bitshifted;
+            mfmSelectionEnd -= bitshifted;
 
             // Copy mfm data to aligned array
             byte[] mfmaligned = new byte[mfmbuf.Length + 32];
@@ -1003,16 +975,15 @@ namespace FloppyControlApp
             int detectioncnt = 0;
             int numberofitems = periodSelectionEnd - periodSelectionStart;
             int numberofmfmitems = mfmSelectionEnd - mfmSelectionStart;
-            ulong c6 = 0;
+            ulong c6;
             ulong c8 = 0;
             int c6_max;
             int c8_max;
-            int numberofitmssq = 1 << numberofitems;
             uint c6cnt = 0;
             uint c8cnt = 0;
             int combs = ecSettings.combinations;
 
-            mfmcorrectedindex = 0;
+            
             stop = 0;
             // Brute force with weighing of 4/6/8us
             for (c8_max = ecSettings.C8Start; c8_max < numberofitems; c8_max++)
@@ -1094,7 +1065,6 @@ namespace FloppyControlApp
                             stop = 1;
                             break;
                         }
-                        mfmcorrectedindex = 0;
 
                         c6 = 0;
                         while (c6 == 0)
@@ -1146,11 +1116,8 @@ namespace FloppyControlApp
         {
             int i;
             byte[] _4EMarker = { 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0 };// 3x 4E
-            int _4Eindex = 0;
-            byte[] crcinsectordatadecoded = new byte[100];
-
-            int bitshifted = 0;
-            byte[] lasttwosectorbytes = new byte[100];
+            int _4Eindex;
+            int bitshifted;
             int periodSelectionStart, mfmSelectionStart = 0;
             int periodSelectionEnd, mfmSelectionEnd = 0;
             int bytestart, byteend;
@@ -1158,7 +1125,6 @@ namespace FloppyControlApp
             int[] combi = new int[32];
             int combilimit;
             int indexS1 = ecSettings.indexS1;
-            int threadid = ecSettings.threadid;
 
             mfmAlignedStart = ecSettings.MFMByteStart;
             mfmAlignedEnd = mfmAlignedStart + (ecSettings.MFMByteLength * 8);
@@ -1182,7 +1148,6 @@ namespace FloppyControlApp
             // Copy mfm data from mfms
             int sectorlength = sectordata2[indexS1].sectorlength;
             byte[] mfmbuf = mfms[sectordata2[indexS1].threadid].SubArray(sectordata2[indexS1].MarkerPositions, (sectorlength + 100) * 16);
-            byte[] bytebuf = new byte[sectorlength + 6];
 
             int cntperiods = 0;
             //Find where in the mfm data the periodSelectionStart is
@@ -1222,7 +1187,6 @@ namespace FloppyControlApp
             // If there's a bitshift estimate the most likely number of missing periods, add to end of selection.
             //periodSelectionEnd = periodSelectionEnd;// + (-bitshifted / 2);
             // Add bitshift of mfmselection end
-            mfmSelectionEnd = mfmSelectionEnd - bitshifted;
 
             // Copy mfm data to aligned array
             byte[] mfmaligned = new byte[mfmbuf.Length + 32];
@@ -1238,21 +1202,13 @@ namespace FloppyControlApp
             //for (i = 0; i < (mfmaligned.Length/16); i++)
             //    data[i] = processing.MFMBits2BINbyte(ref mfmaligned, (i * 16));
 
-            mfmSelectionStart = i;
-
-
             // then back up one, we want to end with a '0'
-            mfmSelectionEnd = i - 1;
+            
             TBReceived.Append("Bitshifted: " + bitshifted + "\r\n");
             TBReceived.Append("periodSelectionStart:" + periodSelectionStart + " periodSelectionEnd: " + periodSelectionEnd + "\r\n");
             TBReceived.Append("mfmSelectionStart: " + mfmAlignedStart + " mfmSelectionEnd: " + mfmAlignedEnd + "\r\n");
             int j, q;
             int detectioncnt = 0;
-            int numberofitems = periodSelectionEnd - periodSelectionStart;
-            int numberofmfmitems = mfmSelectionEnd - mfmSelectionStart;
-            int numberofitmssq = 1 << numberofitems;
-            //int combs = (int)CombinationsUpDown.Value;
-
 
             stop = 0;
             // Brute force with weighing of 4/6/8us
@@ -1392,7 +1348,6 @@ namespace FloppyControlApp
                     }
                     if (searchcnt == search.Length - 1)
                     {
-                        searchcnt = 0;
                         return i;
                     }
                 }
