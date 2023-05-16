@@ -89,6 +89,13 @@ namespace FloppyControlApp
             }
         }
 
+        /// <summary>
+        /// Cleaned up version. Converts MFM data into sectors for PC DOS and M2
+        /// </summary>
+        /// <param name="procsettings">Contains all the processing settings and configuration.</param>
+        /// <param name="threadid">For multithreading, store data into its own array to prevent collisions 
+        /// with other threads and keep data together for reference during analysys</param>
+        /// <param name="tbReceived">The string for logging to be output to a text box.</param>
         private void ProcessPCMFM2Sectordata(ProcSettings procsettings, int threadid, StringBuilder tbReceived)
         {
             //bool writemfm = true;
@@ -135,7 +142,7 @@ namespace FloppyControlApp
             if (indexrxbuf > rxbuf.Length) indexrxbuf = rxbuf.Length - 1;
                 
             FindAllPCMarkers(threadid);
-
+            // Todo: check if new sector markers are found, otherwise return.
             if (sectordata2.Count > 0 && diskformat == DiskFormat.unknown) // if markers are found and the diskformat has not been set previously, assume PC DD
                 diskformat = DiskFormat.pcdd;
 
@@ -147,9 +154,9 @@ namespace FloppyControlApp
             byte[] bytebuf = new byte[5000];
             byte[] sectorbuf = new byte[2050];
             byte[] crctemp = new byte[6];
-            byte sectornr = 0xff, tracknr = 0xff, headnr = 0xff;
-            ushort headercrc, datacrc, headercrcchk = 0xFFFF, datacrcchk = 0xFFFF; //headercrc is from the captured data, the chk is calculated from the data.
-            int track = -1;
+            byte sectornr, tracknr, headnr;
+            ushort datacrc, headercrcchk, datacrcchk; //headercrc is from the captured data, the chk is calculated from the data.
+            int track;
             int bytespersectorthread;
 
             GoodSectorHeaderCount = 0;
@@ -165,12 +172,7 @@ namespace FloppyControlApp
                                                     // was the marker placed by the correct thread? If not, continue to next marker
                 if (markerindex % 250 == 249) { progresses[threadid] = markerindex; if (stop == 1) break; }
                 Crc16Ccitt crc = new Crc16Ccitt(InitialCrcValue.NonZero1);
-                sectornr = 0xff;
-                tracknr = 0xff;
-                headnr = 0xff;
-                datacrc = 0;
-
-                headercrcchk = 0xFFFF;
+                
                 datacrcchk = 0xFFFF;
 
                 // First find the IDAM, 10 bytes
@@ -181,7 +183,7 @@ namespace FloppyControlApp
                     if (debuginfo) tbreceived.Append(bytebuf[i].ToString("X2"));
                 }
 
-                int offset = 0;
+                int offset;
 
                 if (bytebuf[3] == 0xFE)
                 {
@@ -202,7 +204,6 @@ namespace FloppyControlApp
                         else
                             continue; // skip to next sector
                     }
-                    headercrc = (ushort)((bytebuf[8] << 8) | bytebuf[9]);
 
                     if (debuginfo) tbreceived.Append("\r\n MFM:");
                     for (i = 0; i < crctemp.Length; i++)
