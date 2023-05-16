@@ -47,7 +47,7 @@ namespace FloppyControlApp
             int A1MarkerLength = A1markerbytes.Length;
             int A1MarkerLengthMinusOne = A1markerbytes.Length - 1;
             int mfmlength = mfmlengths[threadid];
-            if (indexrxbuf > rxbuf.Length) indexrxbuf = rxbuf.Length - 1;
+            if (Indexrxbuf > RxBbuf.Length) Indexrxbuf = RxBbuf.Length - 1;
             rxbufcnt = 0;
             searchcnt = 0;
             for (int i = 0; i < mfmlength; i++)
@@ -75,8 +75,8 @@ namespace FloppyControlApp
 
                         while (!sectordata2.TryAdd(sectordata2.Count, sectordata) || retries > 100)
                         {
-                            if (debuglevel > 9)
-                                tbreceived.Append("Failed to add to Sectordata dictionary " + markerpositionscntthread + "\r\n");
+                            if (Debuglevel > 9)
+                                TBReceived.Append("Failed to add to Sectordata dictionary " + markerpositionscntthread + "\r\n");
                             retries++;
                         }
                         markerpositionscntthread++;
@@ -84,8 +84,8 @@ namespace FloppyControlApp
                 }
                 if (mfms[threadid][i] == 1) // counting 1's matches the number of bytes in rxbuf + start offset
                     rxbufcnt++;
-                if (rxbuf.Length > rxbufcnt)
-                    while (rxbuf[rxbufcnt] < 4 && rxbufcnt < indexrxbuf - 1) rxbufcnt++;
+                if (RxBbuf.Length > rxbufcnt)
+                    while (RxBbuf[rxbufcnt] < 4 && rxbufcnt < Indexrxbuf - 1) rxbufcnt++;
             }
         }
 
@@ -139,14 +139,14 @@ namespace FloppyControlApp
             int A1MarkerLength = A1markerbytes.Length;
             int A1MarkerLengthMinusOne = A1markerbytes.Length - 1;
             int mfmlength = mfmlengths[threadid];
-            if (indexrxbuf > rxbuf.Length) indexrxbuf = rxbuf.Length - 1;
+            if (Indexrxbuf > RxBbuf.Length) Indexrxbuf = RxBbuf.Length - 1;
                 
             FindAllPCMarkers(threadid);
             // Todo: check if new sector markers are found, otherwise return.
             if (sectordata2.Count > 0 && diskformat == DiskFormat.unknown) // if markers are found and the diskformat has not been set previously, assume PC DD
                 diskformat = DiskFormat.pcdd;
 
-            tbreceived.Append(" Markers: " + markerpositionscntthread + " ");
+            TBReceived.Append(" Markers: " + markerpositionscntthread + " ");
             int markerindex;
 
             //StringBuilder tbtrackinfo = new StringBuilder();
@@ -182,7 +182,7 @@ namespace FloppyControlApp
 
                 if (Idam[3] == 0xFE)
                 {
-                    if (debuginfo) tbreceived.Append(" IDAM");
+                    if (debuginfo) TBReceived.Append(" IDAM");
 
                     tracknr = Idam[4];
                     headnr = Idam[5];
@@ -190,7 +190,7 @@ namespace FloppyControlApp
                     bytespersectorthread = 128 << Idam[7];
                     if (bytespersectorthread > 1024)
                     {
-                        tbreceived.Append("Error: T" + (tracknr * 2 + headnr).ToString("d3") + " S" + sectornr + " size too large: " + bytespersectorthread + "\r\n");
+                        TBReceived.Append("Error: T" + (tracknr * 2 + headnr).ToString("d3") + " S" + sectornr + " size too large: " + bytespersectorthread + "\r\n");
 
                         if (procsettings.IgnoreHeaderError == true)
                         {
@@ -200,10 +200,10 @@ namespace FloppyControlApp
                             continue; // skip to next sector
                     }
 
-                    if (debuginfo) tbreceived.Append("\r\n MFM:");
+                    if (debuginfo) TBReceived.Append("\r\n MFM:");
                     for (i = 0; i < crctemp.Length; i++)
                     {
-                        if (debuginfo) tbreceived.Append(crctemp[i].ToString("X2"));
+                        if (debuginfo) TBReceived.Append(crctemp[i].ToString("X2"));
                     }
 
                     // Check header crc
@@ -229,7 +229,7 @@ namespace FloppyControlApp
 
                     if (headercrcchk == 0)
                     {
-                        sectormap.sectorokLatestScan[track, sectornr] = SectorMapStatus.CrcOk;
+                        SectorMap.sectorokLatestScan[track, sectornr] = SectorMapStatus.CrcOk;
                     }
 
 
@@ -269,18 +269,18 @@ namespace FloppyControlApp
                     }
                     catch (Exception)
                     {
-                        tbreceived.Append("Error: could not find sectordata: " + markerindex + "\r\n");
+                        TBReceived.Append("Error: could not find sectordata: " + markerindex + "\r\n");
                         continue;
                     }
 
-                    if (debuginfo) tbreceived.Append("\r\nT" + track + " S" + sectornr + " Sector data:\r\n");
+                    if (debuginfo) TBReceived.Append("\r\nT" + track + " S" + sectornr + " Sector data:\r\n");
                     SectorBlock = MFM2Bytes(ref mfms[threadid], 
                                             sectordatathread.MarkerPositions + (i * 16),
                                             bytespersectorthread + 16, 
                                             threadid, 
                                             sectordatathread);
                     
-                    if (debuginfo) tbreceived.Append("\r\n\r\n");
+                    if (debuginfo) TBReceived.Append("\r\n\r\n");
                     if (SectorBlock[3] == 0xFB || SectorBlock[3] == 0xF8)
                     {
                         datacrc = (ushort)((SectorBlock[bytespersectorthread + 4] << 8) | SectorBlock[bytespersectorthread + 5]);
@@ -308,7 +308,7 @@ namespace FloppyControlApp
                     bytespersectorthread = 512;
                     SectorBlock = MFM2Bytes(ref mfms[threadid], sectordatathread.MarkerPositions, bytespersectorthread + 16, threadid, sectordatathread);
                     
-                    if (debuginfo) tbreceived.Append("\r\n\r\n");
+                    if (debuginfo) TBReceived.Append("\r\n\r\n");
                     if (SectorBlock[3] == 0xFB || SectorBlock[3] == 0xF8)
                     {
                         datacrc = (ushort)((SectorBlock[bytespersectorthread + 4] << 8) | SectorBlock[bytespersectorthread + 5]);
@@ -330,16 +330,16 @@ namespace FloppyControlApp
                         {
                             for (i = 0; i < 9; i++)
                             {
-                                if (sectormap.sectorok[track, i] == SectorMapStatus.empty)
+                                if (SectorMap.sectorok[track, i] == SectorMapStatus.empty)
                                     break;
                             }
 
                             // Now assuming the sectornr = i, and we're using previoustrack because
                             // the tracknr info in the header may not be correct
                             sectornr = (byte)i;
-                            if (sectormap.sectorok[track, sectornr] == 0 || sectormap.sectorok[track, i] == SectorMapStatus.HeadOkDataBad) // do not overwrite any existing good data
+                            if (SectorMap.sectorok[track, sectornr] == 0 || SectorMap.sectorok[track, i] == SectorMapStatus.HeadOkDataBad) // do not overwrite any existing good data
                             {
-                                sectormap.sectorok[track, sectornr] = SectorMapStatus.DuplicatesFound; // Header is not CRC pass, attempt to reconstuct
+                                SectorMap.sectorok[track, sectornr] = SectorMapStatus.DuplicatesFound; // Header is not CRC pass, attempt to reconstuct
                                                                                                         //offset = (track * sectorspertrack * bytespersectorthread * 2) + (previousheadnr * sectorspertrack * bytespersectorthread) + (i * bytespersectorthread);
 
                                 offset = (previoustrack * sectorspertrack * bytespersectorthread * 2)
@@ -374,7 +374,7 @@ namespace FloppyControlApp
                 //}
                 if (sectorbuf.Length > 500)
                     if (headercrcchk == 0x00)
-                        if (datacrcchk == 0x00 && sectornr >= 0 && sectornr < 18 && headnr < 3 && tracknr >= 0 && tracknr < 82 && sectormap.sectorok[track, sectornr] != SectorMapStatus.CrcOk)
+                        if (datacrcchk == 0x00 && sectornr >= 0 && sectornr < 18 && headnr < 3 && tracknr >= 0 && tracknr < 82 && SectorMap.sectorok[track, sectornr] != SectorMapStatus.CrcOk)
                         //if (datacrcchk == 0x00 && sectornr >= 0 && sectornr < 18 && headnr < 3 && tracknr >= 0 && tracknr < 82)
                         {
                             // Determine diskformat
@@ -398,7 +398,7 @@ namespace FloppyControlApp
                                     {
                                         for (j = 0; j < 25; j++)
                                         {
-                                            sectormap.sectorok[i, j] = SectorMapStatus.empty;
+                                            SectorMap.sectorok[i, j] = SectorMapStatus.empty;
                                         }
                                     }
                                 }
@@ -440,7 +440,7 @@ namespace FloppyControlApp
                                                 
                                         badsectorhash[markerindex] = secthash;
                                         if (threadid != sectordatathread.threadid)
-                                            tbreceived.Append("threadid mismatch!\r\n");
+                                            TBReceived.Append("threadid mismatch!\r\n");
                                         //sectordatathread.threadid = threadid;
                                         sectordatathread.mfmMarkerStatus = SectorMapStatus.CrcOk; // 1 = good sector data
                                         sectordatathread.track = track;
@@ -462,7 +462,7 @@ namespace FloppyControlApp
                             //{
                             //    int haha = 1;
                             //}
-                            sectormap.sectorok[track, sectornr] = SectorMapStatus.CrcOk; // Sector is CRC pass
+                            SectorMap.sectorok[track, sectornr] = SectorMapStatus.CrcOk; // Sector is CRC pass
                                                                                             // T 0 S0 H0 = 0x0000
                                                                                             // T 1 S0 H0 = 0x2400
                                                                                             // T 1 S0 H1 = 
@@ -511,7 +511,7 @@ namespace FloppyControlApp
                                         disk[i + offset] = sectorbuf[i];
                                         sum += sectorbuf[i];
                                     }
-                                    if (sum == 0) sectormap.sectorok[track, sectornr] = SectorMapStatus.SectorOKButZeroed; // If the entire sector is zeroes, allow new data
+                                    if (sum == 0) SectorMap.sectorok[track, sectornr] = SectorMapStatus.SectorOKButZeroed; // If the entire sector is zeroes, allow new data
                                 }
 
                             }
@@ -520,9 +520,9 @@ namespace FloppyControlApp
                         //If checksum is not ok, we can still use the data, better than nothing strategy, we will show it in the sectormap
                         else if (datacrcchk != 0x00 && sectornr >= 0 && sectornr < 18 && headnr < 3 && tracknr >= 0 && tracknr < 82)
                         {
-                            if (sectormap.sectorok[track, sectornr] == SectorMapStatus.empty)
-                                sectormap.sectorok[track, sectornr] = SectorMapStatus.HeadOkDataBad;
-                            else if (sectormap.sectorok[track, sectornr] != SectorMapStatus.HeadOkDataBad) // if it's a bad sector, capture more data, otherwise, go to next marker
+                            if (SectorMap.sectorok[track, sectornr] == SectorMapStatus.empty)
+                                SectorMap.sectorok[track, sectornr] = SectorMapStatus.HeadOkDataBad;
+                            else if (SectorMap.sectorok[track, sectornr] != SectorMapStatus.HeadOkDataBad) // if it's a bad sector, capture more data, otherwise, go to next marker
                                 continue;
 
                             if (sectorbuf.Length > 500)
@@ -547,7 +547,7 @@ namespace FloppyControlApp
                                         {
                                             for (j = 0; j < 25; j++)
                                             {
-                                                sectormap.sectorok[i, j] = SectorMapStatus.empty;
+                                                SectorMap.sectorok[i, j] = SectorMapStatus.empty;
                                             }
                                         }
                                     }
@@ -615,7 +615,7 @@ namespace FloppyControlApp
                                     + (sectornr * bytespersectorthread);
                                 int bytespersectortemp = bytespersectorthread;
 
-                                if (sectormap.sectorok[track, sectornr] == SectorMapStatus.empty)
+                                if (SectorMap.sectorok[track, sectornr] == SectorMapStatus.empty)
                                     if (offset < 2000000 - bytespersectorthread && bytespersectorthread == sectorbuf.Length + 2)
                                         for (i = 0; i < bytespersectorthread; i++)
                                         {
@@ -643,11 +643,11 @@ namespace FloppyControlApp
             progresses[threadid] = sectordata2.Count;
             //tbreceived.Append(relativetime().ToString() + "Convert MFM to sector data.\r\n");
             //tbreceived.Append(tbreceived.ToString());
-            tbReceived.Append(tbreceived);
+            tbReceived.Append(TBReceived);
             
 
             // If the bootsector is found, get the correct disk format based on FAT12 spec
-            if (sectormap.sectorok[0, 0] == SectorMapStatus.CrcOk)
+            if (SectorMap.sectorok[0, 0] == SectorMapStatus.CrcOk)
             {
                 int bytesPerSector = disk[12] * 256 + disk[11];
                 int sectorsPerCluster = disk[13];
@@ -713,7 +713,7 @@ namespace FloppyControlApp
             // Stop if selection is too large, taking too long.
             if (periodSelectionEnd - periodSelectionStart > 50)
             {
-                tbreceived.Append("Selection too large, please make it smaller, 50 max.\r\n");
+                TBReceived.Append("Selection too large, please make it smaller, 50 max.\r\n");
                 return null;
             }
 
@@ -738,8 +738,8 @@ namespace FloppyControlApp
                 }
             }
 
-            tbreceived.Append("Selection: period start:" + periodSelectionStart + " period end: " + periodSelectionEnd + "\r\n");
-            tbreceived.Append("mfm start: " + mfmSelectionStart + " mfm end:" + mfmSelectionEnd + "\r\n");
+            TBReceived.Append("Selection: period start:" + periodSelectionStart + " period end: " + periodSelectionEnd + "\r\n");
+            TBReceived.Append("mfm start: " + mfmSelectionStart + " mfm end:" + mfmSelectionEnd + "\r\n");
 
             bytestart = mfmSelectionStart / 16;
             byteend = mfmSelectionEnd / 16;
@@ -747,8 +747,8 @@ namespace FloppyControlApp
             mfmAlignedStart = bytestart * 16;
             mfmAlignedEnd = (byteend + 1) * 16;
 
-            tbreceived.Append("bytestart: " + bytestart + " byte end: " + byteend + "\r\n");
-            tbreceived.Append("mfmAlignedstart: " + mfmAlignedStart + " mfmAlignedEnd: " + mfmAlignedEnd + "\r\n");
+            TBReceived.Append("bytestart: " + bytestart + " byte end: " + byteend + "\r\n");
+            TBReceived.Append("mfmAlignedstart: " + mfmAlignedStart + " mfmAlignedEnd: " + mfmAlignedEnd + "\r\n");
 
             // Find 4E right after the crc bytes at the end of the sector
             // 4E bytes are padding bytes between header and data. 
@@ -766,7 +766,7 @@ namespace FloppyControlApp
             // Skip processing if bitshift is too large
             if (bitshifted > 32 || bitshifted < -32)
             {
-                tbreceived.Append("ScanTemp: i: " + indexS1 + " Bitshift is too large. (" + bitshifted + ")\r\n");
+                TBReceived.Append("ScanTemp: i: " + indexS1 + " Bitshift is too large. (" + bitshifted + ")\r\n");
                 return null;
             }
 
@@ -782,7 +782,7 @@ namespace FloppyControlApp
             // If no 4E markers are found, exit
             if (markerindex == -1 || markerindex == -2)
             {
-                tbreceived.Append("ScanTemp: No marker found.\r\n");
+                TBReceived.Append("ScanTemp: No marker found.\r\n");
                 return null;
             }
 
@@ -807,7 +807,7 @@ namespace FloppyControlApp
                 int track = sectordata2[indexS1].track;
                 int sector = sectordata2[indexS1].sector;
                 //tbreceived.Append("\r\n");
-                tbreceived.Append("ProcessRealign4E: T" + track.ToString("d3") + "S" + sector + " Found 4E aligned CRC: i:" + indexS1 + " " + crcinsectordata.ToString("X4") + ". Last two bytes: " + lasttwosectorbytes[0].ToString("X2") +
+                TBReceived.Append("ProcessRealign4E: T" + track.ToString("d3") + "S" + sector + " Found 4E aligned CRC: i:" + indexS1 + " " + crcinsectordata.ToString("X4") + ". Last two bytes: " + lasttwosectorbytes[0].ToString("X2") +
                  lasttwosectorbytes[1].ToString("X2") + " Bitshifted: " + bitshifted + "\r\n");
 
                 // Convert first part up to mfmAlignedStart
@@ -929,7 +929,7 @@ namespace FloppyControlApp
             // Stop if selection is too large, taking too long.
             if (periodSelectionEnd - periodSelectionStart > 50)
             {
-                tbreceived.Append("Selection too large, please make it smaller, 50 max.\r\n");
+                TBReceived.Append("Selection too large, please make it smaller, 50 max.\r\n");
                 return;
             }
 
@@ -952,8 +952,8 @@ namespace FloppyControlApp
                 }
             }
 
-            tbreceived.Append("Selection: period start:" + periodSelectionStart + " period end: " + periodSelectionEnd + "\r\n");
-            tbreceived.Append("mfm start: " + mfmSelectionStart + " mfm end:" + mfmSelectionEnd + "\r\n");
+            TBReceived.Append("Selection: period start:" + periodSelectionStart + " period end: " + periodSelectionEnd + "\r\n");
+            TBReceived.Append("mfm start: " + mfmSelectionStart + " mfm end:" + mfmSelectionEnd + "\r\n");
 
             bytestart = mfmSelectionStart / 16;
             byteend = mfmSelectionEnd / 16;
@@ -961,7 +961,7 @@ namespace FloppyControlApp
             mfmAlignedStart = bytestart * 16;
             mfmAlignedEnd = (byteend + 1) * 16;
 
-            tbreceived.Append("bytestart: " + bytestart + " byte end: " + byteend + "\r\n");
+            TBReceived.Append("bytestart: " + bytestart + " byte end: " + byteend + "\r\n");
 
 
             // Find 4E right after the crc bytes at the end of the sector
@@ -1007,9 +1007,9 @@ namespace FloppyControlApp
             }
             // then back up one, we want to end with a '0'
             mfmSelectionEnd = i - 1;
-            tbreceived.Append("Bitshifted: " + bitshifted + "\r\n");
-            tbreceived.Append("periodSelectionStart:" + periodSelectionStart + " periodSelectionEnd: " + periodSelectionEnd + "\r\n");
-            tbreceived.Append("mfmSelectionStart: " + mfmAlignedStart + " mfmSelectionEnd: " + mfmSelectionEnd + "\r\n");
+            TBReceived.Append("Bitshifted: " + bitshifted + "\r\n");
+            TBReceived.Append("periodSelectionStart:" + periodSelectionStart + " periodSelectionEnd: " + periodSelectionEnd + "\r\n");
+            TBReceived.Append("mfmSelectionStart: " + mfmAlignedStart + " mfmSelectionEnd: " + mfmSelectionEnd + "\r\n");
             int j, p, q;
             int mfmcorrectedindex;
             byte[] combinations = new byte[100];
@@ -1030,15 +1030,15 @@ namespace FloppyControlApp
             // Brute force with weighing of 4/6/8us
             for (c8_max = ecSettings.C8Start; c8_max < numberofitems; c8_max++)
             {
-                tbreceived.Append("c8_max: " + c8_max + "\r\n");
+                TBReceived.Append("c8_max: " + c8_max + "\r\n");
                 for (c6_max = ecSettings.C6Start; c6_max < numberofitems; c6_max++)
                 {
-                    tbreceived.Append("c6_max: " + c6_max + "\r\n");
+                    TBReceived.Append("c6_max: " + c6_max + "\r\n");
                     for (p = 0; p < combs; p++)
                     {
                         if (p % 25000 == 24999)
                         {
-                            tbreceived.Append("p: " + p + "\r\n");
+                            TBReceived.Append("p: " + p + "\r\n");
                             Application.DoEvents();
                             progresses[mfmsindex] = p;
                         }
@@ -1083,25 +1083,25 @@ namespace FloppyControlApp
                         if (datacrcchk == 0x0000)
                         {
                             detectioncnt++;
-                            tbreceived.Append("FindBruteForce: Correction found! q = " + p + "Count: " + detectioncnt + "\r\nData: ");
+                            TBReceived.Append("FindBruteForce: Correction found! q = " + p + "Count: " + detectioncnt + "\r\nData: ");
                             for (i = 0; i < 528; i++)
                             {
-                                tbreceived.Append(data[i].ToString("X2") + " ");
-                                if (i % 16 == 15) tbreceived.Append("\r\n");
-                                if (i == mfmSelectionStart / 16 || i == mfmSelectionEnd / 16) tbreceived.Append("--");
+                                TBReceived.Append(data[i].ToString("X2") + " ");
+                                if (i % 16 == 15) TBReceived.Append("\r\n");
+                                if (i == mfmSelectionStart / 16 || i == mfmSelectionEnd / 16) TBReceived.Append("--");
                                 //dat[offset + i] = data[offset + i];
                             }
-                            tbreceived.Append("c6_max:" + c6_max + " c8_max:" + c8_max + "\r\n");
-                            tbreceived.Append("Time: " + sw.ElapsedMilliseconds + "ms\r\n");
+                            TBReceived.Append("c6_max:" + c6_max + " c8_max:" + c8_max + "\r\n");
+                            TBReceived.Append("Time: " + sw.ElapsedMilliseconds + "ms\r\n");
                             //Save recovered sector to disk array
                             int diskoffset = sectordata2[indexS1].track * sectorspertrack * 512 + sectordata2[indexS1].sector * 512;
-                            sectormap.sectorok[sectordata2[indexS1].track, sectordata2[indexS1].sector] = SectorMapStatus.ErrorCorrected; // Error corrected (shows up as 'c')
+                            SectorMap.sectorok[sectordata2[indexS1].track, sectordata2[indexS1].sector] = SectorMapStatus.ErrorCorrected; // Error corrected (shows up as 'c')
                             for (i = 0; i < bytespersector; i++)
                             {
                                 disk[i + diskoffset] = data[i + 4];
                             }
                             //sectormap.RefreshSectorMap();
-                            tbreceived.Append("\r\n");
+                            TBReceived.Append("\r\n");
                             Application.DoEvents();
                             //return q;
                             stop = 1;
@@ -1145,7 +1145,7 @@ namespace FloppyControlApp
                 } // End loop c6_max
                 if (stop == 1) break;
             } // End loop c8_max
-            tbreceived.Append("Done.\r\n");
+            TBReceived.Append("Done.\r\n");
             return;
 
         } // ECCluster2
@@ -1188,7 +1188,7 @@ namespace FloppyControlApp
             // Stop if selection is too large, taking too long.
             if (periodSelectionEnd - periodSelectionStart > 50)
             {
-                tbreceived.Append("Selection too large, please make it smaller, 50 max.\r\n");
+                TBReceived.Append("Selection too large, please make it smaller, 50 max.\r\n");
                 return;
             }
 
@@ -1211,8 +1211,8 @@ namespace FloppyControlApp
                 }
             }
 
-            tbreceived.Append("Selection: period start:" + periodSelectionStart + " period end: " + periodSelectionEnd + "\r\n");
-            tbreceived.Append("mfm start: " + mfmSelectionStart + " mfm end:" + mfmSelectionEnd + "\r\n");
+            TBReceived.Append("Selection: period start:" + periodSelectionStart + " period end: " + periodSelectionEnd + "\r\n");
+            TBReceived.Append("mfm start: " + mfmSelectionStart + " mfm end:" + mfmSelectionEnd + "\r\n");
 
             bytestart = mfmSelectionStart / 16;
             byteend = mfmSelectionEnd / 16;
@@ -1220,7 +1220,7 @@ namespace FloppyControlApp
             //mfmAlignedStart = bytestart * 16;
             //mfmAlignedEnd = (byteend + 1) * 16;
 
-            tbreceived.Append("bytestart: " + bytestart + " byte end: " + byteend + "\r\n");
+            TBReceived.Append("bytestart: " + bytestart + " byte end: " + byteend + "\r\n");
 
 
             // Find 4E right after the crc bytes at the end of the sector
@@ -1256,9 +1256,9 @@ namespace FloppyControlApp
 
             // then back up one, we want to end with a '0'
             mfmSelectionEnd = i - 1;
-            tbreceived.Append("Bitshifted: " + bitshifted + "\r\n");
-            tbreceived.Append("periodSelectionStart:" + periodSelectionStart + " periodSelectionEnd: " + periodSelectionEnd + "\r\n");
-            tbreceived.Append("mfmSelectionStart: " + mfmAlignedStart + " mfmSelectionEnd: " + mfmAlignedEnd + "\r\n");
+            TBReceived.Append("Bitshifted: " + bitshifted + "\r\n");
+            TBReceived.Append("periodSelectionStart:" + periodSelectionStart + " periodSelectionEnd: " + periodSelectionEnd + "\r\n");
+            TBReceived.Append("mfmSelectionStart: " + mfmAlignedStart + " mfmSelectionEnd: " + mfmAlignedEnd + "\r\n");
             int j, q;
             int detectioncnt = 0;
             int numberofitems = periodSelectionEnd - periodSelectionStart;
@@ -1286,7 +1286,7 @@ namespace FloppyControlApp
                 for (q = 0; q < NumberOfMfmBytes - 1; q++)
                     iterations *= combilimit;
 
-                tbreceived.Append("Iterations: " + iterations + "\r\n");
+                TBReceived.Append("Iterations: " + iterations + "\r\n");
                 Application.DoEvents();
                 for (u = 0; u < iterations; u++)
                 {
@@ -1313,26 +1313,26 @@ namespace FloppyControlApp
                     if (datacrcchk == 0x0000)
                     {
                         detectioncnt++;
-                        tbreceived.Append("CRC ok! iteration: " + combinations + "\r\n");
+                        TBReceived.Append("CRC ok! iteration: " + combinations + "\r\n");
                         printarray(combi, NumberOfMfmBytes);
                         for (i = 0; i < 528; i++)
                         {
-                            tbreceived.Append(data[i].ToString("X2") + " ");
-                            if (i % 16 == 15) tbreceived.Append("\r\n");
-                            if (i == mfmAlignedStart / 16 || i == mfmAlignedEnd / 16) tbreceived.Append("--");
+                            TBReceived.Append(data[i].ToString("X2") + " ");
+                            if (i % 16 == 15) TBReceived.Append("\r\n");
+                            if (i == mfmAlignedStart / 16 || i == mfmAlignedEnd / 16) TBReceived.Append("--");
                             //dat[offset + i] = data[offset + i];
                         }
                         //tbreceived.Append("c6_max:" + c6_max + " c8_max:" + c8_max + "\r\n");
-                        tbreceived.Append("Time: " + sw.ElapsedMilliseconds + "ms\r\n");
+                        TBReceived.Append("Time: " + sw.ElapsedMilliseconds + "ms\r\n");
                         //Save recovered sector to disk array
                         int diskoffset = sectordata2[indexS1].track * sectorspertrack * 512 + sectordata2[indexS1].sector * 512;
-                        sectormap.sectorok[sectordata2[indexS1].track, sectordata2[indexS1].sector] = SectorMapStatus.ErrorCorrected; // Error corrected (shows up as 'c')
+                        SectorMap.sectorok[sectordata2[indexS1].track, sectordata2[indexS1].sector] = SectorMapStatus.ErrorCorrected; // Error corrected (shows up as 'c')
                         for (i = 0; i < bytespersector; i++)
                         {
                             disk[i + diskoffset] = data[i + 4];
                         }
-                        sectormap.RefreshSectorMap();
-                        tbreceived.Append("\r\n");
+                        SectorMap.RefreshSectorMap();
+                        TBReceived.Append("\r\n");
                         Application.DoEvents();
                         //return q;
                         stop = 1;
@@ -1352,7 +1352,7 @@ namespace FloppyControlApp
                 }
                 if (stop == 1) break;
             }
-            tbreceived.Append("Combinations:" + combinations + "\r\n");
+            TBReceived.Append("Combinations:" + combinations + "\r\n");
         }
 
         public void printarray(int[] a, int length)
@@ -1360,9 +1360,9 @@ namespace FloppyControlApp
             int i;
             for (i = 0; i < length; i++)
             {
-                tbreceived.Append(a[i] + ",");
+                TBReceived.Append(a[i] + ",");
             }
-            tbreceived.Append("\r\n");
+            TBReceived.Append("\r\n");
         }
 
         /// <summary>

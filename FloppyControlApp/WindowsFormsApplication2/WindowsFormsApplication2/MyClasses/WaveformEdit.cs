@@ -45,7 +45,7 @@ namespace FloppyControlApp.MyClasses
             graphset = new Graphset(GraphPictureBox, Color.Black);
             graphset.UpdateGUI += updateGraphCallback;
             graphset.GetControlValues += GraphsetGetControlValuesCallback;
-            graphset.tbreceived = fileio.tbreceived;
+            graphset.Tbreceived = fileio.tbreceived;
         }
 
         public void OpenOscilloscopeFile()
@@ -70,7 +70,7 @@ namespace FloppyControlApp.MyClasses
                     fileio.textBoxFilesLoaded.AppendText(filename + "\r\n");
                     fileio.SetBaseFileNameFromPath(loadwave.FileName);
 
-                    graphset.filename = filename;
+                    graphset.Filename = filename;
                     // D:\data\Projects\FloppyControl\DiskRecoveries\M003 MusicDisk\ScopeCaptures
                     //string file = @"D:\data\Projects\FloppyControl\DiskRecoveries\M003 MusicDisk\ScopeCaptures\diff4_T02_H1.wfm";
                     reader = new BinaryReader(new FileStream(file, FileMode.Open));
@@ -106,11 +106,11 @@ namespace FloppyControlApp.MyClasses
                         if (graphset.Graphs.Count > 0)
                         {
 
-                            if (wvfrmlength == graphset.Graphs[0].data.Length)
+                            if (wvfrmlength == graphset.Graphs[0].Data.Length)
                             {
-                                dataoffset = graphset.Graphs[0].dataoffset;
-                                datalength = graphset.Graphs[0].datalength;
-                                density = graphset.Graphs[0].density;
+                                dataoffset = graphset.Graphs[0].DataOffset;
+                                datalength = graphset.Graphs[0].DataLength;
+                                density = graphset.Graphs[0].Density;
                             }
                             else
                             {
@@ -130,30 +130,30 @@ namespace FloppyControlApp.MyClasses
                             graphset.AddGraph(new byte[wvfrmlength]);
                             if (flag == 1)
                             {
-                                graphset.Graphs[i].dataoffset = dataoffset;
-                                graphset.Graphs[i].datalength = datalength;
-                                graphset.Graphs[i].density = density;
+                                graphset.Graphs[i].DataOffset = dataoffset;
+                                graphset.Graphs[i].DataLength = datalength;
+                                graphset.Graphs[i].Density = density;
                             }
                         }
 
 
                         for (i = 0; i < graphset.Graphs.Count; i++)
                         {
-                            if (graphset.Graphs[i].data.Length != length || flag == 0)
+                            if (graphset.Graphs[i].Data.Length != length || flag == 0)
                             {
-                                graphset.Graphs[i].data = new byte[length];
-                                if (graphset.Graphs[i].datalength > length)
-                                    graphset.Graphs[i].datalength = (int)length - 1;
-                                if (graphset.Graphs[i].dataoffset + graphset.Graphs[i].datalength > length)
+                                graphset.Graphs[i].Data = new byte[length];
+                                if (graphset.Graphs[i].DataLength > length)
+                                    graphset.Graphs[i].DataLength = (int)length - 1;
+                                if (graphset.Graphs[i].DataOffset + graphset.Graphs[i].DataLength > length)
                                 {
-                                    graphset.Graphs[i].datalength = (int)length - 1;
-                                    graphset.Graphs[i].dataoffset = 0;
+                                    graphset.Graphs[i].DataLength = (int)length - 1;
+                                    graphset.Graphs[i].DataOffset = 0;
                                 }
                             }
                         }
 
-                        if (graphset.Graphs[0].undo.Count > 0)
-                            graphset.Graphs[0].undo.Clear();
+                        if (graphset.Graphs[0].Undo.Count > 0)
+                            graphset.Graphs[0].Undo.Clear();
 
 
                         var gr = graphset.Graphs;
@@ -165,7 +165,7 @@ namespace FloppyControlApp.MyClasses
                         {
                             for (i = 0; i < channels; i++)
                             {
-                                gr[i].data = reader.ReadBytes(wvfrmlength);
+                                gr[i].Data = reader.ReadBytes(wvfrmlength);
                             }
 
                             fileio.tbreceived.Append(loadwave.FileName + "\r\n");
@@ -186,15 +186,15 @@ namespace FloppyControlApp.MyClasses
                             for (i = Math.Abs(offset); i < wvfrmlength - (Math.Abs(offset)); i++)
                             {
 
-                                gr[0].data[i] = (byte)(127 + (gr[0].data[i] - gr[1].data[i + offset]) / 2);
-                                if (gr[0].data[i] > max) max = gr[0].data[i];
-                                if (gr[0].data[i] < min) min = gr[0].data[i];
+                                gr[0].Data[i] = (byte)(127 + (gr[0].Data[i] - gr[1].Data[i + offset]) / 2);
+                                if (gr[0].Data[i] > max) max = gr[0].Data[i];
+                                if (gr[0].Data[i] < min) min = gr[0].Data[i];
 
                                 //gr[0].data[i] = (byte)(127 + (gr[0].data[i] - gr[1].data[i + offset]) / 2);
                             }
-                            gr[0].yscale = 192.0f / (float)(max - min);
-                            GraphYScaleTrackBar = (int)(gr[0].yscale * 100.0f);
-                            GraphScaleYLabel = "" + gr[0].yscale;
+                            gr[0].YScale = 192.0f / (float)(max - min);
+                            GraphYScaleTrackBar = (int)(gr[0].YScale * 100.0f);
+                            GraphScaleYLabel = "" + gr[0].YScale;
                         }
                         else
                         {
@@ -202,14 +202,14 @@ namespace FloppyControlApp.MyClasses
                             int offset = (int)DiffOffsetUpDown;
                             for (i = Math.Abs(offset); i < wvfrmlength - (Math.Abs(offset)); i++)
                             {
-                                if (gr[0].data[i] > max) max = gr[0].data[i];
-                                if (gr[0].data[i] < min) min = gr[0].data[i];
+                                if (gr[0].Data[i] > max) max = gr[0].Data[i];
+                                if (gr[0].Data[i] < min) min = gr[0].Data[i];
                             }
-                            gr[0].yscale = 192.0f / (float)(max - min);
+                            gr[0].YScale = 192.0f / (float)(max - min);
                             if (graphset.Graphs.Count >= 5)
-                                graphset.Graphs[4].yscale = 192.0f / (float)(max - min);
-                            GraphYScaleTrackBar = (int)(gr[0].yscale * 100.0f);
-                            GraphScaleYLabel = "" + gr[0].yscale;
+                                graphset.Graphs[4].YScale = 192.0f / (float)(max - min);
+                            GraphYScaleTrackBar = (int)(gr[0].YScale * 100.0f);
+                            GraphScaleYLabel = "" + gr[0].YScale;
                         }
 
                     }
@@ -237,7 +237,7 @@ namespace FloppyControlApp.MyClasses
                         {
                             for (j = 0; j < channels; j++)
                             {
-                                gr[j].data[cnt] = temp[i + j];
+                                gr[j].Data[cnt] = temp[i + j];
                             }
                             cnt++;
                         }
@@ -267,65 +267,65 @@ namespace FloppyControlApp.MyClasses
                 {
                     for (i = 0; i < channels - cnt; i++)
                     {
-                        graphset.AddGraph(new byte[gr[0].data.Length]);
-                        graphset.Graphs[graphset.Graphs.Count - 1].datalength = graphset.Graphs[0].datalength;
-                        graphset.Graphs[graphset.Graphs.Count - 1].density = graphset.Graphs[0].density;
-                        graphset.Graphs[graphset.Graphs.Count - 1].dataoffset = graphset.Graphs[0].dataoffset;
+                        graphset.AddGraph(new byte[gr[0].Data.Length]);
+                        graphset.Graphs[graphset.Graphs.Count - 1].DataLength = graphset.Graphs[0].DataLength;
+                        graphset.Graphs[graphset.Graphs.Count - 1].Density = graphset.Graphs[0].Density;
+                        graphset.Graphs[graphset.Graphs.Count - 1].DataOffset = graphset.Graphs[0].DataOffset;
                     }
                 }
             }
             if (graphset.Graphs.Count >= 4)
             {
-                graphset.Graphs[0].yoffset = -200;
+                graphset.Graphs[0].YOffset = -200;
                 //graphset.Graphs[0].yscale = 2.86f;
 
-                graphset.Graphs[1].yoffset = 0;
-                graphset.Graphs[1].yscale = 0.36f;
+                graphset.Graphs[1].YOffset = 0;
+                graphset.Graphs[1].YScale = 0.36f;
 
-                graphset.Graphs[2].yoffset = 0;
-                graphset.Graphs[2].yscale = 5;
+                graphset.Graphs[2].YOffset = 0;
+                graphset.Graphs[2].YScale = 5;
 
-                graphset.Graphs[3].yoffset = 175;
-                graphset.Graphs[3].yscale = 1;
+                graphset.Graphs[3].YOffset = 175;
+                graphset.Graphs[3].YScale = 1;
             }
             if (graphset.Graphs.Count >= 5)
             {
-                gr[0].zorder = 10;
-                gr[4].zorder = 9;
+                gr[0].ZOrder = 10;
+                gr[4].ZOrder = 9;
                 var src = graphset.Graphs[0];
                 var dst = graphset.Graphs[4];
-                dst.datalength = src.datalength;
-                dst.dataoffset = src.dataoffset;
-                dst.density = src.density;
+                dst.DataLength = src.DataLength;
+                dst.DataOffset = src.DataOffset;
+                dst.Density = src.Density;
                 //graphset.Graphs[0].yoffset = -200;
                 //graphset.Graphs[0].yscale = 2.86f;
-                dst.yscale = src.yscale;
-                dst.yoffset = src.yoffset;
-                src.zorder = 10;
-                dst.zorder = 9;
+                dst.YScale = src.YScale;
+                dst.YOffset = src.YOffset;
+                src.ZOrder = 10;
+                dst.ZOrder = 9;
             }
 
-            if (graphset.Graphs[0].datalength == 0)
-                graphset.Graphs[0].datalength = graphset.Graphs[0].data.Length;
+            if (graphset.Graphs[0].DataLength == 0)
+                graphset.Graphs[0].DataLength = graphset.Graphs[0].Data.Length;
 
-            if (!(graphset.Graphs[0].dataoffset < graphset.Graphs[0].data.Length - graphset.Graphs[0].datalength))
+            if (!(graphset.Graphs[0].DataOffset < graphset.Graphs[0].Data.Length - graphset.Graphs[0].DataLength))
             {
-                int datalength = gr[0].data.Length - 1;
+                int datalength = gr[0].Data.Length - 1;
                 int density = (int)Math.Log(datalength / 512.0, 1.4f);//datalength/graph[0].width;
                 if (density <= 0) density = 1;
                 if (datalength < 1000) density = 1;
                 AnDensityUpDown = density;
-                GraphLengthLabel = gr[0].data.Length.ToString();//DataLengthTrackBar.Value.ToString();
+                GraphLengthLabel = gr[0].Data.Length.ToString();//DataLengthTrackBar.Value.ToString();
 
                 for (int i = 0; i < gr.Count; i++)
                 {
-                    graphset.Graphs[i].dataoffset = 0;
-                    graphset.Graphs[i].datalength = datalength;
-                    graphset.Graphs[i].density = density;
+                    graphset.Graphs[i].DataOffset = 0;
+                    graphset.Graphs[i].DataLength = datalength;
+                    graphset.Graphs[i].Density = density;
                 }
             }
 
-            GraphLengthLabel = (gr[0].data.Length - 1000).ToString();
+            GraphLengthLabel = (gr[0].Data.Length - 1000).ToString();
             
             graphset.UpdateGraphs();
 
@@ -353,7 +353,7 @@ namespace FloppyControlApp.MyClasses
                 double valadapt = 0;
                 double val2 = 0;
                 //double RateOfChange = (float)GraphFilterUpDown.Value;
-                int length = gr[0].data.Length;
+                int length = gr[0].Data.Length;
                 
                 double[] t = new double[length];
                 double[] t1 = new double[length];
@@ -370,7 +370,7 @@ namespace FloppyControlApp.MyClasses
                 int[] history = new int[smoothing * 2 + 1];
                 //int hcnt = 0;
                 int total = 0;
-                byte[] data = gr[0].data;
+                byte[] data = gr[0].Data;
                 //Smoothing pass
                 if (smoothing != 0)
                 {
@@ -417,14 +417,14 @@ namespace FloppyControlApp.MyClasses
                 {
                     for (i = 0; i < length; i++)
                     {
-                        DCoffset += gr[0].data[i];
+                        DCoffset += gr[0].Data[i];
                         if (invert)
                         {
-                            t[i] = -gr[0].data[i];
+                            t[i] = -gr[0].Data[i];
                         }
                         else
                         {
-                            t[i] = gr[0].data[i];
+                            t[i] = gr[0].Data[i];
                         }
                     }
                     // Differential pass
@@ -498,9 +498,9 @@ namespace FloppyControlApp.MyClasses
                     val2 = ((val - (t[i - diffdist2] - DCoffset)) * diffgain * adaptivegain);
                     t1[i] = (128 + ((val * 0.5) + (val2 * 0.5)));
 
-                    if (t1[i] > 255) gr[3].data[i] = 255;
-                    else if (t1[i] < 0) gr[3].data[i] = 0;
-                    else gr[3].data[i] = (byte)(t1[i]);
+                    if (t1[i] > 255) gr[3].Data[i] = 255;
+                    else if (t1[i] < 0) gr[3].Data[i] = 0;
+                    else gr[3].Data[i] = (byte)(t1[i]);
 
                 }
 
@@ -512,7 +512,7 @@ namespace FloppyControlApp.MyClasses
                 {
                     resetinput();
                     //indexrxbuf = 0;
-                    processing.indexrxbuf = 0;
+                    processing.Indexrxbuf = 0;
                 }
 
                 int fluxdirection = 0;
@@ -522,7 +522,7 @@ namespace FloppyControlApp.MyClasses
                 float rxbuftographlength = (length * (length / 3250000f)) / 13f;
                 if (rxbuftographlength < 250000)
                     rxbuftographlength = 1250000;
-                processing.rxbuftograph = new int[(int)rxbuftographlength];
+                processing.Rxbuftograph = new int[(int)rxbuftographlength];
                 // Zero crossing pass
                 for (i = 0; i < length - diffdist; i++)
                 {
@@ -538,11 +538,11 @@ namespace FloppyControlApp.MyClasses
                             period = i - old; // Calculate period
                             if (period > 10 && period < 120) // Tthis works as the time domain filter
                             {
-                                processing.rxbuftograph[processing.indexrxbuf] = i;
-                                processing.rxbuf[processing.indexrxbuf++] = (byte)(period * periodfactor + periodoffset);
+                                processing.Rxbuftograph[processing.Indexrxbuf] = i;
+                                processing.RxBbuf[processing.Indexrxbuf++] = (byte)(period * periodfactor + periodoffset);
 
                                 //tbreceived.Append(period + " ");
-                                gr[1].data[i] = 200;
+                                gr[1].Data[i] = 200;
                                 old = i;
                             }
                             /*else if (period >= 100)
@@ -559,7 +559,7 @@ namespace FloppyControlApp.MyClasses
                                 }
                             }*/
                         }
-                        else gr[1].data[i] = 20; // No crossing detected
+                        else gr[1].Data[i] = 20; // No crossing detected
                     }
                     else // is the direction downwards?
                     {
@@ -569,11 +569,11 @@ namespace FloppyControlApp.MyClasses
                             period = i - old;
                             if (period > 10 && period < 120)
                             {
-                                processing.rxbuftograph[processing.indexrxbuf] = i;
-                                processing.rxbuf[processing.indexrxbuf++] = (byte)(period * periodfactor + periodoffset);
+                                processing.Rxbuftograph[processing.Indexrxbuf] = i;
+                                processing.RxBbuf[processing.Indexrxbuf++] = (byte)(period * periodfactor + periodoffset);
 
                                 //tbreceived.Append(period + " ");
-                                gr[1].data[i] = 200;
+                                gr[1].Data[i] = 200;
                                 old = i;
                             }
                             /*
@@ -594,15 +594,15 @@ namespace FloppyControlApp.MyClasses
                             }
                             */
                         }
-                        else gr[1].data[i] = 20;
+                        else gr[1].Data[i] = 20;
                     }
                     period = i - old;
                     if (period > 120)
                     {
-                        processing.rxbuftograph[processing.indexrxbuf] = i;
-                        processing.rxbuf[processing.indexrxbuf++] = 10;
-                        processing.rxbuftograph[processing.indexrxbuf] = i;
-                        processing.rxbuf[processing.indexrxbuf++] = 20;
+                        processing.Rxbuftograph[processing.Indexrxbuf] = i;
+                        processing.RxBbuf[processing.Indexrxbuf++] = 10;
+                        processing.Rxbuftograph[processing.Indexrxbuf] = i;
+                        processing.RxBbuf[processing.Indexrxbuf++] = 20;
                         //processing.rxbuftograph[processing.indexrxbuf] = i;
                         //processing.rxbuf[processing.indexrxbuf++] = 10;
                         //processing.rxbuftograph[processing.indexrxbuf] = i;
@@ -651,13 +651,13 @@ namespace FloppyControlApp.MyClasses
             int i;
 
             
-            int length = gr[0].data.Length;
+            int length = gr[0].Data.Length;
 
             
 
             
             double[] t = new double[length];
-            byte[] t1 = gr[3].data;
+            byte[] t1 = gr[3].Data;
             //double totalmin = 255;
             //double totalmax = 0;
             //double totalamplitude = 0;
@@ -671,14 +671,14 @@ namespace FloppyControlApp.MyClasses
             {
                 resetinput();
                 //indexrxbuf = 0;
-                processing.indexrxbuf = 0;
+                processing.Indexrxbuf = 0;
             }
 
             //double DCoffset = 0;
             int[] history = new int[smoothing * 2 + 1];
             //int hcnt = 0;
             //int total = 0;
-            byte[] data = gr[0].data;
+            byte[] data = gr[0].Data;
 
             int fluxdirection = 0;
             int orgDiffMinDeviation = DiffMinDeviation;
@@ -687,7 +687,7 @@ namespace FloppyControlApp.MyClasses
             float rxbuftographlength = (length * (length / 3250000f)) / 13f;
             if (rxbuftographlength < 250000)
                 rxbuftographlength = 250000;
-            processing.rxbuftograph = new int[(int)rxbuftographlength];
+            processing.Rxbuftograph = new int[(int)rxbuftographlength];
             // Zero crossing pass
             int period, old = 0;
             for (i = 0; i < length - diffdist; i++)
@@ -700,11 +700,11 @@ namespace FloppyControlApp.MyClasses
                         period = i - old; // Calculate period
                         if (period > 10 && period < 120) // Tthis works as the time domain filter
                         {
-                            processing.rxbuftograph[processing.indexrxbuf] = i;
-                            processing.rxbuf[processing.indexrxbuf++] = (byte)(period * periodfactor + periodoffset);
+                            processing.Rxbuftograph[processing.Indexrxbuf] = i;
+                            processing.RxBbuf[processing.Indexrxbuf++] = (byte)(period * periodfactor + periodoffset);
 
                             //tbreceived.Append(period + " ");
-                            gr[1].data[i] = 200;
+                            gr[1].Data[i] = 200;
                             old = i;
                         }
                         /*else if (period >= 100)
@@ -721,7 +721,7 @@ namespace FloppyControlApp.MyClasses
                             }
                         }*/
                     }
-                    else gr[1].data[i] = 20; // No crossing detected
+                    else gr[1].Data[i] = 20; // No crossing detected
                 }
                 else // is the direction downwards?
                 {
@@ -731,11 +731,11 @@ namespace FloppyControlApp.MyClasses
                         period = i - old;
                         if (period > 10 && period < 120)
                         {
-                            processing.rxbuftograph[processing.indexrxbuf] = i;
-                            processing.rxbuf[processing.indexrxbuf++] = (byte)(period * periodfactor + periodoffset);
+                            processing.Rxbuftograph[processing.Indexrxbuf] = i;
+                            processing.RxBbuf[processing.Indexrxbuf++] = (byte)(period * periodfactor + periodoffset);
 
                             //tbreceived.Append(period + " ");
-                            gr[1].data[i] = 200;
+                            gr[1].Data[i] = 200;
                             old = i;
                         }
                         /*
@@ -756,15 +756,15 @@ namespace FloppyControlApp.MyClasses
                         }
                         */
                     }
-                    else gr[1].data[i] = 20;
+                    else gr[1].Data[i] = 20;
                 }
                 period = i - old;
                 if (period > 120)
                 {
-                    processing.rxbuftograph[processing.indexrxbuf] = i;
-                    processing.rxbuf[processing.indexrxbuf++] = 10;
-                    processing.rxbuftograph[processing.indexrxbuf] = i;
-                    processing.rxbuf[processing.indexrxbuf++] = 20;
+                    processing.Rxbuftograph[processing.Indexrxbuf] = i;
+                    processing.RxBbuf[processing.Indexrxbuf++] = 10;
+                    processing.Rxbuftograph[processing.Indexrxbuf] = i;
+                    processing.RxBbuf[processing.Indexrxbuf++] = 20;
                     //processing.rxbuftograph[processing.indexrxbuf] = i;
                     //processing.rxbuf[processing.indexrxbuf++] = 10;
                     //processing.rxbuftograph[processing.indexrxbuf] = i;
@@ -801,13 +801,13 @@ namespace FloppyControlApp.MyClasses
             )
         {
             int i;
-            byte[] d = graphset.Graphs[0].data;
-            byte[] g3 = graphset.Graphs[2].data;
-            byte[] g4 = graphset.Graphs[3].data;
+            byte[] d = graphset.Graphs[0].Data;
+            byte[] g3 = graphset.Graphs[2].Data;
+            byte[] g4 = graphset.Graphs[3].Data;
             int diff;
             
-            int start = graphset.Graphs[0].dataoffset;
-            int length = graphset.Graphs[0].datalength;
+            int start = graphset.Graphs[0].DataOffset;
+            int length = graphset.Graphs[0].DataLength;
             
             
             

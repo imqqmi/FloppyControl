@@ -172,7 +172,7 @@ namespace FloppyControlApp
             tempbuffer.Clear();
 
             CurrentTrack = StartTrack;
-            processing.indexrxbuf = 0; // Reset the buffer, so we can repeatedly read from disk
+            processing.Indexrxbuf = 0; // Reset the buffer, so we can repeatedly read from disk
             capturecommand = 1;
 
             if (serialPort1.IsOpen)
@@ -376,14 +376,14 @@ namespace FloppyControlApp
             //capturing = 0; // Indicate seconds counter to stop
             // Add double the captured buffer if user is going to use only bad sector option
             //int actualindexrxbuf = processing.indexrxbuf;
-            if (processing.indexrxbuf <= 0) return;
+            if (processing.Indexrxbuf <= 0) return;
 
-            byte[] extra = new byte[processing.indexrxbuf]; 
+            byte[] extra = new byte[processing.Indexrxbuf]; 
             tempbuffer.Add(extra);
-            processing.rxbuf = tempbuffer.SelectMany(a => a).ToArray();
-            processing.indexrxbuf = processing.rxbuf.Length-1;
+            processing.RxBbuf = tempbuffer.SelectMany(a => a).ToArray();
+            processing.Indexrxbuf = processing.RxBbuf.Length-1;
             //processing.indexrxbuf = actualindexrxbuf;
-            rxbuf = processing.rxbuf;
+            rxbuf = processing.RxBbuf;
             // Write period data to disk in bin format
 
             if (Setrxbufcontrol == null) return;
@@ -409,7 +409,7 @@ namespace FloppyControlApp
             BinaryWriter writer;
             writer = new BinaryWriter(new FileStream(fullpath, FileMode.Create));
 
-            for (i = 0; i < processing.indexrxbuf; i++)
+            for (i = 0; i < processing.Indexrxbuf; i++)
                 writer.Write(rxbuf[i]);
 
             if (writer != null)

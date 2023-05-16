@@ -100,7 +100,7 @@ namespace FloppyControlApp
                     if ((entry & 1) == 1)
                         entry = (entry >> 1) ^ polynomial;
                     else
-                        entry = entry >> 1;
+                        entry >>= 1;
                 createTable[i] = entry;
             }
 
@@ -136,45 +136,45 @@ namespace FloppyControlApp
     public class Graph
     {
         public PictureBox panel;
-        public int width { set; get; }
-        public int height { set; get; }
-        public int density { set; get; }
-        public int dataoffset { set; get; }
-        public int datalength { set; get; }
-        public int yoffset { set; get; }
-        public int bmpxoffset { set; get; }
-        public int xrelative { get; set; }
+        public int Width { set; get; }
+        public int Height { set; get; }
+        public int Density { set; get; }
+        public int Dataoffset { set; get; }
+        public int Datalength { set; get; }
+        public int YOffset { set; get; }
+        public int BmpXOffset { set; get; }
+        public int XRelative { get; set; }
 
-        public bool changed { get; set; }
-        public bool dragging { get; set; }
+        public bool Changed { get; set; }
+        public bool Dragging { get; set; }
 
-        public byte[] data { set; get; }
+        public byte[] Data { set; get; }
         long[,] g;
         long maxvalue;
 
-        public float xscale { set; get; }
-        public float yscale { set; get; }
+        public float XScale { set; get; }
+        public float YScale { set; get; }
 
-        public Color graphcolor { set; get; }
-        public Color fillcolor { set; get; }
+        public Color Graphcolor { set; get; }
+        public Color FillColor { set; get; }
 
-        public StringBuilder tbreceived { set; get; }
+        public StringBuilder TBRreceived { set; get; }
 
-        public System.Drawing.Bitmap bmpbuf { get; set; }
+        public System.Drawing.Bitmap BmpBuf { get; set; }
 
         public Graph()
         {
-            dragging = false;
-            bmpxoffset = 0;
-            changed = true;
-            xscale = 1.0f;
-            yscale = 1.0f;
-            density = 23;
-            graphcolor = Color.Black;
-            fillcolor = Color.White;
+            Dragging = false;
+            BmpXOffset = 0;
+            Changed = true;
+            XScale = 1.0f;
+            YScale = 1.0f;
+            Density = 23;
+            Graphcolor = Color.Black;
+            FillColor = Color.White;
 
-            datalength = 0;
-            dataoffset = 0;
+            Datalength = 0;
+            Dataoffset = 0;
         }
 
         public void DoGraph(bool clear)
@@ -185,31 +185,31 @@ namespace FloppyControlApp
             double datastep;
             double i;
             //int k;
-            if (data != null)
+            if (Data != null)
             {
-                if (datalength == 0)
-                    datalength = data.Length;
+                if (Datalength == 0)
+                    Datalength = Data.Length;
 
-                if (dataoffset >= data.Length)
+                if (Dataoffset >= Data.Length)
                     return;
 
                 using (System.Drawing.Graphics formGraphics = panel.CreateGraphics())
                 {
-                    if (changed)
+                    if (Changed)
                     {
 
-                        if (bmpbuf != null)
-                            bmpbuf.Dispose();
-                        bmpbuf = new System.Drawing.Bitmap(width, height, PixelFormat.Format32bppPArgb);
+                        if (BmpBuf != null)
+                            BmpBuf.Dispose();
+                        BmpBuf = new System.Drawing.Bitmap(Width, Height, PixelFormat.Format32bppPArgb);
                         {
 
-                            LockBitmap lockBitmap = new LockBitmap(bmpbuf);
+                            LockBitmap lockBitmap = new LockBitmap(BmpBuf);
                             lockBitmap.LockBits();
-                            if (clear) lockBitmap.FillBitmap(fillcolor);
+                            if (clear) lockBitmap.FillBitmap(FillColor);
 
-                            step = (float)width / (float)(datalength - 1);
+                            step = (float)Width / (float)(Datalength - 1);
                             //if (step >= width) step = 1;
-                            datastep = (datalength - 1.0f) / (float)width;
+                            datastep = (Datalength - 1.0f) / (float)Width;
                             //if (datastep >= width && datastep < width * 4) datastep /= 4;
                             //if (datastep < width) datastep = 1;
 
@@ -219,30 +219,30 @@ namespace FloppyControlApp
                             tbreceived.Append("Start:" + (dataoffset + datastep).ToString() + " stop:" + (dataoffset + datalength).ToString() + "\r\n");
                             */
                             x1 = 0;
-                            y1 = (int)(data[dataoffset] * yscale - (128 * yscale));
+                            y1 = (int)(Data[Dataoffset] * YScale - (128 * YScale));
 
-                            yoffset2 = yoffset + (height / 2);
+                            yoffset2 = YOffset + (Height / 2);
                             int xpos = 1;
-                            if (datalength + dataoffset < data.Length)
-                                for (i = dataoffset + datastep; i < dataoffset + datalength; i += datastep)
+                            if (Datalength + Dataoffset < Data.Length)
+                                for (i = Dataoffset + datastep; i < Dataoffset + Datalength; i += datastep)
                                 {
                                     x2 = xpos;
-                                    y2 = (int)(data[(int)i] * yscale - (128 * yscale));
+                                    y2 = (int)(Data[(int)i] * YScale - (128 * YScale));
 
-                                    lockBitmap.Line(x1, height - (y1 + yoffset2), x2, height - (y2 + yoffset2), graphcolor);
+                                    lockBitmap.Line(x1, Height - (y1 + yoffset2), x2, Height - (y2 + yoffset2), Graphcolor);
                                     xpos++;
                                     x1 = x2;
                                     y1 = y2;
                                 }
 
                             lockBitmap.UnlockBits();
-                            formGraphics.DrawImage(bmpbuf, bmpxoffset, 0);
+                            formGraphics.DrawImage(BmpBuf, BmpXOffset, 0);
                         }
-                        changed = false;
+                        Changed = false;
                     }
                     else
                     {
-                        formGraphics.DrawImage(bmpbuf, bmpxoffset, 0);
+                        formGraphics.DrawImage(BmpBuf, BmpXOffset, 0);
 
                     }
                 }
@@ -258,36 +258,36 @@ namespace FloppyControlApp
             double i;
             //int k;
 
-            if (data != null)
+            if (Data != null)
             {
                 //tbreceived.Append("Dataoffset: " + dataoffset + " length: " + data.Length + " Datalength:" + datalength + "\r\n");
-                if (datalength == 0)
-                    datalength = data.Length;
+                if (Datalength == 0)
+                    Datalength = Data.Length;
 
-                if (dataoffset >= data.Length)
+                if (Dataoffset >= Data.Length)
                 {
-                    tbreceived.Append("DoGraph2() dataoffset >= data.length!\r\nDataoffset: " + dataoffset + " length: " + data.Length + "\r\n");
+                    TBRreceived.Append("DoGraph2() dataoffset >= data.length!\r\nDataoffset: " + Dataoffset + " length: " + Data.Length + "\r\n");
                     return;
                 }
 
                 using (System.Drawing.Graphics formGraphics = panel.CreateGraphics())
                 {
-                    if (changed)
+                    if (Changed)
                     {
-                        if (bmpbuf != null)
-                            bmpbuf.Dispose();
-                        bmpbuf = new System.Drawing.Bitmap(width, height);
+                        if (BmpBuf != null)
+                            BmpBuf.Dispose();
+                        BmpBuf = new System.Drawing.Bitmap(Width, Height);
                         {
                             maxvalue = 1;
-                            g = new long[width + 1, height + 1];
+                            g = new long[Width + 1, Height + 1];
 
-                            LockBitmap lockBitmap = new LockBitmap(bmpbuf);
+                            LockBitmap lockBitmap = new LockBitmap(BmpBuf);
                             lockBitmap.LockBits();
-                            if (clear) lockBitmap.FillBitmap(fillcolor);
+                            if (clear) lockBitmap.FillBitmap(FillColor);
 
-                            step = ((double)width / (double)(datalength - 1)) * density;
+                            step = ((double)Width / (double)(Datalength - 1)) * Density;
                             //if (step >= width) step = 1;
-                            datastep = (datalength - 1.0f) / (float)width;
+                            datastep = (Datalength - 1.0f) / (float)Width;
                             //if (datastep >= width && datastep < width * 4) datastep /= 4;
                             //if (datastep < width) datastep = 1;
 
@@ -297,24 +297,24 @@ namespace FloppyControlApp
                             tbreceived.Append("Start:" + (dataoffset + datastep).ToString() + " stop:" + (dataoffset + datalength).ToString() + "\r\n");
                             */
                             x1 = 0;
-                            y1 = (int)(data[dataoffset] * yscale - (128 * yscale));
+                            y1 = (int)(Data[Dataoffset] * YScale - (128 * YScale));
 
-                            yoffset2 = yoffset + (height / 2);
+                            yoffset2 = YOffset + (Height / 2);
                             double xpos = 1;
-                            if (datalength + dataoffset < data.Length)
-                                for (i = dataoffset + datastep; i < dataoffset + datalength; i += density)
+                            if (Datalength + Dataoffset < Data.Length)
+                                for (i = Dataoffset + datastep; i < Dataoffset + Datalength; i += Density)
                                 {
                                     x2 = (int)xpos;
-                                    y2 = (int)(data[(int)i] * yscale - (128 * yscale));
+                                    y2 = (int)(Data[(int)i] * YScale - (128 * YScale));
 
-                                    Line(x1, height - (y1 + yoffset2), x2, height - (y2 + yoffset2), 255);
+                                    Line(x1, Height - (y1 + yoffset2), x2, Height - (y2 + yoffset2), 255);
                                     xpos += step;
                                     x1 = x2;
                                     y1 = y2;
                                 }
                             byte val;
-                            for (x = 0; x < width; x++)
-                                for (y = 0; y < height; y++)
+                            for (x = 0; x < Width; x++)
+                                for (y = 0; y < Height; y++)
                                 {
                                     if (maxvalue < 512) maxvalue = 255;
 
@@ -326,7 +326,7 @@ namespace FloppyControlApp
                                     if (val != 0)
                                     {
                                         float factor = val / 255.0f;
-                                        Color c = Color.FromArgb(255, (byte)(graphcolor.R * factor), (byte)(graphcolor.G * factor), (byte)(graphcolor.B * factor));
+                                        Color c = Color.FromArgb(255, (byte)(Graphcolor.R * factor), (byte)(Graphcolor.G * factor), (byte)(Graphcolor.B * factor));
                                         lockBitmap.SetPixel(x, y, c);
                                     }
                                     //else
@@ -335,15 +335,15 @@ namespace FloppyControlApp
                                     // }
                                 }
                             lockBitmap.UnlockBits();
-                            formGraphics.DrawImage(bmpbuf, bmpxoffset, 0);
+                            formGraphics.DrawImage(BmpBuf, BmpXOffset, 0);
 
                         }
-                        changed = false;
+                        Changed = false;
 
                     }
                     else
                     {
-                        formGraphics.DrawImage(bmpbuf, bmpxoffset, 0);
+                        formGraphics.DrawImage(BmpBuf, BmpXOffset, 0);
 
                     }
                 }
@@ -359,11 +359,11 @@ namespace FloppyControlApp
             int longLen = x2 - x;
             bool skip = false;
 
-            if (x < 0 || x >= width) return;
-            if (y < 0 || y >= height) return;
+            if (x < 0 || x >= Width) return;
+            if (y < 0 || y >= Height) return;
 
-            if (x2 < 0 || x2 >= width) return;
-            if (y2 < 0 || y2 >= height) return;
+            if (x2 < 0 || x2 >= Width) return;
+            if (y2 < 0 || y2 >= Height) return;
 
 
             if (Math.Abs(shortLen) > Math.Abs(longLen))
@@ -427,58 +427,58 @@ namespace FloppyControlApp
 
     public class Graph2
     {
-        public int width { set; get; }
-        public int height { set; get; }
-        public int density { set; get; }
-        public int dataoffset { set; get; }
-        public int datalength { set; get; }
-        public int yoffset { set; get; }
-        public int zorder { get; set; }
+        public int Width { set; get; }
+        public int Height { set; get; }
+        public int Density { set; get; }
+        public int DataOffset { set; get; }
+        public int DataLength { set; get; }
+        public int YOffset { set; get; }
+        public int ZOrder { get; set; }
 
-        private byte[] edittempbuf;
-        public bool editgraphactive { get; set; }
-        public int editindex { get; set; }
-        public List<UndoData> undo { get; set; }
-        public int rstart { get; set; }
-        public int rend { get; set; }
-        public int neweditindex { get; set; }
-        public int edittempbufindex { get; set; }
-        public int editperiodextend { get; set; }
+        private byte[] EditTempBuf;
+        public bool EditGraphActive { get; set; }
+        public int EditIndex { get; set; }
+        public List<UndoData> Undo { get; set; }
+        public int RStart { get; set; }
+        public int REnd { get; set; }
+        public int NewEditIndex { get; set; }
+        public int EditTempBufIndex { get; set; }
+        public int EditPeriodExtend { get; set; }
         
         //public int xrelative { get; set; }
-        public bool changed { get; set; }
+        public bool Changed { get; set; }
 
 
-        public Color graphcolor { set; get; }
-        public System.Drawing.Bitmap bmpbuf { get; set; }
-        public StringBuilder tbreceived { get; set; }
+        public Color GraphColor { set; get; }
+        public System.Drawing.Bitmap BmpBuf { get; set; }
+        public StringBuilder TBReceived { get; set; }
 
-        public byte[] data { set; get; }
+        public byte[] Data { set; get; }
         long[,] g;
         //long maxvalue;
-        long average;
-        long totalnumberofpoints;
+        long Average;
+        long TotalNumberOfPoints;
 
-        public float xscale { set; get; }
-        public float yscale { set; get; }
+        public float XScale { set; get; }
+        public float YScale { set; get; }
 
         public Graph2()
         {
-            zorder = 0;
-            undo = new List<UndoData>();
-            editindex = 0;
-            editgraphactive = false;
-            changed = true;
-            xscale = 1.0f;
-            yscale = 1.0f;
-            density = 23;
-            graphcolor = Color.Black;
+            ZOrder = 0;
+            Undo = new List<UndoData>();
+            EditIndex = 0;
+            EditGraphActive = false;
+            Changed = true;
+            XScale = 1.0f;
+            YScale = 1.0f;
+            Density = 23;
+            GraphColor = Color.Black;
 
-            datalength = 0;
-            dataoffset = 0;
+            DataLength = 0;
+            DataOffset = 0;
         }
 
-        public void DoGraph2(bool clear)
+        public void DoGraph2()
         {
             int x1, y1, x2, y2, x, y;
             int yoffset2;
@@ -489,47 +489,47 @@ namespace FloppyControlApp
 
             sw.Reset();
             sw.Start();
-            if (data != null)
+            if (Data != null)
             {
                 //tbreceived.Append("Dataoffset: " + dataoffset + " length: " + data.Length + " Datalength:" + datalength + "\r\n");
-                if (datalength <= 0)
-                    datalength = data.Length;
-                if (datalength <= 0)
+                if (DataLength <= 0)
+                    DataLength = Data.Length;
+                if (DataLength <= 0)
                     return;
-                if (dataoffset < 0) dataoffset = 0;
+                if (DataOffset < 0) DataOffset = 0;
 
-                if (dataoffset >= data.Length)
+                if (DataOffset >= Data.Length)
                 {
-                    tbreceived.Append("DoGraph2() dataoffset >= data.length!\r\nDataoffset: " + dataoffset + " length: " + data.Length + "\r\n");
+                    TBReceived.Append("DoGraph2() dataoffset >= data.length!\r\nDataoffset: " + DataOffset + " length: " + Data.Length + "\r\n");
                     return;
                 }
 
-                if (changed)
+                if (Changed)
                 {
 
-                    if (bmpbuf != null)
+                    if (BmpBuf != null)
                     {
-                        bmpbuf.Dispose();
-                        bmpbuf = null;
+                        BmpBuf.Dispose();
+                        BmpBuf = null;
                     }
                     //tbreceived.Append(" 1. " + sw.ElapsedMilliseconds); sw.Restart();
 
-                    bmpbuf = new System.Drawing.Bitmap(width, height);
+                    BmpBuf = new System.Drawing.Bitmap(Width, Height);
                     {
                         //uint Time1 = (uint)(Environment.TickCount + int.MaxValue);
                         //tbreceived.Append("Time: " + (uint)(Environment.TickCount + Int32.MaxValue - Time1) + "ms\r\n");
                         //maxvalue = 1024;
-                        average = 0;
-                        totalnumberofpoints = 0;
-                        g = new long[width + 1, height + 1];
+                        Average = 0;
+                        TotalNumberOfPoints = 0;
+                        g = new long[Width + 1, Height + 1];
 
-                        LockBitmap lockBitmap = new LockBitmap(bmpbuf);
+                        LockBitmap lockBitmap = new LockBitmap(BmpBuf);
                         lockBitmap.LockBits();
                         //if (clear) lockBitmap.FillBitmap(fillcolor);
 
-                        step = ((double)width / (double)(datalength - 1)) * density;
+                        step = ((double)Width / (double)(DataLength - 1)) * Density;
                         //if (step >= width) step = 1;
-                        datastep = (datalength - 1.0f) / (float)width;
+                        datastep = (DataLength - 1.0f) / (float)Width;
                         //if (datastep >= width && datastep < width * 4) datastep /= 4;
                         //if (datastep < width) datastep = 1;
 
@@ -539,53 +539,53 @@ namespace FloppyControlApp
                         tbreceived.Append("Start:" + (dataoffset + datastep).ToString() + " stop:" + (dataoffset + datalength).ToString() + "\r\n");
                         */
                         x1 = 0;
-                        y1 = (int)(data[dataoffset] * yscale - (127 * yscale));
-                        float yscale127 = (127 * yscale);
+                        y1 = (int)(Data[DataOffset] * YScale - (127 * YScale));
+                        float yscale127 = (127 * YScale);
                         int ymax = 0;
-                        yoffset2 = yoffset + (height / 2);
+                        yoffset2 = YOffset + (Height / 2);
                         double xpos = 1;
                         //tbreceived.Append(" 2. " + sw.ElapsedMilliseconds); sw.Restart();
-                        if (datalength + dataoffset < data.Length)
-                            for (i = dataoffset + datastep; i < dataoffset + datalength; i += density)
+                        if (DataLength + DataOffset < Data.Length)
+                            for (i = DataOffset + datastep; i < DataOffset + DataLength; i += Density)
                             {
                                 x2 = (int)xpos;
-                                y2 = (int)(data[(int)i] * yscale - yscale127);
+                                y2 = (int)(Data[(int)i] * YScale - yscale127);
                                 if (ymax < y2) ymax = y2;
-                                Line(x1, height - (y1 + yoffset2), x2, height - (y2 + yoffset2), 255);
+                                Line(x1, Height - (y1 + yoffset2), x2, Height - (y2 + yoffset2), 255);
                                 xpos += step;
                                 x1 = x2;
                                 y1 = y2;
                             }
 
                         byte val;
-                        int yend = height;
-                        int ystart = height - (ymax + yoffset2);
+                        int yend = Height;
+                        int ystart = Height - (ymax + yoffset2);
                         if (ystart < 0) ystart = 0;
                         //tbreceived.Append("ystart:" + ystart + " yend:" + yend+"\r\n");
                         long val2;
-                        for (x = 0; x < width; x++)
+                        for (x = 0; x < Width; x++)
                             for (y = ystart; y < yend; y++)
                             {
                                 val2 = g[x, y];
                                 if (val2 > 0)
                                 {
-                                    totalnumberofpoints++;
-                                    average += val2;
+                                    TotalNumberOfPoints++;
+                                    Average += val2;
                                 }
                             }
                         //tbreceived.Append(" 3. " + sw.ElapsedMilliseconds); sw.Restart();
-                        if (totalnumberofpoints == 0) totalnumberofpoints = 1;
-                        average = average / totalnumberofpoints;
+                        if (TotalNumberOfPoints == 0) TotalNumberOfPoints = 1;
+                        Average /= TotalNumberOfPoints;
                         //tbreceived.Append("Average: " + average + " maxvalue:" + maxvalue + "\r\n");
                         float brightness;
                         //if (average < maxvalue / 4)
                         //    brightness = average;
                         //else brightness = maxvalue;
-                        if (datalength > 8000)
-                            brightness = average * 1.25f;
-                        else brightness = average;
+                        if (DataLength > 8000)
+                            brightness = Average * 1.25f;
+                        else brightness = Average;
 
-                        for (x = 0; x < width; x++)
+                        for (x = 0; x < Width; x++)
                             for (y = ystart; y < yend; y++)
                             {
                                 //if (maxvalue < 1024) maxvalue = 255;
@@ -598,18 +598,17 @@ namespace FloppyControlApp
                                 if (val != 0)
                                 {
                                     float factor = val / 255.0f;
-                                    Color c = Color.FromArgb(255, (byte)(graphcolor.R * factor), (byte)(graphcolor.G * factor), (byte)(graphcolor.B * factor));
+                                    Color c = Color.FromArgb(255, (byte)(GraphColor.R * factor), (byte)(GraphColor.G * factor), (byte)(GraphColor.B * factor));
                                     lockBitmap.SetPixel(x, y, c);
                                 }
                             }
                         //tbreceived.Append(" 4. " + sw.ElapsedMilliseconds + "\r\n"); sw.Restart();
-                        y1 = (int)(127 * yscale - (127 * yscale));
-                        lockBitmap.Line(0, height - (y1 + yoffset2), width, height - (y1 + yoffset2), Color.FromArgb(128, graphcolor.R, graphcolor.G, graphcolor.B));
+                        y1 = (int)(127 * YScale - (127 * YScale));
+                        lockBitmap.Line(0, Height - (y1 + yoffset2), Width, Height - (y1 + yoffset2), Color.FromArgb(128, GraphColor.R, GraphColor.G, GraphColor.B));
                         lockBitmap.UnlockBits();
-                        lockBitmap = null;
                         //tbreceived.Append("Time: " + (uint)(Environment.TickCount + Int32.MaxValue - Time1) + "ms\r\n");
                     }
-                    changed = false;
+                    Changed = false;
                 }
             }
         }
@@ -618,17 +617,17 @@ namespace FloppyControlApp
         {
             int dcoffset = 0;
             int i;
-            int length = data.Length;
+            int length = Data.Length;
 
             for (i = 0; i < length; i++)
-                dcoffset += data[i];
+                dcoffset += Data[i];
 
-            dcoffset = dcoffset / length;
+            dcoffset /= length;
 
             //dcoffset = dcoffset;
 
             for (i = 0; i < length; i++)
-                data[i] = (byte)((data[i] - (byte)dcoffset) + 127);
+                Data[i] = (byte)((Data[i] - (byte)dcoffset) + 127);
 
             return dcoffset;
         }
@@ -637,9 +636,9 @@ namespace FloppyControlApp
         {
             double DCoffset = 0;
             int i;
-            int length = data.Length;
-            int smoothingstart = 0 - smoothing;
-            double val2 = 0;
+            int length = Data.Length;
+            
+            double val2;
             double totalmax = 0;
             double totalmin = 255;
             double[] t = new double[length];
@@ -650,15 +649,15 @@ namespace FloppyControlApp
             for (i = smoothing; i < length - smoothing; i++)
             {
                 total -= history[i % (smoothing * 2 + 1)]; // subtract oldest value
-                history[i % (smoothing * 2 + 1)] = data[i + smoothing];
+                history[i % (smoothing * 2 + 1)] = Data[i + smoothing];
 
-                total += data[i + smoothing];
+                total += Data[i + smoothing];
                 val2 = total / (double)(smoothing * 2.0d);
                 //DCoffset += val2;
                 //val = val + (((float)graphwaveform[0][i] - val) / RateOfChange);
                 //t[i] = (byte)((val * 0.4f) + (val2 * 0.6f));
 
-                t[i] = data[i] - (val2 + 127);
+                t[i] = Data[i] - (val2 + 127);
                 DCoffset += t[i];
                 if (i > 5000 && i < (length - smoothing - 5000))
                 {
@@ -667,19 +666,17 @@ namespace FloppyControlApp
                 }
             }
 
-            DCoffset = DCoffset / (length - (smoothing * 2));
-            totalmax -= DCoffset;
-            totalmin -= DCoffset;
-
+            DCoffset /= (length - (smoothing * 2));
+            
             for (i = 0; i < length; i++)
-                data[i] = (byte)((t[i] - (byte)DCoffset) + 127);
+                Data[i] = (byte)((t[i] - (byte)DCoffset) + 127);
 
         }
         public void Lowpass(int smoothing)
         {
             double DCoffset = 0;
             int i, j;
-            int length = data.Length;
+            int length = Data.Length;
             int smoothingstart = 0 - smoothing;
             double val2 = 0;
             double totalmax = 0;
@@ -690,9 +687,9 @@ namespace FloppyControlApp
             {
                 for (j = smoothingstart; j < smoothing; j++)
                 {
-                    val2 += (float)data[i + j];
+                    val2 += (float)Data[i + j];
                 }
-                val2 = val2 / (smoothing * 2.0);
+                val2 /= (smoothing * 2.0);
                 DCoffset += val2;
                 //val = val + (((float)graphwaveform[0][i] - val) / RateOfChange);
                 //t[i] = (byte)((val * 0.4f) + (val2 * 0.6f));
@@ -705,12 +702,10 @@ namespace FloppyControlApp
                 }
             }
 
-            DCoffset = DCoffset / (length - (smoothing * 2));
-            totalmax -= DCoffset;
-            totalmin -= DCoffset;
-
+            DCoffset /= (length - (smoothing * 2));
+            
             for (i = 0; i < length; i++)
-                data[i] = (byte)(((t[i] - (byte)DCoffset) + 127.0));
+                Data[i] = (byte)(((t[i] - (byte)DCoffset) + 127.0));
 
         }
 
@@ -718,21 +713,19 @@ namespace FloppyControlApp
         {
             double DCoffset = 0;
             int i;
-            int length = data.Length;
-            int smoothingstart = 0 - smoothing;
-            double val2 = 0;
+            int length = Data.Length;
             double totalmax = 0;
             double totalmin = 255;
-
+            double val2;
             double[] t = new double[length];
             int[] history = new int[smoothing*2+1];
             int total = 0;
             for (i = smoothing; i < length - smoothing; i++)
             {
                 total -= history[i % (smoothing * 2+1)]; // subtract oldest value
-                history[i % (smoothing * 2+1)] = data[i + smoothing];
+                history[i % (smoothing * 2+1)] = Data[i + smoothing];
                 
-                total += data[i+smoothing];
+                total += Data[i+smoothing];
                 val2 = total/(double)(smoothing*2.0d);
                 
                 DCoffset += val2;
@@ -745,66 +738,61 @@ namespace FloppyControlApp
                 }
             }
 
-            DCoffset = DCoffset / (length - (smoothing * 2));
-            totalmax -= DCoffset;
-            totalmin -= DCoffset;
+            DCoffset /= (length - (smoothing * 2));
 
             for (i = 0; i < length; i++)
-                data[i] = (byte)(((t[i] - (byte)DCoffset) + 127.0));
+                Data[i] = (byte)(((t[i] - (byte)DCoffset) + 127.0));
 
         }
 
         public int ViewToDataY(int viewy)
         {
             int result;
-            float yscale127 = (127 * yscale);
+            float yscale127 = (127 * YScale);
 
             //int y2 = (int)(data[0] * yscale - yscale127);
 
-            int yoffset2 = yoffset + (height / 2);
+            int yoffset2 = YOffset + (Height / 2);
 
             //int viewy2 = height - (y2 + yoffset2);
 
             //viewy2 - height = y2 + yoffset2;
-            int y2 = height - (yoffset2 + viewy);
+            int y2 = Height - (yoffset2 + viewy);
 
             //y2 + yscale127 = data[0] * yscale;
             //(y2 + yscale127) / yscale = data[0];
 
 
-            result = (int)((y2 + yscale127) / yscale);
+            result = (int)((y2 + yscale127) / YScale);
 
             return result;
         }
 
         public int ViewToGraphIndex(int x)
         {
-            float offsetfactor = (float)x / (float)width;
-            int result = (int)(dataoffset + (datalength * offsetfactor));
+            float offsetfactor = (float)x / (float)Width;
+            int result = (int)(DataOffset + (DataLength * offsetfactor));
             return result;
         }
 
-        public void editgraph(int y, int radius, int editmode, int editoption, int extendradius)
+        public void EditGraph(int y, int radius, int editmode, int editoption, int extendradius)
         {
-            int i;
             float d;
             float d1;
-            float fadefactorstep;
             float dresult;
 
             radius += extendradius;
             
             // Tried to get a smooth curve to manipulate the waveform. PeriodExtend controls the width and may be negative. -19 is max.
-            if (editgraphactive)
+            if (EditGraphActive)
             {
                 if (editmode == 0)
                 {
-                    if (edittempbuf == null)
-                        if (editindex - radius > -1 && editindex + radius < data.Length)
-                            edittempbuf = data.SubArray(editindex - radius, radius * 2 + 1);
+                    if (EditTempBuf == null)
+                        if (EditIndex - radius > -1 && EditIndex + radius < Data.Length)
+                            EditTempBuf = Data.SubArray(EditIndex - radius, radius * 2 + 1);
 
-                    fadefactorstep = radius;
-                    for (i = 0; i < edittempbuf.Length; i++)
+                    for (int i = 0; i < EditTempBuf.Length; i++)
                     {
                         if (i <= radius)
                             d = (float)i / (float)radius;
@@ -816,85 +804,84 @@ namespace FloppyControlApp
 
                         d = 1 - d1;
                         //d *= d1;
-                        dresult = ((edittempbuf[i] * (1 - d)) + (y * d));
-                        data[editindex - radius + i] = (byte)dresult;
+                        dresult = ((EditTempBuf[i] * (1 - d)) + (y * d));
+                        Data[EditIndex - radius + i] = (byte)dresult;
                     }
                 }
                 else if (editmode == 1)
                 {
                     radius = (40+extendradius + editoption * 20)/2;
                     if (editoption == 0) radius -= extendradius;
-                    if( edittempbuf != null)
-                    if ( edittempbuf.Length > 0)
-                        for (i = 0; i < edittempbuf.Length; i++)
-                            data[edittempbufindex+i] = edittempbuf[i];
+                    if( EditTempBuf != null)
+                    if ( EditTempBuf.Length > 0)
+                        for (int i  = 0; i < EditTempBuf.Length; i++)
+                            Data[EditTempBufIndex+i] = EditTempBuf[i];
 
                     //Find zero crossing
-                    byte start = data[editindex - radius];
-                    int startthreshold = editindex-radius;
+                    byte start = Data[EditIndex - radius];
                     int direction = start - 127;
-                    rstart = 0;
+                    RStart = 0;
                     if (direction != 0)
                     {
-                        for (i = 1; i < 20; i++)
+                        for (int i = 1; i < 20; i++)
                         {
                             if (direction < 0)
                             {
-                                if (data[editindex - radius - i] >= 127)
+                                if (Data[EditIndex - radius - i] >= 127)
                                 {
-                                     rstart = editindex - radius - i;
+                                     RStart = EditIndex - radius - i;
                                     break;
                                 }
-                                if (data[editindex - radius + i] >= 127)
+                                if (Data[EditIndex - radius + i] >= 127)
                                 {
-                                    rstart = editindex - radius + i;
+                                    RStart = EditIndex - radius + i;
                                     break;
                                 }
                             }
                             if (direction > 0)
                             {
-                                if (data[editindex - radius - i] <= 127)
+                                if (Data[EditIndex - radius - i] <= 127)
                                 {
-                                    rstart = editindex - radius - i;
+                                    RStart = EditIndex - radius - i;
                                     break;
                                 }
-                                if (data[editindex - radius + i] <= 127)
+                                if (Data[EditIndex - radius + i] <= 127)
                                 {
-                                    rstart = editindex - radius + i;
+                                    RStart = EditIndex - radius + i;
                                     break;
                                 }
                             }
                         }
                     }
 
-                    rend = 0;
+                    REnd = 0;
                     if (direction != 0)
                     {
-                        for (i = 1; i < 20; i++)
+                        for (int i  = 1; i < 20; i++)
                         {
                             if (direction < 0)
                             {
-                                if (data[editindex + radius - i] >= 127)
+                                if (Data[EditIndex + radius - i] >= 127)
                                 {
-                                    rend = editindex + radius - i;
+                                    REnd = EditIndex + radius - i;
                                     break;
                                 }
-                                if (data[editindex + radius + i] >= 127)
+                                if (Data[EditIndex + radius + i] >= 127)
                                 {
-                                    rend = editindex + radius + i;
+                                    REnd = EditIndex + radius + i;
                                     break;
                                 }
                             }
                             if (direction > 0)
                             {
-                                if (data[editindex + radius - i] <= 127)
+                                if (Data[EditIndex + radius - i] <= 127)
                                 {
-                                    rend = editindex + radius - i;
+                                    REnd = EditIndex + radius - i;
                                     break;
                                 }
-                                if (data[editindex + radius + i] <= 127)
+                                if (Data[EditIndex + radius + i] <= 127)
                                 {
-                                    rend = editindex + radius + i;
+                                    REnd = EditIndex + radius + i;
                                     break;
                                 }
                             }
@@ -902,22 +889,22 @@ namespace FloppyControlApp
                     }
 
 
-                    if (rstart != 0 && rend != 0)
+                    if (RStart != 0 && REnd != 0)
                     {
-                        neweditindex = (rstart + rend) / 2;
+                        NewEditIndex = (RStart + REnd) / 2;
 
-                        if (edittempbuf == null)
-                            if (rstart > -1 && rend < data.Length)
+                        if (EditTempBuf == null)
+                            if (RStart > -1 && REnd < Data.Length)
                             {
-                                edittempbufindex = neweditindex - radius -5;
-                                edittempbuf = data.SubArray(neweditindex - radius-5, radius * 2 + 5);
+                                EditTempBufIndex = NewEditIndex - radius -5;
+                                EditTempBuf = Data.SubArray(NewEditIndex - radius-5, radius * 2 + 5);
                             }
-                        for (i = neweditindex - radius; i < neweditindex + radius; i++)
+                        for (int i = NewEditIndex - radius; i < NewEditIndex + radius; i++)
                         {
                             dresult = y;
                             //if (y < 127) dresult = 100;
                             //else dresult = 127+27;
-                            data[i] = (byte)dresult;
+                            Data[i] = (byte)dresult;
                         }
 
                         /*
@@ -974,22 +961,26 @@ namespace FloppyControlApp
             {
                 if (editmode == 0)
                 {
-                    UndoData ud = new UndoData();
-                    ud.offset = editindex - radius;
-                    ud.undodata = edittempbuf;
-                    undo.Add(ud);
-                    edittempbuf = null;
+                    UndoData ud = new UndoData
+                    {
+                        offset = EditIndex - radius,
+                        undodata = EditTempBuf
+                    };
+                    Undo.Add(ud);
+                    EditTempBuf = null;
                 }
 
                 if (editmode == 1)
                 {
-                    if (edittempbuf != null)
+                    if (EditTempBuf != null)
                     {
-                        UndoData ud = new UndoData();
-                        ud.offset = edittempbufindex;
-                        ud.undodata = edittempbuf;
-                        undo.Add(ud);
-                        edittempbuf = null;
+                        UndoData ud = new UndoData
+                        {
+                            offset = EditTempBufIndex,
+                            undodata = EditTempBuf
+                        };
+                        Undo.Add(ud);
+                        EditTempBuf = null;
                     }
                 }
 
@@ -1006,11 +997,11 @@ namespace FloppyControlApp
             int longLen = x2 - x;
             bool skip = false;
 
-            if (x < 0 || x >= width) return;
-            if (y < 0 || y >= height) return;
+            if (x < 0 || x >= Width) return;
+            if (y < 0 || y >= Height) return;
 
-            if (x2 < 0 || x2 >= width) return;
-            if (y2 < 0 || y2 >= height) return;
+            if (x2 < 0 || x2 >= Width) return;
+            if (y2 < 0 || y2 >= Height) return;
 
 
             if (Math.Abs(shortLen) > Math.Abs(longLen))
@@ -1088,95 +1079,97 @@ namespace FloppyControlApp
 
     public class Graphset
     {
-        public string filename { get; set; }
+        public string Filename { get; set; }
         public List<Graph2> Graphs { get; set; }
-        public PictureBox panel { get; set; }
-        public bool dragging { get; set; }
-        public Color fillcolor { set; get; }
-        public StringBuilder tbreceived { set; get; }
-        private Bitmap bmp;
-        public int bmpxoffset { set; get; }
-        public int xrelative { set; get; }
-        public int binfilecount { get; set; }
-        public int editmode { get; set; }
-        public int editoption { get; set; }
-        public int editperiodextend { get; set; }
-        public Color[] colors { get; set; }
+        public PictureBox Panel { get; set; }
+        public bool Dragging { get; set; }
+        public Color Fillcolor { set; get; }
+        public StringBuilder Tbreceived { set; get; }
+        private Bitmap Bmp;
+        public int Bmpxoffset { set; get; }
+        public int Xrelative { set; get; }
+        public int Binfilecount { get; set; }
+        public int Editmode { get; set; }
+        public int Editoption { get; set; }
+        public int Editperiodextend { get; set; }
+        public Color[] Colors { get; set; }
         private System.Windows.Forms.Timer repaintdelay = new System.Windows.Forms.Timer();
-        public bool allowrepaint { get; set; }
+        public bool Allowrepaint { get; set; }
 
         public Action UpdateGUI { get; set; }
         public Action GetControlValues { get; set; }
 
         public Graphset(PictureBox p, Color fill)
         {
-            editmode = 0;
-            editoption = 0;
-            colors = new Color[5];
-            colors[0] = Color.FromArgb(255, 255, 255, 0);
-            colors[1] = Color.FromArgb(255, 240, 0, 0);
-            colors[2] = Color.FromArgb(255, 0, 200, 0);
-            colors[3] = Color.FromArgb(255, 128, 255, 255);
-            colors[4] = Color.FromArgb(255, 255, 0, 255);
+            Editmode = 0;
+            Editoption = 0;
+            Colors = new Color[5];
+            Colors[0] = Color.FromArgb(255, 255, 255, 0);
+            Colors[1] = Color.FromArgb(255, 240, 0, 0);
+            Colors[2] = Color.FromArgb(255, 0, 200, 0);
+            Colors[3] = Color.FromArgb(255, 128, 255, 255);
+            Colors[4] = Color.FromArgb(255, 255, 0, 255);
 
-            allowrepaint = true;
+            Allowrepaint = true;
             repaintdelay.Interval = 500;
             repaintdelay.Tick += Repaintdelay_Tick;
 
             Graphs = new List<Graph2>();
-            dragging = false;
-            fillcolor = Color.White;
-            fillcolor = fill;
-            panel = p;
+            Dragging = false;
+            Fillcolor = Color.White;
+            Fillcolor = fill;
+            Panel = p;
 
-            panel.MouseDown += GraphPictureBox_MouseDown;
-            panel.MouseUp += GraphPictureBox_MouseUp;
-            panel.MouseMove += GraphPictureBox_MouseMove;
-            panel.MouseEnter += GraphPictureBox_MouseEnter;
-            panel.Paint += GraphPictureBox_Paint_1;
-            panel.MouseWheel += GraphPictureBox_MouseWheel;
+            Panel.MouseDown += GraphPictureBox_MouseDown;
+            Panel.MouseUp += GraphPictureBox_MouseUp;
+            Panel.MouseMove += GraphPictureBox_MouseMove;
+            Panel.MouseEnter += GraphPictureBox_MouseEnter;
+            Panel.Paint += GraphPictureBox_Paint_1;
+            Panel.MouseWheel += GraphPictureBox_MouseWheel;
 
-            bmp = new Bitmap(panel.Width, panel.Height, PixelFormat.Format32bppPArgb);
+            Bmp = new Bitmap(Panel.Width, Panel.Height, PixelFormat.Format32bppPArgb);
             //lockbitmap = new LockBitmap(bmp);
         }
 
         private void Repaintdelay_Tick(object sender, EventArgs e)
         {
             repaintdelay.Stop();
-            allowrepaint = true;
+            Allowrepaint = true;
             DoUpdateGraphs();
         }
 
         public void Dispose()
         {
-            bmp.Dispose();
+            Bmp.Dispose();
         }
 
         public void Resize()
         {
-            if(    panel != null 
-                && panel.Height != 0 
-                && panel.Width != 0)
-                bmp = new Bitmap(panel.Width, panel.Height);
+            if(    Panel != null 
+                && Panel.Height != 0 
+                && Panel.Width != 0)
+                Bmp = new Bitmap(Panel.Width, Panel.Height);
         }
 
         public void AddGraph(byte[] data)
         {
-            Graph2 newgraph = new Graph2();
-            newgraph.graphcolor = colors[Graphs.Count];
-            newgraph.data = data;
-            newgraph.width = panel.Width;
-            newgraph.height = panel.Height;
-            newgraph.tbreceived = tbreceived;
+            Graph2 newgraph = new Graph2
+            {
+                GraphColor = Colors[Graphs.Count],
+                Data = data,
+                Width = Panel.Width,
+                Height = Panel.Height,
+                TBReceived = Tbreceived
+            };
             Graphs.Add(newgraph);
 
         }
 
         public void UpdateGraphs()
         {
-            
-            if (UpdateGUI != null) UpdateGUI();
-            if (allowrepaint == true)
+
+            UpdateGUI?.Invoke();
+            if (Allowrepaint == true)
             {
                 DoUpdateGraphs();
             }
@@ -1189,38 +1182,38 @@ namespace FloppyControlApp
         public void DoUpdateGraphs()
         {
             Process proc = Process.GetCurrentProcess();
-            LockBitmap lockbitmap = new LockBitmap(bmp);
+            LockBitmap lockbitmap = new LockBitmap(Bmp);
 
             lockbitmap.LockBits();
 
             //Debug.WriteLine("5a proc: " + string.Format("{0:n0}", proc.PrivateMemorySize64));
             //tbreceived.Append("UpdateGraphs! "+Graphs[0].changed+"\r\n");
-            lockbitmap.FillBitmap(fillcolor);
-            lockbitmap.Line(panel.Width / 2, 0, panel.Width / 2, panel.Height, Color.FromArgb(255, 64, 64, 64));
+            lockbitmap.FillBitmap(Fillcolor);
+            lockbitmap.Line(Panel.Width / 2, 0, Panel.Width / 2, Panel.Height, Color.FromArgb(255, 64, 64, 64));
             lockbitmap.UnlockBits();
             //Debug.WriteLine("8 proc: " + string.Format("{0:n0}", proc.PrivateMemorySize64));
 
-            System.Drawing.Graphics panelgraphics = panel.CreateGraphics();
+            System.Drawing.Graphics panelgraphics = Panel.CreateGraphics();
 
-            Graphics g = Graphics.FromImage(bmp);
+            Graphics g = Graphics.FromImage(Bmp);
             g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
             //g.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceCopy;
             g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.None;
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
 
-            List<Graph2> zordered = Graphs.OrderBy(o => o.zorder).ToList();
+            List<Graph2> zordered = Graphs.OrderBy(o => o.ZOrder).ToList();
 
             foreach (var gr in zordered)
             {
-                gr.width = panel.Width;
-                gr.height = panel.Height;
+                gr.Width = Panel.Width;
+                gr.Height = Panel.Height;
 
-                if (gr.changed == true)
-                    gr.DoGraph2(false);
-                g.DrawImage(gr.bmpbuf, 0, 0);
+                if (gr.Changed == true)
+                    gr.DoGraph2();
+                g.DrawImage(gr.BmpBuf, 0, 0);
             }
 
-            panelgraphics.DrawImage(bmp, bmpxoffset, 0);
+            panelgraphics.DrawImage(Bmp, Bmpxoffset, 0);
 
             g.Dispose();
             panelgraphics.Dispose();
@@ -1234,24 +1227,24 @@ namespace FloppyControlApp
         {
             foreach (var gr in Graphs)
             {
-                gr.changed = true;
+                gr.Changed = true;
             }
         }
 
-        public void saveAll()
+        public void SaveAll()
         {
             //int i;
             if (Graphs.Count == 0) return;
-            string[] fsplit = filename.Split('_');
+            string[] fsplit = Filename.Split('_');
 
             string outputfilename = fsplit[0];
             try
             {
-                binfilecount = Int32.Parse((fsplit[2].Split('.')[0]));
+                Binfilecount = Int32.Parse((fsplit[2].Split('.')[0]));
             }
             catch
             {
-                binfilecount = 0;
+                Binfilecount = 0;
             }
             string subpath = @FloppyControlApp.Properties.Settings.Default["PathToRecoveredDisks"].ToString();
 
@@ -1259,28 +1252,28 @@ namespace FloppyControlApp
 
             string fullpath = path + outputfilename +
                 "_" + fsplit[1]
-                + "_" + binfilecount.ToString("D3") + ".wvfrm";
+                + "_" + Binfilecount.ToString("D3") + ".wvfrm";
 
             Directory.CreateDirectory(path);
 
             while (File.Exists(fullpath))
             {
-                binfilecount++;
+                Binfilecount++;
                 fullpath = path + outputfilename + "_" +
                  fsplit[1] +
-                "_" + binfilecount.ToString("D3") + ".wvfrm";
+                "_" + Binfilecount.ToString("D3") + ".wvfrm";
             }
-            tbreceived.Append("Saving file " + fullpath + "\r\n");
+            Tbreceived.Append("Saving file " + fullpath + "\r\n");
 
             // Write with counter so no overwrite is performed
             BinaryWriter writer;
             writer = new BinaryWriter(new FileStream(fullpath, FileMode.Create));
             int j;
             writer.Write((byte)Graphs.Count); // number of waveforms
-            writer.Write((int)Graphs[0].data.Length); // length of waveform
+            writer.Write((int)Graphs[0].Data.Length); // length of waveform
             for (j = 0; j < Graphs.Count; j++)
             {
-                writer.Write(Graphs[j].data);
+                writer.Write(Graphs[j].Data);
             }
 
             if (writer != null)
@@ -1302,23 +1295,23 @@ namespace FloppyControlApp
             {
                 return;
             }
-            float offsetfactor = (float)x / (float)Graphs[0].width;
+            float offsetfactor = (float)x / (float)Graphs[0].Width;
 
             for (i = 0; i < grphcnt; i++)
             {
-                if (Graphs[i].datalength == 500 && e.Delta > 0) return;
-                if (e.Delta < 0 && Graphs[i].datalength == Graphs[i].data.Length - 1) return;
+                if (Graphs[i].DataLength == 500 && e.Delta > 0) return;
+                if (e.Delta < 0 && Graphs[i].DataLength == Graphs[i].Data.Length - 1) return;
             }
 
             if (e.Delta > 0) // zoom in
             {
                 for (i = 0; i < grphcnt; i++)
                 {
-                    if (Graphs[i].datalength / 2 < 500) Graphs[i].datalength = 500;
-                    else Graphs[i].datalength /= 2;
-                    Graphs[i].changed = true;
+                    if (Graphs[i].DataLength / 2 < 500) Graphs[i].DataLength = 500;
+                    else Graphs[i].DataLength /= 2;
+                    Graphs[i].Changed = true;
 
-                    Graphs[i].dataoffset = (int)(Graphs[i].dataoffset + (Graphs[0].datalength * offsetfactor)); //center zoom
+                    Graphs[i].DataOffset = (int)(Graphs[i].DataOffset + (Graphs[0].DataLength * offsetfactor)); //center zoom
                     //graph[i].dataoffset = (int)(graph[i].dataoffset + (graph[0].datalength /2)); //center zoom
                 }
             }
@@ -1326,31 +1319,30 @@ namespace FloppyControlApp
             {
                 for (i = 0; i < grphcnt; i++)
                 {
-                    if (Graphs[i].datalength * 2 > Graphs[i].data.Length - 1) Graphs[i].datalength = Graphs[i].data.Length - 1;
-                    else Graphs[i].datalength *= 2;
-                    Graphs[i].changed = true;
-                    Graphs[i].dataoffset = (int)((Graphs[i].dataoffset) - (Graphs[i].datalength / 2.0 * offsetfactor));
+                    if (Graphs[i].DataLength * 2 > Graphs[i].Data.Length - 1) Graphs[i].DataLength = Graphs[i].Data.Length - 1;
+                    else Graphs[i].DataLength *= 2;
+                    Graphs[i].Changed = true;
+                    Graphs[i].DataOffset = (int)((Graphs[i].DataOffset) - (Graphs[i].DataLength / 2.0 * offsetfactor));
                 }
             }
-
-            int offsetmax = (Graphs[0].data.Length - 1) - Graphs[0].datalength;
+            
             //DataOffsetTrackBar.Maximum = offsetmax;
-            int offset = Graphs[0].dataoffset;
-            int viewdatalength = Graphs[0].datalength;
-            int datalength = Graphs[0].data.Length;
+            int offset = Graphs[0].DataOffset;
+            int viewdatalength = Graphs[0].DataLength;
+            int datalength = Graphs[0].Data.Length;
 
             if (offset + viewdatalength > (datalength - 1))
             {
                 offset = 0;
                 for (i = 0; i < grphcnt; i++)
-                    Graphs[i].dataoffset = offset;
+                    Graphs[i].DataOffset = offset;
 
             }
             if (offset < 0)
             {
                 offset = 0;
                 for (i = 0; i < grphcnt; i++)
-                    Graphs[i].dataoffset = offset;
+                    Graphs[i].DataOffset = offset;
 
             }
             //DataOffsetTrackBar.Value = Graphs[0].dataoffset;
@@ -1361,7 +1353,7 @@ namespace FloppyControlApp
             if (viewdatalength <= 64000) density = 1;
 
             for (i = 0; i < Graphs.Count; i++)
-                Graphs[i].density = density;
+                Graphs[i].Density = density;
 
             //string.Format("{0:n0}", indexrxbuf);
             UpdateGraphs();
@@ -1377,25 +1369,25 @@ namespace FloppyControlApp
 
         private void GraphPictureBox_MouseEnter(object sender, EventArgs e)
         {
-            panel.Focus();
+            Panel.Focus();
         }
 
         private void GraphPictureBox_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
-                dragging = true;
-                xrelative = e.X;
+                Dragging = true;
+                Xrelative = e.X;
             }
             else if (e.Button == MouseButtons.Right)
             {
                 if( Graphs.Count > 0)
-                if (Graphs[0].datalength < 2001)
+                if (Graphs[0].DataLength < 2001)
                 {
                     //editmode = 
                     if (GetControlValues == null)
                     {
-                        tbreceived.Append("GetControlValues not set!");
+                        Tbreceived.Append("GetControlValues not set!");
                         return;
                     }
                     GetControlValues();
@@ -1403,18 +1395,18 @@ namespace FloppyControlApp
 
                     int index = Graphs[0].ViewToGraphIndex(e.X);
 
-                    if (Graphs[0].editgraphactive == false)
+                    if (Graphs[0].EditGraphActive == false)
                     {
-                        Graphs[0].editgraphactive = true;
-                        Graphs[0].editindex = index;
+                        Graphs[0].EditGraphActive = true;
+                        Graphs[0].EditIndex = index;
                     }
 
                     int datay = Graphs[0].ViewToDataY(e.Y);
-                    byte data = Graphs[0].data[index];
+                    byte data = Graphs[0].Data[index];
 
-                    Graphs[0].editgraph(datay, 20, editmode, editoption, editperiodextend);
-                    tbreceived.Append("RMB Down index:" + index + " datay:" + datay + " data:" + data + "\r\n");
-                    Graphs[0].changed = true;
+                    Graphs[0].EditGraph(datay, 20, Editmode, Editoption, Editperiodextend);
+                    Tbreceived.Append("RMB Down index:" + index + " datay:" + datay + " data:" + data + "\r\n");
+                    Graphs[0].Changed = true;
 
                     UpdateGraphs();
                 }
@@ -1428,32 +1420,32 @@ namespace FloppyControlApp
             {
                 int grphcnt = Graphs.Count;
 
-                dragging = false;
+                Dragging = false;
                 int i;
                 int offset;
 
                 if (Graphs.Count == 0) return;
 
-                float factor = (float)Graphs[0].datalength / (float)Graphs[0].width;
+                float factor = (float)Graphs[0].DataLength / (float)Graphs[0].Width;
 
                 for (i = 0; i < grphcnt; i++)
                 {
-                    offset = (int)((xrelative - e.X) * factor);
-                    if (Graphs[i].dataoffset + offset < 0)
+                    offset = (int)((Xrelative - e.X) * factor);
+                    if (Graphs[i].DataOffset + offset < 0)
                     {
                         offset = 0;
-                        Graphs[i].dataoffset = 0;
+                        Graphs[i].DataOffset = 0;
                     }
 
-                    if (Graphs[i].dataoffset + Graphs[i].datalength + offset > Graphs[i].data.Length - 1)
+                    if (Graphs[i].DataOffset + Graphs[i].DataLength + offset > Graphs[i].Data.Length - 1)
                     {
                         offset = 0;
-                        Graphs[i].dataoffset = (Graphs[i].data.Length - 1) - Graphs[i].datalength;
+                        Graphs[i].DataOffset = (Graphs[i].Data.Length - 1) - Graphs[i].DataLength;
                     }
 
-                    Graphs[i].dataoffset += offset;
-                    Graphs[i].changed = true;
-                    bmpxoffset = 0;
+                    Graphs[i].DataOffset += offset;
+                    Graphs[i].Changed = true;
+                    Bmpxoffset = 0;
                     //tbreceived.Append("Offset: " + offset+ "\r\n");
                     
                 }
@@ -1464,15 +1456,15 @@ namespace FloppyControlApp
                 if (Graphs.Count == 0) return;
                 int datay = Graphs[0].ViewToDataY(e.Y);
                 //byte data = Graphs[0].data[index];
-                Graphs[0].editgraphactive = false;
-                Graphs[0].editgraph(datay, 20, editmode, editoption, editperiodextend);
+                Graphs[0].EditGraphActive = false;
+                Graphs[0].EditGraph(datay, 20, Editmode, Editoption, Editperiodextend);
 
                 //tbreceived.Append("RMB index:" + index + " datay:" + datay + " data:" + data + "\r\n");
-                Graphs[0].changed = true;
+                Graphs[0].Changed = true;
 
                 UpdateGraphs();
 
-                tbreceived.Append("RMB up\r\n");
+                Tbreceived.Append("RMB up\r\n");
                 
             }
 
@@ -1482,37 +1474,37 @@ namespace FloppyControlApp
         {
             if (e.Button == MouseButtons.Left)
             {
-                if (!(dragging)) return;
+                if (!(Dragging)) return;
                 //int i;
                 if (Graphs.Count == 0) return;
 
-                float zoomlevel = Graphs[0].datalength / (float)Graphs[0].data.Length;
+                float zoomlevel = Graphs[0].DataLength / (float)Graphs[0].Data.Length;
 
                 //tbreceived.Append("zoomlevel: " + zoomlevel + "\r\n");
 
                 if (zoomlevel > 0.99) return;
-                int xoffset = e.X - xrelative;
-                if (Graphs[0].dataoffset == 0 && xoffset > 0) return;
-                if (Graphs[0].dataoffset + Graphs[0].datalength >= Graphs[0].data.Length - 1 && xoffset < 0) return;
-                bmpxoffset = xoffset;
+                int xoffset = e.X - Xrelative;
+                if (Graphs[0].DataOffset == 0 && xoffset > 0) return;
+                if (Graphs[0].DataOffset + Graphs[0].DataLength >= Graphs[0].Data.Length - 1 && xoffset < 0) return;
+                Bmpxoffset = xoffset;
                 UpdateGraphs();
             }
             else
             if (e.Button == MouseButtons.Right)
             {
                 if( Graphs.Count > 0)
-                if (Graphs[0].datalength < 2000)
+                if (Graphs[0].DataLength < 2000)
                 {
                     int datay = Graphs[0].ViewToDataY(e.Y);
                     //byte data = Graphs[0].data[index];
 
-                    Graphs[0].editgraph(datay, 20, editmode, editoption, editperiodextend);
+                    Graphs[0].EditGraph(datay, 20, Editmode, Editoption, Editperiodextend);
                     //tbreceived.Append("RMB index:" + index + " datay:" + datay + " data:" + data + "\r\n");
-                    Graphs[0].changed = true;
+                    Graphs[0].Changed = true;
 
                     UpdateGraphs();
 
-                    tbreceived.Append("RMBMove\r\n");
+                    Tbreceived.Append("RMBMove\r\n");
                 }
             }
         }
@@ -1523,15 +1515,15 @@ namespace FloppyControlApp
         private byte[] histogram = new byte[256];
         private Panel panel;
         private float scaling;
-        public int hd { get; set; }
-        public byte[] data { get; set; }
-        public int offset { get; set; }
-        public int length { get; set; }
-        public StringBuilder tbreceived { get; set; }
+        public int HD { get; set; }
+        public byte[] Data { get; set; }
+        public int Offset { get; set; }
+        public int Length { get; set; }
+        public StringBuilder TBReceived { get; set; }
 
         public Histogram()
         {
-            hd = 0;
+            HD = 0;
         }
 
         public float getScaling()
@@ -1551,9 +1543,9 @@ namespace FloppyControlApp
         /// </summary>
         public void DoHistogram(byte[] d, int offset1, int length1)
         {
-            data = d;
-            offset = offset1;
-            length = length1;
+            Data = d;
+            Offset = offset1;
+            Length = length1;
             DoHistogram();
         }
 
@@ -1561,16 +1553,16 @@ namespace FloppyControlApp
         {
             int i;
 
-            if (data == null) return;
-            if (offset + length > data.Length) return;
+            if (Data == null) return;
+            if (Offset + Length > Data.Length) return;
 
             int[] histogramint = new int[256];
 
             int histogrammax, histogrammaxprev;
 
-            if (length == 0) length = data.Length;
+            if (Length == 0) Length = Data.Length;
 
-            if (!(data.Length >= (offset + length))) return;
+            if (!(Data.Length >= (Offset + Length))) return;
 
             //Create histogram of the track period data
 
@@ -1581,10 +1573,10 @@ namespace FloppyControlApp
             }
 
             // count the period lengths grouped by period length, skip 0
-            for (i = offset; i < offset + length; i++)
+            for (i = Offset; i < Offset + Length; i++)
             {
                 //if (data[i] > 0)
-                histogramint[data[i] << hd & 0xff]++;
+                histogramint[Data[i] << HD & 0xff]++;
             }
 
             // Find the maximum value so we can normalize the histogram down to 100 to fit inside histogram graph
@@ -1960,67 +1952,67 @@ namespace FloppyControlApp
         FDDProcessing processing { get; set; }
         public ConcurrentDictionary<int, MFMData> sectordata2 { get; set; }
         public int indexrxbuf { get; set; }
-        public PictureBox panel { get; set; }
-        public byte[] rxbuf { get; set; }
-        public int start { get; set; }
-        public int end { get; set; }
-        public int thresholdmin { get; set; }
-        public int threshold4us { get; set; }
-        public int threshold6us { get; set; }
-        public int thresholdmax { get; set; }
-        public int bmpxoffset { get; set; }
-        public StringBuilder tbreiceved { get; set; }
-        public bool dragging { get; set; }
-        private byte[] gradient1 = new byte[256];
-        public int xrelative { get; set; }
+        public PictureBox Panel { get; set; }
+        public byte[] Rxbuf { get; set; }
+        public int Start { get; set; }
+        public int End { get; set; }
+        public int Thresholdmin { get; set; }
+        public int Threshold4us { get; set; }
+        public int Threshold6us { get; set; }
+        public int Thresholdmax { get; set; }
+        public int Bmpxoffset { get; set; }
+        public StringBuilder Tbreiceved { get; set; }
+        public bool Dragging { get; set; }
+        private byte[] Gradient1 = new byte[256];
+        public int Xrelative { get; set; }
         public int AnScatViewlength { get; set; }
         public int AnScatViewoffset { get; set; }
         public int AnScatViewlargeoffset { get; set; }
         private int AnScatViewlargeoffsetold { get; set; }
         public int AnScatViewoffsetOld { get; set; }
-        public int maxdots { get; set; }
-        public int graphindex;
-        public int rxbufclickindex;
+        public int Maxdots { get; set; }
+        public int GraphIndex;
+        public int RxbufClickIndex;
         public bool EditScatterplot { get; set; }
         public Action UpdateEvent { get; set; }
         public Action ShowGraph { get; set; }
-        public bool showEntropy { get; set; }
+        public bool ShowEntropy { get; set; }
         int ID = 0;
 
         public ScatterPlot(FDDProcessing proc, ConcurrentDictionary<int, MFMData> sd, int indexstart, int indexend, PictureBox picturebox)
         {
-            maxdots = 100000;
-            showEntropy = false;
-            AnScatViewlength = maxdots;
+            Maxdots = 100000;
+            ShowEntropy = false;
+            AnScatViewlength = Maxdots;
             AnScatViewoffset = 0;
             processing = proc;
             sectordata2 = sd;
-            start = indexstart;
-            end = indexend;
-            panel = picturebox;
-            start = 0;
-            end = 0;
-            threshold4us = 0;
-            threshold6us = 6;
-            dragging = false;
+            Start = indexstart;
+            End = indexend;
+            Panel = picturebox;
+            Start = 0;
+            End = 0;
+            Threshold4us = 0;
+            Threshold6us = 6;
+            Dragging = false;
             EditScatterplot = false;
             int i,p;
             Random random = new Random();
             int ID = random.Next();
-            proc.tbreceived.Append("scatterplot id: " + ID);
+            proc.TBReceived.Append("scatterplot id: " + ID);
             for (i = 255; i > -1; i--)
-                gradient1[i] = 255;
+                Gradient1[i] = 255;
 
             for (p = 47; p < 132; p += 40)
             {
                 for (i = 0; i < 16; i++)
                 {
-                    gradient1[i + p] = (byte)(255 - (i * 15));
+                    Gradient1[i + p] = (byte)(255 - (i * 15));
 
                 }
                 for (i = 16; i < 30; i++)
                 {
-                    gradient1[i + p] = (byte)(255 - ((15 - (i - 15)) * 15));
+                    Gradient1[i + p] = (byte)(255 - ((15 - (i - 15)) * 15));
 
                 }
             }
@@ -2031,20 +2023,20 @@ namespace FloppyControlApp
 
         public void assignEvents()
         {
-            panel.MouseHover += PictureBox_MouseHover;
-            panel.MouseUp += PictureBox_MouseUp;
-            panel.MouseDown += PictureBox_MouseDown;
-            panel.MouseMove += PictureBox_MouseMove;
-            panel.MouseWheel += ScatterPictureBox_MouseWheel;
+            Panel.MouseHover += PictureBox_MouseHover;
+            Panel.MouseUp += PictureBox_MouseUp;
+            Panel.MouseDown += PictureBox_MouseDown;
+            Panel.MouseMove += PictureBox_MouseMove;
+            Panel.MouseWheel += ScatterPictureBox_MouseWheel;
         }
 
         public void removeEvents()
         {
-            panel.MouseHover -= PictureBox_MouseHover;
-            panel.MouseUp -= PictureBox_MouseUp;
-            panel.MouseDown -= PictureBox_MouseDown;
-            panel.MouseMove -= PictureBox_MouseMove;
-            panel.MouseWheel -= ScatterPictureBox_MouseWheel;
+            Panel.MouseHover -= PictureBox_MouseHover;
+            Panel.MouseUp -= PictureBox_MouseUp;
+            Panel.MouseDown -= PictureBox_MouseDown;
+            Panel.MouseMove -= PictureBox_MouseMove;
+            Panel.MouseWheel -= ScatterPictureBox_MouseWheel;
         }
 
         public void drawScatterPlot()
@@ -2054,18 +2046,18 @@ namespace FloppyControlApp
             
             //int TrackPosInrxdatacount = controlfloppy.TrackPosInrxdatacount;
             //int[] TrackPosInrxdata = controlfloppy.TrackPosInrxdata;
-            indexrxbuf = processing.indexrxbuf;
+            indexrxbuf = processing.Indexrxbuf;
 
-            if (start == end)
+            if (Start == End)
             {
-                tbreiceved.Append("Length is zero, nothing to do.\r\n");
+                Tbreiceved.Append("Length is zero, nothing to do.\r\n");
                 return;
             }
 
             //System.Drawing.Pen BlackPen, RedPen;
             //BlackPen = new System.Drawing.Pen(System.Drawing.Color.FromArgb(255, 128, 128, 128));
             //RedPen = new System.Drawing.Pen(System.Drawing.Color.FromArgb(255, 200, 0, 0));
-            System.Drawing.Graphics formGraphics = panel.CreateGraphics();
+            System.Drawing.Graphics formGraphics = Panel.CreateGraphics();
             //System.Drawing.SolidBrush myBrush = new System.Drawing.SolidBrush(Color.White);
             /*
             scrollbarcurrentpos = TrackPosInrxdatacount - 2;
@@ -2099,18 +2091,18 @@ namespace FloppyControlApp
                 LockBitmap lockBitmap = new LockBitmap(bmp);
                 lockBitmap.LockBits();
                 lockBitmap.FillBitmap(Color.White);
-                datapoints = end - start;
+                datapoints = End - Start;
 
                 if (datapoints == 0) datapoints = 1;
 
-                int width = panel.Width;
+                int width = Panel.Width;
                 factor = (float)width / (float)datapoints;
 
                 for (i = 0; i < datapoints; i++)
                 {
                     posx = factor * i;
-                    value = rxbuf[i + start];
-                    lockBitmap.SetPixel((int)posx, ((value << processing.procsettings.hd)) & 0xff, Color.FromArgb(255, 0, (255 - gradient1[value]), gradient1[value]));
+                    value = Rxbuf[i + Start];
+                    lockBitmap.SetPixel((int)posx, ((value << processing.ProcSettings.hd)) & 0xff, Color.FromArgb(255, 0, (255 - Gradient1[value]), Gradient1[value]));
                     if (value == 0x01) // draw index markers
                         lockBitmap.Line((int)posx, 0, (int)posx, 255, Color.Black);
                 }
@@ -2120,11 +2112,11 @@ namespace FloppyControlApp
                 lockBitmap.Line(0, 141, 580, 141, Color.Black);
 
                 //Show thresholds
-                lockBitmap.Line(0, threshold4us, 580, threshold4us, Color.Red);
-                lockBitmap.Line(0, threshold6us, 580, threshold6us, Color.Red);
+                lockBitmap.Line(0, Threshold4us, 580, Threshold4us, Color.Red);
+                lockBitmap.Line(0, Threshold6us, 580, Threshold6us, Color.Red);
                 lockBitmap.UnlockBits();
 
-                formGraphics.DrawImage(bmp, bmpxoffset, 0);
+                formGraphics.DrawImage(bmp, Bmpxoffset, 0);
             }
 
             //Cleanup
@@ -2151,15 +2143,15 @@ namespace FloppyControlApp
             
             datapoints = end - start;
             if (bufend == 0) return;
-            if (rxbuf == null)
+            if (Rxbuf == null)
             {
-                tbreiceved.Append("rxbuf null detected! scatterplot ID="+ID);
+                Tbreiceved.Append("rxbuf null detected! scatterplot ID="+ID);
                 return;
             }
 
-            if (start + datapoints > rxbuf.Length) return;
+            if (start + datapoints > Rxbuf.Length) return;
 
-            Graphics formGraphics = panel.CreateGraphics();
+            Graphics formGraphics = Panel.CreateGraphics();
             formGraphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
             formGraphics.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceCopy;
             formGraphics.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.None;
@@ -2181,17 +2173,17 @@ namespace FloppyControlApp
                 lockBitmap.FillBitmap(Color.White);
 
                 if (datapoints == 0) datapoints = 1;
-                int width = panel.Width;
+                int width = Panel.Width;
                 factor = (float)width / (float)datapoints;
                 //if (indexrxbuf > rxbuf.Length) indexrxbuf = rxbuf.Length - 1;
-                if (datapoints > rxbuf.Length) datapoints = rxbuf.Length - 1;
-                if (start > -1 && processing.entropy != null && showEntropy)
+                if (datapoints > Rxbuf.Length) datapoints = Rxbuf.Length - 1;
+                if (start > -1 && processing.entropy != null && ShowEntropy)
                 {
                     for (i = 0; i < datapoints; i++)
                     {
                         posx = factor * i;
 
-                        value = rxbuf[i + start];
+                        value = Rxbuf[i + start];
                         if (value == 0x01) // draw index markers
                         {
                             for (j = 0; j < 256; j += 2)
@@ -2203,7 +2195,7 @@ namespace FloppyControlApp
                         if (processing.entropy.Length < i + start) break; 
                         if (bigpixels > 1)
                         {
-                            lockBitmap.filledsquare((int)posx, ((value << processing.procsettings.hd)) & 0xff, bigpixels, bigpixels, Color.FromArgb(255, 0, (255 - gradient1[value]), gradient1[value]));
+                            lockBitmap.filledsquare((int)posx, ((value << processing.ProcSettings.hd)) & 0xff, bigpixels, bigpixels, Color.FromArgb(255, 0, (255 - Gradient1[value]), Gradient1[value]));
                             lockBitmap.filledsquare((int)posx, (int)processing.entropy[i + start] + 192, bigpixels, bigpixels, Color.FromArgb(255, 0, 0, 0));
                             lockBitmap.filledsquare((int)posx, (int)processing.threshold4[i + start], bigpixels, bigpixels, Color.FromArgb(255, 255, 0, 0));
                             lockBitmap.filledsquare((int)posx, (int)processing.threshold6[i + start], bigpixels, bigpixels, Color.FromArgb(255, 0, 255, 0));
@@ -2211,7 +2203,7 @@ namespace FloppyControlApp
                         }
                         else
                         {
-                            lockBitmap.SetPixel((int)posx, ((value << processing.procsettings.hd)) & 0xff, Color.FromArgb(255, 0, (255 - gradient1[value]), gradient1[value]));
+                            lockBitmap.SetPixel((int)posx, ((value << processing.ProcSettings.hd)) & 0xff, Color.FromArgb(255, 0, (255 - Gradient1[value]), Gradient1[value]));
                             if( i+start < processing.entropy.Length)
                                 lockBitmap.SetPixel((int)posx, (int)processing.entropy[i + start] + 192, Color.FromArgb(255, 0, 0, 0));
                             if (i + start < processing.threshold4.Length)
@@ -2229,7 +2221,7 @@ namespace FloppyControlApp
                     {
                         posx = factor * i;
 
-                        value = rxbuf[i + start];
+                        value = Rxbuf[i + start];
                         if (value == 0x01) // draw index markers
                         {
                             for (j = 0; j < 256; j += 2)
@@ -2241,12 +2233,12 @@ namespace FloppyControlApp
 
                         if (bigpixels > 1)
                         {
-                            lockBitmap.filledsquare((int)posx, ((value << processing.procsettings.hd)) & 0xff, bigpixels, bigpixels, Color.FromArgb(255, 0, (255 - gradient1[value]), gradient1[value]));
+                            lockBitmap.filledsquare((int)posx, ((value << processing.ProcSettings.hd)) & 0xff, bigpixels, bigpixels, Color.FromArgb(255, 0, (255 - Gradient1[value]), Gradient1[value]));
                             //lockBitmap.filledsquare((int)posx, (int)processing.entropy[i + start] + 192, bigpixels, bigpixels, Color.FromArgb(255, 0, 0, 0));
                         }
                         else
                         {
-                            lockBitmap.SetPixel((int)posx, ((value << processing.procsettings.hd)) & 0xff, Color.FromArgb(255, 0, (255 - gradient1[value]), gradient1[value]));
+                            lockBitmap.SetPixel((int)posx, ((value << processing.ProcSettings.hd)) & 0xff, Color.FromArgb(255, 0, (255 - Gradient1[value]), Gradient1[value]));
                             //lockBitmap.SetPixel((int)posx, (int)processing.entropy[i + start] + 192, Color.FromArgb(255, 0, 0, 0));
                         }
                     }
@@ -2320,16 +2312,16 @@ namespace FloppyControlApp
                 lockBitmap.Line(0, 100, 580, 100, Color.Black);
                 lockBitmap.Line(0, 141, 580, 141, Color.Black);
 
-                if( threshold4us < 50)
+                if( Threshold4us < 50)
                 {
                     //throw new ArgumentException("Threshold4us too low!");
                 }
 
                 //Show thresholds
-                lockBitmap.Line(0, thresholdmin, 580, thresholdmin, Color.Red);
-                lockBitmap.Line(0, threshold4us, 580, threshold4us, Color.Red);
-                lockBitmap.Line(0, threshold6us, 580, threshold6us, Color.Red);
-                lockBitmap.Line(0, thresholdmax, 580, thresholdmax, Color.Red);
+                lockBitmap.Line(0, Thresholdmin, 580, Thresholdmin, Color.Red);
+                lockBitmap.Line(0, Threshold4us, 580, Threshold4us, Color.Red);
+                lockBitmap.Line(0, Threshold6us, 580, Threshold6us, Color.Red);
+                lockBitmap.Line(0, Thresholdmax, 580, Thresholdmax, Color.Red);
                 lockBitmap.UnlockBits();
 
                 RectangleF rectf2 = new RectangleF(0, 280, 256, 40);
@@ -2340,7 +2332,7 @@ namespace FloppyControlApp
                 lockBitmap = null;
                 g.Flush();
 
-                formGraphics.DrawImage(bmp, bmpxoffset, 0);
+                formGraphics.DrawImage(bmp, Bmpxoffset, 0);
             }
 
             //Cleanup
@@ -2351,12 +2343,12 @@ namespace FloppyControlApp
         private void ScatterPictureBox_MouseWheel(object sender, MouseEventArgs e)
         {
             int x = e.X;
-            int length = maxdots;
+            int length = Maxdots;
             int start = 0;
             int end = start + length;
             int minimumZoom = 10;
 
-            double offsetfactor = (float)x / (float)panel.Width;
+            double offsetfactor = (float)x / (float)Panel.Width;
             //tbreceived.Append("indexrxbuf: "+indexrxbuf+"\r\n");
 
             if (AnScatViewlength == minimumZoom && e.Delta > 0) return;
@@ -2381,52 +2373,52 @@ namespace FloppyControlApp
             {
                 AnScatViewoffset = 0;
             }
-            if (AnScatViewoffset + AnScatViewlength > processing.indexrxbuf)
+            if (AnScatViewoffset + AnScatViewlength > processing.Indexrxbuf)
             {
-                AnScatViewlength = processing.indexrxbuf - AnScatViewoffset;
+                AnScatViewlength = processing.Indexrxbuf - AnScatViewoffset;
             }
             UpdateScatterPlot();
         }
 
         public void UpdateScatterPlot()
         {
-            if (UpdateEvent != null) UpdateEvent();
-            
+            UpdateEvent?.Invoke();
+
             drawScatterPlot(AnScatViewoffset, AnScatViewoffset + AnScatViewlength, 200000);
             
         }
 
         private void PictureBox_MouseHover(object sender, EventArgs e)
         {
-            panel.Focus();
+            Panel.Focus();
         }
 
         private void PictureBox_MouseDown(object sender, MouseEventArgs e)
         {
-            if (rxbuf == null)
+            if (Rxbuf == null)
             {
-                tbreiceved.Append("rxbuf null detected! scatterplot ID=" + ID);
+                Tbreiceved.Append("rxbuf null detected! scatterplot ID=" + ID);
                 return;
             }
-            rxbufclickindex = ViewToGraphIndex(e.X);
+            RxbufClickIndex = ViewToGraphIndex(e.X);
             if (e.Button == MouseButtons.Left)
             {
-                dragging = true;
-                if( rxbufclickindex < rxbuf.Length-1)
+                Dragging = true;
+                if( RxbufClickIndex < Rxbuf.Length-1)
                 //tbreiceved.Append("Y: "+e.Y+" val: "+processing.rxbuf[rxbufclickindex]+" rxclickindex: "+rxbufclickindex+"\r\n");
 
-                xrelative = e.X;
-                tbreiceved.Append("xrelative:"+xrelative+"\r\n");
+                Xrelative = e.X;
+                Tbreiceved.Append("xrelative:"+Xrelative+"\r\n");
                 AnScatViewoffsetOld = AnScatViewoffset;
                 AnScatViewlargeoffsetold = AnScatViewlargeoffset;
             }
             else if (e.Button == MouseButtons.Right)
             {
-                rxbufclickindex = ViewToGraphIndex(e.X);
-                if (processing.rxbuftograph != null)
+                RxbufClickIndex = ViewToGraphIndex(e.X);
+                if (processing.Rxbuftograph != null)
                 {
-                    if(rxbufclickindex< processing.rxbuftograph.Length)
-                        graphindex = processing.rxbuftograph[rxbufclickindex-1];
+                    if(RxbufClickIndex< processing.Rxbuftograph.Length)
+                        GraphIndex = processing.Rxbuftograph[RxbufClickIndex-1];
                     
                 }
                 ShowGraph();
@@ -2435,7 +2427,7 @@ namespace FloppyControlApp
 
         private void PictureBox_MouseMove(object sender, MouseEventArgs e)
         {
-            rxbufclickindex = ViewToGraphIndex(e.X);
+            RxbufClickIndex = ViewToGraphIndex(e.X);
             
             if (e.Button == MouseButtons.Left)
             {
@@ -2445,10 +2437,10 @@ namespace FloppyControlApp
             {
                 if (EditScatterplot == true && AnScatViewlength <= 0x40)
                 {
-                    int xoffset = (int)(panel.Width / AnScatViewlength) / 2;
+                    int xoffset = (int)(Panel.Width / AnScatViewlength) / 2;
 
-                    rxbufclickindex = ViewToGraphIndex(e.X + xoffset);
-                    processing.rxbuf[rxbufclickindex] = (byte)e.Y;
+                    RxbufClickIndex = ViewToGraphIndex(e.X + xoffset);
+                    processing.RxBbuf[RxbufClickIndex] = (byte)e.Y;
                     //tbreiceved.Append("Y: " + e.Y + " val: " + processing.rxbuf[rxbufclickindex] + " rxclickindex: " + rxbufclickindex + "\r\n");
                     UpdateScatterPlot();
                 }
@@ -2459,7 +2451,7 @@ namespace FloppyControlApp
         {
             if (e.Button == MouseButtons.Left)
             {
-                dragging = false;
+                Dragging = false;
                 DoDragging(sender, e);
             }
         }
@@ -2467,31 +2459,31 @@ namespace FloppyControlApp
         private void DoDragging(object sender, MouseEventArgs e)
         {
             int offset;
-            float factor = AnScatViewlength / (float)panel.Width;
+            float factor = AnScatViewlength / (float)Panel.Width;
 
-            offset = (int)((xrelative - e.X) * factor);
+            offset = (int)((Xrelative - e.X) * factor);
 
             AnScatViewoffset = AnScatViewoffsetOld + offset;
 
-            if (AnScatViewoffset + AnScatViewlength + offset > maxdots - 1)
+            if (AnScatViewoffset + AnScatViewlength + offset > Maxdots - 1)
             {
                 AnScatViewlargeoffset = AnScatViewlargeoffsetold + offset;
-                if (AnScatViewlargeoffset + AnScatViewlength > processing.rxbuf.Length - 1)
-                    AnScatViewlargeoffset = processing.rxbuf.Length - 1;
+                if (AnScatViewlargeoffset + AnScatViewlength > processing.RxBbuf.Length - 1)
+                    AnScatViewlargeoffset = processing.RxBbuf.Length - 1;
                 //offset = 0;
-                AnScatViewoffset = (maxdots - 1) - AnScatViewlength;
+                AnScatViewoffset = (Maxdots - 1) - AnScatViewlength;
             }
                 
-            bmpxoffset = 0;
-            start = AnScatViewoffset;
-            end = start + AnScatViewlength;
+            Bmpxoffset = 0;
+            Start = AnScatViewoffset;
+            End = Start + AnScatViewlength;
                 
             UpdateScatterPlot();
         }
 
         public int ViewToGraphIndex(int x)
         {
-            float offsetfactor = (float)x / (float)panel.Width;
+            float offsetfactor = (float)x / (float)Panel.Width;
             int result = (int)(AnScatViewoffset + (AnScatViewlength * offsetfactor)+ AnScatViewlargeoffset);
             return result;
         }

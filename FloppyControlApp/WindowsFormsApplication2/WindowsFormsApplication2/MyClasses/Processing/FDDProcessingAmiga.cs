@@ -22,8 +22,8 @@ namespace FloppyControlApp
         public int stat4us;
         public int stat6us;
         public int stat8us;
-        public int scatterplotstart { get; set; }
-        public int scatterplotend { get; set; }
+        public int ScatterplotStart { get; set; }
+        public int ScatterplotEnd { get; set; }
         
 
         private void GetAllMFMMarkerPositionsDiskspare(int threadid)
@@ -41,11 +41,11 @@ namespace FloppyControlApp
 
             //=============================================================================================
             //Find diskspare sector markers
-            if (indexrxbuf > rxbuf.Length) indexrxbuf = rxbuf.Length - 1;
+            if (Indexrxbuf > RxBbuf.Length) Indexrxbuf = RxBbuf.Length - 1;
 
             if ((diskformat == DiskFormat.unknown || diskformat == DiskFormat.diskspare))
             {
-                rxbufcnt = procsettings.start;
+                rxbufcnt = ProcSettings.start;
                 searchcnt = 0;
                 // Find markers
                 for (int i = 0; i < mfmlengths[threadid]; i++)
@@ -58,11 +58,11 @@ namespace FloppyControlApp
                     if (mfms[threadid][i] == 1) // counting 1's matches the number of bytes in rxbuf + start offset
                         rxbufcnt++;
 
-                    if (rxbufcnt < rxbuf.Length - 1)
+                    if (rxbufcnt < RxBbuf.Length - 1)
                     {
-                        while (rxbuf[rxbufcnt] < 4)
+                        while (RxBbuf[rxbufcnt] < 4)
                         {
-                            if (rxbufcnt < rxbuf.Length - 1)
+                            if (rxbufcnt < RxBbuf.Length - 1)
                                 rxbufcnt++;
                             else
                                 break;
@@ -86,7 +86,7 @@ namespace FloppyControlApp
                             // Todo: bottleneck for multithreading!
                             if (!sectordata2.TryAdd(sectordata2.Count, sectordata))
                             {
-                                tbreceived.Append("Failed to add to Sectordata dictionary " + markerpositionscntthread + "\r\n");
+                                TBReceived.Append("Failed to add to Sectordata dictionary " + markerpositionscntthread + "\r\n");
                                 return;
                             }
 
@@ -97,14 +97,14 @@ namespace FloppyControlApp
                 }
                 if (markerpositionscntthread > 0)
                 {
-                    tbreceived.Append("Format: DiskSpare ");
+                    TBReceived.Append("Format: DiskSpare ");
                     diskformat = DiskFormat.diskspare; // Diskspare format
                                                        //DiskTypeLabel.Text = "DiskSpare";
                                                        //ShowDiskFormat();
                 }
                 else
                 {
-                    tbreceived.Append("\r\nNo DiskSpare markers found\r\n");
+                    TBReceived.Append("\r\nNo DiskSpare markers found\r\n");
 
                 }
             }
@@ -121,7 +121,7 @@ namespace FloppyControlApp
             //=============================================================================================
             if ((diskformat == DiskFormat.unknown || diskformat == DiskFormat.amigados))
             {
-                rxbufcnt = procsettings.start;
+                rxbufcnt = ProcSettings.start;
                 searchcnt = 0;
                 // Find AmigaDOS markers
                 for (int i = 0; i < mfmlengths[threadid]; i++)
@@ -129,8 +129,8 @@ namespace FloppyControlApp
                     if (i % 1048576 == 1048575) { progresses[threadid] = i; }
                     if (mfms[threadid][i] == 1) // counting 1's matches the number of bytes in rxbuf + start offset
                         rxbufcnt++;
-                    if (rxbufcnt >= rxbuf.Length) break;
-                    while (rxbuf[rxbufcnt] < 4 && rxbufcnt < indexrxbuf - 1) rxbufcnt++;
+                    if (rxbufcnt >= RxBbuf.Length) break;
+                    while (RxBbuf[rxbufcnt] < 4 && rxbufcnt < Indexrxbuf - 1) rxbufcnt++;
                     for (int j = 0; j < amigamarkerbytes.Length; j++)
                     {
                         if (mfms[threadid][i + j] == amigamarkerbytes[j]) searchcnt++;
@@ -149,7 +149,7 @@ namespace FloppyControlApp
 
                             if (!sectordata2.TryAdd(sectordata2.Count, sectordata))
                             {
-                                tbreceived.Append("Failed to add to Sectordata dictionary " + markerpositionscntthread + "\r\n");
+                                TBReceived.Append("Failed to add to Sectordata dictionary " + markerpositionscntthread + "\r\n");
                             }
                             markerpositionscntthread++;
                         }
@@ -159,12 +159,12 @@ namespace FloppyControlApp
 
                 if (markerpositionscntthread > 0)
                 {
-                    tbreceived.Append("Format: AmigaDOS ");
+                    TBReceived.Append("Format: AmigaDOS ");
                     diskformat = DiskFormat.amigados; // AmigaDOS format
                 }
                 else //No valid diskdata recognized
                 {
-                    tbreceived.Append("\r\nNo valid disk data recognized.\r\n");
+                    TBReceived.Append("\r\nNo valid disk data recognized.\r\n");
                     return;
                 }
             }
@@ -358,7 +358,6 @@ namespace FloppyControlApp
         private void ProcessAmigaMFMbytes(ProcSettings procsettings, int threadid)
         {
             int i;
-            uint j;
             
             int markerpositionscntthread = 0;
             int bytespersectorthread = 512;
@@ -379,7 +378,7 @@ namespace FloppyControlApp
 #endregion
             //totaltime += reltime = relativetime();
             //tbreceived.Append(reltime + "ms finding markers.\r\n");
-            tbreceived.Append("Marker count: " + markerpositionscntthread.ToString() + " ");
+            TBReceived.Append("Marker count: " + markerpositionscntthread.ToString() + " ");
             /*
             for (i=0; i<markerpositionscntthread; i++)
             {
@@ -407,12 +406,8 @@ namespace FloppyControlApp
             progressesstart[threadid] = 0;
             progressesend[threadid] = (int)markerpositionscntthread;
 
-            byte[] headerchecksum;
-            byte[] datachecksum;
-
             int mrkridx;
             //Now loop through all sectors to decode data
-            byte[] checksum;
 
             MFMData sectordatathread;
 
@@ -426,7 +421,6 @@ namespace FloppyControlApp
 
                 byte[] dec1 = new byte[1];
 
-                string checksumok;
                 bool headercheckok = false;
                 bool datacheckok = false;
 
@@ -467,10 +461,10 @@ namespace FloppyControlApp
                 if (diskformat == DiskFormat.diskspare) // DiskSpare doesn't have header checksum
                 {
                     if (tracknr < 164 && sectornr < sectorspertrack)
-                        if (datacheckok) sectormap.sectorokLatestScan[tracknr, sectornr]++;
+                        if (datacheckok) SectorMap.sectorokLatestScan[tracknr, sectornr]++;
                 }
                 else if (headercheckok)
-                    if (tracknr < 164 && sectornr < 20) sectormap.sectorokLatestScan[tracknr, sectornr]++;
+                    if (tracknr < 164 && sectornr < 20) SectorMap.sectorokLatestScan[tracknr, sectornr]++;
 
 
                 //If the checksum is correct and sector and track numbers within range and no sector data has already been captured
@@ -523,9 +517,9 @@ namespace FloppyControlApp
                         }
                     }
                     // Prevent overwriting good sector data with other good sector data.
-                    if (sectormap.sectorok[tracknr, sectornr] != SectorMapStatus.CrcOk)
+                    if (SectorMap.sectorok[tracknr, sectornr] != SectorMapStatus.CrcOk)
                     {
-                        sectormap.sectorok[tracknr, sectornr] = SectorMapStatus.CrcOk;
+                        SectorMap.sectorok[tracknr, sectornr] = SectorMapStatus.CrcOk;
                         FoundGoodSectorInfo.Append("T" + tracknr.ToString("D3") + " S" + sectornr + " crc:" + sectordatathread.crc.ToString("X4") + " markerindex:" + sectorindex + " Method: ");
                         if (procsettings.processingtype == ProcessingType.aufit) // aufit
                         {
@@ -554,19 +548,19 @@ namespace FloppyControlApp
                         int q = 0, sum = 0;
                         for (i = 0; i < 512; i++)
                         {
-                            if (disk[i + offset] != 0x00000000 && sectormap.sectorok[tracknr, sectornr] == SectorMapStatus.empty) tbreceived.Append("Overwriting Offset: " + offset + " i: " + i + " track:" + tracknr + " sector: " + sectornr + "\r\n");
+                            if (disk[i + offset] != 0x00000000 && SectorMap.sectorok[tracknr, sectornr] == SectorMapStatus.empty) TBReceived.Append("Overwriting Offset: " + offset + " i: " + i + " track:" + tracknr + " sector: " + sectornr + "\r\n");
 
                             sum += disk[i + offset] = dec1[q];
                             q++;
                         }
-                        if (sum == 0) sectormap.sectorok[tracknr, sectornr] = SectorMapStatus.SectorOKButZeroed; // If the entire sector is zeroes, allow new data
+                        if (sum == 0) SectorMap.sectorok[tracknr, sectornr] = SectorMapStatus.SectorOKButZeroed; // If the entire sector is zeroes, allow new data
                     }
                 }
                 else if (headercheckok && !datacheckok && sectornr >= 0 && sectornr < 13 && tracknr >= 0 && tracknr < 164) // collect good headers but bad sectors
                 {
-                    if (sectormap.sectorok[tracknr, sectornr] == SectorMapStatus.empty)
-                        sectormap.sectorok[tracknr, sectornr] = SectorMapStatus.HeadOkDataBad;
-                    else if (sectormap.sectorok[tracknr, sectornr] != SectorMapStatus.HeadOkDataBad) // if it's a bad sector, capture more data, otherwise, go to next marker
+                    if (SectorMap.sectorok[tracknr, sectornr] == SectorMapStatus.empty)
+                        SectorMap.sectorok[tracknr, sectornr] = SectorMapStatus.HeadOkDataBad;
+                    else if (SectorMap.sectorok[tracknr, sectornr] != SectorMapStatus.HeadOkDataBad) // if it's a bad sector, capture more data, otherwise, go to next marker
                         continue;
 
                     if (procsettings.UseErrorCorrection)
@@ -706,7 +700,7 @@ namespace FloppyControlApp
 
             if (debuginfo)
             {
-                sectormap.rtbSectorMap.Text += decodedamigaText.ToString();
+                SectorMap.rtbSectorMap.Text += decodedamigaText.ToString();
             }
         }
 

@@ -119,7 +119,7 @@ namespace FloppyControlApp.MyClasses
             {
                 resetinput();
                 //TrackPosInrxdatacount = 0;
-                processing.indexrxbuf = 0;
+                processing.Indexrxbuf = 0;
 
                 // Clear all sectordata
                 // if ( processing.sectordata2 != null)
@@ -139,7 +139,7 @@ namespace FloppyControlApp.MyClasses
             // Write period data to disk in bin format
             if (AddData == true)  // If Add data is clicked, the data is appended to the rxbuf array
             {
-                tempbuf.Add(processing.rxbuf.SubArray(0, processing.indexrxbuf));
+                tempbuf.Add(processing.RxBbuf.SubArray(0, processing.Indexrxbuf));
             }
             String ext;
             foreach (String file in OpenFilesPaths)
@@ -207,7 +207,7 @@ namespace FloppyControlApp.MyClasses
                 if (loaderror != 1)
                 {
                     //temp.CopyTo(processing.rxbuf, processing.indexrxbuf);
-                    processing.indexrxbuf += (int)reader.BaseStream.Length;
+                    processing.Indexrxbuf += (int)reader.BaseStream.Length;
                 }
                 if (reader != null)
                 {
@@ -219,13 +219,13 @@ namespace FloppyControlApp.MyClasses
                 //Application.DoEvents();
             }
 
-            if (processing.rxbuf.Length < 100000)
+            if (processing.RxBbuf.Length < 100000)
             {
                 byte[] extra = new byte[100000];
                 tempbuf.Add(extra);
             }
 
-            processing.rxbuf = tempbuf.SelectMany(a => a).ToArray();
+            processing.RxBbuf = tempbuf.SelectMany(a => a).ToArray();
         }
 
         public void SaveDiskImage()
@@ -293,8 +293,8 @@ namespace FloppyControlApp.MyClasses
                     path = PathToRecoveredDisks + @"\" + BaseFileName + @"\" + BaseFileName + "_sectormap_" + binfilecount.ToString("D3") + ".txt";
                 }
 
-                rtbSectorMap.AppendText("Disk Format: " + diskformatstring + "\r\nRecovered sectors: " + processing.sectormap.recoveredsectorcount + "\r\n");
-                rtbSectorMap.AppendText("Recovered sectors with error: " + processing.sectormap.RecoveredSectorWithErrorsCount + "\r\n");
+                rtbSectorMap.AppendText("Disk Format: " + diskformatstring + "\r\nRecovered sectors: " + processing.SectorMap.recoveredsectorcount + "\r\n");
+                rtbSectorMap.AppendText("Recovered sectors with error: " + processing.SectorMap.RecoveredSectorWithErrorsCount + "\r\n");
 
                 //fullpath = path + outputfilename + "_trackinfo.txt";
                 try
@@ -532,7 +532,7 @@ namespace FloppyControlApp.MyClasses
                     //Save sector status
                     for (i = 0; i < 184; i++)
                         for (j = 0; j < 18; j++)
-                            writer.Write((byte)processing.sectormap.sectorok[i, j]);
+                            writer.Write((byte)processing.SectorMap.sectorok[i, j]);
 
                     if (writer != null)
                     {
@@ -609,7 +609,7 @@ namespace FloppyControlApp.MyClasses
                 //Load sector status
                 for (i = 0; i < 184; i++)
                     for (j = 0; j < 18; j++)
-                        processing.sectormap.sectorok[i, j] = (SectorMapStatus)reader.ReadByte();
+                        processing.SectorMap.sectorok[i, j] = (SectorMapStatus)reader.ReadByte();
                 reader.Close();
                 reader.Dispose();
             }
@@ -619,7 +619,7 @@ namespace FloppyControlApp.MyClasses
             tbreceived.Append("Sectorcount: " + sectorcount + "\r\n");
             tbreceived.Append("diskformat:" + processing.diskformat + "\r\n");
 
-            processing.sectormap.RefreshSectorMap();
+            processing.SectorMap.RefreshSectorMap();
             //ShowDiskFormat();
         }
 
@@ -694,7 +694,7 @@ namespace FloppyControlApp.MyClasses
             
             byte[,] sectordone = new byte[255, 25];
             MFMData sectordataheader, sectordata;
-            if (processing.procsettings.platform == 0) // PC
+            if (processing.ProcSettings.platform == 0) // PC
             {
                 for (i = 0; i < sectordata2.Count; i++)
                 {
@@ -718,8 +718,8 @@ namespace FloppyControlApp.MyClasses
 
                             if (sectordata.mfmMarkerStatus == SectorMapStatus.CrcOk || sectordata.mfmMarkerStatus == SectorMapStatus.SectorOKButZeroed)
                             {
-                                if (processing.sectormap.sectorok[sectordata.track, sectordata.sector] == SectorMapStatus.CrcOk ||
-                                    processing.sectormap.sectorok[sectordata.track, sectordata.sector] == SectorMapStatus.SectorOKButZeroed)
+                                if (processing.SectorMap.sectorok[sectordata.track, sectordata.sector] == SectorMapStatus.CrcOk ||
+                                    processing.SectorMap.sectorok[sectordata.track, sectordata.sector] == SectorMapStatus.SectorOKButZeroed)
                                 {
                                     if (sectordone[sectordata.track, sectordata.sector] == 1)
                                         continue; // skip sectors that are done already.
@@ -754,7 +754,7 @@ namespace FloppyControlApp.MyClasses
                                         }
 
                                         for (q = tso.offsetstart; q < tso.offsetend; q++, bytessaved++)
-                                            writer.Write((byte)(processing.rxbuf[q]));
+                                            writer.Write((byte)(processing.RxBbuf[q]));
                                         //tsoffset[track, sector] = tso;
                                         sectordone[sectordata.track, sectordata.sector] = 1;
                                         int len = tso.length;
@@ -765,7 +765,7 @@ namespace FloppyControlApp.MyClasses
                                     else // save 1 bin file for all data.
                                     {
                                         for (q = tso.offsetstart; q < tso.offsetend; q++, bytessaved++)
-                                            writer.Write((byte)(processing.rxbuf[q]));
+                                            writer.Write((byte)(processing.RxBbuf[q]));
                                         //tsoffset[track, sector] = tso;
                                         sectordone[sectordata.track, sectordata.sector] = 1;
                                         int len = tso.length;
@@ -778,7 +778,7 @@ namespace FloppyControlApp.MyClasses
                         {
                             if (sectordata.mfmMarkerStatus == SectorMapStatus.HeadOkDataBad)
                             {
-                                if (processing.sectormap.sectorok[sectordata.track, sectordata.sector] != SectorMapStatus.HeadOkDataBad)
+                                if (processing.SectorMap.sectorok[sectordata.track, sectordata.sector] != SectorMapStatus.HeadOkDataBad)
                                     continue; // skip if sector is already good
                                 TrackSectorOffset tso = new TrackSectorOffset();
                                 tso.offsetstart = sectordataheader.rxbufMarkerPositions;
@@ -802,7 +802,7 @@ namespace FloppyControlApp.MyClasses
                                 badsectorcnt++;
                                 //writer.Write("T" + track.ToString("D3") + "S" + sector);
                                 for (q = tso.offsetstart; q < tso.offsetend; q++, bytessaved++)
-                                    writer.Write((byte)(processing.rxbuf[q]));
+                                    writer.Write((byte)(processing.RxBbuf[q]));
                                 //tsoffset[track, sector] = tso;
                             }
                         }
@@ -844,7 +844,7 @@ namespace FloppyControlApp.MyClasses
                         badsectorcnt++;
                         //writer.Write("T" + track.ToString("D3") + "S" + sector);
                         for (q = tso.offsetstart; q < tso.offsetend; q++)
-                            writer.Write((byte)(processing.rxbuf[q]));
+                            writer.Write((byte)(processing.RxBbuf[q]));
                         //tsoffset[track, sector] = tso;
                     }
                 }
@@ -900,7 +900,7 @@ namespace FloppyControlApp.MyClasses
                     {
                         resetinput();
                         
-                        processing.indexrxbuf = 0;
+                        processing.Indexrxbuf = 0;
 
                         //MFMData sectordata;
                         if (processing.sectordata2 != null)
@@ -913,10 +913,10 @@ namespace FloppyControlApp.MyClasses
 
                         temp = reader.ReadBytes((int)length);
                         int i;
-                        processing.IncreaseBufSize(processing.indexrxbuf+length);
+                        processing.IncreaseBufSize(processing.Indexrxbuf+length);
                         for (i = 0; i < length - 2; i += 2)
                         {
-                            processing.rxbuf[processing.indexrxbuf++] = (byte)((temp[i] << 8 | temp[i + 1]) >> 1);
+                            processing.RxBbuf[processing.Indexrxbuf++] = (byte)((temp[i] << 8 | temp[i + 1]) >> 1);
                             //processing.rxbuf[processing.indexrxbuf++] = (byte)((temp[i] << 8 | temp[i + 1]) - 127);
                         }
 
@@ -981,7 +981,7 @@ namespace FloppyControlApp.MyClasses
             {
                 for (sector = 0; sector < sectorspertrack; sector++)
                 {
-                    if (processing.sectormap.sectorok[track, sector] != SectorMapStatus.CrcOk)
+                    if (processing.SectorMap.sectorok[track, sector] != SectorMapStatus.CrcOk)
                         break;
                 }
             }
@@ -1030,7 +1030,7 @@ namespace FloppyControlApp.MyClasses
             MFMData sectordataheader;
             MFMData sectordata;
             // Find all track and sector offsets and lengths
-            if (processing.procsettings.platform == 0) // PC
+            if (processing.ProcSettings.platform == 0) // PC
             {
                 for (track = 0; track < trackhead; track++)
                 {
@@ -1129,7 +1129,7 @@ namespace FloppyControlApp.MyClasses
                 {
                     for (i = tsoffset[track, sector].offsetstart; i < tsoffset[track, sector].offsetend; i++)
                     {
-                        val = processing.rxbuf[i];
+                        val = processing.RxBbuf[i];
                         trackduration[track] += (UInt32)((val) << 1);
                         if (val < 4) indexpulsespertrack[track]++;
                     }
@@ -1243,7 +1243,7 @@ namespace FloppyControlApp.MyClasses
                     {
                         for (i = tsoffset[track, sector].offsetstart; i < tsoffset[track, sector].offsetend; i++)
                         {
-                            val = processing.rxbuf[i] + averagetimecompensation;
+                            val = processing.RxBbuf[i] + averagetimecompensation;
                             if (val < 4 + averagetimecompensation) continue;
                             b1 = (byte)((val >> 7) & 1);
                             b2 = (byte)(val << 1);

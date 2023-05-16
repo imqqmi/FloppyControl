@@ -24,17 +24,17 @@ namespace FloppyControlApp
         public ConcurrentDictionary<int, MFMData> sectordata2;
         public byte[] disk = new byte[2000000]; // Assuming a disk isn't larger than 2MB, which is false for EHD disks. 
         public DiskFormat diskformat = 0;// 0x1 = ADOS/PFS, 0x02 = DiskSpare, 0x03 = PCDD, 0x04 = PCHD
-        public ProcSettings procsettings { get; set; }
-        public SectorMap sectormap { get; set; }
+        public ProcSettings ProcSettings { get; set; }
+        public SectorMap SectorMap { get; set; }
         private System.Diagnostics.Stopwatch SW = new System.Diagnostics.Stopwatch();
-        public StringBuilder tbreceived { get; set; }
+        public StringBuilder TBReceived { get; set; }
         public StringBuilder FoundGoodSectorInfo = new StringBuilder();
         public string CurrentFiles;
-        public RichTextBox rtbSectorMap { get; set; } // for sectormap
+        public RichTextBox RtbSectorMap { get; set; } // for sectormap
         private BinaryWriter writer;
-        public byte[] rxbuf { get; set; } // This is a super large 200MB buffer to hold timing data captured by the floppy controller
-        public int indexrxbuf { get; set; }
-        public int[] rxbuftograph { get; set; }
+        public byte[] RxBbuf { get; set; } // This is a super large 200MB buffer to hold timing data captured by the floppy controller
+        public int Indexrxbuf { get; set; }
+        public int[] Rxbuftograph { get; set; }
 
         // Index adress marker
         //public string A1MARKER = "010001001000100101000100100010010100010010001001"; 
@@ -47,7 +47,7 @@ namespace FloppyControlApp
         //private string AMIGAMARKER = "1010101010101010101010101010101001000100100010010100010010001001";
 
         //public string AMIGADSMARKER = "010001001000100101000100100010010010101010101010";
-        public int debuglevel { get; set; }
+        public int Debuglevel { get; set; }
         public byte[][] mfms = new byte[50000][]; // replaces mfm array, dynamically allocating array. threadid is the key
         public int mfmsindex = 0;
         public int[] mfmlengths = new int[50000]; // replaces mfmlength, the length of data in mfms. threadid is the key
@@ -62,7 +62,7 @@ namespace FloppyControlApp
         public int sectorspertrack = 0;
         public int bytespersector = 512; // 1024 for 2M, 512 for everything else
         public int stop;
-        private Thread[] threads { get; set; }
+        private Thread[] Threads { get; set; }
         public int NumberOfThreads { get; set; }
         public int processing = 0;
         public Dictionary<DiskFormat, DiskGeometry> diskGeometry = new Dictionary<DiskFormat, DiskGeometry>();
@@ -74,76 +74,90 @@ namespace FloppyControlApp
 
         public FDDProcessing()
         {
-            debuglevel = 1;
-            indexrxbuf = 0;
-            sectormap = new SectorMap(rtbSectorMap, this);
+            Debuglevel = 1;
+            Indexrxbuf = 0;
+            SectorMap = new SectorMap(RtbSectorMap, this);
             stop = 0;
             NumberOfThreads = 1;
-            rxbuf = new byte[200000];
+            RxBbuf = new byte[200000];
 
-            procsettings = new ProcSettings();
+            ProcSettings = new ProcSettings();
             int numProcs = Environment.ProcessorCount;
             int concurrencyLevel = numProcs * 2;
             sectordata2 = new ConcurrentDictionary<int, MFMData>(concurrencyLevel, 100);
 
             //PC
-            DiskGeometry pcdosdsdd = new DiskGeometry();
-            pcdosdsdd.numberOfHeads = 2;
-            pcdosdsdd.tracksPerDisk = 80;
-            pcdosdsdd.sectorsPerTrack = 9;
-            pcdosdsdd.sectorSize = 512;
-            pcdosdsdd.fluxEncoding = FluxEncoding.MFM;
+            DiskGeometry pcdosdsdd = new DiskGeometry
+            {
+                numberOfHeads = 2,
+                tracksPerDisk = 80,
+                sectorsPerTrack = 9,
+                sectorSize = 512,
+                fluxEncoding = FluxEncoding.MFM
+            };
             diskGeometry.Add(DiskFormat.pcdd, pcdosdsdd);
 
-            DiskGeometry pcdoshd = new DiskGeometry();
-            pcdoshd.numberOfHeads = 2;
-            pcdoshd.tracksPerDisk = 80;
-            pcdoshd.sectorsPerTrack = 18;
-            pcdoshd.sectorSize = 512;
-            pcdoshd.fluxEncoding = FluxEncoding.MFM;
+            DiskGeometry pcdoshd = new DiskGeometry
+            {
+                numberOfHeads = 2,
+                tracksPerDisk = 80,
+                sectorsPerTrack = 18,
+                sectorSize = 512,
+                fluxEncoding = FluxEncoding.MFM
+            };
             diskGeometry.Add(DiskFormat.pchd, pcdoshd);
 
-            DiskGeometry pcdosssdd = new DiskGeometry();
-            pcdosssdd.numberOfHeads = 1;
-            pcdosssdd.tracksPerDisk = 80;
-            pcdosssdd.sectorsPerTrack = 9;
-            pcdosssdd.sectorSize = 512;
-            pcdosssdd.fluxEncoding = FluxEncoding.MFM;
+            DiskGeometry pcdosssdd = new DiskGeometry
+            {
+                numberOfHeads = 1,
+                tracksPerDisk = 80,
+                sectorsPerTrack = 9,
+                sectorSize = 512,
+                fluxEncoding = FluxEncoding.MFM
+            };
             diskGeometry.Add(DiskFormat.pcssdd, pcdosssdd);
 
             // I'm not sure, I'll have to check these settings
-            DiskGeometry pcdos2m = new DiskGeometry();
-            pcdos2m.numberOfHeads = 2;
-            pcdos2m.tracksPerDisk = 80;
-            pcdos2m.sectorsPerTrack = 12;
-            pcdos2m.sectorSize = 1024;
-            pcdos2m.fluxEncoding = FluxEncoding.MFM;
+            DiskGeometry pcdos2m = new DiskGeometry
+            {
+                numberOfHeads = 2,
+                tracksPerDisk = 80,
+                sectorsPerTrack = 12,
+                sectorSize = 1024,
+                fluxEncoding = FluxEncoding.MFM
+            };
             diskGeometry.Add(DiskFormat.pc2m, pcdos2m);
 
             //Amiga
-            DiskGeometry amigados = new DiskGeometry();
-            amigados.numberOfHeads = 2;
-            amigados.tracksPerDisk = 80;
-            amigados.sectorsPerTrack = 11;
-            amigados.sectorSize = 512;
-            amigados.fluxEncoding = FluxEncoding.MFM;
+            DiskGeometry amigados = new DiskGeometry
+            {
+                numberOfHeads = 2,
+                tracksPerDisk = 80,
+                sectorsPerTrack = 11,
+                sectorSize = 512,
+                fluxEncoding = FluxEncoding.MFM
+            };
             diskGeometry.Add(DiskFormat.amigados, amigados);
 
             // My own extended diskspare format
-            DiskGeometry amigadiskspareE = new DiskGeometry();
-            amigadiskspareE.numberOfHeads = 2;
-            amigadiskspareE.tracksPerDisk = 82;
-            amigadiskspareE.sectorsPerTrack = 12;
-            amigadiskspareE.sectorSize = 512;
-            amigadiskspareE.fluxEncoding = FluxEncoding.MFM;
+            DiskGeometry amigadiskspareE = new DiskGeometry
+            {
+                numberOfHeads = 2,
+                tracksPerDisk = 82,
+                sectorsPerTrack = 12,
+                sectorSize = 512,
+                fluxEncoding = FluxEncoding.MFM
+            };
             diskGeometry.Add(DiskFormat.diskspare984KB, amigadiskspareE);
 
-            DiskGeometry amigadiskspare = new DiskGeometry();
-            amigadiskspare.numberOfHeads = 2;
-            amigadiskspare.tracksPerDisk = 80;
-            amigadiskspare.sectorsPerTrack = 12;
-            amigadiskspare.sectorSize = 512;
-            amigadiskspare.fluxEncoding = FluxEncoding.MFM;
+            DiskGeometry amigadiskspare = new DiskGeometry
+            {
+                numberOfHeads = 2,
+                tracksPerDisk = 80,
+                sectorsPerTrack = 12,
+                sectorSize = 512,
+                fluxEncoding = FluxEncoding.MFM
+            };
             diskGeometry.Add(DiskFormat.diskspare, amigadiskspare);
         }
 
@@ -151,7 +165,7 @@ namespace FloppyControlApp
         {
             for (var i = 0; i < mfms.Length; i++)
                 mfms[i] = null;
-            rxbuf = null;
+            RxBbuf = null;
             disk = null;
 
             mfmlengths = null;
@@ -170,13 +184,13 @@ namespace FloppyControlApp
             {
                 if (sectordata2[i].mfmMarkerStatus != SectorMapStatus.HeadOkDataBad)
                 {
-                    sectordata2.TryRemove(i, out deleted);
+                    sectordata2.TryRemove(i, out _);
                 }
                 else
                 if (sectordata2[i].mfmMarkerStatus == SectorMapStatus.HeadOkDataBad)
                 {
                     if (sectordata2[i].sectorbytes.Length == 0)
-                        sectordata2.TryRemove(i, out deleted);
+                        sectordata2.TryRemove(i, out _);
                 }
             }
         }
@@ -188,16 +202,16 @@ namespace FloppyControlApp
         /// <returns>true if succesful</returns>
         public bool IncreaseBufSize(int length)
         {
-            int sizediff = length - rxbuf.Length;
+            int sizediff = length - RxBbuf.Length;
 
             if (sizediff > 0)
             {
                 List<byte[]> tempbuffer = new List<byte[]>();
                 byte[] addbuffer = new byte[sizediff];
 
-                tempbuffer.Add(rxbuf);
+                tempbuffer.Add(RxBbuf);
                 tempbuffer.Add(addbuffer);
-                rxbuf = tempbuffer.SelectMany(a => a).ToArray();
+                RxBbuf = tempbuffer.SelectMany(a => a).ToArray();
 
                 addbuffer = null;
                 tempbuffer.Clear();
@@ -212,41 +226,41 @@ namespace FloppyControlApp
             int threadid = 0, t, i;
             SW.Reset();
             SW.Start();
-            threads = null;
+            Threads = null;
             //ProcessingType processingtype = ProcessingType.normal;
 
             if (GetProcSettingsCallback != null) GetProcSettingsCallback();
             else
             {
-                tbreceived.Append("StartProcessing() GetProcSettingsCallback not set!\r\n");
+                TBReceived.Append("StartProcessing() GetProcSettingsCallback not set!\r\n");
                 return;
             }
             //LoadGoodSectorFoundInfo();
-            procsettings.platform = platform;
+            ProcSettings.platform = platform;
             if (stop == 0)
             {
 
                 //Get the values from slider controls:
 
                 StringBuilder outputfast = new StringBuilder();
-                if (threads == null)
-                    threads = new Thread[NumberOfThreads + 1];
-                if (threads.Length < NumberOfThreads)
-                    threads = new Thread[NumberOfThreads + 1];
+                if (Threads == null)
+                    Threads = new Thread[NumberOfThreads + 1];
+                if (Threads.Length < NumberOfThreads)
+                    Threads = new Thread[NumberOfThreads + 1];
 
 
                 ProcessStatus[threadid] = "Period to MFM conversion...";
-                progressesstart[threadid] = procsettings.start;
-                progressesend[threadid] = procsettings.end;
+                progressesstart[threadid] = ProcSettings.start;
+                progressesend[threadid] = ProcSettings.end;
 
                 //int sectdataitems = 0;
 
                 // Process one track/sector combo only, based on sectordata
-                if (procsettings.OnlyBadSectors)
+                if (ProcSettings.OnlyBadSectors)
                 {
-                    int limittotrack = procsettings.limittotrack;
-                    int limittosector = procsettings.limittosector;
-                    int oldindexrxbuf = indexrxbuf;
+                    int limittotrack = ProcSettings.limittotrack;
+                    int limittosector = ProcSettings.limittosector;
+                    int oldindexrxbuf = Indexrxbuf;
 
                     int mfmsindexold = mfmsindex;
 
@@ -256,34 +270,34 @@ namespace FloppyControlApp
                         {
                             if (sectordata2[i].mfmMarkerStatus == SectorMapStatus.HeadOkDataBad)
                             {
-                                if (sectormap.sectorok[sectordata2[i].track, sectordata2[i].sector] == SectorMapStatus.HeadOkDataBad)
+                                if (SectorMap.sectorok[sectordata2[i].track, sectordata2[i].sector] == SectorMapStatus.HeadOkDataBad)
                                 {
-                                    if (procsettings.LimitTSOn)
+                                    if (ProcSettings.LimitTSOn)
                                     {
-                                        if (sectordata2[i].track == procsettings.limittotrack && sectordata2[i].sector == procsettings.limittosector)
+                                        if (sectordata2[i].track == ProcSettings.limittotrack && sectordata2[i].sector == ProcSettings.limittosector)
                                         {
 
                                             int q;
                                             int rxstart = (sectordata2[i].rxbufMarkerPositions - 500);
-                                            if (oldindexrxbuf + 8600 > rxbuf.Length)
+                                            if (oldindexrxbuf + 8600 > RxBbuf.Length)
                                             {
                                                 List<byte[]> tempbuffer = new List<byte[]>();
                                                 byte[] addbuffer = new byte[10000000];
 
-                                                tempbuffer.Add(rxbuf);
+                                                tempbuffer.Add(RxBbuf);
                                                 tempbuffer.Add(addbuffer);
-                                                rxbuf = tempbuffer.SelectMany(a => a).ToArray();
+                                                RxBbuf = tempbuffer.SelectMany(a => a).ToArray();
 
                                                 addbuffer = null;
                                                 tempbuffer.Clear();
                                                 GC.Collect();
 
-                                                tbreceived.Append("Increased buffer by 10MB.\r\n");
+                                                TBReceived.Append("Increased buffer by 10MB.\r\n");
                                             }
-                                            for (int x = 0; x < procsettings.NumberOfDups; x++)
+                                            for (int x = 0; x < ProcSettings.NumberOfDups; x++)
                                                 for (q = 0; q < 8500; q++)
-                                                    rxbuf[oldindexrxbuf++] = rxbuf[rxstart + q];
-                                            if (oldindexrxbuf > rxbuf.Length + 1) break;
+                                                    RxBbuf[oldindexrxbuf++] = RxBbuf[rxstart + q];
+                                            if (oldindexrxbuf > RxBbuf.Length + 1) break;
                                         }
                                     }
                                     else // no T/S limit, process all bad sectors
@@ -293,25 +307,25 @@ namespace FloppyControlApp
                                         int rxstart = (sectordata2[i].rxbufMarkerPositions - 500);
                                         if (rxstart < 0) rxstart = 0;
                                         // if the buffer is not large enough, add 10MB
-                                        if (oldindexrxbuf + 8600 > rxbuf.Length)
+                                        if (oldindexrxbuf + 8600 > RxBbuf.Length)
                                         {
                                             List<byte[]> tempbuffer = new List<byte[]>();
                                             byte[] addbuffer = new byte[10000000];
 
-                                            tempbuffer.Add(rxbuf);
+                                            tempbuffer.Add(RxBbuf);
                                             tempbuffer.Add(addbuffer);
-                                            rxbuf = tempbuffer.SelectMany(a => a).ToArray();
+                                            RxBbuf = tempbuffer.SelectMany(a => a).ToArray();
 
                                             addbuffer = null;
                                             tempbuffer.Clear();
                                             GC.Collect();
 
-                                            tbreceived.Append("Increased buffer by 10MB.\r\n");
+                                            TBReceived.Append("Increased buffer by 10MB.\r\n");
                                         }
                                         for (q = 0; q < 8500; q++)
                                         {
-                                            if (oldindexrxbuf < rxbuf.Length - 1)
-                                                rxbuf[oldindexrxbuf++] = rxbuf[rxstart + q];
+                                            if (oldindexrxbuf < RxBbuf.Length - 1)
+                                                RxBbuf[oldindexrxbuf++] = RxBbuf[rxstart + q];
                                             else break;
                                         }
                                     }
@@ -320,14 +334,14 @@ namespace FloppyControlApp
                         }
                     }
 
-                    if (oldindexrxbuf == indexrxbuf)
+                    if (oldindexrxbuf == Indexrxbuf)
                     {
                         stop = 1;
-                        sectormap.RefreshSectorMap();
+                        SectorMap.RefreshSectorMap();
                     }
 
-                    procsettings.start = indexrxbuf;
-                    procsettings.end = oldindexrxbuf;
+                    ProcSettings.start = Indexrxbuf;
+                    ProcSettings.end = oldindexrxbuf;
                     //SW.Restart();
                     //tbreceived.Append("before thread:"+SW.ElapsedMilliseconds + "ms\r\n");
 
@@ -340,20 +354,20 @@ namespace FloppyControlApp
 
                         //procsettings.start = start + (end / NumberOfThreads * t);
                         //procsettings.end = procsettings.start + (end / NumberOfThreads);
-                        progressesstart[t1] = procsettings.start;
-                        progressesend[t1] = procsettings.end;
+                        progressesstart[t1] = ProcSettings.start;
+                        progressesend[t1] = ProcSettings.end;
 
-                        ProcSettings procsettings1 = procsettings;
+                        ProcSettings procsettings1 = ProcSettings;
 
-                        threads[t] = new Thread(() => Period2MFM(procsettings1, t1));
-                        threads[t].Start();
+                        Threads[t] = new Thread(() => Period2MFM(procsettings1, t1));
+                        Threads[t].Start();
                     }
                     //SW.Restart();
                     //tbreceived.Append("after thread:" + SW.ElapsedMilliseconds + "ms\r\n");
                     // Sync
                     for (t = 0; t < NumberOfThreads; t++)
                     {
-                        while (!threads[t].Join(5))
+                        while (!Threads[t].Join(5))
                         {
                             Application.DoEvents();
                         }
@@ -369,7 +383,7 @@ namespace FloppyControlApp
                     //SW.Restart();
                     //tbreceived.Append("before thread:" + SW.ElapsedMilliseconds + "ms\r\n");
                     // Define and start threads
-                    int perThreadLength = (procsettings.end - procsettings.start) / NumberOfThreads;
+                    int perThreadLength = (ProcSettings.end - ProcSettings.start) / NumberOfThreads;
                     int offset = 0;
 
                     for (t = 0; t < NumberOfThreads; t++)
@@ -380,7 +394,7 @@ namespace FloppyControlApp
 
                         ProcSettings ps = new ProcSettings();
 
-                        ps = (ProcSettings)procsettings.Clone();
+                        ps = (ProcSettings)ProcSettings.Clone();
 
                         ps.start = offset;
                         ps.end = offset + perThreadLength;
@@ -389,8 +403,8 @@ namespace FloppyControlApp
 
                         //ProcSettings procsettings1 = procsettings;
 
-                        threads[t] = new Thread(() => Period2MFM(ps, t1));
-                        threads[t].Start();
+                        Threads[t] = new Thread(() => Period2MFM(ps, t1));
+                        Threads[t].Start();
                         offset += perThreadLength;
                     }
                     //SW.Restart();
@@ -398,8 +412,8 @@ namespace FloppyControlApp
                     // Synch
                     for (t = 0; t < NumberOfThreads; t++)
                     {
-                        if(threads[t]!=null)
-                        while (!threads[t].Join(5))
+                        if(Threads[t]!=null)
+                        while (!Threads[t].Join(5))
                         {
                             Application.DoEvents();
                         }
@@ -411,15 +425,15 @@ namespace FloppyControlApp
                     Application.DoEvents();
                     mfmsindex += NumberOfThreads;
 
-                    if (procsettings.AutoRefreshSectormap)
-                        sectormap.RefreshSectorMap();
+                    if (ProcSettings.AutoRefreshSectormap)
+                        SectorMap.RefreshSectorMap();
                 }
             }
             for( i=0; i< NumberOfThreads; i++)
-                threads[0] = null;
+                Threads[0] = null;
             
             SW.Stop();
-            tbreceived.Append(SW.ElapsedMilliseconds + "ms\r\n");
+            TBReceived.Append(SW.ElapsedMilliseconds + "ms\r\n");
             //SaveGoodSectorFoundInfo();
             //tbreceived.Append(relativetime().ToString() + "ms \r\n");
         }
@@ -436,10 +450,10 @@ namespace FloppyControlApp
             string subpath = @Properties.Settings.Default["PathToRecoveredDisks"].ToString();
             string path = subpath + @"\" + procsettings.outputfilename + @"\";
             writer = new BinaryWriter(new FileStream(path + procsettings.outputfilename + ".hex", FileMode.Create));
-            for (i = 0; i < indexrxbuf; i++)
+            for (i = 0; i < Indexrxbuf; i++)
             {
-                writer.Write(rxbuf[i].ToString("X2")[0]);
-                writer.Write(rxbuf[i].ToString("X2")[1]);
+                writer.Write(RxBbuf[i].ToString("X2")[0]);
+                writer.Write(RxBbuf[i].ToString("X2")[1]);
                 writer.Write('\r');
                 writer.Write('\n');
             }
@@ -477,27 +491,27 @@ namespace FloppyControlApp
             // bounds checking
             if (end - start == 0)
             {
-                tbreceived.Append("Period2MFM: Error: Length can't be zero.\r\n");
+                TBReceived.Append("Period2MFM: Error: Length can't be zero.\r\n");
                 //stop = 1;
                 //PrintProperties(procsettings);
                 return;
             }
 
-            int rxbuflength = rxbuf.Length;
+            int rxbuflength = RxBbuf.Length;
             if (start > rxbuflength || end > rxbuflength)
             {
-                tbreceived.Append("Start or end are larger than rxbuf length. Resetting to start=0 and end = rxbuflength\r\n");
+                TBReceived.Append("Start or end are larger than rxbuf length. Resetting to start=0 and end = rxbuflength\r\n");
                 start = 0;
                 end = rxbuflength - 1;
             }
 
             if (end < 0 || start < 0)
             {
-                tbreceived.Append("Start or end can't be a negative value!\r\n");
+                TBReceived.Append("Start or end can't be a negative value!\r\n");
                 return;
             }
 
-            tbreceived.Append("Period length:" + (end - start) + " ");
+            TBReceived.Append("Period length:" + (end - start) + " ");
             byte[] m;
             try {
                 if (procsettings.AddNoise || procsettings.pattern == 4)
@@ -506,7 +520,7 @@ namespace FloppyControlApp
             }
             catch(OutOfMemoryException)
             {
-                tbreceived.Append("Out of memory. Please load a smaller dataset and try again.");
+                TBReceived.Append("Out of memory. Please load a smaller dataset and try again.");
                 return;
             }
             if (MINUS < 0) MINUS = 0;
@@ -517,14 +531,14 @@ namespace FloppyControlApp
                 FOURUS = FOURUS,
                 SIXUS = SIXUS,
                 EIGHTUS = EIGHTUS,
-                Rxbuf = rxbuf,
+                Rxbuf = RxBbuf,
                 Mfmlengths = mfmlengths,
                 RateOfChange = RateOfChange,
                 Progresses = progresses,
 
                 Procsettings = procsettings,
 
-                Tbreceived = tbreceived,
+                Tbreceived = TBReceived,
             };
 
             if (processingtype == ProcessingType.adaptive2) //************ Adaptive2 ****************
@@ -610,7 +624,7 @@ namespace FloppyControlApp
 
             // Continue processing MFM data depending on platform
             if (procsettings.platform == Platform.PC)
-                ProcessPCMFM2Sectordata(procsettings, threadid, tbreceived);
+                ProcessPCMFM2Sectordata(procsettings, threadid, TBReceived);
             else if (procsettings.platform == Platform.Amiga)
                 ProcessAmigaMFMbytes(procsettings, threadid);
 
@@ -625,12 +639,12 @@ namespace FloppyControlApp
             byte[] data;
 
             int length = 0;
-            if (indexrxbuf < 100000)
-                length = indexrxbuf;
+            if (Indexrxbuf < 100000)
+                length = Indexrxbuf;
             else length = 100000;
             //int offset = HistogramhScrollBar1.Value;
             //int peak1, peak2, peak3;
-            data = rxbuf;
+            data = RxBbuf;
 
             int i;
 
@@ -694,7 +708,7 @@ namespace FloppyControlApp
             }
 
 
-            tbreceived.Append("Peak1: " + peak1.ToString("X2") + "Peak2: " + peak2.ToString("X2") + "Peak3: " + peak3.ToString("X2") + "\r\n");
+            TBReceived.Append("Peak1: " + peak1.ToString("X2") + "Peak2: " + peak2.ToString("X2") + "Peak3: " + peak3.ToString("X2") + "\r\n");
         }
 
         // Dumps an object to tbreceived
@@ -702,12 +716,12 @@ namespace FloppyControlApp
         {
             foreach (var prop in myObj.GetType().GetProperties())
             {
-                tbreceived.Append(prop.Name + ": " + prop.GetValue(myObj, null));
+                TBReceived.Append(prop.Name + ": " + prop.GetValue(myObj, null));
             }
 
             foreach (var field in myObj.GetType().GetFields())
             {
-                tbreceived.Append(field.Name + ": " + field.GetValue(myObj));
+                TBReceived.Append(field.Name + ": " + field.GetValue(myObj));
             }
         }
 
@@ -1071,33 +1085,33 @@ namespace FloppyControlApp
         public void SaveGoodSectorFoundInfo()
         {
             string subpath = @Properties.Settings.Default["PathToRecoveredDisks"].ToString();
-            string path = subpath + @"\" + procsettings.outputfilename + @"\";
+            string path = subpath + @"\" + ProcSettings.outputfilename + @"\";
 
-            path = subpath + @"\" + procsettings.outputfilename + @"\";
+            path = subpath + @"\" + ProcSettings.outputfilename + @"\";
             try
             {
-                File.WriteAllText(path + procsettings.outputfilename + "_FoundGoodSectorInfo.txt", FoundGoodSectorInfo.ToString());
+                File.WriteAllText(path + ProcSettings.outputfilename + "_FoundGoodSectorInfo.txt", FoundGoodSectorInfo.ToString());
             }
             catch (IOException ex)
             {
-                tbreceived.Append("IO error writing sector map: \r\n" + ex.ToString() + "\r\n");
+                TBReceived.Append("IO error writing sector map: \r\n" + ex.ToString() + "\r\n");
             }
         }
 
         public void LoadGoodSectorFoundInfo()
         {
             string subpath = @Properties.Settings.Default["PathToRecoveredDisks"].ToString();
-            string path = subpath + @"\" + procsettings.outputfilename + @"\";
+            string path = subpath + @"\" + ProcSettings.outputfilename + @"\";
 
-            path = subpath + @"\" + procsettings.outputfilename + @"\";
+            path = subpath + @"\" + ProcSettings.outputfilename + @"\";
             try
             {
                 FoundGoodSectorInfo.Clear();
-                FoundGoodSectorInfo.Append(File.ReadAllText(path + procsettings.outputfilename + "_FoundGoodSectorInfo.txt"));
+                FoundGoodSectorInfo.Append(File.ReadAllText(path + ProcSettings.outputfilename + "_FoundGoodSectorInfo.txt"));
             }
             catch (IOException ex)
             {
-                tbreceived.Append("IO error Reading sector map: \r\n" + ex.ToString() + "\r\n");
+                TBReceived.Append("IO error Reading sector map: \r\n" + ex.ToString() + "\r\n");
             }
         }
 
@@ -1111,7 +1125,7 @@ namespace FloppyControlApp
             int i = startIndex;
             int endIndex = count > 0 ? Math.Min(startIndex + count, array.Length) : array.Length;
             int fidx = 0;
-            int lastFidx = 0;
+            int lastFidx;
 
             while (i < endIndex)
             {
@@ -1123,8 +1137,7 @@ namespace FloppyControlApp
                 }
                 if (lastFidx > 0 && fidx == 0)
                 {
-                    i = i - lastFidx;
-                    lastFidx = 0;
+                    i -= lastFidx;
                 }
                 i++;
             }

@@ -21,7 +21,6 @@ namespace FloppyControlApp
             byte[] sectors = new byte[1050];
             //int qq;
             int sectorlength = 512;
-            int threadid;
 
             switch ((int)processing.diskformat)
             {
@@ -44,17 +43,16 @@ namespace FloppyControlApp
                     break;
             }
 
-            badsectorkeyval badsector1;
+            Badsectorkeyval badsector1;
             //textBoxReceived.Text += "";
             foreach (int q in BadSectorListBox.SelectedIndices)
             {
-                badsector1 = (badsectorkeyval)BadSectorListBox.Items[q];
+                badsector1 = (Badsectorkeyval)BadSectorListBox.Items[q];
             }
 
             if (BadSectorListBox.SelectedIndices.Count == 1)
             {
-                indexS1 = ((badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[0]]).id;
-                threadid = ((badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[0]]).threadid;
+                indexS1 = ((Badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[0]]).Id;
                 indexS2 = -1;
 
                 if (BSBlueSectormapRadio.Checked)
@@ -87,9 +85,8 @@ namespace FloppyControlApp
             }
             else if (BadSectorListBox.SelectedIndices.Count >= 2)
             {
-                indexS1 = ((badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[0]]).id;
-                indexS2 = ((badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[1]]).id;
-                threadid = ((badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[0]]).threadid;
+                indexS1 = ((Badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[0]]).Id;
+                indexS2 = ((Badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[1]]).Id;
                 sectorlength = processing.sectordata2[indexS1].sectorlength;
 
                 if (BSBlueFromListRadio.Checked)
@@ -203,7 +200,7 @@ namespace FloppyControlApp
             byte[] sectors2 = new byte[1050];
             //int qq;
             int sectorlength = 512;
-            int threadid = 0;
+            int threadid;
 
             switch (processing.diskformat)
             {
@@ -233,17 +230,16 @@ namespace FloppyControlApp
                     break;
             }
 
-            badsectorkeyval badsector1;
+            Badsectorkeyval badsector1;
             //textBoxReceived.Text += "";
             foreach (int q in BadSectorListBox.SelectedIndices)
             {
-                badsector1 = (badsectorkeyval)BadSectorListBox.Items[q];
+                badsector1 = (Badsectorkeyval)BadSectorListBox.Items[q];
             }
 
             if (BadSectorListBox.SelectedIndices.Count == 1)
             {
-                indexS1 = ((badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[0]]).id;
-                threadid = ((badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[0]]).threadid;
+                indexS1 = ((Badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[0]]).Id;
                 indexS2 = -1;
 
                 if (BSBlueSectormapRadio.Checked)
@@ -280,8 +276,8 @@ namespace FloppyControlApp
             }
             else if (BadSectorListBox.SelectedIndices.Count >= 2)
             {
-                indexS1 = ((badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[0]]).id;
-                indexS2 = ((badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[1]]).id;
+                indexS1 = ((Badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[0]]).Id;
+                indexS2 = ((Badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[1]]).Id;
                 //threadid = ((badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[0]]).threadid;
 
                 threadid = processing.sectordata2[indexS1].threadid;
@@ -307,7 +303,6 @@ namespace FloppyControlApp
 
                 diskoffset = track * sectorlength * processing.sectorspertrack + sector * sectorlength;
                 Array.Copy(processing.disk, diskoffset, sectors, 0, sectorlength);
-                offset = 0;
             }
             else return; // nothing selected, nothing to do
 
@@ -371,7 +366,6 @@ namespace FloppyControlApp
                             if (indexS2 == -1)
                             {
                                 colorB = value1;
-                                value2 = 0;
                                 colorR = 0;
                             }
                             else
@@ -414,18 +408,16 @@ namespace FloppyControlApp
             int x, y;
             int bsbyte;
             int track, sectornr;
-            int datacrc;
+            
 
             int i;
-            int threadid;
-
+            
             BadSectorTooltipPos = BadSectorPanel.PointToClient(Cursor.Position);
 
             if (BadSectorListBox.SelectedIndices.Count >= 1)
             {
-                indexS1 = ((badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[0]]).id;
-                threadid = ((badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[0]]).threadid;
-
+                indexS1 = ((Badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[0]]).Id;
+                
                 int sectorlength = processing.sectordata2[indexS1].sectorlength;
                 if (sectorlength < 512)
                 {
@@ -501,7 +493,7 @@ namespace FloppyControlApp
                     tbreceived.Append("index:" + indexcnt + "\r\n");
                     ScatterMinTrackBar.Value = indexcnt;
                     ScatterMaxTrackBar.Value = indexcnt + 14;
-                    updateECInterface();
+                    UpdateECInterface();
                 }
                 else
                 {
@@ -512,7 +504,6 @@ namespace FloppyControlApp
 
                     bsbyte = y * 32 + x;
                     // Temporary decouple event handler
-                    byteinsector = bsbyte;
                     BSEditByteLabel.Text = "Byte: " + bsbyte;
 
                     // Zoom in scatterplot
@@ -529,7 +520,7 @@ namespace FloppyControlApp
                     tbreceived.Append("index:" + indexcnt + "\r\n");
                     ScatterMinTrackBar.Value = indexcnt;
                     ScatterMaxTrackBar.Value = indexcnt + 14;
-                    updateECInterface();
+                    UpdateECInterface();
                     if ((int)BluetoRedByteCopyToolBtn.Tag == 1)
                     {
                         // Copy single byte from BadSectors to disk array
@@ -538,7 +529,6 @@ namespace FloppyControlApp
                             textBoxReceived.AppendText("Copy byte to disk array.");
                             track = processing.sectordata2[indexS1].track;
                             sectornr = processing.sectordata2[indexS1].sector;
-                            datacrc = processing.sectordata2[indexS1].crc;
 
                             processing.sectorspertrack = 9;
 
@@ -551,14 +541,10 @@ namespace FloppyControlApp
                         if (BlueTempRadio.Checked)
                         {
                             textBoxReceived.AppendText("Copy byte to Temp.");
-                            track = processing.sectordata2[indexS1].track;
-                            sectornr = processing.sectordata2[indexS1].sector;
-                            datacrc = processing.sectordata2[indexS1].crc;
 
                             processing.sectorspertrack = 9;
 
                             //(tracknr * processing.sectorspertrack * 512 * 2) + (headnr * processing.sectorspertrack * 512) + (sectornr * 512);
-                            diskoffset = track * processing.sectorspertrack * 512 + sectornr * 512;
                             TempSector[bsbyte + offset] = processing.sectordata2[indexS1].sectorbytes[bsbyte + offset];
                         }
 
@@ -577,15 +563,11 @@ namespace FloppyControlApp
         public void CopySectorToBlue()
         {
             int i;
-            int indexS1; //indexS2;
+            int indexS1;
             int offset = 4;
             int diskoffset;
-            //int x, y;
-            //int bsbyte;
             int track, sectornr;
-            int datacrc;
-            //int processing.sectorspertrack;
-            int threadid;
+            
 
             switch ((int)processing.diskformat)
             {
@@ -610,16 +592,14 @@ namespace FloppyControlApp
 
             if (BadSectorListBox.SelectedIndices.Count == 1)
             {
-                indexS1 = ((badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[0]]).id;
-                threadid = ((badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[0]]).threadid;
-
+                indexS1 = ((Badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[0]]).Id;
+                
                 // Copy sector from BadSectors to disk array
                 if (BSBlueSectormapRadio.Checked && BSRedFromlistRadio.Checked)
                 {
                     textBoxReceived.AppendText("Copy single sector to disk array.");
                     track = processing.sectordata2[indexS1].track;
                     sectornr = processing.sectordata2[indexS1].sector;
-                    datacrc = processing.sectordata2[indexS1].crc;
                     //processing.sectorspertrack = 9;
 
                     //(tracknr * processing.sectorspertrack * 512 * 2) + (headnr * processing.sectorspertrack * 512) + (sectornr * 512);
@@ -635,16 +615,12 @@ namespace FloppyControlApp
                 if (BlueTempRadio.Checked && BSRedFromlistRadio.Checked)
                 {
                     textBoxReceived.AppendText("Copy full sector to Temp.");
-                    track = processing.sectordata2[indexS1].track;
-                    sectornr = processing.sectordata2[indexS1].sector;
-                    datacrc = processing.sectordata2[indexS1].crc;
 
                     //processing.sectorspertrack = 9;
 
                     // I combined tracks and head to simplify stuff
                     // My track = tracks * 2 + headnr
                     // track 10 head 1 is 21
-                    diskoffset = track * processing.sectorspertrack * 512 + sectornr * 512;
 
                     for (i = 0; i < 518; i++)
                     {
@@ -666,7 +642,6 @@ namespace FloppyControlApp
                     textBoxReceived.AppendText("Copy full sector to Temp.");
                     track = processing.sectordata2[indexS1].track;
                     sectornr = processing.sectordata2[indexS1].sector;
-                    datacrc = processing.sectordata2[indexS1].crc;
 
                     //processing.sectorspertrack = 9;
 
@@ -696,7 +671,6 @@ namespace FloppyControlApp
             //uint databyte;
             StringBuilder bytesstring = new StringBuilder();
             StringBuilder txtstring = new StringBuilder();
-            StringBuilder badsecttext = new StringBuilder();
             string key;
 
             BadSectorListBox.DisplayMember = "name";
@@ -729,33 +703,33 @@ namespace FloppyControlApp
 
                         key = "i: " + i + " B T: " + sectordata.track + " S: " + sectordata.sector;
 
-                        BadSectorListBox.Items.Add(new badsectorkeyval
+                        BadSectorListBox.Items.Add(new Badsectorkeyval
                         {
-                            name = key,
-                            id = i,
-                            threadid = 0
+                            Name = key,
+                            Id = i,
+                            Threadid = 0
                         });
 
                         JumpTocomboBox.Items.Add(new ComboboxItem
                         {
                             Text = key,
-                            id = i,
+                            Id = i,
                         });
                     }
                     if ((sectordata.mfmMarkerStatus == SectorMapStatus.CrcOk) && goodsectors)
                     {
                         key = "i: " + i + " G T: " + sectordata.track + " S: " + sectordata.sector;
 
-                        BadSectorListBox.Items.Add(new badsectorkeyval
+                        BadSectorListBox.Items.Add(new Badsectorkeyval
                         {
-                            name = key,
-                            id = i,
-                            threadid = 0
+                            Name = key,
+                            Id = i,
+                            Threadid = 0
                         });
                         JumpTocomboBox.Items.Add(new ComboboxItem
                         {
                             Text = key,
-                            id = i,
+                            Id = i,
                         });
                     }
                 }
@@ -767,10 +741,10 @@ namespace FloppyControlApp
 
         public void BadSectorToolTip()
         {
-            int x, y, bsbyte, indexS1 = 0, indexS2;
+            int x, y, bsbyte, indexS1;
             int offset = 4;
             int sectorlength;
-            int threadid = 0;
+            int threadid;
 
             switch ((int)processing.diskformat)
             {
@@ -798,20 +772,16 @@ namespace FloppyControlApp
                 //if( processing.diskformat == DiskFormat.amigados || processing.diskformat == DiskFormat.diskspare || processing.diskformat == )
                 if (BadSectorListBox.SelectedIndices.Count == 1)
                 {
-                    indexS1 = ((badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[0]]).id;
-                    indexS2 = -1;
-                    threadid = ((badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[0]]).threadid;
+                    indexS1 = ((Badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[0]]).Id;
                 }
                 else if (BadSectorListBox.SelectedIndices.Count >= 2)
                 {
-                    indexS1 = ((badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[0]]).id;
-                    indexS2 = ((badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[1]]).id;
-                    threadid = ((badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[0]]).threadid;
+                    indexS1 = ((Badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[0]]).Id;
                 }
                 else return;
                 if (processing.sectordata2 == null) return;
                 if (processing.sectordata2.Count == 0) return;
-                sectorlength = processing.sectordata2[indexS1].sectorlength;
+                
                 BadSectorTooltipPos = BadSectorPanel.PointToClient(Cursor.Position);
                 //int f = sectorlength / 512;
                 int w = 13;
@@ -867,15 +837,12 @@ namespace FloppyControlApp
                 //if( processing.diskformat == DiskFormat.amigados || processing.diskformat == DiskFormat.diskspare || processing.diskformat == )
                 if (BadSectorListBox.SelectedIndices.Count == 1)
                 {
-                    indexS1 = ((badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[0]]).id;
-                    indexS2 = -1;
-                    threadid = ((badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[0]]).threadid;
+                    indexS1 = ((Badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[0]]).Id;
                 }
                 else if (BadSectorListBox.SelectedIndices.Count >= 2)
                 {
-                    indexS1 = ((badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[0]]).id;
-                    indexS2 = ((badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[1]]).id;
-                    threadid = ((badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[0]]).threadid;
+                    indexS1 = ((Badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[0]]).Id;
+                    
                 }
                 else return;
                 if (processing.sectordata2 == null) return;

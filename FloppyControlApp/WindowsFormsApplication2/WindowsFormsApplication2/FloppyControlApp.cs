@@ -71,20 +71,20 @@ namespace FloppyControlApp
         private void ProcessAmiga()
         {
             if (ClearDatacheckBox.Checked)
-                resetprocesseddata();
+                ResetProcessedData();
             //textBoxReceived.Clear();
-            processing.scatterplotstart = scatterplot.AnScatViewlargeoffset + scatterplot.AnScatViewoffset;
-            processing.scatterplotend = scatterplot.AnScatViewlargeoffset + scatterplot.AnScatViewoffset + scatterplot.AnScatViewlength;
+            processing.ScatterplotStart = scatterplot.AnScatViewlargeoffset + scatterplot.AnScatViewoffset;
+            processing.ScatterplotEnd = scatterplot.AnScatViewlargeoffset + scatterplot.AnScatViewoffset + scatterplot.AnScatViewlength;
             processing.StartProcessing(Platform.Amiga);
         }
 
         private void ProcessPC()
         {
             if (ClearDatacheckBox.Checked)
-                resetprocesseddata();
+                ResetProcessedData();
             //textBoxReceived.Clear();
-            processing.scatterplotstart = scatterplot.AnScatViewlargeoffset + scatterplot.AnScatViewoffset;
-            processing.scatterplotend = scatterplot.AnScatViewlargeoffset + scatterplot.AnScatViewoffset + scatterplot.AnScatViewlength;
+            processing.ScatterplotStart = scatterplot.AnScatViewlargeoffset + scatterplot.AnScatViewoffset;
+            processing.ScatterplotEnd = scatterplot.AnScatViewlargeoffset + scatterplot.AnScatViewoffset + scatterplot.AnScatViewlength;
             processing.StartProcessing(Platform.PC);
             ChangeDiskTypeComboBox.SelectedItem = processing.diskformat.ToString();
         }
@@ -127,11 +127,11 @@ namespace FloppyControlApp
 
         private void Histogrampanel1_Paint(object sender, PaintEventArgs e)
         {
-            if (processing.indexrxbuf > 0)
+            if (processing.Indexrxbuf > 0)
             {
-                updateAnScatterPlot();
+                UpdateAnScatterPlot();
                 ScatterHisto.DoHistogram();
-                updateSliderLabels();
+                UpdateSliderLabels();
             }
         }
 
@@ -139,7 +139,7 @@ namespace FloppyControlApp
         {
             if (!scanactive)
             {
-                updateSliderLabels();
+                UpdateSliderLabels();
                 scatterplot.UpdateScatterPlot();
                 scatterplot.UpdateScatterPlot();
             }
@@ -155,7 +155,7 @@ namespace FloppyControlApp
                 EightvScrollBar.Value = (int)QMaxUpDown.Value;
                 OffsetvScrollBar1.Value = (int)QOffsetUpDown.Value;
 
-                updateSliderLabels();
+                UpdateSliderLabels();
                 scatterplot.UpdateScatterPlot();
                 scatterplot.UpdateScatterPlot();
             }
@@ -168,15 +168,15 @@ namespace FloppyControlApp
 
         private void ResetInputBtn_Click(object sender, EventArgs e)
         {
-            resetinput();
+            ResetInput();
         }
 
         private void ResetOutputBtn_Click(object sender, EventArgs e)
         {
-            resetoutput();
+            Resetoutput();
             rtbSectorMap.DeselectAll();
             Application.DoEvents();
-            processing.sectormap.RefreshSectorMap();
+            processing.SectorMap.RefreshSectorMap();
 
         }
 
@@ -263,9 +263,9 @@ namespace FloppyControlApp
             controlfloppy.StopCapture();
             DisconnectFromFloppyControlHardware();
             //indexrxbuf = processing.indexrxbuf;
-            rxbufStartUpDown.Maximum = processing.indexrxbuf;
-            rxbufEndUpDown.Maximum = processing.indexrxbuf;
-            rxbufEndUpDown.Value = processing.indexrxbuf;
+            rxbufStartUpDown.Maximum = processing.Indexrxbuf;
+            rxbufEndUpDown.Maximum = processing.Indexrxbuf;
+            rxbufEndUpDown.Value = processing.Indexrxbuf;
 
             tbreceived.Append("Stopping...\r\n");
         }
@@ -285,18 +285,18 @@ namespace FloppyControlApp
         {
             if (HDCheckBox.Checked)
             {
-                ScatterHisto.hd = 1;
-                processing.procsettings.hd = 1;
+                ScatterHisto.HD = 1;
+                processing.ProcSettings.hd = 1;
                 //hddiv = 2;
             }
             else
             {
-                ScatterHisto.hd = 0;
-                processing.procsettings.hd = 0;
+                ScatterHisto.HD = 0;
+                processing.ProcSettings.hd = 0;
                 //hddiv = 1;
             }
-            if (processing.indexrxbuf > 1)
-                ScatterHisto.DoHistogram(processing.rxbuf, (int)rxbufStartUpDown.Value, (int)rxbufEndUpDown.Value);
+            if (processing.Indexrxbuf > 1)
+                ScatterHisto.DoHistogram(processing.RxBbuf, (int)rxbufStartUpDown.Value, (int)rxbufEndUpDown.Value);
         }
 
         private void FloppyControl_Resize(object sender, EventArgs e)
@@ -328,7 +328,7 @@ namespace FloppyControlApp
 
         private void BadSectorListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            updateECInterface();
+            UpdateECInterface();
         }
 
         private void BadSectorPanel_MouseDown(object sender, MouseEventArgs e)
@@ -458,11 +458,11 @@ namespace FloppyControlApp
 
                 groupBox6.Controls.Add(ThresholdsGroupBox);
                 ThresholdsGroupBox.Location = new Point(600, 16);
-                processing.rtbSectorMap = rtbSectorMap;
-                processing.sectormap.rtbSectorMap = rtbSectorMap;
-                processing.sectormap.RefreshSectorMap();
+                processing.RtbSectorMap = rtbSectorMap;
+                processing.SectorMap.rtbSectorMap = rtbSectorMap;
+                processing.SectorMap.RefreshSectorMap();
                 ScatterHisto.setPanel(Histogrampanel1);
-                updateAnScatterPlot();
+                UpdateAnScatterPlot();
             }
             if (MainTabControl.SelectedTab == QuickTab)
             {
@@ -471,11 +471,11 @@ namespace FloppyControlApp
                 QHistogramhScrollBar1.Minimum = HistogramhScrollBar1.Minimum;
                 QHistogramhScrollBar1.Maximum = HistogramhScrollBar1.Maximum;
                 QHistogramhScrollBar1.Value = HistogramhScrollBar1.Value;
-                processing.rtbSectorMap = QrtbSectorMap;
-                processing.sectormap.rtbSectorMap = QrtbSectorMap;
-                processing.sectormap.RefreshSectorMap();
+                processing.RtbSectorMap = QrtbSectorMap;
+                processing.SectorMap.rtbSectorMap = QrtbSectorMap;
+                processing.SectorMap.RefreshSectorMap();
                 //ScatterHisto.setPanel(QHistoPanel);
-                updateAnScatterPlot();
+                UpdateAnScatterPlot();
             }
         }
 
@@ -529,9 +529,9 @@ namespace FloppyControlApp
             if (Graph4SelRadioButton.Checked) index = 3;
             else
             if (Graph5SelRadioButton.Checked) index = 4;
-            oscilloscope.graphset.Graphs[index].changed = true;
+            oscilloscope.graphset.Graphs[index].Changed = true;
 
-            oscilloscope.graphset.Graphs[graphselect].yoffset = GraphOffsetTrackBar.Value;
+            oscilloscope.graphset.Graphs[graphselect].YOffset = GraphOffsetTrackBar.Value;
             oscilloscope.graphset.UpdateGraphs();
             GraphYOffsetlabel.Text = GraphOffsetTrackBar.Value.ToString();
         }
@@ -549,9 +549,9 @@ namespace FloppyControlApp
             else
             if (Graph5SelRadioButton.Checked) index = 4;
 
-            oscilloscope.graphset.Graphs[index].changed = true;
+            oscilloscope.graphset.Graphs[index].Changed = true;
 
-            oscilloscope.graphset.Graphs[graphselect].yscale = (GraphYScaleTrackBar.Value / 100.0f);
+            oscilloscope.graphset.Graphs[graphselect].YScale = (GraphYScaleTrackBar.Value / 100.0f);
             oscilloscope.graphset.UpdateGraphs();
             GraphScaleYLabel.Text = (GraphYScaleTrackBar.Value / 100.0f).ToString();
         }
@@ -562,8 +562,8 @@ namespace FloppyControlApp
             if (oscilloscope.graphset.Graphs.Count >= 1)
             {
                 graphselect = 0;
-                GraphOffsetTrackBar.Value = oscilloscope.graphset.Graphs[graphselect].yoffset;
-                GraphYScaleTrackBar.Value = (int)(oscilloscope.graphset.Graphs[graphselect].yscale * 100);
+                GraphOffsetTrackBar.Value = oscilloscope.graphset.Graphs[graphselect].YOffset;
+                GraphYScaleTrackBar.Value = (int)(oscilloscope.graphset.Graphs[graphselect].YScale * 100);
                 oscilloscope.graphset.UpdateGraphs();
             }
         }
@@ -574,8 +574,8 @@ namespace FloppyControlApp
             {
 
                 graphselect = 1;
-                GraphOffsetTrackBar.Value = oscilloscope.graphset.Graphs[graphselect].yoffset;
-                GraphYScaleTrackBar.Value = (int)(oscilloscope.graphset.Graphs[graphselect].yscale * 100);
+                GraphOffsetTrackBar.Value = oscilloscope.graphset.Graphs[graphselect].YOffset;
+                GraphYScaleTrackBar.Value = (int)(oscilloscope.graphset.Graphs[graphselect].YScale * 100);
                 oscilloscope.graphset.UpdateGraphs();
             }
         }
@@ -585,8 +585,8 @@ namespace FloppyControlApp
             if (oscilloscope.graphset.Graphs.Count >= 3)
             {
                 graphselect = 2;
-                GraphOffsetTrackBar.Value = oscilloscope.graphset.Graphs[graphselect].yoffset;
-                GraphYScaleTrackBar.Value = (int)(oscilloscope.graphset.Graphs[graphselect].yscale * 100);
+                GraphOffsetTrackBar.Value = oscilloscope.graphset.Graphs[graphselect].YOffset;
+                GraphYScaleTrackBar.Value = (int)(oscilloscope.graphset.Graphs[graphselect].YScale * 100);
                 oscilloscope.graphset.UpdateGraphs();
             }
         }
@@ -596,8 +596,8 @@ namespace FloppyControlApp
             if (oscilloscope.graphset.Graphs.Count >= 4)
             {
                 graphselect = 3;
-                GraphOffsetTrackBar.Value = oscilloscope.graphset.Graphs[graphselect].yoffset;
-                GraphYScaleTrackBar.Value = (int)(oscilloscope.graphset.Graphs[graphselect].yscale * 100);
+                GraphOffsetTrackBar.Value = oscilloscope.graphset.Graphs[graphselect].YOffset;
+                GraphYScaleTrackBar.Value = (int)(oscilloscope.graphset.Graphs[graphselect].YScale * 100);
                 oscilloscope.graphset.UpdateGraphs();
             }
         }
@@ -607,17 +607,17 @@ namespace FloppyControlApp
             if (oscilloscope.graphset.Graphs.Count >= 5)
             {
                 graphselect = 4;
-                GraphOffsetTrackBar.Value = oscilloscope.graphset.Graphs[graphselect].yoffset;
-                GraphYScaleTrackBar.Value = (int)(oscilloscope.graphset.Graphs[graphselect].yscale * 100);
+                GraphOffsetTrackBar.Value = oscilloscope.graphset.Graphs[graphselect].YOffset;
+                GraphYScaleTrackBar.Value = (int)(oscilloscope.graphset.Graphs[graphselect].YScale * 100);
                 oscilloscope.graphset.UpdateGraphs();
             }
         }
 
         private void GraphsetGetControlValuesCallback()
         {
-            oscilloscope.graphset.editmode = EditModecomboBox.SelectedIndex;
-            oscilloscope.graphset.editoption = EditOptioncomboBox.SelectedIndex;
-            oscilloscope.graphset.editperiodextend = (int)PeriodExtendUpDown.Value;
+            oscilloscope.graphset.Editmode = EditModecomboBox.SelectedIndex;
+            oscilloscope.graphset.Editoption = EditOptioncomboBox.SelectedIndex;
+            oscilloscope.graphset.Editperiodextend = (int)PeriodExtendUpDown.Value;
         }
 
         private void OpenWavefrmbutton_Click_1(object sender, EventArgs e)
@@ -734,7 +734,7 @@ namespace FloppyControlApp
 
         private void AnalysisTab2_Enter_1(object sender, EventArgs e)
         {
-            oscilloscope.graphset.allowrepaint = false;
+            oscilloscope.graphset.Allowrepaint = false;
         }
 
         private void RtbSectorMap_DoubleClick(object sender, EventArgs e)
@@ -742,7 +742,7 @@ namespace FloppyControlApp
             rtbSectorMap.DeselectAll();
             RateOfChange2UpDown.Focus();
             Application.DoEvents();
-            processing.sectormap.RefreshSectorMap();
+            processing.SectorMap.RefreshSectorMap();
         }
 
         private void Button18_Click(object sender, EventArgs e)
@@ -765,7 +765,7 @@ namespace FloppyControlApp
                 {
                     graphwaveform[2][i] = (byte)(127 + (graphwaveform[0][i] - graphwaveform[1][i + offset]) / 2);
                 }
-                oscilloscope.graphset.Graphs[2].changed = true;
+                oscilloscope.graphset.Graphs[2].Changed = true;
                 oscilloscope.graphset.UpdateGraphs();
             }
         }
@@ -774,8 +774,8 @@ namespace FloppyControlApp
         {
             for (int i = 0; i < oscilloscope.graphset.Graphs.Count; i++)
             {
-                oscilloscope.graphset.Graphs[i].width = GraphPictureBox.Width;
-                oscilloscope.graphset.Graphs[i].height = GraphPictureBox.Height;
+                oscilloscope.graphset.Graphs[i].Width = GraphPictureBox.Width;
+                oscilloscope.graphset.Graphs[i].Height = GraphPictureBox.Height;
                 oscilloscope.graphset.Resize();
             }
         }
@@ -787,7 +787,7 @@ namespace FloppyControlApp
 
         private void SaveWaveformButton_Click(object sender, EventArgs e)
         {
-            oscilloscope.graphset.saveAll();
+            oscilloscope.graphset.SaveAll();
         }
 
         //Copy graph[0]
@@ -799,28 +799,28 @@ namespace FloppyControlApp
         private void Button33_Click(object sender, EventArgs e)
         {
             oscilloscope.graphset.Graphs[graphselect].DCOffset();
-            oscilloscope.graphset.Graphs[graphselect].changed = true;
+            oscilloscope.graphset.Graphs[graphselect].Changed = true;
             oscilloscope.graphset.UpdateGraphs();
         }
 
         private void Lowpassbutton_Click(object sender, EventArgs e)
         {
             oscilloscope.graphset.Graphs[graphselect].Lowpass((int)SmoothingUpDown.Value);
-            oscilloscope.graphset.Graphs[graphselect].changed = true;
+            oscilloscope.graphset.Graphs[graphselect].Changed = true;
             oscilloscope.graphset.UpdateGraphs();
         }
 
         private void Button3_Click(object sender, EventArgs e)
         {
             oscilloscope.graphset.Graphs[graphselect].Lowpass2((int)SmoothingUpDown.Value);
-            oscilloscope.graphset.Graphs[graphselect].changed = true;
+            oscilloscope.graphset.Graphs[graphselect].Changed = true;
             oscilloscope.graphset.UpdateGraphs();
         }
         
         private void Button33_Click_1(object sender, EventArgs e)
         {
             oscilloscope.graphset.Graphs[graphselect].Highpass((int)HighpassThresholdUpDown.Value);
-            oscilloscope.graphset.Graphs[graphselect].changed = true;
+            oscilloscope.graphset.Graphs[graphselect].Changed = true;
             oscilloscope.graphset.UpdateGraphs();
         }
 
@@ -923,7 +923,7 @@ namespace FloppyControlApp
                 //processing.indexrxbuf = indexrxbuf;
                 controlfloppy.StepStickMicrostepping = (int)Properties.Settings.Default["StepStickMicrostepping"];
                 controlfloppy.outputfilename = outputfilename.Text;
-                controlfloppy.rxbuf = processing.rxbuf;
+                controlfloppy.rxbuf = processing.RxBbuf;
                 scope.controlfloppy = controlfloppy; // reference the controlfloppy class
 
                 //int start, end;
@@ -953,7 +953,7 @@ namespace FloppyControlApp
         private void Histogrampanel1_Click(object sender, EventArgs e)
         {
             FindPeaks();
-            updateAnScatterPlot();
+            UpdateAnScatterPlot();
         }
 
         private void JumpTocomboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -1053,8 +1053,8 @@ namespace FloppyControlApp
             fileio.FilesAvailableCallback -= FilesAvailableCallback;
             fileio.FilesAvailableCallback += ScpFilesAvailableCallback;
             fileio.OpenScp();
-            rxbufEndUpDown.Maximum = processing.indexrxbuf;
-            rxbufEndUpDown.Value = processing.indexrxbuf;
+            rxbufEndUpDown.Maximum = processing.Indexrxbuf;
+            rxbufEndUpDown.Value = processing.Indexrxbuf;
         }
 
         //Save SCP
@@ -1138,7 +1138,7 @@ namespace FloppyControlApp
 
         private void FullHistBtn_Click(object sender, EventArgs e)
         {
-            ScatterHisto.DoHistogram(processing.rxbuf, (int)rxbufStartUpDown.Value, (int)rxbufEndUpDown.Value);
+            ScatterHisto.DoHistogram(processing.RxBbuf, (int)rxbufStartUpDown.Value, (int)rxbufEndUpDown.Value);
         }
 
         private void TRK00OffsetUpDown_ValueChanged(object sender, EventArgs e)
@@ -1198,12 +1198,12 @@ namespace FloppyControlApp
 
         private void ResetBuffersBtn_Click(object sender, EventArgs e)
         {
-            resetinput();
+            ResetInput();
         }
 
         private void Button5_Click(object sender, EventArgs e)
         {
-            resetoutput();
+            Resetoutput();
         }
 
         private void QChangeDiskTypeComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -1283,7 +1283,7 @@ namespace FloppyControlApp
 
         private void DisableTooltipsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var a = sender.GetType();
+            var _ = sender.GetType();
              var menuitem = (ToolStripMenuItem) sender;
             if (menuitem.Checked) toolTip1.Active = true;
             else toolTip1.Active = false;
@@ -1348,7 +1348,7 @@ namespace FloppyControlApp
 
         private void AutoRefreshSectorMapCheck_CheckedChanged(object sender, EventArgs e)
         {
-            processing.procsettings.AutoRefreshSectormap = AutoRefreshSectorMapCheck.Checked;
+            processing.ProcSettings.AutoRefreshSectormap = AutoRefreshSectorMapCheck.Checked;
         }
     } // end class
 } // End namespace
