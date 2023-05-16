@@ -734,6 +734,25 @@ namespace FloppyControlApp
             return hex;
         }
         */
+        /// <summary>
+        /// Converts MFM to byte array.
+        /// </summary>
+        /// <param name="mfmbits">MFM data</param>
+        /// <param name="offset">Offset in the MFM data</param>
+        /// <param name="length">Number of bytes (in the resulting array) to be converted</param>
+        /// <param name="threadid"></param>
+        /// <param name="sectordatathread"></param>
+        /// <returns></returns>
+        public byte[] MFM2Bytes(ref byte[] mfmbits, int offset, int length, int threadid, MFMData sectordatathread)
+        {
+            byte[] bytebuf = new byte[length];
+
+            for (int i = 0; i < length; i++)
+            {
+                bytebuf[i] = MFMBits2BINbyte(ref mfms[threadid], sectordatathread.MarkerPositions + (i * 16));
+            }
+            return bytebuf;
+        }
 
         public byte MFMBits2BINbyte(ref byte[] mfmbits, int offset)
         {
@@ -958,6 +977,8 @@ namespace FloppyControlApp
 
         // Converts bit encoded byte array of mfm to a byte encoded byte array
         // result is an array that's 8x smaller than length
+        // Non thread safe
+        // Todo: replace with MFM2Bytes with thread safe build in.
         public byte[] MFM2ByteArray(byte[] mfm, int offset, int length)
         {
             int i, j;

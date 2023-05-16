@@ -150,8 +150,8 @@ namespace FloppyControlApp
             int markerindex;
 
             //StringBuilder tbtrackinfo = new StringBuilder();
-
-            byte[] bytebuf = new byte[5000];
+            
+            byte[] SectorBlock;
             byte[] sectorbuf = new byte[2050];
             byte[] crctemp = new byte[6];
             byte sectornr, tracknr, headnr;
@@ -176,23 +176,18 @@ namespace FloppyControlApp
                 datacrcchk = 0xFFFF;
 
                 // First find the IDAM, 10 bytes
-
-                for (i = 0; i < 10; i++)
-                {
-                    bytebuf[i] = MFMBits2BINbyte(ref mfms[threadid], sectordatathread.MarkerPositions + (i * 16));
-                    if (debuginfo) tbreceived.Append(bytebuf[i].ToString("X2"));
-                }
+                var Idam = MFM2Bytes(ref mfms[threadid], sectordatathread.MarkerPositions, 10, threadid, sectordatathread);
 
                 int offset;
 
-                if (bytebuf[3] == 0xFE)
+                if (Idam[3] == 0xFE)
                 {
                     if (debuginfo) tbreceived.Append(" IDAM");
 
-                    tracknr = bytebuf[4];
-                    headnr = bytebuf[5];
-                    sectornr = (byte)(bytebuf[6] - 1);
-                    bytespersectorthread = 128 << bytebuf[7];
+                    tracknr = Idam[4];
+                    headnr = Idam[5];
+                    sectornr = (byte)(Idam[6] - 1);
+                    bytespersectorthread = 128 << Idam[7];
                     if (bytespersectorthread > 1024)
                     {
                         tbreceived.Append("Error: T" + (tracknr * 2 + headnr).ToString("d3") + " S" + sectornr + " size too large: " + bytespersectorthread + "\r\n");
@@ -214,7 +209,7 @@ namespace FloppyControlApp
                     // Check header crc
                     // If headercrcchk == 0000, data integrety is good.
                     // The CRC is calculated from the A1A1A1FE header to and including the CRC16 code.
-                    headercrcchk = crc.ComputeChecksum(bytebuf.SubArray(0, 10));
+                    headercrcchk = crc.ComputeChecksum(Idam.SubArray(0, 10));
 
                     track = (tracknr * 2) + headnr;
 
@@ -279,30 +274,25 @@ namespace FloppyControlApp
                     }
 
                     if (debuginfo) tbreceived.Append("\r\nT" + track + " S" + sectornr + " Sector data:\r\n");
-
-                    for (i = 0; i < bytespersectorthread + 16; i++)
-                    {
-                        bytebuf[i] = MFMBits2BINbyte(ref mfms[threadid], sectordatathread.MarkerPositions + (i * 16));
-                        if (debuginfo)
-                        {
-                            tbreceived.Append(bytebuf[i].ToString("X2"));
-                            if (i == 517) tbreceived.Append("\r\n");
-                        }
-
-                    }
+                    SectorBlock = MFM2Bytes(ref mfms[threadid], 
+                                            sectordatathread.MarkerPositions + (i * 16),
+                                            bytespersectorthread + 16, 
+                                            threadid, 
+                                            sectordatathread);
+                    
                     if (debuginfo) tbreceived.Append("\r\n\r\n");
-                    if (bytebuf[3] == 0xFB || bytebuf[3] == 0xF8)
+                    if (SectorBlock[3] == 0xFB || SectorBlock[3] == 0xF8)
                     {
-                        datacrc = (ushort)((bytebuf[bytespersectorthread + 4] << 8) | bytebuf[bytespersectorthread + 5]);
+                        datacrc = (ushort)((SectorBlock[bytespersectorthread + 4] << 8) | SectorBlock[bytespersectorthread + 5]);
 
-                        datacrcchk = crc.ComputeChecksum(bytebuf.SubArray(0, bytespersectorthread + 6));
+                        datacrcchk = crc.ComputeChecksum(SectorBlock.SubArray(0, bytespersectorthread + 6));
                         if (datacrcchk != 0)
                         {
-                            datacrcchk = crc.ComputeChecksum(bytebuf.SubArray(0, 512 + 6));
+                            datacrcchk = crc.ComputeChecksum(SectorBlock.SubArray(0, 512 + 6));
                         }
                         if (diskformat == DiskFormat.pc2m && track == 0)
-                            sectorbuf = bytebuf.SubArray(4, 514);
-                        else sectorbuf = bytebuf.SubArray(4, bytespersectorthread + 2);
+                            sectorbuf = SectorBlock.SubArray(4, 514);
+                        else sectorbuf = SectorBlock.SubArray(4, bytespersectorthread + 2);
                         //sectorbuf = bytebuf.SubArray(4, bytespersectorthread);
                     }
                     else // if marker of the sector isn't good, backtrack one marker and continue
@@ -316,28 +306,20 @@ namespace FloppyControlApp
                     headercrcchk = 1; // force ignore header
 
                     bytespersectorthread = 512;
-                    for (i = 0; i < bytespersectorthread + 16; i++)
-                    {
-                        bytebuf[i] = MFMBits2BINbyte(ref mfms[threadid], sectordatathread.MarkerPositions + (i * 16));
-                        if (debuginfo)
-                        {
-                            tbreceived.Append(bytebuf[i].ToString("X2"));
-                            if (i == 517) tbreceived.Append("\r\n");
-                        }
-
-                    }
+                    SectorBlock = MFM2Bytes(ref mfms[threadid], sectordatathread.MarkerPositions, bytespersectorthread + 16, threadid, sectordatathread);
+                    
                     if (debuginfo) tbreceived.Append("\r\n\r\n");
-                    if (bytebuf[3] == 0xFB || bytebuf[3] == 0xF8)
+                    if (SectorBlock[3] == 0xFB || SectorBlock[3] == 0xF8)
                     {
-                        datacrc = (ushort)((bytebuf[bytespersectorthread + 4] << 8) | bytebuf[bytespersectorthread + 5]);
+                        datacrc = (ushort)((SectorBlock[bytespersectorthread + 4] << 8) | SectorBlock[bytespersectorthread + 5]);
 
-                        datacrcchk = crc.ComputeChecksum(bytebuf.SubArray(0, bytespersectorthread + 6));
+                        datacrcchk = crc.ComputeChecksum(SectorBlock.SubArray(0, bytespersectorthread + 6));
                         if (datacrcchk != 0)
                         {
-                            datacrcchk = crc.ComputeChecksum(bytebuf.SubArray(0, 512 + 6));
+                            datacrcchk = crc.ComputeChecksum(SectorBlock.SubArray(0, 512 + 6));
                         }
 
-                        sectorbuf = bytebuf.SubArray(4, bytespersectorthread + 2);
+                        sectorbuf = SectorBlock.SubArray(4, bytespersectorthread + 2);
                         //sectorbuf = bytebuf.SubArray(4, bytespersectorthread);
                     }
                     if (datacrcchk == 0x00 && sectorbuf.Length > 500)
@@ -447,7 +429,7 @@ namespace FloppyControlApp
 
                                     for (i = 0; i < bytespersectorthread + 16; i++)
                                     {
-                                        b[i] = bytebuf[i];
+                                        b[i] = SectorBlock[i];
                                     }
 
                                     //lock (lockbadsector)
@@ -596,7 +578,7 @@ namespace FloppyControlApp
 
                                         for (i = 0; i < bytespersectorthread + 16; i++)
                                         {
-                                            b[i] = bytebuf[i];
+                                            b[i] = SectorBlock[i];
                                         }
 
                                         //lock (lockbadsector)
