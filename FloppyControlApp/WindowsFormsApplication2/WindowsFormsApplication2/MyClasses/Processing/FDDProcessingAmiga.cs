@@ -271,7 +271,6 @@ namespace FloppyControlApp
 
             byte tracknr;
             byte sectornr;
-            byte gapoffset;
 
             //Decode mfm to bytes
             //====================================================================================================
@@ -433,8 +432,7 @@ namespace FloppyControlApp
 
                 byte tracknr = 0;
                 byte sectornr = 0;
-                byte gapoffset;
-
+                
                 MFM2Sector Mfm2Sector = null;
 
                 //Decode mfm to bytes

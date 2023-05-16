@@ -22,7 +22,7 @@ namespace FloppyControlApp
             int i;
 
             byte[] Marker = new byte[0];
-            int periodshift;
+            //int periodshift;
             byte[] crcinsectordatadecoded = new byte[100];
 
             int bitshifted = 0;
@@ -44,13 +44,13 @@ namespace FloppyControlApp
             if (diskformat == DiskFormat.amigados)
             {
                 Marker = FDDProcessing.AMIGAMARKER;
-                periodshift = 16;
+                //periodshift = 16;
             }
             else
             if (diskformat == DiskFormat.diskspare)
             {
                 Marker = FDDProcessing.AMIGADSMARKER;
-                periodshift = 8;
+                //periodshift = 8;
             }
 
             if (Marker.Length == 0)
