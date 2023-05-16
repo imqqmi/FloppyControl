@@ -21,7 +21,7 @@ namespace FloppyControlApp
             byte[] sectors = new byte[1050];
             //int qq;
             int sectorlength = 512;
-            int threadid = 0;
+            int threadid;
 
             switch ((int)processing.diskformat)
             {
@@ -437,7 +437,7 @@ namespace FloppyControlApp
                 {
                     int w = 13;
                     int h = 8;
-                    int lengthmfm;
+                    //int lengthmfm;
                     int mfmoffset2 = 0;
 
                     switch ((int)processing.diskformat)
@@ -446,25 +446,25 @@ namespace FloppyControlApp
                             return;
                         case 1: //AmigaDos
                             offset = -48;
-                            lengthmfm = 8704;
+                            //lengthmfm = 8704;
                             break;
                         case 2://diskspare
                             offset = -16;
-                            lengthmfm = 8320;
+                            //lengthmfm = 8320;
                             break;
                         case 3://pcdd
                             offset = -712;
-                            lengthmfm = 10464;
+                            //lengthmfm = 10464;
                             mfmoffset2 = -712;
                             break;
                         case 4://pchd
                             offset = -712;
-                            lengthmfm = 10464;
+                            //lengthmfm = 10464;
                             mfmoffset2 = -712;
                             break;
                         case 5://pc2m
                             offset = -712;
-                            lengthmfm = 10464;
+                            //lengthmfm = 10464;
                             mfmoffset2 = -712;
                             break;
                     }
@@ -816,30 +816,30 @@ namespace FloppyControlApp
                 //int f = sectorlength / 512;
                 int w = 13;
                 int h = 8;
-                int lengthmfm;
+                //int lengthmfm;
                 switch ((int)processing.diskformat)
                 {
                     case 0:
                         return;
                     case 1: //AmigaDos
                         offset = 0;
-                        lengthmfm = 8704;
+                        //lengthmfm = 8704;
                         break;
                     case 2://diskspare
                         offset = 0;
-                        lengthmfm = 8320;
+                        //lengthmfm = 8320;
                         break;
                     case 3://pc2m
                         offset = -704;
-                        lengthmfm = 10464;
+                        //lengthmfm = 10464;
                         break;
                     case 4://pcdd
                         offset = -704;
-                        lengthmfm = 10464;
+                        //lengthmfm = 10464;
                         break;
                     case 5://pchd
                         offset = -704;
-                        lengthmfm = 10464;
+                        //lengthmfm = 10464;
                         break;
                 }
                 //if (f == 0.0f) f = 1;
