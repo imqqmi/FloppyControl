@@ -47,12 +47,12 @@ namespace FloppyControlApp
         // Do the Amiga sector data processing
         private void ProcessAmigaBtn_Click(object sender, EventArgs e)
         {
-            syncControlsBetweenTabs();
+            SyncControlsBetweenTabs();
             processing.stop = 0;
             ProcessAmiga();
         }
 
-        private void syncControlsBetweenTabs()
+        private void SyncControlsBetweenTabs()
         {
             if(MainTabControl.SelectedTab == QuickTab)
             {
@@ -91,13 +91,13 @@ namespace FloppyControlApp
 
         private void ProcessPCBtn_Click(object sender, EventArgs e)
         {
-            syncControlsBetweenTabs();
+            SyncControlsBetweenTabs();
             processing.stop = 0;
             ProcessPC();
             HandleTabSwitching();
         }
 
-        public void updateForm()
+        public void UpdateForm()
         {
             Application.DoEvents();
         }
@@ -237,15 +237,15 @@ namespace FloppyControlApp
             QTrackDurationUpDown.Value = 50000;
         }
 
-        private void outputfilename_Enter(object sender, EventArgs e)
+        private void Outputfilename_Enter(object sender, EventArgs e)
         {
             disablecatchkey = 1;
         }
 
-        private void outputfilename_Leave(object sender, EventArgs e)
+        private void Outputfilename_Leave(object sender, EventArgs e)
         {
             disablecatchkey = 0;
-            setBaseName();
+            SetBaseName();
         }
 
         private void FloppyControl_Click(object sender, EventArgs e)
@@ -369,7 +369,7 @@ namespace FloppyControlApp
             BadSectorTooltip.Hide();
         }
 
-        private void timer5_Tick(object sender, EventArgs e)
+        private void Timer5_Tick(object sender, EventArgs e)
         {
             BadSectorTooltip.Location = BadSectorTooltipPos;
         }
@@ -397,7 +397,7 @@ namespace FloppyControlApp
 
             textBoxReceived.AppendText(tbreceived.ToString());
             tbreceived.Clear();
-            this.updateForm();
+            this.UpdateForm();
         }
 
         private void BluetoRedByteCopyToolBtn_Click(object sender, EventArgs e)
@@ -499,12 +499,12 @@ namespace FloppyControlApp
             ErrorCorrectRealign4E();
         }
 
-        private void outputfilename_TextChanged(object sender, EventArgs e)
+        private void Outputfilename_TextChanged(object sender, EventArgs e)
         {
-            setBaseName();
+            SetBaseName();
         }
         
-        private void setBaseName()
+        private void SetBaseName()
         {
             if (outputfilename.Text != "")
             {
@@ -515,11 +515,6 @@ namespace FloppyControlApp
                 Properties.Settings.Default["BaseFileName"] = outputfilename.Text;
                 Properties.Settings.Default.Save();
             }
-        }
-
-        private void CreateGraphs()
-        {
-            Graph1SelRadioButton.Checked = true;
         }
 
         private void GraphOffsetTrackBar_Scroll(object sender, EventArgs e)
@@ -541,7 +536,7 @@ namespace FloppyControlApp
             GraphYOffsetlabel.Text = GraphOffsetTrackBar.Value.ToString();
         }
 
-        private void trackBar3_Scroll(object sender, EventArgs e)
+        private void TrackBar3_Scroll(object sender, EventArgs e)
         {
             int index = 0;
             if (Graph1SelRadioButton.Checked) index = 0;
@@ -649,7 +644,7 @@ namespace FloppyControlApp
             UpdateHistoAndScatterplot();
         }
 
-        private void button31_Click_2(object sender, EventArgs e)
+        private void Button31_Click_2(object sender, EventArgs e)
         {
             oscilloscope.Filter2(
                 (int)DiffDistUpDown.Value,
@@ -677,7 +672,7 @@ namespace FloppyControlApp
             GraphFilterButton.PerformClick();
         }
 
-        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        private void NumericUpDown1_ValueChanged(object sender, EventArgs e)
         {
             GraphFilterButton.PerformClick();
         }
@@ -688,7 +683,7 @@ namespace FloppyControlApp
         }
 
         // Process the read data signal captured using the scope
-        private void button19_Click(object sender, EventArgs e)
+        private void Button19_Click(object sender, EventArgs e)
         {
             ProcessOscilloscopeCapturedTrack();
         }
@@ -698,7 +693,7 @@ namespace FloppyControlApp
             CaptureOscilloscopeTrack();
         }
 
-        private void button29_Click(object sender, EventArgs e)
+        private void Button29_Click(object sender, EventArgs e)
         {
             scope.stop = 1;
             scope.capturedatastate = 3;
@@ -742,7 +737,7 @@ namespace FloppyControlApp
             oscilloscope.graphset.allowrepaint = false;
         }
 
-        private void rtbSectorMap_DoubleClick(object sender, EventArgs e)
+        private void RtbSectorMap_DoubleClick(object sender, EventArgs e)
         {
             rtbSectorMap.DeselectAll();
             RateOfChange2UpDown.Focus();
@@ -750,7 +745,7 @@ namespace FloppyControlApp
             processing.sectormap.RefreshSectorMap();
         }
 
-        private void button18_Click(object sender, EventArgs e)
+        private void Button18_Click(object sender, EventArgs e)
         {
             int i;
             int offset = (int)DiffOffsetUpDown.Value;
@@ -786,7 +781,7 @@ namespace FloppyControlApp
         }
 
         // Undo
-        private void button31_Click_1(object sender, EventArgs e)
+        private void Button31_Click_1(object sender, EventArgs e)
         {
             EditScopePlotUndo();        }
 
@@ -796,12 +791,12 @@ namespace FloppyControlApp
         }
 
         //Copy graph[0]
-        private void button32_Click(object sender, EventArgs e)
+        private void Button32_Click(object sender, EventArgs e)
         {
             EditScopePlotCopy();
         }
 
-        private void button33_Click(object sender, EventArgs e)
+        private void Button33_Click(object sender, EventArgs e)
         {
             oscilloscope.graphset.Graphs[graphselect].DCOffset();
             oscilloscope.graphset.Graphs[graphselect].changed = true;
@@ -815,21 +810,21 @@ namespace FloppyControlApp
             oscilloscope.graphset.UpdateGraphs();
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void Button3_Click(object sender, EventArgs e)
         {
             oscilloscope.graphset.Graphs[graphselect].Lowpass2((int)SmoothingUpDown.Value);
             oscilloscope.graphset.Graphs[graphselect].changed = true;
             oscilloscope.graphset.UpdateGraphs();
         }
         
-        private void button33_Click_1(object sender, EventArgs e)
+        private void Button33_Click_1(object sender, EventArgs e)
         {
             oscilloscope.graphset.Graphs[graphselect].Highpass((int)HighpassThresholdUpDown.Value);
             oscilloscope.graphset.Graphs[graphselect].changed = true;
             oscilloscope.graphset.UpdateGraphs();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void Button1_Click(object sender, EventArgs e)
         {
             DoErrorCorrectionOnSelection();
         }
@@ -874,7 +869,7 @@ namespace FloppyControlApp
         }
 
         // Waveform editor tab, fix 8us method, an attempt to find and fix 8us waveform distortions
-        private void button34_Click(object sender, EventArgs e)
+        private void Button34_Click(object sender, EventArgs e)
         {
             oscilloscope.Fix8us(
                 (int)DiffTest2UpDown.Value,
@@ -889,7 +884,7 @@ namespace FloppyControlApp
 
         // Capture data current track button. Captures the track using the scope on the track that's last used when capturing.
         // It must still be connected on the Capture tab.
-        private void button35_Click(object sender, EventArgs e)
+        private void Button35_Click(object sender, EventArgs e)
         {
             int i;
 
@@ -931,10 +926,10 @@ namespace FloppyControlApp
                 controlfloppy.rxbuf = processing.rxbuf;
                 scope.controlfloppy = controlfloppy; // reference the controlfloppy class
 
-                int start, end;
+                //int start, end;
 
-                start = (int)NetworkCaptureTrackStartUpDown.Value;
-                end = (int)NetworkCaptureTrackEndUpDown.Value;
+                //start = (int)NetworkCaptureTrackStartUpDown.Value;
+                //end = (int)NetworkCaptureTrackEndUpDown.Value;
 
                 controlfloppy.StartTrack = i;
 
@@ -967,7 +962,7 @@ namespace FloppyControlApp
         }
 
         //Rich text box sector map interactions
-        private void rtbSectorMap_MouseDown(object sender, MouseEventArgs e)
+        private void RtbSectorMap_MouseDown(object sender, MouseEventArgs e)
         {
             SectorMapInteractions(e);
         }
@@ -977,7 +972,7 @@ namespace FloppyControlApp
             SectorMapRightclickMenuHandler(e);
         }
 
-        private void button38_Click(object sender, EventArgs e)
+        private void Button38_Click(object sender, EventArgs e)
         {
             int i;
             tbSectorMap.AppendText("count\tdec\thex\tbin\r\n");
@@ -1015,7 +1010,7 @@ namespace FloppyControlApp
             Thread.Sleep(controlfloppy.tracktotrackdelay);
         }
 
-        private void button43_Click(object sender, EventArgs e)
+        private void Button43_Click(object sender, EventArgs e)
         {
             int StepStickMicrostepping = 8;
             int i;
@@ -1029,13 +1024,13 @@ namespace FloppyControlApp
             }
         }
 
-        private void button42_Click(object sender, EventArgs e)
+        private void Button42_Click(object sender, EventArgs e)
         {
             controlfloppy.serialPort1.Write('g'.ToString()); // increase track number
             Thread.Sleep(controlfloppy.tracktotrackdelay);
         }
 
-        private void button41_Click(object sender, EventArgs e)
+        private void Button41_Click(object sender, EventArgs e)
         {
             controlfloppy.serialPort1.Write('t'.ToString()); // increase track number
             Thread.Sleep(controlfloppy.tracktotrackdelay);
@@ -1047,13 +1042,13 @@ namespace FloppyControlApp
         }
 
         //Iterator test 
-        private void button44_Click(object sender, EventArgs e)
+        private void Button44_Click(object sender, EventArgs e)
         {
             ECIteratorTest();
         }
 
         //Open SCP
-        private void button45_Click(object sender, EventArgs e)
+        private void OpenSCP_Click(object sender, EventArgs e)
         {
             fileio.FilesAvailableCallback -= FilesAvailableCallback;
             fileio.FilesAvailableCallback += ScpFilesAvailableCallback;
@@ -1063,7 +1058,7 @@ namespace FloppyControlApp
         }
 
         //Save SCP
-        private void button46_Click(object sender, EventArgs e)
+        private void SaveSCP_Click(object sender, EventArgs e)
         {
             fileio.SaveSCP(
                     FourvScrollBar.Value,
@@ -1073,7 +1068,7 @@ namespace FloppyControlApp
                 );
         }
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        private void ComboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             DiskFormat diskformat = DiskFormat.unknown;
             if (ChangeDiskTypeComboBox.SelectedItem.ToString() != "")
@@ -1084,12 +1079,12 @@ namespace FloppyControlApp
 
         }
 
-        private void button48_Click(object sender, EventArgs e)
+        private void Button48_Click(object sender, EventArgs e)
         {
             RecaptureAllBadSectors();
         }
 
-        private void button49_Click(object sender, EventArgs e)
+        private void Button49_Click(object sender, EventArgs e)
         {
             
             fileio.SaveTrimmedBinFile(
@@ -1119,13 +1114,13 @@ namespace FloppyControlApp
 
         private void ScanBtn_Click_1(object sender, EventArgs e)
         {
-            syncControlsBetweenTabs();
+            SyncControlsBetweenTabs();
             processing.stop = 0;
             DoScan();
             tbreceived.Append("\r\nDone!\r\n");
         }
 
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        private void CheckBox1_CheckedChanged(object sender, EventArgs e)
         {
             scatterplot.EditScatterplot = EditScatterPlotcheckBox.Checked;
         }
@@ -1206,7 +1201,7 @@ namespace FloppyControlApp
             resetinput();
         }
 
-        private void button5_Click(object sender, EventArgs e)
+        private void Button5_Click(object sender, EventArgs e)
         {
             resetoutput();
         }
@@ -1286,7 +1281,7 @@ namespace FloppyControlApp
 
         }
 
-        private void disableTooltipsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void DisableTooltipsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var a = sender.GetType();
              var menuitem = (ToolStripMenuItem) sender;
@@ -1294,17 +1289,17 @@ namespace FloppyControlApp
             else toolTip1.Active = false;
         }
 
-        private void basicModeToolStripMenuItem_Click(object sender, EventArgs e)
+        private void BasicModeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SetGuiMode("basic");
         }
 
-        private void advancedModeToolStripMenuItem_Click(object sender, EventArgs e)
+        private void AdvancedModeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SetGuiMode("advanced");
         }
 
-        private void devModeToolStripMenuItem_Click(object sender, EventArgs e)
+        private void DevModeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SetGuiMode("dev");
         }
@@ -1344,7 +1339,7 @@ namespace FloppyControlApp
             Process.Start("explorer.exe", fileio.PathToRecoveredDisks+@"\"+fileio.BaseFileName);
         }
 
-        private void closeToolStripMenuItem_Click(object sender, EventArgs e)
+        private void CloseToolStripMenuItem_Click(object sender, EventArgs e)
         {
             scope.Disconnect();
             this.Close();

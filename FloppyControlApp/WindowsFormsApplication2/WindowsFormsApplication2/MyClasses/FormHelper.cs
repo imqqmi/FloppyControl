@@ -735,7 +735,7 @@ namespace FloppyControlApp
                 OffsetvScrollBar1.Value = 29 - i;
                 ScanButton.PerformClick();
 
-                this.updateForm();
+                this.UpdateForm();
             }
 
             processing.stop = 0;
@@ -789,7 +789,7 @@ namespace FloppyControlApp
                             processing.StartProcessing(Platform.Amiga);
                         else
                             processing.StartProcessing(Platform.PC);
-                        this.updateForm();
+                        this.UpdateForm();
                     }
                 }
                 if (processing.stop == 1)
@@ -820,7 +820,7 @@ namespace FloppyControlApp
                 else
                     processing.StartProcessing(Platform.PC);
                 processing.sectormap.RefreshSectorMap();
-                this.updateForm();
+                this.UpdateForm();
             }
             MinvScrollBar.Value = 0x32;
             for (i = 0x07; i < 0x18; i += 2)
@@ -834,7 +834,7 @@ namespace FloppyControlApp
                 else
                     processing.StartProcessing(Platform.PC);
                 processing.sectormap.RefreshSectorMap();
-                this.updateForm();
+                this.UpdateForm();
             }
 
             scanactive = false;
