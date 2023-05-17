@@ -27,68 +27,6 @@ namespace FloppyControlApp
         public int sectordata2oldcnt;
         bool debuginfo = false;
 
-
-        private void FindAllPCMarkers(int threadid)
-        {
-            // Find markers
-
-            byte[] m = mfms[threadid];
-            int rxbufcnt, searchcnt;
-            int retries;
-            byte[] A1markerbytes = A1MARKER;
-            int markerpositionscntthread = 0;
-            // with multithreading, the counting of rxbuf is misaligned with mfms, because
-            // it doesn't start at the start of rxbuf. There's no way to know at this point
-            // how many 1's there are up to this point. Either do the calculation after processing
-            // then adjust the values or not use multithreading.
-
-            //m = mfms[threadid]; // speed up processing by removing one extra reference
-            int A1MarkerLength = A1markerbytes.Length;
-            int A1MarkerLengthMinusOne = A1markerbytes.Length - 1;
-            int mfmlength = mfmlengths[threadid];
-            if (Indexrxbuf > RxBbuf.Length) Indexrxbuf = RxBbuf.Length - 1;
-            rxbufcnt = 0;
-            searchcnt = 0;
-            for (int i = 0; i < mfmlength; i++)
-            {
-                if (i % 250000 == 249999) { progresses[threadid] = i; if (stop == 1) break; }
-
-                for (int j = 0; j < A1MarkerLength; j++)
-                {
-                    if (m[i + j] == A1markerbytes[j]) searchcnt++;
-                    else
-                    {
-                        searchcnt = 0;
-                        break;
-                    }
-                    if (searchcnt == A1MarkerLengthMinusOne)
-                    {
-                        searchcnt = 0;
-                        MFMData sectordata = new MFMData
-                        {
-                            MarkerPositions = i,
-                            rxbufMarkerPositions = rxbufcnt,
-                            processed = false,
-                            threadid = threadid
-                        };
-                        retries = 0;
-
-                        while (!sectordata2.TryAdd(sectordata2.Count, sectordata) || retries > 100)
-                        {
-                            if (Debuglevel > 9)
-                                TBReceived.Append("Failed to add to Sectordata dictionary " + markerpositionscntthread + "\r\n");
-                            retries++;
-                        }
-                        markerpositionscntthread++;
-                    }
-                }
-                if (mfms[threadid][i] == 1) // counting 1's matches the number of bytes in rxbuf + start offset
-                    rxbufcnt++;
-                if (RxBbuf.Length > rxbufcnt)
-                    while (RxBbuf[rxbufcnt] < 4 && rxbufcnt < Indexrxbuf - 1) rxbufcnt++;
-            }
-        }
-
         /// <summary>
         /// Cleaned up version. Converts MFM data into sectors for PC DOS and M2
         /// </summary>
@@ -1363,6 +1301,67 @@ namespace FloppyControlApp
                 sectorspertrack = 18;
             else if (diskformat == DiskFormat.pc2m) //2M
                 sectorspertrack = 11;
+        }
+
+        private void FindAllPCMarkers(int threadid)
+        {
+            // Find markers
+
+            byte[] m = mfms[threadid];
+            int rxbufcnt, searchcnt;
+            int retries;
+            byte[] A1markerbytes = A1MARKER;
+            int markerpositionscntthread = 0;
+            // with multithreading, the counting of rxbuf is misaligned with mfms, because
+            // it doesn't start at the start of rxbuf. There's no way to know at this point
+            // how many 1's there are up to this point. Either do the calculation after processing
+            // then adjust the values or not use multithreading.
+
+            //m = mfms[threadid]; // speed up processing by removing one extra reference
+            int A1MarkerLength = A1markerbytes.Length;
+            int A1MarkerLengthMinusOne = A1markerbytes.Length - 1;
+            int mfmlength = mfmlengths[threadid];
+            if (Indexrxbuf > RxBbuf.Length) Indexrxbuf = RxBbuf.Length - 1;
+            rxbufcnt = 0;
+            searchcnt = 0;
+            for (int i = 0; i < mfmlength; i++)
+            {
+                if (i % 250000 == 249999) { progresses[threadid] = i; if (stop == 1) break; }
+
+                for (int j = 0; j < A1MarkerLength; j++)
+                {
+                    if (m[i + j] == A1markerbytes[j]) searchcnt++;
+                    else
+                    {
+                        searchcnt = 0;
+                        break;
+                    }
+                    if (searchcnt == A1MarkerLengthMinusOne)
+                    {
+                        searchcnt = 0;
+                        MFMData sectordata = new MFMData
+                        {
+                            MarkerPositions = i,
+                            rxbufMarkerPositions = rxbufcnt,
+                            processed = false,
+                            threadid = threadid
+                        };
+                        retries = 0;
+
+                        while (!sectordata2.TryAdd(sectordata2.Count, sectordata) || retries > 100)
+                        {
+                            if (Debuglevel > 9)
+                                TBReceived.Append("Failed to add to Sectordata dictionary " + markerpositionscntthread + "\r\n");
+                            retries++;
+                        }
+                        markerpositionscntthread++;
+                    }
+                }
+                if (mfms[threadid][i] == 1) // counting 1's matches the number of bytes in rxbuf + start offset
+                    rxbufcnt++;
+                if (RxBbuf.Length > rxbufcnt)
+                    while (RxBbuf[rxbufcnt] < 4 && rxbufcnt < Indexrxbuf - 1) rxbufcnt++;
+            }
         }
 
     } // FDDProcessing end
