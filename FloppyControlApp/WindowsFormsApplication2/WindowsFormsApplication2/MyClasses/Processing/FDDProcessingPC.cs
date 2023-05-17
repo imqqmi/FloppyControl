@@ -170,13 +170,18 @@ namespace FloppyControlApp
                 // First find the IDAM, 10 bytes
                 var Idam = MFM2Bytes(SectorHeader.MarkerPositions, 10, threadid);
 
-                int offset;
+                
 
                 if (Idam[3] != 0xFE) continue;
                 
                 if (debuginfo) TBReceived.Append(" IDAM");
 
                 ExtractSectorHeaderInfo(ref Idam, ref SectorHeader);
+                
+                int DiskImageSectorOffset;
+                DiskImageSectorOffset = (SectorHeader.track * sectorspertrack * SectorHeader.sectorlength * 2)
+                                      + (SectorHeader.head * sectorspertrack * SectorHeader.sectorlength)
+                                      + (SectorHeader.sector * SectorHeader.sectorlength);
 
                 // Validation method may change sectorsize in SectorHeader if IgnoreHeaderError is true.
                 if (!ValidateSectorSize(ref SectorHeader)) continue;
@@ -286,13 +291,13 @@ namespace FloppyControlApp
                                 SectorMap.sectorok[SectorHeader.trackhead, sectornr] = SectorMapStatus.DuplicatesFound; // Header is not CRC pass, attempt to reconstuct
                                                                                                         //offset = (track * sectorspertrack * bytespersectorthread * 2) + (previousheadnr * sectorspertrack * bytespersectorthread) + (i * bytespersectorthread);
 
-                                offset = (previoustrack * sectorspertrack * bytespersectorthread * 2)
+                                DiskImageSectorOffset = (previoustrack * sectorspertrack * bytespersectorthread * 2)
                                     + (headnr * sectorspertrack * bytespersectorthread)
                                     + (sectornr * bytespersectorthread);
                                 for (i = 0; i < bytespersectorthread; i++)
                                 {
                                     //if (disk[i + offset] == 0)
-                                    disk[i + offset] = sectorbuf[i];
+                                    disk[i + DiskImageSectorOffset] = sectorbuf[i];
                                 }
                                 //stop = 1;
                             }
@@ -406,9 +411,7 @@ namespace FloppyControlApp
                                                                                             // T 0 S0 H0 = 0x0000
                                                                                             // T 1 S0 H0 = 0x2400
                                                                                             // T 1 S0 H1 = 
-                            offset = (SectorHeader.track * sectorspertrack * SectorHeader.sectorlength * 2)
-                                + (SectorHeader.head * sectorspertrack * SectorHeader.sectorlength)
-                                + (SectorHeader.sector * SectorHeader.sectorlength);
+                            
                             //offset2 = (tracks * sectorspertrack * bytespersector) + (sectornr * bytespersector);
 
 
@@ -441,13 +444,13 @@ namespace FloppyControlApp
                             //    textBoxFilesLoaded.Text += "*** offset doesn't match with sectormap.sectorok!!! ***"+offset+" "+offset2+"\r\n";
                             int sum = 0;
                             if (SectorHeader.trackhead == 0) SectorHeader.sectorlength = 512;
-                            if (offset < 2000000 - SectorHeader.sectorlength)
+                            if (DiskImageSectorOffset < 2000000 - SectorHeader.sectorlength)
                             {
                                 if (sectorbuf.Length == SectorHeader.sectorlength + 2)
                                 {
                                     for (i = 0; i < SectorHeader.sectorlength; i++)
                                     {
-                                        disk[i + offset] = sectorbuf[i];
+                                        disk[i + DiskImageSectorOffset] = sectorbuf[i];
                                         sum += sectorbuf[i];
                                     }
                                     if (sum == 0) SectorMap.sectorok[SectorHeader.trackhead, SectorHeader.sector] = SectorMapStatus.SectorOKButZeroed; // If the entire sector is zeroes, allow new data
@@ -547,18 +550,12 @@ namespace FloppyControlApp
                                     }
                                 }
 
-
-
-                                offset = (SectorHeader.track * sectorspertrack * SectorHeader.sectorlength * 2)
-                                    + (SectorHeader.head * sectorspertrack * SectorHeader.sectorlength)
-                                    + (SectorHeader.sector * SectorHeader.sectorlength);
-
                                 if (SectorMap.sectorok[SectorHeader.trackhead, SectorHeader.sector] == SectorMapStatus.empty)
-                                    if (offset < 2000000 - SectorHeader.sectorlength && SectorHeader.sectorlength == sectorbuf.Length + 2)
+                                    if (DiskImageSectorOffset < 2000000 - SectorHeader.sectorlength && SectorHeader.sectorlength == sectorbuf.Length + 2)
                                         for (i = 0; i < SectorHeader.sectorlength; i++)
                                         {
-                                            if (disk[i + offset] == 0)
-                                                disk[i + offset] = sectorbuf[i];
+                                            if (disk[i + DiskImageSectorOffset] == 0)
+                                                disk[i + DiskImageSectorOffset] = sectorbuf[i];
                                         }
                                 //sectormap.sectorok[track, sectornr] = SectorMapType.headokbaddata; // Sector is not CRC pass
                             }
