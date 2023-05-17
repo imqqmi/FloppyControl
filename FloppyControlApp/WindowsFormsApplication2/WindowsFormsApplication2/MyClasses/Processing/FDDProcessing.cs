@@ -181,12 +181,12 @@ namespace FloppyControlApp
             int i;
             for (i = 0; i < sectordata2.Count; i++)
             {
-                if (sectordata2[i].mfmMarkerStatus != SectorMapStatus.HeadOkDataBad)
+                if (sectordata2[i].Status != SectorMapStatus.HeadOkDataBad)
                 {
                     sectordata2.TryRemove(i, out _);
                 }
                 else
-                if (sectordata2[i].mfmMarkerStatus == SectorMapStatus.HeadOkDataBad)
+                if (sectordata2[i].Status == SectorMapStatus.HeadOkDataBad)
                 {
                     if (sectordata2[i].sectorbytes.Length == 0)
                         sectordata2.TryRemove(i, out _);
@@ -267,7 +267,7 @@ namespace FloppyControlApp
                     {
                         if (!sectordata2.IsEmpty)
                         {
-                            if (sectordata2[i].mfmMarkerStatus == SectorMapStatus.HeadOkDataBad)
+                            if (sectordata2[i].Status == SectorMapStatus.HeadOkDataBad)
                             {
                                 if (SectorMap.sectorok[sectordata2[i].track, sectordata2[i].sector] == SectorMapStatus.HeadOkDataBad)
                                 {

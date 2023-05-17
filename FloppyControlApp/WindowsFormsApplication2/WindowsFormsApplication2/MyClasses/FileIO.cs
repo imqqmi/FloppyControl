@@ -716,7 +716,7 @@ namespace FloppyControlApp.MyClasses
                         if (!OnlyBadSectors)
                         {
 
-                            if (sectordata.mfmMarkerStatus == SectorMapStatus.CrcOk || sectordata.mfmMarkerStatus == SectorMapStatus.SectorOKButZeroed)
+                            if (sectordata.Status == SectorMapStatus.CrcOk || sectordata.Status == SectorMapStatus.SectorOKButZeroed)
                             {
                                 if (processing.SectorMap.sectorok[sectordata.track, sectordata.sector] == SectorMapStatus.CrcOk ||
                                     processing.SectorMap.sectorok[sectordata.track, sectordata.sector] == SectorMapStatus.SectorOKButZeroed)
@@ -776,7 +776,7 @@ namespace FloppyControlApp.MyClasses
 
                         else
                         {
-                            if (sectordata.mfmMarkerStatus == SectorMapStatus.HeadOkDataBad)
+                            if (sectordata.Status == SectorMapStatus.HeadOkDataBad)
                             {
                                 if (processing.SectorMap.sectorok[sectordata.track, sectordata.sector] != SectorMapStatus.HeadOkDataBad)
                                     continue; // skip if sector is already good
@@ -784,7 +784,7 @@ namespace FloppyControlApp.MyClasses
                                 tso.offsetstart = sectordataheader.rxbufMarkerPositions;
                                 for (q = i + 1; q < sectordata2.Count; q++)
                                 {
-                                    if (sectordata2[q].mfmMarkerStatus != 0 &&
+                                    if (sectordata2[q].Status != 0 &&
                                         (sectordata2[q].MarkerType == MarkerType.header || sectordata2[q].MarkerType == MarkerType.headerAndData))
                                     {
                                         tso.offsetend = sectordata2[q].rxbufMarkerPositions;
@@ -819,14 +819,14 @@ namespace FloppyControlApp.MyClasses
                 for (i = 0; i < sectordata2.Count; i++)
                 {
                     sectordata = sectordata2[i];
-                    if (sectordata.mfmMarkerStatus == SectorMapStatus.HeadOkDataBad)
+                    if (sectordata.Status == SectorMapStatus.HeadOkDataBad)
                     {
 
                         TrackSectorOffset tso = new TrackSectorOffset();
                         tso.offsetstart = sectordata.rxbufMarkerPositions;
                         for (q = i + 1; q < sectordata2.Count; q++)
                         {
-                            if (sectordata.mfmMarkerStatus != 0 &&
+                            if (sectordata.Status != 0 &&
                                 (sectordata.MarkerType == MarkerType.header || sectordata.MarkerType == MarkerType.headerAndData))
                             {
                                 tso.offsetend = sectordata2[q].rxbufMarkerPositions;
@@ -1005,9 +1005,9 @@ namespace FloppyControlApp.MyClasses
                     {
                         if (sectordata2[i].sector == sector && sectordata2[i].track == track)
                         {
-                            if (sectordata2[i].mfmMarkerStatus == SectorMapStatus.CrcOk ||
-                                sectordata2[i].mfmMarkerStatus == SectorMapStatus.SectorOKButZeroed ||
-                                sectordata2[i].mfmMarkerStatus == SectorMapStatus.ErrorCorrected)
+                            if (sectordata2[i].Status == SectorMapStatus.CrcOk ||
+                                sectordata2[i].Status == SectorMapStatus.SectorOKButZeroed ||
+                                sectordata2[i].Status == SectorMapStatus.ErrorCorrected)
                             {
                                 sectorchecked[track, sector] = 1;
                                 sectorokchecksum++;
@@ -1046,15 +1046,15 @@ namespace FloppyControlApp.MyClasses
                                     if (sectordataheader.DataIndex != 0)
                                         sectordata = sectordata2[sectordataheader.DataIndex];
                                     else continue;
-                                    if (sectordata.mfmMarkerStatus == SectorMapStatus.CrcOk ||
-                                        sectordata.mfmMarkerStatus == SectorMapStatus.SectorOKButZeroed ||
-                                        sectordata.mfmMarkerStatus == SectorMapStatus.ErrorCorrected)
+                                    if (sectordata.Status == SectorMapStatus.CrcOk ||
+                                        sectordata.Status == SectorMapStatus.SectorOKButZeroed ||
+                                        sectordata.Status == SectorMapStatus.ErrorCorrected)
                                     {
                                         TrackSectorOffset tso = new TrackSectorOffset();
                                         tso.offsetstart = sectordataheader.rxbufMarkerPositions;
                                         for (q = i + 1; q < sectordata2.Count; q++)
                                         {
-                                            if (sectordata2[q].mfmMarkerStatus != 0 &&
+                                            if (sectordata2[q].Status != 0 &&
                                                 (sectordata2[q].MarkerType == MarkerType.header || sectordata2[q].MarkerType == MarkerType.headerAndData))
                                             {
                                                 tso.offsetend = sectordata2[q].rxbufMarkerPositions;
@@ -1088,15 +1088,15 @@ namespace FloppyControlApp.MyClasses
                             sectordata = sectordata2[i];
                             if (sectordata.sector == sector && sectordata.track == track)
                             {
-                                if (sectordata.mfmMarkerStatus == SectorMapStatus.CrcOk ||
-                                    sectordata.mfmMarkerStatus == SectorMapStatus.SectorOKButZeroed ||
-                                    sectordata.mfmMarkerStatus == SectorMapStatus.ErrorCorrected)
+                                if (sectordata.Status == SectorMapStatus.CrcOk ||
+                                    sectordata.Status == SectorMapStatus.SectorOKButZeroed ||
+                                    sectordata.Status == SectorMapStatus.ErrorCorrected)
                                 {
                                     TrackSectorOffset tso = new TrackSectorOffset();
                                     tso.offsetstart = sectordata.rxbufMarkerPositions;
                                     for (q = i + 1; q < sectordata2.Count; q++)
                                     {
-                                        if (sectordata.mfmMarkerStatus != 0 &&
+                                        if (sectordata.Status != 0 &&
                                             (sectordata.MarkerType == MarkerType.header || sectordata.MarkerType == MarkerType.headerAndData))
                                         {
                                             tso.offsetend = sectordata2[q].rxbufMarkerPositions;

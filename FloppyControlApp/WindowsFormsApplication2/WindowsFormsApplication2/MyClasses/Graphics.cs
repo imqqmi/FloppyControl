@@ -2256,13 +2256,13 @@ namespace FloppyControlApp
                         markerpos = sectordata.rxbufMarkerPositions;
                         if (markerpos >= start && markerpos < end)
                         {
-                            if (sectordata.mfmMarkerStatus == SectorMapStatus.CrcOk || sectordata.mfmMarkerStatus == SectorMapStatus.AmigaCrcOk)
+                            if (sectordata.Status == SectorMapStatus.CrcOk || sectordata.Status == SectorMapStatus.AmigaCrcOk)
                             {
                                 c = Color.FromArgb(64, 0, 255, 0);
                                 tracksector = "T" + sectordata.track.ToString("D3") + " S" + sectordata.sector.ToString();
                             }
                             else
-                            if (sectordata.mfmMarkerStatus == SectorMapStatus.HeadOkDataBad || sectordata.mfmMarkerStatus == SectorMapStatus.AmigaHeadOkDataBad)
+                            if (sectordata.Status == SectorMapStatus.HeadOkDataBad || sectordata.Status == SectorMapStatus.AmigaHeadOkDataBad)
                             {
                                 c = Color.FromArgb(64, 255, 0, 0);
                                 tracksector = "T" + sectordata.track.ToString("D3") + " S" + sectordata.sector.ToString();
@@ -2277,14 +2277,14 @@ namespace FloppyControlApp
                             posx = factor * relativepos;
                             for (j = 0; j < 256; j++)
                                 lockBitmap.SetPixel((int)posx, j, c);
-                            if (sectordata.mfmMarkerStatus == SectorMapStatus.AmigaHeadOkDataBad)
+                            if (sectordata.Status == SectorMapStatus.AmigaHeadOkDataBad)
                                 tracksector = "";
                             if (datalength < 51000)
                             {
                                 if (tracksector.Length != 0)
                                 {
                                     lockBitmap.UnlockBits();
-                                    if (sectordata.mfmMarkerStatus == SectorMapStatus.AmigaCrcOk)
+                                    if (sectordata.Status == SectorMapStatus.AmigaCrcOk)
                                         rectf = new RectangleF(posx, 266, 90, 20);
                                     else
                                     {

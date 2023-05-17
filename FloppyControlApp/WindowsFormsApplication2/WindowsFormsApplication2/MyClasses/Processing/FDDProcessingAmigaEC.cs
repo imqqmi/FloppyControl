@@ -826,7 +826,7 @@ namespace FloppyControlApp
                 threadid = threadid,
                 MarkerPositions = sectordata2[badsectorold].MarkerPositions,
                 rxbufMarkerPositions = sectordata2[badsectorold].rxbufMarkerPositions,
-                mfmMarkerStatus = sectordata2[badsectorold].mfmMarkerStatus, // 2 = bad sector data
+                Status = sectordata2[badsectorold].Status, // 2 = bad sector data
                 track = sectordata2[badsectorold].track,
                 sector = sectordata2[badsectorold].sector,
                 sectorlength = sectordata2[badsectorold].sectorlength,

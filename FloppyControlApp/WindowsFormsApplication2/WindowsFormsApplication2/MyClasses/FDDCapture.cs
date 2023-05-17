@@ -25,7 +25,7 @@ namespace FloppyControlApp
         public int threadid { get; set; }
         public int MarkerPositions { get; set; }
         public int rxbufMarkerPositions { get; set; }
-        public SectorMapStatus mfmMarkerStatus { get; set; }
+        public SectorMapStatus Status { get; set; }
         public int track { get; set; }
         public int trackhead { get; set; }
         public int sector { get; set; }

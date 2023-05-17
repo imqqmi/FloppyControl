@@ -2081,7 +2081,7 @@ namespace FloppyControlApp
                     if (processing.sectordata2.Count == 0) continue;
                     if (! (   processing.sectordata2[i].track  == track 
                            && processing.sectordata2[i].sector == sector) ) continue;
-                    if (processing.sectordata2[i].mfmMarkerStatus != processing.SectorMap.sectorok[track, sector]) continue;
+                    if (processing.sectordata2[i].Status != processing.SectorMap.sectorok[track, sector]) continue;
                     if (processing.sectordata2.Count - 1 <= i) continue;
                     
                     scatterplot.AnScatViewlargeoffset = processing.sectordata2[i].rxbufMarkerPositions - 50;
@@ -2224,7 +2224,7 @@ namespace FloppyControlApp
                 var sd = processing.sectordata2;
                 for (i = 0; i < processing.sectordata2.Count; i++)
                 {
-                    if (sd[i].sector == menudata.Sector && sd[i].track == menudata.Track && sd[i].mfmMarkerStatus == SectorMapStatus.HeadOkDataBad)
+                    if (sd[i].sector == menudata.Sector && sd[i].track == menudata.Track && sd[i].Status == SectorMapStatus.HeadOkDataBad)
                     {
                         rxbufStartUpDown.Maximum = processing.Indexrxbuf;
                         rxbufStartUpDown.Value = sd[i].rxbufMarkerPositions - 100;

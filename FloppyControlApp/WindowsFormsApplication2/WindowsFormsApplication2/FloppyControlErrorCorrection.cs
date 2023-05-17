@@ -698,7 +698,7 @@ namespace FloppyControlApp
                 if (sectordata.track >= track1 && sectordata.track <= track2 &&
                     sectordata.sector >= sector1 && sectordata.sector <= sector2)
                 {
-                    if ((sectordata.mfmMarkerStatus == SectorMapStatus.HeadOkDataBad) && badsectors)
+                    if ((sectordata.Status == SectorMapStatus.HeadOkDataBad) && badsectors)
                     {
 
                         key = "i: " + i + " B T: " + sectordata.track + " S: " + sectordata.sector;
@@ -716,7 +716,7 @@ namespace FloppyControlApp
                             Id = i,
                         });
                     }
-                    if ((sectordata.mfmMarkerStatus == SectorMapStatus.CrcOk) && goodsectors)
+                    if ((sectordata.Status == SectorMapStatus.CrcOk) && goodsectors)
                     {
                         key = "i: " + i + " G T: " + sectordata.track + " S: " + sectordata.sector;
 

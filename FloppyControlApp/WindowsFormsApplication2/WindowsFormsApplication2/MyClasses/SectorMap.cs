@@ -197,7 +197,7 @@ namespace FloppyControlApp.MyClasses
             for (i = 0; i < processing.sectordata2.Count; i++)
             {
                 sectordata = processing.sectordata2[i];
-                if (sectordata.mfmMarkerStatus == SectorMapStatus.HeadOkDataBad)
+                if (sectordata.Status == SectorMapStatus.HeadOkDataBad)
                     badsectorcnt++;
             }
 

@@ -310,7 +310,7 @@ namespace FloppyControlApp
                     sectorspertrack = 11;
 
                 if (sectorbuf.Length > 500)
-                    if (SectorHeader.mfmMarkerStatus == SectorMapStatus.CrcOk)
+                    if (SectorHeader.Status == SectorMapStatus.CrcOk)
                         if (datacrcchk == 0x00 
                             && SectorHeader.sector >= 0 
                             && SectorHeader.sector < 18 
@@ -385,13 +385,13 @@ namespace FloppyControlApp
                                         if (threadid != SectorHeader.threadid)
                                             TBReceived.Append("threadid mismatch!\r\n");
                                         //sectordatathread.threadid = threadid;
-                                        SectorHeader.mfmMarkerStatus = SectorMapStatus.CrcOk; // 1 = good sector data
+                                        SectorHeader.Status = SectorMapStatus.CrcOk; // 1 = good sector data
                                         SectorHeader.crc = (int)datacrc;
                                         SectorHeader.sectorbytes = b;
                                         SectorHeader.MarkerType = MarkerType.data;
                                         if (sectordata2[prevmarkerindex].sector == SectorHeader.sector && 
                                             sectordata2[prevmarkerindex].track == SectorHeader.trackhead &&
-                                            sectordata2[prevmarkerindex].mfmMarkerStatus == SectorMapStatus.CrcOk)
+                                            sectordata2[prevmarkerindex].Status == SectorMapStatus.CrcOk)
                                         {
                                             sectordata2[prevmarkerindex].DataIndex = markerindex;
                                         }
@@ -530,7 +530,7 @@ namespace FloppyControlApp
                                             badsectorhash[markerindex] = secthash;
 
                                             //sectordatathread.threadid = threadid;
-                                            SectorHeader.mfmMarkerStatus = SectorMapStatus.HeadOkDataBad; // 2 = bad sector data
+                                            SectorHeader.Status = SectorMapStatus.HeadOkDataBad; // 2 = bad sector data
                                             SectorHeader.crc = (int)datacrc;
                                             SectorHeader.sectorbytes = b;
                                             SectorHeader.MarkerType = MarkerType.data;
@@ -571,7 +571,7 @@ namespace FloppyControlApp
                 // Then finds the first bad sector on it and puts the good data/bad header in the disk array
 
 
-                if (SectorHeader.mfmMarkerStatus == SectorMapStatus.CrcOk && SectorHeader.track < 82) // use the previous known good tracknr in case of a reconstruction
+                if (SectorHeader.Status == SectorMapStatus.CrcOk && SectorHeader.track < 82) // use the previous known good tracknr in case of a reconstruction
                 {
                     previousheadnr = (byte)SectorHeader.head;
                     previoustrack = SectorHeader.track;
@@ -798,7 +798,7 @@ namespace FloppyControlApp
                     threadid = threadid,
                     MarkerPositions = sectordata2[badsectorold].MarkerPositions,
                     rxbufMarkerPositions = sectordata2[badsectorold].rxbufMarkerPositions,
-                    mfmMarkerStatus = sectordata2[badsectorold].mfmMarkerStatus, // 2 = bad sector data
+                    Status = sectordata2[badsectorold].Status, // 2 = bad sector data
                     track = sectordata2[badsectorold].track,
                     sector = sectordata2[badsectorold].sector,
                     sectorlength = sectordata2[badsectorold].sectorlength,
@@ -1349,7 +1349,7 @@ namespace FloppyControlApp
             if (headercrcchk == 0)
             {
                 GoodSectorHeaderCount++;
-                SectorHeader.mfmMarkerStatus = SectorMapStatus.CrcOk;
+                SectorHeader.Status = SectorMapStatus.CrcOk;
                 SectorHeader.trackhead = (SectorHeader.track * 2) + SectorHeader.head; ;
                 SectorHeader.MarkerType = MarkerType.header;
                 SectorMap.sectorokLatestScan[SectorHeader.trackhead, SectorHeader.sector] = SectorMapStatus.CrcOk;
@@ -1357,7 +1357,7 @@ namespace FloppyControlApp
             }
             else
             {
-                SectorHeader.mfmMarkerStatus = SectorMapStatus.HeadOkDataBad;
+                SectorHeader.Status = SectorMapStatus.HeadOkDataBad;
                 return false;
             }
         }
