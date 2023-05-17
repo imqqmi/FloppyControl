@@ -149,7 +149,10 @@ namespace FloppyControlApp
             {
                 MFMData SectorHeader = sectordata2[markerindex];
                 MFMData SectorData = sectordata2[markerindex];
-
+                if(markerindex == 222 )
+                {
+                    TBReceived.Append("hit");
+                }
                 // Skip already processed sectors and check threadid, only process current thread
                 if (SectorHeader.processed == true || SectorHeader.threadid != threadid) continue; // skip if already processed
                 
@@ -229,6 +232,11 @@ namespace FloppyControlApp
                     if (datacrcchk != 0)
                     {
                         datacrcchk = crc.ComputeChecksum(SectorBlock.SubArray(0, 512 + 6));
+                        SectorData.Status = SectorMapStatus.CrcBad;
+                    }
+                    else
+                    {
+                        SectorData.Status = SectorMapStatus.CrcOk;
                     }
                     if (diskformat == DiskFormat.pc2m && SectorHeader.trackhead == 0)
                         sectorbuf = SectorBlock.SubArray(4, 514);
@@ -254,10 +262,15 @@ namespace FloppyControlApp
                 else if (diskformat == DiskFormat.pc2m) //2M
                     sectorspertrack = 11;
 
+                //If this sector was already captured ok, don't overwrite it with data!
+                if (SectorMap.sectorok[SectorHeader.trackhead, SectorHeader.sector] == SectorMapStatus.CrcOk)
+                    continue;
+                if (SectorHeader.sector == 2 && SectorHeader.trackhead == 3)
+                    TBReceived.Append("Hit2");
                 if (sectorbuf.Length > 500)
                     if (SectorHeader.Status == SectorMapStatus.CrcOk)
                         //Happyflow, if everything checks out, save sector data to disk image array.
-                        if (datacrcchk == 0x00 
+                        if (SectorData.Status == SectorMapStatus.CrcOk 
                             && SectorHeader.sector >= 0 
                             && SectorHeader.sector < 18 
                             && SectorHeader.head < 3 
@@ -266,6 +279,8 @@ namespace FloppyControlApp
                             && SectorMap.sectorok[SectorHeader.trackhead, SectorHeader.sector] != SectorMapStatus.CrcOk)
                         //if (datacrcchk == 0x00 && sectornr >= 0 && sectornr < 18 && headnr < 3 && tracknr >= 0 && tracknr < 82)
                         {
+                            
+
                             // Determine diskformat
                             if (SectorHeader.sector > 8 && diskformat != DiskFormat.pc2m) // from DD to HD
                             {
@@ -292,6 +307,8 @@ namespace FloppyControlApp
                                     }
                                 }
                             }
+                            // Sector is CRC pass
+                            SectorMap.sectorok[SectorHeader.trackhead, SectorHeader.sector] = SectorMapStatus.CrcOk;
                             if (procsettings.UseErrorCorrection)
                             {
                                 //Create hash
@@ -321,24 +338,18 @@ namespace FloppyControlApp
                                     badsectorhash[markerindex] = secthash;
                                     if (threadid != SectorHeader.threadid)
                                         TBReceived.Append("threadid mismatch!\r\n");
-                                    SectorHeader.Status = SectorMapStatus.CrcOk; // 1 = good sector data
-                                    SectorHeader.crc = (int)datacrc;
-                                    SectorHeader.sectorbytes = b;
-                                    SectorHeader.MarkerType = MarkerType.data;
-                                    if (sectordata2[prevmarkerindex].sector == SectorHeader.sector && 
-                                        sectordata2[prevmarkerindex].track == SectorHeader.trackhead &&
-                                        sectordata2[prevmarkerindex].Status == SectorMapStatus.CrcOk)
-                                    {
-                                        sectordata2[prevmarkerindex].DataIndex = markerindex;
-                                    }
-                                    
+                                    SectorData.Status = SectorMapStatus.CrcOk; // 1 = good sector data
+                                    SectorData.track = SectorHeader.track;
+                                    SectorData.trackhead = SectorHeader.trackhead;
+                                    SectorData.sector = SectorHeader.sector;
+                                    SectorData.sectorlength = SectorHeader.sectorlength;
+                                    SectorData.crc = (int)datacrc;
+                                    SectorData.sectorbytes = b;
+                                    SectorData.MarkerType = MarkerType.data;
+                                    SectorHeader.MarkerType = MarkerType.header;
+                                    SectorHeader.DataIndex = markerindex;
                                 }
                             }
-
-                            SectorMap.sectorok[SectorHeader.trackhead, SectorHeader.sector] = SectorMapStatus.CrcOk; // Sector is CRC pass
-                                                                                            // T 0 S0 H0 = 0x0000
-                                                                                            // T 1 S0 H0 = 0x2400
-                                                                                            // T 1 S0 H1 = 
 
                             FoundGoodSectorInfo.Append("T" + SectorHeader.track.ToString("D3") + " S" + SectorHeader.sector + " crc:" +
                                 datacrcchk.ToString("X4") + " rxbufindex:" + SectorHeader.rxbufMarkerPositions + " Method: ");
@@ -378,18 +389,22 @@ namespace FloppyControlApp
                             }
                         }
                         //If checksum is not ok, we can still use the data, better than nothing strategy, we will show it in the sectormap
-                        else if (datacrcchk != 0x00 
+                        else if (SectorData.Status ==  SectorMapStatus.CrcBad 
                             && SectorHeader.sector >= 0 
                             && SectorHeader.sector < 18 
                             && SectorHeader.head < 3 
                             && SectorHeader.track >= 0 
                             && SectorHeader.track < 82)
                         {
+                            
+                            
+                            if (SectorHeader.sector == 2 && SectorHeader.trackhead == 3) 
+                                TBReceived.Append("Hit2");
+                            
+                            // if sectormap has no data, we can safely mark bad sector.
                             if (SectorMap.sectorok[SectorHeader.trackhead, SectorHeader.sector] == SectorMapStatus.empty)
                                 SectorMap.sectorok[SectorHeader.trackhead, SectorHeader.sector] = SectorMapStatus.HeadOkDataBad;
-                            else if (SectorMap.sectorok[SectorHeader.trackhead, SectorHeader.sector] != SectorMapStatus.HeadOkDataBad) // if it's a bad sector, capture more data, otherwise, go to next marker
-                                continue;
-
+                            
                             if (sectorbuf.Length > 500)
                             {
                                 if (SectorHeader.sector > 8 && diskformat != DiskFormat.pc2m)
@@ -446,23 +461,23 @@ namespace FloppyControlApp
                                             b[i] = SectorBlock[i];
                                         }
 
-                                        //lock (lockbadsector)
-                                        {
-                                            //int badsectorcnt2 = badsectorcnt;
-                                            badsectorcntthread++;
-                                            badsectorhash[markerindex] = secthash;
+                                        
+                                        badsectorcntthread++;
+                                        badsectorhash[markerindex] = secthash;
 
-                                            //sectordatathread.threadid = threadid;
-                                            SectorHeader.Status = SectorMapStatus.HeadOkDataBad; // 2 = bad sector data
-                                            SectorHeader.crc = (int)datacrc;
-                                            SectorHeader.sectorbytes = b;
-                                            SectorHeader.MarkerType = MarkerType.data;
-                                            if (sectordata2[prevmarkerindex].sector == SectorHeader.sector 
-                                             && sectordata2[prevmarkerindex].track == SectorHeader.trackhead )
-                                            {
-                                                sectordata2[prevmarkerindex].DataIndex = markerindex;
-                                            }
-                                        }
+                                        //sectordatathread.threadid = threadid;
+                                        SectorData.Status = SectorMapStatus.HeadOkDataBad; // 2 = bad sector data
+                                        SectorData.track = SectorHeader.track;
+                                        SectorData.trackhead = SectorHeader.trackhead;
+                                        SectorData.sector = SectorHeader.sector;
+                                        SectorData.sectorlength = SectorHeader.sectorlength;
+                                        SectorData.crc = (int)datacrc;
+                                        SectorData.sectorbytes = b;
+                                        SectorData.MarkerType = MarkerType.data;
+                                        SectorHeader.DataIndex = markerindex;
+                                        SectorHeader.MarkerType = MarkerType.header;
+                                        SectorHeader.Status =  SectorMapStatus.HeadOkDataBad;
+                                        
                                     }
                                     else
                                     {
@@ -716,7 +731,7 @@ namespace FloppyControlApp
                     MarkerPositions = sectordata2[badsectorold].MarkerPositions,
                     rxbufMarkerPositions = sectordata2[badsectorold].rxbufMarkerPositions,
                     Status = sectordata2[badsectorold].Status, // 2 = bad sector data
-                    track = sectordata2[badsectorold].track,
+                    track = sectordata2[badsectorold].trackhead,
                     sector = sectordata2[badsectorold].sector,
                     sectorlength = sectordata2[badsectorold].sectorlength,
                     crc = sectordata2[badsectorold].crc,
@@ -929,7 +944,7 @@ namespace FloppyControlApp
                             TBReceived.Append("c6_max:" + c6_max + " c8_max:" + c8_max + "\r\n");
                             TBReceived.Append("Time: " + sw.ElapsedMilliseconds + "ms\r\n");
                             //Save recovered sector to disk array
-                            int diskoffset = sectordata2[indexS1].track * sectorspertrack * 512 + sectordata2[indexS1].sector * 512;
+                            int diskoffset = sectordata2[indexS1].trackhead * sectorspertrack * 512 + sectordata2[indexS1].sector * 512;
                             SectorMap.sectorok[sectordata2[indexS1].track, sectordata2[indexS1].sector] = SectorMapStatus.ErrorCorrected; // Error corrected (shows up as 'c')
                             for (i = 0; i < bytespersector; i++)
                             {
@@ -1145,8 +1160,8 @@ namespace FloppyControlApp
                         //tbreceived.Append("c6_max:" + c6_max + " c8_max:" + c8_max + "\r\n");
                         TBReceived.Append("Time: " + sw.ElapsedMilliseconds + "ms\r\n");
                         //Save recovered sector to disk array
-                        int diskoffset = sectordata2[indexS1].track * sectorspertrack * 512 + sectordata2[indexS1].sector * 512;
-                        SectorMap.sectorok[sectordata2[indexS1].track, sectordata2[indexS1].sector] = SectorMapStatus.ErrorCorrected; // Error corrected (shows up as 'c')
+                        int diskoffset = sectordata2[indexS1].trackhead * sectorspertrack * 512 + sectordata2[indexS1].sector * 512;
+                        SectorMap.sectorok[sectordata2[indexS1].trackhead, sectordata2[indexS1].sector] = SectorMapStatus.ErrorCorrected; // Error corrected (shows up as 'c')
                         for (i = 0; i < bytespersector; i++)
                         {
                             disk[i + diskoffset] = data[i + 4];
@@ -1267,7 +1282,7 @@ namespace FloppyControlApp
             {
                 GoodSectorHeaderCount++;
                 SectorHeader.Status = SectorMapStatus.CrcOk;
-                SectorHeader.trackhead = (SectorHeader.track * 2) + SectorHeader.head; ;
+                SectorHeader.trackhead = (SectorHeader.track * 2) + SectorHeader.head;
                 SectorHeader.MarkerType = MarkerType.header;
                 SectorMap.sectorokLatestScan[SectorHeader.trackhead, SectorHeader.sector] = SectorMapStatus.CrcOk;
                 return true;

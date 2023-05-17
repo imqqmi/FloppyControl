@@ -491,6 +491,7 @@ namespace FloppyControlApp
                                 sectordatathread.threadid = threadid;
                                 sectordatathread.Status = SectorMapStatus.CrcOk; // 1 = Good sector data
                                 sectordatathread.track = tracknr;
+                                sectordatathread.trackhead = tracknr;
                                 sectordatathread.sector = sectornr;
                                 sectordatathread.sectorlength = bytespersectorthread;
                                 sectordatathread.crc = (int)((savechecksum[0] << 24) | (savechecksum[1] << 16) | (savechecksum[2]) << 8 | (savechecksum[3]));
@@ -578,10 +579,10 @@ namespace FloppyControlApp
                                 //int badsectorcnt2 = badsectorcnt;
                                 badsectorcntthread++;
                                 badsectorhash[sectorindex] = secthash;
-
                                 sectordatathread.threadid = threadid;
                                 sectordatathread.Status = SectorMapStatus.HeadOkDataBad; // 2 = bad sector data
                                 sectordatathread.track = tracknr;
+                                sectordatathread.trackhead = tracknr;
                                 sectordatathread.sector = sectornr;
                                 sectordatathread.sectorlength = bytespersectorthread;
                                 sectordatathread.crc = (int)((savechecksum[0] << 24) | (savechecksum[1] << 16) | (savechecksum[2]) << 8 | (savechecksum[3]));

@@ -695,13 +695,13 @@ namespace FloppyControlApp
             for (i = 0; i < processing.sectordata2.Count; i++)
             {
                 sectordata = processing.sectordata2[i];
-                if (sectordata.track >= track1 && sectordata.track <= track2 &&
+                if (sectordata.trackhead >= track1 && sectordata.trackhead <= track2 &&
                     sectordata.sector >= sector1 && sectordata.sector <= sector2)
                 {
                     if ((sectordata.Status == SectorMapStatus.HeadOkDataBad) && badsectors)
                     {
 
-                        key = "i: " + i + " B T: " + sectordata.track + " S: " + sectordata.sector;
+                        key = "i: " + i + " B T: " + sectordata.trackhead + " S: " + sectordata.sector;
 
                         BadSectorListBox.Items.Add(new Badsectorkeyval
                         {
@@ -718,7 +718,7 @@ namespace FloppyControlApp
                     }
                     if ((sectordata.Status == SectorMapStatus.CrcOk) && goodsectors)
                     {
-                        key = "i: " + i + " G T: " + sectordata.track + " S: " + sectordata.sector;
+                        key = "i: " + i + " G T: " + sectordata.trackhead + " S: " + sectordata.sector;
 
                         BadSectorListBox.Items.Add(new Badsectorkeyval
                         {

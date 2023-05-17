@@ -269,11 +269,11 @@ namespace FloppyControlApp
                         {
                             if (sectordata2[i].Status == SectorMapStatus.HeadOkDataBad)
                             {
-                                if (SectorMap.sectorok[sectordata2[i].track, sectordata2[i].sector] == SectorMapStatus.HeadOkDataBad)
+                                if (SectorMap.sectorok[sectordata2[i].trackhead, sectordata2[i].sector] == SectorMapStatus.HeadOkDataBad)
                                 {
                                     if (ProcSettings.LimitTSOn)
                                     {
-                                        if (sectordata2[i].track == ProcSettings.limittotrack && sectordata2[i].sector == ProcSettings.limittosector)
+                                        if (sectordata2[i].trackhead == ProcSettings.limittotrack && sectordata2[i].sector == ProcSettings.limittosector)
                                         {
 
                                             int q;

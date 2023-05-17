@@ -2079,11 +2079,20 @@ namespace FloppyControlApp
                 {
                     if (processing.sectordata2 == null) continue;
                     if (processing.sectordata2.Count == 0) continue;
-                    if (! (   processing.sectordata2[i].track  == track 
+                    if (! (   processing.sectordata2[i].trackhead  == track 
                            && processing.sectordata2[i].sector == sector) ) continue;
-                    if (processing.sectordata2[i].Status != processing.SectorMap.sectorok[track, sector]) continue;
-                    if (processing.sectordata2.Count - 1 <= i) continue;
-                    
+                    if (!(processing.sectordata2[i].MarkerType == MarkerType.data 
+                        || processing.sectordata2[i].MarkerType == MarkerType.headerAndData)) continue;
+                    if (processing.sectordata2[i].MarkerType == MarkerType.headerAndData)
+                    {
+                        if (processing.sectordata2[i].Status != processing.SectorMap.sectorok[track, sector]) continue;
+                        if (processing.sectordata2.Count - 1 <= i) continue;
+                    }
+                    else
+                    {
+                        if (processing.sectordata2[i].Status != processing.SectorMap.sectorok[track, sector]) continue;
+                        if (processing.sectordata2.Count - 1 <= i) continue;
+                    }
                     scatterplot.AnScatViewlargeoffset = processing.sectordata2[i].rxbufMarkerPositions - 50;
                     scatterplot.AnScatViewoffset = 0;
                     int markerSize = 2;
@@ -2224,7 +2233,7 @@ namespace FloppyControlApp
                 var sd = processing.sectordata2;
                 for (i = 0; i < processing.sectordata2.Count; i++)
                 {
-                    if (sd[i].sector == menudata.Sector && sd[i].track == menudata.Track && sd[i].Status == SectorMapStatus.HeadOkDataBad)
+                    if (sd[i].sector == menudata.Sector && sd[i].trackhead == menudata.Track && sd[i].Status == SectorMapStatus.HeadOkDataBad)
                     {
                         rxbufStartUpDown.Maximum = processing.Indexrxbuf;
                         rxbufStartUpDown.Value = sd[i].rxbufMarkerPositions - 100;

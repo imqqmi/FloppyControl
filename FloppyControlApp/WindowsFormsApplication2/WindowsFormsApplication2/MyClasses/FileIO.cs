@@ -1003,7 +1003,7 @@ namespace FloppyControlApp.MyClasses
 
                     for (i = 0; i < sectordata2.Count; i++)
                     {
-                        if (sectordata2[i].sector == sector && sectordata2[i].track == track)
+                        if (sectordata2[i].sector == sector && sectordata2[i].trackhead == track)
                         {
                             if (sectordata2[i].Status == SectorMapStatus.CrcOk ||
                                 sectordata2[i].Status == SectorMapStatus.SectorOKButZeroed ||
@@ -1039,7 +1039,7 @@ namespace FloppyControlApp.MyClasses
                         for (i = 0; i < sectordata2.Count; i++)
                         {
                             sectordataheader = sectordata2[i];
-                            if (sectordataheader.sector == sector && sectordataheader.track == track)
+                            if (sectordataheader.sector == sector && sectordataheader.trackhead == track)
                             {
                                 if (sectordataheader.MarkerType == MarkerType.header || sectordataheader.MarkerType == MarkerType.headerAndData)
                                 {
@@ -1086,7 +1086,7 @@ namespace FloppyControlApp.MyClasses
                         for (i = 0; i < sectordata2.Count; i++)
                         {
                             sectordata = sectordata2[i];
-                            if (sectordata.sector == sector && sectordata.track == track)
+                            if (sectordata.sector == sector && sectordata.trackhead == track)
                             {
                                 if (sectordata.Status == SectorMapStatus.CrcOk ||
                                     sectordata.Status == SectorMapStatus.SectorOKButZeroed ||

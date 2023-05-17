@@ -224,7 +224,7 @@ namespace FloppyControlApp
                         //tbreceived.Append("\r\n\r\nc6_max:" + c6_max + " c8_max:" + c8_max + "\r\n");
                         TBReceived.Append("Time: " + sw.ElapsedMilliseconds + "ms\r\n");
                         //Save recovered sector to disk array
-                        int diskoffset = sectordata2[indexS1].track * sectorspertrack * 512 + sectordata2[indexS1].sector * 512;
+                        int diskoffset = sectordata2[indexS1].trackhead * sectorspertrack * 512 + sectordata2[indexS1].sector * 512;
                         SectorMap.sectorok[sectordata2[indexS1].track, sectordata2[indexS1].sector] = SectorMapStatus.ErrorCorrected; // Error corrected (shows up as 'c')
                         for (i = 0; i < bytespersector; i++)
                         {
@@ -530,7 +530,7 @@ namespace FloppyControlApp
                             TBReceived.Append("\r\n\r\nc6_max:" + c6_max + " c8_max:" + c8_max + "\r\n");
                             TBReceived.Append("Time: " + sw.ElapsedMilliseconds + "ms\r\n");
                             //Save recovered sector to disk array
-                            int diskoffset = sectordata2[indexS1].track * sectorspertrack * 512 + sectordata2[indexS1].sector * 512;
+                            int diskoffset = sectordata2[indexS1].trackhead * sectorspertrack * 512 + sectordata2[indexS1].sector * 512;
                             SectorMap.sectorok[sectordata2[indexS1].track, sectordata2[indexS1].sector] = SectorMapStatus.ErrorCorrected; // Error corrected (shows up as 'c')
                             for (i = 0; i < bytespersector; i++)
                             {
@@ -827,7 +827,7 @@ namespace FloppyControlApp
                 MarkerPositions = sectordata2[badsectorold].MarkerPositions,
                 rxbufMarkerPositions = sectordata2[badsectorold].rxbufMarkerPositions,
                 Status = sectordata2[badsectorold].Status, // 2 = bad sector data
-                track = sectordata2[badsectorold].track,
+                track = sectordata2[badsectorold].trackhead,
                 sector = sectordata2[badsectorold].sector,
                 sectorlength = sectordata2[badsectorold].sectorlength,
                 crc = sectordata2[badsectorold].crc,

@@ -17,7 +17,8 @@ namespace FloppyControlApp.MyClasses
         ErrorCorrected = 6,
         ErrorCorrected2 = 7,
         AmigaCrcOk = 11,
-        AmigaHeadOkDataBad = 12
+        AmigaHeadOkDataBad = 12,
+        CrcBad = 13
     }
 
     public enum ProcessingType { adaptive1, normal, aufit, adaptive2, adaptive3, adaptivePredict, adaptiveEntropy,adaptivea }

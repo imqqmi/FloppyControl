@@ -2259,13 +2259,13 @@ namespace FloppyControlApp
                             if (sectordata.Status == SectorMapStatus.CrcOk || sectordata.Status == SectorMapStatus.AmigaCrcOk)
                             {
                                 c = Color.FromArgb(64, 0, 255, 0);
-                                tracksector = "T" + sectordata.track.ToString("D3") + " S" + sectordata.sector.ToString();
+                                tracksector = "T" + sectordata.trackhead.ToString("D3") + " S" + sectordata.sector.ToString();
                             }
                             else
                             if (sectordata.Status == SectorMapStatus.HeadOkDataBad || sectordata.Status == SectorMapStatus.AmigaHeadOkDataBad)
                             {
                                 c = Color.FromArgb(64, 255, 0, 0);
-                                tracksector = "T" + sectordata.track.ToString("D3") + " S" + sectordata.sector.ToString();
+                                tracksector = "T" + sectordata.trackhead.ToString("D3") + " S" + sectordata.sector.ToString();
                             }
                             else
                             {
