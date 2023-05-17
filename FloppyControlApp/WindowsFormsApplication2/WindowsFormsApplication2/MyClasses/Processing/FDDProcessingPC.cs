@@ -301,10 +301,12 @@ namespace FloppyControlApp
 
                                 // Check if there's a duplicate
                                 int isunique = -1;
+                                // Probably not yet made thread safe?
                                 if(procsettings.finddupes)
                                 for (i = 0; i < sectordata2.Count; i++)
                                 {
-                                    isunique = IndexOfBytes(badsectorhash[i], secthash, 0, 32);
+                                        //isunique = Array.FindIndex(badsectorhash, (x => x.Equals(secthash)));
+                                        isunique = IndexOfBytes(badsectorhash[i], secthash, 0, 32);
                                     if (isunique != -1)
                                     {
                                         break;
