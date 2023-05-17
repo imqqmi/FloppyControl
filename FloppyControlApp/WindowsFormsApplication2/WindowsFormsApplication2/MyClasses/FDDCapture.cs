@@ -27,7 +27,9 @@ namespace FloppyControlApp
         public int rxbufMarkerPositions { get; set; }
         public SectorMapStatus mfmMarkerStatus { get; set; }
         public int track { get; set; }
+        public int trackhead { get; set; }
         public int sector { get; set; }
+        public int head { get; set; }
         public int sectorlength { get; set; }
         public int DataIndex { get; set; }
         public byte[] sectorbytes { get; set; }
