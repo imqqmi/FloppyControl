@@ -25,6 +25,7 @@ namespace FloppyControlApp
         public int Peak3 { get; set; }
         public int GoodSectorHeaderCount { get; set; }
         public int sectordata2oldcnt;
+        bool debuginfo = false;
 
 
         private void FindAllPCMarkers(int threadid)
@@ -102,7 +103,6 @@ namespace FloppyControlApp
             int i;
             int previoustrack = 0xff;
             byte previousheadnr = 0xff;
-            bool debuginfo = false;
             sectordata2oldcnt = sectordata2.Count;
 
             SHA256 mySHA256 = SHA256Managed.Create();
@@ -136,16 +136,9 @@ namespace FloppyControlApp
 
             TBReceived.Append(" Markers: " + markerpositionscntthread + " ");
             int markerindex;
-
-            //StringBuilder tbtrackinfo = new StringBuilder();
-            
             byte[] SectorBlock;
             byte[] sectorbuf = new byte[2050];
-            
-            //byte sectornr, headnr;
-            ushort datacrc, headercrcchk, datacrcchk; //headercrc is from the captured data, the chk is calculated from the data.
-            //int trackhead;
-            int bytespersectorthread;
+            ushort datacrc, datacrcchk; //headercrc is from the captured data, the chk is calculated from the data.
 
             GoodSectorHeaderCount = 0;
             progressesstart[threadid] = 0;
@@ -252,57 +245,7 @@ namespace FloppyControlApp
                 
                 if (procsettings.IgnoreHeaderError)
                 {
-                    bytespersectorthread = 512;
-                    SectorBlock = MFM2Bytes(SectorData.MarkerPositions, bytespersectorthread + 16, threadid);
-                    
-                    if (debuginfo) TBReceived.Append("\r\n\r\n");
-                    if (SectorBlock[3] == 0xFB || SectorBlock[3] == 0xF8)
-                    {
-                        Crc16Ccitt crc = new Crc16Ccitt(InitialCrcValue.NonZero1);
-                        crc = new Crc16Ccitt(InitialCrcValue.NonZero1);
-                        //Checksum is at the end of the header, so when that is passed into the crc it should result in good = 0x0000
-                        datacrcchk = crc.ComputeChecksum(SectorBlock.SubArray(0, bytespersectorthread + 6));
-                        
-                        // Todo: seems duplicate of above, doesn't make sense? Can probably be removed.
-                        if (datacrcchk != 0)
-                        {
-                            datacrcchk = crc.ComputeChecksum(SectorBlock.SubArray(0, 512 + 6));
-                        }
-
-                        sectorbuf = SectorBlock.SubArray(4, bytespersectorthread + 2);
-                    }
-                    if (datacrcchk == 0x00 && sectorbuf.Length > 500)
-                    {
-                        SectorHeader.trackhead = (previoustrack * 2) + previousheadnr;
-                        byte headnr = (byte)previousheadnr;
-                        if (SectorHeader.trackhead < 200)
-                        {
-                            for (i = 0; i < 9; i++)
-                            {
-                                if (SectorMap.sectorok[SectorHeader.trackhead, i] == SectorMapStatus.empty)
-                                    break;
-                            }
-
-                            // Now assuming the sectornr = i, and we're using previoustrack because
-                            // the tracknr info in the header may not be correct
-                            byte sectornr = (byte)i;
-                            if (SectorMap.sectorok[SectorHeader.trackhead, sectornr] == 0 || SectorMap.sectorok[SectorHeader.trackhead, i] == SectorMapStatus.HeadOkDataBad) // do not overwrite any existing good data
-                            {
-                                SectorMap.sectorok[SectorHeader.trackhead, sectornr] = SectorMapStatus.DuplicatesFound; // Header is not CRC pass, attempt to reconstuct
-                                                                                                        //offset = (track * sectorspertrack * bytespersectorthread * 2) + (previousheadnr * sectorspertrack * bytespersectorthread) + (i * bytespersectorthread);
-
-                                DiskImageSectorOffset = (previoustrack * sectorspertrack * bytespersectorthread * 2)
-                                    + (headnr * sectorspertrack * bytespersectorthread)
-                                    + (sectornr * bytespersectorthread);
-                                for (i = 0; i < bytespersectorthread; i++)
-                                {
-                                    //if (disk[i + offset] == 0)
-                                    disk[i + DiskImageSectorOffset] = sectorbuf[i];
-                                }
-                                //stop = 1;
-                            }
-                        }
-                    }
+                    HandleIngoreBadHeader(in SectorHeader, in SectorData, threadid, previoustrack, previousheadnr);
                     continue;
                 }
                 
@@ -374,33 +317,23 @@ namespace FloppyControlApp
                                 if (isunique == -1 || !procsettings.finddupes)
                                 {
                                     byte[] b = new byte[SectorHeader.sectorlength + 16];
-
-                                    for (i = 0; i < SectorHeader.sectorlength + 16; i++)
+                                    Array.Copy(SectorBlock, b, SectorHeader.sectorlength + 16);
+                                    
+                                    badsectorhash[markerindex] = secthash;
+                                    if (threadid != SectorHeader.threadid)
+                                        TBReceived.Append("threadid mismatch!\r\n");
+                                    //sectordatathread.threadid = threadid;
+                                    SectorHeader.Status = SectorMapStatus.CrcOk; // 1 = good sector data
+                                    SectorHeader.crc = (int)datacrc;
+                                    SectorHeader.sectorbytes = b;
+                                    SectorHeader.MarkerType = MarkerType.data;
+                                    if (sectordata2[prevmarkerindex].sector == SectorHeader.sector && 
+                                        sectordata2[prevmarkerindex].track == SectorHeader.trackhead &&
+                                        sectordata2[prevmarkerindex].Status == SectorMapStatus.CrcOk)
                                     {
-                                        b[i] = SectorBlock[i];
+                                        sectordata2[prevmarkerindex].DataIndex = markerindex;
                                     }
-
-                                    //lock (lockbadsector)
-                                    {
-                                        //int badsectorcnt2 = badsectorcnt;
-                                        //badsectorcnt++;
-
-                                                
-                                        badsectorhash[markerindex] = secthash;
-                                        if (threadid != SectorHeader.threadid)
-                                            TBReceived.Append("threadid mismatch!\r\n");
-                                        //sectordatathread.threadid = threadid;
-                                        SectorHeader.Status = SectorMapStatus.CrcOk; // 1 = good sector data
-                                        SectorHeader.crc = (int)datacrc;
-                                        SectorHeader.sectorbytes = b;
-                                        SectorHeader.MarkerType = MarkerType.data;
-                                        if (sectordata2[prevmarkerindex].sector == SectorHeader.sector && 
-                                            sectordata2[prevmarkerindex].track == SectorHeader.trackhead &&
-                                            sectordata2[prevmarkerindex].Status == SectorMapStatus.CrcOk)
-                                        {
-                                            sectordata2[prevmarkerindex].DataIndex = markerindex;
-                                        }
-                                    }
+                                    
                                 }
                             }
                             //if (track == 57 && sectornr == 7)
@@ -1365,6 +1298,59 @@ namespace FloppyControlApp
             SectorHeader.head = Idam[5];
             SectorHeader.sector = (byte)(Idam[6] - 1);
             SectorHeader.sectorlength = 128 << Idam[7];
+        }
+
+        private void HandleIngoreBadHeader(in MFMData SectorHeader, in MFMData SectorData, int threadid, int previoustrack, int previousheadnr)
+        {
+            int bytespersectorthread = 512;
+            var SectorBlock = MFM2Bytes(SectorData.MarkerPositions, bytespersectorthread + 16, threadid);
+            ushort datacrcchk = 0xffff;
+            byte[] sectorbuf = new byte[0];
+
+            if (debuginfo) TBReceived.Append("\r\n\r\n");
+            if (SectorBlock[3] == 0xFB || SectorBlock[3] == 0xF8)
+            {
+                Crc16Ccitt crc = new Crc16Ccitt(InitialCrcValue.NonZero1);
+                crc = new Crc16Ccitt(InitialCrcValue.NonZero1);
+                //Checksum is at the end of the header, so when that is passed into the crc it should result in good = 0x0000
+                datacrcchk = crc.ComputeChecksum(SectorBlock.SubArray(0, bytespersectorthread + 6));
+
+                // Todo: seems duplicate of above, doesn't make sense? Can probably be removed.
+                if (datacrcchk != 0)
+                {
+                    datacrcchk = crc.ComputeChecksum(SectorBlock.SubArray(0, 512 + 6));
+                }
+
+                sectorbuf = SectorBlock.SubArray(4, bytespersectorthread + 2);
+            }
+            if (datacrcchk == 0x00 && sectorbuf.Length > 500)
+            {
+                SectorHeader.trackhead = (previoustrack * 2) + previousheadnr;
+                byte headnr = (byte)previousheadnr;
+                if (SectorHeader.trackhead < 200)
+                {
+                    int i;
+                    for (i = 0; i < 9; i++)
+                    {
+                        if (SectorMap.sectorok[SectorHeader.trackhead, i] == SectorMapStatus.empty)
+                            break;
+                    }
+
+                    // Now assuming the sectornr = i, and we're using previoustrack because
+                    // the tracknr info in the header may not be correct
+                    byte sectornr = (byte)i;
+                    if (SectorMap.sectorok[SectorHeader.trackhead, sectornr] == 0 || SectorMap.sectorok[SectorHeader.trackhead, i] == SectorMapStatus.HeadOkDataBad) // do not overwrite any existing good data
+                    {
+                        SectorMap.sectorok[SectorHeader.trackhead, sectornr] = SectorMapStatus.DuplicatesFound; // Header is not CRC pass, attempt to reconstuct
+                                                                                                                //offset = (track * sectorspertrack * bytespersectorthread * 2) + (previousheadnr * sectorspertrack * bytespersectorthread) + (i * bytespersectorthread);
+
+                        int DiskImageSectorOffset = (previoustrack * sectorspertrack * bytespersectorthread * 2)
+                            + (headnr * sectorspertrack * bytespersectorthread)
+                            + (sectornr * bytespersectorthread);
+                        Array.Copy(sectorbuf, 0, disk, DiskImageSectorOffset, bytespersectorthread);
+                    }
+                }
+            }
         }
 
     } // FDDProcessing end
