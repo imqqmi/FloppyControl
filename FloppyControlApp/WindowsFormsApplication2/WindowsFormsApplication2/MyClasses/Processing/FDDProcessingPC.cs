@@ -176,39 +176,16 @@ namespace FloppyControlApp
                 
                 if (debuginfo) TBReceived.Append(" IDAM");
 
-                SectorHeader.track = Idam[4];
-                SectorHeader.head = Idam[5];
-                SectorHeader.sector = (byte)(Idam[6] - 1);
-                SectorHeader.sectorlength = 128 << Idam[7];
+                ExtractSectorHeaderInfo(ref Idam, ref SectorHeader);
+
+                // Validation method may change sectorsize in SectorHeader if IgnoreHeaderError is true.
                 if (!ValidateSectorSize(ref SectorHeader)) continue;
-
-                // Check header crc
-                // If headercrcchk == 0000, data integrety is good.
-                // The CRC is calculated from the A1A1A1FE header to and including the CRC16 code.
-                Crc16Ccitt crc = new Crc16Ccitt(InitialCrcValue.NonZero1);
-                headercrcchk = crc.ComputeChecksum(Idam.SubArray(0, 10));
-
-                SectorHeader.trackhead = 1;
-
-                if (headercrcchk == 0)
-                {
-                    GoodSectorHeaderCount++;
-                    SectorHeader.mfmMarkerStatus = SectorMapStatus.CrcOk;
-                    SectorHeader.trackhead = (SectorHeader.track * 2) + SectorHeader.head; ;
-                    SectorHeader.MarkerType = MarkerType.header;
-                    SectorMap.sectorokLatestScan[SectorHeader.trackhead, SectorHeader.sector] = SectorMapStatus.CrcOk;
-                }
-                else
-                {
-                    SectorHeader.mfmMarkerStatus = SectorMapStatus.HeadOkDataBad;
-                }
 
                 // If the headerchecksum is non zero, there's an error in the header. 
                 // There's code further on to guess the sector and track based on surrounding
                 // sectors with correct header, but to speed things up I'll try continueing 
                 // Checking the IgnoreHeaderErrorCheckBox skips this part and does decode the sector data
-
-                if (headercrcchk != 0 && procsettings.IgnoreHeaderError == false)
+                if ( !ValidateSectorHeaderInfo(ref Idam, ref SectorHeader) && procsettings.IgnoreHeaderError == false)
                 {
                     continue;
                 }
@@ -251,7 +228,7 @@ namespace FloppyControlApp
                 if (SectorBlock[3] == 0xFB || SectorBlock[3] == 0xF8)
                 {
                     datacrc = (ushort)((SectorBlock[SectorHeader.sectorlength + 4] << 8) | SectorBlock[SectorHeader.sectorlength + 5]);
-
+                    Crc16Ccitt crc = new Crc16Ccitt(InitialCrcValue.NonZero1);
                     datacrcchk = crc.ComputeChecksum(SectorBlock.SubArray(0, SectorHeader.sectorlength + 6));
                     if (datacrcchk != 0)
                     {
@@ -276,6 +253,7 @@ namespace FloppyControlApp
                     if (debuginfo) TBReceived.Append("\r\n\r\n");
                     if (SectorBlock[3] == 0xFB || SectorBlock[3] == 0xF8)
                     {
+                        Crc16Ccitt crc = new Crc16Ccitt(InitialCrcValue.NonZero1);
                         crc = new Crc16Ccitt(InitialCrcValue.NonZero1);
                         //Checksum is at the end of the header, so when that is passed into the crc it should result in good = 0x0000
                         datacrcchk = crc.ComputeChecksum(SectorBlock.SubArray(0, bytespersectorthread + 6));
@@ -332,7 +310,7 @@ namespace FloppyControlApp
                     sectorspertrack = 11;
 
                 if (sectorbuf.Length > 500)
-                    if (headercrcchk == 0x00)
+                    if (SectorHeader.mfmMarkerStatus == SectorMapStatus.CrcOk)
                         if (datacrcchk == 0x00 
                             && SectorHeader.sector >= 0 
                             && SectorHeader.sector < 18 
@@ -593,7 +571,7 @@ namespace FloppyControlApp
                 // Then finds the first bad sector on it and puts the good data/bad header in the disk array
 
 
-                if (headercrcchk == 0x00 && SectorHeader.track < 82) // use the previous known good tracknr in case of a reconstruction
+                if (SectorHeader.mfmMarkerStatus == SectorMapStatus.CrcOk && SectorHeader.track < 82) // use the previous known good tracknr in case of a reconstruction
                 {
                     previousheadnr = (byte)SectorHeader.head;
                     previoustrack = SectorHeader.track;
@@ -1341,7 +1319,6 @@ namespace FloppyControlApp
 
         private bool ValidateSectorSize(ref MFMData SectorData)
         {
-            
             if (SectorData.sectorlength > 1024)
             {
                 TBReceived.Append("Error: T" + (SectorData.track * 2 + SectorData.head).ToString("d3") + 
@@ -1356,6 +1333,41 @@ namespace FloppyControlApp
                 return false; // skip to next sector
             }
             return true;
+        }
+
+        private bool ValidateSectorHeaderInfo(ref byte[] Idam, ref MFMData SectorHeader)
+        {
+            // Check header crc
+            // If headercrcchk == 0000, header data integrety is good.
+            // The CRC is calculated from the A1A1A1FE header to and including the CRC16 checksum bytes.
+            Crc16Ccitt crc = new Crc16Ccitt(InitialCrcValue.NonZero1);
+            var headercrcchk = crc.ComputeChecksum(Idam.SubArray(0, 10));
+
+            // trackhead is used for easier index referencing in sectormap[][]
+            SectorHeader.trackhead = 1;
+
+            if (headercrcchk == 0)
+            {
+                GoodSectorHeaderCount++;
+                SectorHeader.mfmMarkerStatus = SectorMapStatus.CrcOk;
+                SectorHeader.trackhead = (SectorHeader.track * 2) + SectorHeader.head; ;
+                SectorHeader.MarkerType = MarkerType.header;
+                SectorMap.sectorokLatestScan[SectorHeader.trackhead, SectorHeader.sector] = SectorMapStatus.CrcOk;
+                return true;
+            }
+            else
+            {
+                SectorHeader.mfmMarkerStatus = SectorMapStatus.HeadOkDataBad;
+                return false;
+            }
+        }
+
+        private void ExtractSectorHeaderInfo(ref byte[] Idam, ref MFMData SectorHeader)
+        {
+            SectorHeader.track = Idam[4];
+            SectorHeader.head = Idam[5];
+            SectorHeader.sector = (byte)(Idam[6] - 1);
+            SectorHeader.sectorlength = 128 << Idam[7];
         }
 
     } // FDDProcessing end
