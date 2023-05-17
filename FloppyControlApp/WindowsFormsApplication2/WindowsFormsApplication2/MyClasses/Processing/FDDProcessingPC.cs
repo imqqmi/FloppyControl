@@ -163,8 +163,6 @@ namespace FloppyControlApp
                 // First find the IDAM, 10 bytes
                 var Idam = MFM2Bytes(SectorHeader.MarkerPositions, 10, threadid);
 
-                
-
                 if (Idam[3] != 0xFE) continue;
                 
                 if (debuginfo) TBReceived.Append(" IDAM");
@@ -235,7 +233,6 @@ namespace FloppyControlApp
                     if (diskformat == DiskFormat.pc2m && SectorHeader.trackhead == 0)
                         sectorbuf = SectorBlock.SubArray(4, 514);
                     else sectorbuf = SectorBlock.SubArray(4, SectorHeader.sectorlength + 2);
-                    //sectorbuf = bytebuf.SubArray(4, bytespersectorthread);
                 }
                 else // if marker of the sector isn't good, backtrack one marker and continue
                 {
@@ -1339,6 +1336,16 @@ namespace FloppyControlApp
                     }
                 }
             }
+        }
+
+        private void SetSectorsPerTrackByDiskFormat()
+        {
+            if (diskformat == DiskFormat.pcdd) // DD
+                sectorspertrack = 9;
+            else if (diskformat == DiskFormat.pchd) // HD
+                sectorspertrack = 18;
+            else if (diskformat == DiskFormat.pc2m) //2M
+                sectorspertrack = 11;
         }
 
     } // FDDProcessing end
