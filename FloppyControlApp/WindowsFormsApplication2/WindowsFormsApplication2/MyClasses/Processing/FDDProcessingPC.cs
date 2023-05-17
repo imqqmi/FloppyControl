@@ -259,6 +259,7 @@ namespace FloppyControlApp
 
                 if (sectorbuf.Length > 500)
                     if (SectorHeader.Status == SectorMapStatus.CrcOk)
+                        //Happyflow, if everything checks out, save sector data to disk image array.
                         if (datacrcchk == 0x00 
                             && SectorHeader.sector >= 0 
                             && SectorHeader.sector < 18 
@@ -309,7 +310,6 @@ namespace FloppyControlApp
                                     isunique = IndexOfBytes(badsectorhash[i], secthash, 0, 32);
                                     if (isunique != -1)
                                     {
-                                        //tbreceived.Append("Duplicate found!\r\n");
                                         break;
                                     }
                                 }
@@ -322,7 +322,6 @@ namespace FloppyControlApp
                                     badsectorhash[markerindex] = secthash;
                                     if (threadid != SectorHeader.threadid)
                                         TBReceived.Append("threadid mismatch!\r\n");
-                                    //sectordatathread.threadid = threadid;
                                     SectorHeader.Status = SectorMapStatus.CrcOk; // 1 = good sector data
                                     SectorHeader.crc = (int)datacrc;
                                     SectorHeader.sectorbytes = b;
@@ -336,19 +335,11 @@ namespace FloppyControlApp
                                     
                                 }
                             }
-                            //if (track == 57 && sectornr == 7)
-                            //{
-                            //    int haha = 1;
-                            //}
+
                             SectorMap.sectorok[SectorHeader.trackhead, SectorHeader.sector] = SectorMapStatus.CrcOk; // Sector is CRC pass
                                                                                             // T 0 S0 H0 = 0x0000
                                                                                             // T 1 S0 H0 = 0x2400
                                                                                             // T 1 S0 H1 = 
-                            
-                            //offset2 = (tracks * sectorspertrack * bytespersector) + (sectornr * bytespersector);
-
-
-                            //string method = "";
 
                             FoundGoodSectorInfo.Append("T" + SectorHeader.track.ToString("D3") + " S" + SectorHeader.sector + " crc:" +
                                 datacrcchk.ToString("X4") + " rxbufindex:" + SectorHeader.rxbufMarkerPositions + " Method: ");
@@ -381,11 +372,8 @@ namespace FloppyControlApp
                             {
                                 if (sectorbuf.Length == SectorHeader.sectorlength + 2)
                                 {
-                                    for (i = 0; i < SectorHeader.sectorlength; i++)
-                                    {
-                                        disk[i + DiskImageSectorOffset] = sectorbuf[i];
-                                        sum += sectorbuf[i];
-                                    }
+                                    Array.Copy(sectorbuf, 0, disk, DiskImageSectorOffset, SectorHeader.sectorlength);
+                                    sum = sectorbuf.Sum(x => x);
                                     if (sum == 0) SectorMap.sectorok[SectorHeader.trackhead, SectorHeader.sector] = SectorMapStatus.SectorOKButZeroed; // If the entire sector is zeroes, allow new data
                                 }
                             }
