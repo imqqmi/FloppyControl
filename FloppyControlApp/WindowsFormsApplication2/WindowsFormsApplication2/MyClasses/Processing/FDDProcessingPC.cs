@@ -56,7 +56,6 @@ namespace FloppyControlApp
             TBReceived.Append(" Markers: " + markerpositionscntthread + " ");
             int markerindex;
             byte[] SectorBlock;
-            byte[] sectorbuf = new byte[2050];
             ushort datacrc = 0, datacrcchk; //headercrc is from the captured data, the chk is calculated from the data.
 
             GoodSectorHeaderCount = 0;
@@ -124,11 +123,10 @@ namespace FloppyControlApp
                 ValidateSectorDataBlock(ref datacrcchk, 
                                         ref datacrc,
                                         ref SectorBlock,
-                                        ref sectorbuf,
                                         ref SectorHeader,
                                         ref SectorData);
 
-                StripSectorOfHeader(in SectorBlock, out sectorbuf, in SectorHeader);
+                StripSectorOfHeader(in SectorBlock, out byte[] sectorbuf, in SectorHeader);
 
                 // EXPERIMENTAL, not safe to use! Makes assumptions that are incorrect in some cases
                 // This is an attempt to recover a sector with a bad header but good sector data
@@ -1276,7 +1274,6 @@ namespace FloppyControlApp
         private void ValidateSectorDataBlock(ref ushort datacrcchk, 
                                              ref ushort datacrc, 
                                              ref byte[] SectorBlock, 
-                                             ref byte[] sectorbuf,
                                              ref MFMData SectorHeader, 
                                              ref MFMData SectorData)
         {
