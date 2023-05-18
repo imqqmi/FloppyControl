@@ -86,16 +86,15 @@ namespace FloppyControlApp
             for (markerindex = sectordata2oldcnt; markerindex < sectordata2.Count; markerindex++)
             {
                 MFMData SectorHeader = sectordata2[markerindex];
-                MFMData SectorData = sectordata2[markerindex];
-                if(markerindex == 222 )
-                {
-                    TBReceived.Append("hit");
-                }
-                // Skip already processed sectors and check threadid, only process current thread
-                if (SectorHeader.processed == true || SectorHeader.threadid != threadid) continue; // skip if already processed
+                MFMData SectorData   = sectordata2[markerindex];
                 
-                SectorHeader.processed = true; // mark as processed
-                                                    // was the marker placed by the correct thread? If not, continue to next marker
+                // Skip already processed sectors and check threadid, only process current thread
+                // Was the marker placed by the correct thread? If not, continue to next marker
+                if (SectorHeader.processed == true || SectorHeader.threadid != threadid) continue; 
+
+                // mark as processed
+                SectorHeader.processed = true; 
+
                 //Update progress
                 if (markerindex % 250 == 249) { progresses[threadid] = markerindex; if (stop == 1) break; }
                 
@@ -191,248 +190,6 @@ namespace FloppyControlApp
                     HandleIngoreBadHeader(in SectorHeader, in SectorData, threadid, previoustrack, previousheadnr);
                     continue;
                 }
-                
-
-                if (diskformat == DiskFormat.pcdd) // DD
-                    sectorspertrack = 9;
-                else if (diskformat == DiskFormat.pchd) // HD
-                    sectorspertrack = 18;
-                else if (diskformat == DiskFormat.pc2m) //2M
-                    sectorspertrack = 11;
-
-                //If this sector was already captured ok, don't overwrite it with data!
-                if (SectorMap.sectorok[SectorHeader.trackhead, SectorHeader.sector] == SectorMapStatus.CrcOk)
-                    continue;
-                if (SectorHeader.sector == 2 && SectorHeader.trackhead == 3)
-                    TBReceived.Append("Hit2");
-                if (sectorbuf.Length > 500)
-                    if (SectorHeader.Status == SectorMapStatus.CrcOk)
-                        //Happyflow, if everything checks out, save sector data to disk image array.
-                        if (SectorData.Status == SectorMapStatus.CrcOk 
-                            && SectorHeader.sector >= 0 
-                            && SectorHeader.sector < 18 
-                            && SectorHeader.head < 3 
-                            && SectorHeader.track >= 0 
-                            && SectorHeader.track < 82 
-                            && SectorMap.sectorok[SectorHeader.trackhead, SectorHeader.sector] != SectorMapStatus.CrcOk)
-                        //if (datacrcchk == 0x00 && sectornr >= 0 && sectornr < 18 && headnr < 3 && tracknr >= 0 && tracknr < 82)
-                        {
-                            
-
-                            // Determine diskformat
-                            if (SectorHeader.sector > 8 && diskformat != DiskFormat.pc2m) // from DD to HD
-                            {
-                                diskformat = DiskFormat.pchd; // Assume HD
-                                sectorspertrack = 18;
-                            }
-
-                            if (SectorHeader.track == 0 && SectorHeader.sector == 0 && diskformat == DiskFormat.pchd) // From HD to 2M, reset sectormap.sectorok
-                            {
-                                if (sectorbuf[401] == '2' && sectorbuf[402] == 'M') // Detect 2M format
-                                {
-                                    diskformat = DiskFormat.pc2m; // Assume 2M
-                                    sectorspertrack = 11;
-                                    //bytespersectorthread = 1024;
-                                    // When we're in the process and only detecting 2M after many other sectors were processed,
-                                    // the previous sectors were processed with assumption diskformat = HD. We need to invalidate all found sectors
-                                    // except T000
-                                    for (i = 0; i < 200; i++)
-                                    {
-                                        for (j = 0; j < 25; j++)
-                                        {
-                                            SectorMap.sectorok[i, j] = SectorMapStatus.empty;
-                                        }
-                                    }
-                                }
-                            }
-                            // Sector is CRC pass
-                            SectorMap.sectorok[SectorHeader.trackhead, SectorHeader.sector] = SectorMapStatus.CrcOk;
-                            if (procsettings.UseErrorCorrection)
-                            {
-                                //Create hash
-                                sectorbuf[SectorHeader.sectorlength] = (byte)SectorHeader.trackhead;
-                                sectorbuf[SectorHeader.sectorlength + 1] = (byte)SectorHeader.sector;
-                                byte[] secthash = mySHA256.ComputeHash(sectorbuf);
-
-                                // Check if there's a duplicate
-                                int isunique = -1;
-                                // Probably not yet made thread safe?
-                                if(procsettings.finddupes)
-                                for (i = 0; i < sectordata2.Count; i++)
-                                {
-                                        //isunique = Array.FindIndex(badsectorhash, (x => x.Equals(secthash)));
-                                        isunique = IndexOfBytes(badsectorhash[i], secthash, 0, 32);
-                                    if (isunique != -1)
-                                    {
-                                        break;
-                                    }
-                                }
-
-                                if (isunique == -1 || !procsettings.finddupes)
-                                {
-                                    byte[] b = new byte[SectorHeader.sectorlength + 16];
-                                    Array.Copy(SectorBlock, b, SectorHeader.sectorlength + 16);
-                                    
-                                    badsectorhash[markerindex] = secthash;
-                                    if (threadid != SectorHeader.threadid)
-                                        TBReceived.Append("threadid mismatch!\r\n");
-                                    SectorData.Status = SectorMapStatus.CrcOk; // 1 = good sector data
-                                    SectorData.track = SectorHeader.track;
-                                    SectorData.trackhead = SectorHeader.trackhead;
-                                    SectorData.sector = SectorHeader.sector;
-                                    SectorData.sectorlength = SectorHeader.sectorlength;
-                                    SectorData.crc = (int)datacrc;
-                                    SectorData.sectorbytes = b;
-                                    SectorData.MarkerType = MarkerType.data;
-                                    SectorHeader.MarkerType = MarkerType.header;
-                                    SectorHeader.DataIndex = markerindex;
-                                }
-                            }
-
-                            FoundGoodSectorInfo.Append("T" + SectorHeader.track.ToString("D3") + " S" + SectorHeader.sector + " crc:" +
-                                datacrcchk.ToString("X4") + " rxbufindex:" + SectorHeader.rxbufMarkerPositions + " Method: ");
-
-
-                            if (procsettings.processingtype == ProcessingType.aufit)
-                            {
-                                FoundGoodSectorInfo.Append("Aufit min:" + procsettings.min.ToString("X2") + " 4/6:" + procsettings.four.ToString("X2"));
-                            }
-                            else
-                            if (procsettings.processingtype == ProcessingType.adaptive1)
-                            {
-                                FoundGoodSectorInfo.Append("Adaptive Rate:" + procsettings.rateofchange);
-                            }
-                            else
-                            if (procsettings.processingtype == ProcessingType.normal)
-                            {
-                                FoundGoodSectorInfo.Append("Normal min:" + procsettings.min.ToString("X2") + " 4/6:" + procsettings.four.ToString("X2") +
-                                    " 6/8:" + procsettings.six.ToString("X2") + " max:" + procsettings.max.ToString("X2") +
-                                    " offset:" + procsettings.offset.ToString());
-                            }
-                            FoundGoodSectorInfo.Append("\r\n");
-                            FoundGoodSectorInfo.Append(CurrentFiles);
-
-                            //if (offset != offset2)
-                            //    textBoxFilesLoaded.Text += "*** offset doesn't match with sectormap.sectorok!!! ***"+offset+" "+offset2+"\r\n";
-                            int sum = 0;
-                            if (SectorHeader.trackhead == 0) SectorHeader.sectorlength = 512;
-                            if (DiskImageSectorOffset < 2000000 - SectorHeader.sectorlength)
-                            {
-                                if (sectorbuf.Length == SectorHeader.sectorlength + 2)
-                                {
-                                    Array.Copy(sectorbuf, 0, disk, DiskImageSectorOffset, SectorHeader.sectorlength);
-                                    sum = sectorbuf.Sum(x => x);
-                                    if (sum == 0) SectorMap.sectorok[SectorHeader.trackhead, SectorHeader.sector] = SectorMapStatus.SectorOKButZeroed; // If the entire sector is zeroes, allow new data
-                                }
-                            }
-                        }
-                        //If checksum is not ok, we can still use the data, better than nothing strategy, we will show it in the sectormap
-                        else if (SectorData.Status ==  SectorMapStatus.CrcBad 
-                            && SectorHeader.sector >= 0 
-                            && SectorHeader.sector < 18 
-                            && SectorHeader.head < 3 
-                            && SectorHeader.track >= 0 
-                            && SectorHeader.track < 82)
-                        {
-                            
-                            
-                            if (SectorHeader.sector == 2 && SectorHeader.trackhead == 3) 
-                                TBReceived.Append("Hit2");
-                            
-                            // if sectormap has no data, we can safely mark bad sector.
-                            if (SectorMap.sectorok[SectorHeader.trackhead, SectorHeader.sector] == SectorMapStatus.empty)
-                                SectorMap.sectorok[SectorHeader.trackhead, SectorHeader.sector] = SectorMapStatus.HeadOkDataBad;
-                            
-                            if (sectorbuf.Length > 500)
-                            {
-                                if (SectorHeader.sector > 8 && diskformat != DiskFormat.pc2m)
-                                {
-                                    diskformat = DiskFormat.pchd; // Assume HD
-                                    sectorspertrack = 18;
-                                }
-
-                                if (SectorHeader.track == 0 && SectorHeader.sector == 0 && diskformat == DiskFormat.pchd)
-                                {
-                                    if (sectorbuf[401] == '2' && sectorbuf[402] == 'M') // Detect 2M format
-                                    {
-                                        diskformat = DiskFormat.pc2m;
-                                        sectorspertrack = 11;
-                                        //bytespersectorthread = 1024;
-                                        // When we're in the process and only detecting 2M after many other sectors were processed,
-                                        // the previous sectors were processed with assumption diskformat = HD. We need to invalidate all found sectors
-                                        // except T000
-                                        for (i = 0; i < 200; i++)
-                                        {
-                                            for (j = 0; j < 25; j++)
-                                            {
-                                                SectorMap.sectorok[i, j] = SectorMapStatus.empty;
-                                            }
-                                        }
-                                    }
-                                }
-
-                                if (procsettings.UseErrorCorrection)
-                                {
-                                    //Create hash
-                                    sectorbuf[SectorHeader.sectorlength] = (byte)SectorHeader.trackhead;
-                                    sectorbuf[SectorHeader.sectorlength + 1] = (byte)SectorHeader.sector;
-                                    byte[] secthash = mySHA256.ComputeHash(sectorbuf);
-
-                                    // Check if there's a duplicate
-                                    int isunique = -1;
-                                    for (i = 0; i < sectordata2.Count; i++)
-                                    {
-                                        isunique = IndexOfBytes(badsectorhash[i], secthash, 0, 32);
-                                        if (isunique != -1)
-                                        {
-                                            //tbreceived.Append("Duplicate found!\r\n");
-                                            break;
-                                        }
-                                    }
-
-                                    if (isunique == -1 || !procsettings.finddupes)
-                                    {
-                                        byte[] b = new byte[SectorHeader.sectorlength + 16];
-
-                                        for (i = 0; i < SectorHeader.sectorlength + 16; i++)
-                                        {
-                                            b[i] = SectorBlock[i];
-                                        }
-
-                                        
-                                        badsectorcntthread++;
-                                        badsectorhash[markerindex] = secthash;
-
-                                        //sectordatathread.threadid = threadid;
-                                        SectorData.Status = SectorMapStatus.HeadOkDataBad; // 2 = bad sector data
-                                        SectorData.track = SectorHeader.track;
-                                        SectorData.trackhead = SectorHeader.trackhead;
-                                        SectorData.sector = SectorHeader.sector;
-                                        SectorData.sectorlength = SectorHeader.sectorlength;
-                                        SectorData.crc = (int)datacrc;
-                                        SectorData.sectorbytes = b;
-                                        SectorData.MarkerType = MarkerType.data;
-                                        SectorHeader.DataIndex = markerindex;
-                                        SectorHeader.MarkerType = MarkerType.header;
-                                        SectorHeader.Status =  SectorMapStatus.HeadOkDataBad;
-                                        
-                                    }
-                                    else
-                                    {
-                                        //tbreceived.Append("Bad sector duplicate found, skipping \r\n");
-                                    }
-                                }
-
-                                if (SectorMap.sectorok[SectorHeader.trackhead, SectorHeader.sector] == SectorMapStatus.empty)
-                                    if (DiskImageSectorOffset < 2000000 - SectorHeader.sectorlength && SectorHeader.sectorlength == sectorbuf.Length + 2)
-                                        for (i = 0; i < SectorHeader.sectorlength; i++)
-                                        {
-                                            if (disk[i + DiskImageSectorOffset] == 0)
-                                                disk[i + DiskImageSectorOffset] = sectorbuf[i];
-                                        }
-                                //sectormap.sectorok[track, sectornr] = SectorMapType.headokbaddata; // Sector is not CRC pass
-                            }
-                        }
 
                 // EXPERIMENTAL, not safe to use! Makes assumptions that are incorrect in some cases
                 // This is an attempt to recover a sector with a bad header but good sector data
@@ -440,11 +197,151 @@ namespace FloppyControlApp
                 // This sector can't be sector 0 on the track. It takes the previous succesful track
                 // Then finds the first bad sector on it and puts the good data/bad header in the disk array
 
-
-                if (SectorHeader.Status == SectorMapStatus.CrcOk && SectorHeader.track < 82) // use the previous known good tracknr in case of a reconstruction
+                // use the previous known good tracknr in case of a reconstruction
+                if (SectorHeader.Status == SectorMapStatus.CrcOk && SectorHeader.track < 82)
                 {
                     previousheadnr = (byte)SectorHeader.head;
                     previoustrack = SectorHeader.track;
+                }
+
+                // DD, HD or 2M
+                SetSectorsPerTrackByDiskFormat();
+
+                //If this sector was already captured ok, don't overwrite it with data!
+                if (SectorMap.sectorok[SectorHeader.trackhead, SectorHeader.sector] == SectorMapStatus.CrcOk)
+                    continue;
+                if (SectorHeader.sector == 2 && SectorHeader.trackhead == 3)
+                    TBReceived.Append("Hit2");
+                if (sectorbuf.Length <= 500) continue;
+                if (SectorHeader.Status != SectorMapStatus.CrcOk) continue;
+                
+                //Happyflow, if everything checks out, save sector data to disk image array.
+                if (SectorData.Status == SectorMapStatus.CrcOk 
+                    && SectorHeader.sector >= 0 
+                    && SectorHeader.sector < 18 
+                    && SectorHeader.head < 3 
+                    && SectorHeader.track >= 0 
+                    && SectorHeader.track < 82 
+                    && SectorMap.sectorok[SectorHeader.trackhead, SectorHeader.sector] != SectorMapStatus.CrcOk)
+                {
+                    // Determine diskformat
+                    // If HD disk is actually 2M, clear sectorok map. Only on track 0 sector 0.
+                    DetectDiskFormat(SectorHeader, sectorbuf);
+
+                    // Mark Sector is CRC pass on sectormap for user feedback
+                    SectorMap.sectorok[SectorHeader.trackhead, SectorHeader.sector] = SectorMapStatus.CrcOk;
+                    HandleErrorCorrection(  SectorHeader, SectorData,   sectorbuf,
+                                            SectorBlock,  procsettings, markerindex,
+                                            datacrc,      threadid);
+                    ReportFoundSector(SectorHeader, procsettings, datacrcchk);
+                    SaveSectorToDiskImage(SectorHeader, DiskImageSectorOffset, sectorbuf);
+                    
+                    continue;
+                }
+                
+                //If checksum is not ok, we can still use the data, better than nothing strategy, we will show it in the sectormap
+                if (SectorData.Status ==  SectorMapStatus.CrcBad 
+                    && SectorHeader.sector >= 0 
+                    && SectorHeader.sector < 18 
+                    && SectorHeader.head < 3 
+                    && SectorHeader.track >= 0 
+                    && SectorHeader.track < 82)
+                {
+                    if (SectorHeader.sector == 2 && SectorHeader.trackhead == 3) 
+                        TBReceived.Append("Hit2");
+                            
+                    // if sectormap has no data, we can safely mark bad sector.
+                    if (SectorMap.sectorok[SectorHeader.trackhead, SectorHeader.sector] == SectorMapStatus.empty)
+                        SectorMap.sectorok[SectorHeader.trackhead, SectorHeader.sector] = SectorMapStatus.HeadOkDataBad;
+                            
+                    if (sectorbuf.Length > 500)
+                    {
+                        if (SectorHeader.sector > 8 && diskformat != DiskFormat.pc2m)
+                        {
+                            diskformat = DiskFormat.pchd; // Assume HD
+                            sectorspertrack = 18;
+                        }
+
+                        if (SectorHeader.track == 0 && SectorHeader.sector == 0 && diskformat == DiskFormat.pchd)
+                        {
+                            if (sectorbuf[401] == '2' && sectorbuf[402] == 'M') // Detect 2M format
+                            {
+                                diskformat = DiskFormat.pc2m;
+                                sectorspertrack = 11;
+                                //bytespersectorthread = 1024;
+                                // When we're in the process and only detecting 2M after many other sectors were processed,
+                                // the previous sectors were processed with assumption diskformat = HD. We need to invalidate all found sectors
+                                // except T000
+                                for (i = 0; i < 200; i++)
+                                {
+                                    for (j = 0; j < 25; j++)
+                                    {
+                                        SectorMap.sectorok[i, j] = SectorMapStatus.empty;
+                                    }
+                                }
+                            }
+                        }
+
+                        if (procsettings.UseErrorCorrection)
+                        {
+                            //Create hash
+                            sectorbuf[SectorHeader.sectorlength] = (byte)SectorHeader.trackhead;
+                            sectorbuf[SectorHeader.sectorlength + 1] = (byte)SectorHeader.sector;
+                            byte[] secthash = mySHA256.ComputeHash(sectorbuf);
+
+                            // Check if there's a duplicate
+                            int isunique = -1;
+                            for (i = 0; i < sectordata2.Count; i++)
+                            {
+                                isunique = IndexOfBytes(badsectorhash[i], secthash, 0, 32);
+                                if (isunique != -1)
+                                {
+                                    //tbreceived.Append("Duplicate found!\r\n");
+                                    break;
+                                }
+                            }
+
+                            if (isunique == -1 || !procsettings.finddupes)
+                            {
+                                byte[] b = new byte[SectorHeader.sectorlength + 16];
+
+                                for (i = 0; i < SectorHeader.sectorlength + 16; i++)
+                                {
+                                    b[i] = SectorBlock[i];
+                                }
+
+                                        
+                                badsectorcntthread++;
+                                badsectorhash[markerindex] = secthash;
+
+                                //sectordatathread.threadid = threadid;
+                                SectorData.Status = SectorMapStatus.HeadOkDataBad; // 2 = bad sector data
+                                SectorData.track = SectorHeader.track;
+                                SectorData.trackhead = SectorHeader.trackhead;
+                                SectorData.sector = SectorHeader.sector;
+                                SectorData.sectorlength = SectorHeader.sectorlength;
+                                SectorData.crc = (int)datacrc;
+                                SectorData.sectorbytes = b;
+                                SectorData.MarkerType = MarkerType.data;
+                                SectorHeader.DataIndex = markerindex;
+                                SectorHeader.MarkerType = MarkerType.header;
+                                SectorHeader.Status =  SectorMapStatus.HeadOkDataBad;
+                                        
+                            }
+                            else
+                            {
+                                //tbreceived.Append("Bad sector duplicate found, skipping \r\n");
+                            }
+                        }
+
+                        if (SectorMap.sectorok[SectorHeader.trackhead, SectorHeader.sector] == SectorMapStatus.empty)
+                            if (DiskImageSectorOffset < 2000000 - SectorHeader.sectorlength && SectorHeader.sectorlength == sectorbuf.Length + 2)
+                                for (i = 0; i < SectorHeader.sectorlength; i++)
+                                {
+                                    if (disk[i + DiskImageSectorOffset] == 0)
+                                        disk[i + DiskImageSectorOffset] = sectorbuf[i];
+                                }
+                    }
                 }
             }
             progresses[threadid] = sectordata2.Count;
@@ -1361,6 +1258,137 @@ namespace FloppyControlApp
                     rxbufcnt++;
                 if (RxBbuf.Length > rxbufcnt)
                     while (RxBbuf[rxbufcnt] < 4 && rxbufcnt < Indexrxbuf - 1) rxbufcnt++;
+            }
+        }
+
+        private void Detect2MDiskFormat(in MFMData SectorHeader, byte[] Sectorbuf)
+        {
+            if (SectorHeader.track == 0 && SectorHeader.sector == 0 && diskformat == DiskFormat.pchd) // From HD to 2M, reset sectormap.sectorok
+            {
+                if (Sectorbuf[401] == '2' && Sectorbuf[402] == 'M') // Detect 2M format
+                {
+                    diskformat = DiskFormat.pc2m; // Assume 2M
+                    sectorspertrack = 11;
+                    // When we're in the process and only detecting 2M after many other sectors were processed,
+                    // the previous sectors were processed with assumption diskformat = HD. We need to invalidate all found sectors
+                    // except T000
+                    for (int i = 0; i < 200; i++)
+                    {
+                        for (int j = 0; j < 25; j++)
+                        {
+                            SectorMap.sectorok[i, j] = SectorMapStatus.empty;
+                        }
+                    }
+                }
+            }
+        }
+
+        private void HandleErrorCorrection( MFMData SectorHeader, 
+                                            MFMData SectorData, 
+                                            byte[] sectorbuf, 
+                                            byte[] SectorBlock, 
+                                            ProcSettings procsettings, 
+                                            int markerindex,
+                                            ushort datacrc,
+                                            int threadid)
+        {
+            if (procsettings.UseErrorCorrection)
+            {
+                //Create hash
+                SHA256 mySHA256 = SHA256Managed.Create();
+                sectorbuf[SectorHeader.sectorlength] = (byte)SectorHeader.trackhead;
+                sectorbuf[SectorHeader.sectorlength + 1] = (byte)SectorHeader.sector;
+                byte[] secthash = mySHA256.ComputeHash(sectorbuf);
+
+                // Check if there's a duplicate
+                int isunique = -1;
+                // Todo: check thread safety and if deduplication is still a thing
+                if (procsettings.finddupes)
+                    for (int i = 0; i < sectordata2.Count; i++)
+                    {
+                        //isunique = Array.FindIndex(badsectorhash, (x => x.Equals(secthash)));
+                        isunique = IndexOfBytes(badsectorhash[i], secthash, 0, 32);
+                        if (isunique != -1)
+                        {
+                            break;
+                        }
+                    }
+
+                if (isunique == -1 || !procsettings.finddupes)
+                {
+                    byte[] b = new byte[SectorHeader.sectorlength + 16];
+                    Array.Copy(SectorBlock, b, SectorHeader.sectorlength + 16);
+
+                    badsectorhash[markerindex] = secthash;
+                    if (threadid != SectorHeader.threadid)
+                        TBReceived.Append("threadid mismatch!\r\n");
+                    SectorData.Status = SectorMapStatus.CrcOk; // 1 = good sector data
+                    SectorData.track = SectorHeader.track;
+                    SectorData.trackhead = SectorHeader.trackhead;
+                    SectorData.sector = SectorHeader.sector;
+                    SectorData.sectorlength = SectorHeader.sectorlength;
+                    SectorData.crc = (int)datacrc;
+                    SectorData.sectorbytes = b;
+                    SectorData.MarkerType = MarkerType.data;
+                    SectorHeader.MarkerType = MarkerType.header;
+                    SectorHeader.DataIndex = markerindex;
+                }
+            }
+        }
+
+        private void DetectDDOrHD(MFMData SectorHeader)
+        {
+            if (SectorHeader.sector > 8 && diskformat != DiskFormat.pc2m) // from DD to HD
+            {
+                diskformat = DiskFormat.pchd; // Assume HD
+                sectorspertrack = 18;
+            }
+        }
+
+        private void DetectDiskFormat(MFMData SectorHeader, byte[] sectorbuf)
+        {
+            DetectDDOrHD(SectorHeader);
+            Detect2MDiskFormat(SectorHeader, sectorbuf);
+        }
+
+        private void ReportFoundSector(MFMData SectorHeader, ProcSettings procsettings, ushort datacrcchk)
+        {
+            FoundGoodSectorInfo.Append("T" + SectorHeader.track.ToString("D3") + " S" + SectorHeader.sector + " crc:" +
+                                 datacrcchk.ToString("X4") + " rxbufindex:" + SectorHeader.rxbufMarkerPositions + " Method: ");
+
+            if (procsettings.processingtype == ProcessingType.aufit)
+            {
+                FoundGoodSectorInfo.Append("Aufit min:" + procsettings.min.ToString("X2") + " 4/6:" + procsettings.four.ToString("X2"));
+            }
+            else
+                            if (procsettings.processingtype == ProcessingType.adaptive1)
+            {
+                FoundGoodSectorInfo.Append("Adaptive Rate:" + procsettings.rateofchange);
+            }
+            else
+                            if (procsettings.processingtype == ProcessingType.normal)
+            {
+                FoundGoodSectorInfo.Append("Normal min:" + procsettings.min.ToString("X2") + " 4/6:" + procsettings.four.ToString("X2") +
+                    " 6/8:" + procsettings.six.ToString("X2") + " max:" + procsettings.max.ToString("X2") +
+                    " offset:" + procsettings.offset.ToString());
+            }
+            FoundGoodSectorInfo.Append("\r\n");
+            FoundGoodSectorInfo.Append(CurrentFiles);
+        }
+
+        private void SaveSectorToDiskImage(MFMData SectorHeader, int DiskImageSectorOffset, byte[] sectorbuf )
+        {
+            int sum = 0;
+            // 2M first track sector length is always 512
+            if (SectorHeader.trackhead == 0) SectorHeader.sectorlength = 512;
+            if (DiskImageSectorOffset < 2000000 - SectorHeader.sectorlength)
+            {
+                if (sectorbuf.Length == SectorHeader.sectorlength + 2)
+                {
+                    Array.Copy(sectorbuf, 0, disk, DiskImageSectorOffset, SectorHeader.sectorlength);
+                    sum = sectorbuf.Sum(x => x);
+                    if (sum == 0) SectorMap.sectorok[SectorHeader.trackhead, SectorHeader.sector] = SectorMapStatus.SectorOKButZeroed; // If the entire sector is zeroes, allow new data
+                }
             }
         }
 
