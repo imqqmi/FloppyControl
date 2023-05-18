@@ -28,7 +28,7 @@ namespace FloppyControlApp
         bool debuginfo = false;
 
         /// <summary>
-        /// Cleaned up version. Converts MFM data into sectors for PC DOS and M2
+        /// Converts MFM data into sectors for PC DOS and M2
         /// </summary>
         /// <param name="procsettings">Contains all the processing settings and configuration.</param>
         /// <param name="threadid">For multithreading, store data into its own array to prevent collisions 
@@ -37,33 +37,15 @@ namespace FloppyControlApp
         private void ProcessPCMFM2Sectordata(ProcSettings procsettings, int threadid, StringBuilder tbReceived)
         {
             //bool writemfm = true;
-            int i;
             int previoustrack = 0xff;
             byte previousheadnr = 0xff;
             sectordata2oldcnt = sectordata2.Count;
-
-            SHA256 mySHA256 = SHA256Managed.Create();
-                
-            int j;
-
             int markerpositionscntthread = 0;
-            
-            // Load good sector found info so we can append to it, then at the end
-
             progressesstart[threadid] = 0;
             progressesend[threadid] = mfmlengths[threadid];
             ProcessStatus[threadid] = "Find MFM markers...";
-            //if (i % 250000 == 249999) { progresses[threadid] = i; }
 
             if (stop != 0) return;
-
-            // Find markers
-
-            // with multithreading, the counting of rxbuf is misaligned with mfms, because
-            // it doesn't start at the start of rxbuf. There's no way to know at this point
-            // how many 1's there are up to this point. Either do the calculation after processing
-            // then adjust the values or not use multithreading.
-            
             if (Indexrxbuf > RxBbuf.Length) Indexrxbuf = RxBbuf.Length - 1;
                 
             FindAllPCMarkers(threadid);
@@ -114,15 +96,7 @@ namespace FloppyControlApp
 
                 // Validation method may change sectorsize in SectorHeader if IgnoreHeaderError is true.
                 if (!ValidateSectorSize(ref SectorHeader)) continue;
-
-                // If the headerchecksum is non zero, there's an error in the header. 
-                // There's code further on to guess the sector and track based on surrounding
-                // sectors with correct header, but to speed things up I'll try continueing 
-                // Checking the IgnoreHeaderErrorCheckBox skips this part and does decode the sector data
-                if ( !ValidateSectorHeaderInfo(ref Idam, ref SectorHeader) && procsettings.IgnoreHeaderError == false)
-                {
-                    continue;
-                }
+                if ( !ValidateSectorHeaderInfo(ref Idam, ref SectorHeader) && procsettings.IgnoreHeaderError == false) continue;
 
                 //Get sector data and checksum
                 // First find the DAM
@@ -193,18 +167,14 @@ namespace FloppyControlApp
                     && SectorHeader.track < 82 
                     && SectorMap.sectorok[SectorHeader.trackhead, SectorHeader.sector] != SectorMapStatus.CrcOk)
                 {
-                    // Determine diskformat
-                    // If HD disk is actually 2M, clear sectorok map. Only on track 0 sector 0.
                     DetectDiskFormat(SectorHeader, sectorbuf);
-
-                    // Mark Sector is CRC pass on sectormap for user feedback
-                    SectorMap.sectorok[SectorHeader.trackhead, SectorHeader.sector] = SectorMapStatus.CrcOk;
                     HandleErrorCorrection( ref SectorHeader, ref SectorData,   in sectorbuf,
                                             in SectorBlock,  in  procsettings,    markerindex,
-                                               datacrc,          threadid);
+                                               datacrc,          threadid, false);
                     ReportFoundSector(SectorHeader, procsettings, datacrcchk);
                     SaveSectorToDiskImage(ref SectorHeader, DiskImageSectorOffset, sectorbuf);
-                    
+                    // Mark Sector is CRC pass on sectormap for user feedback
+                    SectorMap.sectorok[SectorHeader.trackhead, SectorHeader.sector] = SectorMapStatus.CrcOk;
                     continue;
                 }
                 //*** Unhappy flow
@@ -218,16 +188,13 @@ namespace FloppyControlApp
                 {
                     DetectDDOrHD(SectorHeader);
                     Detect2MDiskFormat(in SectorHeader, sectorbuf);
-
                     HandleErrorCorrection(ref SectorHeader, ref SectorData, in sectorbuf,
                                             in SectorBlock, in procsettings, markerindex,
                                                datacrc, threadid, true);
-
                     if (SectorMap.sectorok[SectorHeader.trackhead, SectorHeader.sector] != SectorMapStatus.empty) continue;
-                    // if sectormap has no data, we can safely mark bad sector.
-                    SectorMap.sectorok[SectorHeader.trackhead, SectorHeader.sector] = SectorMapStatus.HeadOkDataBad;
                     SaveSectorToDiskImage(ref SectorHeader, DiskImageSectorOffset, sectorbuf);
-
+                    // if sectormap has no data (empty), we can safely mark bad sector.
+                    SectorMap.sectorok[SectorHeader.trackhead, SectorHeader.sector] = SectorMapStatus.HeadOkDataBad;
                 }
             } // marker for() loop end
             progresses[threadid] = sectordata2.Count;
@@ -988,6 +955,10 @@ namespace FloppyControlApp
             return true;
         }
 
+        // If the headerchecksum is non zero, there's an error in the header. 
+        // There's code further on to guess the sector and track based on surrounding
+        // sectors with correct header, but to speed things up I'll try continueing 
+        // Checking the IgnoreHeaderErrorCheckBox skips this part and does decode the sector data
         private bool ValidateSectorHeaderInfo(ref byte[] Idam, ref MFMData SectorHeader)
         {
             // Check header crc
@@ -1147,6 +1118,34 @@ namespace FloppyControlApp
             }
         }
 
+        private void FindNextMarker(ref int markerindex, int threadid, out MFMData SectorData)
+        {
+            SectorData = null;
+            // Find the next marker which should be the sector data
+            // Make sure the correct threadid is used since other threads also add to the
+            // dictionary. They are sequential though so we only need to search from markerindex
+            try
+            {
+                int q;
+                for (q = markerindex + 1; q < sectordata2.Count; q++)
+                {
+                    if (sectordata2[q].threadid == threadid)
+                    {
+                        markerindex = q;
+
+                        SectorData = sectordata2[q];
+                        break;
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                TBReceived.Append("Error: could not find sectordata: " + markerindex + "\r\n");
+                
+            }
+            
+        }
+
         private void Detect2MDiskFormat(in MFMData SectorHeader, byte[] Sectorbuf)
         {
             if (SectorHeader.track == 0 && SectorHeader.sector == 0 && diskformat == DiskFormat.pchd) // From HD to 2M, reset sectormap.sectorok
@@ -1236,6 +1235,8 @@ namespace FloppyControlApp
 
         private void DetectDiskFormat(MFMData SectorHeader, byte[] sectorbuf)
         {
+            // Determine diskformat
+            // If HD disk is actually 2M, clear sectorok map. Only on track 0 sector 0.
             DetectDDOrHD(SectorHeader);
             Detect2MDiskFormat(SectorHeader, sectorbuf);
         }
@@ -1265,48 +1266,11 @@ namespace FloppyControlApp
             FoundGoodSectorInfo.Append(CurrentFiles);
         }
 
-        private void SaveSectorToDiskImage(ref MFMData SectorHeader, int DiskImageSectorOffset, in byte[] sectorbuf )
+        private void StripSectorOfHeader(in byte[] SectorBlock, out byte[] sectorbuf, in MFMData SectorHeader)
         {
-            int sum = 0;
-            // 2M first track sector length is always 512
-            if (SectorHeader.trackhead == 0) SectorHeader.sectorlength = 512;
-            if (DiskImageSectorOffset < 2000000 - SectorHeader.sectorlength)
-            {
-                if (sectorbuf.Length == SectorHeader.sectorlength + 2)
-                {
-                    Array.Copy(sectorbuf, 0, disk, DiskImageSectorOffset, SectorHeader.sectorlength);
-                    sum = sectorbuf.Sum(x => x);
-                    if (sum == 0) SectorMap.sectorok[SectorHeader.trackhead, SectorHeader.sector] = SectorMapStatus.SectorOKButZeroed; // If the entire sector is zeroes, allow new data
-                }
-            }
-        }
-
-        private void FindNextMarker(ref int markerindex, int threadid, out MFMData SectorData)
-        {
-            SectorData = null;
-            // Find the next marker which should be the sector data
-            // Make sure the correct threadid is used since other threads also add to the
-            // dictionary. They are sequential though so we only need to search from markerindex
-            try
-            {
-                int q;
-                for (q = markerindex + 1; q < sectordata2.Count; q++)
-                {
-                    if (sectordata2[q].threadid == threadid)
-                    {
-                        markerindex = q;
-
-                        SectorData = sectordata2[q];
-                        break;
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                TBReceived.Append("Error: could not find sectordata: " + markerindex + "\r\n");
-                
-            }
-            
+            if (diskformat == DiskFormat.pc2m && SectorHeader.trackhead == 0)
+                sectorbuf = SectorBlock.SubArray(4, 514);
+            else sectorbuf = SectorBlock.SubArray(4, SectorHeader.sectorlength + 2);
         }
 
         private void ValidateSectorDataBlock(ref ushort datacrcchk, 
@@ -1330,11 +1294,20 @@ namespace FloppyControlApp
             }
         }
 
-        private void StripSectorOfHeader(in byte[] SectorBlock, out byte[] sectorbuf, in MFMData SectorHeader)
+        private void SaveSectorToDiskImage(ref MFMData SectorHeader, int DiskImageSectorOffset, in byte[] sectorbuf )
         {
-            if (diskformat == DiskFormat.pc2m && SectorHeader.trackhead == 0)
-                sectorbuf = SectorBlock.SubArray(4, 514);
-            else sectorbuf = SectorBlock.SubArray(4, SectorHeader.sectorlength + 2);
+            int sum = 0;
+            // 2M first track sector length is always 512
+            if (SectorHeader.trackhead == 0) SectorHeader.sectorlength = 512;
+            if (DiskImageSectorOffset < 2000000 - SectorHeader.sectorlength)
+            {
+                if (sectorbuf.Length == SectorHeader.sectorlength + 2)
+                {
+                    Array.Copy(sectorbuf, 0, disk, DiskImageSectorOffset, SectorHeader.sectorlength);
+                    sum = sectorbuf.Sum(x => x);
+                    if (sum == 0) SectorMap.sectorok[SectorHeader.trackhead, SectorHeader.sector] = SectorMapStatus.SectorOKButZeroed; // If the entire sector is zeroes, allow new data
+                }
+            }
         }
 
     } // FDDProcessing end
