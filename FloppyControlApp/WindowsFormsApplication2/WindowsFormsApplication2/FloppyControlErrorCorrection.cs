@@ -718,6 +718,7 @@ namespace FloppyControlApp
                     }
                     if ((sectordata.Status == SectorMapStatus.CrcOk) && goodsectors)
                     {
+                        if (sectordata.sectorbytes == null) continue;
                         key = "i: " + i + " G T: " + sectordata.trackhead + " S: " + sectordata.sector;
 
                         BadSectorListBox.Items.Add(new Badsectorkeyval
