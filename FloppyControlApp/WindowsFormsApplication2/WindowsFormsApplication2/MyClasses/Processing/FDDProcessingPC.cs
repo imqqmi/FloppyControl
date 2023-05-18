@@ -184,7 +184,7 @@ namespace FloppyControlApp
                 if (sectorbuf.Length <= 500) continue;
                 if (SectorHeader.Status != SectorMapStatus.CrcOk) continue;
                 
-                //Happyflow, if everything checks out, save sector data to disk image array.
+                //*** Happyflow, if everything checks out, save sector data to disk image array.
                 if (SectorData.Status == SectorMapStatus.CrcOk 
                     && SectorHeader.sector >= 0 
                     && SectorHeader.sector < 18 
@@ -207,7 +207,7 @@ namespace FloppyControlApp
                     
                     continue;
                 }
-                
+                //*** Unhappy flow
                 //If checksum is not ok, we can still use the data, better than nothing strategy, we will show it in the sectormap
                 if (SectorData.Status ==  SectorMapStatus.CrcBad 
                     && SectorHeader.sector >= 0 
@@ -216,10 +216,6 @@ namespace FloppyControlApp
                     && SectorHeader.track >= 0 
                     && SectorHeader.track < 82)
                 {
-                    // if sectormap has no data, we can safely mark bad sector.
-                    if (SectorMap.sectorok[SectorHeader.trackhead, SectorHeader.sector] == SectorMapStatus.empty)
-                        SectorMap.sectorok[SectorHeader.trackhead, SectorHeader.sector] = SectorMapStatus.HeadOkDataBad;
-
                     DetectDDOrHD(SectorHeader);
                     Detect2MDiskFormat(in SectorHeader, sectorbuf);
 
@@ -227,16 +223,13 @@ namespace FloppyControlApp
                                             in SectorBlock, in procsettings, markerindex,
                                                datacrc, threadid, true);
 
-                    if (SectorMap.sectorok[SectorHeader.trackhead, SectorHeader.sector] == SectorMapStatus.empty)
-                        if (DiskImageSectorOffset < 2000000 - SectorHeader.sectorlength && SectorHeader.sectorlength == sectorbuf.Length + 2)
-                            for (i = 0; i < SectorHeader.sectorlength; i++)
-                            {
-                                if (disk[i + DiskImageSectorOffset] == 0)
-                                    disk[i + DiskImageSectorOffset] = sectorbuf[i];
-                            }
-                    
+                    if (SectorMap.sectorok[SectorHeader.trackhead, SectorHeader.sector] != SectorMapStatus.empty) continue;
+                    // if sectormap has no data, we can safely mark bad sector.
+                    SectorMap.sectorok[SectorHeader.trackhead, SectorHeader.sector] = SectorMapStatus.HeadOkDataBad;
+                    SaveSectorToDiskImage(ref SectorHeader, DiskImageSectorOffset, sectorbuf);
+
                 }
-            }
+            } // marker for() loop end
             progresses[threadid] = sectordata2.Count;
             //tbreceived.Append(relativetime().ToString() + "Convert MFM to sector data.\r\n");
             //tbreceived.Append(tbreceived.ToString());
