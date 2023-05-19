@@ -153,8 +153,9 @@ namespace FloppyControlApp
                 SetSectorsPerTrackByDiskFormat();
 
                 //If this sector was already captured ok, don't overwrite it with data!
-                //if (SectorMap.sectorok[SectorHeader.trackhead, SectorHeader.sector] == SectorMapStatus.CrcOk)
-                //    continue;
+                if (SectorMap.sectorok[SectorHeader.trackhead, SectorHeader.sector] == SectorMapStatus.CrcOk 
+                    && SkipAlreadyCrcOk)
+                    continue;
                 // If sector length is invalid, skip to next marker
                 if (sectorbuf.Length <= 500) continue;
                 if (SectorHeader.Status != SectorMapStatus.CrcOk) continue;
@@ -166,7 +167,6 @@ namespace FloppyControlApp
                     && SectorHeader.head < 3 
                     && SectorHeader.track >= 0 
                     && SectorHeader.track < 82 
-                    //&& SectorMap.sectorok[SectorHeader.trackhead, SectorHeader.sector] != SectorMapStatus.CrcOk
                     )
                 {
                     DetectDiskFormat(SectorHeader, sectorbuf);

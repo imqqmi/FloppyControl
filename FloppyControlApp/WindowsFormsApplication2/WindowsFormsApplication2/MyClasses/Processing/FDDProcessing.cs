@@ -66,6 +66,7 @@ namespace FloppyControlApp
         public int NumberOfThreads { get; set; }
         public int processing = 0;
         public Dictionary<DiskFormat, DiskGeometry> diskGeometry = new Dictionary<DiskFormat, DiskGeometry>();
+        public bool SkipAlreadyCrcOk = true;
 
         public float[] entropy;
         public float[] threshold4;

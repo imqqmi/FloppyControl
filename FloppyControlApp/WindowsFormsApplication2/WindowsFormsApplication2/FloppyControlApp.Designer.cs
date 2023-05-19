@@ -239,6 +239,7 @@ namespace FloppyControlApp
             this.label68 = new System.Windows.Forms.Label();
             this.rtbSectorMap = new System.Windows.Forms.RichTextBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.SkipAlreadyCrcOkcheckBox1 = new System.Windows.Forms.CheckBox();
             this.jESEnd = new System.Windows.Forms.NumericUpDown();
             this.jESStart = new System.Windows.Forms.NumericUpDown();
             this.label17 = new System.Windows.Forms.Label();
@@ -297,6 +298,7 @@ namespace FloppyControlApp
             this.ProcessBtn = new System.Windows.Forms.Button();
             this.ProcessPCBtn = new System.Windows.Forms.Button();
             this.ErrorCorrectionTab = new System.Windows.Forms.TabPage();
+            this.EntropySpliceBtn = new System.Windows.Forms.Button();
             this.AvgPeriodsFromListSelBtn = new System.Windows.Forms.Button();
             this.CombinationsUpDown = new System.Windows.Forms.NumericUpDown();
             this.label79 = new System.Windows.Forms.Label();
@@ -504,7 +506,6 @@ namespace FloppyControlApp
             this.StopButton = new System.Windows.Forms.Button();
             this.ExploreHereBtn = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.EntropySpliceBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.ScatterPlottabPage.SuspendLayout();
@@ -2952,6 +2953,7 @@ namespace FloppyControlApp
             // 
             // groupBox6
             // 
+            this.groupBox6.Controls.Add(this.SkipAlreadyCrcOkcheckBox1);
             this.groupBox6.Controls.Add(this.jESEnd);
             this.groupBox6.Controls.Add(this.jESStart);
             this.groupBox6.Controls.Add(this.label17);
@@ -2998,6 +3000,19 @@ namespace FloppyControlApp
             this.groupBox6.TabIndex = 49;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Processing options";
+            // 
+            // SkipAlreadyCrcOkcheckBox1
+            // 
+            this.SkipAlreadyCrcOkcheckBox1.AutoSize = true;
+            this.SkipAlreadyCrcOkcheckBox1.Checked = true;
+            this.SkipAlreadyCrcOkcheckBox1.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.SkipAlreadyCrcOkcheckBox1.Location = new System.Drawing.Point(129, 112);
+            this.SkipAlreadyCrcOkcheckBox1.Name = "SkipAlreadyCrcOkcheckBox1";
+            this.SkipAlreadyCrcOkcheckBox1.Size = new System.Drawing.Size(117, 17);
+            this.SkipAlreadyCrcOkcheckBox1.TabIndex = 116;
+            this.SkipAlreadyCrcOkcheckBox1.Text = "Skip already CrcOk";
+            this.SkipAlreadyCrcOkcheckBox1.UseVisualStyleBackColor = true;
+            this.SkipAlreadyCrcOkcheckBox1.CheckedChanged += new System.EventHandler(this.SkipAlreadyCrcOkcheckBox1_CheckedChanged);
             // 
             // jESEnd
             // 
@@ -3734,6 +3749,16 @@ namespace FloppyControlApp
             this.ErrorCorrectionTab.Size = new System.Drawing.Size(966, 775);
             this.ErrorCorrectionTab.TabIndex = 2;
             this.ErrorCorrectionTab.Text = "Error Correction";
+            // 
+            // EntropySpliceBtn
+            // 
+            this.EntropySpliceBtn.Location = new System.Drawing.Point(623, 450);
+            this.EntropySpliceBtn.Name = "EntropySpliceBtn";
+            this.EntropySpliceBtn.Size = new System.Drawing.Size(78, 39);
+            this.EntropySpliceBtn.TabIndex = 4029;
+            this.EntropySpliceBtn.Text = "Entropy Splice";
+            this.EntropySpliceBtn.UseVisualStyleBackColor = true;
+            this.EntropySpliceBtn.Click += new System.EventHandler(this.EntropySpliceBtn_Click);
             // 
             // AvgPeriodsFromListSelBtn
             // 
@@ -6215,16 +6240,6 @@ namespace FloppyControlApp
             // 
             this.toolTip1.Active = global::FloppyControlApp.Properties.Settings.Default.TooltipDisable;
             // 
-            // EntropySpliceBtn
-            // 
-            this.EntropySpliceBtn.Location = new System.Drawing.Point(623, 450);
-            this.EntropySpliceBtn.Name = "EntropySpliceBtn";
-            this.EntropySpliceBtn.Size = new System.Drawing.Size(78, 39);
-            this.EntropySpliceBtn.TabIndex = 4029;
-            this.EntropySpliceBtn.Text = "Entropy Splice";
-            this.EntropySpliceBtn.UseVisualStyleBackColor = true;
-            this.EntropySpliceBtn.Click += new System.EventHandler(this.EntropySpliceBtn_Click);
-            // 
             // FloppyControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -6873,6 +6888,7 @@ namespace FloppyControlApp
         private ToolStripMenuItem closeToolStripMenuItem;
         private Button AvgPeriodsFromListSelBtn;
         private Button EntropySpliceBtn;
+        private CheckBox SkipAlreadyCrcOkcheckBox1;
     }
 }
 

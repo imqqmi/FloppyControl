@@ -1360,6 +1360,13 @@ namespace FloppyControlApp
         {
             EntropySplice();
         }
+
+        private void SkipAlreadyCrcOkcheckBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            // This can be handy when testing error correction strategies,
+            // if you need a lot of good sectors, ie for entropy splice
+            processing.SkipAlreadyCrcOk = SkipAlreadyCrcOkcheckBox1.Checked;
+        }
     } // end class
 } // End namespace
 
