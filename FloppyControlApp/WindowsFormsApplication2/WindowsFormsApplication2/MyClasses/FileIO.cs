@@ -637,10 +637,7 @@ namespace FloppyControlApp.MyClasses
         {
             int i;
             string extension = "";
-            
             var sectordata2 = processing.sectordata2;
-
-            
             int q;
 
             // Write period data to disk in bin format
@@ -694,7 +691,7 @@ namespace FloppyControlApp.MyClasses
             
             byte[,] sectordone = new byte[255, 25];
             MFMData sectordataheader, sectordata;
-            if (processing.ProcSettings.platform == 0) // PC
+            if (processing.ProcSettings.platform ==  Platform.PC) 
             {
                 for (i = 0; i < sectordata2.Count; i++)
                 {

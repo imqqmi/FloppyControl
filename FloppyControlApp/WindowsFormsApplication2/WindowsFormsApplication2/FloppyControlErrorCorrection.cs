@@ -313,8 +313,13 @@ namespace FloppyControlApp
 
             if (!BSBlueSectormapRadio.Checked) // there's no relevant data when this radio button is checked
             {
-                int scatoffset = processing.sectordata2[indexS1].rxbufMarkerPositions + (int)ScatterMinTrackBar.Value + (int)ScatterOffsetTrackBar.Value;
-                int scatlength = processing.sectordata2[indexS1].rxbufMarkerPositions + (int)ScatterMaxTrackBar.Value + (int)ScatterOffsetTrackBar.Value - scatoffset;
+                int SectorViewEnd = 0;
+                var SectorHeaderOffset = processing.sectordata2[processing.sectordata2[indexS1].HeaderIndex ].rxbufMarkerPositions;
+                if(processing.sectordata2.Count > indexS1 + 1) SectorViewEnd = processing.sectordata2[indexS1+1].rxbufMarkerPositions;
+
+                if (SectorViewEnd - SectorHeaderOffset > 10000) SectorViewEnd = SectorHeaderOffset + 10000;
+                int scatoffset = SectorHeaderOffset + (int)ScatterMinTrackBar.Value + (int)ScatterOffsetTrackBar.Value;
+                int scatlength = SectorViewEnd + (int)ScatterMaxTrackBar.Value + (int)ScatterOffsetTrackBar.Value - scatoffset;
 
                 scatterplot.AnScatViewlargeoffset = scatoffset;
                 scatterplot.AnScatViewoffset = 0;

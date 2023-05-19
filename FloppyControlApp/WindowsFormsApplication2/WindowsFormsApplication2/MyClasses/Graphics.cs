@@ -2253,7 +2253,7 @@ namespace FloppyControlApp
                 // Show marker positions if available
                 MFMData sectordata;
                 if (Sectordata2 != null)
-                    for (i = Processing.sectordata2oldcnt; i < Sectordata2.Count; i++)
+                    for (i = 0; i < Sectordata2.Count; i++)
                     {
                         sectordata = Sectordata2[i];
 
@@ -2292,9 +2292,9 @@ namespace FloppyControlApp
                                         rectf = new RectangleF(posx, 266, 90, 20);
                                     else
                                     {
-                                        if(sectordata.MarkerType != MarkerType.data)
-                                            rectf = new RectangleF(posx, 266, 90, 20);
-                                        else rectf = new RectangleF(posx, 256, 90, 20);
+                                        if(sectordata.MarkerType == MarkerType.header)
+                                            rectf = new RectangleF(posx, 256, 90, 20);
+                                        else rectf = new RectangleF(posx, 266, 90, 20);
                                     }
                                     g.DrawString(tracksector, new Font("Tahoma", 8), Brushes.Black, rectf);
                                     lockBitmap.LockBits();

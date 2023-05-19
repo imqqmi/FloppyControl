@@ -943,7 +943,8 @@ namespace FloppyControlApp
         {
             if (SectorData.sectorlength > 1024)
             {
-                TBReceived.Append("Error: T" + (SectorData.track * 2 + SectorData.head).ToString("d3") + 
+                if(debuginfo)
+                    TBReceived.Append("Error: T" + (SectorData.track * 2 + SectorData.head).ToString("d3") + 
                     " S" + SectorData.sector + " size too large: " + SectorData.sectorlength
                     + "\r\n");
 
@@ -1078,7 +1079,7 @@ namespace FloppyControlApp
             int A1MarkerLengthMinusOne = A1markerbytes.Length - 1;
             int mfmlength = mfmlengths[threadid];
             if (Indexrxbuf > RxBbuf.Length) Indexrxbuf = RxBbuf.Length - 1;
-            rxbufcnt = 0;
+            rxbufcnt = ProcSettings.start;
             searchcnt = 0;
             for (int i = 0; i < mfmlength; i++)
             {
@@ -1142,8 +1143,7 @@ namespace FloppyControlApp
             }
             catch (Exception)
             {
-                TBReceived.Append("Error: could not find sectordata: " + markerindex + "\r\n");
-                
+                if(debuginfo) TBReceived.Append("Error: could not find sectordata: " + markerindex + "\r\n");
             }
             
         }

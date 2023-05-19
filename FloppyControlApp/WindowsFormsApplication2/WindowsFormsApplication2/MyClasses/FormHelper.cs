@@ -267,6 +267,15 @@ namespace FloppyControlApp
             processing.ProcSettings.AdaptOffset2 = (float)AdaptOfsset2UpDown.Value;
             processing.ProcSettings.rateofchange2 = (int)RateOfChange2UpDown.Value;
 
+            processing.ProcSettings.start = 0;
+            processing.ProcSettings.end = processing.RxBbuf.Length-1;
+
+            if (LimitToScttrViewcheckBox.Checked == true)
+            {
+                processing.ProcSettings.start = scatterplot.AnScatViewlargeoffset;
+                processing.ProcSettings.end = scatterplot.AnScatViewlargeoffset + scatterplot.AnScatViewlength;
+            }
+
             if (LimitToScttrViewcheckBox.Checked == true && OnlyBadSectorsRadio.Checked == true)
             {
                 processing.ProcSettings.addnoiselimitstart = ScatterMinTrackBar.Value + 50;

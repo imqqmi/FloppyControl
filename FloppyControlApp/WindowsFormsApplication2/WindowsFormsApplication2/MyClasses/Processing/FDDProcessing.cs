@@ -384,7 +384,7 @@ namespace FloppyControlApp
                     //tbreceived.Append("before thread:" + SW.ElapsedMilliseconds + "ms\r\n");
                     // Define and start threads
                     int perThreadLength = (ProcSettings.end - ProcSettings.start) / NumberOfThreads;
-                    int offset = 0;
+                    int offset = ProcSettings.start;
 
                     for (t = 0; t < NumberOfThreads; t++)
                     {

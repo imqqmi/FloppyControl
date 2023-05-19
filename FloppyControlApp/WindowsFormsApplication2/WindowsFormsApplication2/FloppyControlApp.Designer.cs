@@ -4094,11 +4094,6 @@ namespace FloppyControlApp
             this.ScatterMaxUpDown.Name = "ScatterMaxUpDown";
             this.ScatterMaxUpDown.Size = new System.Drawing.Size(58, 20);
             this.ScatterMaxUpDown.TabIndex = 4004;
-            this.ScatterMaxUpDown.Value = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
             // 
             // ScatterMaxTrackBar
             // 
@@ -4111,7 +4106,6 @@ namespace FloppyControlApp
             this.ScatterMaxTrackBar.TabIndex = 103;
             this.ScatterMaxTrackBar.TickFrequency = 10;
             this.ScatterMaxTrackBar.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.ScatterMaxTrackBar.Value = 10000;
             this.ScatterMaxTrackBar.Scroll += new System.EventHandler(this.BadSectorListBox_SelectedIndexChanged);
             // 
             // ScatterMinTrackBar
@@ -6076,21 +6070,21 @@ namespace FloppyControlApp
             // scpFileToolStripMenuItem1
             // 
             this.scpFileToolStripMenuItem1.Name = "scpFileToolStripMenuItem1";
-            this.scpFileToolStripMenuItem1.Size = new System.Drawing.Size(141, 22);
+            this.scpFileToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.scpFileToolStripMenuItem1.Text = "Scp file";
             this.scpFileToolStripMenuItem1.Click += new System.EventHandler(this.SaveSCP_Click);
             // 
             // trimmedBinToolStripMenuItem
             // 
             this.trimmedBinToolStripMenuItem.Name = "trimmedBinToolStripMenuItem";
-            this.trimmedBinToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            this.trimmedBinToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.trimmedBinToolStripMenuItem.Text = "Trimmed bin";
             this.trimmedBinToolStripMenuItem.Click += new System.EventHandler(this.Button49_Click);
             // 
             // badSectorsToolStripMenuItem
             // 
             this.badSectorsToolStripMenuItem.Name = "badSectorsToolStripMenuItem";
-            this.badSectorsToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            this.badSectorsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.badSectorsToolStripMenuItem.Text = "Bad sectors";
             this.badSectorsToolStripMenuItem.Click += new System.EventHandler(this.SaveTrimmedBadbutton_Click);
             // 
