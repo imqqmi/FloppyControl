@@ -454,7 +454,7 @@ namespace FloppyControlApp
             }
             if (MainTabControl.SelectedTab == ProcessingTab)
             {
-                CopyThresholdsToProcessing();
+                CopyThresholdsToQuick();
 
                 groupBox6.Controls.Add(ThresholdsGroupBox);
                 ThresholdsGroupBox.Location = new Point(600, 16);
@@ -466,7 +466,7 @@ namespace FloppyControlApp
             }
             if (MainTabControl.SelectedTab == QuickTab)
             {
-                CopyThresholdsToQuick();
+                CopyThresholdsToProcessing();
 
                 QHistogramhScrollBar1.Minimum = HistogramhScrollBar1.Minimum;
                 QHistogramhScrollBar1.Maximum = HistogramhScrollBar1.Maximum;
@@ -1349,6 +1349,16 @@ namespace FloppyControlApp
         private void AutoRefreshSectorMapCheck_CheckedChanged(object sender, EventArgs e)
         {
             processing.ProcSettings.AutoRefreshSectormap = AutoRefreshSectorMapCheck.Checked;
+        }
+
+        private void AvgPeriodsFromListSelBtn_Click(object sender, EventArgs e)
+        {
+            AvgPeriodsFromListSelection();
+        }
+
+        private void EntropySpliceBtn_Click(object sender, EventArgs e)
+        {
+            EntropySplice();
         }
     } // end class
 } // End namespace

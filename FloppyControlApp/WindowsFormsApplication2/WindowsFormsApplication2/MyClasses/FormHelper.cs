@@ -1305,21 +1305,28 @@ namespace FloppyControlApp
 
         private void CopyThresholdsToQuick()
         {
+            var scanold = scanactive;
+            //Prevent change event loop
+            scanactive = true;
             QMinUpDown.Value = MinvScrollBar.Value;
             QFourSixUpDown.Value = FourvScrollBar.Value;
             QSixEightUpDown.Value = SixvScrollBar.Value;
             QMaxUpDown.Value = EightvScrollBar.Value;
             QOffsetUpDown.Value = OffsetvScrollBar1.Value;
+            scanactive = scanold;
         }
 
         private void CopyThresholdsToProcessing()
         {
+            var scanold = scanactive;
+            //Prevent change event loop
+            scanactive = true;
             MinvScrollBar.Value = (int)QMinUpDown.Value;
             FourvScrollBar.Value = (int)QFourSixUpDown.Value;
             SixvScrollBar.Value = (int)QSixEightUpDown.Value;
             EightvScrollBar.Value = (int)QMaxUpDown.Value;
             OffsetvScrollBar1.Value = (int)QOffsetUpDown.Value;
-
+            scanactive = scanold;
         }
 
         #endregion
@@ -1792,6 +1799,103 @@ namespace FloppyControlApp
             }
         }
 
+        private void EntropySplice()
+        {
+            int IndexS1, IndexSx, listlength, Threadid;
+            var selected = BadSectorListBox.SelectedIndices;
+            listlength = selected.Count;
+
+            if (listlength >= 1)
+            {
+                // Get the first sector from the list
+                IndexS1 = ((Badsectorkeyval)BadSectorListBox.Items[selected[0]]).Id;
+                Threadid = ((Badsectorkeyval)BadSectorListBox.Items[selected[0]]).Threadid;
+                var Sectordata = processing.sectordata2[IndexS1];
+                var Sectorheader = processing.sectordata2[Sectordata.HeaderIndex];
+                var Offset1 = Sectordata.rxbufMarkerPositions;
+                byte ResultingVal;
+                var SectordataEnd = processing.sectordata2[IndexS1 + 1];
+                int Length = SectordataEnd.rxbufMarkerPositions - Offset1;
+                float LowestEntropy, ThisEntropy;
+                if (Length > 10000) Length = 10000;
+                if (processing.entropy == null)
+                {
+                    textBoxReceived.AppendText("No entropy data! Process data first with error correction enabled.");
+                    return;
+                }
+
+                for (int j = 0; j < Length; j++)
+                {
+                    ResultingVal = processing.RxBbuf[j + Offset1];
+                    LowestEntropy = Math.Abs(processing.entropy[j + Offset1]);
+                    for (int i = 1; i < listlength; i++)
+                    {
+                        if (processing.stop == 1)
+                            break;
+                        IndexSx = ((Badsectorkeyval)BadSectorListBox.Items[selected[i]]).Id;
+                        Threadid = ((Badsectorkeyval)BadSectorListBox.Items[selected[i]]).Threadid;
+
+                        var Sectordata2   = processing.sectordata2[IndexSx];
+                        var Sectorheader2 = processing.sectordata2[Sectordata2.HeaderIndex];
+                        
+                        var offset2 = Sectordata2.rxbufMarkerPositions;
+                        
+                        ThisEntropy = Math.Abs(processing.entropy[j + offset2]);
+                        
+                        if (ThisEntropy < (LowestEntropy+10)) ResultingVal = processing.RxBbuf[j + offset2];
+                    }
+                    processing.RxBbuf[j + Offset1] = ResultingVal;
+                }
+            }
+            else
+            {
+                textBoxReceived.AppendText("Error, no data selected.");
+                return;
+            }
+        }
+
+        private void AvgPeriodsFromListSelection()
+        {
+            int IndexS1, listlength, Threadid;
+            var selected = BadSectorListBox.SelectedIndices;
+            listlength = selected.Count;
+
+            if (listlength >= 1)
+            {
+                // Get the first sector from the list
+                IndexS1 = ((Badsectorkeyval)BadSectorListBox.Items[selected[0]]).Id;
+                Threadid = ((Badsectorkeyval)BadSectorListBox.Items[selected[0]]).Threadid;
+                var Sectordata = processing.sectordata2[IndexS1];
+                var Sectorheader = processing.sectordata2[Sectordata.HeaderIndex];
+                var Offset1 = Sectorheader.rxbufMarkerPositions;
+                int ResultingVal;
+                var SectordataEnd = processing.sectordata2[IndexS1+1];
+                int Length = SectordataEnd.rxbufMarkerPositions - Offset1;
+                if (Length > 10000) Length = 10000;
+                for (int j = 0; j < Length; j++)
+                {
+                    ResultingVal = processing.RxBbuf[j + Offset1];
+                    for (int i = 1; i < listlength; i++)
+                    {
+                        if (processing.stop == 1)
+                            break;
+                        IndexS1 = ((Badsectorkeyval)BadSectorListBox.Items[selected[i]]).Id;
+                        Threadid = ((Badsectorkeyval)BadSectorListBox.Items[selected[i]]).Threadid;
+                        var sectordata2 = processing.sectordata2[IndexS1];
+                        var sectorheader2 = processing.sectordata2[Sectordata.HeaderIndex];
+                        var offset2 = sectorheader2.rxbufMarkerPositions;
+                        ResultingVal += processing.RxBbuf[j+offset2];
+                    }
+                    processing.RxBbuf[j + Offset1] = (byte)(ResultingVal/(listlength/1.2f));
+                }
+            }
+            else
+            {
+                textBoxReceived.AppendText("Error, no data selected.");
+                return;
+            }
+        }
+
         private void ErrorCorrectRealign4E()
         {
             int indexS1, listlength, threadid;
@@ -2205,6 +2309,7 @@ namespace FloppyControlApp
         public void SectorMapRightclickMenuHandler(ToolStripItemClickedEventArgs e)
         {
             SectorMapContextMenu menudata = (SectorMapContextMenu)e.ClickedItem.Tag;
+            // recapture 1 sec
             if (menudata.Cmd == 0)
             {
                 tbreceived.Append("Track: " + menudata.Track.ToString("D3") + " S" + menudata.Sector + "\r\n");
@@ -2213,6 +2318,7 @@ namespace FloppyControlApp
                 EndTracksUpDown.Value = QEndTracksUpDown.Value = menudata.Track;
                 TrackDurationUpDown.Value = QTrackDurationUpDown.Value = menudata.Duration;
             }
+            // recapture 5 sec
             else if (menudata.Cmd == 1)
             {
                 MainTabControl.SelectedTab = ErrorCorrectionTab;
@@ -2221,12 +2327,14 @@ namespace FloppyControlApp
                 Track2UpDown.Value = menudata.Track;
                 Sector2UpDown.Value = menudata.Sector;
             }
+            // recapture 50 sec
             else if (menudata.Cmd == 2)
             {
                 MainTabControl.SelectedTab = NetworkTab;
                 NetworkCaptureTrackStartUpDown.Value = menudata.Track;
                 NetworkCaptureTrackEndUpDown.Value = menudata.Track;
             }
+            // Set track/sector error correction
             else if (menudata.Cmd == 3)
             {
                 int i;
@@ -2242,6 +2350,7 @@ namespace FloppyControlApp
                     }
                 }
             }
+            // Limit processing track/sector
             else if (menudata.Cmd == 4)
             {
                 QLimitTSCheckBox.Checked = true;
@@ -2251,7 +2360,6 @@ namespace FloppyControlApp
                 LimitTSCheckBox.Checked = true;
                 LimitToTrackUpDown.Value = menudata.Track;
                 LimitToSectorUpDown.Value = menudata.Sector;
-
             }
         }
 
@@ -2402,6 +2510,12 @@ namespace FloppyControlApp
                     scatterplot.ShowEntropy = false;
                     break;
                 case ProcessingType.adaptive1:
+                    scatterplot.ShowEntropy = true;
+                    RateOfChangeUpDown.Value = (decimal)1.1;
+                    RateOfChange2UpDown.Value = 1300;
+
+                    FindPeaks();
+                    break;
                 case ProcessingType.adaptive2:
                 case ProcessingType.adaptive3:
                     RateOfChangeUpDown.Value = (decimal)1.1;

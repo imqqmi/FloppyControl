@@ -533,7 +533,7 @@ namespace FloppyControlApp
                 Mfmlengths = mfmlengths,
                 RateOfChange = RateOfChange,
                 Progresses = progresses,
-
+                entropy = entropy,
                 Procsettings = procsettings,
 
                 Tbreceived = TBReceived,
@@ -554,7 +554,9 @@ namespace FloppyControlApp
             if (processingtype == ProcessingType.adaptive1) //************ Adaptive ****************
             {
                 var Processingtypes = new ProcessingTypes();
-                m = Processingtypes.ProcTypeAdaptive(ProctypeArgs, threadid, ref stop);
+                AdaptiveEntropyResult result = Processingtypes.ProcTypeAdaptive(ProctypeArgs, threadid, ref stop);
+                m = result.M;
+                entropy = result.Entropy;
             }
             else
             if (processingtype == ProcessingType.adaptiveEntropy) //************ Adaptive Entropy ****************

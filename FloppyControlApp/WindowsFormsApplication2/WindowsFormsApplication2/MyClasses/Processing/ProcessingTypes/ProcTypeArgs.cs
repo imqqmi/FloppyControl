@@ -13,6 +13,7 @@ namespace FloppyControlApp.MyClasses.Processing.ProcessingTypes
         public int SIXUS { get; set; }
         public int EIGHTUS { get; set; }
         public byte[] Rxbuf { get; set; }
+        public float[] entropy { get; set; }
         public int[] Mfmlengths { get; set; }
         public int[] Progresses { get; set; }
         public float RateOfChange { get; set; }

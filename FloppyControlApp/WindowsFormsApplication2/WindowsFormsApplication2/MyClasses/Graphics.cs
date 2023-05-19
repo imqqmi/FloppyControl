@@ -2169,6 +2169,7 @@ namespace FloppyControlApp
                 factor = (float)width / (float)datapoints;
                 //if (indexrxbuf > rxbuf.Length) indexrxbuf = rxbuf.Length - 1;
                 if (datapoints > Rxbuf.Length) datapoints = Rxbuf.Length - 1;
+                if (Processing.entropy == null) Tbreiceved.Append("entropy = null!");
                 if (start > -1 && Processing.entropy != null && ShowEntropy)
                 {
                     for (i = 0; i < datapoints; i++)
@@ -2189,20 +2190,23 @@ namespace FloppyControlApp
                         {
                             lockBitmap.FilledSquare((int)posx, ((value << Processing.ProcSettings.hd)) & 0xff, bigpixels, bigpixels, Color.FromArgb(255, 0, (255 - Gradient1[value]), Gradient1[value]));
                             lockBitmap.FilledSquare((int)posx, (int)Processing.entropy[i + start] + 192, bigpixels, bigpixels, Color.FromArgb(255, 0, 0, 0));
-                            lockBitmap.FilledSquare((int)posx, (int)Processing.threshold4[i + start], bigpixels, bigpixels, Color.FromArgb(255, 255, 0, 0));
+                            if (Processing.threshold4 != null)
+                                lockBitmap.FilledSquare((int)posx, (int)Processing.threshold4[i + start], bigpixels, bigpixels, Color.FromArgb(255, 255, 0, 0));
+                            if (Processing.threshold6 != null)
                             lockBitmap.FilledSquare((int)posx, (int)Processing.threshold6[i + start], bigpixels, bigpixels, Color.FromArgb(255, 0, 255, 0));
-                            lockBitmap.FilledSquare((int)posx, (int)Processing.threshold8[i + start], bigpixels, bigpixels, Color.FromArgb(255, 0, 0, 255));
+                            if (Processing.threshold8 != null)
+                                lockBitmap.FilledSquare((int)posx, (int)Processing.threshold8[i + start], bigpixels, bigpixels, Color.FromArgb(255, 0, 0, 255));
                         }
                         else
                         {
                             lockBitmap.SetPixel((int)posx, ((value << Processing.ProcSettings.hd)) & 0xff, Color.FromArgb(255, 0, (255 - Gradient1[value]), Gradient1[value]));
                             if( i+start < Processing.entropy.Length)
                                 lockBitmap.SetPixel((int)posx, (int)Processing.entropy[i + start] + 192, Color.FromArgb(255, 0, 0, 0));
-                            if (i + start < Processing.threshold4.Length)
+                            if (Processing.threshold4 != null && (i + start < Processing.threshold4.Length) )
                                 lockBitmap.SetPixel((int)posx, (int)Processing.threshold4[i + start], Color.FromArgb(255, 255,0, 0));
-                            if (i + start < Processing.threshold6.Length)
+                            if (Processing.threshold6 != null && (i + start < Processing.threshold6.Length) )
                                 lockBitmap.SetPixel((int)posx, (int)Processing.threshold6[i + start], Color.FromArgb(255, 0, 255, 0));
-                            if (i + start < Processing.threshold8.Length)
+                            if (Processing.threshold8 != null && (i + start < Processing.threshold8.Length) )
                                 lockBitmap.SetPixel((int)posx, (int)Processing.threshold8[i + start], Color.FromArgb(255, 0, 0, 255));
                             
                         }

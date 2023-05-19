@@ -297,6 +297,7 @@ namespace FloppyControlApp
             this.ProcessBtn = new System.Windows.Forms.Button();
             this.ProcessPCBtn = new System.Windows.Forms.Button();
             this.ErrorCorrectionTab = new System.Windows.Forms.TabPage();
+            this.AvgPeriodsFromListSelBtn = new System.Windows.Forms.Button();
             this.CombinationsUpDown = new System.Windows.Forms.NumericUpDown();
             this.label79 = new System.Windows.Forms.Label();
             this.button44 = new System.Windows.Forms.Button();
@@ -503,6 +504,7 @@ namespace FloppyControlApp
             this.StopButton = new System.Windows.Forms.Button();
             this.ExploreHereBtn = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.EntropySpliceBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.ScatterPlottabPage.SuspendLayout();
@@ -3674,6 +3676,8 @@ namespace FloppyControlApp
             // ErrorCorrectionTab
             // 
             this.ErrorCorrectionTab.BackColor = System.Drawing.SystemColors.Control;
+            this.ErrorCorrectionTab.Controls.Add(this.EntropySpliceBtn);
+            this.ErrorCorrectionTab.Controls.Add(this.AvgPeriodsFromListSelBtn);
             this.ErrorCorrectionTab.Controls.Add(this.CombinationsUpDown);
             this.ErrorCorrectionTab.Controls.Add(this.label79);
             this.ErrorCorrectionTab.Controls.Add(this.button44);
@@ -3730,6 +3734,16 @@ namespace FloppyControlApp
             this.ErrorCorrectionTab.Size = new System.Drawing.Size(966, 775);
             this.ErrorCorrectionTab.TabIndex = 2;
             this.ErrorCorrectionTab.Text = "Error Correction";
+            // 
+            // AvgPeriodsFromListSelBtn
+            // 
+            this.AvgPeriodsFromListSelBtn.Location = new System.Drawing.Point(707, 450);
+            this.AvgPeriodsFromListSelBtn.Name = "AvgPeriodsFromListSelBtn";
+            this.AvgPeriodsFromListSelBtn.Size = new System.Drawing.Size(78, 39);
+            this.AvgPeriodsFromListSelBtn.TabIndex = 4028;
+            this.AvgPeriodsFromListSelBtn.Text = "Avg periods from list sel";
+            this.AvgPeriodsFromListSelBtn.UseVisualStyleBackColor = true;
+            this.AvgPeriodsFromListSelBtn.Click += new System.EventHandler(this.AvgPeriodsFromListSelBtn_Click);
             // 
             // CombinationsUpDown
             // 
@@ -6201,6 +6215,16 @@ namespace FloppyControlApp
             // 
             this.toolTip1.Active = global::FloppyControlApp.Properties.Settings.Default.TooltipDisable;
             // 
+            // EntropySpliceBtn
+            // 
+            this.EntropySpliceBtn.Location = new System.Drawing.Point(623, 450);
+            this.EntropySpliceBtn.Name = "EntropySpliceBtn";
+            this.EntropySpliceBtn.Size = new System.Drawing.Size(78, 39);
+            this.EntropySpliceBtn.TabIndex = 4029;
+            this.EntropySpliceBtn.Text = "Entropy Splice";
+            this.EntropySpliceBtn.UseVisualStyleBackColor = true;
+            this.EntropySpliceBtn.Click += new System.EventHandler(this.EntropySpliceBtn_Click);
+            // 
             // FloppyControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -6847,6 +6871,8 @@ namespace FloppyControlApp
         private System.Windows.Forms.Button ExploreHereBtn;
         private ToolStripSeparator toolStripSeparator5;
         private ToolStripMenuItem closeToolStripMenuItem;
+        private Button AvgPeriodsFromListSelBtn;
+        private Button EntropySpliceBtn;
     }
 }
 

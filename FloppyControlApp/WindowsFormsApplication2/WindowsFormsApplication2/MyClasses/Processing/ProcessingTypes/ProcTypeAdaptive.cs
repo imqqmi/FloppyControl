@@ -8,7 +8,7 @@ namespace FloppyControlApp.MyClasses.Processing.ProcessingTypes
 {
     public partial class ProcessingTypes
     {
-        public byte[] ProcTypeAdaptive(ProcTypeArgs ProctypeArgs, int ThreadId, ref int Stop)
+        public AdaptiveEntropyResult ProcTypeAdaptive(ProcTypeArgs ProctypeArgs, int ThreadId, ref int Stop)
         {
             int i;
             int value;
@@ -28,7 +28,7 @@ namespace FloppyControlApp.MyClasses.Processing.ProcessingTypes
             var Procsettings = ProctypeArgs.Procsettings;
             var Progresses = ProctypeArgs.Progresses;
             RateOfChange = ProctypeArgs.RateOfChange;
-
+            var entropy = ProctypeArgs.entropy;
             start = Procsettings.start;
             end = Procsettings.end;
             ProcessingType processingtype = Procsettings.processingtype;
@@ -100,6 +100,7 @@ namespace FloppyControlApp.MyClasses.Processing.ProcessingTypes
             int lowpassradius = (int)Procsettings.rateofchange2;
             try
             {
+                entropy = new float[rxbuf.Length];
                 lowpass4 = new float[lowpassradius];
                 lowpass6 = new float[lowpassradius];
                 lowpass8 = new float[lowpassradius];
@@ -136,8 +137,8 @@ namespace FloppyControlApp.MyClasses.Processing.ProcessingTypes
                 value = (rxbuf[i] << Procsettings.hd) + rand; // If it's a HD (user selectable option), multiply data by 2
 
                 val2 = value;
-                value -= (int)(averagetime / RateOfChange);// + procsettings.AdaptOffset;
-                                                           //if (procsettings.UseErrorCorrection == false)
+                value -= (int)(averagetime / RateOfChange);
+                // Skip index signals, fixed at 4, as counting mfm 1s to sync with period data is also threshold at 4, see FindAllPCMarkers()
                 if (val2 < 4) continue;
 
                 //rxbuf[i] = (byte)value;
@@ -198,6 +199,7 @@ namespace FloppyControlApp.MyClasses.Processing.ProcessingTypes
 
                     averagetime = _8us;
                 }
+                entropy[i] = averagetime;
             }
             //entropy = null;
             //threshold4 = null;
@@ -208,7 +210,11 @@ namespace FloppyControlApp.MyClasses.Processing.ProcessingTypes
             lowpass8 = null;
             GC.Collect();
 
-            return m;
+            return new AdaptiveEntropyResult
+            {
+                M = m,
+                Entropy = entropy
+            };
         }
     }
 }

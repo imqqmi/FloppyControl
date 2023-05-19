@@ -66,7 +66,7 @@ namespace FloppyControlApp
             for (markerindex = sectordata2oldcnt; markerindex < sectordata2.Count; markerindex++)
             {
                 MFMData SectorHeader = sectordata2[markerindex];
-
+                SectorHeader.HeaderIndex = markerindex;
                 // Skip already processed sectors and check threadid, only process current thread
                 // Was the marker placed by the correct thread? If not, continue to next marker
                 if (SectorHeader.processed == true || SectorHeader.threadid != threadid) continue;
@@ -107,8 +107,11 @@ namespace FloppyControlApp
 
                 // markerindex will be updated if found, hence the ref.
                 FindNextMarker(ref markerindex, threadid, out MFMData SectorData);
+                
                 if ( SectorData == null) continue;
-
+                SectorData.DataIndex = markerindex;
+                SectorData.HeaderIndex = prevmarkerindex;
+                if (SectorData.rxbufMarkerPositions - SectorHeader.rxbufMarkerPositions > 1000) continue;
                 if (debuginfo) TBReceived.Append("\r\nT" + SectorHeader.trackhead + " S" + SectorHeader.sector + " Sector data:\r\n\r\n\r\n");
                 SectorBlock = MFM2Bytes(SectorData.MarkerPositions, SectorHeader.sectorlength + 16, threadid);
                 
@@ -150,8 +153,8 @@ namespace FloppyControlApp
                 SetSectorsPerTrackByDiskFormat();
 
                 //If this sector was already captured ok, don't overwrite it with data!
-                if (SectorMap.sectorok[SectorHeader.trackhead, SectorHeader.sector] == SectorMapStatus.CrcOk)
-                    continue;
+                //if (SectorMap.sectorok[SectorHeader.trackhead, SectorHeader.sector] == SectorMapStatus.CrcOk)
+                //    continue;
                 // If sector length is invalid, skip to next marker
                 if (sectorbuf.Length <= 500) continue;
                 if (SectorHeader.Status != SectorMapStatus.CrcOk) continue;
@@ -163,7 +166,8 @@ namespace FloppyControlApp
                     && SectorHeader.head < 3 
                     && SectorHeader.track >= 0 
                     && SectorHeader.track < 82 
-                    && SectorMap.sectorok[SectorHeader.trackhead, SectorHeader.sector] != SectorMapStatus.CrcOk)
+                    //&& SectorMap.sectorok[SectorHeader.trackhead, SectorHeader.sector] != SectorMapStatus.CrcOk
+                    )
                 {
                     DetectDiskFormat(SectorHeader, sectorbuf);
                     HandleErrorCorrection( ref SectorHeader, ref SectorData,   in sectorbuf,
@@ -1280,7 +1284,7 @@ namespace FloppyControlApp
             datacrc = (ushort)((SectorBlock[SectorHeader.sectorlength + 4] << 8) | SectorBlock[SectorHeader.sectorlength + 5]);
             Crc16Ccitt crc = new Crc16Ccitt(InitialCrcValue.NonZero1);
             datacrcchk = crc.ComputeChecksum(SectorBlock.SubArray(0, SectorHeader.sectorlength + 6));
-            if (datacrcchk != 0)
+            if (datacrcchk != 0 && SectorBlock.Length >= 512+6)
             {
                 datacrcchk = crc.ComputeChecksum(SectorBlock.SubArray(0, 512 + 6));
                 SectorData.Status = SectorMapStatus.CrcBad;

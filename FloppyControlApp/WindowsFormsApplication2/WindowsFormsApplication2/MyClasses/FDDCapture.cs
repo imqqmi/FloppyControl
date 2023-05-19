@@ -32,6 +32,7 @@ namespace FloppyControlApp
         public int head { get; set; }
         public int sectorlength { get; set; }
         public int DataIndex { get; set; }
+        public int HeaderIndex { get; set; }
         public byte[] sectorbytes { get; set; }
         public MarkerType MarkerType { get; set; }
         public bool processed { get; set; }
