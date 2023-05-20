@@ -404,11 +404,11 @@ namespace FloppyControlApp
                 // Now we've got the sector sans corrupted data
 
                 // Find the incoming period
-                for (i = 1; i < 4; i++)
+                /*for (i = 1; i < 4; i++)
                 {
                     if (mfmbuf[mfmAlignedStart - i] == 1)
                         break;
-                }
+                }*/
 
                 // Add the newly created aligned bad sector to the bad sector list
                 // First clone all the data

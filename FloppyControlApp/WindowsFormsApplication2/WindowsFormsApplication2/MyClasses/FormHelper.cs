@@ -1241,8 +1241,19 @@ namespace FloppyControlApp
             //ScatterMaxTrackBar.Value = offset + 14;
             //updateECInterface();
 
-            int scatoffset = processing.sectordata2[id].rxbufMarkerPositions + (int)ScatterMinTrackBar.Value + (int)ScatterOffsetTrackBar.Value;
-            int scatlength = processing.sectordata2[id].rxbufMarkerPositions + (int)ScatterMaxTrackBar.Value + (int)ScatterOffsetTrackBar.Value - scatoffset;
+            int SectorViewEnd = 0;
+            var SectorHeaderOffset = 5000;
+            if (processing.sectordata2.Count > id + 1)
+            {
+                SectorHeaderOffset = processing.sectordata2[processing.sectordata2[id].HeaderIndex].rxbufMarkerPositions;
+                if (processing.sectordata2.Count > id + 1) SectorViewEnd = processing.sectordata2[id + 1].rxbufMarkerPositions;
+            }
+            if (SectorViewEnd - SectorHeaderOffset > 10000) SectorViewEnd = SectorHeaderOffset + 10000;
+            int scatoffset = SectorHeaderOffset + (int)ScatterMinTrackBar.Value + (int)ScatterOffsetTrackBar.Value;
+            int scatlength = SectorViewEnd + (int)ScatterMaxTrackBar.Value + (int)ScatterOffsetTrackBar.Value - scatoffset;
+
+            /*int scatoffset = processing.sectordata2[id].rxbufMarkerPositions + (int)ScatterMinTrackBar.Value + (int)ScatterOffsetTrackBar.Value;
+            int scatlength = processing.sectordata2[id].rxbufMarkerPositions + (int)ScatterMaxTrackBar.Value + (int)ScatterOffsetTrackBar.Value - scatoffset;*/
             int graphoffset = scatoffset + (scatlength / 2);
             scatterplot.AnScatViewlargeoffset = scatoffset;
             scatterplot.AnScatViewoffset = 0;
@@ -1777,15 +1788,19 @@ namespace FloppyControlApp
             else return;
 
             antbSectorData.Clear();
-            antbSectorData.Text = (processing.BytesToHexa(processing.sectordata2[indexS1].sectorbytes, 0, processing.sectordata2[indexS1].sectorbytes.Length));
+            if (processing.sectordata2[indexS1].sectorbytes != null)
+                antbSectorData.Text = (processing.BytesToHexa(processing.sectordata2[indexS1].sectorbytes, 0, processing.sectordata2[indexS1].sectorbytes.Length));
+            else antbSectorData.Text = "";
 
             int mfmoffset = processing.sectordata2[indexS1].MarkerPositions;
             int length = (processing.sectordata2[indexS1].sectorlength + 1000) * 16;
             //threadid = sectordata[threadid][indexS1].threadid;
             StringBuilder mfmtxt = new StringBuilder();
+            var mfmLength = processing.mfms[threadid].Length;
             for (i = 0; i < length; i++)
             {
-                mfmtxt.Append((char)(processing.mfms[threadid][i + mfmoffset] + 48));
+                if(mfmLength > i + mfmoffset)
+                    mfmtxt.Append((char)(processing.mfms[threadid][i + mfmoffset] + 48));
             }
             ECtbMFM.Text = mfmtxt.ToString();
         }

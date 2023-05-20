@@ -751,7 +751,11 @@ namespace FloppyControlApp
         {
             byte hex = 0;
             int i;
-
+            if (offset < 0)
+            {
+                TBReceived.Append("MFMBits2BINbyte: Offset can't be negative!");
+                return 0;
+            }
             offset++;
             if (mfmbits.Length > offset + 16)
                 for (i = 0; i < 16; i += 2)
