@@ -63,7 +63,7 @@ namespace FloppyControl.Test.net7
 			processing.ProcSettings.AutoRefreshSectormap = false;
 			processing.ProcSettings.start = 0;
 			processing.ProcSettings.end = processing.RxBbuf.Length - 1;
-			processing.ProcSettings.finddupes = true;
+			processing.ProcSettings.finddupes = false;
 
 			//processing.procsettings.platform = platform; // 1 = Amiga
 			processing.ProcSettings.UseErrorCorrection = true;
@@ -78,10 +78,10 @@ namespace FloppyControl.Test.net7
 
 			processing.ProcSettings.rateofchange = 1.0f; // Adapt rate
 			processing.ProcSettings.AdaptOffset2 = 1.0f; // Adapt rate 2 (not labelled in gui)
-			processing.ProcSettings.rateofchange2 = 128; // Adapt track
+			processing.ProcSettings.rateofchange2 = 1300; // Adapt track
 
 			processing.ProcSettings.addnoiselimitstart = 0;
-			processing.ProcSettings.addnoiselimitend = processing.Indexrxbuf;
+			processing.ProcSettings.addnoiselimitend =0;
 
 			processing.ProcSettings.addnoiserndamount = 12;
 
@@ -145,14 +145,14 @@ namespace FloppyControl.Test.net7
 
             processing.ProcSettings.offset = 0;
             processing.ProcSettings.min = 0;
-            processing.ProcSettings.four = 73;
-            processing.ProcSettings.six = 109;
-            processing.ProcSettings.max = 147;
+            processing.ProcSettings.four = 69;
+            processing.ProcSettings.six = 106;
+            processing.ProcSettings.max = 146;
             processing.ProcSettings.SkipPeriodData = false;
             processing.ProcSettings.AutoRefreshSectormap = false;
             processing.ProcSettings.start = 0;
             processing.ProcSettings.end = processing.RxBbuf.Length - 1;
-            processing.ProcSettings.finddupes = true;
+            processing.ProcSettings.finddupes = false;
 
             //processing.procsettings.platform = platform; // 1 = Amiga
             processing.ProcSettings.UseErrorCorrection = true;
@@ -167,10 +167,10 @@ namespace FloppyControl.Test.net7
 
             processing.ProcSettings.rateofchange = 1.0f; // Adapt rate
             processing.ProcSettings.AdaptOffset2 = 1.0f; // Adapt rate 2 (not labelled in gui)
-            processing.ProcSettings.rateofchange2 = 128; // Adapt track
+            processing.ProcSettings.rateofchange2 = 1300; // Adapt track
 
             processing.ProcSettings.addnoiselimitstart = 0;
-            processing.ProcSettings.addnoiselimitend = processing.Indexrxbuf;
+            processing.ProcSettings.addnoiselimitend = 0;
 
             processing.ProcSettings.addnoiserndamount = 12;
 
