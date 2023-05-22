@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace FloppyControlApp.MyClasses
 {
     [Serializable]
-    public class ProcSettings : ICloneable
+    public class ProcSettings
     {
         private int poffset, pmin, pfour, psix, pmax, pstart, pend, ppattern;
 
@@ -54,15 +54,6 @@ namespace FloppyControlApp.MyClasses
         public ProcSettings()
         {
         }
-        public object Clone()
-        {
-            MemoryStream ms = new MemoryStream();
-            BinaryFormatter bf = new BinaryFormatter();
-            bf.Serialize(ms, this);
-            ms.Position = 0;
-            object obj = bf.Deserialize(ms);
-            ms.Close();
-            return obj;
-        }
+
     }
 }

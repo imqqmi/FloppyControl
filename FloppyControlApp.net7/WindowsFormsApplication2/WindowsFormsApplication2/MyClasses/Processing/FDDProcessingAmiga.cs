@@ -359,7 +359,7 @@ namespace FloppyControlApp
             //uint totaltime = 0;
             //uint reltime = 0;
             bool debuginfo = false;
-            SHA256 mySHA256 = SHA256Managed.Create();
+            SHA256 mySHA256 = SHA256.Create();
             int sectordata2oldcnt = sectordata2.Count;
 #region Find markers
             GetAllMFMMarkerPositionsDiskspare(threadid);

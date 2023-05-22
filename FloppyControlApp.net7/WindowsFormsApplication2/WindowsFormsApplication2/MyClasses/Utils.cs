@@ -5,7 +5,7 @@ using System.Security.Cryptography;
 
 namespace FloppyControlApp
 {
-    public static class subarrayhelper
+    public static class SubArrayHelper
     {
         public static T[] SubArray<T>(this T[] data, int index, int length)
         {

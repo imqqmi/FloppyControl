@@ -22,6 +22,8 @@
     <UseWindowsForms>true</UseWindowsForms>
     <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
     <PlatformTarget>x64</PlatformTarget>
+    <Configurations>Debug;Release2</Configurations>
+    <Platforms>x64</Platforms>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>FloppyControlLogo128.ico</ApplicationIcon>
@@ -37,6 +39,9 @@
   <PropertyGroup>
     <StartupObject>FloppyControlApp.Program</StartupObject>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release2|x64'">
+    <Optimize>True</Optimize>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="NationalInstruments.Common">
       <HintPath>..\..\NI\NationalInstruments.Common.dll</HintPath>
@@ -44,12 +49,6 @@
     <Reference Include="NationalInstruments.VisaNS">
       <HintPath>..\..\NI\NationalInstruments.VisaNS.dll</HintPath>
     </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig">
@@ -74,7 +73,6 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
     <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.4.421302">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>

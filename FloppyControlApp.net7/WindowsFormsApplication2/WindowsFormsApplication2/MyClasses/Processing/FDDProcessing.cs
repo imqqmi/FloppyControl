@@ -394,7 +394,7 @@ namespace FloppyControlApp
 
                         ProcSettings ps = new ProcSettings();
 
-                        ps = (ProcSettings)ProcSettings.Clone();
+                        ps = (ProcSettings)ProcSettings;
 
                         ps.start = offset;
                         ps.end = offset + perThreadLength;

@@ -1183,7 +1183,7 @@ namespace FloppyControlApp
             if (procsettings.UseErrorCorrection)
             {
                 //Create hash
-                SHA256 mySHA256 = SHA256Managed.Create();
+                SHA256 mySHA256 = SHA256.Create();
                 sectorbuf[SectorHeader.sectorlength] = (byte)SectorHeader.trackhead;
                 sectorbuf[SectorHeader.sectorlength + 1] = (byte)SectorHeader.sector;
                 byte[] secthash = mySHA256.ComputeHash(sectorbuf);

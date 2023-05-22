@@ -193,60 +193,57 @@ namespace FloppyControlApp
                 if (Dataoffset >= Data.Length)
                     return;
 
-                using (System.Drawing.Graphics formGraphics = panel.CreateGraphics())
-                {
-                    if (Changed)
-                    {
+				using System.Drawing.Graphics formGraphics = panel.CreateGraphics();
+				if (Changed)
+				{
 
-                        if (BmpBuf != null)
-                            BmpBuf.Dispose();
-                        BmpBuf = new System.Drawing.Bitmap(Width, Height, PixelFormat.Format32bppPArgb);
-                        {
+					BmpBuf?.Dispose();
+					BmpBuf = new System.Drawing.Bitmap(Width, Height, PixelFormat.Format32bppPArgb);
+					{
 
-                            LockBitmap lockBitmap = new LockBitmap(BmpBuf);
-                            lockBitmap.LockBits();
-                            if (clear) lockBitmap.FillBitmap(FillColor);
+						LockBitmap lockBitmap = new(BmpBuf);
+						lockBitmap.LockBits();
+						if (clear) lockBitmap.FillBitmap(FillColor);
 
-                            step = (float)Width / (float)(Datalength - 1);
-                            //if (step >= width) step = 1;
-                            datastep = (Datalength - 1.0f) / (float)Width;
-                            //if (datastep >= width && datastep < width * 4) datastep /= 4;
-                            //if (datastep < width) datastep = 1;
+						step = (float)Width / (float)(Datalength - 1);
+						//if (step >= width) step = 1;
+						datastep = (Datalength - 1.0f) / (float)Width;
+						//if (datastep >= width && datastep < width * 4) datastep /= 4;
+						//if (datastep < width) datastep = 1;
 
-                            /*
-                            tbreceived.Append("datastep:" + datastep + " step: " + step + " datalength: " + datalength +
-                                "number of steps in for():" + datalength / datastep + " width:" + width + "\r\n");
-                            tbreceived.Append("Start:" + (dataoffset + datastep).ToString() + " stop:" + (dataoffset + datalength).ToString() + "\r\n");
-                            */
-                            x1 = 0;
-                            y1 = (int)(Data[Dataoffset] * YScale - (128 * YScale));
+						/*
+						tbreceived.Append("datastep:" + datastep + " step: " + step + " datalength: " + datalength +
+							"number of steps in for():" + datalength / datastep + " width:" + width + "\r\n");
+						tbreceived.Append("Start:" + (dataoffset + datastep).ToString() + " stop:" + (dataoffset + datalength).ToString() + "\r\n");
+						*/
+						x1 = 0;
+						y1 = (int)(Data[Dataoffset] * YScale - (128 * YScale));
 
-                            yoffset2 = YOffset + (Height / 2);
-                            int xpos = 1;
-                            if (Datalength + Dataoffset < Data.Length)
-                                for (i = Dataoffset + datastep; i < Dataoffset + Datalength; i += datastep)
-                                {
-                                    x2 = xpos;
-                                    y2 = (int)(Data[(int)i] * YScale - (128 * YScale));
+						yoffset2 = YOffset + (Height / 2);
+						int xpos = 1;
+						if (Datalength + Dataoffset < Data.Length)
+							for (i = Dataoffset + datastep; i < Dataoffset + Datalength; i += datastep)
+							{
+								x2 = xpos;
+								y2 = (int)(Data[(int)i] * YScale - (128 * YScale));
 
-                                    lockBitmap.Line(x1, Height - (y1 + yoffset2), x2, Height - (y2 + yoffset2), Graphcolor);
-                                    xpos++;
-                                    x1 = x2;
-                                    y1 = y2;
-                                }
+								lockBitmap.Line(x1, Height - (y1 + yoffset2), x2, Height - (y2 + yoffset2), Graphcolor);
+								xpos++;
+								x1 = x2;
+								y1 = y2;
+							}
 
-                            lockBitmap.UnlockBits();
-                            formGraphics.DrawImage(BmpBuf, BmpXOffset, 0);
-                        }
-                        Changed = false;
-                    }
-                    else
-                    {
-                        formGraphics.DrawImage(BmpBuf, BmpXOffset, 0);
+						lockBitmap.UnlockBits();
+						formGraphics.DrawImage(BmpBuf, BmpXOffset, 0);
+					}
+					Changed = false;
+				}
+				else
+				{
+					formGraphics.DrawImage(BmpBuf, BmpXOffset, 0);
 
-                    }
-                }
-            }
+				}
+			}
         }
 
         public void DoGraph2(bool clear)
@@ -270,84 +267,81 @@ namespace FloppyControlApp
                     return;
                 }
 
-                using (System.Drawing.Graphics formGraphics = panel.CreateGraphics())
-                {
-                    if (Changed)
-                    {
-                        if (BmpBuf != null)
-                            BmpBuf.Dispose();
-                        BmpBuf = new System.Drawing.Bitmap(Width, Height);
-                        {
-                            maxvalue = 1;
-                            g = new long[Width + 1, Height + 1];
+				using System.Drawing.Graphics formGraphics = panel.CreateGraphics();
+				if (Changed)
+				{
+					BmpBuf?.Dispose();
+					BmpBuf = new System.Drawing.Bitmap(Width, Height);
+					{
+						maxvalue = 1;
+						g = new long[Width + 1, Height + 1];
 
-                            LockBitmap lockBitmap = new LockBitmap(BmpBuf);
-                            lockBitmap.LockBits();
-                            if (clear) lockBitmap.FillBitmap(FillColor);
+						LockBitmap lockBitmap = new(BmpBuf);
+						lockBitmap.LockBits();
+						if (clear) lockBitmap.FillBitmap(FillColor);
 
-                            step = ((double)Width / (double)(Datalength - 1)) * Density;
-                            //if (step >= width) step = 1;
-                            datastep = (Datalength - 1.0f) / (float)Width;
-                            //if (datastep >= width && datastep < width * 4) datastep /= 4;
-                            //if (datastep < width) datastep = 1;
+						step = ((double)Width / (double)(Datalength - 1)) * Density;
+						//if (step >= width) step = 1;
+						datastep = (Datalength - 1.0f) / (float)Width;
+						//if (datastep >= width && datastep < width * 4) datastep /= 4;
+						//if (datastep < width) datastep = 1;
 
-                            /*
-                            tbreceived.Append("datastep:" + datastep + " step: " + step + " datalength: " + datalength +
-                                "number of steps in for():" + datalength / datastep + " width:" + width + "\r\n");
-                            tbreceived.Append("Start:" + (dataoffset + datastep).ToString() + " stop:" + (dataoffset + datalength).ToString() + "\r\n");
-                            */
-                            x1 = 0;
-                            y1 = (int)(Data[Dataoffset] * YScale - (128 * YScale));
+						/*
+						tbreceived.Append("datastep:" + datastep + " step: " + step + " datalength: " + datalength +
+							"number of steps in for():" + datalength / datastep + " width:" + width + "\r\n");
+						tbreceived.Append("Start:" + (dataoffset + datastep).ToString() + " stop:" + (dataoffset + datalength).ToString() + "\r\n");
+						*/
+						x1 = 0;
+						y1 = (int)(Data[Dataoffset] * YScale - (128 * YScale));
 
-                            yoffset2 = YOffset + (Height / 2);
-                            double xpos = 1;
-                            if (Datalength + Dataoffset < Data.Length)
-                                for (i = Dataoffset + datastep; i < Dataoffset + Datalength; i += Density)
-                                {
-                                    x2 = (int)xpos;
-                                    y2 = (int)(Data[(int)i] * YScale - (128 * YScale));
+						yoffset2 = YOffset + (Height / 2);
+						double xpos = 1;
+						if (Datalength + Dataoffset < Data.Length)
+							for (i = Dataoffset + datastep; i < Dataoffset + Datalength; i += Density)
+							{
+								x2 = (int)xpos;
+								y2 = (int)(Data[(int)i] * YScale - (128 * YScale));
 
-                                    Line(x1, Height - (y1 + yoffset2), x2, Height - (y2 + yoffset2), 255);
-                                    xpos += step;
-                                    x1 = x2;
-                                    y1 = y2;
-                                }
-                            byte val;
-                            for (x = 0; x < Width; x++)
-                                for (y = 0; y < Height; y++)
-                                {
-                                    if (maxvalue < 512) maxvalue = 255;
+								Line(x1, Height - (y1 + yoffset2), x2, Height - (y2 + yoffset2), 255);
+								xpos += step;
+								x1 = x2;
+								y1 = y2;
+							}
+						byte val;
+						for (x = 0; x < Width; x++)
+							for (y = 0; y < Height; y++)
+							{
+								if (maxvalue < 512) maxvalue = 255;
 
-                                    int val1 = (int)((g[x, y]) / (maxvalue / 255));
+								int val1 = (int)((g[x, y]) / (maxvalue / 255));
 
-                                    if (val1 > 255) val = 255;
-                                    else val = (byte)val1;
+								if (val1 > 255) val = 255;
+								else val = (byte)val1;
 
-                                    if (val != 0)
-                                    {
-                                        float factor = val / 255.0f;
-                                        Color c = Color.FromArgb(255, (byte)(Graphcolor.R * factor), (byte)(Graphcolor.G * factor), (byte)(Graphcolor.B * factor));
-                                        lockBitmap.SetPixel(x, y, c);
-                                    }
-                                    //else
-                                    //{
-                                    //    lockBitmap.SetPixel(x, y, fillcolor);
-                                    // }
-                                }
-                            lockBitmap.UnlockBits();
-                            formGraphics.DrawImage(BmpBuf, BmpXOffset, 0);
+								if (val != 0)
+								{
+									float factor = val / 255.0f;
+									Color c = Color.FromArgb(255, (byte)(Graphcolor.R * factor), (byte)(Graphcolor.G * factor), (byte)(Graphcolor.B * factor));
+									lockBitmap.SetPixel(x, y, c);
+								}
+								//else
+								//{
+								//    lockBitmap.SetPixel(x, y, fillcolor);
+								// }
+							}
+						lockBitmap.UnlockBits();
+						formGraphics.DrawImage(BmpBuf, BmpXOffset, 0);
 
-                        }
-                        Changed = false;
+					}
+					Changed = false;
 
-                    }
-                    else
-                    {
-                        formGraphics.DrawImage(BmpBuf, BmpXOffset, 0);
+				}
+				else
+				{
+					formGraphics.DrawImage(BmpBuf, BmpXOffset, 0);
 
-                    }
-                }
-            }
+				}
+			}
         }
 
         // Line drawing routine taken from:
@@ -368,10 +362,8 @@ namespace FloppyControlApp
 
             if (Math.Abs(shortLen) > Math.Abs(longLen))
             {
-                int swap = shortLen;
-                shortLen = longLen;
-                longLen = swap;
-                yLonger = true;
+				(longLen, shortLen) = (shortLen, longLen);
+				yLonger = true;
             }
             int decInc;
             if (longLen == 0) decInc = 0;
@@ -485,7 +477,7 @@ namespace FloppyControlApp
             double step;
             double datastep;
             double i;
-            Stopwatch sw = new Stopwatch();
+            Stopwatch sw = new();
 
             sw.Reset();
             sw.Start();
@@ -523,7 +515,7 @@ namespace FloppyControlApp
                         TotalNumberOfPoints = 0;
                         g = new long[Width + 1, Height + 1];
 
-                        LockBitmap lockBitmap = new LockBitmap(BmpBuf);
+                        LockBitmap lockBitmap = new(BmpBuf);
                         lockBitmap.LockBits();
                         //if (clear) lockBitmap.FillBitmap(fillcolor);
 
@@ -961,8 +953,8 @@ namespace FloppyControlApp
             {
                 if (editmode == 0)
                 {
-                    UndoData ud = new UndoData
-                    {
+					UndoData ud = new()
+					{
                         offset = EditIndex - radius,
                         undodata = EditTempBuf
                     };
@@ -974,8 +966,8 @@ namespace FloppyControlApp
                 {
                     if (EditTempBuf != null)
                     {
-                        UndoData ud = new UndoData
-                        {
+                        UndoData ud = new()
+						{
                             offset = EditTempBufIndex,
                             undodata = EditTempBuf
                         };
@@ -1006,10 +998,8 @@ namespace FloppyControlApp
 
             if (Math.Abs(shortLen) > Math.Abs(longLen))
             {
-                int swap = shortLen;
-                shortLen = longLen;
-                longLen = swap;
-                yLonger = true;
+				(longLen, shortLen) = (shortLen, longLen);
+				yLonger = true;
             }
             int decInc;
             if (longLen == 0) decInc = 0;
@@ -1093,7 +1083,7 @@ namespace FloppyControlApp
         public int Editoption { get; set; }
         public int Editperiodextend { get; set; }
         public Color[] Colors { get; set; }
-        private System.Windows.Forms.Timer repaintdelay = new System.Windows.Forms.Timer();
+        private Timer repaintdelay = new();
         public bool Allowrepaint { get; set; }
 
         public Action UpdateGUI { get; set; }
@@ -1153,8 +1143,8 @@ namespace FloppyControlApp
 
         public void AddGraph(byte[] data)
         {
-            Graph2 newgraph = new Graph2
-            {
+            Graph2 newgraph = new()
+			{
                 GraphColor = Colors[Graphs.Count],
                 Data = data,
                 Width = Panel.Width,
@@ -1182,7 +1172,7 @@ namespace FloppyControlApp
         public void DoUpdateGraphs()
         {
             Process proc = Process.GetCurrentProcess();
-            LockBitmap lockbitmap = new LockBitmap(Bmp);
+            LockBitmap lockbitmap = new(Bmp);
 
             lockbitmap.LockBits();
 
@@ -1621,7 +1611,7 @@ namespace FloppyControlApp
 
             using (var bmp = new System.Drawing.Bitmap(580, 102, PixelFormat.Format32bppPArgb))
             {
-                LockBitmap lockBitmap = new LockBitmap(bmp);
+                LockBitmap lockBitmap = new(bmp);
                 lockBitmap.LockBits();
                 lockBitmap.FillBitmap(SystemColors.Control);
 
@@ -1677,8 +1667,8 @@ namespace FloppyControlApp
                 // get total locked pixels count
                 int PixelCount = Width * Height;
 
-                // Create rectangle to lock
-                Rectangle rect = new Rectangle(0, 0, Width, Height);
+				// Create rectangle to lock
+				Rectangle rect = new(0, 0, Width, Height);
 
                 // get source bitmap pixel format size
                 Depth = System.Drawing.Bitmap.GetPixelFormatSize(source.PixelFormat);
@@ -1705,7 +1695,7 @@ namespace FloppyControlApp
             }
             catch (Exception ex)
             {
-                throw ex;
+                Console.WriteLine(ex.ToString());
             }
         }
 
@@ -1734,7 +1724,7 @@ namespace FloppyControlApp
             }
             catch (Exception ex)
             {
-                throw ex;
+                Console.WriteLine(ex.ToString());
             }
             //Debug.WriteLine("7 proc: " + string.Format("{0:n0}", proc.PrivateMemorySize64));
         }
@@ -1890,10 +1880,8 @@ namespace FloppyControlApp
 
             if (Math.Abs(shortLen) > Math.Abs(longLen))
             {
-                int swap = shortLen;
-                shortLen = longLen;
-                longLen = swap;
-                yLonger = true;
+				(longLen, shortLen) = (shortLen, longLen);
+				yLonger = true;
             }
             int decInc;
             if (longLen == 0) decInc = 0;
@@ -1989,7 +1977,7 @@ namespace FloppyControlApp
             Dragging = false;
             EditScatterplot = false;
             int i,p;
-            Random random = new Random();
+			Random random = new();
             int ID = random.Next();
             proc.TBReceived.Append("scatterplot id: " + ID);
             for (i = 255; i > -1; i--)
@@ -2080,7 +2068,7 @@ namespace FloppyControlApp
                 byte value = 0;
                 float factor;
 
-                LockBitmap lockBitmap = new LockBitmap(bmp);
+                LockBitmap lockBitmap = new(bmp);
                 lockBitmap.LockBits();
                 lockBitmap.FillBitmap(Color.White);
                 datapoints = End - Start;
@@ -2160,7 +2148,7 @@ namespace FloppyControlApp
                 byte value = 0;
                 float factor;
 
-                LockBitmap lockBitmap = new LockBitmap(bmp);
+				LockBitmap lockBitmap = new(bmp);
                 lockBitmap.LockBits();
                 lockBitmap.FillBitmap(Color.White);
 
@@ -2320,7 +2308,7 @@ namespace FloppyControlApp
                 lockBitmap.Line(0, Thresholdmax, 580, Thresholdmax, Color.Red);
                 lockBitmap.UnlockBits();
 
-                RectangleF rectf2 = new RectangleF(0, 280, 256, 40);
+				RectangleF rectf2 = new(0, 280, 256, 40);
                 //string.Format("{0:n0}", start);
                 string startstop = "Start:\t" + string.Format("{0:n0}", start) + "\r\nEnd:\t" + string.Format("{0:n0}", end);
                 g.DrawString(startstop, new Font("Tahoma", 8), Brushes.Black, rectf2);

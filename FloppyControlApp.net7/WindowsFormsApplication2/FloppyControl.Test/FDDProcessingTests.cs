@@ -1,9 +1,9 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using FloppyControlApp;
 using FloppyControlApp.MyClasses;
 using System.IO;
 using System.Windows.Forms;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace FloppyControl.Test
 {
