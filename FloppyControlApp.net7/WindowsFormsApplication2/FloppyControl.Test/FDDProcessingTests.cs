@@ -19,10 +19,10 @@ namespace FloppyControl.Test
         [TestMethod]
         public void TestProcessPCData()
         {
-            //Arrange
-            FileIO fileio = new FileIO();
+			//Arrange
+			FileIO fileio = new();
             
-            FDDProcessing processing = new FDDProcessing();
+            FDDProcessing processing = new();
             processing = new FDDProcessing
             {
                 Indexrxbuf = 0,
@@ -111,9 +111,9 @@ namespace FloppyControl.Test
         public void TestProcessAmigaData()
         {
             //Arrange
-            FileIO fileio = new FileIO();
+            FileIO fileio = new();
 
-            FDDProcessing processing = new FDDProcessing();
+            FDDProcessing processing = new();
             processing = new FDDProcessing
             {
                 Indexrxbuf = 0,
