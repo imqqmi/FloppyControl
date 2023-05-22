@@ -2139,11 +2139,12 @@ namespace FloppyControlApp
 
             //tbreceived.Append("datalength: " + datalength+"\r\n");
             
-            if (datalength < 1250) bigpixels = 3;
-            if (datalength >= 1250 && datalength < 5000) bigpixels = 2;
-            if (datalength >= 5000) bigpixels = 1;
-
-            using (var bmp = new System.Drawing.Bitmap(580, 446, PixelFormat.Format32bppPArgb))
+            if (datalength < 1250) bigpixels = 4;
+            if (datalength >= 1250 && datalength < 5000) bigpixels = 3;
+            if (datalength >= 5000) bigpixels = 2;
+			int width = Panel.Width;
+            int height = Panel.Height;
+			using (var bmp = new System.Drawing.Bitmap(width, height, PixelFormat.Format32bppPArgb))
             {
                 byte value = 0;
                 float factor;
@@ -2153,7 +2154,7 @@ namespace FloppyControlApp
                 lockBitmap.FillBitmap(Color.White);
 
                 if (datapoints == 0) datapoints = 1;
-                int width = Panel.Width;
+                
                 factor = (float)width / (float)datapoints;
                 //if (indexrxbuf > rxbuf.Length) indexrxbuf = rxbuf.Length - 1;
                 if (datapoints > Rxbuf.Length) datapoints = Rxbuf.Length - 1;
@@ -2203,7 +2204,7 @@ namespace FloppyControlApp
                 else if (start > -1)
                     for (i = 0; i < datapoints; i++)
                     {
-                        posx = factor * i;
+                        posx = factor * (float)i;
 
                         value = Rxbuf[i + start];
                         if (value == 0x01) // draw index markers
@@ -2213,7 +2214,7 @@ namespace FloppyControlApp
                         }
 
                         if (value < 4) continue;
-                        if (i == drawcnt) break;
+                        //if (i == drawcnt) break;
 
                         if (bigpixels > 1)
                         {
