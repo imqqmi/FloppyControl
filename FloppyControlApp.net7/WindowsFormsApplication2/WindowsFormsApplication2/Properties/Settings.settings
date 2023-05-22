@@ -1,0 +1,57 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="FloppyControlApp.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="PathToRecoveredDisks" Type="System.String" Scope="User">
+      <Value Profile="(Default)">D:\data\Projects\FloppyControl\DiskRecoveries</Value>
+    </Setting>
+    <Setting Name="MicroStepsPerTrack" Type="System.Decimal" Scope="User">
+      <Value Profile="(Default)">8</Value>
+    </Setting>
+    <Setting Name="DefaultPort" Type="System.String" Scope="User">
+      <Value Profile="(Default)">COM21</Value>
+    </Setting>
+    <Setting Name="DefaultBaud" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">5000000</Value>
+    </Setting>
+    <Setting Name="BaseFileName" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="ScopeConnection" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="DirectStep" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="StepStickMicrostepping" Type="System.Decimal" Scope="User">
+      <Value Profile="(Default)">8</Value>
+    </Setting>
+    <Setting Name="TRK00Offset" Type="System.Decimal" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="FourSix" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="Max" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="Min" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="Offset" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="SixEight" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="TooltipDisable" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="TrackDuration" Type="System.Decimal" Scope="User">
+      <Value Profile="(Default)">330</Value>
+    </Setting>
+    <Setting Name="GuiMode" Type="System.String" Scope="User">
+      <Value Profile="(Default)">dev</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
