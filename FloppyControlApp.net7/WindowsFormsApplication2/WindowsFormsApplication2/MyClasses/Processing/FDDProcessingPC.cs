@@ -1246,27 +1246,30 @@ namespace FloppyControlApp
 
         private void ReportFoundSector(in MFMData SectorHeader, in ProcSettings procsettings, ushort datacrcchk)
         {
-            FoundGoodSectorInfo.Append("T" + SectorHeader.track.ToString("D3") + " S" + SectorHeader.sector + " crc:" +
-                                 datacrcchk.ToString("X4") + " rxbufindex:" + SectorHeader.rxbufMarkerPositions + " Method: ");
+            if (debuginfo)
+            {
+                FoundGoodSectorInfo.Append("T" + SectorHeader.track.ToString("D3") + " S" + SectorHeader.sector + " crc:" +
+                                     datacrcchk.ToString("X4") + " rxbufindex:" + SectorHeader.rxbufMarkerPositions + " Method: ");
 
-            if (procsettings.processingtype == ProcessingType.aufit)
-            {
-                FoundGoodSectorInfo.Append("Aufit min:" + procsettings.min.ToString("X2") + " 4/6:" + procsettings.four.ToString("X2"));
+                if (procsettings.processingtype == ProcessingType.aufit)
+                {
+                    FoundGoodSectorInfo.Append("Aufit min:" + procsettings.min.ToString("X2") + " 4/6:" + procsettings.four.ToString("X2"));
+                }
+                else
+                                if (procsettings.processingtype == ProcessingType.adaptive1)
+                {
+                    FoundGoodSectorInfo.Append("Adaptive Rate:" + procsettings.rateofchange);
+                }
+                else
+                                if (procsettings.processingtype == ProcessingType.normal)
+                {
+                    FoundGoodSectorInfo.Append("Normal min:" + procsettings.min.ToString("X2") + " 4/6:" + procsettings.four.ToString("X2") +
+                        " 6/8:" + procsettings.six.ToString("X2") + " max:" + procsettings.max.ToString("X2") +
+                        " offset:" + procsettings.offset.ToString());
+                }
+                FoundGoodSectorInfo.Append("\r\n");
+                FoundGoodSectorInfo.Append(CurrentFiles);
             }
-            else
-                            if (procsettings.processingtype == ProcessingType.adaptive1)
-            {
-                FoundGoodSectorInfo.Append("Adaptive Rate:" + procsettings.rateofchange);
-            }
-            else
-                            if (procsettings.processingtype == ProcessingType.normal)
-            {
-                FoundGoodSectorInfo.Append("Normal min:" + procsettings.min.ToString("X2") + " 4/6:" + procsettings.four.ToString("X2") +
-                    " 6/8:" + procsettings.six.ToString("X2") + " max:" + procsettings.max.ToString("X2") +
-                    " offset:" + procsettings.offset.ToString());
-            }
-            FoundGoodSectorInfo.Append("\r\n");
-            FoundGoodSectorInfo.Append(CurrentFiles);
         }
 
         private void StripSectorOfHeader(in byte[] SectorBlock, out byte[] sectorbuf, in MFMData SectorHeader)
