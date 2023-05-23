@@ -8,17 +8,17 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using FloppyControlApp.MyClasses.Capture.Models;
 
-namespace FloppyControlApp.MyClasses
+namespace FloppyControlApp.MyClasses.Processing
 {
     public static class RichTextBoxExtensions
     {
         private const int WM_USER = 0x0400;
-        private const int EM_SETEVENTMASK = (WM_USER + 69);
+        private const int EM_SETEVENTMASK = WM_USER + 69;
         private const int WM_SETREDRAW = 0x0b;
-        private static IntPtr OldEventMask;
+        private static nint OldEventMask;
 
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        private static extern IntPtr SendMessage(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
+        private static extern nint SendMessage(nint hWnd, int msg, nint wParam, nint lParam);
 
         public static void AppendText(this RichTextBox box, string text, Color color)
         {
@@ -42,14 +42,14 @@ namespace FloppyControlApp.MyClasses
 
         public static void BeginUpdate(this RichTextBox box)
         {
-            SendMessage(box.Handle, WM_SETREDRAW, IntPtr.Zero, IntPtr.Zero);
-            OldEventMask = (IntPtr)SendMessage(box.Handle, EM_SETEVENTMASK, IntPtr.Zero, IntPtr.Zero);
+            SendMessage(box.Handle, WM_SETREDRAW, nint.Zero, nint.Zero);
+            OldEventMask = SendMessage(box.Handle, EM_SETEVENTMASK, nint.Zero, nint.Zero);
         }
 
         public static void EndUpdate(this RichTextBox box)
         {
-            SendMessage(box.Handle, WM_SETREDRAW, (IntPtr)1, IntPtr.Zero);
-            SendMessage(box.Handle, EM_SETEVENTMASK, IntPtr.Zero, OldEventMask);
+            SendMessage(box.Handle, WM_SETREDRAW, 1, nint.Zero);
+            SendMessage(box.Handle, EM_SETEVENTMASK, nint.Zero, OldEventMask);
         }
     }
 
@@ -77,7 +77,7 @@ namespace FloppyControlApp.MyClasses
             processing = proc;
 
         }
-         
+
         public void RefreshSectorMap()
         {
             int sector, track;
@@ -190,8 +190,8 @@ namespace FloppyControlApp.MyClasses
 
             int total = processing.stat4us + processing.stat6us + processing.stat8us;
             s1 = processing.stat4us / (float)total;
-            s2 = (float)processing.stat6us / (float)total;
-            s3 = (float)processing.stat8us / (float)total;
+            s2 = processing.stat6us / (float)total;
+            s3 = processing.stat8us / (float)total;
 
             MFMData sectordata;
             badsectorcnt = 0;

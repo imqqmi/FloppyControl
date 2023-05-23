@@ -6,9 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using FloppyControlApp.MyClasses.Graphics;
 
-namespace FloppyControlApp.MyClasses
+namespace FloppyControlApp.MyClasses.Graphics
 {
     public class ZeroCrossingData
     {
@@ -116,7 +115,7 @@ namespace FloppyControlApp.MyClasses
                             else
                             {
                                 dataoffset = 0;
-                                datalength = (int)wvfrmlength - 1;
+                                datalength = wvfrmlength - 1;
                                 density = 23;
                             }
 
@@ -162,7 +161,7 @@ namespace FloppyControlApp.MyClasses
                         //graphwaveform[2] = new byte[wvfrmlength]; // Create empty waves for storage of result data
                         //graphwaveform[3] = new byte[wvfrmlength];
 
-                        if ((wvfrmlength * channels) < length)
+                        if (wvfrmlength * channels < length)
                         {
                             for (i = 0; i < channels; i++)
                             {
@@ -183,8 +182,8 @@ namespace FloppyControlApp.MyClasses
                         if (channels == 3)
                         {
                             int max = 0, min = 255;
-                            int offset = (int)DiffOffsetUpDown;
-                            for (i = Math.Abs(offset); i < wvfrmlength - (Math.Abs(offset)); i++)
+                            int offset = DiffOffsetUpDown;
+                            for (i = Math.Abs(offset); i < wvfrmlength - Math.Abs(offset); i++)
                             {
 
                                 gr[0].Data[i] = (byte)(127 + (gr[0].Data[i] - gr[1].Data[i + offset]) / 2);
@@ -193,22 +192,22 @@ namespace FloppyControlApp.MyClasses
 
                                 //gr[0].data[i] = (byte)(127 + (gr[0].data[i] - gr[1].data[i + offset]) / 2);
                             }
-                            gr[0].YScale = 192.0f / (float)(max - min);
+                            gr[0].YScale = 192.0f / (max - min);
                             GraphYScaleTrackBar = (int)(gr[0].YScale * 100.0f);
                             GraphScaleYLabel = "" + gr[0].YScale;
                         }
                         else
                         {
                             int max = 0, min = 255;
-                            int offset = (int)DiffOffsetUpDown;
-                            for (i = Math.Abs(offset); i < wvfrmlength - (Math.Abs(offset)); i++)
+                            int offset = DiffOffsetUpDown;
+                            for (i = Math.Abs(offset); i < wvfrmlength - Math.Abs(offset); i++)
                             {
                                 if (gr[0].Data[i] > max) max = gr[0].Data[i];
                                 if (gr[0].Data[i] < min) min = gr[0].Data[i];
                             }
-                            gr[0].YScale = 192.0f / (float)(max - min);
+                            gr[0].YScale = 192.0f / (max - min);
                             if (graphset.Graphs.Count >= 5)
-                                graphset.Graphs[4].YScale = 192.0f / (float)(max - min);
+                                graphset.Graphs[4].YScale = 192.0f / (max - min);
                             GraphYScaleTrackBar = (int)(gr[0].YScale * 100.0f);
                             GraphScaleYLabel = "" + gr[0].YScale;
                         }
@@ -327,22 +326,22 @@ namespace FloppyControlApp.MyClasses
             }
 
             GraphLengthLabel = (gr[0].Data.Length - 1000).ToString();
-            
+
             graphset.UpdateGraphs();
 
         }
 
-        public void Filter( 
-            int diffdist, 
-            float diffgain, 
+        public void Filter(
+            int diffdist,
+            float diffgain,
             int diffdist2,
-            int diffthreshold, 
-            int smoothing, 
-            int DiffMinDeviation, 
-            int DiffMinDeviation2, 
-            int adaptlookahead, 
+            int diffthreshold,
+            int smoothing,
+            int DiffMinDeviation,
+            int DiffMinDeviation2,
+            int adaptlookahead,
             bool adaptivegainenable,
-            bool invert, 
+            bool invert,
             double SignalDistRatio,
             bool AnReplacerxbufBox)
         {
@@ -355,7 +354,7 @@ namespace FloppyControlApp.MyClasses
                 double val2 = 0;
                 //double RateOfChange = (float)GraphFilterUpDown.Value;
                 int length = gr[0].Data.Length;
-                
+
                 double[] t = new double[length];
                 double[] t1 = new double[length];
                 double totalmin = 255;
@@ -365,7 +364,7 @@ namespace FloppyControlApp.MyClasses
                 int smoothingstart = 0 - smoothing;
 
                 //double SignalRatio = (double)SingalRationUpDown.Value;
-                
+
 
                 double DCoffset = 0;
                 int[] history = new int[smoothing * 2 + 1];
@@ -389,13 +388,13 @@ namespace FloppyControlApp.MyClasses
 
                         if (invert)
                         {
-                            t[i] = -(val2);
+                            t[i] = -val2;
                         }
                         else
                         {
                             t[i] = val2;
                         }
-                        if (i > 5000 && i < (length - smoothing - 5000))
+                        if (i > 5000 && i < length - smoothing - 5000)
                         {
                             if (totalmax < t[i]) totalmax = t[i];
                             if (totalmin > t[i]) totalmin = t[i];
@@ -406,9 +405,9 @@ namespace FloppyControlApp.MyClasses
 
                     // Differential pass
                     if (invert)
-                        DCoffset = -DCoffset / (length - (smoothing * 2));
+                        DCoffset = -DCoffset / (length - smoothing * 2);
                     else
-                        DCoffset = DCoffset / (length - (smoothing * 2));
+                        DCoffset = DCoffset / (length - smoothing * 2);
                     totalmax -= DCoffset;
                     totalmin -= DCoffset;
                     totalamplitude = totalmax - totalmin;
@@ -495,13 +494,13 @@ namespace FloppyControlApp.MyClasses
                         adaptivegainhistory[i] = 1;
                     }
 
-                    val = ((val - (t[i - diffdist] - DCoffset)) * diffgain * adaptivegain);
-                    val2 = ((val - (t[i - diffdist2] - DCoffset)) * diffgain * adaptivegain);
-                    t1[i] = (128 + ((val * 0.5) + (val2 * 0.5)));
+                    val = (val - (t[i - diffdist] - DCoffset)) * diffgain * adaptivegain;
+                    val2 = (val - (t[i - diffdist2] - DCoffset)) * diffgain * adaptivegain;
+                    t1[i] = 128 + (val * 0.5 + val2 * 0.5);
 
                     if (t1[i] > 255) gr[3].Data[i] = 255;
                     else if (t1[i] < 0) gr[3].Data[i] = 0;
-                    else gr[3].Data[i] = (byte)(t1[i]);
+                    else gr[3].Data[i] = (byte)t1[i];
 
                 }
 
@@ -520,7 +519,7 @@ namespace FloppyControlApp.MyClasses
                 int orgDiffMinDeviation = DiffMinDeviation;
                 float periodfactor = 2f;
                 int periodoffset = -23;
-                float rxbuftographlength = (length * (length / 3250000f)) / 13f;
+                float rxbuftographlength = length * (length / 3250000f) / 13f;
                 if (rxbuftographlength < 250000)
                     rxbuftographlength = 1250000;
                 processing.Rxbuftograph = new int[(int)rxbuftographlength];
@@ -628,7 +627,7 @@ namespace FloppyControlApp.MyClasses
                     }
 
                 }
-                
+
                 FilterGuiUpdateCallback();
 
             }
@@ -651,12 +650,12 @@ namespace FloppyControlApp.MyClasses
             var gr = graphset.Graphs;
             int i;
 
-            
+
             int length = gr[0].Data.Length;
 
-            
 
-            
+
+
             double[] t = new double[length];
             byte[] t1 = gr[3].Data;
             //double totalmin = 255;
@@ -666,7 +665,7 @@ namespace FloppyControlApp.MyClasses
             int smoothingstart = 0 - smoothing;
 
             //double SignalRatio = (double)SingalRationUpDown.Value;
-            
+
 
             if (AnReplacerxbufBox)
             {
@@ -685,7 +684,7 @@ namespace FloppyControlApp.MyClasses
             int orgDiffMinDeviation = DiffMinDeviation;
             float periodfactor = 2f;
             int periodoffset = -23;
-            float rxbuftographlength = (length * (length / 3250000f)) / 13f;
+            float rxbuftographlength = length * (length / 3250000f) / 13f;
             if (rxbuftographlength < 250000)
                 rxbuftographlength = 250000;
             processing.Rxbuftograph = new int[(int)rxbuftographlength];
@@ -806,12 +805,12 @@ namespace FloppyControlApp.MyClasses
             byte[] g3 = graphset.Graphs[2].Data;
             byte[] g4 = graphset.Graphs[3].Data;
             int diff;
-            
+
             int start = graphset.Graphs[0].DataOffset;
             int length = graphset.Graphs[0].DataLength;
-            
-            
-            
+
+
+
             //for (i = diffdist; i < d.Length-diffdist; i++)
             int skip = 0;
             int iold = start + diffdist;
@@ -859,7 +858,7 @@ namespace FloppyControlApp.MyClasses
                     amplitudeavgcnt += amplitude;
 
 
-                    if ((i - (start + diffdist)) > 0)
+                    if (i - (start + diffdist) > 0)
                         amplitudeavg = amplitudeavgcnt / 500;
                     threshold = amplitudeavg / 2 - thresholddev;
                     amplitudeavgcnt = 0;
@@ -876,7 +875,7 @@ namespace FloppyControlApp.MyClasses
                 // Going positive
                 if (d[i - 1] < 128 && d[i] >= 128 && zerocrossingfilter > 30)
                 {
-                    zerocrossingbeforeafter = (after / zerocrossingdistance - 127) - (before / zerocrossingdistance - 127);
+                    zerocrossingbeforeafter = after / zerocrossingdistance - 127 - (before / zerocrossingdistance - 127);
                     fileio.tbreceived.Append("Pos Zero crossing: i " + i + " before: " + (before / zerocrossingdistance - 127) +
                         " after: " + (after / zerocrossingdistance - 127) + " B/A: " + zerocrossingbeforeafter + "\r\n");
                     zc[zcindex] = new ZeroCrossingData();
@@ -902,7 +901,7 @@ namespace FloppyControlApp.MyClasses
                 // Going negative
                 if (d[i - 1] >= 126 && d[i] < 126 && zerocrossingfilter > 30)
                 {
-                    zerocrossingbeforeafter = (before / zerocrossingdistance - 127) - (after / zerocrossingdistance - 127);
+                    zerocrossingbeforeafter = before / zerocrossingdistance - 127 - (after / zerocrossingdistance - 127);
                     fileio.tbreceived.Append("Neg Zero crossing: i " + i + " before: " + (before / zerocrossingdistance - 127) +
                         " after: " + (after / zerocrossingdistance - 127) + " B/A: " + zerocrossingbeforeafter + "\r\n");
                     zc[zcindex] = new ZeroCrossingData();
