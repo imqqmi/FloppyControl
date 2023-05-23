@@ -21,7 +21,7 @@ namespace FloppyControlApp.MyClasses
 
     public class WaveformEdit
     {
-        public FileIO fileio { get; set; }
+        public FileIO.FileIO fileio { get; set; }
         public Graphset graphset { get; set; }
         public int offset { get; set; }
         public int GraphYScaleTrackBar { get; set; }
@@ -39,7 +39,7 @@ namespace FloppyControlApp.MyClasses
         public Action FilterGuiUpdateCallback { get; set; }
         public Action Filter2GuiCallback { get; set; }
 
-        public WaveformEdit(PictureBox GraphPictureBox, FileIO fio, FDDProcessing proc, Action GraphsetGetControlValuesCallback)
+        public WaveformEdit(PictureBox GraphPictureBox, FileIO.FileIO fio, FDDProcessing proc, Action GraphsetGetControlValuesCallback)
         {
             fileio = fio;
             processing = proc;

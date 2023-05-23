@@ -5,10 +5,11 @@ using System.IO;
 using System.Windows.Forms;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
+using FloppyControlApp.MyClasses.FileIO;
 
 namespace FloppyControl.Test.net7
 {
-	[TestClass]
+    [TestClass]
 	public class ProcessingTests
 	{
         /// <summary>

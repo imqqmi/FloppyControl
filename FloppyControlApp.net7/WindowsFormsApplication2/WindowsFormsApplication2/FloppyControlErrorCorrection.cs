@@ -1,5 +1,7 @@
 ﻿using FloppyControlApp.MyClasses;
+using FloppyControlApp.MyClasses.Capture.Models;
 using FloppyControlApp.MyClasses.Graphics;
+using FloppyControlApp.MyClasses.Utility;
 using System;
 using System.Collections.Generic;
 using System.Drawing;

@@ -1,5 +1,7 @@
 ﻿//using FDCPackage;
 
+using FloppyControlApp.MyClasses.Capture.Models;
+
 namespace FloppyControlApp
 {
     public class ECResult

@@ -2,19 +2,19 @@
 using System.Collections.Generic;
 using System.Security.Cryptography;
 
-namespace FloppyControlApp.MyClasses.Graphics
+namespace FloppyControlApp.MyClasses.Utility
 {
-	/// <summary>
-	/// Implements a 32-bit CRC hash algorithm compatible with Zip etc.
-	/// </summary>
-	/// <remarks>
-	/// Crc32 should only be used for backward compatibility with older file formats
-	/// and algorithms. It is not secure enough for new applications.
-	/// If you need to call multiple times for the same data either use the HashAlgorithm
-	/// interface or remember that the result of one Compute call needs to be ~ (XOR) before
-	/// being passed in as the seed for the next Compute call.
-	/// </remarks>
-	public class Crc32 : HashAlgorithm
+    /// <summary>
+    /// Implements a 32-bit CRC hash algorithm compatible with Zip etc.
+    /// </summary>
+    /// <remarks>
+    /// Crc32 should only be used for backward compatibility with older file formats
+    /// and algorithms. It is not secure enough for new applications.
+    /// If you need to call multiple times for the same data either use the HashAlgorithm
+    /// interface or remember that the result of one Compute call needs to be ~ (XOR) before
+    /// being passed in as the seed for the next Compute call.
+    /// </remarks>
+    public class Crc32 : HashAlgorithm
     {
         public const uint DefaultPolynomial = 0xedb88320u;
         public const uint DefaultSeed = 0xffffffffu;

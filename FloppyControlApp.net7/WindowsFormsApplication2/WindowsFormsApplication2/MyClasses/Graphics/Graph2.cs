@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 using System.Diagnostics;
+using FloppyControlApp.MyClasses.Capture.Models;
+using FloppyControlApp.MyClasses.Utility;
 
 namespace FloppyControlApp.MyClasses.Graphics
 {
-	/// <summary>
+    /// <summary>
     /// Draw a line graph with interpolation so that details are still visible 
     /// even with a lot of data zoomed out all the way. Has some digital
     /// signal processing and editing of the graph capabilities.

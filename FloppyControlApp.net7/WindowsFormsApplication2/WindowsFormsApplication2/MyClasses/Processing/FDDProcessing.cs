@@ -16,6 +16,7 @@ using FDCPackage;
 using FloppyControlApp.MyClasses.Processing;
 using FloppyControlApp.MyClasses.Processing.ProcessingTypes;
 using static FloppyControlApp.MyClasses.Processing.ProcessingTypes.ProcessingTypes;
+using FloppyControlApp.MyClasses.Capture.Models;
 
 namespace FloppyControlApp
 {

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 
-namespace FloppyControlApp
+namespace FloppyControlApp.MyClasses.Utility
 {
     public static class SubArrayHelper
     {
@@ -15,7 +15,7 @@ namespace FloppyControlApp
         }
     }
 
-    public enum InitialCrcValue { Zeros, NonZero1 = 0xffff, NonZero2 = 0x1D0F, NonZero3 = 0x84CF }
+	public enum InitialCrcValue { Zeros, NonZero1 = 0xffff, NonZero2 = 0x1D0F, NonZero3 = 0x84CF }
 
     public class Crc16Ccitt
     {
@@ -26,10 +26,10 @@ namespace FloppyControlApp
 
         public ushort ComputeChecksum(byte[] bytes)
         {
-            ushort crc = this.initialValue;
+            ushort crc = initialValue;
             for (int i = 0; i < bytes.Length; ++i)
             {
-                crc = (ushort)((crc << 8) ^ table[((crc >> 8) ^ (0xff & bytes[i]))]);
+                crc = (ushort)(crc << 8 ^ table[crc >> 8 ^ 0xff & bytes[i]]);
             }
 
             //crc = (ushort)~crc;
@@ -41,7 +41,7 @@ namespace FloppyControlApp
         // See http://srecord.sourceforge.net/crc16-ccitt.html
         public ushort ComputeGoodChecksum(byte[] bytes)
         {
-            good_crc = this.initialValue;
+            good_crc = initialValue;
 
 
             for (int i = 0; i < bytes.Length; ++i)
@@ -140,7 +140,7 @@ namespace FloppyControlApp
                 {
                     if (((temp ^ a) & 0x8000) != 0)
                     {
-                        temp = (ushort)((temp << 1) ^ poly);
+                        temp = (ushort)(temp << 1 ^ poly);
                     }
                     else
                     {

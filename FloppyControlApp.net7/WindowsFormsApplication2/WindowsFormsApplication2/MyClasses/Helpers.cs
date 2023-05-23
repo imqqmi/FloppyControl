@@ -28,8 +28,6 @@ namespace FloppyControlApp.MyClasses
     public enum DiskFormat { unknown = 0, amigados = 1, diskspare = 2, pcdd = 3, pchd = 4, pc2m = 5, pcssdd = 6, diskspare984KB = 7, pc360kb525in = 8 }
     public enum MarkerType { unkown = 0, header = 1, data = 2, headerAndData = 3 }
 
-    public enum InitialCrcValue { Zeros, NonZero1 = 0xffff, NonZero2 = 0x1D0F, NonZero3 = 0x84CF }
-
     public enum Platform {  PC, Amiga }
 
     public class Helpers

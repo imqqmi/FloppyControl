@@ -6,10 +6,11 @@ using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
 using System.Collections.Concurrent;
 using FloppyControlApp.MyClasses;
+using FloppyControlApp.MyClasses.Capture.Models;
 
 namespace FloppyControlApp.MyClasses.Graphics
 {
-	/// <summary>
+    /// <summary>
     /// Plots dots from an array, index by y axis. When zooming in dots are enlarged.
     /// </summary>
     class ScatterPlot

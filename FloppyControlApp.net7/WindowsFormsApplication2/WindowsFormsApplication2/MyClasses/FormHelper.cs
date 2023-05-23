@@ -15,6 +15,9 @@ using FloppyControlApp.Properties;
 using System.Diagnostics;
 using FloppyControlApp.MyClasses.Processing;
 using FloppyControlApp.MyClasses.Graphics;
+using FloppyControlApp.MyClasses.Capture;
+using FloppyControlApp.MyClasses.Capture.Models;
+using FloppyControlApp.MyClasses.FileIO;
 
 namespace FloppyControlApp
 {
@@ -55,7 +58,7 @@ namespace FloppyControlApp
         private string GuiMode;
         private FDDProcessing processing;
         private ControlFloppy controlfloppy;
-        private connectsocketNIVisa2 scope = new connectsocketNIVisa2();
+        private ScopeCapture scope = new ScopeCapture();
         private Point BadSectorTooltipPos;
         private StringBuilder tbreceived = new StringBuilder();
         private int bytesReceived = 0;

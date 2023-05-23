@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters.Binary;
 using FloppyControlApp.MyClasses;
 using FloppyControlApp.MyClasses.Processing;
+using FloppyControlApp.MyClasses.Capture.Models;
 
 namespace FloppyControlApp
 {

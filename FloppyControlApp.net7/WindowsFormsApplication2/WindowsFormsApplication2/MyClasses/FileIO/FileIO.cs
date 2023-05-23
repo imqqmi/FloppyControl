@@ -7,15 +7,12 @@ using System.Security;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using FloppyControlApp.MyClasses.Capture.Models;
+using FloppyControlApp.MyClasses.FileIO.Models;
+using FloppyControlApp.MyClasses.Utility;
 
-namespace FloppyControlApp.MyClasses
+namespace FloppyControlApp.MyClasses.FileIO
 {
-    class TrackSectorOffset
-    {
-        public int offsetstart { get; set; }
-        public int offsetend { get; set; }
-        public int length { get; set; }
-    }
 
     public class FileIO
     {
@@ -141,8 +138,8 @@ namespace FloppyControlApp.MyClasses
             {
                 tempbuf.Add(processing.RxBbuf.SubArray(0, processing.Indexrxbuf));
             }
-            String ext;
-            foreach (String file in OpenFilesPaths)
+            string ext;
+            foreach (string file in OpenFilesPaths)
             {
                 try
                 {
@@ -267,7 +264,7 @@ namespace FloppyControlApp.MyClasses
             }
             else if (processing.diskformat == DiskFormat.pc2m) // 2M
             {
-                bytecount = 512 * 18 + (1024 * 11 * 83 * 2); // First track is normal PC HD format
+                bytecount = 512 * 18 + 1024 * 11 * 83 * 2; // First track is normal PC HD format
                 extension = ".DSK";
                 diskformatstring = "PCDOS 2M";
             }
@@ -278,10 +275,10 @@ namespace FloppyControlApp.MyClasses
                 diskformatstring = "PCDOS 360KB";
             }
 
-            bool exists = System.IO.Directory.Exists(path);
+            bool exists = Directory.Exists(path);
 
             if (!exists)
-                System.IO.Directory.CreateDirectory(path);
+                Directory.CreateDirectory(path);
 
             //Only save if there's any data to save
             if (bytecount != 0)
@@ -334,7 +331,7 @@ namespace FloppyControlApp.MyClasses
                         if (ioerror == 0) // skip writing on io error
                         {
                             for (i = 0; i < bytecount; i++) // writing uints
-                                writer.Write((byte)processing.disk[i]);
+                                writer.Write(processing.disk[i]);
                             if (writer != null)
                             {
                                 writer.Flush();
@@ -369,7 +366,7 @@ namespace FloppyControlApp.MyClasses
                     if (ioerror == 0) // skip writing on io error
                     {
                         for (i = 0; i < bytecount; i++) // writing uints
-                            writer.Write((byte)processing.disk[i]);
+                            writer.Write(processing.disk[i]);
                         if (writer != null)
                         {
                             writer.Flush();
@@ -386,7 +383,7 @@ namespace FloppyControlApp.MyClasses
                     processing.diskformat == DiskFormat.pc360kb525in) //PC 720 KB dd or 1440KB hd
                 {
                     int SectorsPerDisk;
-                    SectorsPerDisk = (processing.disk[20] << 8) | processing.disk[19];
+                    SectorsPerDisk = processing.disk[20] << 8 | processing.disk[19];
                     tbreceived.Append("Sectors per disk: " + SectorsPerDisk + "\r\n");
 
                     if (SectorsPerDisk == 720 && processing.diskformat == DiskFormat.pcssdd)
@@ -413,7 +410,7 @@ namespace FloppyControlApp.MyClasses
                             for (i = 0; i < bytecount; i++)
                             {
 
-                                writer.Write((byte)processing.disk[i]);
+                                writer.Write(processing.disk[i]);
                                 interleave++;
                                 if (interleave == 512 * 9)
                                 {
@@ -451,7 +448,7 @@ namespace FloppyControlApp.MyClasses
                         if (ioerror == 0) // skip writing on io error
                         {
                             for (i = 0; i < bytecount; i++)
-                                writer.Write((byte)processing.disk[i]);
+                                writer.Write(processing.disk[i]);
                             if (writer != null)
                             {
                                 writer.Flush();
@@ -478,7 +475,7 @@ namespace FloppyControlApp.MyClasses
 
             tbreceived.Append("Path:" + path + "\r\n");
 
-            bool exists = System.IO.Directory.Exists(path);
+            bool exists = Directory.Exists(path);
 
             if (processing.diskformat == DiskFormat.amigados)
             {
@@ -524,10 +521,10 @@ namespace FloppyControlApp.MyClasses
                 if (ioerror == 0) // skip writing on io error
                 {
                     writer.Write((byte)processing.diskformat);
-                    writer.Write((int)sectorcount);
+                    writer.Write(sectorcount);
                     //Save sector data
                     for (i = 0; i < sectorcount; i++)
-                        writer.Write((byte)processing.disk[i]);
+                        writer.Write(processing.disk[i]);
 
                     //Save sector status
                     for (i = 0; i < 184; i++)
@@ -563,7 +560,7 @@ namespace FloppyControlApp.MyClasses
             Properties.Settings.Default.Save();
             tbreceived.Append("Path: " + path + "\r\n");
 
-            bool exists = System.IO.Directory.Exists(path);
+            bool exists = Directory.Exists(path);
 
             /*
             if (processing.diskformat == DiskFormat.amigados) // AmigaDOS
@@ -641,7 +638,7 @@ namespace FloppyControlApp.MyClasses
             int q;
 
             // Write period data to disk in bin format
-            if( OnlyBadSectors == true)
+            if (OnlyBadSectors == true)
                 extension = "_trimmedbad.bin";
             else extension = "_trimmed.bin";
 
@@ -650,14 +647,14 @@ namespace FloppyControlApp.MyClasses
             if (FilePerSector == true)
             {
                 path = PathToRecoveredDisks + @"\" + BaseFileName + @"\sectors\";
-                bool exists = System.IO.Directory.Exists(path);
+                bool exists = Directory.Exists(path);
                 if (!exists)
-                    System.IO.Directory.CreateDirectory(path);
+                    Directory.CreateDirectory(path);
             }
             else
             {
                 path = PathToRecoveredDisks + @"\" + BaseFileName + @"\" + BaseFileName + "_" + binfilecount.ToString("D3") + extension;
-                bool exists = System.IO.Directory.Exists(path);
+                bool exists = Directory.Exists(path);
 
                 while (File.Exists(path))
                 {
@@ -688,10 +685,10 @@ namespace FloppyControlApp.MyClasses
             // longer offsets means often noise at the end, header was not found due to noise. If the noise is at the start of the next 
             // sector data, the adaptive period detector gets confused, missing the header enitrely.
             // To remedy this, use more of the data before the header.
-            
+
             byte[,] sectordone = new byte[255, 25];
             MFMData sectordataheader, sectordata;
-            if (processing.ProcSettings.platform ==  Platform.PC) 
+            if (processing.ProcSettings.platform == Platform.PC)
             {
                 for (i = 0; i < sectordata2.Count; i++)
                 {
@@ -737,7 +734,7 @@ namespace FloppyControlApp.MyClasses
                                     //writer.Write("T" + track.ToString("D3") + "S" + sector);
                                     if (tso.offsetstart < 0) tso.offsetstart = 0;
 
-                                    string path1 = path + BaseFileName+"_T" + sectordata.track.ToString("D3") + "_S" + sectordata.sector.ToString("D2")+extension;
+                                    string path1 = path + BaseFileName + "_T" + sectordata.track.ToString("D3") + "_S" + sectordata.sector.ToString("D2") + extension;
 
                                     if (FilePerSector == true) // Save 1 file per sector for debugging
                                     {
@@ -751,7 +748,7 @@ namespace FloppyControlApp.MyClasses
                                         }
 
                                         for (q = tso.offsetstart; q < tso.offsetend; q++, bytessaved++)
-                                            writer.Write((byte)(processing.RxBbuf[q]));
+                                            writer.Write(processing.RxBbuf[q]);
                                         //tsoffset[track, sector] = tso;
                                         sectordone[sectordata.track, sectordata.sector] = 1;
                                         int len = tso.length;
@@ -762,7 +759,7 @@ namespace FloppyControlApp.MyClasses
                                     else // save 1 bin file for all data.
                                     {
                                         for (q = tso.offsetstart; q < tso.offsetend; q++, bytessaved++)
-                                            writer.Write((byte)(processing.RxBbuf[q]));
+                                            writer.Write(processing.RxBbuf[q]);
                                         //tsoffset[track, sector] = tso;
                                         sectordone[sectordata.track, sectordata.sector] = 1;
                                         int len = tso.length;
@@ -799,7 +796,7 @@ namespace FloppyControlApp.MyClasses
                                 badsectorcnt++;
                                 //writer.Write("T" + track.ToString("D3") + "S" + sector);
                                 for (q = tso.offsetstart; q < tso.offsetend; q++, bytessaved++)
-                                    writer.Write((byte)(processing.RxBbuf[q]));
+                                    writer.Write(processing.RxBbuf[q]);
                                 //tsoffset[track, sector] = tso;
                             }
                         }
@@ -841,7 +838,7 @@ namespace FloppyControlApp.MyClasses
                         badsectorcnt++;
                         //writer.Write("T" + track.ToString("D3") + "S" + sector);
                         for (q = tso.offsetstart; q < tso.offsetend; q++)
-                            writer.Write((byte)(processing.RxBbuf[q]));
+                            writer.Write(processing.RxBbuf[q]);
                         //tsoffset[track, sector] = tso;
                     }
                 }
@@ -850,18 +847,18 @@ namespace FloppyControlApp.MyClasses
             tbreceived.Append("Sectors: " + badsectorcnt + " Trimmed bin file saved succesfully.\r\n");
             if (writer != null)
             {
-                
+
                 try
                 {
                     writer.Flush();
                     writer.Close();
                     writer.Dispose();
                 }
-                catch(Exception)
+                catch (Exception)
                 {
                     tbreceived.Append("File already closed.");
                 }
-                
+
             }
         }
 
@@ -896,7 +893,7 @@ namespace FloppyControlApp.MyClasses
                     if (ext == ".scp")
                     {
                         resetinput();
-                        
+
                         processing.Indexrxbuf = 0;
 
                         //MFMData sectordata;
@@ -908,9 +905,9 @@ namespace FloppyControlApp.MyClasses
                         //reader.BaseStream.Length
                         int length = (int)reader.BaseStream.Length;
 
-                        temp = reader.ReadBytes((int)length);
+                        temp = reader.ReadBytes(length);
                         int i;
-                        processing.IncreaseBufSize(processing.Indexrxbuf+length);
+                        processing.IncreaseBufSize(processing.Indexrxbuf + length);
                         for (i = 0; i < length - 2; i += 2)
                         {
                             processing.RxBbuf[processing.Indexrxbuf++] = (byte)((temp[i] << 8 | temp[i + 1]) >> 1);
@@ -931,7 +928,7 @@ namespace FloppyControlApp.MyClasses
             int i;
             string extension = "";
             int ioerror = 0;
-            
+
             var sectordata2 = processing.sectordata2;
 
             // First check if there's sectordata2 data available and that all sectors are ok in sectorok array
@@ -954,7 +951,7 @@ namespace FloppyControlApp.MyClasses
                 procmode = (ProcessingType)Enum.Parse(typeof(ProcessingType), Processingmode, true);
 
             if (procmode == ProcessingType.adaptive1 || procmode == ProcessingType.adaptive2 || procmode == ProcessingType.adaptive3)
-                averagetimecompensation = ((80 - four) + (120 - six) + (160 - eight)) / 3;
+                averagetimecompensation = (80 - four + (120 - six) + (160 - eight)) / 3;
             else
                 averagetimecompensation = 5;
 
@@ -1021,7 +1018,7 @@ namespace FloppyControlApp.MyClasses
                 return;
             }
 
-            
+
             int q;
 
             MFMData sectordataheader;
@@ -1117,7 +1114,7 @@ namespace FloppyControlApp.MyClasses
             }
 
             // calculate track time
-            UInt32[] trackduration = new UInt32[200];
+            uint[] trackduration = new uint[200];
             int[] indexpulsespertrack = new int[200];
             int val = 0;
             for (track = 0; track < trackhead; track++)
@@ -1127,7 +1124,7 @@ namespace FloppyControlApp.MyClasses
                     for (i = tsoffset[track, sector].offsetstart; i < tsoffset[track, sector].offsetend; i++)
                     {
                         val = processing.RxBbuf[i];
-                        trackduration[track] += (UInt32)((val) << 1);
+                        trackduration[track] += (uint)(val << 1);
                         if (val < 4) indexpulsespertrack[track]++;
                     }
                 }
@@ -1142,7 +1139,7 @@ namespace FloppyControlApp.MyClasses
                     "\tlength: " + tsoffset[track, sector].length + "\t durcation: " + trackduration[track] + "\r\n");
                 }
             }
-            UInt32[] offsettable = new UInt32[200];
+            uint[] offsettable = new uint[200];
 
             // Create offset table, calculated without header offset
             offsettable[0] = 0;
@@ -1151,7 +1148,7 @@ namespace FloppyControlApp.MyClasses
             int value;
             for (track = 0; track < trackhead; track++)
             {
-                offsettable[track] = (UInt32)(perioddataoffset);
+                offsettable[track] = (uint)perioddataoffset;
 
                 for (sector = 0; sector < sectorspertrack; sector++)
                 {
@@ -1160,7 +1157,7 @@ namespace FloppyControlApp.MyClasses
                     tracklength += value;
                 }
                 perioddataoffset += 0x10;
-                perioddataoffset -= (indexpulsespertrack[track] * 2);
+                perioddataoffset -= indexpulsespertrack[track] * 2;
                 tracklengthrxbuf[track] = tracklength - indexpulsespertrack[track];
                 tracklength = 0;
             }
@@ -1171,7 +1168,7 @@ namespace FloppyControlApp.MyClasses
 
             tbreceived.Append("Path:" + path + "\r\n");
 
-            bool exists = System.IO.Directory.Exists(path);
+            bool exists = Directory.Exists(path);
 
             while (File.Exists(path))
             {
@@ -1200,7 +1197,7 @@ namespace FloppyControlApp.MyClasses
                 writer.Write((byte)'C');            // 1
                 writer.Write((byte)'P');            // 2
                 writer.Write((byte)0x39);           // 3 Version 3.9
-                writer.Write((byte)scpformat);      // 4 SCP disk type
+                writer.Write(scpformat);      // 4 SCP disk type
                 writer.Write((byte)1);            // 5 Number of revolutions
                 writer.Write((byte)0);            // 6 Start track
                 writer.Write((byte)(trackhead - 1)); // 7 end track
@@ -1208,13 +1205,13 @@ namespace FloppyControlApp.MyClasses
                 writer.Write((byte)0);            // 9 Bit depth of flux period data. Using default 16 bits shorts.
                 writer.Write((byte)0);             // A number of heads
                 writer.Write((byte)0);            // B reserved byte
-                writer.Write((UInt32)0);            // C..F Checksum (not used for now)
+                writer.Write((uint)0);            // C..F Checksum (not used for now)
 
-                UInt32 headeroffset = (UInt32)(0x10 + (trackhead * 4));
+                uint headeroffset = (uint)(0x10 + trackhead * 4);
 
                 for (track = 0; track < trackhead; track++)
                 {
-                    writer.Write((UInt32)((offsettable[track]) + headeroffset));
+                    writer.Write(offsettable[track] + headeroffset);
                 }
 
                 //int qq;
@@ -1227,9 +1224,9 @@ namespace FloppyControlApp.MyClasses
                     writer.Write((byte)track);          // 0..2 track
 
                     // We're using one single revolution
-                    writer.Write((UInt32)trackduration[track]);             // 0..2 track duration in nanoseconds/25
-                    writer.Write((UInt32)tracklengthrxbuf[track]);          // 0..2 track flux periods (length)
-                    writer.Write((UInt32)0x10);                    // 0..2
+                    writer.Write(trackduration[track]);             // 0..2 track duration in nanoseconds/25
+                    writer.Write((uint)tracklengthrxbuf[track]);          // 0..2 track flux periods (length)
+                    writer.Write((uint)0x10);                    // 0..2
 
 
                     byte b1 = 0;
@@ -1242,12 +1239,12 @@ namespace FloppyControlApp.MyClasses
                         {
                             val = processing.RxBbuf[i] + averagetimecompensation;
                             if (val < 4 + averagetimecompensation) continue;
-                            b1 = (byte)((val >> 7) & 1);
+                            b1 = (byte)(val >> 7 & 1);
                             b2 = (byte)(val << 1);
                             //if (b2 == 0x1a)
                             //    qq = 2;
-                            writer.Write((byte)b1);
-                            writer.Write((byte)b2);
+                            writer.Write(b1);
+                            writer.Write(b2);
                         }
                     }
                 }
