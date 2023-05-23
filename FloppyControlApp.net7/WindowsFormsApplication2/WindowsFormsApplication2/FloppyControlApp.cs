@@ -50,6 +50,8 @@ namespace FloppyControlApp
 			SyncControlsBetweenTabs();
 			processing.stop = 0;
 			ProcessAmiga();
+			HandleTabSwitching();
+			scatterplot.UpdateScatterPlot();
 		}
 
 		private void SyncControlsBetweenTabs()
@@ -95,6 +97,7 @@ namespace FloppyControlApp
 			processing.stop = 0;
 			ProcessPC();
 			HandleTabSwitching();
+			scatterplot.UpdateScatterPlot();
 		}
 
 		public void UpdateForm()
