@@ -306,6 +306,7 @@ namespace FloppyControlApp
 		{
 			wlabel.Text = this.Width.ToString();
 			hlabel.Text = this.Height.ToString();
+			textBoxReceived.AppendText("ThresholdsGroupBox x: " + ThresholdsGroupBox.Left);
 		}
 
 		// Display sector data, only works for PC for now
@@ -453,14 +454,14 @@ namespace FloppyControlApp
 			{
 				//MainTabControl.TabPages[1].Controls.Remove(ThresholdsGroupBox);
 				ErrorCorrectionTab.Controls.Add(ThresholdsGroupBox);
-				ThresholdsGroupBox.Location = new Point(459, 290);
+				ThresholdsGroupBox.Location = new Point(559, 290);
 			}
 			if (MainTabControl.SelectedTab == ProcessingTab)
 			{
 				CopyThresholdsToQuick();
 
 				groupBox6.Controls.Add(ThresholdsGroupBox);
-				ThresholdsGroupBox.Location = new Point(600, 16);
+				ThresholdsGroupBox.Location = new Point(706, 16);
 				processing.RtbSectorMap = rtbSectorMap;
 				processing.SectorMap.rtbSectorMap = rtbSectorMap;
 				processing.SectorMap.RefreshSectorMap();
@@ -726,7 +727,7 @@ namespace FloppyControlApp
 		{
 			HistogramhScrollBar1.Value = QHistogramhScrollBar1.Value;
 			scatterplot.AnScatViewlargeoffset = QHistogramhScrollBar1.Value;
-
+			textBoxReceived.AppendText("HistogramScrollBar: " + scatterplot.AnScatViewlargeoffset + "\r\n");
 			scatterplot.UpdateScatterPlot();
 		}
 

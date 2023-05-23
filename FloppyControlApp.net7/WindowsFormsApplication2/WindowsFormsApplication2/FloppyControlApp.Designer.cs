@@ -2906,7 +2906,7 @@ namespace FloppyControlApp
 			groupBox6.Margin = new Padding(4, 3, 4, 3);
 			groupBox6.Name = "groupBox6";
 			groupBox6.Padding = new Padding(4, 3, 4, 3);
-			groupBox6.Size = new System.Drawing.Size(927, 395);
+			groupBox6.Size = new System.Drawing.Size(1009, 395);
 			groupBox6.TabIndex = 49;
 			groupBox6.TabStop = false;
 			groupBox6.Text = "Processing options";
@@ -3211,11 +3211,11 @@ namespace FloppyControlApp
 			ThresholdsGroupBox.Controls.Add(PMinLabel);
 			ThresholdsGroupBox.Controls.Add(PSixEightLabel);
 			ThresholdsGroupBox.Controls.Add(PMaxLabel);
-			ThresholdsGroupBox.Location = new System.Drawing.Point(705, 18);
+			ThresholdsGroupBox.Location = new System.Drawing.Point(706, 18);
 			ThresholdsGroupBox.Margin = new Padding(4, 3, 4, 3);
 			ThresholdsGroupBox.Name = "ThresholdsGroupBox";
 			ThresholdsGroupBox.Padding = new Padding(4, 3, 4, 3);
-			ThresholdsGroupBox.Size = new System.Drawing.Size(204, 288);
+			ThresholdsGroupBox.Size = new System.Drawing.Size(207, 288);
 			ThresholdsGroupBox.TabIndex = 89;
 			ThresholdsGroupBox.TabStop = false;
 			ThresholdsGroupBox.Text = "Thresholds";
@@ -3624,7 +3624,7 @@ namespace FloppyControlApp
 			// 
 			// EntropySpliceBtn
 			// 
-			EntropySpliceBtn.Location = new System.Drawing.Point(727, 519);
+			EntropySpliceBtn.Location = new System.Drawing.Point(825, 571);
 			EntropySpliceBtn.Margin = new Padding(4, 3, 4, 3);
 			EntropySpliceBtn.Name = "EntropySpliceBtn";
 			EntropySpliceBtn.Size = new System.Drawing.Size(91, 45);
