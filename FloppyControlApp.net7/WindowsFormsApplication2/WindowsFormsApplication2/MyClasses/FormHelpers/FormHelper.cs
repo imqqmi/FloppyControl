@@ -21,39 +21,8 @@ using FloppyControlApp.MyClasses.FileIO;
 
 namespace FloppyControlApp
 {
-    public partial class FloppyControl : Form
+	public partial class FloppyControl : Form
     {
-        #region model classes
-
-        class Badsectorkeyval
-        {
-            public string Name { get; set; }
-            public int Id { get; set; }
-            public int Threadid { get; set; }
-        }
-
-        public class ComboboxItem
-        {
-            public string Text { get; set; }
-            public int Id { get; set; }
-
-            public override string ToString()
-            {
-                return Text;
-            }
-        }
-
-        class SectorMapContextMenu
-        {
-            public int Track { get; set; }
-            public int Sector { get; set; }
-            public int Duration { get; set; }
-            public MFMData Sectordata { get; set; }
-            public int Cmd { get; set; }
-        }
-
-        #endregion
-
         #region variable definitions
         private string GuiMode;
         private FDDProcessing processing;
@@ -429,13 +398,126 @@ namespace FloppyControlApp
                 ProcessingTab.Enabled = true;
         }
 
-        #endregion
+		#endregion
 
-        #region Update form elements
+		#region Capture
+		
+        private void ConnectToFloppyControlHardware()
+		{
+			if (MainTabControl.SelectedTab == ProcessingTab)
+			{
+				controlfloppy.DirectStep = DirectStepCheckBox.Checked;
+				controlfloppy.MicrostepsPerTrack = (int)MicrostepsPerTrackUpDown.Value;
+				controlfloppy.StepStickMicrostepping =
+				controlfloppy.trk00offset = (int)TRK00OffsetUpDown.Value;
+				controlfloppy.EndTrack = (int)EndTracksUpDown.Value;
+				controlfloppy.StartTrack = (int)StartTrackUpDown.Value;
+				controlfloppy.TrackDuration = (int)TrackDurationUpDown.Value;
 
-        // Updates the labels under the sliders
-        // as well as the indicators under the histogram
-        private void UpdateSliderLabels()
+			}
+			else if (MainTabControl.SelectedTab == QuickTab)
+			{
+				controlfloppy.DirectStep = QDirectStepCheckBox.Checked;
+				controlfloppy.MicrostepsPerTrack = (int)QMicrostepsPerTrackUpDown.Value;
+				controlfloppy.trk00offset = (int)QTRK00OffsetUpDown.Value;
+				controlfloppy.EndTrack = (int)QEndTracksUpDown.Value;
+				controlfloppy.StartTrack = (int)QStartTrackUpDown.Value;
+				controlfloppy.TrackDuration = (int)QTrackDurationUpDown.Value;
+			}
+
+			controlfloppy.binfilecount = binfilecount;
+			controlfloppy.tbr = tbreceived;
+			//processing.indexrxbuf            = indexrxbuf;
+			controlfloppy.StepStickMicrostepping = Decimal.ToInt32((decimal)Properties.Settings.Default["StepStickMicrostepping"]);
+			controlfloppy.outputfilename = outputfilename.Text;
+			controlfloppy.rxbuf = processing.RxBbuf;
+
+			// Callbacks
+			controlfloppy.updateHistoAndSliders = UpdateHistoAndSliders;
+			controlfloppy.ControlFloppyScatterplotCallback = ControlFloppyScatterplotCallback;
+			controlfloppy.Setrxbufcontrol = Setrxbufcontrol;
+
+			if (!controlfloppy.serialPort1.IsOpen) // Open connection if it's closed
+			{
+				controlfloppy.ConnectFDD();
+				if (controlfloppy.serialPort1.IsOpen)
+				{
+					LabelStatus.Text = "Connected.";
+				}
+				else
+				{
+					LabelStatus.Text = "Disconnected.";
+				}
+			}
+			else // Close connection if open
+				DisconnectFromFloppyControlHardware();
+		}
+
+		private void CaptureTracks()
+		{
+			ResetInput();
+			processing.entropy = null;
+			tabControl1.SelectedTab = ScatterPlottabPage;
+
+			controlfloppy.outputfilename = outputfilename.Text;
+
+			if (controlfloppy.serialPort1.IsOpen)
+				controlfloppy.StartCapture();
+			else
+				tbreceived.Append("Not connected.\r\n");
+		}
+
+		public void RecaptureAllBadSectors()
+		{
+			int track, sector;
+
+			var sectorok = processing.SectorMap.sectorok;
+			int starttrack = (int)StartTrackUpDown.Value;
+			int endtrack = (int)EndTracksUpDown.Value;
+
+			MainTabControl.SelectedTab = ProcessingTab;
+			processing.stop = 0;
+
+			for (track = starttrack; track < endtrack + 1; track++)
+			{
+				for (sector = 0; sector < processing.sectorspertrack; sector++)
+				{
+					if (sectorok[track, sector] == 0 || sectorok[track, sector] == SectorMapStatus.HeadOkDataBad)
+					{
+						tbreceived.Append("Track: " + track);
+						StartTrackUpDown.Value = track;
+
+						EndTracksUpDown.Value = track;
+						CaptureTracks();
+						while (controlfloppy.capturecommand == 1)
+						{
+							Thread.Sleep(20);
+							Application.DoEvents();
+						}
+						Application.DoEvents();
+						AdaptiveScan();
+						Application.DoEvents();
+						if (processing.stop == 1)
+							break;
+						break;
+					}
+				}
+				if (processing.stop == 1)
+					break;
+			}
+			StartTrackUpDown.Value = starttrack;
+			EndTracksUpDown.Value = endtrack;
+
+			tbreceived.Append("Done!\r\n");
+		}
+
+		#endregion
+
+		#region Update form elements
+
+		// Updates the labels under the sliders
+		// as well as the indicators under the histogram
+		private void UpdateSliderLabels()
         {
 
             int x, y;
@@ -1353,9 +1435,870 @@ namespace FloppyControlApp
             scanactive = scanold;
         }
 
-        #endregion
+		#endregion
 
-        public void InitializeFloppyControl()
+		#region Error Correction
+
+        private void EntropySplice()
+        {
+            int IndexS1, IndexSx, listlength, Threadid;
+            var selected = BadSectorListBox.SelectedIndices;
+            listlength = selected.Count;
+
+            if (listlength >= 1)
+            {
+                // Get the first sector from the list
+                IndexS1 = ((Badsectorkeyval)BadSectorListBox.Items[selected[0]]).Id;
+                Threadid = ((Badsectorkeyval)BadSectorListBox.Items[selected[0]]).Threadid;
+                var Sectordata = processing.sectordata2[IndexS1];
+                var Sectorheader = processing.sectordata2[Sectordata.HeaderIndex];
+                var Offset1 = Sectordata.rxbufMarkerPositions;
+                byte ResultingVal;
+                var SectordataEnd = processing.sectordata2[IndexS1 + 1];
+                int Length = SectordataEnd.rxbufMarkerPositions - Offset1;
+                float LowestEntropy, ThisEntropy;
+                if (Length > 10000) Length = 10000;
+                if (processing.entropy == null)
+                {
+                    textBoxReceived.AppendText("No entropy data! Process data first with error correction enabled.");
+                    return;
+                }
+
+                for (int j = 0; j < Length; j++)
+                {
+                    ResultingVal = processing.RxBbuf[j + Offset1];
+                    LowestEntropy = Math.Abs(processing.entropy[j + Offset1]);
+                    for (int i = 1; i < listlength; i++)
+                    {
+                        if (processing.stop == 1)
+                            break;
+                        IndexSx = ((Badsectorkeyval)BadSectorListBox.Items[selected[i]]).Id;
+                        Threadid = ((Badsectorkeyval)BadSectorListBox.Items[selected[i]]).Threadid;
+
+                        var Sectordata2   = processing.sectordata2[IndexSx];
+                        var Sectorheader2 = processing.sectordata2[Sectordata2.HeaderIndex];
+                        
+                        var offset2 = Sectordata2.rxbufMarkerPositions;
+                        
+                        ThisEntropy = Math.Abs(processing.entropy[j + offset2]);
+                        
+                        if (ThisEntropy < (LowestEntropy+10)) ResultingVal = processing.RxBbuf[j + offset2];
+                    }
+                    processing.RxBbuf[j + Offset1] = ResultingVal;
+                }
+            }
+            else
+            {
+                textBoxReceived.AppendText("Error, no data selected.");
+                return;
+            }
+        }
+
+        private void AvgPeriodsFromListSelection()
+        {
+            int IndexS1, listlength, Threadid;
+            var selected = BadSectorListBox.SelectedIndices;
+            listlength = selected.Count;
+
+            if (listlength >= 1)
+            {
+                // Get the first sector from the list
+                IndexS1 = ((Badsectorkeyval)BadSectorListBox.Items[selected[0]]).Id;
+                Threadid = ((Badsectorkeyval)BadSectorListBox.Items[selected[0]]).Threadid;
+                var Sectordata = processing.sectordata2[IndexS1];
+                var Sectorheader = processing.sectordata2[Sectordata.HeaderIndex];
+                var Offset1 = Sectorheader.rxbufMarkerPositions;
+                int ResultingVal;
+                var SectordataEnd = processing.sectordata2[IndexS1+1];
+                int Length = SectordataEnd.rxbufMarkerPositions - Offset1;
+                if (Length > 10000) Length = 10000;
+                for (int j = 0; j < Length; j++)
+                {
+                    ResultingVal = processing.RxBbuf[j + Offset1];
+                    for (int i = 1; i < listlength; i++)
+                    {
+                        if (processing.stop == 1)
+                            break;
+                        IndexS1 = ((Badsectorkeyval)BadSectorListBox.Items[selected[i]]).Id;
+                        Threadid = ((Badsectorkeyval)BadSectorListBox.Items[selected[i]]).Threadid;
+                        var sectordata2 = processing.sectordata2[IndexS1];
+                        var sectorheader2 = processing.sectordata2[Sectordata.HeaderIndex];
+                        var offset2 = sectorheader2.rxbufMarkerPositions;
+                        ResultingVal += processing.RxBbuf[j+offset2];
+                    }
+                    processing.RxBbuf[j + Offset1] = (byte)(ResultingVal/(listlength/1.2f));
+                }
+            }
+            else
+            {
+                textBoxReceived.AppendText("Error, no data selected.");
+                return;
+            }
+        }
+
+        private void ErrorCorrectRealign4E()
+        {
+            int indexS1, listlength, threadid;
+            var selected = BadSectorListBox.SelectedIndices;
+            listlength = selected.Count;
+
+            ECSettings ecSettings = new ECSettings();
+            ECResult sectorresult;
+            ecSettings.sectortextbox = textBoxSector;
+
+            if (ScatterMaxTrackBar.Value - ScatterMinTrackBar.Value > 50)
+            {
+                tbreceived.Append("Error: selection can't be larger than 50!\r\n");
+                return;
+            }
+
+            if (listlength >= 1)
+            {
+                for (int i = 0; i < listlength; i++)
+                {
+                    if (processing.stop == 1)
+                        break;
+                    indexS1 = ((Badsectorkeyval)BadSectorListBox.Items[selected[i]]).Id;
+                    threadid = ((Badsectorkeyval)BadSectorListBox.Items[selected[i]]).Threadid;
+                    ecSettings.indexS1 = indexS1;
+                    ecSettings.periodSelectionStart = (int)ScatterMinUpDown.Value;
+                    ecSettings.periodSelectionEnd = (int)ScatterMaxUpDown.Value;
+                    ecSettings.threadid = threadid;
+                    if ((int)processing.diskformat > 2)
+                    {
+                        sectorresult = processing.ProcessRealign4E(ecSettings);
+                        if (sectorresult != null)
+                        {
+                            AddRealignedToLists(sectorresult);
+                        }
+                    }
+                    else
+                    {
+                        sectorresult = processing.ProcessRealignAmiga(ecSettings);
+                        if (sectorresult != null)
+                        {
+                            AddRealignedToLists(sectorresult);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                textBoxReceived.AppendText("Error, no data selected.");
+                return;
+            }
+        }
+
+        private void AddRealignedToLists(ECResult sectorresult)
+        {
+            MFMData sectordata = sectorresult.sectordata;
+            int badsectorcnt2 = sectorresult.index;
+            int track = sectordata.track;
+            int sector = sectordata.sector;
+
+            var currentcontrol = FindFocusedControl(this);
+            tabControl1.SelectedTab = ShowSectorTab;
+            currentcontrol.Focus();
+
+            string key = "Aligned: T" + track + " s" + sector;
+            BadSectorListBox.Items.Add(new Badsectorkeyval
+            {
+                Name = "i: " + badsectorcnt2 + " " + key,
+                Id = badsectorcnt2,
+                Threadid = sectordata.threadid
+            });
+            //JumpTocomboBox.Items.Add()
+            JumpTocomboBox.Items.Add(new ComboboxItem
+            {
+                Text = "i: " + badsectorcnt2 + " " + key,
+                Id = badsectorcnt2,
+            });
+        }
+
+		public void ECMFMByteEnc()
+		{
+			int indexS1, threadid;
+			ECSettings ecSettings = new ECSettings
+			{
+				sectortextbox = textBoxSector
+			};
+
+			if (BadSectorListBox.SelectedIndices.Count >= 1)
+			{
+				indexS1 = ((Badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[0]]).Id;
+				threadid = ((Badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[0]]).Threadid;
+				ecSettings.indexS1 = indexS1;
+				ecSettings.periodSelectionStart = (int)ScatterMinUpDown.Value;
+				ecSettings.periodSelectionEnd = (int)ScatterMaxUpDown.Value;
+				//ecSettings.combinations = (int)CombinationsUpDown.Value;
+				ecSettings.threadid = threadid;
+				ecSettings.MFMByteStart = (int)MFMByteStartUpDown.Value;
+				ecSettings.MFMByteLength = (int)MFMByteLengthUpDown.Value;
+			}
+			else
+			{
+				textBoxReceived.AppendText("Error, no data selected.");
+				return;
+			}
+			if (processing.ProcSettings.platform == 0)
+				processing.ProcessClusterMFMEnc(ecSettings);
+			else processing.ProcessClusterAmigaMFMEnc(ecSettings);
+		}
+
+		public void ECIteratorTest()
+		{
+			int[] combi = new int[32];
+			int[] combilimit = new int[32];
+			int i, j, q, k;
+			int combinations = 0;
+			int NumberOfMfmBytes = 3;
+			int MaxIndex = 32;
+			int iterations;
+			for (i = 0; i < NumberOfMfmBytes; i++)
+			{
+				combilimit[i] = 1;
+			}
+			for (j = 0; j < MaxIndex; j++)
+			{
+
+				for (q = 0; q < NumberOfMfmBytes; q++)
+				{
+					combilimit[q]++;
+
+				}
+
+				int temp = combilimit[0];
+				iterations = temp;
+				for (q = 0; q < NumberOfMfmBytes - 1; q++)
+				{
+					iterations *= temp;
+				}
+				tbreceived.Append("Iterations: " + iterations + "\r\n");
+
+				for (i = 0; i < iterations; i++)
+				{
+					//printarray(combi, NumberOfMfmBytes);
+					combi[0]++;
+					for (k = 0; k < NumberOfMfmBytes; k++)
+					{
+
+						if (combi[k] >= combilimit[0])
+						{
+							combi[k] = 0;
+							combi[k + 1]++;
+						}
+					}
+
+					combinations++;
+				}
+
+			}
+			tbreceived.Append("Combinations:" + combinations + "\r\n");
+		}
+
+		private void ECZoomOutBtnHandler()
+		{
+			int indexS1;
+
+			if (BadSectorListBox.SelectedIndices.Count >= 1)
+			{
+				indexS1 = ((Badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[0]]).Id;
+
+				int sectorlength = processing.sectordata2[indexS1].sectorlength;
+
+				int factor = sectorlength / 512;
+
+				ScatterMinTrackBar.Value = 0;
+				ScatterMaxTrackBar.Value = 4500 * factor;
+				UpdateECInterface();
+			}
+		}
+
+		public void DoErrorCorrectionOnSelection()
+		{
+			int indexS1, threadid;
+
+			ECSettings ecSettings = new ECSettings
+			{
+				sectortextbox = textBoxSector
+			};
+
+			if (BadSectorListBox.SelectedIndices.Count >= 1)
+			{
+				indexS1 = ((Badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[0]]).Id;
+				threadid = ((Badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[0]]).Threadid;
+				ecSettings.indexS1 = indexS1;
+				ecSettings.periodSelectionStart = (int)ScatterMinUpDown.Value;
+				ecSettings.periodSelectionEnd = (int)ScatterMaxUpDown.Value;
+				ecSettings.combinations = (int)CombinationsUpDown.Value;
+				ecSettings.threadid = threadid;
+				ecSettings.C6Start = (int)C6StartUpDown.Value;
+				ecSettings.C8Start = (int)C8StartUpDown.Value;
+			}
+			else
+			{
+				textBoxReceived.AppendText("Error, no data selected.");
+				return;
+			}
+			if (processing.ProcSettings.platform == 0)
+			{
+				processing.ECCluster2(ecSettings);
+			}
+			else processing.ProcessClusterAmiga(ecSettings);
+		}
+
+		#endregion
+
+		#region GUI
+
+		public void SectorMapInteractions(MouseEventArgs e)
+		{
+			RichTextBox rtb = null;
+			if (MainTabControl.SelectedTab == QuickTab)
+			{
+				rtb = QrtbSectorMap;
+			}
+			else if (MainTabControl.SelectedTab == ProcessingTab)
+			{
+				rtb = rtbSectorMap;
+			}
+			ContextMenuStrip smmenu = new ContextMenuStrip();
+			int sector, track;
+			int i;
+			int div = processing.sectorspertrack + 6;
+			LimitToTrackUpDown.Value = track = (rtb.SelectionStart / div);
+			LimitToSectorUpDown.Value = sector = (rtb.SelectionStart % div - 5);
+
+			if (sector < 0) return;
+			TrackUpDown.Value = track;
+			SectorUpDown.Value = sector;
+
+			if (e.Button == MouseButtons.Left)
+			{
+				tbreceived.Append("Track: " + track + " sector: " + sector + " div:" + div + "\r\n");
+				for (i = 0; i < processing.sectordata2.Count; i++)
+				{
+					if (processing.sectordata2 == null) continue;
+					if (processing.sectordata2.Count == 0) continue;
+					if (!(processing.sectordata2[i].trackhead == track
+						   && processing.sectordata2[i].sector == sector)) continue;
+					if (!(processing.sectordata2[i].MarkerType == MarkerType.data
+						|| processing.sectordata2[i].MarkerType == MarkerType.headerAndData)) continue;
+					if (processing.sectordata2[i].MarkerType == MarkerType.headerAndData)
+					{
+						if (processing.sectordata2[i].Status != processing.SectorMap.sectorok[track, sector]) continue;
+						if (processing.sectordata2.Count - 1 <= i) continue;
+					}
+					else
+					{
+						if (processing.sectordata2[i].Status != processing.SectorMap.sectorok[track, sector]) continue;
+						if (processing.sectordata2.Count - 1 <= i) continue;
+					}
+					scatterplot.AnScatViewlargeoffset = processing.sectordata2[i].rxbufMarkerPositions - 50;
+					scatterplot.AnScatViewoffset = 0;
+					int markerSize = 2;
+					if (processing.ProcSettings.platform == Platform.Amiga) markerSize = 1;
+					scatterplot.AnScatViewlength = processing.sectordata2[i + markerSize].rxbufMarkerPositions - scatterplot.AnScatViewlargeoffset + 100;
+					//tbreceived.Append("AnScatViewOffset"+ AnScatViewoffset+"\r\n");
+					scatterplot.UpdateScatterPlot();
+					break;
+				}
+			}
+			else if (e.Button == MouseButtons.Right)
+			{
+				int index = rtb.GetCharIndexFromPosition(new Point(e.X, e.Y));
+				tbreceived.Append("Index: " + index + "\r\n");
+				div = processing.sectorspertrack + 6;
+				LimitToTrackUpDown.Value = track = (index / div);
+				LimitToSectorUpDown.Value = sector = (index % div - 5);
+				tbreceived.Append("Track: " + track + " sector: " + sector + " div:" + div);
+				if (sector < 0) return;
+
+				smmenu.ItemClicked += Smmenu_ItemClicked;
+				tbreceived.Append("Track: " + track + "\r\n");
+
+				SectorMapContextMenu[] menudata = new SectorMapContextMenu[10];
+				ToolStripItem[] item = new ToolStripItem[10];
+				int menudataindex = 0;
+				// Capture tab
+
+				menudata[menudataindex] = new SectorMapContextMenu
+				{
+					Sector = sector,
+					Track = track,
+					Duration = 1000,
+					Cmd = 0
+				};
+				item[menudataindex] = smmenu.Items.Add("Recapture T" + track.ToString("D3") + " 1 sec", MainTabControlImageList.Images[0]);
+				item[menudataindex].Tag = menudata[menudataindex];
+
+				menudata[menudataindex] = new SectorMapContextMenu
+				{
+					Sector = sector,
+					Track = track,
+					Duration = 5000,
+					Cmd = 0
+				};
+				item[menudataindex] = smmenu.Items.Add("Recapture T" + track.ToString("D3") + " 5 sec", MainTabControlImageList.Images[0]);
+				item[menudataindex].Tag = menudata[menudataindex];
+
+				// Capture tab
+				menudataindex++;
+				menudata[menudataindex] = new SectorMapContextMenu
+				{
+					Sector = sector,
+					Track = track,
+					Duration = 50000,
+					Cmd = 0
+				};
+				item[menudataindex] = smmenu.Items.Add("Recapture T" + track.ToString("D3") + " 50 sec", MainTabControlImageList.Images[0]);
+				item[menudataindex].Tag = menudata[menudataindex];
+
+				//Error correction tab
+				menudataindex++;
+				menudata[menudataindex] = new SectorMapContextMenu
+				{
+					Sector = sector,
+					Track = track,
+					Cmd = 1
+				};
+				item[menudataindex] = smmenu.Items.Add("Error Correct T" + track.ToString("D3") + " S" + sector, MainTabControlImageList.Images[1]);
+				item[menudataindex].Tag = menudata[menudataindex];
+
+				//Scope waveform capture
+				menudataindex++;
+				menudata[menudataindex] = new SectorMapContextMenu
+				{
+					Sector = sector,
+					Track = track,
+					Cmd = 2
+				};
+				item[menudataindex] = smmenu.Items.Add("Get waveform T" + track.ToString("D3") + " S" + sector, MainTabControlImageList.Images[2]);
+				item[menudataindex].Tag = menudata[menudataindex];
+
+				//Select rxdata
+				menudataindex++;
+				menudata[menudataindex] = new SectorMapContextMenu
+				{
+					Sector = sector,
+					Track = track,
+					Cmd = 3
+				};
+				item[menudataindex] = smmenu.Items.Add("Limit rxdata T" + track.ToString("D3") + " S" + sector, MainTabControlImageList.Images[2]);
+				item[menudataindex].Tag = menudata[menudataindex];
+
+				// Limit processing to Track/Sector
+				menudataindex++;
+				menudata[menudataindex] = new SectorMapContextMenu
+				{
+					Sector = sector,
+					Track = track,
+					Cmd = 4
+				};
+				item[menudataindex] = smmenu.Items.Add("Limit processing T" + track.ToString("D3") + " S" + sector, MainTabControlImageList.Images[2]);
+				item[menudataindex].Tag = menudata[menudataindex];
+
+				Point ShowHere = new Point(Cursor.Position.X, Cursor.Position.Y + 10);
+				smmenu.Show(ShowHere);
+			}
+		}
+
+		public void SectorMapRightclickMenuHandler(ToolStripItemClickedEventArgs e)
+		{
+			SectorMapContextMenu menudata = (SectorMapContextMenu)e.ClickedItem.Tag;
+			// recapture 1 sec
+			if (menudata.Cmd == 0)
+			{
+				tbreceived.Append("Track: " + menudata.Track.ToString("D3") + " S" + menudata.Sector + "\r\n");
+				//MainTabControl.SelectedTab = CaptureTab;
+				StartTrackUpDown.Value = QStartTrackUpDown.Value = menudata.Track;
+				EndTracksUpDown.Value = QEndTracksUpDown.Value = menudata.Track;
+				TrackDurationUpDown.Value = QTrackDurationUpDown.Value = menudata.Duration;
+			}
+			// recapture 5 sec
+			else if (menudata.Cmd == 1)
+			{
+				MainTabControl.SelectedTab = ErrorCorrectionTab;
+				Track1UpDown.Value = menudata.Track;
+				Sector1UpDown.Value = menudata.Sector;
+				Track2UpDown.Value = menudata.Track;
+				Sector2UpDown.Value = menudata.Sector;
+			}
+			// recapture 50 sec
+			else if (menudata.Cmd == 2)
+			{
+				MainTabControl.SelectedTab = NetworkTab;
+				NetworkCaptureTrackStartUpDown.Value = menudata.Track;
+				NetworkCaptureTrackEndUpDown.Value = menudata.Track;
+			}
+			// Set track/sector error correction
+			else if (menudata.Cmd == 3)
+			{
+				int i;
+				var sd = processing.sectordata2;
+				for (i = 0; i < processing.sectordata2.Count; i++)
+				{
+					if (sd[i].sector == menudata.Sector && sd[i].trackhead == menudata.Track && sd[i].Status == SectorMapStatus.HeadOkDataBad)
+					{
+						rxbufStartUpDown.Maximum = processing.Indexrxbuf;
+						rxbufStartUpDown.Value = sd[i].rxbufMarkerPositions - 100;
+						rxbufEndUpDown.Value = 15000;
+						break;
+					}
+				}
+			}
+			// Limit processing track/sector
+			else if (menudata.Cmd == 4)
+			{
+				QLimitTSCheckBox.Checked = true;
+				QLimitToTrackUpDown.Value = menudata.Track;
+				QLimitToSectorUpDown.Value = menudata.Sector;
+
+				LimitTSCheckBox.Checked = true;
+				LimitToTrackUpDown.Value = menudata.Track;
+				LimitToSectorUpDown.Value = menudata.Sector;
+			}
+		}
+
+		void DoChangeProcMode()
+		{
+			ProcessingType procmode = ProcessingType.adaptive1;
+			if (ProcessingModeComboBox.SelectedItem.ToString() != "")
+				procmode = (ProcessingType)Enum.Parse(typeof(ProcessingType), ProcessingModeComboBox.SelectedItem.ToString(), true);
+			tbreceived.Append("Selected: " + procmode.ToString() + "\r\n");
+			SetThresholdLabels(procmode);
+
+			switch (procmode)
+			{
+				case ProcessingType.normal:
+					FindPeaks();
+					EightvScrollBar.Value = 0xff;
+					scatterplot.ShowEntropy = false;
+					break;
+				case ProcessingType.aufit:
+					MinvScrollBar.Value = 33;
+					FourvScrollBar.Value = 0x0C;
+					OffsetvScrollBar1.Value = 0;
+					scatterplot.ShowEntropy = false;
+					break;
+				case ProcessingType.adaptive1:
+					scatterplot.ShowEntropy = true;
+					RateOfChangeUpDown.Value = (decimal)1.1;
+					RateOfChange2UpDown.Value = 1300;
+
+					FindPeaks();
+					break;
+				case ProcessingType.adaptive2:
+				case ProcessingType.adaptive3:
+					RateOfChangeUpDown.Value = (decimal)1.1;
+					RateOfChange2UpDown.Value = 1300;
+
+					FindPeaks();
+					scatterplot.ShowEntropy = false;
+					break;
+				case ProcessingType.adaptivePredict:
+					RateOfChangeUpDown.Value = (decimal)3;
+					RateOfChange2UpDown.Value = 600;
+					FindPeaks();
+					scatterplot.ShowEntropy = false;
+					break;
+				case ProcessingType.adaptiveEntropy:
+					scatterplot.ShowEntropy = true;
+					break;
+			}
+
+			scanactive = true; // prevent triggering events on updown controls
+			CopyThresholdsToQuick();
+			scanactive = false;
+			UpdateSliderLabels();
+		}
+
+		private void SetGuiMode(string mode)
+		{
+			GuiMode = mode;
+			if (mode == "basic")
+			{
+				basicModeToolStripMenuItem.Checked = true;
+				advancedModeToolStripMenuItem.Checked = false;
+				devModeToolStripMenuItem.Checked = false;
+
+				MainTabControl.TabPages.Remove(CaptureTab);
+				MainTabControl.TabPages.Remove(ProcessingTab);
+				MainTabControl.TabPages.Remove(AnalysisPage);
+				MainTabControl.TabPages.Remove(AnalysisTab2);
+				MainTabControl.TabPages.Remove(NetworkTab);
+			}
+
+			if (mode == "advanced")
+			{
+				basicModeToolStripMenuItem.Checked = false;
+				advancedModeToolStripMenuItem.Checked = true;
+				devModeToolStripMenuItem.Checked = false;
+
+				MainTabControl.TabPages.Remove(CaptureTab);
+				MainTabControl.TabPages.Remove(ProcessingTab);
+				MainTabControl.TabPages.Remove(AnalysisPage);
+				if (!MainTabControl.TabPages.Contains(AnalysisTab2)) MainTabControl.TabPages.Add(AnalysisTab2);
+				if (!MainTabControl.TabPages.Contains(NetworkTab)) MainTabControl.TabPages.Add(NetworkTab);
+			}
+
+			if (mode == "dev")
+			{
+				basicModeToolStripMenuItem.Checked = false;
+				advancedModeToolStripMenuItem.Checked = false;
+				devModeToolStripMenuItem.Checked = true;
+
+				if (!MainTabControl.TabPages.Contains(CaptureTab)) MainTabControl.TabPages.Add(CaptureTab);
+				if (!MainTabControl.TabPages.Contains(ProcessingTab)) MainTabControl.TabPages.Add(ProcessingTab);
+				if (!MainTabControl.TabPages.Contains(AnalysisPage)) MainTabControl.TabPages.Add(AnalysisPage);
+				if (!MainTabControl.TabPages.Contains(AnalysisTab2)) MainTabControl.TabPages.Add(AnalysisTab2);
+				if (!MainTabControl.TabPages.Contains(NetworkTab)) MainTabControl.TabPages.Add(NetworkTab);
+			}
+
+		}
+
+		private void ShowDiskSector()
+		{
+			int i, track, sector;
+			byte databyte;
+			StringBuilder bytesstring = new StringBuilder();
+			StringBuilder txtstring = new StringBuilder();
+
+			track = (int)TrackUpDown.Value;
+			sector = (int)SectorUpDown.Value;
+			int index;
+			int size = processing.disk.Length;
+			for (i = 0; i < 512; i++)
+			{
+				index = track * 512 * processing.sectorspertrack + (512 * sector) + i;
+				if (index > size)
+					break;
+				databyte = (byte)processing.disk[index];
+				bytesstring.Append(databyte.ToString("X2"));
+				if (databyte > 32 && databyte < 127)
+					txtstring.Append((char)databyte);
+				else txtstring.Append(".");
+				if (i % 32 == 31)
+				{
+					txtstring.Append("\r\n");
+					bytesstring.Append("\r\n");
+				}
+			}
+			textBoxSector.Text = txtstring.ToString() + "\r\n\r\n";
+			textBoxSector.Text += bytesstring.ToString() + "\r\n";
+		}
+
+		private void ShowSectorData()
+		{
+			int indexS1, threadid;
+			int i;
+			if (BadSectorListBox.SelectedIndices.Count >= 1)
+			{
+				indexS1 = ((Badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[0]]).Id;
+				threadid = ((Badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[0]]).Threadid;
+
+			}
+			else return;
+
+			antbSectorData.Clear();
+			if (processing.sectordata2[indexS1].sectorbytes != null)
+				antbSectorData.Text = (processing.BytesToHexa(processing.sectordata2[indexS1].sectorbytes, 0, processing.sectordata2[indexS1].sectorbytes.Length));
+			else antbSectorData.Text = "";
+
+			int mfmoffset = processing.sectordata2[indexS1].MarkerPositions;
+			int length = (processing.sectordata2[indexS1].sectorlength + 1000) * 16;
+			//threadid = sectordata[threadid][indexS1].threadid;
+			StringBuilder mfmtxt = new StringBuilder();
+			var mfmLength = processing.mfms[threadid].Length;
+			for (i = 0; i < length; i++)
+			{
+				if (mfmLength > i + mfmoffset)
+					mfmtxt.Append((char)(processing.mfms[threadid][i + mfmoffset] + 48));
+			}
+			ECtbMFM.Text = mfmtxt.ToString();
+		}
+
+		public static Control FindFocusedControl(Control control)
+		{
+			var container = control as IContainerControl;
+			while (container != null)
+			{
+				control = container.ActiveControl;
+				container = control as IContainerControl;
+			}
+			return control;
+		}
+
+		#endregion
+
+		#region Data handling
+
+		private void ResetProcessedData()
+		{
+			int i;
+			processing.badsectorhash = new byte[5000000][];
+
+			BadSectorListBox.Items.Clear();
+			processing.sectordata2.Clear();
+
+			for (i = 0; i < processing.mfmsindex; i++)
+			{
+
+				//BadSectors[i] = new byte[0];
+				processing.mfms[i] = new byte[0];
+			}
+			OnlyBadSectorsRadio.Checked = false; // When the input buffer is changed or empty, we can't scan for only bad sectors
+			processing.mfmsindex = 0;
+			GC.Collect();
+		}
+
+		private void ResetInput()
+		{
+			int i;
+			ProcessingTab.Enabled = false;
+			QProcessingGroupBox.Enabled = false;
+			processing.badsectorhash = null;
+			processing.badsectorhash = new byte[5000000][];
+
+			BadSectorListBox.Items.Clear();
+			processing.sectordata2.Clear();
+
+			for (i = 0; i < processing.mfmsindex; i++)
+			{
+
+				//BadSectors[i] = new byte[0];
+				processing.mfms[i] = null;
+				processing.mfms[i] = new byte[0];
+			}
+			OnlyBadSectorsRadio.Checked = false; // When the input buffer is changed or empty, we can't scan for only bad sectors
+			ECOnRadio.Checked = true;
+			processing.RxBbuf = null;
+			processing.RxBbuf = new byte[200000];
+
+			//Array.Clear(processing.rxbuf, 0, processing.rxbuf.Length);
+			//TrackPosInrxdatacount = 0;
+			processing.Indexrxbuf = 0;
+			processing.mfmsindex = 0;
+
+			rxbufStartUpDown.Maximum = processing.Indexrxbuf;
+			rxbufEndUpDown.Maximum = processing.Indexrxbuf;
+			rxbufEndUpDown.Value = processing.Indexrxbuf;
+			UpdateHistoAndSliders();
+			scatterplot.AnScatViewlength = 100000;
+			scatterplot.AnScatViewoffset = 0;
+			scatterplot.AnScatViewlargeoffset = 0;
+			scatterplot.AnScatViewoffsetOld = 0;
+			scatterplot.UpdateScatterPlot();
+			UpdateHistoAndScatterplot();
+			BytesReceivedLabel.Text = String.Format("{0:n0}", processing.Indexrxbuf);
+			GC.Collect();
+		}
+
+		// Resets all data that was produced by processing but keeps rxbuf intact
+		private void Resetoutput()
+		{
+			HandleTabSwitching();
+			var oldscrollvalue = HistogramhScrollBar1.Value;
+			var oldscrollmaxvalue = HistogramhScrollBar1.Maximum;
+			var qoldscrollvalue = QHistogramhScrollBar1.Value;
+			var qoldscrollmaxvalue = QHistogramhScrollBar1.Maximum;
+			var rxbuftemp = (byte[])processing.RxBbuf.Clone();
+			for (var i = 0; i < processing.mfms.Length; i++)
+				processing.mfms[i] = null;
+			processing.RxBbuf = null;
+			processing.disk = null;
+			processing.mfmlengths = null;
+			processing.badsectorhash = null;
+			processing.progresses = null;
+			processing.progressesstart = null;
+			processing.progressesend = null;
+			processing.ProcessStatus = null;
+			processing.SectorMap.sectorok = null;
+			processing.SectorMap.sectorokLatestScan = null;
+			processing.SectorMap = null;
+			processing = null;
+
+			ECHisto = new Histogram();
+			ScatterHisto = new Histogram();
+			processing = new FDDProcessing
+			{
+				RxBbuf = rxbuftemp
+			};
+			processing.Indexrxbuf = processing.RxBbuf.Length / 2; // Divide by two as loading .bin files doubles the buffer
+			processing.GetProcSettingsCallback += GetProcSettingsCallback;
+			processing.RtbSectorMap = rtbSectorMap;
+			processing.TBReceived = tbreceived;
+			processing.SectorMap.SectorMapUpdateGUICallback += SectorMapUpdateGUICallback;
+			processing.SectorMap.rtbSectorMap = rtbSectorMap;
+
+			fileio.processing = processing;
+			if (controlfloppy.serialPort1.IsOpen)
+				controlfloppy.Disconnect();
+			controlfloppy.Disconnect();
+			controlfloppy.tempbuffer.Clear();
+			controlfloppy.rxbuf = null;
+			controlfloppy = null;
+			controlfloppy = new ControlFloppy
+			{
+				rxbuf = rxbuftemp,
+				processing = processing
+			};
+			scatterplot.RemoveEvents();
+			scatterplot.Rxbuf = null;
+			scatterplot.UpdateEvent -= UpdateAnScatterPlot;
+			scatterplot.ShowGraph -= ScatterPlotShowGraphCallback;
+
+			scatterplot = null;
+			scatterplot = new ScatterPlot(processing, processing.sectordata2, 0, 0, ScatterPictureBox)
+			{
+				Tbreiceved = tbreceived,
+				Rxbuf = rxbuftemp,
+				EditScatterplot = EditScatterPlotcheckBox.Checked
+			};
+			scatterplot.UpdateEvent += UpdateAnScatterPlot;
+			scatterplot.ShowGraph += ScatterPlotShowGraphCallback;
+
+			EditOptioncomboBox.SelectedIndex = 0;
+			EditModecomboBox.SelectedIndex = 0;
+			textBoxReceived.AppendText("PortName: " + selectedPortName + "\r\n");
+
+			BadSectorTooltip.Hide();
+			timer5.Start();
+			GUITimer.Start();
+			BluetoRedByteCopyToolBtn.Tag = new int();
+			BluetoRedByteCopyToolBtn.Tag = 0;
+			ECHisto.SetPanel(AnHistogramPanel);
+			ScatterHisto.SetPanel(Histogrampanel1);
+			if (processing.Indexrxbuf < 100000)
+				scatterplot.AnScatViewlength = processing.Indexrxbuf;
+			else scatterplot.AnScatViewlength = 99999;
+			scatterplot.AnScatViewoffset = 0;
+			scatterplot.UpdateScatterPlot();
+			UpdateSliderLabels();
+			UpdateAnScatterPlot();
+
+			HistogramhScrollBar1.Maximum = oldscrollmaxvalue;
+			HistogramhScrollBar1.Value = oldscrollvalue;
+			QHistogramhScrollBar1.Maximum = qoldscrollmaxvalue;
+			QHistogramhScrollBar1.Value = qoldscrollvalue;
+			HandleTabSwitching();
+			GC.Collect();
+		}
+
+		public void Setrxbufcontrol()
+		{
+			//indexrxbuf = processing.indexrxbuf;
+			rxbufStartUpDown.Maximum = processing.RxBbuf.Length;
+			rxbufEndUpDown.Maximum = processing.RxBbuf.Length;
+			rxbufEndUpDown.Value = processing.RxBbuf.Length;
+			HistogramhScrollBar1.Minimum = 0;
+			HistogramhScrollBar1.Maximum = processing.Indexrxbuf;
+			scatterplot.Rxbuf = processing.RxBbuf;
+		}
+
+		#endregion
+
+		public void InitializeFloppyControl()
         {
             version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
             DateTime buildDate = new DateTime(2000, 1, 1)
@@ -1596,538 +2539,11 @@ namespace FloppyControlApp
             }
         }
 
-        // Resets all data that was produced by processing but keeps rxbuf intact
-        private void ResetProcessedData()
-        {
-            int i;
-            processing.badsectorhash = new byte[5000000][];
-
-            BadSectorListBox.Items.Clear();
-            processing.sectordata2.Clear();
-
-            for (i = 0; i < processing.mfmsindex; i++)
-            {
-
-                //BadSectors[i] = new byte[0];
-                processing.mfms[i] = new byte[0];
-            }
-            OnlyBadSectorsRadio.Checked = false; // When the input buffer is changed or empty, we can't scan for only bad sectors
-            processing.mfmsindex = 0;
-            GC.Collect();
-        }
-
-        private void ResetInput()
-        {
-            int i;
-            ProcessingTab.Enabled = false;
-            QProcessingGroupBox.Enabled = false;
-            processing.badsectorhash = null;
-            processing.badsectorhash = new byte[5000000][];
-
-            BadSectorListBox.Items.Clear();
-            processing.sectordata2.Clear();
-
-            for (i = 0; i < processing.mfmsindex; i++)
-            {
-
-                //BadSectors[i] = new byte[0];
-                processing.mfms[i] = null;
-                processing.mfms[i] = new byte[0];
-            }
-            OnlyBadSectorsRadio.Checked = false; // When the input buffer is changed or empty, we can't scan for only bad sectors
-            ECOnRadio.Checked = true;
-            processing.RxBbuf = null;
-            processing.RxBbuf = new byte[200000];
-
-            //Array.Clear(processing.rxbuf, 0, processing.rxbuf.Length);
-            //TrackPosInrxdatacount = 0;
-            processing.Indexrxbuf = 0;
-            processing.mfmsindex = 0;
-
-            rxbufStartUpDown.Maximum = processing.Indexrxbuf;
-            rxbufEndUpDown.Maximum = processing.Indexrxbuf;
-            rxbufEndUpDown.Value = processing.Indexrxbuf;
-            UpdateHistoAndSliders();
-            scatterplot.AnScatViewlength = 100000;
-            scatterplot.AnScatViewoffset = 0;
-            scatterplot.AnScatViewlargeoffset = 0;
-            scatterplot.AnScatViewoffsetOld = 0;
-            scatterplot.UpdateScatterPlot();
-            UpdateHistoAndScatterplot();
-            BytesReceivedLabel.Text = String.Format("{0:n0}", processing.Indexrxbuf);
-            GC.Collect();
-        }
-
-        private void Resetoutput()
-        {
-            HandleTabSwitching();
-            var oldscrollvalue = HistogramhScrollBar1.Value;
-            var oldscrollmaxvalue = HistogramhScrollBar1.Maximum;
-            var qoldscrollvalue = QHistogramhScrollBar1.Value;
-            var qoldscrollmaxvalue = QHistogramhScrollBar1.Maximum;
-            var rxbuftemp = (byte[])processing.RxBbuf.Clone();
-            for (var i = 0; i < processing.mfms.Length; i++)
-                processing.mfms[i] = null;
-            processing.RxBbuf = null;
-            processing.disk = null;
-            processing.mfmlengths = null;
-            processing.badsectorhash = null;
-            processing.progresses = null;
-            processing.progressesstart = null;
-            processing.progressesend = null;
-            processing.ProcessStatus = null;
-            processing.SectorMap.sectorok = null;
-            processing.SectorMap.sectorokLatestScan = null;
-            processing.SectorMap = null;
-            processing = null;
-
-            ECHisto = new Histogram();
-            ScatterHisto = new Histogram();
-            processing = new FDDProcessing
-            {
-                RxBbuf = rxbuftemp
-            };
-            processing.Indexrxbuf = processing.RxBbuf.Length / 2; // Divide by two as loading .bin files doubles the buffer
-            processing.GetProcSettingsCallback += GetProcSettingsCallback;
-            processing.RtbSectorMap = rtbSectorMap;
-            processing.TBReceived = tbreceived;
-            processing.SectorMap.SectorMapUpdateGUICallback += SectorMapUpdateGUICallback;
-            processing.SectorMap.rtbSectorMap = rtbSectorMap;
-
-            fileio.processing = processing;
-            if (controlfloppy.serialPort1.IsOpen)
-                controlfloppy.Disconnect();
-            controlfloppy.Disconnect();
-            controlfloppy.tempbuffer.Clear();
-            controlfloppy.rxbuf = null;
-            controlfloppy = null;
-            controlfloppy = new ControlFloppy
-            {
-                rxbuf = rxbuftemp,
-                processing = processing
-            };
-            scatterplot.RemoveEvents();
-            scatterplot.Rxbuf = null;
-            scatterplot.UpdateEvent -= UpdateAnScatterPlot;
-            scatterplot.ShowGraph -= ScatterPlotShowGraphCallback;
-
-            scatterplot = null;
-            scatterplot = new ScatterPlot(processing, processing.sectordata2, 0, 0, ScatterPictureBox)
-            {
-                Tbreiceved = tbreceived,
-                Rxbuf = rxbuftemp,
-                EditScatterplot = EditScatterPlotcheckBox.Checked
-            };
-            scatterplot.UpdateEvent += UpdateAnScatterPlot;
-            scatterplot.ShowGraph += ScatterPlotShowGraphCallback;
-
-            EditOptioncomboBox.SelectedIndex = 0;
-            EditModecomboBox.SelectedIndex = 0;
-            textBoxReceived.AppendText("PortName: " + selectedPortName + "\r\n");
-
-            BadSectorTooltip.Hide();
-            timer5.Start();
-            GUITimer.Start();
-            BluetoRedByteCopyToolBtn.Tag = new int();
-            BluetoRedByteCopyToolBtn.Tag = 0;
-            ECHisto.SetPanel(AnHistogramPanel);
-            ScatterHisto.SetPanel(Histogrampanel1);
-            if (processing.Indexrxbuf < 100000)
-                scatterplot.AnScatViewlength = processing.Indexrxbuf;
-            else scatterplot.AnScatViewlength = 99999;
-            scatterplot.AnScatViewoffset = 0;
-            scatterplot.UpdateScatterPlot();
-            UpdateSliderLabels();
-            UpdateAnScatterPlot();
-
-            HistogramhScrollBar1.Maximum = oldscrollmaxvalue;
-            HistogramhScrollBar1.Value = oldscrollvalue;
-            QHistogramhScrollBar1.Maximum = qoldscrollmaxvalue;
-            QHistogramhScrollBar1.Value = qoldscrollvalue;
-            HandleTabSwitching();
-            GC.Collect();
-        }
-
-        private void ShowDiskSector()
-        {
-            int i, track, sector;
-            byte databyte;
-            StringBuilder bytesstring = new StringBuilder();
-            StringBuilder txtstring = new StringBuilder();
-
-            track = (int)TrackUpDown.Value;
-            sector = (int)SectorUpDown.Value;
-            int index;
-            int size = processing.disk.Length;
-            for (i = 0; i < 512; i++)
-            {
-                index = track * 512 * processing.sectorspertrack + (512 * sector) + i;
-                if (index > size)
-                    break;
-                databyte = (byte)processing.disk[index];
-                bytesstring.Append(databyte.ToString("X2"));
-                if (databyte > 32 && databyte < 127)
-                    txtstring.Append((char)databyte);
-                else txtstring.Append(".");
-                if (i % 32 == 31)
-                {
-                    txtstring.Append("\r\n");
-                    bytesstring.Append("\r\n");
-                }
-            }
-            textBoxSector.Text = txtstring.ToString() + "\r\n\r\n";
-            textBoxSector.Text += bytesstring.ToString() + "\r\n";
-        }
-
-        private void ShowSectorData()
-        {
-            int indexS1, threadid;
-            int i;
-            if (BadSectorListBox.SelectedIndices.Count >= 1)
-            {
-                indexS1 = ((Badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[0]]).Id;
-                threadid = ((Badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[0]]).Threadid;
-
-            }
-            else return;
-
-            antbSectorData.Clear();
-            if (processing.sectordata2[indexS1].sectorbytes != null)
-                antbSectorData.Text = (processing.BytesToHexa(processing.sectordata2[indexS1].sectorbytes, 0, processing.sectordata2[indexS1].sectorbytes.Length));
-            else antbSectorData.Text = "";
-
-            int mfmoffset = processing.sectordata2[indexS1].MarkerPositions;
-            int length = (processing.sectordata2[indexS1].sectorlength + 1000) * 16;
-            //threadid = sectordata[threadid][indexS1].threadid;
-            StringBuilder mfmtxt = new StringBuilder();
-            var mfmLength = processing.mfms[threadid].Length;
-            for (i = 0; i < length; i++)
-            {
-                if(mfmLength > i + mfmoffset)
-                    mfmtxt.Append((char)(processing.mfms[threadid][i + mfmoffset] + 48));
-            }
-            ECtbMFM.Text = mfmtxt.ToString();
-        }
-
-        private void ECZoomOutBtnHandler()
-        {
-            int indexS1;
-
-            if (BadSectorListBox.SelectedIndices.Count >= 1)
-            {
-                indexS1 = ((Badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[0]]).Id;
-
-                int sectorlength = processing.sectordata2[indexS1].sectorlength;
-
-                int factor = sectorlength / 512;
-
-                ScatterMinTrackBar.Value = 0;
-                ScatterMaxTrackBar.Value = 4500 * factor;
-                UpdateECInterface();
-            }
-        }
-
-        private void EntropySplice()
-        {
-            int IndexS1, IndexSx, listlength, Threadid;
-            var selected = BadSectorListBox.SelectedIndices;
-            listlength = selected.Count;
-
-            if (listlength >= 1)
-            {
-                // Get the first sector from the list
-                IndexS1 = ((Badsectorkeyval)BadSectorListBox.Items[selected[0]]).Id;
-                Threadid = ((Badsectorkeyval)BadSectorListBox.Items[selected[0]]).Threadid;
-                var Sectordata = processing.sectordata2[IndexS1];
-                var Sectorheader = processing.sectordata2[Sectordata.HeaderIndex];
-                var Offset1 = Sectordata.rxbufMarkerPositions;
-                byte ResultingVal;
-                var SectordataEnd = processing.sectordata2[IndexS1 + 1];
-                int Length = SectordataEnd.rxbufMarkerPositions - Offset1;
-                float LowestEntropy, ThisEntropy;
-                if (Length > 10000) Length = 10000;
-                if (processing.entropy == null)
-                {
-                    textBoxReceived.AppendText("No entropy data! Process data first with error correction enabled.");
-                    return;
-                }
-
-                for (int j = 0; j < Length; j++)
-                {
-                    ResultingVal = processing.RxBbuf[j + Offset1];
-                    LowestEntropy = Math.Abs(processing.entropy[j + Offset1]);
-                    for (int i = 1; i < listlength; i++)
-                    {
-                        if (processing.stop == 1)
-                            break;
-                        IndexSx = ((Badsectorkeyval)BadSectorListBox.Items[selected[i]]).Id;
-                        Threadid = ((Badsectorkeyval)BadSectorListBox.Items[selected[i]]).Threadid;
-
-                        var Sectordata2   = processing.sectordata2[IndexSx];
-                        var Sectorheader2 = processing.sectordata2[Sectordata2.HeaderIndex];
-                        
-                        var offset2 = Sectordata2.rxbufMarkerPositions;
-                        
-                        ThisEntropy = Math.Abs(processing.entropy[j + offset2]);
-                        
-                        if (ThisEntropy < (LowestEntropy+10)) ResultingVal = processing.RxBbuf[j + offset2];
-                    }
-                    processing.RxBbuf[j + Offset1] = ResultingVal;
-                }
-            }
-            else
-            {
-                textBoxReceived.AppendText("Error, no data selected.");
-                return;
-            }
-        }
-
-        private void AvgPeriodsFromListSelection()
-        {
-            int IndexS1, listlength, Threadid;
-            var selected = BadSectorListBox.SelectedIndices;
-            listlength = selected.Count;
-
-            if (listlength >= 1)
-            {
-                // Get the first sector from the list
-                IndexS1 = ((Badsectorkeyval)BadSectorListBox.Items[selected[0]]).Id;
-                Threadid = ((Badsectorkeyval)BadSectorListBox.Items[selected[0]]).Threadid;
-                var Sectordata = processing.sectordata2[IndexS1];
-                var Sectorheader = processing.sectordata2[Sectordata.HeaderIndex];
-                var Offset1 = Sectorheader.rxbufMarkerPositions;
-                int ResultingVal;
-                var SectordataEnd = processing.sectordata2[IndexS1+1];
-                int Length = SectordataEnd.rxbufMarkerPositions - Offset1;
-                if (Length > 10000) Length = 10000;
-                for (int j = 0; j < Length; j++)
-                {
-                    ResultingVal = processing.RxBbuf[j + Offset1];
-                    for (int i = 1; i < listlength; i++)
-                    {
-                        if (processing.stop == 1)
-                            break;
-                        IndexS1 = ((Badsectorkeyval)BadSectorListBox.Items[selected[i]]).Id;
-                        Threadid = ((Badsectorkeyval)BadSectorListBox.Items[selected[i]]).Threadid;
-                        var sectordata2 = processing.sectordata2[IndexS1];
-                        var sectorheader2 = processing.sectordata2[Sectordata.HeaderIndex];
-                        var offset2 = sectorheader2.rxbufMarkerPositions;
-                        ResultingVal += processing.RxBbuf[j+offset2];
-                    }
-                    processing.RxBbuf[j + Offset1] = (byte)(ResultingVal/(listlength/1.2f));
-                }
-            }
-            else
-            {
-                textBoxReceived.AppendText("Error, no data selected.");
-                return;
-            }
-        }
-
-        private void ErrorCorrectRealign4E()
-        {
-            int indexS1, listlength, threadid;
-            var selected = BadSectorListBox.SelectedIndices;
-            listlength = selected.Count;
-
-            ECSettings ecSettings = new ECSettings();
-            ECResult sectorresult;
-            ecSettings.sectortextbox = textBoxSector;
-
-            if (ScatterMaxTrackBar.Value - ScatterMinTrackBar.Value > 50)
-            {
-                tbreceived.Append("Error: selection can't be larger than 50!\r\n");
-                return;
-            }
-
-            if (listlength >= 1)
-            {
-                for (int i = 0; i < listlength; i++)
-                {
-                    if (processing.stop == 1)
-                        break;
-                    indexS1 = ((Badsectorkeyval)BadSectorListBox.Items[selected[i]]).Id;
-                    threadid = ((Badsectorkeyval)BadSectorListBox.Items[selected[i]]).Threadid;
-                    ecSettings.indexS1 = indexS1;
-                    ecSettings.periodSelectionStart = (int)ScatterMinUpDown.Value;
-                    ecSettings.periodSelectionEnd = (int)ScatterMaxUpDown.Value;
-                    ecSettings.threadid = threadid;
-                    if ((int)processing.diskformat > 2)
-                    {
-                        sectorresult = processing.ProcessRealign4E(ecSettings);
-                        if (sectorresult != null)
-                        {
-                            AddRealignedToLists(sectorresult);
-                        }
-                    }
-                    else
-                    {
-                        sectorresult = processing.ProcessRealignAmiga(ecSettings);
-                        if (sectorresult != null)
-                        {
-                            AddRealignedToLists(sectorresult);
-                        }
-                    }
-                }
-            }
-            else
-            {
-                textBoxReceived.AppendText("Error, no data selected.");
-                return;
-            }
-        }
-
-        private void AddRealignedToLists(ECResult sectorresult)
-        {
-            MFMData sectordata = sectorresult.sectordata;
-            int badsectorcnt2 = sectorresult.index;
-            int track = sectordata.track;
-            int sector = sectordata.sector;
-
-            var currentcontrol = FindFocusedControl(this);
-            tabControl1.SelectedTab = ShowSectorTab;
-            currentcontrol.Focus();
-
-            string key = "Aligned: T" + track + " s" + sector;
-            BadSectorListBox.Items.Add(new Badsectorkeyval
-            {
-                Name = "i: " + badsectorcnt2 + " " + key,
-                Id = badsectorcnt2,
-                Threadid = sectordata.threadid
-            });
-            //JumpTocomboBox.Items.Add()
-            JumpTocomboBox.Items.Add(new ComboboxItem
-            {
-                Text = "i: " + badsectorcnt2 + " " + key,
-                Id = badsectorcnt2,
-            });
-        }
-
-        public static Control FindFocusedControl(Control control)
-        {
-            var container = control as IContainerControl;
-            while (container != null)
-            {
-                control = container.ActiveControl;
-                container = control as IContainerControl;
-            }
-            return control;
-        }
-
-        private void ConnectToFloppyControlHardware()
-        {
-            if (MainTabControl.SelectedTab == ProcessingTab)
-            {
-                controlfloppy.DirectStep = DirectStepCheckBox.Checked;
-                controlfloppy.MicrostepsPerTrack = (int)MicrostepsPerTrackUpDown.Value;
-                controlfloppy.StepStickMicrostepping =
-                controlfloppy.trk00offset = (int)TRK00OffsetUpDown.Value;
-                controlfloppy.EndTrack = (int)EndTracksUpDown.Value;
-                controlfloppy.StartTrack = (int)StartTrackUpDown.Value;
-                controlfloppy.TrackDuration = (int)TrackDurationUpDown.Value;
-
-            }
-            else if (MainTabControl.SelectedTab == QuickTab)
-            {
-                controlfloppy.DirectStep = QDirectStepCheckBox.Checked;
-                controlfloppy.MicrostepsPerTrack = (int)QMicrostepsPerTrackUpDown.Value;
-                controlfloppy.trk00offset = (int)QTRK00OffsetUpDown.Value;
-                controlfloppy.EndTrack = (int)QEndTracksUpDown.Value;
-                controlfloppy.StartTrack = (int)QStartTrackUpDown.Value;
-                controlfloppy.TrackDuration = (int)QTrackDurationUpDown.Value;
-            }
-
-            controlfloppy.binfilecount = binfilecount;
-            controlfloppy.tbr = tbreceived;
-            //processing.indexrxbuf            = indexrxbuf;
-            controlfloppy.StepStickMicrostepping = Decimal.ToInt32((decimal)Properties.Settings.Default["StepStickMicrostepping"]);
-            controlfloppy.outputfilename = outputfilename.Text;
-            controlfloppy.rxbuf = processing.RxBbuf;
-
-            // Callbacks
-            controlfloppy.updateHistoAndSliders = UpdateHistoAndSliders;
-            controlfloppy.ControlFloppyScatterplotCallback = ControlFloppyScatterplotCallback;
-            controlfloppy.Setrxbufcontrol = Setrxbufcontrol;
-
-            if (!controlfloppy.serialPort1.IsOpen) // Open connection if it's closed
-            {
-                controlfloppy.ConnectFDD();
-                if (controlfloppy.serialPort1.IsOpen)
-                {
-                    LabelStatus.Text = "Connected.";
-                }
-                else
-                {
-                    LabelStatus.Text = "Disconnected.";
-                }
-            }
-            else // Close connection if open
-                DisconnectFromFloppyControlHardware();
-        }
-
-        private void CaptureTracks()
-        {
-            ResetInput();
-            processing.entropy = null;
-            tabControl1.SelectedTab = ScatterPlottabPage;
-
-            controlfloppy.outputfilename = outputfilename.Text;
-
-            if (controlfloppy.serialPort1.IsOpen)
-                controlfloppy.StartCapture();
-            else
-                tbreceived.Append("Not connected.\r\n");
-        }
-
-        public void Setrxbufcontrol()
-        {
-            //indexrxbuf = processing.indexrxbuf;
-            rxbufStartUpDown.Maximum = processing.RxBbuf.Length;
-            rxbufEndUpDown.Maximum = processing.RxBbuf.Length;
-            rxbufEndUpDown.Value = processing.RxBbuf.Length;
-            HistogramhScrollBar1.Minimum = 0;
-            HistogramhScrollBar1.Maximum = processing.Indexrxbuf;
-            scatterplot.Rxbuf = processing.RxBbuf;
-        }
-
         static byte[] Clone4(byte[] array)
         {
             byte[] result = new byte[array.Length];
             Buffer.BlockCopy(array, 0, result, 0, array.Length * sizeof(byte));
             return result;
-        }
-
-        public void DoErrorCorrectionOnSelection()
-        {
-            int indexS1, threadid;
-
-            ECSettings ecSettings = new ECSettings
-            {
-                sectortextbox = textBoxSector
-            };
-
-            if (BadSectorListBox.SelectedIndices.Count >= 1)
-            {
-                indexS1 = ((Badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[0]]).Id;
-                threadid = ((Badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[0]]).Threadid;
-                ecSettings.indexS1 = indexS1;
-                ecSettings.periodSelectionStart = (int)ScatterMinUpDown.Value;
-                ecSettings.periodSelectionEnd = (int)ScatterMaxUpDown.Value;
-                ecSettings.combinations = (int)CombinationsUpDown.Value;
-                ecSettings.threadid = threadid;
-                ecSettings.C6Start = (int)C6StartUpDown.Value;
-                ecSettings.C8Start = (int)C8StartUpDown.Value;
-            }
-            else
-            {
-                textBoxReceived.AppendText("Error, no data selected.");
-                return;
-            }
-            if (processing.ProcSettings.platform == 0)
-            {
-                processing.ECCluster2(ecSettings);
-            }
-            else processing.ProcessClusterAmiga(ecSettings);
         }
 
         private void FindPeaks()
@@ -2181,436 +2597,6 @@ namespace FloppyControlApp
             */
             //updateSliderLabels();
         }
-
-        public void SectorMapInteractions(MouseEventArgs e)
-        {
-            RichTextBox rtb = null;
-            if (MainTabControl.SelectedTab == QuickTab)
-            {
-                rtb = QrtbSectorMap;
-            }
-            else if (MainTabControl.SelectedTab == ProcessingTab)
-            {
-                rtb = rtbSectorMap;
-            }
-            ContextMenuStrip smmenu = new ContextMenuStrip();
-            int sector, track;
-            int i;
-            int div = processing.sectorspertrack + 6;
-            LimitToTrackUpDown.Value = track = (rtb.SelectionStart / div);
-            LimitToSectorUpDown.Value = sector = (rtb.SelectionStart % div - 5);
-
-            if (sector < 0) return;
-            TrackUpDown.Value = track;
-            SectorUpDown.Value = sector;
-
-            if (e.Button == MouseButtons.Left)
-            {
-                tbreceived.Append("Track: " + track + " sector: " + sector + " div:" + div + "\r\n");
-                for (i = 0; i < processing.sectordata2.Count; i++)
-                {
-                    if (processing.sectordata2 == null) continue;
-                    if (processing.sectordata2.Count == 0) continue;
-                    if (! (   processing.sectordata2[i].trackhead  == track 
-                           && processing.sectordata2[i].sector == sector) ) continue;
-                    if (!(processing.sectordata2[i].MarkerType == MarkerType.data 
-                        || processing.sectordata2[i].MarkerType == MarkerType.headerAndData)) continue;
-                    if (processing.sectordata2[i].MarkerType == MarkerType.headerAndData)
-                    {
-                        if (processing.sectordata2[i].Status != processing.SectorMap.sectorok[track, sector]) continue;
-                        if (processing.sectordata2.Count - 1 <= i) continue;
-                    }
-                    else
-                    {
-                        if (processing.sectordata2[i].Status != processing.SectorMap.sectorok[track, sector]) continue;
-                        if (processing.sectordata2.Count - 1 <= i) continue;
-                    }
-                    scatterplot.AnScatViewlargeoffset = processing.sectordata2[i].rxbufMarkerPositions - 50;
-                    scatterplot.AnScatViewoffset = 0;
-                    int markerSize = 2;
-                    if (processing.ProcSettings.platform == Platform.Amiga) markerSize = 1;
-                    scatterplot.AnScatViewlength = processing.sectordata2[i + markerSize].rxbufMarkerPositions - scatterplot.AnScatViewlargeoffset + 100;
-                    //tbreceived.Append("AnScatViewOffset"+ AnScatViewoffset+"\r\n");
-                    scatterplot.UpdateScatterPlot();
-                    break;
-                }
-            }
-            else if (e.Button == MouseButtons.Right)
-            {
-                int index = rtb.GetCharIndexFromPosition(new Point(e.X, e.Y));
-                tbreceived.Append("Index: " + index + "\r\n");
-                div = processing.sectorspertrack + 6;
-                LimitToTrackUpDown.Value = track = (index / div);
-                LimitToSectorUpDown.Value = sector = (index % div - 5);
-                tbreceived.Append("Track: " + track + " sector: " + sector + " div:" + div);
-                if (sector < 0) return;
-
-                smmenu.ItemClicked += Smmenu_ItemClicked;
-                tbreceived.Append("Track: " + track + "\r\n");
-
-                SectorMapContextMenu[] menudata = new SectorMapContextMenu[10];
-                ToolStripItem[] item = new ToolStripItem[10];
-                int menudataindex = 0;
-                // Capture tab
-
-                menudata[menudataindex] = new SectorMapContextMenu
-                {
-                    Sector = sector,
-                    Track = track,
-                    Duration = 1000,
-                    Cmd = 0
-                };
-                item[menudataindex] = smmenu.Items.Add("Recapture T" + track.ToString("D3") + " 1 sec", MainTabControlImageList.Images[0]);
-                item[menudataindex].Tag = menudata[menudataindex];
-
-                menudata[menudataindex] = new SectorMapContextMenu
-                {
-                    Sector = sector,
-                    Track = track,
-                    Duration = 5000,
-                    Cmd = 0
-                };
-                item[menudataindex] = smmenu.Items.Add("Recapture T" + track.ToString("D3") + " 5 sec", MainTabControlImageList.Images[0]);
-                item[menudataindex].Tag = menudata[menudataindex];
-
-                // Capture tab
-                menudataindex++;
-                menudata[menudataindex] = new SectorMapContextMenu
-                {
-                    Sector = sector,
-                    Track = track,
-                    Duration = 50000,
-                    Cmd = 0
-                };
-                item[menudataindex] = smmenu.Items.Add("Recapture T" + track.ToString("D3") + " 50 sec", MainTabControlImageList.Images[0]);
-                item[menudataindex].Tag = menudata[menudataindex];
-
-                //Error correction tab
-                menudataindex++;
-                menudata[menudataindex] = new SectorMapContextMenu
-                {
-                    Sector = sector,
-                    Track = track,
-                    Cmd = 1
-                };
-                item[menudataindex] = smmenu.Items.Add("Error Correct T" + track.ToString("D3") + " S" + sector, MainTabControlImageList.Images[1]);
-                item[menudataindex].Tag = menudata[menudataindex];
-
-                //Scope waveform capture
-                menudataindex++;
-                menudata[menudataindex] = new SectorMapContextMenu
-                {
-                    Sector = sector,
-                    Track = track,
-                    Cmd = 2
-                };
-                item[menudataindex] = smmenu.Items.Add("Get waveform T" + track.ToString("D3") + " S" + sector, MainTabControlImageList.Images[2]);
-                item[menudataindex].Tag = menudata[menudataindex];
-
-                //Select rxdata
-                menudataindex++;
-                menudata[menudataindex] = new SectorMapContextMenu
-                {
-                    Sector = sector,
-                    Track = track,
-                    Cmd = 3
-                };
-                item[menudataindex] = smmenu.Items.Add("Limit rxdata T" + track.ToString("D3") + " S" + sector, MainTabControlImageList.Images[2]);
-                item[menudataindex].Tag = menudata[menudataindex];
-
-                // Limit processing to Track/Sector
-                menudataindex++;
-                menudata[menudataindex] = new SectorMapContextMenu
-                {
-                    Sector = sector,
-                    Track = track,
-                    Cmd = 4
-                };
-                item[menudataindex] = smmenu.Items.Add("Limit processing T" + track.ToString("D3") + " S" + sector, MainTabControlImageList.Images[2]);
-                item[menudataindex].Tag = menudata[menudataindex];
-
-                Point ShowHere = new Point(Cursor.Position.X, Cursor.Position.Y + 10);
-                smmenu.Show(ShowHere);
-            }
-        }
-
-        public void SectorMapRightclickMenuHandler(ToolStripItemClickedEventArgs e)
-        {
-            SectorMapContextMenu menudata = (SectorMapContextMenu)e.ClickedItem.Tag;
-            // recapture 1 sec
-            if (menudata.Cmd == 0)
-            {
-                tbreceived.Append("Track: " + menudata.Track.ToString("D3") + " S" + menudata.Sector + "\r\n");
-                //MainTabControl.SelectedTab = CaptureTab;
-                StartTrackUpDown.Value = QStartTrackUpDown.Value = menudata.Track;
-                EndTracksUpDown.Value = QEndTracksUpDown.Value = menudata.Track;
-                TrackDurationUpDown.Value = QTrackDurationUpDown.Value = menudata.Duration;
-            }
-            // recapture 5 sec
-            else if (menudata.Cmd == 1)
-            {
-                MainTabControl.SelectedTab = ErrorCorrectionTab;
-                Track1UpDown.Value = menudata.Track;
-                Sector1UpDown.Value = menudata.Sector;
-                Track2UpDown.Value = menudata.Track;
-                Sector2UpDown.Value = menudata.Sector;
-            }
-            // recapture 50 sec
-            else if (menudata.Cmd == 2)
-            {
-                MainTabControl.SelectedTab = NetworkTab;
-                NetworkCaptureTrackStartUpDown.Value = menudata.Track;
-                NetworkCaptureTrackEndUpDown.Value = menudata.Track;
-            }
-            // Set track/sector error correction
-            else if (menudata.Cmd == 3)
-            {
-                int i;
-                var sd = processing.sectordata2;
-                for (i = 0; i < processing.sectordata2.Count; i++)
-                {
-                    if (sd[i].sector == menudata.Sector && sd[i].trackhead == menudata.Track && sd[i].Status == SectorMapStatus.HeadOkDataBad)
-                    {
-                        rxbufStartUpDown.Maximum = processing.Indexrxbuf;
-                        rxbufStartUpDown.Value = sd[i].rxbufMarkerPositions - 100;
-                        rxbufEndUpDown.Value = 15000;
-                        break;
-                    }
-                }
-            }
-            // Limit processing track/sector
-            else if (menudata.Cmd == 4)
-            {
-                QLimitTSCheckBox.Checked = true;
-                QLimitToTrackUpDown.Value = menudata.Track;
-                QLimitToSectorUpDown.Value = menudata.Sector;
-
-                LimitTSCheckBox.Checked = true;
-                LimitToTrackUpDown.Value = menudata.Track;
-                LimitToSectorUpDown.Value = menudata.Sector;
-            }
-        }
-
-        public void ECMFMByteEnc()
-        {
-            int indexS1, threadid;
-            ECSettings ecSettings = new ECSettings
-            {
-                sectortextbox = textBoxSector
-            };
-
-            if (BadSectorListBox.SelectedIndices.Count >= 1)
-            {
-                indexS1 = ((Badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[0]]).Id;
-                threadid = ((Badsectorkeyval)BadSectorListBox.Items[BadSectorListBox.SelectedIndices[0]]).Threadid;
-                ecSettings.indexS1 = indexS1;
-                ecSettings.periodSelectionStart = (int)ScatterMinUpDown.Value;
-                ecSettings.periodSelectionEnd = (int)ScatterMaxUpDown.Value;
-                //ecSettings.combinations = (int)CombinationsUpDown.Value;
-                ecSettings.threadid = threadid;
-                ecSettings.MFMByteStart = (int)MFMByteStartUpDown.Value;
-                ecSettings.MFMByteLength = (int)MFMByteLengthUpDown.Value;
-            }
-            else
-            {
-                textBoxReceived.AppendText("Error, no data selected.");
-                return;
-            }
-            if (processing.ProcSettings.platform == 0)
-                processing.ProcessClusterMFMEnc(ecSettings);
-            else processing.ProcessClusterAmigaMFMEnc(ecSettings);
-        }
-
-        public void ECIteratorTest()
-        {
-            int[] combi = new int[32];
-            int[] combilimit = new int[32];
-            int i, j, q, k;
-            int combinations = 0;
-            int NumberOfMfmBytes = 3;
-            int MaxIndex = 32;
-            int iterations;
-            for (i = 0; i < NumberOfMfmBytes; i++)
-            {
-                combilimit[i] = 1;
-            }
-            for (j = 0; j < MaxIndex; j++)
-            {
-
-                for (q = 0; q < NumberOfMfmBytes; q++)
-                {
-                    combilimit[q]++;
-
-                }
-
-                int temp = combilimit[0];
-                iterations = temp;
-                for (q = 0; q < NumberOfMfmBytes - 1; q++)
-                {
-                    iterations *= temp;
-                }
-                tbreceived.Append("Iterations: " + iterations + "\r\n");
-
-                for (i = 0; i < iterations; i++)
-                {
-                    //printarray(combi, NumberOfMfmBytes);
-                    combi[0]++;
-                    for (k = 0; k < NumberOfMfmBytes; k++)
-                    {
-
-                        if (combi[k] >= combilimit[0])
-                        {
-                            combi[k] = 0;
-                            combi[k + 1]++;
-                        }
-                    }
-
-                    combinations++;
-                }
-
-            }
-            tbreceived.Append("Combinations:" + combinations + "\r\n");
-        }
-
-        public void RecaptureAllBadSectors()
-        {
-            int track, sector;
-
-            var sectorok = processing.SectorMap.sectorok;
-            int starttrack = (int)StartTrackUpDown.Value;
-            int endtrack = (int)EndTracksUpDown.Value;
-
-            MainTabControl.SelectedTab = ProcessingTab;
-            processing.stop = 0;
-
-            for (track = starttrack; track < endtrack + 1; track++)
-            {
-                for (sector = 0; sector < processing.sectorspertrack; sector++)
-                {
-                    if (sectorok[track, sector] == 0 || sectorok[track, sector] == SectorMapStatus.HeadOkDataBad)
-                    {
-                        tbreceived.Append("Track: " + track);
-                        StartTrackUpDown.Value = track;
-
-                        EndTracksUpDown.Value = track;
-                        CaptureTracks();
-                        while (controlfloppy.capturecommand == 1)
-                        {
-                            Thread.Sleep(20);
-                            Application.DoEvents();
-                        }
-                        Application.DoEvents();
-                        AdaptiveScan();
-                        Application.DoEvents();
-                        if (processing.stop == 1)
-                            break;
-                        break;
-                    }
-                }
-                if (processing.stop == 1)
-                    break;
-            }
-            StartTrackUpDown.Value = starttrack;
-            EndTracksUpDown.Value = endtrack;
-
-            tbreceived.Append("Done!\r\n");
-        }
-
-        void DoChangeProcMode()
-        {
-            ProcessingType procmode = ProcessingType.adaptive1;
-            if (ProcessingModeComboBox.SelectedItem.ToString() != "")
-                procmode = (ProcessingType)Enum.Parse(typeof(ProcessingType), ProcessingModeComboBox.SelectedItem.ToString(), true);
-            tbreceived.Append("Selected: " + procmode.ToString() + "\r\n");
-            SetThresholdLabels(procmode);
-
-            switch (procmode)
-            {
-                case ProcessingType.normal:
-                    FindPeaks();
-                    EightvScrollBar.Value = 0xff;
-                    scatterplot.ShowEntropy = false;
-                    break;
-                case ProcessingType.aufit:
-                    MinvScrollBar.Value = 33;
-                    FourvScrollBar.Value = 0x0C;
-                    OffsetvScrollBar1.Value = 0;
-                    scatterplot.ShowEntropy = false;
-                    break;
-                case ProcessingType.adaptive1:
-                    scatterplot.ShowEntropy = true;
-                    RateOfChangeUpDown.Value = (decimal)1.1;
-                    RateOfChange2UpDown.Value = 1300;
-
-                    FindPeaks();
-                    break;
-                case ProcessingType.adaptive2:
-                case ProcessingType.adaptive3:
-                    RateOfChangeUpDown.Value = (decimal)1.1;
-                    RateOfChange2UpDown.Value = 1300;
-
-                    FindPeaks();
-                    scatterplot.ShowEntropy = false;
-                    break;
-                case ProcessingType.adaptivePredict:
-                    RateOfChangeUpDown.Value = (decimal)3;
-                    RateOfChange2UpDown.Value = 600;
-                    FindPeaks();
-                    scatterplot.ShowEntropy = false;
-                    break;
-                case ProcessingType.adaptiveEntropy:
-                    scatterplot.ShowEntropy = true;
-                    break;
-            }
-
-            scanactive = true; // prevent triggering events on updown controls
-            CopyThresholdsToQuick();
-            scanactive = false;
-            UpdateSliderLabels();
-        }
-
-        private void SetGuiMode(string mode)
-        {
-            GuiMode = mode;
-            if (mode == "basic")
-            {
-                basicModeToolStripMenuItem.Checked = true;
-                advancedModeToolStripMenuItem.Checked = false;
-                devModeToolStripMenuItem.Checked = false;
-
-                MainTabControl.TabPages.Remove(CaptureTab);
-                MainTabControl.TabPages.Remove(ProcessingTab);
-                MainTabControl.TabPages.Remove(AnalysisPage);
-                MainTabControl.TabPages.Remove(AnalysisTab2);
-                MainTabControl.TabPages.Remove(NetworkTab);
-            }
-
-            if (mode == "advanced")
-            {
-                basicModeToolStripMenuItem.Checked = false;
-                advancedModeToolStripMenuItem.Checked = true;
-                devModeToolStripMenuItem.Checked = false;
-
-                MainTabControl.TabPages.Remove(CaptureTab);
-                MainTabControl.TabPages.Remove(ProcessingTab);
-                MainTabControl.TabPages.Remove(AnalysisPage);
-                if (!MainTabControl.TabPages.Contains(AnalysisTab2)) MainTabControl.TabPages.Add(AnalysisTab2);
-                if (!MainTabControl.TabPages.Contains(NetworkTab)) MainTabControl.TabPages.Add(NetworkTab);
-            }
-
-            if (mode == "dev")
-            {
-                basicModeToolStripMenuItem.Checked = false;
-                advancedModeToolStripMenuItem.Checked = false;
-                devModeToolStripMenuItem.Checked = true;
-
-                if (!MainTabControl.TabPages.Contains(CaptureTab)) MainTabControl.TabPages.Add(CaptureTab);
-                if (!MainTabControl.TabPages.Contains(ProcessingTab)) MainTabControl.TabPages.Add(ProcessingTab);
-                if (!MainTabControl.TabPages.Contains(AnalysisPage)) MainTabControl.TabPages.Add(AnalysisPage);
-                if (!MainTabControl.TabPages.Contains(AnalysisTab2)) MainTabControl.TabPages.Add(AnalysisTab2);
-                if (!MainTabControl.TabPages.Contains(NetworkTab)) MainTabControl.TabPages.Add(NetworkTab);
-            }
-
-        }
+        
     }
 }
