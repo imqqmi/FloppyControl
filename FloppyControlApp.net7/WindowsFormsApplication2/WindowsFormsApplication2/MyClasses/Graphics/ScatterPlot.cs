@@ -33,7 +33,15 @@ namespace FloppyControlApp.MyClasses.Graphics
         public int Xrelative { get; set; }
         public int AnScatViewlength { get; set; }
         public int AnScatViewoffset { get; set; }
-        public int AnScatViewlargeoffset { get; set; }
+        private int _AnScatViewlargeoffset;
+		public int AnScatViewlargeoffset 
+        { get => _AnScatViewlargeoffset;
+            set
+            {
+                _AnScatViewlargeoffset = value;
+				if ((value + AnScatViewlength) > Rxbuf.Length) _AnScatViewlargeoffset = value - AnScatViewlength;
+            }
+        }
         private int AnScatViewlargeoffsetold { get; set; }
         public int AnScatViewoffsetOld { get; set; }
         public int Maxdots { get; set; }
@@ -243,7 +251,7 @@ namespace FloppyControlApp.MyClasses.Graphics
 
                 factor = width / (float)datapoints;
                 //if (indexrxbuf > rxbuf.Length) indexrxbuf = rxbuf.Length - 1;
-                if (datapoints > Rxbuf.Length) datapoints = Rxbuf.Length - 1;
+                if (datapoints+start > Rxbuf.Length) datapoints = Rxbuf.Length - datapoints - 1;
                 if (Processing.entropy == null) Tbreiceved.Append("entropy = null!");
                 if (start > -1 && Processing.entropy != null && ShowEntropy)
                 {
@@ -497,8 +505,9 @@ namespace FloppyControlApp.MyClasses.Graphics
         private void PictureBox_MouseMove(object sender, MouseEventArgs e)
         {
             RxbufClickIndex = ViewToGraphIndex(e.X);
+            
 
-            if (e.Button == MouseButtons.Left)
+			if (e.Button == MouseButtons.Left)
             {
                 DoDragging(sender, e);
             }
@@ -534,19 +543,25 @@ namespace FloppyControlApp.MyClasses.Graphics
 
             AnScatViewoffset = AnScatViewoffsetOld + offset;
 
-            if (AnScatViewoffset + AnScatViewlength + offset > Maxdots - 1)
+            if ((AnScatViewlargeoffset + AnScatViewoffset + AnScatViewlength) > Rxbuf.Length)
             {
-                AnScatViewlargeoffset = AnScatViewlargeoffsetold + offset;
-                if (AnScatViewlargeoffset + AnScatViewlength > Processing.RxBbuf.Length - 1)
-                    AnScatViewlargeoffset = Processing.RxBbuf.Length - 1;
-                //offset = 0;
-                AnScatViewoffset = Maxdots - 1 - AnScatViewlength;
+                AnScatViewlargeoffset = Rxbuf.Length - AnScatViewlength;
+                AnScatViewoffset = 0;
             }
 
-            Bmpxoffset = 0;
+			/*if (AnScatViewoffset + AnScatViewlength + offset > Maxdots - 1)
+            {
+                AnScatViewlargeoffset = AnScatViewlargeoffsetold + offset;
+
+                //offset = 0;
+                AnScatViewoffset = Maxdots - 1 - AnScatViewlength;
+            }*/
+
+			Bmpxoffset = 0;
             Start = AnScatViewoffset;
             End = Start + AnScatViewlength;
-
+            
+            Tbreiceved.Append("AnScatViewlargeoffset: " + AnScatViewlargeoffset.ToString()+" end: "+ (AnScatViewlargeoffset+AnScatViewlength).ToString()+"\r\n");
             UpdateScatterPlot();
         }
 
@@ -554,7 +569,8 @@ namespace FloppyControlApp.MyClasses.Graphics
         {
             float offsetfactor = x / (float)Panel.Width;
             int result = (int)(AnScatViewoffset + AnScatViewlength * offsetfactor + AnScatViewlargeoffset);
-            return result;
+            if( result + AnScatViewlength > Rxbuf.Length) result = Rxbuf.Length - AnScatViewlength;
+			return result;
         }
 
     } // Scatterplot class

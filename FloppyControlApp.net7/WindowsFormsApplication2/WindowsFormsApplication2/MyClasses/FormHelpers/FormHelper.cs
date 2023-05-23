@@ -349,18 +349,24 @@ namespace FloppyControlApp
 
             }
         }
+        public void SetMinMaxHistogramhScrollBar1()
+        {
+			HistogramhScrollBar1.Minimum = 0;
+			HistogramhScrollBar1.Maximum = processing.Indexrxbuf - scatterplot.AnScatViewlength;
+			QHistogramhScrollBar1.Minimum = 0;
+			QHistogramhScrollBar1.Maximum = processing.Indexrxbuf - scatterplot.AnScatViewlength;
+		}
 
-        public void FilterGuiUpdateCallback()
+		public void FilterGuiUpdateCallback()
         {
             FindPeaks();
             rxbufEndUpDown.Maximum = processing.Indexrxbuf;
             rxbufStartUpDown.Maximum = processing.Indexrxbuf;
 
             rxbufEndUpDown.Value = processing.Indexrxbuf;
-            HistogramhScrollBar1.Minimum = 0;
-            HistogramhScrollBar1.Maximum = processing.Indexrxbuf;
+            SetMinMaxHistogramhScrollBar1();
 
-            oscilloscope.graphset.SetAllChanged();
+			oscilloscope.graphset.SetAllChanged();
 
             if (scatterplot.AnScatViewlength == 0 || scatterplot.AnScatViewlength == 100000)
                 scatterplot.AnScatViewlength = processing.Indexrxbuf - 1;
@@ -376,11 +382,10 @@ namespace FloppyControlApp
             rxbufStartUpDown.Maximum = processing.Indexrxbuf;
 
             rxbufEndUpDown.Value = processing.Indexrxbuf;
-            HistogramhScrollBar1.Minimum = 0;
-            HistogramhScrollBar1.Maximum = processing.Indexrxbuf;
-            //processing.indexrxbuf = indexrxbuf;
+            SetMinMaxHistogramhScrollBar1();
+			//processing.indexrxbuf = indexrxbuf;
 
-            oscilloscope.graphset.SetAllChanged();
+			oscilloscope.graphset.SetAllChanged();
 
             if (scatterplot.AnScatViewlength == 0)
                 scatterplot.AnScatViewlength = processing.Indexrxbuf - 1;
@@ -623,9 +628,8 @@ namespace FloppyControlApp
             scatterplot.Threshold6us = SixvScrollBar.Value + OffsetvScrollBar1.Value;
             scatterplot.Thresholdmax = EightvScrollBar.Value + OffsetvScrollBar1.Value;
 
-            HistogramhScrollBar1.Maximum = processing.Indexrxbuf;
-            QHistogramhScrollBar1.Maximum = processing.Indexrxbuf;
-            if (scatterplot.AnScatViewoffset + scatterplot.AnScatViewlargeoffset < 0)
+			SetMinMaxHistogramhScrollBar1();
+			if (scatterplot.AnScatViewoffset + scatterplot.AnScatViewlargeoffset < 0)
             {
                 scatterplot.AnScatViewoffset = 0;
                 scatterplot.AnScatViewlargeoffset = 0;
@@ -648,8 +652,10 @@ namespace FloppyControlApp
                     int offset = scatterplot.AnScatViewoffset + scatterplot.AnScatViewlargeoffset;
                     int length = scatterplot.AnScatViewlength;
                     if (length < 0) length = 4000;
-                    if (scatterplot.AnScatViewlargeoffset < processing.Indexrxbuf)
+                    if (scatterplot.AnScatViewlargeoffset < (processing.Indexrxbuf - scatterplot.AnScatViewlength))
+                    {
                         QHistogramhScrollBar1.Value = scatterplot.AnScatViewlargeoffset;
+                    }
                     ScatterHisto.SetPanel(QHistoPanel);
                     ScatterHisto.DoHistogram(processing.RxBbuf, offset, length);
                 }
@@ -1099,9 +1105,8 @@ namespace FloppyControlApp
             rxbufStartUpDown.Maximum = processing.Indexrxbuf;
 
             rxbufEndUpDown.Value = processing.Indexrxbuf;
-            HistogramhScrollBar1.Minimum = 0;
-            HistogramhScrollBar1.Maximum = processing.Indexrxbuf;
-            oscilloscope.graphset.SetAllChanged();
+			SetMinMaxHistogramhScrollBar1();
+			oscilloscope.graphset.SetAllChanged();
 
             oscilloscope.graphset.UpdateGraphs();
         }
