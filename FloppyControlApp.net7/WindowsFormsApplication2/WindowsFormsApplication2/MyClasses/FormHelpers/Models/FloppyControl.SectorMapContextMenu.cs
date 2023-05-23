@@ -4,8 +4,6 @@ namespace FloppyControlApp
 {
 	public partial class FloppyControl
 	{
-		#region model classes
-
 		class SectorMapContextMenu
         {
             public int Track { get; set; }

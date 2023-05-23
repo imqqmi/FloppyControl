@@ -2240,6 +2240,7 @@ namespace FloppyControlApp
 			scatterplot.UpdateEvent -= UpdateAnScatterPlot;
 			scatterplot.ShowGraph -= ScatterPlotShowGraphCallback;
 
+            var ShowEntropy = scatterplot.ShowEntropy;
 			scatterplot = null;
 			scatterplot = new ScatterPlot(processing, processing.sectordata2, 0, 0, ScatterPictureBox)
 			{
@@ -2247,6 +2248,7 @@ namespace FloppyControlApp
 				Rxbuf = rxbuftemp,
 				EditScatterplot = EditScatterPlotcheckBox.Checked
 			};
+            scatterplot.ShowEntropy = ShowEntropy;
 			scatterplot.UpdateEvent += UpdateAnScatterPlot;
 			scatterplot.ShowGraph += ScatterPlotShowGraphCallback;
 

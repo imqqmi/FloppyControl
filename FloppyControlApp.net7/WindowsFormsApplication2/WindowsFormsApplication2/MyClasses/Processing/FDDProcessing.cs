@@ -631,8 +631,6 @@ namespace FloppyControlApp
 
             //tbreceived.Append("mfm to sector:"+ SW.ElapsedMilliseconds + "ms\r\n");
             SW.Stop();
-
-
         }
 
         public void FindPeaks(int offset)

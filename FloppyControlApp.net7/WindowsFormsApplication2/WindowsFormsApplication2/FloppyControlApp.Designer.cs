@@ -3236,9 +3236,9 @@ namespace FloppyControlApp
 			FourLabel.Location = new System.Drawing.Point(56, 268);
 			FourLabel.Margin = new Padding(4, 0, 4, 0);
 			FourLabel.Name = "FourLabel";
-			FourLabel.Size = new System.Drawing.Size(13, 15);
+			FourLabel.Size = new System.Drawing.Size(19, 15);
 			FourLabel.TabIndex = 62;
-			FourLabel.Text = "0";
+			FourLabel.Text = "60";
 			// 
 			// MinLabel
 			// 
@@ -3256,9 +3256,9 @@ namespace FloppyControlApp
 			SixLabel.Location = new System.Drawing.Point(94, 268);
 			SixLabel.Margin = new Padding(4, 0, 4, 0);
 			SixLabel.Name = "SixLabel";
-			SixLabel.Size = new System.Drawing.Size(13, 15);
+			SixLabel.Size = new System.Drawing.Size(25, 15);
 			SixLabel.TabIndex = 59;
-			SixLabel.Text = "0";
+			SixLabel.Text = "100";
 			// 
 			// EightLabel
 			// 
@@ -3266,9 +3266,9 @@ namespace FloppyControlApp
 			EightLabel.Location = new System.Drawing.Point(140, 268);
 			EightLabel.Margin = new Padding(4, 0, 4, 0);
 			EightLabel.Name = "EightLabel";
-			EightLabel.Size = new System.Drawing.Size(13, 15);
+			EightLabel.Size = new System.Drawing.Size(25, 15);
 			EightLabel.TabIndex = 57;
-			EightLabel.Text = "0";
+			EightLabel.Text = "140";
 			// 
 			// Offsetlabel
 			// 
@@ -3288,6 +3288,7 @@ namespace FloppyControlApp
 			FourvScrollBar.Name = "FourvScrollBar";
 			FourvScrollBar.Size = new System.Drawing.Size(15, 212);
 			FourvScrollBar.TabIndex = 66;
+			FourvScrollBar.Value = 60;
 			FourvScrollBar.ValueChanged += FourvScrollBar_ValueChanged;
 			// 
 			// SixvScrollBar
@@ -3298,6 +3299,7 @@ namespace FloppyControlApp
 			SixvScrollBar.Name = "SixvScrollBar";
 			SixvScrollBar.Size = new System.Drawing.Size(15, 212);
 			SixvScrollBar.TabIndex = 67;
+			SixvScrollBar.Value = 100;
 			SixvScrollBar.ValueChanged += FourvScrollBar_ValueChanged;
 			// 
 			// EightvScrollBar
@@ -3308,6 +3310,7 @@ namespace FloppyControlApp
 			EightvScrollBar.Name = "EightvScrollBar";
 			EightvScrollBar.Size = new System.Drawing.Size(15, 212);
 			EightvScrollBar.TabIndex = 68;
+			EightvScrollBar.Value = 140;
 			EightvScrollBar.ValueChanged += FourvScrollBar_ValueChanged;
 			// 
 			// OffsetvScrollBar1

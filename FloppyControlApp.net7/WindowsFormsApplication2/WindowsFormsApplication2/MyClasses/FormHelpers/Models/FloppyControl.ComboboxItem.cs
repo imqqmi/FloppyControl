@@ -2,8 +2,6 @@
 {
 	public partial class FloppyControl
 	{
-		#region model classes
-
 		public class ComboboxItem
         {
             public string Text { get; set; }
