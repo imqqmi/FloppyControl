@@ -12,6 +12,9 @@ using System.Drawing.Drawing2D;
 
 namespace FloppyControlApp.MyClasses.Graphics
 {
+    /// <summary>
+    /// Creates a collection of graphs in a 'set'.
+    /// </summary>
 	public class Graphset
     {
         public string Filename { get; set; }

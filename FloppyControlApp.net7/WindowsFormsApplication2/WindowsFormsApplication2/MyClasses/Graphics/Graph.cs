@@ -6,8 +6,9 @@ using System.Drawing.Imaging;
 
 namespace FloppyControlApp.MyClasses.Graphics
 {
-	// Graph class
-	// line plot graph
+	/// <summary>
+	/// Simple line plot graph 
+	/// </summary>
 	public class Graph
     {
         public PictureBox panel;

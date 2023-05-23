@@ -6,7 +6,12 @@ using System.Diagnostics;
 
 namespace FloppyControlApp.MyClasses.Graphics
 {
-	public class Graph2
+	/// <summary>
+    /// Draw a line graph with interpolation so that details are still visible 
+    /// even with a lot of data zoomed out all the way. Has some digital
+    /// signal processing and editing of the graph capabilities.
+    /// </summary>
+    public class Graph2
     {
         public int Width { set; get; }
         public int Height { set; get; }
@@ -253,6 +258,7 @@ namespace FloppyControlApp.MyClasses.Graphics
                 Data[i] = (byte)(t[i] - (byte)DCoffset + 127);
 
         }
+
         public void Lowpass(int smoothing)
         {
             double DCoffset = 0;

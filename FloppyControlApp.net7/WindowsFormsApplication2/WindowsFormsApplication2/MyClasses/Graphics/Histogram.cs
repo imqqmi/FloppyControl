@@ -6,7 +6,10 @@ using System.Drawing.Drawing2D;
 
 namespace FloppyControlApp.MyClasses.Graphics
 {
-	public class Histogram
+	/// <summary>
+    /// Generates a histogram, value vs frequency.
+    /// </summary>
+    public class Histogram
     {
         private byte[] histogram = new byte[256];
         private Panel panel;

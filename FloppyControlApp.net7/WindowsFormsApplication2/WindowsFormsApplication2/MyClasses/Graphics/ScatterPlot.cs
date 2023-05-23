@@ -9,7 +9,10 @@ using FloppyControlApp.MyClasses;
 
 namespace FloppyControlApp.MyClasses.Graphics
 {
-	class ScatterPlot
+	/// <summary>
+    /// Plots dots from an array, index by y axis. When zooming in dots are enlarged.
+    /// </summary>
+    class ScatterPlot
     {
         FDDProcessing Processing { get; set; }
         public ConcurrentDictionary<int, MFMData> Sectordata2 { get; set; }

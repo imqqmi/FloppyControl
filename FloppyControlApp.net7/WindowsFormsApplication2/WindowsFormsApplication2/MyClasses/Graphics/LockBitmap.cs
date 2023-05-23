@@ -5,7 +5,10 @@ using System.Runtime.InteropServices;
 
 namespace FloppyControlApp.MyClasses.Graphics
 {
-	public class LockBitmap
+	/// <summary>
+    /// Fast bitmap manipulation and double buffering for flicker free operations.
+    /// </summary>
+    public class LockBitmap
     {
         Bitmap source = null;
         nint Iptr = nint.Zero;

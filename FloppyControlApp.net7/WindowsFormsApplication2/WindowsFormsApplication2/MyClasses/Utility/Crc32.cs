@@ -4,11 +4,6 @@ using System.Security.Cryptography;
 
 namespace FloppyControlApp.MyClasses.Graphics
 {
-	// Pass settings to processing methods, threaded
-
-
-
-
 	/// <summary>
 	/// Implements a 32-bit CRC hash algorithm compatible with Zip etc.
 	/// </summary>
