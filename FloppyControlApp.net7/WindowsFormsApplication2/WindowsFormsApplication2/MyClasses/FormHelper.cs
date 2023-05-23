@@ -14,6 +14,7 @@ using System.Reflection;
 using FloppyControlApp.Properties;
 using System.Diagnostics;
 using FloppyControlApp.MyClasses.Processing;
+using FloppyControlApp.MyClasses.Graphics;
 
 namespace FloppyControlApp
 {
