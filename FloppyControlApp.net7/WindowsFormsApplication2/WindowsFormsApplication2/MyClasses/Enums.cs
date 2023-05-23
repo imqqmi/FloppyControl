@@ -30,7 +30,7 @@ namespace FloppyControlApp.MyClasses
 
     public enum Platform {  PC, Amiga }
 
-    public class Helpers
+    public class Enums
     {
         
     }
