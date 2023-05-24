@@ -3701,6 +3701,7 @@ namespace FloppyControlApp
 			MFMByteStartUpDown.Location = new System.Drawing.Point(217, 313);
 			MFMByteStartUpDown.Margin = new Padding(4, 3, 4, 3);
 			MFMByteStartUpDown.Maximum = new decimal(new int[] { 20000, 0, 0, 0 });
+			MFMByteStartUpDown.Minimum = new decimal(new int[] { 20000, 0, 0, int.MinValue });
 			MFMByteStartUpDown.Name = "MFMByteStartUpDown";
 			MFMByteStartUpDown.Size = new System.Drawing.Size(69, 23);
 			MFMByteStartUpDown.TabIndex = 4020;

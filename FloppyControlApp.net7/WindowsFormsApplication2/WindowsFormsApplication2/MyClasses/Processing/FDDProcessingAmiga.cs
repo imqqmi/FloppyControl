@@ -480,7 +480,10 @@ namespace FloppyControlApp
                             sectordatathread.crc = (int)((savechecksum[0] << 24) | (savechecksum[1] << 16) | (savechecksum[2]) << 8 | (savechecksum[3]));
                             sectordatathread.sectorbytes = bytebuf;
                             sectordatathread.MarkerType = MarkerType.headerAndData;
-                        }
+                            sectordatathread.HeaderIndex = sectorindex;
+							sectordatathread.DataIndex = sectorindex;
+
+						}
                     }
                     // Prevent overwriting good sector data with other good sector data.
                     if (SectorMap.sectorok[tracknr, sectornr] != SectorMapStatus.CrcOk)
@@ -534,8 +537,11 @@ namespace FloppyControlApp
                             sectordatathread.crc = (int)((savechecksum[0] << 24) | (savechecksum[1] << 16) | (savechecksum[2]) << 8 | (savechecksum[3]));
                             sectordatathread.sectorbytes = bytebuf;
                             sectordatathread.MarkerType = MarkerType.headerAndData;
-                        }
-                    }
+							sectordatathread.HeaderIndex = sectorindex;
+							sectordatathread.DataIndex = sectorindex;
+
+						}
+					}
                 }
             }
             progresses[threadid] = (int)sectordata2.Count;
