@@ -1779,7 +1779,7 @@ namespace FloppyControlApp
 					if (processing.sectordata2.Count == 0) continue;
 					if (!(processing.sectordata2[i].trackhead == track
 						   && processing.sectordata2[i].sector == sector)) continue;
-					if (!(processing.sectordata2[i].MarkerType == MarkerType.data
+					if (!(processing.sectordata2[i].MarkerType == MarkerType.header
 						|| processing.sectordata2[i].MarkerType == MarkerType.headerAndData)) continue;
 					if (processing.sectordata2[i].MarkerType == MarkerType.headerAndData)
 					{
