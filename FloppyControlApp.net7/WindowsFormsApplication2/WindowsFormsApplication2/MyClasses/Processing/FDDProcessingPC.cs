@@ -1308,7 +1308,7 @@ namespace FloppyControlApp
             if (SectorHeader.trackhead == 0) SectorHeader.sectorlength = 512;
             if (DiskImageSectorOffset < 2000000 - SectorHeader.sectorlength)
             {
-                if (sectorbuf.Length == SectorHeader.sectorlength + 2)
+                if (sectorbuf.Length <= SectorHeader.sectorlength+2 && sectorbuf.Length >= 512)
                 {
                     Array.Copy(sectorbuf, 0, disk, DiskImageSectorOffset, SectorHeader.sectorlength);
                     sum = sectorbuf.Sum(x => x);

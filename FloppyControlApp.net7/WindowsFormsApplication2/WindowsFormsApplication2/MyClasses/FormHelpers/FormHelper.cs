@@ -1778,6 +1778,8 @@ namespace FloppyControlApp
                 MFMData CurrentSector;
                 MFMData CurrentSectorData;
                 SectorMapStatus status;
+                // Find related sector based on trackhead/sector, first sector found will be used
+                // For more sectors, use the error correction tab.
                 for (i = 0; i < processing.sectordata2.Count; i++)
 				{
 					CurrentSector = processing.sectordata2[i];
