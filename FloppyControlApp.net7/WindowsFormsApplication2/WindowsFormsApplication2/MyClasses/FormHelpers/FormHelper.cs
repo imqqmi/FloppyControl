@@ -1773,25 +1773,33 @@ namespace FloppyControlApp
 			if (e.Button == MouseButtons.Left)
 			{
 				tbreceived.Append("Track: " + track + " sector: " + sector + " div:" + div + "\r\n");
-				for (i = 0; i < processing.sectordata2.Count; i++)
+				if (processing.sectordata2 == null) return;
+				if (processing.sectordata2.Count == 0) return;
+                MFMData CurrentSector;
+                MFMData CurrentSectorData;
+                SectorMapStatus status;
+                for (i = 0; i < processing.sectordata2.Count; i++)
 				{
-					if (processing.sectordata2 == null) continue;
-					if (processing.sectordata2.Count == 0) continue;
-					if (!(processing.sectordata2[i].trackhead == track
-						   && processing.sectordata2[i].sector == sector)) continue;
-					if (!(processing.sectordata2[i].MarkerType == MarkerType.header
-						|| processing.sectordata2[i].MarkerType == MarkerType.headerAndData)) continue;
-					if (processing.sectordata2[i].MarkerType == MarkerType.headerAndData)
+					CurrentSector = processing.sectordata2[i];
+                    if (!(CurrentSector.trackhead == track
+					   && CurrentSector.sector == sector)) continue;
+					if (!(CurrentSector.MarkerType == MarkerType.header
+						|| CurrentSector.MarkerType == MarkerType.headerAndData)) continue;
+					
+                    status = processing.SectorMap.sectorok[track, sector];
+					if (CurrentSector.MarkerType == MarkerType.headerAndData)
 					{
-						if (processing.sectordata2[i].Status != processing.SectorMap.sectorok[track, sector]) continue;
+						if (CurrentSector.Status != status) continue;
 						if (processing.sectordata2.Count - 1 <= i) continue;
 					}
-					else
+					if (CurrentSector.MarkerType == MarkerType.header)
 					{
-						if (processing.sectordata2[i].Status != processing.SectorMap.sectorok[track, sector]) continue;
-						if (processing.sectordata2.Count - 1 <= i) continue;
+						if (processing.sectordata2.Count <= i) continue;
+                        CurrentSectorData = processing.sectordata2[i + 1];
+                        if( CurrentSector.trackhead  != track && CurrentSector.sector != sector) continue;
+						if (CurrentSectorData.Status != status) continue;
 					}
-					scatterplot.AnScatViewlargeoffset = processing.sectordata2[i].rxbufMarkerPositions - 50;
+					scatterplot.AnScatViewlargeoffset = CurrentSector.rxbufMarkerPositions - 50;
 					scatterplot.AnScatViewoffset = 0;
 					int markerSize = 2;
 					if (processing.ProcSettings.platform == Platform.Amiga) markerSize = 1;
