@@ -752,7 +752,8 @@ namespace FloppyControlApp.MyClasses.FileIO
                             for (q = tso.offsetstart; q < tso.offsetend; q++, bytessaved++)
                                 writer.Write(processing.RxBbuf[q]);
                             //tsoffset[track, sector] = tso;
-                            sectordone[sectordata.trackhead, sectordata.sector] = 1;
+                            if( !OnlyBadSectors )
+                                sectordone[sectordata.trackhead, sectordata.sector] = 1;
                             int len = tso.length;
                             writer.Flush();
                             writer.Close();
@@ -762,8 +763,9 @@ namespace FloppyControlApp.MyClasses.FileIO
                         {
                             for (q = tso.offsetstart; q < tso.offsetend; q++, bytessaved++)
                                 writer.Write(processing.RxBbuf[q]);
-                            //tsoffset[track, sector] = tso;
-                            sectordone[sectordata.trackhead, sectordata.sector] = 1;
+							//tsoffset[track, sector] = tso;
+							if (!OnlyBadSectors)
+								sectordone[sectordata.trackhead, sectordata.sector] = 1;
                             int len = tso.length;
                         }
                     }

@@ -17,6 +17,7 @@ using FloppyControlApp.MyClasses.Processing;
 using FloppyControlApp.MyClasses.Processing.ProcessingTypes;
 using static FloppyControlApp.MyClasses.Processing.ProcessingTypes.ProcessingTypes;
 using FloppyControlApp.MyClasses.Capture.Models;
+using FloppyControlApp.MyClasses.Graphics;
 
 namespace FloppyControlApp
 {
@@ -632,36 +633,25 @@ namespace FloppyControlApp
             //tbreceived.Append("mfm to sector:"+ SW.ElapsedMilliseconds + "ms\r\n");
             SW.Stop();
         }
-
-        public void FindPeaks(int offset)
+        /// <summary>
+        /// Find peaks from data within the scatterplot window
+        /// </summary>
+        /// <param name="scatterplot"></param>
+        public void FindPeaks( ScatterPlot scatterplot = null)
         {
-            byte[] data;
-
+            int offset;
             int length;
-            if (Indexrxbuf < 100000)
-                length = Indexrxbuf;
-            else length = 100000;
-            //int offset = HistogramhScrollBar1.Value;
-            //int peak1, peak2, peak3;
-            data = RxBbuf;
-
-            int i;
-
-            if (data == null) return;
-
-            int[] histogramint = new int[256];
-
-            int histogrammax;
-
-            if (length == 0) length = data.Length;
+			int[] histogramint = new int[256];
+			int histogrammax;
 
             //Create histogram of the track period data
-
+            offset = scatterplot.AnScatViewlargeoffset + scatterplot.AnScatViewoffset;
+            length = scatterplot.AnScatViewlength;
             // count the period lengths grouped by period length, skip 0
-            for (i = offset; i < offset + length; i++)
+            for (int i = offset; i < offset + length; i++)
             {
                 //if (data[i] > 0)
-                histogramint[data[i]]++;
+                histogramint[RxBbuf[i]]++;
             }
 
             // Find the maximum value so we can normalize the histogram down to 100 to fit inside histogram graph
@@ -671,7 +661,7 @@ namespace FloppyControlApp
             Peak3 = 0;
 
             histogrammax = 0;
-            for (i = 1; i < 256; i++)
+            for (int i = 1; i < 256; i++)
             {
                 if (histogramint[i] > histogrammax)
                 {
@@ -681,7 +671,7 @@ namespace FloppyControlApp
             }
 
             histogrammax = 0;
-            for (i = Peak1 + 20; i < 256; i++)
+            for (int i = Peak1 + 20; i < 256; i++)
             {
                 if (histogramint[i] > histogrammax)
                 {
@@ -691,7 +681,7 @@ namespace FloppyControlApp
             }
 
             histogrammax = 0;
-            for (i = Peak2 + 20; i < 256; i++)
+            for (int i = Peak2 + 20; i < 256; i++)
             {
                 if (histogramint[i] > histogrammax)
                 {
@@ -701,7 +691,7 @@ namespace FloppyControlApp
             }
 
 
-            TBReceived.Append("Peak1: " + Peak1.ToString("X2") + "Peak2: " + Peak2.ToString("X2") + "Peak3: " + Peak3.ToString("X2") + "\r\n");
+            //TBReceived.Append("Peak1: " + Peak1.ToString("X2") + "Peak2: " + Peak2.ToString("X2") + "Peak3: " + Peak3.ToString("X2") + "\r\n");
         }
 
         /*

@@ -237,8 +237,8 @@ namespace FloppyControlApp
 
             if (LimitToScttrViewcheckBox.Checked == true)
             {
-                processing.ProcSettings.start = scatterplot.AnScatViewlargeoffset;
-                processing.ProcSettings.end = scatterplot.AnScatViewlargeoffset + scatterplot.AnScatViewlength;
+                processing.ProcSettings.start = scatterplot.AnScatViewlargeoffset + scatterplot.AnScatViewoffset;
+                processing.ProcSettings.end = processing.ProcSettings.start + scatterplot.AnScatViewlength;
             }
 
             if (LimitToScttrViewcheckBox.Checked == true && OnlyBadSectorsRadio.Checked == true)
@@ -2560,7 +2560,7 @@ namespace FloppyControlApp
         {
 
             if (processing.Indexrxbuf == 0) return;
-            processing.FindPeaks(HistogramhScrollBar1.Value);
+            processing.FindPeaks(scatterplot);
             SuspendLayout();
             int peak1 = processing.Peak1;
             int peak2 = processing.Peak2;

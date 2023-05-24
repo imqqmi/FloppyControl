@@ -13,7 +13,7 @@ namespace FloppyControlApp.MyClasses.Graphics
     /// <summary>
     /// Plots dots from an array, index by y axis. When zooming in dots are enlarged.
     /// </summary>
-    class ScatterPlot
+    public class ScatterPlot
     {
         FDDProcessing Processing { get; set; }
         public ConcurrentDictionary<int, MFMData> Sectordata2 { get; set; }
@@ -252,7 +252,7 @@ namespace FloppyControlApp.MyClasses.Graphics
                 factor = width / (float)datapoints;
                 //if (indexrxbuf > rxbuf.Length) indexrxbuf = rxbuf.Length - 1;
                 if (datapoints+start > Rxbuf.Length) datapoints = Rxbuf.Length - datapoints - 1;
-                if (Processing.entropy == null) Tbreiceved.Append("entropy = null!");
+                
                 if (start > -1 && Processing.entropy != null && ShowEntropy)
                 {
                     for (i = 0; i < datapoints; i++)
