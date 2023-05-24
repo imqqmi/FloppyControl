@@ -1789,6 +1789,7 @@ namespace FloppyControlApp
 						|| CurrentSector.MarkerType == MarkerType.headerAndData)) continue;
 					
                     status = processing.SectorMap.sectorok[track, sector];
+                    if (status == SectorMapStatus.SectorOKButZeroed) status = SectorMapStatus.CrcOk;
 					if (CurrentSector.MarkerType == MarkerType.headerAndData)
 					{
 						if (CurrentSector.Status != status) continue;
