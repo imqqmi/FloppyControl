@@ -308,7 +308,8 @@ namespace FloppyControlApp
 		{
 			wlabel.Text = this.Width.ToString();
 			hlabel.Text = this.Height.ToString();
-			textBoxReceived.AppendText("ThresholdsGroupBox x: " + ThresholdsGroupBox.Left);
+			Properties.Settings.Default["WindowSizeX"] = this.Width;
+			Properties.Settings.Default["WindowSizeY"] = this.Height;
 		}
 
 		// Display sector data, only works for PC for now
@@ -729,7 +730,6 @@ namespace FloppyControlApp
 		{
 			HistogramhScrollBar1.Value = QHistogramhScrollBar1.Value;
 			scatterplot.AnScatViewlargeoffset = QHistogramhScrollBar1.Value;
-			textBoxReceived.AppendText("HistogramScrollBar: " + scatterplot.AnScatViewlargeoffset + "\r\n");
 			scatterplot.UpdateScatterPlot();
 		}
 
@@ -1080,7 +1080,6 @@ namespace FloppyControlApp
 			DiskFormat diskformat = DiskFormat.unknown;
 			if (ChangeDiskTypeComboBox.SelectedItem.ToString() != "")
 				diskformat = (DiskFormat)Enum.Parse(typeof(DiskFormat), ChangeDiskTypeComboBox.SelectedItem.ToString(), true);
-			tbreceived.Append("Selected: " + diskformat.ToString() + "\r\n");
 
 			processing.diskformat = diskformat;
 

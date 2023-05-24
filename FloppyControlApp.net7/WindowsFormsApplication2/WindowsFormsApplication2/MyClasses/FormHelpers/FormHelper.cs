@@ -740,8 +740,6 @@ namespace FloppyControlApp
             ScanMode procmode = ScanMode.AdaptiveRate;
             if (ScanComboBox.SelectedItem.ToString() != "")
                 procmode = (ScanMode)Enum.Parse(typeof(ScanMode), ScanComboBox.SelectedItem.ToString(), true);
-            tbreceived.Append("Selected: " + procmode.ToString() + "\r\n");
-
 
             switch (procmode)
             {
@@ -1973,7 +1971,7 @@ namespace FloppyControlApp
 			ProcessingType procmode = ProcessingType.adaptive1;
 			if (ProcessingModeComboBox.SelectedItem.ToString() != "")
 				procmode = (ProcessingType)Enum.Parse(typeof(ProcessingType), ProcessingModeComboBox.SelectedItem.ToString(), true);
-			tbreceived.Append("Selected: " + procmode.ToString() + "\r\n");
+			
 			SetThresholdLabels(procmode);
 
 			switch (procmode)
@@ -2454,7 +2452,9 @@ namespace FloppyControlApp
             ProcessStatusLabel.BackColor = Color.Transparent;
             HandleTabSwitching();
             this.ActiveControl = QMinUpDown;
-        }
+            this.Width = (int)Properties.Settings.Default["WindowSizeX"];
+			this.Height = (int)Properties.Settings.Default["WindowSizeY"];
+		}
 
         private void KeyboardShortcutHandler(KeyEventArgs e)
         {
@@ -2568,7 +2568,6 @@ namespace FloppyControlApp
             ProcessingType procmode = ProcessingType.adaptive1;
             if (ProcessingModeComboBox.SelectedItem.ToString() != "")
                 procmode = (ProcessingType)Enum.Parse(typeof(ProcessingType), ProcessingModeComboBox.SelectedItem.ToString(), true);
-            tbreceived.Append("Selected: " + procmode.ToString() + "\r\n");
 
             switch (procmode)
             {

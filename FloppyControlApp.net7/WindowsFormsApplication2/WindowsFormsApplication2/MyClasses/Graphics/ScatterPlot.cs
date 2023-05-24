@@ -73,7 +73,7 @@ namespace FloppyControlApp.MyClasses.Graphics
             int i, p;
             Random random = new();
             int ID = random.Next();
-            proc.TBReceived.Append("scatterplot id: " + ID);
+            
             for (i = 255; i > -1; i--)
                 Gradient1[i] = 255;
 

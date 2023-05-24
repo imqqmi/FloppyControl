@@ -689,9 +689,6 @@ namespace FloppyControlApp
                     Peak3 = i;
                 }
             }
-
-
-            //TBReceived.Append("Peak1: " + Peak1.ToString("X2") + "Peak2: " + Peak2.ToString("X2") + "Peak3: " + Peak3.ToString("X2") + "\r\n");
         }
 
         /*

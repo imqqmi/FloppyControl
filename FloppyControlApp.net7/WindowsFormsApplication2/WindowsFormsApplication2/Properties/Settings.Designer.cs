@@ -226,5 +226,29 @@ namespace FloppyControlApp.Properties {
                 this["SixEight"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1892")]
+        public int WindowSizeX {
+            get {
+                return ((int)(this["WindowSizeX"]));
+            }
+            set {
+                this["WindowSizeX"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1090")]
+        public int WindowSizeY {
+            get {
+                return ((int)(this["WindowSizeY"]));
+            }
+            set {
+                this["WindowSizeY"] = value;
+            }
+        }
     }
 }

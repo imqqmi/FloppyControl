@@ -53,5 +53,11 @@
     <Setting Name="SixEight" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">100</Value>
     </Setting>
+    <Setting Name="WindowSizeX" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1892</Value>
+    </Setting>
+    <Setting Name="WindowSizeY" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1090</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
