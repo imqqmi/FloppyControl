@@ -65,7 +65,6 @@ namespace FloppyControlApp.MyClasses.Processing.ProcessingTypes
                 return null;
             }
 
-            tbreceived.Append("Period length:" + (end - start) + " ");
             byte[] m;
             try
             {

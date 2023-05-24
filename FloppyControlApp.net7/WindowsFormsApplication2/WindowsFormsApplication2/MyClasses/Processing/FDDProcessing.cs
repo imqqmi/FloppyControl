@@ -511,8 +511,7 @@ namespace FloppyControlApp
                 TBReceived.Append("Start or end can't be a negative value!\r\n");
                 return;
             }
-
-            TBReceived.Append("Period length:" + (end - start) + " ");
+            
             byte[] m;
             try {
                 if (procsettings.AddNoise || procsettings.pattern == 4)

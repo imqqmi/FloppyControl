@@ -55,8 +55,7 @@ namespace FloppyControlApp
             // Todo: check if new sector markers are found, otherwise return.
             if (sectordata2.Count > 0 && diskformat == DiskFormat.unknown) // if markers are found and the diskformat has not been set previously, assume PC DD
                 diskformat = DiskFormat.pcdd;
-
-            TBReceived.Append(" Markers: " + markerpositionscntthread + " ");
+            
             int markerindex;
             byte[] SectorBlock;
             ushort datacrc = 0, datacrcchk; //headercrc is from the captured data, the chk is calculated from the data.
@@ -1271,6 +1270,17 @@ namespace FloppyControlApp
                 }
                 decodedamigaText.Append("\r\n");
                 decodedamigaText.Append(CurrentFiles);
+            }
+
+            if( procsettings.OnlyBadSectors)
+            {
+                TBReceived.Append("Sector found: T" + SectorHeader.trackhead.ToString("D3")
+                    + " S" + SectorHeader.sector
+                    + " ptype: " + procsettings.processingtype
+                    + " AdTrack: " + procsettings.rateofchange2
+                    + " pkoffset: " + procsettings.offset
+                    + " PeriodPos: " + SectorHeader.rxbufMarkerPositions
+                    + "\r\n"); ;
             }
         }
 

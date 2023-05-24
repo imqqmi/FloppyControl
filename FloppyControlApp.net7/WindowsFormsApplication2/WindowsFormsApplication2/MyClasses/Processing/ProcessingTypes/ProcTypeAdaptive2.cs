@@ -55,8 +55,7 @@ namespace FloppyControlApp.MyClasses.Processing.ProcessingTypes
                 tbreceived.Append("Start or end can't be a negative value!\r\n");
                 return null;
             }
-
-            tbreceived.Append("Period length:" + (end - start) + " ");
+            
             byte[] m;
             try
             {
