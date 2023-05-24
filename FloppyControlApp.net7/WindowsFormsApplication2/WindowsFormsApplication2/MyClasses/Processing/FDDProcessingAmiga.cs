@@ -516,7 +516,7 @@ namespace FloppyControlApp
                             isunique = IndexOfBytes(badsectorhash[i], secthash, 0, 32);
                             if (isunique != -1)
                             {
-                                //tbreceived.Append("Duplicate found! T"+tracknr.ToString("d3")+" S"+sectornr+"\r\n");
+                                if(debuginfo) TBReceived.Append("Duplicate found! T"+tracknr.ToString("d3")+" S"+sectornr+"\r\n");
                                 break;
                             }
                         }
