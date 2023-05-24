@@ -78,6 +78,8 @@ namespace FloppyControlApp
 			processing.ScatterplotStart = scatterplot.AnScatViewlargeoffset + scatterplot.AnScatViewoffset;
 			processing.ScatterplotEnd = scatterplot.AnScatViewlargeoffset + scatterplot.AnScatViewoffset + scatterplot.AnScatViewlength;
 			processing.StartProcessing(Platform.Amiga);
+			ChangeDiskTypeComboBox.SelectedIndex = ChangeDiskTypeComboBox.FindStringExact(processing.diskformat.ToString());
+			QChangeDiskTypeComboBox.SelectedIndex = QChangeDiskTypeComboBox.FindStringExact(processing.diskformat.ToString());
 		}
 
 		private void ProcessPC()
