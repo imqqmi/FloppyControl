@@ -627,7 +627,7 @@ namespace FloppyControlApp
             if (procsettings.platform == Platform.PC)
                 ProcessPCMFM2Sectordata(procsettings, threadid, TBReceived);
             else if (procsettings.platform == Platform.Amiga)
-                ProcessAmigaMFMbytes(procsettings, threadid);
+                ProcessAmigaMFMbytes(procsettings, threadid, this);
 
             //tbreceived.Append("mfm to sector:"+ SW.ElapsedMilliseconds + "ms\r\n");
             SW.Stop();
