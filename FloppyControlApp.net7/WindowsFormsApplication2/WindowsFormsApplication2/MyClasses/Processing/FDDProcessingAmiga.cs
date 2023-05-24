@@ -502,12 +502,10 @@ namespace FloppyControlApp
                     if (procsettings.UseErrorCorrection)
                     {
                         byte[] bytebuf = new byte[514];
-                        for (i = 0; i < 512; i++)
-                        {
-                            bytebuf[i] = dec1[i];
-                        }
+                        Array.Copy(dec1, bytebuf, 512);
                         bytebuf[512] = tracknr;
                         bytebuf[513] = sectornr;
+
                         //Create hash
                         byte[] secthash = mySHA256.ComputeHash(bytebuf);
 
@@ -552,26 +550,29 @@ namespace FloppyControlApp
 
         private void ReportAmigaGoodSectorInfo(byte tracknr, byte sectornr, ProcSettings procsettings, MFMData sectordatathread, int sectorindex)
         {
-			FoundGoodSectorInfo.Append("T" + tracknr.ToString("D3") + " S" + sectornr + " crc:" + sectordatathread.crc.ToString("X4") + " markerindex:" + sectorindex + " Method: ");
-			if (procsettings.processingtype == ProcessingType.aufit) // aufit
-			{
-				FoundGoodSectorInfo.Append("Aufit min:" + procsettings.min.ToString("X2") + " 4/6:" + procsettings.four.ToString("X2"));
-			}
-			else
-			if (procsettings.processingtype == ProcessingType.adaptive1)
-			{
-				FoundGoodSectorInfo.Append("Adaptive Rate:" + procsettings.rateofchange);
+            if (debuginfo)
+            {
+                decodedamigaText.Append("T" + tracknr.ToString("D3") + " S" + sectornr + " crc:" + sectordatathread.crc.ToString("X4") + " markerindex:" + sectorindex + " Method: ");
+                if (procsettings.processingtype == ProcessingType.aufit) // aufit
+                {
+                    decodedamigaText.Append("Aufit min:" + procsettings.min.ToString("X2") + " 4/6:" + procsettings.four.ToString("X2"));
+                }
+                else
+                if (procsettings.processingtype == ProcessingType.adaptive1)
+                {
+                    decodedamigaText.Append("Adaptive Rate:" + procsettings.rateofchange);
 
-			}
-			else
-			if (procsettings.processingtype == ProcessingType.normal)
-			{
-				FoundGoodSectorInfo.Append("Normal min:" + procsettings.min.ToString("X2") + " 4/6:" + procsettings.four.ToString("X2") +
-					" 6/8:" + procsettings.six.ToString("X2") + " max:" + procsettings.max.ToString("X2") +
-					" offset:" + procsettings.offset.ToString());
-			}
-			FoundGoodSectorInfo.Append("\r\n");
-			FoundGoodSectorInfo.Append(CurrentFiles);
+                }
+                else
+                if (procsettings.processingtype == ProcessingType.normal)
+                {
+                    decodedamigaText.Append("Normal min:" + procsettings.min.ToString("X2") + " 4/6:" + procsettings.four.ToString("X2") +
+                        " 6/8:" + procsettings.six.ToString("X2") + " max:" + procsettings.max.ToString("X2") +
+                        " offset:" + procsettings.offset.ToString());
+                }
+                decodedamigaText.Append("\r\n");
+                decodedamigaText.Append(CurrentFiles);
+            }
 		}
 
         /// <summary>

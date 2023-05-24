@@ -29,7 +29,7 @@ namespace FloppyControlApp
         public SectorMap SectorMap { get; set; }
         private System.Diagnostics.Stopwatch SW = new System.Diagnostics.Stopwatch();
         public StringBuilder TBReceived { get; set; }
-        public StringBuilder FoundGoodSectorInfo = new StringBuilder();
+        public StringBuilder decodedamigaText = new StringBuilder();
         public string CurrentFiles;
         public RichTextBox RtbSectorMap { get; set; } // for sectormap
         private BinaryWriter writer;
@@ -1069,7 +1069,7 @@ namespace FloppyControlApp
             
             try
             {
-                File.WriteAllText(path + ProcSettings.outputfilename + "_FoundGoodSectorInfo.txt", FoundGoodSectorInfo.ToString());
+                File.WriteAllText(path + ProcSettings.outputfilename + "_FoundGoodSectorInfo.txt", decodedamigaText.ToString());
             }
             catch (IOException ex)
             {
@@ -1084,8 +1084,8 @@ namespace FloppyControlApp
             
             try
             {
-                FoundGoodSectorInfo.Clear();
-                FoundGoodSectorInfo.Append(File.ReadAllText(path + ProcSettings.outputfilename + "_FoundGoodSectorInfo.txt"));
+                decodedamigaText.Clear();
+                decodedamigaText.Append(File.ReadAllText(path + ProcSettings.outputfilename + "_FoundGoodSectorInfo.txt"));
             }
             catch (IOException ex)
             {
