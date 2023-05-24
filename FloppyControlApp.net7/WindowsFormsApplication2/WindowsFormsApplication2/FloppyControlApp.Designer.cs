@@ -5764,21 +5764,21 @@ namespace FloppyControlApp
 			// scpFileToolStripMenuItem1
 			// 
 			scpFileToolStripMenuItem1.Name = "scpFileToolStripMenuItem1";
-			scpFileToolStripMenuItem1.Size = new System.Drawing.Size(141, 22);
+			scpFileToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
 			scpFileToolStripMenuItem1.Text = "Scp file";
 			scpFileToolStripMenuItem1.Click += SaveSCP_Click;
 			// 
 			// trimmedBinToolStripMenuItem
 			// 
 			trimmedBinToolStripMenuItem.Name = "trimmedBinToolStripMenuItem";
-			trimmedBinToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+			trimmedBinToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			trimmedBinToolStripMenuItem.Text = "Trimmed bin";
-			trimmedBinToolStripMenuItem.Click += Button49_Click;
+			trimmedBinToolStripMenuItem.Click += trimmedBinToolStripMenuItem_Click;
 			// 
 			// badSectorsToolStripMenuItem
 			// 
 			badSectorsToolStripMenuItem.Name = "badSectorsToolStripMenuItem";
-			badSectorsToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+			badSectorsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			badSectorsToolStripMenuItem.Text = "Bad sectors";
 			badSectorsToolStripMenuItem.Click += SaveTrimmedBadbutton_Click;
 			// 

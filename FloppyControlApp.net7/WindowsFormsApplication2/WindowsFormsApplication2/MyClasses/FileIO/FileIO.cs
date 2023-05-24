@@ -693,116 +693,80 @@ namespace FloppyControlApp.MyClasses.FileIO
                 for (i = 0; i < sectordata2.Count; i++)
                 {
                     sectordataheader = sectordata2[i];
-                    //if (sectordataheader.track == 57 && sectordataheader.sector == 7)
-                    //{
-                    //    int aaa = 1;
-                    //}
-                    //if (sectordataheader.track == 115 && sectordataheader.sector == 3)
-                    //{
-                    //    int aaa = 2;
-                    //}
+
                     if (sectordataheader.MarkerType == MarkerType.header || sectordataheader.MarkerType == MarkerType.headerAndData)
                     {
                         if (sectordataheader.DataIndex != 0)
                             sectordata = sectordata2[sectordataheader.DataIndex];
                         else continue;
 
-                        if (!OnlyBadSectors)
+                        // Select bad sectors only or only good sectors.
+                        if( OnlyBadSectors )
                         {
-
-                            if (sectordata.Status == SectorMapStatus.CrcOk || sectordata.Status == SectorMapStatus.SectorOKButZeroed)
-                            {
-                                if (processing.SectorMap.sectorok[sectordata.track, sectordata.sector] == SectorMapStatus.CrcOk ||
-                                    processing.SectorMap.sectorok[sectordata.track, sectordata.sector] == SectorMapStatus.SectorOKButZeroed)
-                                {
-                                    if (sectordone[sectordata.track, sectordata.sector] == 1)
-                                        continue; // skip sectors that are done already.
-                                    //if (sectordataheader.track == 57 && sectordataheader.sector == 7)
-                                    //{
-                                    //    int aaa = 1;
-                                    //}
-                                    TrackSectorOffset tso = new TrackSectorOffset();
-
-                                    tso.offsetstart = sectordataheader.rxbufMarkerPositions;
-
-                                    tso.offsetend = tso.offsetstart + 6000;
-                                    tso.length = tso.offsetend - tso.offsetstart;
-                                    badsectorcnt++;
-                                    tso.offsetstart -= increaseRange;
-                                    tso.offsetend += increaseRange;
-
-                                    //writer.Write("T" + track.ToString("D3") + "S" + sector);
-                                    if (tso.offsetstart < 0) tso.offsetstart = 0;
-
-                                    string path1 = path + BaseFileName + "_T" + sectordata.track.ToString("D3") + "_S" + sectordata.sector.ToString("D2") + extension;
-
-                                    if (FilePerSector == true) // Save 1 file per sector for debugging
-                                    {
-                                        try
-                                        {
-                                            writer = new BinaryWriter(new FileStream(path1, FileMode.Create));
-                                        }
-                                        catch (IOException ex)
-                                        {
-                                            tbreceived.Append("IO error: " + ex.ToString());
-                                        }
-
-                                        for (q = tso.offsetstart; q < tso.offsetend; q++, bytessaved++)
-                                            writer.Write(processing.RxBbuf[q]);
-                                        //tsoffset[track, sector] = tso;
-                                        sectordone[sectordata.track, sectordata.sector] = 1;
-                                        int len = tso.length;
-                                        writer.Flush();
-                                        writer.Close();
-                                        writer.Dispose();
-                                    }
-                                    else // save 1 bin file for all data.
-                                    {
-                                        for (q = tso.offsetstart; q < tso.offsetend; q++, bytessaved++)
-                                            writer.Write(processing.RxBbuf[q]);
-                                        //tsoffset[track, sector] = tso;
-                                        sectordone[sectordata.track, sectordata.sector] = 1;
-                                        int len = tso.length;
-                                    }
-                                }
-                            }
-                        }
-
+                            if (sectordata.Status != SectorMapStatus.HeadOkDataBad) continue;
+							if (!(processing.SectorMap.sectorok[sectordata.trackhead, sectordata.sector] == SectorMapStatus.HeadOkDataBad ||
+							processing.SectorMap.sectorok[sectordata.trackhead, sectordata.sector] == SectorMapStatus.AmigaHeadOkDataBad))
+								continue;
+						}
                         else
                         {
-                            if (sectordata.Status == SectorMapStatus.HeadOkDataBad)
+                            if (!(sectordata.Status == SectorMapStatus.CrcOk || sectordata.Status == SectorMapStatus.SectorOKButZeroed)) continue;
+							
+                            if (!(processing.SectorMap.sectorok[sectordata.trackhead, sectordata.sector] == SectorMapStatus.CrcOk ||
+							processing.SectorMap.sectorok[sectordata.trackhead, sectordata.sector] == SectorMapStatus.SectorOKButZeroed))
+								continue;
+						}
+
+                        if (sectordone[sectordata.trackhead, sectordata.sector] == 1)
+                            continue; // skip sectors that are done already.
+
+                        TrackSectorOffset tso = new TrackSectorOffset();
+
+                        tso.offsetstart = sectordataheader.rxbufMarkerPositions;
+                        int offset = sectordata2[sectordataheader.DataIndex + 1].rxbufMarkerPositions - tso.offsetstart;
+                        
+                        
+						if (offset > 6000 ) offset = 6000;
+                        tso.offsetend = tso.offsetstart + offset;
+                        tso.length = tso.offsetend - tso.offsetstart;
+                        badsectorcnt++;
+                        tso.offsetstart -= increaseRange;
+                        tso.offsetend += increaseRange;
+
+                        //writer.Write("T" + track.ToString("D3") + "S" + sector);
+                        if (tso.offsetstart < 0) tso.offsetstart = 0;
+
+                        string path1 = path + BaseFileName + "_T" + sectordata.trackhead.ToString("D3") + "_S" + sectordata.sector.ToString("D2") + extension;
+
+                        if (FilePerSector == true) // Save 1 file per sector for debugging
+                        {
+                            try
                             {
-                                if (processing.SectorMap.sectorok[sectordata.track, sectordata.sector] != SectorMapStatus.HeadOkDataBad)
-                                    continue; // skip if sector is already good
-                                TrackSectorOffset tso = new TrackSectorOffset();
-                                tso.offsetstart = sectordataheader.rxbufMarkerPositions;
-                                for (q = i + 1; q < sectordata2.Count; q++)
-                                {
-                                    if (sectordata2[q].Status != 0 &&
-                                        (sectordata2[q].MarkerType == MarkerType.header || sectordata2[q].MarkerType == MarkerType.headerAndData))
-                                    {
-                                        tso.offsetend = sectordata2[q].rxbufMarkerPositions;
-                                        break;
-                                    }
-                                }
-                                if (tso.offsetend == 0) tso.offsetend = tso.offsetstart + 10000;
-                                tso.length = tso.offsetend - tso.offsetstart;
-                                if (tso.length < 8000)
-                                {
-
-                                    tso.offsetend = tso.offsetstart + 20000 - tso.length;
-                                    tso.length = tso.offsetend - tso.offsetstart;
-                                }
-                                badsectorcnt++;
-                                //writer.Write("T" + track.ToString("D3") + "S" + sector);
-                                for (q = tso.offsetstart; q < tso.offsetend; q++, bytessaved++)
-                                    writer.Write(processing.RxBbuf[q]);
-                                //tsoffset[track, sector] = tso;
+                                writer = new BinaryWriter(new FileStream(path1, FileMode.Create));
                             }
+                            catch (IOException ex)
+                            {
+                                tbreceived.Append("IO error: " + ex.ToString());
+                            }
+
+                            for (q = tso.offsetstart; q < tso.offsetend; q++, bytessaved++)
+                                writer.Write(processing.RxBbuf[q]);
+                            //tsoffset[track, sector] = tso;
+                            sectordone[sectordata.trackhead, sectordata.sector] = 1;
+                            int len = tso.length;
+                            writer.Flush();
+                            writer.Close();
+                            writer.Dispose();
                         }
-
+                        else // save 1 bin file for all data.
+                        {
+                            for (q = tso.offsetstart; q < tso.offsetend; q++, bytessaved++)
+                                writer.Write(processing.RxBbuf[q]);
+                            //tsoffset[track, sector] = tso;
+                            sectordone[sectordata.trackhead, sectordata.sector] = 1;
+                            int len = tso.length;
+                        }
                     }
-
                 }
 
                 sectordone = null;

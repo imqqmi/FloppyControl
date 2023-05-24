@@ -1374,6 +1374,17 @@ namespace FloppyControlApp
 			// if you need a lot of good sectors, ie for entropy splice
 			processing.SkipAlreadyCrcOk = SkipAlreadyCrcOkcheckBox1.Checked;
 		}
+
+		private void trimmedBinToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			fileio.SaveTrimmedBinFile(
+					FourvScrollBar.Value,
+					SixvScrollBar.Value,
+					EightvScrollBar.Value,
+					ProcessingModeComboBox.SelectedItem.ToString(),
+					false
+				);
+		}
 	} // end class
 } // End namespace
 
