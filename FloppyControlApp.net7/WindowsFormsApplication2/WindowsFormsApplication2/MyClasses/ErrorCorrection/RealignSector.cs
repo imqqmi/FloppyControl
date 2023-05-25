@@ -48,6 +48,7 @@ namespace FloppyControlApp.MyClasses.ErrorCorrection
 					ecSettings.threadid = threadid;
 					if ((int)processing.diskformat > 2)
 					{
+						
 						sectorresult = ProcessRealign4E(ecSettings, ref processing);
 						if (sectorresult != null)
 						{
@@ -74,21 +75,15 @@ namespace FloppyControlApp.MyClasses.ErrorCorrection
 		// Some bad sectors only contain a cluster of bad periods
 		// These can easily be reprocessed brute force wise if they
 		// only cover like 20 periods. 
-		public ECResult ProcessRealign4E(  ECSettings ecSettings,
-										   ref FDDProcessing processing
-										   )
+		public ECResult ProcessRealign4E(ECSettings ecSettings, ref FDDProcessing processing)
 		{
 			int i;
 			byte[] _4EMarker = { 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0 };// 3x 4E
-																																												  //byte[] _4489EMarker = { 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1 };// 44894489
-																																												  //01000100100010010100010010001001
 			int markerindex;
 			byte[] crcinsectordatadecoded = new byte[100];
 			int crcinsectordata;
 			int bitshifted;
 			byte[] lasttwosectorbytes = new byte[100];
-			int periodSelectionStart, mfmSelectionStart = 0;
-			int periodSelectionEnd, mfmSelectionEnd = 0;
 			int bytestart, byteend;
 			int mfmAlignedStart, mfmAlignedEnd;
 
@@ -96,90 +91,34 @@ namespace FloppyControlApp.MyClasses.ErrorCorrection
 			mfmAlignedEnd = mfmAlignedStart + (ecSettings.MFMByteLength * 8);
 
 			// User selected part to be brute forced:
-			periodSelectionStart = ecSettings.periodSelectionStart;
-			periodSelectionEnd = ecSettings.periodSelectionEnd;
 			int indexS1 = ecSettings.indexS1;
 			int threadid = ecSettings.threadid;
-
-			// Stop if selection is too large, taking too long.
-			if (periodSelectionEnd - periodSelectionStart > 50)
-			{
-				processing.TBReceived.Append("Selection too large, please make it smaller, 50 max.\r\n");
-				return null;
-			}
+			
 			var sectordata2 = processing.sectordata2;
 			var TBReceived = processing.TBReceived;
 			var mfms = processing.mfms;
 			// Copy mfm data from mfms
 			int sectorlength = sectordata2[indexS1].sectorlength;
 
-			byte[] mfmbuf = mfms[sectordata2[indexS1].threadid]
-							.SubArray(sectordata2[indexS1].MarkerPositions, (sectorlength + 100) * 16);
+			
 			byte[] bytebuf = new byte[sectorlength + 6];
 
-			int cntperiods = 0;
-			//Find where in the mfm data the periodSelectionStart is
-			for (i = 0; i < (sectorlength + 6) * 16; i++)
-			{
-				if (mfmbuf[i] == 1)
-					cntperiods++;
-				if (cntperiods == periodSelectionStart) mfmSelectionStart = i;
-				if (cntperiods == periodSelectionEnd)
-				{
-					mfmSelectionEnd = i;
-					break;
-				}
-			}
-
-			TBReceived.Append("Selection: period start:" + periodSelectionStart + " period end: " + periodSelectionEnd + "\r\n");
-			TBReceived.Append("mfm start: " + mfmSelectionStart + " mfm end:" + mfmSelectionEnd + "\r\n");
-
-			bytestart = mfmSelectionStart / 16;
-			byteend = mfmSelectionEnd / 16;
-
-			//mfmAlignedStart = bytestart * 16;
-			//mfmAlignedEnd = (byteend + 1) * 16;
-
-			TBReceived.Append("bytestart: " + bytestart + " byte end: " + byteend + "\r\n");
-			TBReceived.Append("mfmAlignedstart: " + mfmAlignedStart + " mfmAlignedEnd: " + mfmAlignedEnd + "\r\n");
-
-			// Find 4E right after the crc bytes at the end of the sector
-			// 4E bytes are padding bytes between header and data. 
-			// When the 4E markers are found it will increase the chance of 
-			// getting a proper crc, even if it's bit shifted caused by corrupt data
-
-			// Is processing.diskformat amiga or pc?
-			// The number of bits shifted with regards to where the 4E padding should or expected to be
-			markerindex = processing.FindMarker(ref mfmbuf, mfmbuf.Length, (sectorlength + 4) * 16, ref _4EMarker);
-			bitshifted = markerindex - ((sectorlength + 4 + 3) * 16)+16;
-
-
-			//bitshifted = markerindex - ((sectorlength + 7) * 16);
-
-			// Skip processing if bitshift is too large
-			if (bitshifted > 32 || bitshifted < -32)
-			{
-				TBReceived.Append("ScanTemp: i: " + indexS1 + " Bitshift is too large. (" + bitshifted + ")\r\n");
-				return null;
-			}
+			
 
 			int markeroffset = sectordata2[indexS1].MarkerPositions;
 			byte[] mfmsdest = mfms[sectordata2[indexS1].threadid];
-
+			var AlignedResult = processing.RealignMFMData4E(ecSettings);
 			//Copy the bitshift correct mfm data back to the large mfms array
+			var mfmbuf = AlignedResult.mfmaligned;
+			bitshifted = AlignedResult.bitshifted;
+			bytestart = AlignedResult.bytestart;
+			byteend = AlignedResult.byteend;
+			markerindex = AlignedResult.markerindex;
+
 			for (i = mfmAlignedStart; i < mfmbuf.Length; i++)
 			{
-				mfmsdest[markeroffset + i] = mfmbuf[i + bitshifted];
+				mfmsdest[markeroffset + i] = mfmbuf[i];
 			}
-
-			// If no 4E markers are found, exit
-			if (markerindex == -1 || markerindex == -2)
-			{
-				TBReceived.Append("ScanTemp: No marker found.\r\n");
-				return null;
-			}
-
-
 
 			if ((int)processing.diskformat > 2) // PC processing
 			{
@@ -212,7 +151,7 @@ namespace FloppyControlApp.MyClasses.ErrorCorrection
 
 				int start = i - 1;
 				//int cnt = start+1;
-				int mfmoffset = crcindex - ((sectorlength + 4) * 16);
+				int mfmoffset = crcindex - ((sectorlength + 4) * 16)+16;
 
 				// Convert last part with realignedment based on the 4E 'marker':
 				for (i = start + 1; i < (sectorlength + 6); i++)
