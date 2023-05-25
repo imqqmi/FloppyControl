@@ -717,7 +717,9 @@ namespace FloppyControlApp
 			mfmAlignedStart = ecSettings.MFMByteStart;
 			mfmAlignedEnd = mfmAlignedStart + (ecSettings.MFMByteLength * 8);
 			
-            mfmaligned = RealignMFMData4E( ecSettings);
+            var AlignedResult = RealignMFMData4E( ecSettings);
+            mfmaligned = AlignedResult.mfmaligned;
+
 			byte[] data = new byte[(mfmaligned.Length) / 16 + 1];
             
             int j, q;
@@ -733,8 +735,7 @@ namespace FloppyControlApp
             int MaxIndex = 25;
             int iterations;
             combilimit = 1;
-
-            for (j = 0; j < MaxIndex; j++)
+			for (j = 0; j < MaxIndex; j++)
             {
                 combilimit++;
 
@@ -744,6 +745,7 @@ namespace FloppyControlApp
 
                 TBReceived.Append("Iterations: " + iterations + "\r\n");
                 Application.DoEvents();
+                
                 for (u = 0; u < iterations; u++)
                 {
                     if (stop == 1) break;
@@ -773,10 +775,10 @@ namespace FloppyControlApp
                         PrintArray(combi, NumberOfMfmBytes);
                         for (i = 0; i < 528; i++)
                         {
-                            TBReceived.Append(data[i].ToString("X2") + " ");
+                            //if ((i < (mfmAlignedStart / 16) - 4) || ( i > (mfmAlignedEnd / 16) + 4)) continue;
+							TBReceived.Append(data[i].ToString("X2") + " ");
                             if (i % 16 == 15) TBReceived.Append("\r\n");
                             if (i == mfmAlignedStart / 16 || i == mfmAlignedEnd / 16) TBReceived.Append("--");
-                            //dat[offset + i] = data[offset + i];
                         }
                         //tbreceived.Append("c6_max:" + c6_max + " c8_max:" + c8_max + "\r\n");
                         TBReceived.Append("Time: " + sw.ElapsedMilliseconds + "ms\r\n");
@@ -788,11 +790,12 @@ namespace FloppyControlApp
                             disk[i + diskoffset] = data[i + 4];
                         }
                         SectorMap.RefreshSectorMap();
-                        TBReceived.Append("\r\n");
+                        //TBReceived.Append("\r\n");
                         Application.DoEvents();
-                        //return q;
+						
                         stop = 1;
                         break;
+                        
                     }
                     if (stop == 1) break;
                     combi[0]++;
@@ -811,7 +814,16 @@ namespace FloppyControlApp
             TBReceived.Append("Combinations:" + combinations + "\r\n");
         }
 
-        public byte[] RealignMFMData4E(ECSettings ecSettings)
+        public class AlignedResult
+        {
+            public byte[] mfmaligned;
+			public int bitshifted;
+			public int bytestart;
+			public int byteend;
+            public int markerindex;
+        }
+
+        public AlignedResult RealignMFMData4E(ECSettings ecSettings)
         {
 			int i;
 			byte[] _4EMarker = { 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0 };// 3x 4E
@@ -874,7 +886,7 @@ namespace FloppyControlApp
 
 			_4Eindex = FindMarker(ref mfmbuf, mfmbuf.Length, (sectorlength) + 4 * 16, ref _4EMarker);
 			// The number of bits shifted with regards to where the 4E padding should or expected to be
-			bitshifted = _4Eindex - ((sectorlength + 7) * 16) + 16;
+			bitshifted = _4Eindex - ((sectorlength + 7) * 16) + 16 + ecSettings.BitShift;
 
 			// If there's a bitshift estimate the most likely number of missing periods, add to end of selection.
 			//periodSelectionEnd = periodSelectionEnd;// + (-bitshifted / 2);
@@ -900,7 +912,17 @@ namespace FloppyControlApp
 			TBReceived.Append("periodSelectionStart:" + periodSelectionStart + " periodSelectionEnd: " + periodSelectionEnd + "\r\n");
 			TBReceived.Append("mfmSelectionStart: " + mfmAlignedStart + " mfmSelectionEnd: " + mfmAlignedEnd + "\r\n");
 
-            return mfmaligned;
+			AlignedResult AlignedResult = new AlignedResult()
+            {
+				mfmaligned = mfmaligned,
+			    bitshifted = bitshifted,
+			    bytestart = bytestart,
+			    byteend = byteend,
+                markerindex = _4Eindex
+			};
+
+
+			return AlignedResult;
 		}
 
 		public void PrintArray(int[] a, int length)

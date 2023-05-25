@@ -19,5 +19,6 @@ namespace FloppyControlApp.MyClasses.Processing
         public int MFMByteStart { get; set; }
         public int MFMByteLength { get; set; }
         public TextBox sectortextbox { get; set; }
-    }
+		public int BitShift { get; internal set; }
+	}
 }

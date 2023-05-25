@@ -1522,7 +1522,7 @@ namespace FloppyControlApp
                         var offset2 = sectorheader2.rxbufMarkerPositions;
                         ResultingVal += processing.RxBbuf[j+offset2];
                     }
-                    processing.RxBbuf[j + Offset1] = (byte)(ResultingVal/(listlength/1.2f));
+                    processing.RxBbuf[j + Offset1] = (byte)(ResultingVal/listlength);
                 }
             }
             else
@@ -1630,6 +1630,7 @@ namespace FloppyControlApp
 				ecSettings.threadid = threadid;
 				ecSettings.MFMByteStart = (int)MFMByteStartUpDown.Value;
 				ecSettings.MFMByteLength = (int)MFMByteLengthUpDown.Value;
+                ecSettings.BitShift = (int)BitShiftUpDown1.Value;
 			}
 			else
 			{
