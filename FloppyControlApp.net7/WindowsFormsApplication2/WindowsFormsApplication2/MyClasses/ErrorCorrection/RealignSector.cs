@@ -92,6 +92,9 @@ namespace FloppyControlApp.MyClasses.ErrorCorrection
 			int bytestart, byteend;
 			int mfmAlignedStart, mfmAlignedEnd;
 
+			mfmAlignedStart = ecSettings.MFMByteStart;
+			mfmAlignedEnd = mfmAlignedStart + (ecSettings.MFMByteLength * 8);
+
 			// User selected part to be brute forced:
 			periodSelectionStart = ecSettings.periodSelectionStart;
 			periodSelectionEnd = ecSettings.periodSelectionEnd;
@@ -134,8 +137,8 @@ namespace FloppyControlApp.MyClasses.ErrorCorrection
 			bytestart = mfmSelectionStart / 16;
 			byteend = mfmSelectionEnd / 16;
 
-			mfmAlignedStart = bytestart * 16;
-			mfmAlignedEnd = (byteend + 1) * 16;
+			//mfmAlignedStart = bytestart * 16;
+			//mfmAlignedEnd = (byteend + 1) * 16;
 
 			TBReceived.Append("bytestart: " + bytestart + " byte end: " + byteend + "\r\n");
 			TBReceived.Append("mfmAlignedstart: " + mfmAlignedStart + " mfmAlignedEnd: " + mfmAlignedEnd + "\r\n");
@@ -148,7 +151,7 @@ namespace FloppyControlApp.MyClasses.ErrorCorrection
 			// Is processing.diskformat amiga or pc?
 			// The number of bits shifted with regards to where the 4E padding should or expected to be
 			markerindex = processing.FindMarker(ref mfmbuf, mfmbuf.Length, (sectorlength + 4) * 16, ref _4EMarker);
-			bitshifted = markerindex - ((sectorlength + 4 + 3) * 16);
+			bitshifted = markerindex - ((sectorlength + 4 + 3) * 16)+16;
 
 
 			//bitshifted = markerindex - ((sectorlength + 7) * 16);
@@ -164,7 +167,7 @@ namespace FloppyControlApp.MyClasses.ErrorCorrection
 			byte[] mfmsdest = mfms[sectordata2[indexS1].threadid];
 
 			//Copy the bitshift correct mfm data back to the large mfms array
-			for (i = mfmAlignedStart + 24; i < mfmbuf.Length - bitshifted; i++)
+			for (i = mfmAlignedStart; i < mfmbuf.Length; i++)
 			{
 				mfmsdest[markeroffset + i] = mfmbuf[i + bitshifted];
 			}

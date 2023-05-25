@@ -514,7 +514,7 @@ namespace FloppyControlApp
 
             _4Eindex = FindMarker(ref mfmbuf, mfmbuf.Length, (sectorlength) + 4 * 16, ref _4EMarker);
             // The number of bits shifted with regards to where the 4E padding should or expected to be
-            bitshifted = _4Eindex - ((sectorlength + 7) * 16);
+            bitshifted = _4Eindex - ((sectorlength + 7) * 16)+16;
 
             // If there's a bitshift estimate the most likely number of missing periods, add to end of selection.
             //periodSelectionEnd = periodSelectionEnd;// + (-bitshifted / 2);
@@ -637,7 +637,7 @@ namespace FloppyControlApp
                             TBReceived.Append("Time: " + sw.ElapsedMilliseconds + "ms\r\n");
                             //Save recovered sector to disk array
                             int diskoffset = sectordata2[indexS1].trackhead * sectorspertrack * 512 + sectordata2[indexS1].sector * 512;
-                            SectorMap.sectorok[sectordata2[indexS1].track, sectordata2[indexS1].sector] = SectorMapStatus.ErrorCorrected; // Error corrected (shows up as 'c')
+                            SectorMap.sectorok[sectordata2[indexS1].trackhead, sectordata2[indexS1].sector] = SectorMapStatus.ErrorCorrected; // Error corrected (shows up as 'c')
                             for (i = 0; i < bytespersector; i++)
                             {
                                 disk[i + diskoffset] = data[i + 4];
@@ -709,88 +709,17 @@ namespace FloppyControlApp
             int[] combi = new int[32];
             int combilimit;
             int indexS1 = ecSettings.indexS1;
-
-            mfmAlignedStart = ecSettings.MFMByteStart;
-            mfmAlignedEnd = mfmAlignedStart + (ecSettings.MFMByteLength * 8);
-            MFMByteEncPreset mfmpreset = new MFMByteEncPreset();
-
-            //StopWatch sw = new StopWatch;
-            System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
-            sw.Reset();
-            sw.Start();
-            // User selected part to be brute forced:
-            periodSelectionStart = ecSettings.periodSelectionStart;
-            periodSelectionEnd = ecSettings.periodSelectionEnd;
-
-            // Stop if selection is too large, taking too long.
-            if (periodSelectionEnd - periodSelectionStart > 50)
-            {
-                TBReceived.Append("Selection too large, please make it smaller, 50 max.\r\n");
-                return;
-            }
-
-            // Copy mfm data from mfms
-            int sectorlength = sectordata2[indexS1].sectorlength;
-            byte[] mfmbuf = mfms[sectordata2[indexS1].threadid].SubArray(sectordata2[indexS1].MarkerPositions, (sectorlength + 100) * 16);
-
-            int cntperiods = 0;
-            //Find where in the mfm data the periodSelectionStart is
-            for (i = 0; i < (sectorlength + 6) * 16; i++)
-            {
-                if (mfmbuf[i] == 1)
-                    cntperiods++;
-                if (cntperiods == periodSelectionStart) mfmSelectionStart = i;
-                if (cntperiods == periodSelectionEnd)
-                {
-                    mfmSelectionEnd = i;
-                    break;
-                }
-            }
-
-            TBReceived.Append("Selection: period start:" + periodSelectionStart + " period end: " + periodSelectionEnd + "\r\n");
-            TBReceived.Append("mfm start: " + mfmSelectionStart + " mfm end:" + mfmSelectionEnd + "\r\n");
-
-            bytestart = mfmSelectionStart / 16;
-            byteend = mfmSelectionEnd / 16;
-
-            //mfmAlignedStart = bytestart * 16;
-            //mfmAlignedEnd = (byteend + 1) * 16;
-
-            TBReceived.Append("bytestart: " + bytestart + " byte end: " + byteend + "\r\n");
-
-
-            // Find 4E right after the crc bytes at the end of the sector
-            // 4E bytes are padding bytes between header and data. 
-            // When the 4E markers are found it will increase the chance of 
-            // getting a proper crc, even if it's bit shifted caused by corrupt data
-
-            _4Eindex = FindMarker(ref mfmbuf, mfmbuf.Length, (sectorlength) + 4 * 16, ref _4EMarker);
-            // The number of bits shifted with regards to where the 4E padding should or expected to be
-            bitshifted = _4Eindex - ((sectorlength + 7) * 16);
-
-            // If there's a bitshift estimate the most likely number of missing periods, add to end of selection.
-            //periodSelectionEnd = periodSelectionEnd;// + (-bitshifted / 2);
-            // Add bitshift of mfmselection end
-
-            // Copy mfm data to aligned array
-            byte[] mfmaligned = new byte[mfmbuf.Length + 32];
-            for (i = 0; i < mfmbuf.Length; i++)
-                mfmaligned[i] = mfmbuf[i];
-
-            for (i = mfmAlignedStart; i < mfmbuf.Length - bitshifted; i++)
-                mfmaligned[i] = mfmbuf[i + bitshifted];
-
-
-            byte[] data = new byte[(mfmaligned.Length) / 16 + 1];
-
-            //for (i = 0; i < (mfmaligned.Length/16); i++)
-            //    data[i] = processing.MFMBits2BINbyte(ref mfmaligned, (i * 16));
-
-            // then back up one, we want to end with a '0'
+			byte[] mfmaligned;
+			MFMByteEncPreset mfmpreset = new MFMByteEncPreset();
+			System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
+			sw.Reset();
+			sw.Start();
+			mfmAlignedStart = ecSettings.MFMByteStart;
+			mfmAlignedEnd = mfmAlignedStart + (ecSettings.MFMByteLength * 8);
+			
+            mfmaligned = RealignMFMData4E( ecSettings);
+			byte[] data = new byte[(mfmaligned.Length) / 16 + 1];
             
-            TBReceived.Append("Bitshifted: " + bitshifted + "\r\n");
-            TBReceived.Append("periodSelectionStart:" + periodSelectionStart + " periodSelectionEnd: " + periodSelectionEnd + "\r\n");
-            TBReceived.Append("mfmSelectionStart: " + mfmAlignedStart + " mfmSelectionEnd: " + mfmAlignedEnd + "\r\n");
             int j, q;
             int detectioncnt = 0;
 
@@ -882,7 +811,99 @@ namespace FloppyControlApp
             TBReceived.Append("Combinations:" + combinations + "\r\n");
         }
 
-        public void PrintArray(int[] a, int length)
+        public byte[] RealignMFMData4E(ECSettings ecSettings)
+        {
+			int i;
+			byte[] _4EMarker = { 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0 };// 3x 4E
+			int _4Eindex;
+			int bitshifted;
+			int periodSelectionStart, mfmSelectionStart = 0;
+			int periodSelectionEnd, mfmSelectionEnd = 0;
+			int bytestart, byteend;
+			int mfmAlignedStart, mfmAlignedEnd;
+			int indexS1 = ecSettings.indexS1;
+
+			mfmAlignedStart = ecSettings.MFMByteStart;
+			mfmAlignedEnd = mfmAlignedStart + (ecSettings.MFMByteLength * 8);
+			
+			// User selected part to be brute forced:
+			periodSelectionStart = ecSettings.periodSelectionStart;
+			periodSelectionEnd = ecSettings.periodSelectionEnd;
+
+			// Stop if selection is too large, taking too long.
+			if (periodSelectionEnd - periodSelectionStart > 50)
+			{
+				TBReceived.Append("Selection too large, please make it smaller, 50 max.\r\n");
+				return null;
+			}
+
+			// Copy mfm data from mfms
+			int sectorlength = sectordata2[indexS1].sectorlength;
+			byte[] mfmbuf = mfms[sectordata2[indexS1].threadid].SubArray(sectordata2[indexS1].MarkerPositions, (sectorlength + 100) * 16);
+
+			int cntperiods = 0;
+			//Find where in the mfm data the periodSelectionStart is
+			for (i = 0; i < (sectorlength + 6) * 16; i++)
+			{
+				if (mfmbuf[i] == 1)
+					cntperiods++;
+				if (cntperiods == periodSelectionStart) mfmSelectionStart = i;
+				if (cntperiods == periodSelectionEnd)
+				{
+					mfmSelectionEnd = i;
+					break;
+				}
+			}
+
+			TBReceived.Append("Selection: period start:" + periodSelectionStart + " period end: " + periodSelectionEnd + "\r\n");
+			TBReceived.Append("mfm start: " + mfmSelectionStart + " mfm end:" + mfmSelectionEnd + "\r\n");
+
+			bytestart = mfmSelectionStart / 16;
+			byteend = mfmSelectionEnd / 16;
+
+			//mfmAlignedStart = bytestart * 16;
+			//mfmAlignedEnd = (byteend + 1) * 16;
+
+			TBReceived.Append("bytestart: " + bytestart + " byte end: " + byteend + "\r\n");
+
+
+			// Find 4E right after the crc bytes at the end of the sector
+			// 4E bytes are padding bytes between header and data. 
+			// When the 4E markers are found it will increase the chance of 
+			// getting a proper crc, even if it's bit shifted caused by corrupt data
+
+			_4Eindex = FindMarker(ref mfmbuf, mfmbuf.Length, (sectorlength) + 4 * 16, ref _4EMarker);
+			// The number of bits shifted with regards to where the 4E padding should or expected to be
+			bitshifted = _4Eindex - ((sectorlength + 7) * 16) + 16;
+
+			// If there's a bitshift estimate the most likely number of missing periods, add to end of selection.
+			//periodSelectionEnd = periodSelectionEnd;// + (-bitshifted / 2);
+			// Add bitshift of mfmselection end
+
+			// Copy mfm data to aligned array
+			byte[] mfmaligned = new byte[mfmbuf.Length + 32];
+			for (i = 0; i < mfmbuf.Length; i++)
+				mfmaligned[i] = mfmbuf[i];
+
+			for (i = mfmAlignedStart; i < mfmbuf.Length - bitshifted; i++)
+				mfmaligned[i] = mfmbuf[i + bitshifted];
+
+
+			byte[] data = new byte[(mfmaligned.Length) / 16 + 1];
+
+			//for (i = 0; i < (mfmaligned.Length/16); i++)
+			//    data[i] = processing.MFMBits2BINbyte(ref mfmaligned, (i * 16));
+
+			// then back up one, we want to end with a '0'
+
+			TBReceived.Append("Bitshifted: " + bitshifted + "\r\n");
+			TBReceived.Append("periodSelectionStart:" + periodSelectionStart + " periodSelectionEnd: " + periodSelectionEnd + "\r\n");
+			TBReceived.Append("mfmSelectionStart: " + mfmAlignedStart + " mfmSelectionEnd: " + mfmAlignedEnd + "\r\n");
+
+            return mfmaligned;
+		}
+
+		public void PrintArray(int[] a, int length)
         {
             int i;
             for (i = 0; i < length; i++)

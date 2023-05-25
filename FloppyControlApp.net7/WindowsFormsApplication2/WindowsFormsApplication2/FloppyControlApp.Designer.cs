@@ -3784,10 +3784,11 @@ namespace FloppyControlApp
 			// 
 			C6StartUpDown.Location = new System.Drawing.Point(210, 273);
 			C6StartUpDown.Margin = new Padding(4, 3, 4, 3);
+			C6StartUpDown.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
 			C6StartUpDown.Name = "C6StartUpDown";
 			C6StartUpDown.Size = new System.Drawing.Size(50, 23);
 			C6StartUpDown.TabIndex = 4014;
-			C6StartUpDown.Value = new decimal(new int[] { 3, 0, 0, 0 });
+			C6StartUpDown.Value = new decimal(new int[] { 1, 0, 0, 0 });
 			// 
 			// button1
 			// 
