@@ -627,7 +627,7 @@ namespace FloppyControlApp
                 if (BSBlueSectormapRadio.Checked && BSRedFromlistRadio.Checked)
                 {
                     textBoxReceived.AppendText("Copy single sector to disk array.");
-                    track = processing.sectordata2[indexS1].track;
+                    track = processing.sectordata2[indexS1].trackhead;
                     sectornr = processing.sectordata2[indexS1].sector;
                     //processing.sectorspertrack = 9;
 
@@ -669,7 +669,7 @@ namespace FloppyControlApp
                 if (BlueTempRadio.Checked && BSRedTempRadio.Checked)
                 {
                     textBoxReceived.AppendText("Copy full sector to Temp.");
-                    track = processing.sectordata2[indexS1].track;
+                    track = processing.sectordata2[indexS1].trackhead;
                     sectornr = processing.sectordata2[indexS1].sector;
 
                     //processing.sectorspertrack = 9;

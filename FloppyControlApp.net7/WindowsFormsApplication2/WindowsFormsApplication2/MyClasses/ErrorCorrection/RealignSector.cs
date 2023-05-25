@@ -194,7 +194,7 @@ namespace FloppyControlApp.MyClasses.ErrorCorrection
 					lasttwosectorbytes[i] = processing.MFMBits2BINbyte(ref mfmbuf, crcindex + (i * 16) - 32);
 					//tbreceived.Append(lasttwosectorbytes[i].ToString("X2"));
 				}
-				int track = sectordata2[indexS1].track;
+				int track = sectordata2[indexS1].trackhead;
 				int sector = sectordata2[indexS1].sector;
 				//tbreceived.Append("\r\n");
 				TBReceived.Append("ProcessRealign4E: T" + track.ToString("d3") + "S" + sector + " Found 4E aligned CRC: i:" + indexS1 + " " + crcinsectordata.ToString("X4") + ". Last two bytes: " + lasttwosectorbytes[0].ToString("X2") +
@@ -253,14 +253,15 @@ namespace FloppyControlApp.MyClasses.ErrorCorrection
 				// First clone all the data
 
 				int badsectorold = indexS1;
-
+				
 				MFMData sectordata = new MFMData
 				{
 					threadid = threadid,
 					MarkerPositions = sectordata2[badsectorold].MarkerPositions,
 					rxbufMarkerPositions = sectordata2[badsectorold].rxbufMarkerPositions,
 					Status = sectordata2[badsectorold].Status, // 2 = bad sector data
-					track = sectordata2[badsectorold].trackhead,
+					trackhead = sectordata2[badsectorold].trackhead,
+					track = sectordata2[badsectorold].track,
 					sector = sectordata2[badsectorold].sector,
 					sectorlength = sectordata2[badsectorold].sectorlength,
 					crc = sectordata2[badsectorold].crc,
