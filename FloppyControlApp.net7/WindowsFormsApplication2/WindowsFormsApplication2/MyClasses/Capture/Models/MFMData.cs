@@ -4,8 +4,8 @@
     {
         public int crc { get; set; }
         public long threadid { get; set; }
-        public int MarkerPositions { get; set; }
-        public int rxbufMarkerPositions { get; set; }
+        public long MarkerPositions { get; set; }
+        public long rxbufMarkerPositions { get; set; }
         public SectorMapStatus Status { get; set; }
         public int track { get; set; }
         public int trackhead { get; set; }

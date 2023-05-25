@@ -25,8 +25,8 @@ namespace FloppyControlApp
         public int stat4us;
         public int stat6us;
         public int stat8us;
-        public int ScatterplotStart { get; set; }
-        public int ScatterplotEnd { get; set; }
+        public long ScatterplotStart { get; set; }
+        public long ScatterplotEnd { get; set; }
         
 
         private void GetAllMFMMarkerPositionsDiskspare(long threadid)

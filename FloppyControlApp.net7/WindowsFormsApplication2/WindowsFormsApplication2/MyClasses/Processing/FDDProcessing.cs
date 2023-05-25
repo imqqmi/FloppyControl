@@ -734,7 +734,7 @@ namespace FloppyControlApp
             return bytebuf;
         }
 
-        public byte MFMBits2BINbyte(ref byte[] mfmbits, int offset)
+        public byte MFMBits2BINbyte(ref byte[] mfmbits, long offset)
         {
             byte hex = 0;
             int i;
@@ -961,7 +961,7 @@ namespace FloppyControlApp
         // result is an array that's 8x smaller than length
         // Non thread safe
         // Todo: replace with MFM2Bytes with thread safe build in.
-        public byte[] MFM2ByteArray(byte[] mfm, int offset, int length)
+        public byte[] MFM2ByteArray(byte[] mfm, long offset, long length)
         {
             int i, j;
             int mindex = 0;

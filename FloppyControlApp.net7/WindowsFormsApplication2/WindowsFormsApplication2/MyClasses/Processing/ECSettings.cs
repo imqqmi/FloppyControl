@@ -9,13 +9,13 @@ namespace FloppyControlApp.MyClasses.Processing
 {
     public class ECSettings
     {
-        public int periodSelectionStart { get; set; }
-        public int periodSelectionEnd { get; set; }
-        public int indexS1 { get; set; }
+        public long periodSelectionStart { get; set; }
+        public long periodSelectionEnd { get; set; }
+        public long indexS1 { get; set; }
         public long threadid { get; set; }
         public int combinations { get; set; }
-        public int C6Start { get; set; }
-        public int C8Start { get; set; }
+        public long C6Start { get; set; }
+        public long C8Start { get; set; }
         public int MFMByteStart { get; set; }
         public int MFMByteLength { get; set; }
         public TextBox sectortextbox { get; set; }

@@ -20,7 +20,7 @@ namespace FloppyControlApp.MyClasses.ErrorCorrection
 											ref FDDProcessing processing,
 											FloppyControl floppycontrol)
 		{
-			int indexS1, listlength, threadid;
+			long indexS1, listlength, threadid;
 			var selected = BadSectorListBox.SelectedIndices;
 			listlength = selected.Count;
 
@@ -91,7 +91,7 @@ namespace FloppyControlApp.MyClasses.ErrorCorrection
 			mfmAlignedEnd = mfmAlignedStart + (ecSettings.MFMByteLength * 8);
 
 			// User selected part to be brute forced:
-			int indexS1 = ecSettings.indexS1;
+			long indexS1 = ecSettings.indexS1;
 			long threadid = ecSettings.threadid;
 			
 			var sectordata2 = processing.sectordata2;
@@ -194,7 +194,7 @@ namespace FloppyControlApp.MyClasses.ErrorCorrection
 				// Add the newly created aligned bad sector to the bad sector list
 				// First clone all the data
 
-				int badsectorold = indexS1;
+				long badsectorold = indexS1;
 				
 				MFMData sectordata = new MFMData
 				{

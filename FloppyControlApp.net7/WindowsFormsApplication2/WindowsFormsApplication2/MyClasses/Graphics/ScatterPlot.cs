@@ -16,12 +16,12 @@ namespace FloppyControlApp.MyClasses.Graphics
     public class ScatterPlot
     {
         FDDProcessing Processing { get; set; }
-        public ConcurrentDictionary<int, MFMData> Sectordata2 { get; set; }
+        public ConcurrentDictionary<long, MFMData> Sectordata2 { get; set; }
         public int IndexRxBuf { get; set; }
         public PictureBox Panel { get; set; }
         public byte[] Rxbuf { get; set; }
-        public int Start { get; set; }
-        public int End { get; set; }
+        public long Start { get; set; }
+        public long End { get; set; }
         public int Thresholdmin { get; set; }
         public int Threshold4us { get; set; }
         public int Threshold6us { get; set; }
@@ -31,10 +31,10 @@ namespace FloppyControlApp.MyClasses.Graphics
         public bool Dragging { get; set; }
         private byte[] Gradient1 = new byte[256];
         public int Xrelative { get; set; }
-        public int AnScatViewlength { get; set; }
+        public long AnScatViewlength { get; set; }
         public int AnScatViewoffset { get; set; }
-        private int _AnScatViewlargeoffset;
-		public int AnScatViewlargeoffset 
+        private long _AnScatViewlargeoffset;
+		public long AnScatViewlargeoffset 
         { get => _AnScatViewlargeoffset;
             set
             {
@@ -53,7 +53,7 @@ namespace FloppyControlApp.MyClasses.Graphics
         public bool ShowEntropy { get; set; }
         int ID = 0;
 
-        public ScatterPlot(FDDProcessing proc, ConcurrentDictionary<int, MFMData> sd, int indexstart, int indexend, PictureBox picturebox)
+        public ScatterPlot(FDDProcessing proc, ConcurrentDictionary<long, MFMData> sd, long indexstart, long indexend, PictureBox picturebox)
         {
             Maxdots = 100000;
             ShowEntropy = false;
@@ -115,7 +115,7 @@ namespace FloppyControlApp.MyClasses.Graphics
 
         public void DrawScatterPlot()
         {
-            int i, datapoints;
+			long i, datapoints;
             float posx;
 
             //int TrackPosInrxdatacount = controlfloppy.TrackPosInrxdatacount;

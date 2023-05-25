@@ -10,10 +10,10 @@ namespace FloppyControlApp.MyClasses.Processing.ProcessingTypes
     {
         public byte[] ProcTypeAdaptivePredict(ProcTypeArgs ProctypeArgs, long ThreadId, ref int Stop)
         {
-            int i;
+			long i;
             int value;
 
-            int MINUS, FOURUS, SIXUS, EIGHTUS, start, end;
+			long MINUS, FOURUS, SIXUS, EIGHTUS, start, end;
             float RateOfChange;
             System.Diagnostics.Stopwatch SW = new System.Diagnostics.Stopwatch();
 
@@ -74,8 +74,8 @@ namespace FloppyControlApp.MyClasses.Processing.ProcessingTypes
             float threshold6us;
             float _4us = FOURUS, _6us = SIXUS, _8us = EIGHTUS;
 
-            int basethreshold4us = ((SIXUS - FOURUS) / 2);
-            int basethreshold6us = ((EIGHTUS - SIXUS) / 2);
+			long basethreshold4us = ((SIXUS - FOURUS) / 2);
+			long basethreshold6us = ((EIGHTUS - SIXUS) / 2);
 
 
             //tbreceived.Append("Adaptive\r\n");
@@ -101,7 +101,7 @@ namespace FloppyControlApp.MyClasses.Processing.ProcessingTypes
             float fourus = FOURUS, sixus = SIXUS, eightus = EIGHTUS;
             Random rnd = new Random();
             int rand = 0;
-            int sectorboundary = 0;
+			long sectorboundary = 0;
 
             float[] lowpass4;
             float[] lowpass6;

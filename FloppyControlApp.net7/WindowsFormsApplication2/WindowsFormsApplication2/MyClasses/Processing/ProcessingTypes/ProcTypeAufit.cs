@@ -11,7 +11,7 @@ namespace FloppyControlApp.MyClasses.Processing.ProcessingTypes
     {
         public byte[] ProcTypeAufit(ProcTypeArgs ProctypeArgs, long ThreadId, ref int Stop)
         {
-            int MINUS, FOURUS, SIXUS, EIGHTUS, start, end;
+			long MINUS, FOURUS, SIXUS, EIGHTUS, start, end;
             float RateOfChange;
             System.Diagnostics.Stopwatch SW = new System.Diagnostics.Stopwatch();
 

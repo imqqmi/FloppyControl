@@ -1614,7 +1614,7 @@ namespace FloppyControlApp
 
 		public void ECMFMByteEnc()
 		{
-			int indexS1, threadid;
+			long indexS1, threadid;
 			ECSettings ecSettings = new ECSettings
 			{
 				sectortextbox = textBoxSector
@@ -1696,7 +1696,7 @@ namespace FloppyControlApp
 
 		private void ECZoomOutBtnHandler()
 		{
-			int indexS1;
+			long indexS1;
 
 			if (BadSectorListBox.SelectedIndices.Count >= 1)
 			{
@@ -1714,7 +1714,7 @@ namespace FloppyControlApp
 
 		public void DoErrorCorrectionOnSelection()
 		{
-			int indexS1, threadid;
+			long indexS1, threadid;
 
 			ECSettings ecSettings = new ECSettings
 			{
@@ -2099,7 +2099,7 @@ namespace FloppyControlApp
 
 		private void ShowSectorData()
 		{
-			int indexS1, threadid;
+			long indexS1, threadid;
 			int i;
 			if (BadSectorListBox.SelectedIndices.Count >= 1)
 			{

@@ -244,7 +244,7 @@ namespace FloppyControlApp
         // only cover like 20 periods. 
         public ECResult ProcessRealign4E(ECSettings ecSettings)
         {
-            int i;
+			long i;
             byte[] _4EMarker = { 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0 };// 3x 4E
                                                                                                                                                                                   //byte[] _4489EMarker = { 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1 };// 44894489
                                                                                                                                                                                   //01000100100010010100010010001001
@@ -253,15 +253,15 @@ namespace FloppyControlApp
             int crcinsectordata;
             int bitshifted;
             byte[] lasttwosectorbytes = new byte[100];
-            int periodSelectionStart, mfmSelectionStart = 0;
-            int periodSelectionEnd, mfmSelectionEnd = 0;
-            int bytestart, byteend;
-            int mfmAlignedStart, mfmAlignedEnd;
+			long periodSelectionStart, mfmSelectionStart = 0;
+			long periodSelectionEnd, mfmSelectionEnd = 0;
+			long bytestart, byteend;
+			long mfmAlignedStart, mfmAlignedEnd;
 
             // User selected part to be brute forced:
             periodSelectionStart = ecSettings.periodSelectionStart;
             periodSelectionEnd = ecSettings.periodSelectionEnd;
-            int indexS1 = ecSettings.indexS1;
+			long indexS1 = ecSettings.indexS1;
             long threadid = ecSettings.threadid;
 
             // Stop if selection is too large, taking too long.
@@ -370,9 +370,9 @@ namespace FloppyControlApp
                     bytebuf[i] = MFMBits2BINbyte(ref mfmbuf, (i * 16));
                 }
 
-                int start = i - 1;
-                //int cnt = start+1;
-                int mfmoffset = crcindex - ((sectorlength + 4) * 16);
+				long start = i - 1;
+				//int cnt = start+1;
+				long mfmoffset = crcindex - ((sectorlength + 4) * 16);
 
                 // Convert last part with realignedment based on the 4E 'marker':
                 for (i = start + 1; i < (sectorlength + 6); i++)
@@ -403,19 +403,19 @@ namespace FloppyControlApp
                 ecSettings.sectortextbox.Text += bytesstring.ToString() + "\r\n";
 
 
-                // Now we've got the sector sans corrupted data
+				// Now we've got the sector sans corrupted data
 
-                // Find the incoming period
-                /*for (i = 1; i < 4; i++)
+				// Find the incoming period
+				/*for (i = 1; i < 4; i++)
                 {
                     if (mfmbuf[mfmAlignedStart - i] == 1)
                         break;
                 }*/
 
-                // Add the newly created aligned bad sector to the bad sector list
-                // First clone all the data
+				// Add the newly created aligned bad sector to the bad sector list
+				// First clone all the data
 
-                int badsectorold = indexS1;
+				long badsectorold = indexS1;
 
                 MFMData sectordata = new MFMData
                 {
@@ -453,15 +453,15 @@ namespace FloppyControlApp
         // only cover like 20 periods max. 
         public void ECCluster2(ECSettings ecSettings)
         {
-            int i;
+			long i;
             byte[] _4EMarker = { 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0 };// 3x 4E
-            int _4Eindex;
+            long _4Eindex;
             int bitshifted;
-            int periodSelectionStart, mfmSelectionStart = 0;
-            int periodSelectionEnd, mfmSelectionEnd = 0;
-            int bytestart, byteend;
-            int mfmAlignedStart;
-            int indexS1 = ecSettings.indexS1;
+			long periodSelectionStart, mfmSelectionStart = 0;
+			long periodSelectionEnd, mfmSelectionEnd = 0;
+			long bytestart, byteend;
+			long mfmAlignedStart;
+			long indexS1 = ecSettings.indexS1;
 
             System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
             sw.Reset();
@@ -479,7 +479,7 @@ namespace FloppyControlApp
             }
 
             // Copy mfm data from mfms
-            int sectorlength = sectordata2[indexS1].sectorlength;
+            long sectorlength = sectordata2[indexS1].sectorlength;
             byte[] mfmbuf = mfms[sectordata2[indexS1].threadid].SubArray(sectordata2[indexS1].MarkerPositions, (sectorlength + 100) * 16);
 
             int cntperiods = 0;
@@ -553,16 +553,16 @@ namespace FloppyControlApp
             TBReceived.Append("Bitshifted: " + bitshifted + "\r\n");
             TBReceived.Append("periodSelectionStart:" + periodSelectionStart + " periodSelectionEnd: " + periodSelectionEnd + "\r\n");
             TBReceived.Append("mfmSelectionStart: " + mfmAlignedStart + " mfmSelectionEnd: " + mfmSelectionEnd + "\r\n");
-            int j, p, q;
+            ulong j, p, q;
             int mfmcorrectedindex;
             byte[] combinations = new byte[100];
             int detectioncnt = 0;
-            int numberofitems = periodSelectionEnd - periodSelectionStart;
-            int numberofmfmitems = mfmSelectionEnd - mfmSelectionStart;
+            ulong numberofitems = (ulong)periodSelectionEnd - (ulong)periodSelectionStart;
+			long numberofmfmitems = mfmSelectionEnd - mfmSelectionStart;
             ulong c6;
             ulong c8 = 0;
-            int c6_max;
-            int c8_max;
+            ulong c6_max;
+            ulong c8_max;
             uint c6cnt = 0;
             uint c8cnt = 0;
             int combs = ecSettings.combinations;
@@ -570,7 +570,7 @@ namespace FloppyControlApp
             
             stop = 0;
             // Brute force with weighing of 4/6/8us
-            for (c8_max = ecSettings.C8Start; c8_max < numberofitems; c8_max++)
+            for (c8_max = ecSettings.C8Start; c8_max < (ulong)numberofitems; c8_max++)
             {
                 TBReceived.Append("c8_max: " + c8_max + "\r\n");
                 for (c6_max = ecSettings.C6Start; c6_max < numberofitems; c6_max++)
@@ -708,7 +708,7 @@ namespace FloppyControlApp
             int mfmAlignedStart, mfmAlignedEnd;
             int[] combi = new int[32];
             int combilimit;
-            int indexS1 = ecSettings.indexS1;
+			long indexS1 = ecSettings.indexS1;
 			byte[] mfmaligned;
 			MFMByteEncPreset mfmpreset = new MFMByteEncPreset();
 			System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
@@ -825,15 +825,15 @@ namespace FloppyControlApp
 
         public AlignedResult RealignMFMData4E(ECSettings ecSettings)
         {
-			int i;
+			long i;
 			byte[] _4EMarker = { 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0 };// 3x 4E
 			int _4Eindex;
 			int bitshifted;
-			int periodSelectionStart, mfmSelectionStart = 0;
-			int periodSelectionEnd, mfmSelectionEnd = 0;
-			int bytestart, byteend;
-			int mfmAlignedStart, mfmAlignedEnd;
-			int indexS1 = ecSettings.indexS1;
+			long periodSelectionStart, mfmSelectionStart = 0;
+			long periodSelectionEnd, mfmSelectionEnd = 0;
+			long bytestart, byteend;
+			long mfmAlignedStart, mfmAlignedEnd;
+			long indexS1 = ecSettings.indexS1;
 
 			mfmAlignedStart = ecSettings.MFMByteStart;
 			mfmAlignedEnd = mfmAlignedStart + (ecSettings.MFMByteLength * 8);
