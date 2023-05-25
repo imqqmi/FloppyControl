@@ -617,6 +617,7 @@ namespace FloppyControlApp
             tabControl1.SelectedTab = ScatterPlottabPage;
             currentcontrol.Focus();
             ShowSectorData();
+            scatterplot.UpdateScatterPlot();
         }
 
         private void UpdateAnScatterPlot()
@@ -1584,7 +1585,7 @@ namespace FloppyControlApp
             }
         }
 
-        private void AddRealignedToLists(ECResult sectorresult)
+        public void AddRealignedToLists(ECResult sectorresult)
         {
             MFMData sectordata = sectorresult.sectordata;
             int badsectorcnt2 = sectorresult.index;

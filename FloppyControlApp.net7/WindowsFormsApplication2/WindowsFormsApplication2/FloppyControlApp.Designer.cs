@@ -2004,6 +2004,8 @@ namespace FloppyControlApp
 			settings1.TooltipDisable = false;
 			settings1.TrackDuration = new decimal(new int[] { 330, 0, 0, 0 });
 			settings1.TRK00Offset = new decimal(new int[] { 0, 0, 0, 0 });
+			settings1.WindowSizeX = 1892;
+			settings1.WindowSizeY = 1090;
 			QDirectStepCheckBox.DataBindings.Add(new Binding("Checked", settings1, "DirectStep", true, DataSourceUpdateMode.OnPropertyChanged));
 			QDirectStepCheckBox.Location = new System.Drawing.Point(716, 112);
 			QDirectStepCheckBox.Margin = new Padding(4, 3, 4, 3);
@@ -5764,21 +5766,21 @@ namespace FloppyControlApp
 			// scpFileToolStripMenuItem1
 			// 
 			scpFileToolStripMenuItem1.Name = "scpFileToolStripMenuItem1";
-			scpFileToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+			scpFileToolStripMenuItem1.Size = new System.Drawing.Size(141, 22);
 			scpFileToolStripMenuItem1.Text = "Scp file";
 			scpFileToolStripMenuItem1.Click += SaveSCP_Click;
 			// 
 			// trimmedBinToolStripMenuItem
 			// 
 			trimmedBinToolStripMenuItem.Name = "trimmedBinToolStripMenuItem";
-			trimmedBinToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			trimmedBinToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
 			trimmedBinToolStripMenuItem.Text = "Trimmed bin";
 			trimmedBinToolStripMenuItem.Click += trimmedBinToolStripMenuItem_Click;
 			// 
 			// badSectorsToolStripMenuItem
 			// 
 			badSectorsToolStripMenuItem.Name = "badSectorsToolStripMenuItem";
-			badSectorsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			badSectorsToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
 			badSectorsToolStripMenuItem.Text = "Bad sectors";
 			badSectorsToolStripMenuItem.Click += SaveTrimmedBadbutton_Click;
 			// 

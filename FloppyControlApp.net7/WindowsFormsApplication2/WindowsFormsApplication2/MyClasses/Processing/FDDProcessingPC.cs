@@ -917,7 +917,7 @@ namespace FloppyControlApp
         }
 
         // Finds 'search' in b, from offset to length+offset.
-        private int FindMarker(ref byte[] b, int length, int offset, ref byte[] search)
+        public int FindMarker(ref byte[] b, int length, int offset, ref byte[] search)
         {
             int i, j, searchcnt = 0, overflow = 0;
             for (i = offset; i < length - 48; i++)

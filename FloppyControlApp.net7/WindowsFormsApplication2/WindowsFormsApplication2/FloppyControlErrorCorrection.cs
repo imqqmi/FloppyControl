@@ -316,14 +316,35 @@ namespace FloppyControlApp
 
             if (!BSBlueSectormapRadio.Checked) // there's no relevant data when this radio button is checked
             {
-                int SectorViewEnd = 0;
-                var SectorHeaderOffset = processing.sectordata2[processing.sectordata2[indexS1].HeaderIndex ].rxbufMarkerPositions;
-                if(processing.sectordata2.Count > indexS1 + 1) SectorViewEnd = processing.sectordata2[indexS1+1].rxbufMarkerPositions;
+				int SectorViewEnd = 0;
+				int SectorHeaderOffset;
+				int scatoffset = 0;
+				int scatlength = 100;
 
-                if (SectorViewEnd - SectorHeaderOffset > 10000) SectorViewEnd = SectorHeaderOffset + 10000;
-                int scatoffset = SectorHeaderOffset + (int)ScatterMinTrackBar.Value + (int)ScatterOffsetTrackBar.Value;
-                int scatlength = SectorViewEnd + (int)ScatterMaxTrackBar.Value + (int)ScatterOffsetTrackBar.Value - scatoffset;
+				// Zoomed out
+				if (ScatterMinTrackBar.Value == 0 && ScatterMaxTrackBar.Value == 0)
+				{
+					SectorHeaderOffset = processing.sectordata2[processing.sectordata2[indexS1].HeaderIndex].rxbufMarkerPositions;
+					if (processing.sectordata2.Count > indexS1 + 1) SectorViewEnd = processing.sectordata2[indexS1 + 1].rxbufMarkerPositions;
 
+					if (SectorViewEnd - SectorHeaderOffset > 10000) SectorViewEnd = SectorHeaderOffset + 10000;
+					 scatoffset = SectorHeaderOffset + (int)ScatterMinTrackBar.Value + (int)ScatterOffsetTrackBar.Value;
+					 scatlength = SectorViewEnd + (int)ScatterMaxTrackBar.Value + (int)ScatterOffsetTrackBar.Value - scatoffset;
+
+				}
+				//Zoomed in
+				else
+				{
+					SectorHeaderOffset = processing.sectordata2[indexS1].rxbufMarkerPositions;
+					if (SectorViewEnd - SectorHeaderOffset > 10000) SectorViewEnd = SectorHeaderOffset + 10000;
+					scatoffset = SectorHeaderOffset + (int)ScatterMinTrackBar.Value + (int)ScatterOffsetTrackBar.Value;
+					scatlength = (int)ScatterMaxTrackBar.Value - (int)ScatterMinTrackBar.Value;
+				}
+
+
+
+				
+                
                 scatterplot.AnScatViewlargeoffset = scatoffset;
                 scatterplot.AnScatViewoffset = 0;
                 scatterplot.AnScatViewlength = scatlength;

@@ -14,6 +14,7 @@ using System.Reflection;
 using FloppyControlApp.Properties;
 using System.Diagnostics;
 using FloppyControlApp.MyClasses.Processing;
+using FloppyControlApp.MyClasses.ErrorCorrection;
 
 namespace FloppyControlApp
 {
@@ -503,7 +504,13 @@ namespace FloppyControlApp
 
 		private void ECRealign4E_Click(object sender, EventArgs e)
 		{
-			ErrorCorrectRealign4E();
+			var RealignSector = new RealignSector();
+			RealignSector.ErrorCorrectRealign4E(BadSectorListBox,
+				textBoxSector,
+				(int)ScatterMinUpDown.Value,
+				(int)ScatterMaxUpDown.Value,
+				ref processing,
+				this);
 		}
 
 		private void Outputfilename_TextChanged(object sender, EventArgs e)
