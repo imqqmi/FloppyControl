@@ -17,7 +17,7 @@ namespace FloppyControlApp.MyClasses.Processing.ProcessingTypes
             public float[] Threshold8 { get; set; }
         }
 
-        public AdaptiveEntropyResult ProcTypeAdaptiveEntropy(ProcTypeArgs ProctypeArgs, int ThreadId, ref int Stop)
+        public AdaptiveEntropyResult ProcTypeAdaptiveEntropy(ProcTypeArgs ProctypeArgs, long ThreadId, ref int Stop)
         {
             int i;
             int value;

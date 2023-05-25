@@ -9,7 +9,7 @@ namespace FloppyControlApp.MyClasses.Processing.ProcessingTypes
 {
     public partial class ProcessingTypes
     {
-        public byte[] ProcTypeAufit(ProcTypeArgs ProctypeArgs, int ThreadId, ref int Stop)
+        public byte[] ProcTypeAufit(ProcTypeArgs ProctypeArgs, long ThreadId, ref int Stop)
         {
             int MINUS, FOURUS, SIXUS, EIGHTUS, start, end;
             float RateOfChange;

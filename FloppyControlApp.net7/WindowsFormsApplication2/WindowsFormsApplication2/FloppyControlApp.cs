@@ -395,13 +395,13 @@ namespace FloppyControlApp
 				}
 			}
 			progressBar1.Minimum = processing.progressesstart[processing.mfmsindex];
-			progressBar1.Maximum = processing.progressesend[processing.mfmsindex];
+			progressBar1.Maximum = (int)processing.progressesend[processing.mfmsindex];
 
 			if (processing.progresses[processing.mfmsindex] >= processing.progressesstart[processing.mfmsindex] &&
 				processing.progresses[processing.mfmsindex] <= processing.progressesend[processing.mfmsindex])
 				if (processing.progresses[processing.mfmsindex] <= progressBar1.Maximum &&
 					processing.progresses[processing.mfmsindex] >= progressBar1.Minimum)
-					progressBar1.Value = processing.progresses[processing.mfmsindex];
+					progressBar1.Value = (int)processing.progresses[processing.mfmsindex];
 
 			textBoxReceived.AppendText(tbreceived.ToString());
 			tbreceived.Clear();

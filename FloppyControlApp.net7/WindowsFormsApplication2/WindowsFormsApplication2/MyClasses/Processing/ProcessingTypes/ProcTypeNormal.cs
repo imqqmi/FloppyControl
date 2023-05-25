@@ -8,7 +8,7 @@ namespace FloppyControlApp.MyClasses.Processing.ProcessingTypes
 {
     public partial class ProcessingTypes
     {
-        public byte[] ProcTypeNormal(ProcTypeArgs ProctypeArgs, int ThreadId, ref int Stop)
+        public byte[] ProcTypeNormal(ProcTypeArgs ProctypeArgs, long ThreadId, ref int Stop)
         {
             int i;
             int value;

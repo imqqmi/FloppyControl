@@ -13,7 +13,14 @@ namespace FloppyControlApp.MyClasses.Utility
             Array.Copy(data, index, result, 0, length);
             return result;
         }
-    }
+
+		public static T[] SubArray<T>(this T[] data, long index, long length)
+		{
+			T[] result = new T[length];
+			Array.Copy(data, index, result, 0, length);
+			return result;
+		}
+	}
 
 	public enum InitialCrcValue { Zeros, NonZero1 = 0xffff, NonZero2 = 0x1D0F, NonZero3 = 0x84CF }
 

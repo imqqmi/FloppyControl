@@ -599,7 +599,7 @@ namespace FloppyControlApp
             int bytestart, byteend;
             int mfmAlignedStart, mfmAlignedEnd;
             int indexS1 = ecSettings.indexS1;
-            int threadid = ecSettings.threadid;
+            long threadid = ecSettings.threadid;
 
 
             if (diskformat == DiskFormat.amigados)

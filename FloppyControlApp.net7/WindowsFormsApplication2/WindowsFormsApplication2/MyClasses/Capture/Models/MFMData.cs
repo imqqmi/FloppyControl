@@ -3,7 +3,7 @@
     public class MFMData
     {
         public int crc { get; set; }
-        public int threadid { get; set; }
+        public long threadid { get; set; }
         public int MarkerPositions { get; set; }
         public int rxbufMarkerPositions { get; set; }
         public SectorMapStatus Status { get; set; }

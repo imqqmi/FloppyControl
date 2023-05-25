@@ -23,7 +23,7 @@ namespace FloppyControlApp
 {
     public partial class FDDProcessing
     {
-        public ConcurrentDictionary<int, MFMData> sectordata2;
+        public ConcurrentDictionary<long, MFMData> sectordata2;
         public byte[] disk = new byte[2000000]; // Assuming a disk isn't larger than 2MB, which is false for EHD disks. 
         public DiskFormat diskformat = 0;// 0x1 = ADOS/PFS, 0x02 = DiskSpare, 0x03 = PCDD, 0x04 = PCHD
         public ProcSettings ProcSettings { get; set; }
@@ -51,15 +51,15 @@ namespace FloppyControlApp
         //public string AMIGADSMARKER = "010001001000100101000100100010010010101010101010";
         public int Debuglevel { get; set; }
         public byte[][] mfms = new byte[50000][]; // replaces mfm array, dynamically allocating array. threadid is the key
-        public int mfmsindex = 0;
-        public int[] mfmlengths = new int[50000]; // replaces mfmlength, the length of data in mfms. threadid is the key
+        public long mfmsindex = 0;
+        public long[] mfmlengths = new long[50000]; // replaces mfmlength, the length of data in mfms. threadid is the key
 
         public byte[][] badsectorhash = new byte[500000][]; // (badsectorcnt)
 
         //public int[] rxbufMarkerPositions = new int[5000000];  // the index var is markerpositionscnt This is rxbuf
-        public int[] progresses = new int[50000]; // keeps track of the progress of different threads, threadid is the key
+        public long[] progresses = new long[50000]; // keeps track of the progress of different threads, threadid is the key
         public int[] progressesstart = new int[50000]; // threadid is the key
-        public int[] progressesend = new int[50000]; // threadid is the key
+        public long[] progressesend = new long[50000]; // threadid is the key
         public string[] ProcessStatus = new string[50000]; // threadid is the key
         public int sectorspertrack = 0;
         public int bytespersector = 512; // 1024 for 2M, 512 for everything else
@@ -87,7 +87,7 @@ namespace FloppyControlApp
             ProcSettings = new ProcSettings();
             int numProcs = Environment.ProcessorCount;
             int concurrencyLevel = numProcs * 2;
-            sectordata2 = new ConcurrentDictionary<int, MFMData>(concurrencyLevel, 100);
+            sectordata2 = new ConcurrentDictionary<long, MFMData>(concurrencyLevel, 100);
 
             //PC
             DiskGeometry pcdosdsdd = new DiskGeometry
@@ -225,7 +225,8 @@ namespace FloppyControlApp
 
         public void StartProcessing(Platform platform)
         {
-            int threadid = 0, t, i;
+            long threadid = 0;
+            long t, i;
             SW.Reset();
             SW.Start();
             Threads = null;
@@ -264,7 +265,7 @@ namespace FloppyControlApp
                     int limittosector = ProcSettings.limittosector;
                     int oldindexrxbuf = Indexrxbuf;
 
-                    int mfmsindexold = mfmsindex;
+					long mfmsindexold = mfmsindex;
 
                     for (i = 0; i < sectordata2.Count; i++)
                     {
@@ -350,8 +351,9 @@ namespace FloppyControlApp
                     // Define and start threads
                     for (t = 0; t < NumberOfThreads; t++)
                     {
-                        // I may need to make more local vars to pass to Period2MFM
-                        int t1 = t + mfmsindex; // thread () => is a lambda expression and t is passed by reference, so t will be the last value. This fixes the issue
+						// I may need to make more local vars to pass to Period2MFM
+                        // Todo: look into t+mfmsindex, my gut feeling is it's dirty and smelly
+						long t1 = t + mfmsindex; // thread () => is a lambda expression and t is passed by reference, so t will be the last value. This fixes the issue
                         mfmlengths[t1] = 0;
 
                         //procsettings.start = start + (end / NumberOfThreads * t);
@@ -391,7 +393,7 @@ namespace FloppyControlApp
                     for (t = 0; t < NumberOfThreads; t++)
                     {
                         // I may need to make more local vars to pass to Period2MFM
-                        int t1 = t + mfmsindex; // thread () => is a lambda expression and t is passed by reference, so t will be the last value. This fixes the issue
+                        long t1 = t + mfmsindex; // thread () => is a lambda expression and t is passed by reference, so t will be the last value. This fixes the issue
                         mfmlengths[t1] = 0;
 
                         ProcSettings ps = new ProcSettings();
@@ -467,13 +469,13 @@ namespace FloppyControlApp
 
         }
 
-        private void Period2MFM(ProcSettings procsettings, int threadid)
+        private void Period2MFM(ProcSettings procsettings, long threadid)
         {
             int i;
 
             bool writemfm = false;
 
-            int MINUS, FOURUS, SIXUS, EIGHTUS, start, end;
+            long MINUS, FOURUS, SIXUS, EIGHTUS, start, end;
             float RateOfChange;
             System.Diagnostics.Stopwatch SW = new System.Diagnostics.Stopwatch();
             //SW.Stop();
@@ -721,7 +723,7 @@ namespace FloppyControlApp
         /// <param name="threadid"></param>
         /// <param name="sectordatathread"></param>
         /// <returns></returns>
-        public byte[] MFM2Bytes(int offset, int length, int threadid)
+        public byte[] MFM2Bytes(int offset, int length, long threadid)
         {
             byte[] bytebuf = new byte[length];
 

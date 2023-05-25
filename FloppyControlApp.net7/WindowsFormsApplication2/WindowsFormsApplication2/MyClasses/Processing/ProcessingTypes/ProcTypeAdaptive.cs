@@ -8,7 +8,7 @@ namespace FloppyControlApp.MyClasses.Processing.ProcessingTypes
 {
     public partial class ProcessingTypes
     {
-        public AdaptiveEntropyResult ProcTypeAdaptive(ProcTypeArgs ProctypeArgs, int ThreadId, ref int Stop)
+        public AdaptiveEntropyResult ProcTypeAdaptive(ProcTypeArgs ProctypeArgs, long ThreadId, ref int Stop)
         {
             int i;
             int value;

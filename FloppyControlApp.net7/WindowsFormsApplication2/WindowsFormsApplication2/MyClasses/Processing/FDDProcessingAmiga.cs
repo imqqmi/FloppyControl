@@ -29,7 +29,7 @@ namespace FloppyControlApp
         public int ScatterplotEnd { get; set; }
         
 
-        private void GetAllMFMMarkerPositionsDiskspare(int threadid)
+        private void GetAllMFMMarkerPositionsDiskspare(long threadid)
         {
             uint searchcnt;
             int rxbufcnt;
@@ -114,7 +114,7 @@ namespace FloppyControlApp
             }
         }
 
-        private void GetAllMFMMarkerPositionsADOS(int threadid)
+        private void GetAllMFMMarkerPositionsADOS(long threadid)
         {
             byte[] amigamarkerbytes = AMIGAMARKER;
             uint searchcnt;
@@ -185,7 +185,7 @@ namespace FloppyControlApp
             public byte[] DecodedData;
         }
 
-        private MFM2Sector MFMToBytesADOS(int threadid, int sectorindex, StringBuilder trackboxtemp)
+        private MFM2Sector MFMToBytesADOS(long threadid, int sectorindex, StringBuilder trackboxtemp)
         {
             byte[] headerchecksum;
             byte[] datachecksum;
@@ -249,7 +249,7 @@ namespace FloppyControlApp
             };
         }
 
-        private MFM2Sector MFMToBytesDiskSpare(int threadid, int sectorindex, StringBuilder trackboxtemp)
+        private MFM2Sector MFMToBytesDiskSpare(long threadid, int sectorindex, StringBuilder trackboxtemp)
         {
             byte[] savechecksum = new byte[4];
             MFMData sectordatathread;
@@ -352,7 +352,7 @@ namespace FloppyControlApp
         }
 
         // bytes version of ProcessAmiga
-        private void ProcessAmigaMFMbytes(ProcSettings procsettings, int threadid, FDDProcessing process = null)
+        private void ProcessAmigaMFMbytes(ProcSettings procsettings, long threadid, FDDProcessing process = null)
         {
             int i;
 
@@ -587,7 +587,7 @@ namespace FloppyControlApp
         /// <param name="process">FDDProcessing class reference</param>
         /// <param name="threadid"></param>
         /// <param name="markerpositionscntthread"></param>
-        private void FindAmigaMarkers(FDDProcessing process, int threadid, int markerpositionscntthread)
+        private void FindAmigaMarkers(FDDProcessing process, long threadid, int markerpositionscntthread)
         {
 			// Process only the known format, if unknown do both
 			if (process.diskformat == DiskFormat.diskspare)

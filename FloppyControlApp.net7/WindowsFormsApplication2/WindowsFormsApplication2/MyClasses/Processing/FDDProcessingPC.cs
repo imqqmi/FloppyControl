@@ -37,7 +37,7 @@ namespace FloppyControlApp
         /// <param name="threadid">For multithreading, store data into its own array to prevent collisions 
         /// with other threads and keep data together for reference during analysys</param>
         /// <param name="tbReceived">The string for logging to be output to a text box.</param>
-        private void ProcessPCMFM2Sectordata(ProcSettings procsettings, int threadid, StringBuilder tbReceived)
+        private void ProcessPCMFM2Sectordata(ProcSettings procsettings, long threadid, StringBuilder tbReceived)
         {
             //bool writemfm = true;
             int previoustrack = 0xff;
@@ -262,7 +262,7 @@ namespace FloppyControlApp
             periodSelectionStart = ecSettings.periodSelectionStart;
             periodSelectionEnd = ecSettings.periodSelectionEnd;
             int indexS1 = ecSettings.indexS1;
-            int threadid = ecSettings.threadid;
+            long threadid = ecSettings.threadid;
 
             // Stop if selection is too large, taking too long.
             if (periodSelectionEnd - periodSelectionStart > 50)
@@ -1042,7 +1042,7 @@ namespace FloppyControlApp
             SectorHeader.sectorlength = 128 << Idam[7];
         }
 
-        private void HandleIngoreBadHeader(in MFMData SectorHeader, in MFMData SectorData, int threadid, int previoustrack, int previousheadnr)
+        private void HandleIngoreBadHeader(in MFMData SectorHeader, in MFMData SectorData, long threadid, int previoustrack, int previousheadnr)
         {
             int bytespersectorthread = 512;
             var SectorBlock = MFM2Bytes(SectorData.MarkerPositions, bytespersectorthread + 16, threadid);
@@ -1105,7 +1105,7 @@ namespace FloppyControlApp
                 sectorspertrack = 11;
         }
 
-        private void FindAllPCMarkers(int threadid)
+        private void FindAllPCMarkers(long threadid)
         {
             // Find markers
 
@@ -1122,7 +1122,7 @@ namespace FloppyControlApp
             //m = mfms[threadid]; // speed up processing by removing one extra reference
             int A1MarkerLength = A1markerbytes.Length;
             int A1MarkerLengthMinusOne = A1markerbytes.Length - 1;
-            int mfmlength = mfmlengths[threadid];
+            long mfmlength = mfmlengths[threadid];
             if (Indexrxbuf > RxBbuf.Length) Indexrxbuf = RxBbuf.Length - 1;
             rxbufcnt = ProcSettings.start;
             searchcnt = 0;
@@ -1166,7 +1166,7 @@ namespace FloppyControlApp
             }
         }
 
-        private void FindNextMarker(ref int markerindex, int threadid, out MFMData SectorData)
+        private void FindNextMarker(ref int markerindex, long threadid, out MFMData SectorData)
         {
             SectorData = null;
             // Find the next marker which should be the sector data
@@ -1222,7 +1222,7 @@ namespace FloppyControlApp
                                             in ProcSettings procsettings, 
                                             int markerindex,
                                             ushort datacrc,
-                                            int threadid, bool BadSector=false)
+                                            long threadid, bool BadSector=false)
         {
             if (procsettings.UseErrorCorrection)
             {

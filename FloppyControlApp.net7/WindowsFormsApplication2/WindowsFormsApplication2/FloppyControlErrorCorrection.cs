@@ -17,8 +17,8 @@ namespace FloppyControlApp
         private void BadSectorByteDraw()
         {
             int i; //, datapoints, start, end, scrollbarcurrentpos;
-            //decimal posx;
-            int indexS1 = -1, indexS2 = -1;
+				   //decimal posx;
+			long indexS1 = -1, indexS2 = -1;
             int offset = 4, diskoffset;
             int track, sector;
             byte[] sectors = new byte[1050];
@@ -126,8 +126,8 @@ namespace FloppyControlApp
 
             if (!BSBlueSectormapRadio.Checked) // there's no relevant data when this radio button is checked
             {
-                int scatoffset = processing.sectordata2[indexS1].rxbufMarkerPositions + (int)ScatterMinTrackBar.Value + (int)ScatterOffsetTrackBar.Value;
-                int scatlength = processing.sectordata2[indexS1].rxbufMarkerPositions + (int)ScatterMaxTrackBar.Value + (int)ScatterOffsetTrackBar.Value - scatoffset;
+                long scatoffset = processing.sectordata2[indexS1].rxbufMarkerPositions + (long) ScatterMinTrackBar.Value + (int)ScatterOffsetTrackBar.Value;
+                long scatlength = processing.sectordata2[indexS1].rxbufMarkerPositions + (long)ScatterMaxTrackBar.Value + (int)ScatterOffsetTrackBar.Value - scatoffset;
 
                 scatterplot.AnScatViewlargeoffset = scatoffset;
                 scatterplot.AnScatViewoffset = 0;
@@ -192,18 +192,19 @@ namespace FloppyControlApp
         }
         private void BadMFMSectorDraw()
         {
-            //decimal posx;
-            int indexS1 = -1, indexS2 = -1;
-            int offset = 4, diskoffset;
+			//decimal posx;
+			long indexS1 = -1, indexS2 = -1;
+            long offset = 4;
+            int diskoffset;
             int track, sector;
-            int offsetmfm;
-            int offsetmfm2;
-            int lengthmfm = 0;
+            long offsetmfm;
+            long offsetmfm2;
+            long lengthmfm = 0;
             byte[] sectors = new byte[1050];
             byte[] sectors2 = new byte[1050];
             //int qq;
             int sectorlength = 512;
-            int threadid;
+            long threadid;
 
             switch (processing.diskformat)
             {
@@ -431,7 +432,7 @@ namespace FloppyControlApp
         }
         public void BadSectorPanelClick()
         {
-            int indexS1;//, indexS2;
+			long indexS1;//, indexS2;
             int offset = 4;
             int diskoffset;
             int x, y;
@@ -592,7 +593,7 @@ namespace FloppyControlApp
         public void CopySectorToBlue()
         {
             int i;
-            int indexS1;
+			long indexS1;
             int offset = 4;
             int diskoffset;
             int track, sectornr;
@@ -718,7 +719,7 @@ namespace FloppyControlApp
             bool badsectors = BadSectorsCheckBox.Checked;
 
             // First determine if there's bad sectors with the same track and sector
-            //int threadid;
+            //long threadid;
             MFMData sectordata;
 
             for (i = 0; i < processing.sectordata2.Count; i++)
@@ -771,10 +772,11 @@ namespace FloppyControlApp
 
         public void BadSectorToolTip()
         {
-            int x, y, bsbyte, indexS1;
+            int x, y, bsbyte;
+			long indexS1;
             int offset = 4;
             int sectorlength;
-            int threadid;
+            long threadid;
 
             switch ((int)processing.diskformat)
             {

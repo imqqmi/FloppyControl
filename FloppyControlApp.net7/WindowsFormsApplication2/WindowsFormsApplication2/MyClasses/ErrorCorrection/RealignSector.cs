@@ -92,7 +92,7 @@ namespace FloppyControlApp.MyClasses.ErrorCorrection
 
 			// User selected part to be brute forced:
 			int indexS1 = ecSettings.indexS1;
-			int threadid = ecSettings.threadid;
+			long threadid = ecSettings.threadid;
 			
 			var sectordata2 = processing.sectordata2;
 			var TBReceived = processing.TBReceived;

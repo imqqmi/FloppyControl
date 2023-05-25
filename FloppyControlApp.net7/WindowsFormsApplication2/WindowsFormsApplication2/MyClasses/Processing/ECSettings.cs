@@ -12,7 +12,7 @@ namespace FloppyControlApp.MyClasses.Processing
         public int periodSelectionStart { get; set; }
         public int periodSelectionEnd { get; set; }
         public int indexS1 { get; set; }
-        public int threadid { get; set; }
+        public long threadid { get; set; }
         public int combinations { get; set; }
         public int C6Start { get; set; }
         public int C8Start { get; set; }

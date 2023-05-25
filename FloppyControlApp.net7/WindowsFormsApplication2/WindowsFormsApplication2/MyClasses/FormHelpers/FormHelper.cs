@@ -1437,7 +1437,7 @@ namespace FloppyControlApp
 
         private void EntropySplice()
         {
-            int IndexS1, IndexSx, listlength, Threadid;
+			long IndexS1, IndexSx, listlength, Threadid;
             var selected = BadSectorListBox.SelectedIndices;
             listlength = selected.Count;
 
@@ -1492,7 +1492,7 @@ namespace FloppyControlApp
 
         private void AvgPeriodsFromListSelection()
         {
-            int IndexS1, listlength, Threadid;
+			long IndexS1, listlength, Threadid;
             var selected = BadSectorListBox.SelectedIndices;
             listlength = selected.Count;
 
@@ -1534,7 +1534,8 @@ namespace FloppyControlApp
 
         private void ErrorCorrectRealign4E()
         {
-            int indexS1, listlength, threadid;
+            long indexS1, threadid;
+            int listlength;
             var selected = BadSectorListBox.SelectedIndices;
             listlength = selected.Count;
 
