@@ -54,7 +54,10 @@ namespace FloppyControlApp
             FindAllPCMarkers(threadid);
             // Todo: check if new sector markers are found, otherwise return.
             if (sectordata2.Count > 0 && diskformat == DiskFormat.unknown) // if markers are found and the diskformat has not been set previously, assume PC DD
+            {
                 diskformat = DiskFormat.pcdd;
+                sectorspertrack = 9;
+            }
             
             int markerindex;
             byte[] SectorBlock;
