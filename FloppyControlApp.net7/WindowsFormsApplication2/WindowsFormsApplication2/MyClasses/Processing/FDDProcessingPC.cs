@@ -941,7 +941,7 @@ namespace FloppyControlApp
         /// <param name="seed"></param>
         /// <param name="NumberOfOnes"></param>
         /// <returns></returns>
-        private uint GetBitPattern(uint seed, int NumberOfOnes)
+        private uint GetBitPattern(ulong seed, long NumberOfOnes)
         {
             int j;
             int bitcnt = 0;
@@ -960,9 +960,9 @@ namespace FloppyControlApp
         }
 
         // Finds 'search' in b, from offset to length+offset.
-        public int FindMarker(ref byte[] b, int length, int offset, ref byte[] search)
+        public ulong FindMarker(ref byte[] b, ulong length, ulong offset, ref byte[] search)
         {
-            int i, j, searchcnt = 0, overflow = 0;
+			ulong i, j, searchcnt = 0, overflow = 0;
             for (i = offset; i < length - 48; i++)
             {
                 for (j = 0; j < search.Length; j++)

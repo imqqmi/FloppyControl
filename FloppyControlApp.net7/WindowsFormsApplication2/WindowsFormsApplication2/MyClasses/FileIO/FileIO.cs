@@ -723,7 +723,7 @@ namespace FloppyControlApp.MyClasses.FileIO
                         TrackSectorOffset tso = new TrackSectorOffset();
 
                         tso.offsetstart = sectordataheader.rxbufMarkerPositions;
-                        int offset = sectordata2[sectordataheader.DataIndex + 1].rxbufMarkerPositions - tso.offsetstart;
+                        long offset = sectordata2[sectordataheader.DataIndex + 1].rxbufMarkerPositions - tso.offsetstart;
                         
                         
 						if (offset > 6000 ) offset = 6000;

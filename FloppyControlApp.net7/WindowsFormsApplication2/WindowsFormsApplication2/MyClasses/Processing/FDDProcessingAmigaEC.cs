@@ -21,18 +21,18 @@ namespace FloppyControlApp
        
         public void ProcessClusterAmigaMFMEnc(ECSettings ecSettings)
         {
-            int i;
+			long i;
 
             byte[] Marker = new byte[0];
             int bitshifted = 0;
-            int periodSelectionStart;
-            int periodSelectionEnd;
-            int mfmAlignedStart, mfmAlignedEnd;
+			long periodSelectionStart;
+			long periodSelectionEnd;
+			long mfmAlignedStart, mfmAlignedEnd;
 
             int[] combi = new int[32];
             int combilimit;
 
-            int indexS1 = ecSettings.indexS1;
+			long indexS1 = ecSettings.indexS1;
 
             mfmAlignedStart = ecSettings.MFMByteStart;
             mfmAlignedEnd = mfmAlignedStart + (ecSettings.MFMByteLength * 8);
@@ -264,16 +264,16 @@ namespace FloppyControlApp
         // only cover like 20 periods. 
         public void ProcessClusterAmiga(ECSettings ecSettings)
         {
-            int i;
+			long i;
 
             byte[] Marker = new byte[0];
-            int periodshift = 0;
-            int bitshifted = 0;
-            int periodSelectionStart, mfmSelectionStart = 0;
-            int periodSelectionEnd, mfmSelectionEnd = 0;
-            int bytestart, byteend;
-            int mfmAlignedStart, mfmAlignedEnd;
-            int indexS1 = ecSettings.indexS1;
+			ulong periodshift = 0;
+			ulong bitshifted = 0;
+			ulong periodSelectionStart, mfmSelectionStart = 0;
+			ulong periodSelectionEnd, mfmSelectionEnd = 0;
+			ulong bytestart, byteend;
+			ulong mfmAlignedStart, mfmAlignedEnd;
+			long indexS1 = ecSettings.indexS1;
 
             if (diskformat == DiskFormat.amigados)
             {
@@ -314,7 +314,7 @@ namespace FloppyControlApp
 
             byte[] mfmbuf = mfms[sectordata2[indexS1].threadid].SubArray(sectordata2[indexS1].MarkerPositions, (sectorlength + 100) * 16);
 
-            int cntperiods = 0;
+            ulong cntperiods = 0;
             // Find where in the mfm data the periodSelectionStart is
             // Aparently the amiga data is shifted 16 periods
             for (i = 0; i < (sectorlength + 6) * 16; i++)
@@ -341,12 +341,12 @@ namespace FloppyControlApp
             TBReceived.Append("bytestart: " + bytestart + " byte end: " + byteend + "\r\n");
             TBReceived.Append("mfmAlignedstart: " + mfmAlignedStart + " mfmAlignedEnd: " + mfmAlignedEnd + "\r\n");
 
-            // Find 4E right after the crc bytes at the end of the sector
-            // 4E bytes are padding bytes between header and data. 
-            // When the 4E markers are found it will increase the chance of 
-            // getting a proper crc, even if it's bit shifted caused by corrupt data
+			// Find 4E right after the crc bytes at the end of the sector
+			// 4E bytes are padding bytes between header and data. 
+			// When the 4E markers are found it will increase the chance of 
+			// getting a proper crc, even if it's bit shifted caused by corrupt data
 
-            int Markerindex = FindMarker(ref mfmbuf, mfmbuf.Length, (sectorlength) + 4 * 16, ref Marker);
+			ulong Markerindex = FindMarker(ref mfmbuf, mfmbuf.Length, (sectorlength) + 4 * 16, ref Marker);
             // The number of bits shifted with regards to where the 4E padding should or expected to be
             if (Markerindex == -1)
             {
@@ -398,14 +398,14 @@ namespace FloppyControlApp
             int mfmcorrectedindex;
             byte[] combinations = new byte[100];
             int detectioncnt = 0;
-            int numberofitems = periodSelectionEnd - periodSelectionStart;
-            int numberofmfmitems = mfmSelectionEnd - mfmSelectionStart;
+			ulong numberofitems = periodSelectionEnd - periodSelectionStart;
+			ulong numberofmfmitems = mfmSelectionEnd - mfmSelectionStart;
             ulong c6;
             ulong c8 = 0;
-            int c6_max;
-            int c8_max;
-            uint c6cnt = 0;
-            uint c8cnt = 0;
+			ulong c6_max;
+			ulong c8_max;
+			ulong c6cnt = 0;
+			ulong c8cnt = 0;
             int combs = ecSettings.combinations;
             
             stop = 0;

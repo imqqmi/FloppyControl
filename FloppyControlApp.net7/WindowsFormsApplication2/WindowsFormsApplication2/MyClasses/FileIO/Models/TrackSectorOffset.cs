@@ -2,8 +2,8 @@
 {
     class TrackSectorOffset
     {
-        public int offsetstart { get; set; }
-        public int offsetend { get; set; }
-        public int length { get; set; }
+        public long offsetstart { get; set; }
+        public long offsetend { get; set; }
+        public long length { get; set; }
     }
 }

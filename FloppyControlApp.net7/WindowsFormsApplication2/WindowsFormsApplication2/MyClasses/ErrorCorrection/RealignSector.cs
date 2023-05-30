@@ -105,7 +105,7 @@ namespace FloppyControlApp.MyClasses.ErrorCorrection
 
 			
 
-			int markeroffset = sectordata2[indexS1].MarkerPositions;
+			long markeroffset = sectordata2[indexS1].MarkerPositions;
 			byte[] mfmsdest = mfms[sectordata2[indexS1].threadid];
 			var AlignedResult = processing.RealignMFMData4E(ecSettings);
 			//Copy the bitshift correct mfm data back to the large mfms array

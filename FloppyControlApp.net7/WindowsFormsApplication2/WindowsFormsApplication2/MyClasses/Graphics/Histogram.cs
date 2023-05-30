@@ -16,8 +16,8 @@ namespace FloppyControlApp.MyClasses.Graphics
         private float scaling;
         public int HD { get; set; }
         public byte[] Data { get; set; }
-        public int Offset { get; set; }
-        public int Length { get; set; }
+        public long Offset { get; set; }
+        public long Length { get; set; }
         public StringBuilder TBReceived { get; set; }
 
         public Histogram()
@@ -40,7 +40,7 @@ namespace FloppyControlApp.MyClasses.Graphics
         /// <summary>
         /// Prepare the histogram data before rendering
         /// </summary>
-        public void DoHistogram(byte[] d, int offset1, int length1)
+        public void DoHistogram(byte[] d, long offset1, long length1)
         {
             Data = d;
             Offset = offset1;
@@ -50,7 +50,7 @@ namespace FloppyControlApp.MyClasses.Graphics
 
         public void DoHistogram()
         {
-            int i;
+            long i;
 
             if (Data == null) return;
             if (Offset + Length > Data.Length) return;
