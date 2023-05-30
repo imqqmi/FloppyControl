@@ -92,7 +92,13 @@ namespace FloppyControlApp
                 if (debuginfo) TBReceived.Append(" IDAM");
 
                 ExtractSectorHeaderInfo(ref Idam, ref SectorHeader);
-                
+                if(sectorspertrack == 0)
+                {
+                    TBReceived.Append("Warning! T"+SectorHeader.trackhead.ToString("D3")+"S"+SectorHeader.sector
+                        +" marker index:"+markerindex+" sectors per track is 0! Aborting...");
+                    stop = 1;
+                    break;
+                }
                 int DiskImageSectorOffset;
                 DiskImageSectorOffset = (SectorHeader.track * sectorspertrack * SectorHeader.sectorlength * 2)
                                       + (SectorHeader.head * sectorspertrack * SectorHeader.sectorlength)
