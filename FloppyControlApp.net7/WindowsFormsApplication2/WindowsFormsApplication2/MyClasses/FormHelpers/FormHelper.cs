@@ -63,7 +63,7 @@ namespace FloppyControlApp
 
             if (MainTabControl.SelectedTab == ErrorCorrectionTab)
             {
-                int offset = 0;
+                long offset = 0;
                 for (i = 0; i < processing.sectordata2.Count; i++)
                 {
                     if (processing.sectordata2[i].rxbufMarkerPositions > scatterplot.RxbufClickIndex)
@@ -116,8 +116,8 @@ namespace FloppyControlApp
 
 
                 MFMByteStartUpDown.Value = mfmindex + offsetmfmindex;
-                ScatterMinTrackBar.Value = offset;
-                ScatterMaxTrackBar.Value = offset + 14;
+                ScatterMinTrackBar.Value = (int) offset;
+                ScatterMaxTrackBar.Value = (int) offset + 14;
                 UpdateECInterface();
             }
             else
@@ -336,7 +336,7 @@ namespace FloppyControlApp
                         if (i > 1)
                         {
                             MFMData sectordata = processing.sectordata2[i - 1];
-                            int sectoroffset = rxbufoffset - sectordata.rxbufMarkerPositions;
+                            long sectoroffset = rxbufoffset - sectordata.rxbufMarkerPositions;
 
 
                             rxbufOffsetLabel.Text = "T" + sectordata.track.ToString("D3") + " S" + sectordata.sector + " o:" + sectoroffset.ToString();
@@ -352,9 +352,9 @@ namespace FloppyControlApp
         public void SetMinMaxHistogramhScrollBar1()
         {
 			HistogramhScrollBar1.Minimum = 0;
-			HistogramhScrollBar1.Maximum = processing.Indexrxbuf - scatterplot.AnScatViewlength;
+			HistogramhScrollBar1.Maximum = (int) (processing.Indexrxbuf - scatterplot.AnScatViewlength);
 			QHistogramhScrollBar1.Minimum = 0;
-			QHistogramhScrollBar1.Maximum = processing.Indexrxbuf - scatterplot.AnScatViewlength;
+			QHistogramhScrollBar1.Maximum = (int) (processing.Indexrxbuf - scatterplot.AnScatViewlength);
 		}
 
 		public void FilterGuiUpdateCallback()
@@ -640,22 +640,22 @@ namespace FloppyControlApp
             {
                 if (MainTabControl.SelectedTab == ProcessingTab)
                 {
-                    int offset = scatterplot.AnScatViewoffset + scatterplot.AnScatViewlargeoffset;
-                    int length = scatterplot.AnScatViewlength;
+                    long offset = scatterplot.AnScatViewoffset + scatterplot.AnScatViewlargeoffset;
+					long length = scatterplot.AnScatViewlength;
                     if (length < 0) length = 4000;
                     if (scatterplot.AnScatViewlargeoffset < processing.Indexrxbuf)
-                        HistogramhScrollBar1.Value = scatterplot.AnScatViewlargeoffset;
+                        HistogramhScrollBar1.Value = (int)scatterplot.AnScatViewlargeoffset;
                     ScatterHisto.SetPanel(Histogrampanel1);
                     ScatterHisto.DoHistogram(processing.RxBbuf, offset, length);
                 }
                 if (MainTabControl.SelectedTab == QuickTab)
                 {
-                    int offset = scatterplot.AnScatViewoffset + scatterplot.AnScatViewlargeoffset;
-                    int length = scatterplot.AnScatViewlength;
+                    long offset = scatterplot.AnScatViewoffset + scatterplot.AnScatViewlargeoffset;
+                    long length = scatterplot.AnScatViewlength;
                     if (length < 0) length = 4000;
                     if (scatterplot.AnScatViewlargeoffset < (processing.Indexrxbuf - scatterplot.AnScatViewlength))
                     {
-                        QHistogramhScrollBar1.Value = scatterplot.AnScatViewlargeoffset;
+                        QHistogramhScrollBar1.Value = (int)scatterplot.AnScatViewlargeoffset;
                     }
                     ScatterHisto.SetPanel(QHistoPanel);
                     ScatterHisto.DoHistogram(processing.RxBbuf, offset, length);
@@ -1323,20 +1323,20 @@ namespace FloppyControlApp
             //ScatterMaxTrackBar.Value = offset + 14;
             //updateECInterface();
 
-            int SectorViewEnd = 0;
-            var SectorHeaderOffset = 5000;
+            long SectorViewEnd = 0;
+            long SectorHeaderOffset = 5000;
             if (processing.sectordata2.Count > id + 1)
             {
                 SectorHeaderOffset = processing.sectordata2[processing.sectordata2[id].HeaderIndex].rxbufMarkerPositions;
                 if (processing.sectordata2.Count > id + 1) SectorViewEnd = processing.sectordata2[id + 1].rxbufMarkerPositions;
             }
             if (SectorViewEnd - SectorHeaderOffset > 10000) SectorViewEnd = SectorHeaderOffset + 10000;
-            int scatoffset = SectorHeaderOffset + (int)ScatterMinTrackBar.Value + (int)ScatterOffsetTrackBar.Value;
-            int scatlength = SectorViewEnd + (int)ScatterMaxTrackBar.Value + (int)ScatterOffsetTrackBar.Value - scatoffset;
+            long scatoffset = SectorHeaderOffset + (int)ScatterMinTrackBar.Value + (int)ScatterOffsetTrackBar.Value;
+            long scatlength = SectorViewEnd + (int)ScatterMaxTrackBar.Value + (int)ScatterOffsetTrackBar.Value - scatoffset;
 
             /*int scatoffset = processing.sectordata2[id].rxbufMarkerPositions + (int)ScatterMinTrackBar.Value + (int)ScatterOffsetTrackBar.Value;
             int scatlength = processing.sectordata2[id].rxbufMarkerPositions + (int)ScatterMaxTrackBar.Value + (int)ScatterOffsetTrackBar.Value - scatoffset;*/
-            int graphoffset = scatoffset + (scatlength / 2);
+            long graphoffset = scatoffset + (scatlength / 2);
             scatterplot.AnScatViewlargeoffset = scatoffset;
             scatterplot.AnScatViewoffset = 0;
             scatterplot.AnScatViewlength = scatlength;
@@ -1451,7 +1451,7 @@ namespace FloppyControlApp
                 var Offset1 = Sectordata.rxbufMarkerPositions;
                 byte ResultingVal;
                 var SectordataEnd = processing.sectordata2[IndexS1 + 1];
-                int Length = SectordataEnd.rxbufMarkerPositions - Offset1;
+                long Length = SectordataEnd.rxbufMarkerPositions - Offset1;
                 float LowestEntropy, ThisEntropy;
                 if (Length > 10000) Length = 10000;
                 if (processing.entropy == null)
@@ -1506,7 +1506,7 @@ namespace FloppyControlApp
                 var Offset1 = Sectorheader.rxbufMarkerPositions;
                 int ResultingVal;
                 var SectordataEnd = processing.sectordata2[IndexS1+1];
-                int Length = SectordataEnd.rxbufMarkerPositions - Offset1;
+                long Length = SectordataEnd.rxbufMarkerPositions - Offset1;
                 if (Length > 10000) Length = 10000;
                 for (int j = 0; j < Length; j++)
                 {

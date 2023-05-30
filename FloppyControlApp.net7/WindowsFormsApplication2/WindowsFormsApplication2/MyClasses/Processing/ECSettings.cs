@@ -14,8 +14,8 @@ namespace FloppyControlApp.MyClasses.Processing
         public long indexS1 { get; set; }
         public long threadid { get; set; }
         public int combinations { get; set; }
-        public long C6Start { get; set; }
-        public long C8Start { get; set; }
+        public ulong C6Start { get; set; }
+        public ulong C8Start { get; set; }
         public int MFMByteStart { get; set; }
         public int MFMByteLength { get; set; }
         public TextBox sectortextbox { get; set; }

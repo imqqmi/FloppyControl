@@ -42,11 +42,11 @@ namespace FloppyControlApp.MyClasses.Graphics
 				if ((value + AnScatViewlength) > Rxbuf.Length) _AnScatViewlargeoffset = value - AnScatViewlength;
             }
         }
-        private int AnScatViewlargeoffsetold { get; set; }
+        private long AnScatViewlargeoffsetold { get; set; }
         public int AnScatViewoffsetOld { get; set; }
         public int Maxdots { get; set; }
         public int GraphIndex;
-        public int RxbufClickIndex;
+        public long RxbufClickIndex;
         public bool EditScatterplot { get; set; }
         public Action UpdateEvent { get; set; }
         public Action ShowGraph { get; set; }
@@ -197,9 +197,9 @@ namespace FloppyControlApp.MyClasses.Graphics
             formGraphics.Dispose();
         }
 
-        public void DrawScatterPlot(int bufstart, int bufend, int drawcnt)
+        public void DrawScatterPlot(long bufstart, long bufend, long drawcnt)
         {
-            int i, datapoints, start, end;
+            long i, datapoints, start, end;
             float posx;
             //int track;
             int bigpixels = 0;
@@ -213,7 +213,7 @@ namespace FloppyControlApp.MyClasses.Graphics
                 end = 100000;
             }
 
-            int datalength = end - start;
+            long datalength = end - start;
 
             datapoints = end - start;
             if (bufend == 0) return;
@@ -323,7 +323,7 @@ namespace FloppyControlApp.MyClasses.Graphics
                     }
 
                 // Draw in marker positions
-                int markerpos, relativepos;
+                long markerpos, relativepos;
                 Color c = Color.Black;
 
                 System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(bmp);
@@ -515,7 +515,7 @@ namespace FloppyControlApp.MyClasses.Graphics
             {
                 if (EditScatterplot == true && AnScatViewlength <= 0x40)
                 {
-                    int xoffset = Panel.Width / AnScatViewlength / 2;
+                    long xoffset = Panel.Width / AnScatViewlength / 2;
 
                     RxbufClickIndex = ViewToGraphIndex(e.X + xoffset);
                     Processing.RxBbuf[RxbufClickIndex] = (byte)e.Y;
@@ -565,10 +565,10 @@ namespace FloppyControlApp.MyClasses.Graphics
             UpdateScatterPlot();
         }
 
-        public int ViewToGraphIndex(int x)
+        public long ViewToGraphIndex(long x)
         {
             float offsetfactor = x / (float)Panel.Width;
-            int result = (int)(AnScatViewoffset + AnScatViewlength * offsetfactor + AnScatViewlargeoffset);
+            long result = (int)(AnScatViewoffset + AnScatViewlength * offsetfactor + AnScatViewlargeoffset);
             if( result + AnScatViewlength > Rxbuf.Length) result = Rxbuf.Length - AnScatViewlength;
 			return result;
         }

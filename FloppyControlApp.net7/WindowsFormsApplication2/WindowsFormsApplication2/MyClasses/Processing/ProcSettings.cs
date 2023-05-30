@@ -11,21 +11,19 @@ namespace FloppyControlApp.MyClasses
     [Serializable]
     public class ProcSettings
     {
-        private int poffset, pmin, pfour, psix, pmax, pstart, pend, ppattern;
-
         private float prateofchange;
         bool pSkipPeriodData, pfinddupes, pUseErrorCorrection, pAddnoise;
         ProcessingType pprocessingtype;
 
-        public int offset { get { return poffset; } set { poffset = value; } }
-        public int min { get { return pmin; } set { pmin = value; } }
-        public int four { get { return pfour; } set { pfour = value; } }
-        public int six { get { return psix; } set { psix = value; } }
-        public int max { get { return pmax; } set { pmax = value; } }
-        public int start { get { return pstart; } set { pstart = value; } }
-        public int end { get { return pend; } set { pend = value; } }
+        public long offset { get;  set;  }
+        public int min { get; set; }
+		public int four { get; set; }
+		public int six { get; set; }
+		public int max { get; set; }
+        public long start { get; set; }
+        public long end { get; set; }
         public Platform platform { get; set; }
-        public int pattern { get { return ppattern; } set { ppattern = value; } }
+        public int pattern { get; set; }
         public int addnoiselimitstart { get; set; }
         public int addnoiselimitend { get; set; }
         public int addnoiserndamount { get; set; }
@@ -36,20 +34,20 @@ namespace FloppyControlApp.MyClasses
         public int AdaptOffset { get; set; }
         public float AdaptOffset2 { get; set; }
 
-        public float rateofchange { get { return prateofchange; } set { prateofchange = value; } }
+        public float rateofchange { get; set; }
         public float rateofchange2 { get; set; }
-        public bool SkipPeriodData { get { return pSkipPeriodData; } set { pSkipPeriodData = value; } }
-        public bool finddupes { get { return pfinddupes; } set { pfinddupes = value; } }
-        public bool UseErrorCorrection { get { return pUseErrorCorrection; } set { pUseErrorCorrection = value; } }
+        public bool SkipPeriodData { get; set; }
+        public bool finddupes { get; set; }
+        public bool UseErrorCorrection { get; set; }
         public bool OnlyBadSectors { get; set; }
-        public bool AddNoise { get { return pAddnoise; } set { pAddnoise = value; } }
+        public bool AddNoise { get; set; }
         public bool LimitTSOn { get; set; }
         public bool IgnoreHeaderError { get; set; }
         public bool AutoRefreshSectormap { get; set; }
 
         public string outputfilename { get; set; }
 
-        public ProcessingType processingtype { get { return pprocessingtype; } set { pprocessingtype = value; } }
+        public ProcessingType processingtype { get; set; }
 
         public ProcSettings()
         {

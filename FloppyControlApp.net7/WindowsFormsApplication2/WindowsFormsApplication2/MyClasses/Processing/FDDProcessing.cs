@@ -58,7 +58,7 @@ namespace FloppyControlApp
 
         //public int[] rxbufMarkerPositions = new int[5000000];  // the index var is markerpositionscnt This is rxbuf
         public long[] progresses = new long[50000]; // keeps track of the progress of different threads, threadid is the key
-        public int[] progressesstart = new int[50000]; // threadid is the key
+        public long[] progressesstart = new long[50000]; // threadid is the key
         public long[] progressesend = new long[50000]; // threadid is the key
         public string[] ProcessStatus = new string[50000]; // threadid is the key
         public int sectorspertrack = 0;
@@ -281,7 +281,7 @@ namespace FloppyControlApp
                                         {
 
                                             int q;
-                                            int rxstart = (sectordata2[i].rxbufMarkerPositions - 500);
+											long rxstart = (sectordata2[i].rxbufMarkerPositions - 500);
                                             if (oldindexrxbuf + 8600 > RxBbuf.Length)
                                             {
                                                 List<byte[]> tempbuffer = new List<byte[]>();
@@ -307,7 +307,7 @@ namespace FloppyControlApp
                                     {
                                         //tbreceived.Append("Start: " + sectordata2[i].rxbufMarkerPositions + "\r\n");
                                         int q;
-                                        int rxstart = (sectordata2[i].rxbufMarkerPositions - 500);
+										long rxstart = (sectordata2[i].rxbufMarkerPositions - 500);
                                         if (rxstart < 0) rxstart = 0;
                                         // if the buffer is not large enough, add 10MB
                                         if (oldindexrxbuf + 8600 > RxBbuf.Length)
@@ -384,11 +384,11 @@ namespace FloppyControlApp
                 } // not Onlybadsectors
                 else
                 {
-                    //SW.Restart();
-                    //tbreceived.Append("before thread:" + SW.ElapsedMilliseconds + "ms\r\n");
-                    // Define and start threads
-                    int perThreadLength = (ProcSettings.end - ProcSettings.start) / NumberOfThreads;
-                    int offset = ProcSettings.start;
+					//SW.Restart();
+					//tbreceived.Append("before thread:" + SW.ElapsedMilliseconds + "ms\r\n");
+					// Define and start threads
+					long perThreadLength = (ProcSettings.end - ProcSettings.start) / NumberOfThreads;
+					long offset = ProcSettings.start;
 
                     for (t = 0; t < NumberOfThreads; t++)
                     {
@@ -640,8 +640,8 @@ namespace FloppyControlApp
         /// <param name="scatterplot"></param>
         public void FindPeaks( ScatterPlot scatterplot = null)
         {
-            int offset;
-            int length;
+			long offset;
+			long length;
 			int[] histogramint = new int[256];
 			int histogrammax;
 
@@ -649,7 +649,7 @@ namespace FloppyControlApp
             offset = scatterplot.AnScatViewlargeoffset + scatterplot.AnScatViewoffset;
             length = scatterplot.AnScatViewlength;
             // count the period lengths grouped by period length, skip 0
-            for (int i = offset; i < offset + length; i++)
+            for (long i = offset; i < offset + length; i++)
             {
                 //if (data[i] > 0)
                 histogramint[RxBbuf[i]]++;
@@ -963,7 +963,7 @@ namespace FloppyControlApp
         // Todo: replace with MFM2Bytes with thread safe build in.
         public byte[] MFM2ByteArray(byte[] mfm, long offset, long length)
         {
-            int i, j;
+			long i, j;
             int mindex = 0;
             byte[] m = new byte[length / 8];
 
@@ -977,22 +977,7 @@ namespace FloppyControlApp
                     hex |= mfm[i + j];
                 }
                 m[mindex++] = hex;
-                //mindex++;
             }
-
-
-            /*            byte hex = 0;
-                        int i;
-
-                        offset++;
-                        if (mfmbits.Length > offset + 16)
-                            for (i = 0; i < 16; i += 2)
-                            {
-                                hex <<= 1;
-                                hex |= (mfmbits[offset + i]);
-                            }
-                        return hex;
-                        */
 
             return m;
         }

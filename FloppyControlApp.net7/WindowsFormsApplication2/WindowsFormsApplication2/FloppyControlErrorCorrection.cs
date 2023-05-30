@@ -496,7 +496,7 @@ namespace FloppyControlApp
                     //int offset;
 
 
-                    int mfmoffset = processing.sectordata2[indexS1].MarkerPositions;
+                    long mfmoffset = processing.sectordata2[indexS1].MarkerPositions;
                     bsbyte = ((y * 40 + x) * 8) + offset;
                     MFMByteStartUpDown.Value = ((y * 40 + x) * 8) + mfmoffset2;
                     int indexcnt = 0;
@@ -538,7 +538,7 @@ namespace FloppyControlApp
 
                     // Zoom in scatterplot
                     int indexcnt = 0;
-                    int mfmoffset = processing.sectordata2[indexS1].MarkerPositions;
+                    long mfmoffset = processing.sectordata2[indexS1].MarkerPositions;
                     // First find the period index
                     for (i = 0; i < (bsbyte + 4) * 16; i++)
                     {
@@ -856,7 +856,7 @@ namespace FloppyControlApp
                 else BadSectorTooltipPos.X -= 150;
                 int mfmoffset = bsbyte * 8 + offset;
                 if (mfmoffset < offset) return;
-                int mfmmarkerposition = processing.sectordata2[indexS1].MarkerPositions;
+                long mfmmarkerposition = processing.sectordata2[indexS1].MarkerPositions;
                 threadid = processing.sectordata2[indexS1].threadid;
                 byte[] mfm = processing.MFM2ByteArray(processing.mfms[threadid], mfmmarkerposition + mfmoffset, 256);
                 BadSectorTooltip.Text = " Offset: " + (mfmoffset) + " = " + mfm[0].ToString("X2"); ;
