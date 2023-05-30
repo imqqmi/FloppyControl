@@ -29,16 +29,15 @@ namespace FloppyControlApp
         public int ScatterplotEnd { get; set; }
         
 
-        private void GetAllMFMMarkerPositionsDiskspare(int threadid)
+        private void GetAllMFMMarkerPositionsDiskspare(int threadid, out int markerpositionscntthread)
         {
             uint searchcnt;
             int rxbufcnt;
-            int markerpositionscntthread = 0;
+            markerpositionscntthread = 0;
+			// Find all the sector markers
 
-            // Find all the sector markers
-
-            //DiskSpare marker
-            byte[] amigadsmarkerbytes = AMIGADSMARKER;
+			//DiskSpare marker
+			byte[] amigadsmarkerbytes = AMIGADSMARKER;
 
 
             //=============================================================================================
@@ -114,16 +113,16 @@ namespace FloppyControlApp
             }
         }
 
-        private void GetAllMFMMarkerPositionsADOS(int threadid)
+        private void GetAllMFMMarkerPositionsADOS(int threadid, out int markerpositionscntthread)
         {
             byte[] amigamarkerbytes = AMIGAMARKER;
             uint searchcnt;
             int rxbufcnt;
-            int markerpositionscntthread = 0;
+			markerpositionscntthread = 0;
 
-            //Find AmigaDOS markers
-            //=============================================================================================
-            if ((diskformat == DiskFormat.unknown || diskformat == DiskFormat.amigados))
+			//Find AmigaDOS markers
+			//=============================================================================================
+			if ((diskformat == DiskFormat.unknown || diskformat == DiskFormat.amigados))
             {
                 rxbufcnt = ProcSettings.start;
                 searchcnt = 0;
@@ -366,7 +365,7 @@ namespace FloppyControlApp
             int sectordata2oldcnt = sectordata2.Count;
 
             // Process only the known format, if unknown do both DiskSpare and ADOS
-            FindAmigaMarkers(process, threadid, markerpositionscntthread);
+            FindAmigaMarkers(process, threadid, ref markerpositionscntthread);
             
             //=============================================================================================
             //The bit count per sector is 8704, taking 10k just in case. 
@@ -556,28 +555,31 @@ namespace FloppyControlApp
 
         private void ReportAmigaGoodSectorInfo(byte tracknr, byte sectornr, ProcSettings procsettings, MFMData sectordatathread, int sectorindex)
         {
-            if (debuginfo)
+            if (debuginfo || procsettings.OnlyBadSectors)
             {
-                decodedamigaText.Append("T" + tracknr.ToString("D3") + " S" + sectornr + " crc:" + sectordatathread.crc.ToString("X4") + " markerindex:" + sectorindex + " Method: ");
+                TBReceived.Append("\r\nSector Found!");
+                TBReceived.Append("T" + tracknr.ToString("D3") + " S" + sectornr + " crc:" + sectordatathread.crc.ToString("X4") + " markerindex:" + sectorindex + " Method: ");
                 if (procsettings.processingtype == ProcessingType.aufit) // aufit
                 {
-                    decodedamigaText.Append("Aufit min:" + procsettings.min.ToString("X2") + " 4/6:" + procsettings.four.ToString("X2"));
+					TBReceived.Append("Aufit min:" + procsettings.min.ToString("X2") + " 4/6:" + procsettings.four.ToString("X2"));
                 }
                 else
                 if (procsettings.processingtype == ProcessingType.adaptive1)
                 {
-                    decodedamigaText.Append("Adaptive Rate:" + procsettings.rateofchange);
+					TBReceived.Append("Adaptive Rate:" + procsettings.rateofchange 
+                        + " Adaptive track:" + procsettings.rateofchange2
+						+ " Offset: "+procsettings.offset);
 
                 }
                 else
                 if (procsettings.processingtype == ProcessingType.normal)
                 {
-                    decodedamigaText.Append("Normal min:" + procsettings.min.ToString("X2") + " 4/6:" + procsettings.four.ToString("X2") +
+					TBReceived.Append("Normal min:" + procsettings.min.ToString("X2") + " 4/6:" + procsettings.four.ToString("X2") +
                         " 6/8:" + procsettings.six.ToString("X2") + " max:" + procsettings.max.ToString("X2") +
                         " offset:" + procsettings.offset.ToString());
                 }
-                decodedamigaText.Append("\r\n");
-                decodedamigaText.Append(CurrentFiles);
+				TBReceived.Append("\r\n");
+				TBReceived.Append(CurrentFiles);
             }
 		}
 
@@ -587,34 +589,35 @@ namespace FloppyControlApp
         /// <param name="process">FDDProcessing class reference</param>
         /// <param name="threadid"></param>
         /// <param name="markerpositionscntthread"></param>
-        private void FindAmigaMarkers(FDDProcessing process, int threadid, int markerpositionscntthread)
-        {
+        private void FindAmigaMarkers(FDDProcessing process, int threadid, ref int markerpositionscntthread)
+		{
 			// Process only the known format, if unknown do both
 			if (process.diskformat == DiskFormat.diskspare)
 			{
 				progresses[threadid] = (int)mfmlengths[threadid];
 				ProcessStatus[threadid] = "Find DiskSpare MFM markers...";
-				GetAllMFMMarkerPositionsDiskspare(threadid);
+				GetAllMFMMarkerPositionsDiskspare(threadid, out markerpositionscntthread);
 				TBReceived.Append("DiskSpare Marker count: " + markerpositionscntthread.ToString() + " ");
 			}
 			if (process.diskformat == DiskFormat.amigados)
 			{
 				progresses[threadid] = (int)mfmlengths[threadid];
 				ProcessStatus[threadid] = "Find AmigaDOS MFM markers...";
-				GetAllMFMMarkerPositionsADOS(threadid);
+				GetAllMFMMarkerPositionsADOS(threadid, out markerpositionscntthread);
 				TBReceived.Append("ADOS Marker count: " + markerpositionscntthread.ToString() + " ");
 			}
 			else
 			{
 				progresses[threadid] = (int)mfmlengths[threadid];
 				ProcessStatus[threadid] = "Find DiskSpare MFM markers...";
-				GetAllMFMMarkerPositionsDiskspare(threadid);
+				GetAllMFMMarkerPositionsDiskspare(threadid, out markerpositionscntthread);
 				TBReceived.Append("DiskSpare Marker count: " + markerpositionscntthread.ToString() + " ");
-
+                int DiskSpareMarkerPositionsCount = markerpositionscntthread;
 				progresses[threadid] = (int)mfmlengths[threadid];
 				ProcessStatus[threadid] = "Find AmigaDOS MFM markers...";
-				GetAllMFMMarkerPositionsADOS(threadid);
+				GetAllMFMMarkerPositionsADOS(threadid, out markerpositionscntthread);
 				TBReceived.Append("DiskSpare and ADOS Marker count: " + markerpositionscntthread.ToString() + " ");
+                markerpositionscntthread += DiskSpareMarkerPositionsCount;
 			}
 		}
 
