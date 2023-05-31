@@ -776,10 +776,14 @@ namespace FloppyControlApp.MyClasses.FileIO
             }
             else // Amiga
             {
-                for (i = 0; i < sectordata2.Count; i++)
+				for (i = 0; i < sectordata2.Count; i++)
                 {
                     sectordata = sectordata2[i];
-                    if (sectordata.Status == SectorMapStatus.HeadOkDataBad)
+                    
+                    if ( ((sectordata.Status == SectorMapStatus.HeadOkDataBad) && OnlyBadSectors) // Bad sectors
+                        || ((sectordata.Status == SectorMapStatus.CrcOk                       // Good sectors  
+                            || sectordata.Status == SectorMapStatus.SectorOKButZeroed) && !OnlyBadSectors)
+                            )
                     {
 
                         TrackSectorOffset tso = new TrackSectorOffset();
