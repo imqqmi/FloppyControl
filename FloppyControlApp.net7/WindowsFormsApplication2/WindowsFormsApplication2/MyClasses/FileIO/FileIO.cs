@@ -133,8 +133,12 @@ namespace FloppyControlApp.MyClasses.FileIO
             //New!!!
             textBoxFilesLoaded.Text += "\r\n"; // Add a white line to indicate what groups of files are loaded
             processing.CurrentFiles = "";
-            // Write period data to disk in bin format
-            if (AddData == true)  // If Add data is clicked, the data is appended to the rxbuf array
+            byte[] padding = new byte[64];
+            for (int i = 0; i < 64; i += 2)
+                padding[i] = 0x47;
+            tempbuf.Add(padding);
+			// Write period data to disk in bin format
+			if (AddData == true)  // If Add data is clicked, the data is appended to the rxbuf array
             {
                 tempbuf.Add(processing.RxBbuf.SubArray(0, processing.Indexrxbuf));
             }
