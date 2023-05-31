@@ -299,6 +299,9 @@ namespace FloppyControlApp
 			ProcessBtn = new Button();
 			ProcessPCBtn = new Button();
 			ErrorCorrectionTab = new TabPage();
+			ECScanBtn = new Button();
+			label10 = new Label();
+			BitShiftUpDown1 = new NumericUpDown();
 			EntropySpliceBtn = new Button();
 			AvgPeriodsFromListSelBtn = new Button();
 			CombinationsUpDown = new NumericUpDown();
@@ -507,8 +510,6 @@ namespace FloppyControlApp
 			StopButton = new Button();
 			ExploreHereBtn = new Button();
 			toolTip1 = new ToolTip(components);
-			label10 = new Label();
-			BitShiftUpDown1 = new NumericUpDown();
 			((System.ComponentModel.ISupportInitialize)fileSystemWatcher1).BeginInit();
 			tabControl1.SuspendLayout();
 			ScatterPlottabPage.SuspendLayout();
@@ -574,6 +575,7 @@ namespace FloppyControlApp
 			((System.ComponentModel.ISupportInitialize)HistogramhScrollBar1).BeginInit();
 			groupBox3.SuspendLayout();
 			ErrorCorrectionTab.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)BitShiftUpDown1).BeginInit();
 			((System.ComponentModel.ISupportInitialize)CombinationsUpDown).BeginInit();
 			((System.ComponentModel.ISupportInitialize)MFMByteLengthUpDown).BeginInit();
 			((System.ComponentModel.ISupportInitialize)MFMByteStartUpDown).BeginInit();
@@ -629,7 +631,6 @@ namespace FloppyControlApp
 			((System.ComponentModel.ISupportInitialize)TrackUpDown).BeginInit();
 			menuStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)ThreadsUpDown).BeginInit();
-			((System.ComponentModel.ISupportInitialize)BitShiftUpDown1).BeginInit();
 			SuspendLayout();
 			// 
 			// openFileDialog1
@@ -2007,6 +2008,8 @@ namespace FloppyControlApp
 			settings1.TooltipDisable = false;
 			settings1.TrackDuration = new decimal(new int[] { 330, 0, 0, 0 });
 			settings1.TRK00Offset = new decimal(new int[] { 0, 0, 0, 0 });
+			settings1.WindowSizeX = 1892;
+			settings1.WindowSizeY = 1090;
 			QDirectStepCheckBox.DataBindings.Add(new Binding("Checked", settings1, "DirectStep", true, DataSourceUpdateMode.OnPropertyChanged));
 			QDirectStepCheckBox.Location = new System.Drawing.Point(716, 112);
 			QDirectStepCheckBox.Margin = new Padding(4, 3, 4, 3);
@@ -2162,7 +2165,7 @@ namespace FloppyControlApp
 			// 
 			// QTrackDurationUpDown
 			// 
-			QTrackDurationUpDown.DataBindings.Add(new Binding("Value",settings1 , "TrackDuration", true, DataSourceUpdateMode.OnPropertyChanged));
+			QTrackDurationUpDown.DataBindings.Add(new Binding("Value", settings1, "TrackDuration", true, DataSourceUpdateMode.OnPropertyChanged));
 			QTrackDurationUpDown.Increment = new decimal(new int[] { 100, 0, 0, 0 });
 			QTrackDurationUpDown.Location = new System.Drawing.Point(377, 40);
 			QTrackDurationUpDown.Margin = new Padding(4, 3, 4, 3);
@@ -3565,6 +3568,7 @@ namespace FloppyControlApp
 			// ErrorCorrectionTab
 			// 
 			ErrorCorrectionTab.BackColor = System.Drawing.SystemColors.Control;
+			ErrorCorrectionTab.Controls.Add(ECScanBtn);
 			ErrorCorrectionTab.Controls.Add(label10);
 			ErrorCorrectionTab.Controls.Add(BitShiftUpDown1);
 			ErrorCorrectionTab.Controls.Add(EntropySpliceBtn);
@@ -3626,6 +3630,39 @@ namespace FloppyControlApp
 			ErrorCorrectionTab.Size = new System.Drawing.Size(1128, 897);
 			ErrorCorrectionTab.TabIndex = 2;
 			ErrorCorrectionTab.Text = "Error Correction";
+			// 
+			// ECScanBtn
+			// 
+			ECScanBtn.Location = new System.Drawing.Point(1022, 519);
+			ECScanBtn.Margin = new Padding(4, 3, 4, 3);
+			ECScanBtn.Name = "ECScanBtn";
+			ECScanBtn.Size = new System.Drawing.Size(91, 45);
+			ECScanBtn.TabIndex = 4032;
+			ECScanBtn.Text = "EC Scan";
+			ECScanBtn.UseVisualStyleBackColor = true;
+			ECScanBtn.Click += ECScanBtn_Click;
+			// 
+			// label10
+			// 
+			label10.AutoSize = true;
+			label10.Location = new System.Drawing.Point(210, 209);
+			label10.Margin = new Padding(4, 0, 4, 0);
+			label10.Name = "label10";
+			label10.Size = new System.Drawing.Size(44, 15);
+			label10.TabIndex = 4031;
+			label10.Text = "bitshift";
+			// 
+			// BitShiftUpDown1
+			// 
+			BitShiftUpDown1.Increment = new decimal(new int[] { 16, 0, 0, 0 });
+			BitShiftUpDown1.Location = new System.Drawing.Point(210, 226);
+			BitShiftUpDown1.Margin = new Padding(4, 3, 4, 3);
+			BitShiftUpDown1.Maximum = new decimal(new int[] { 32, 0, 0, 0 });
+			BitShiftUpDown1.Minimum = new decimal(new int[] { 32, 0, 0, int.MinValue });
+			BitShiftUpDown1.Name = "BitShiftUpDown1";
+			BitShiftUpDown1.Size = new System.Drawing.Size(50, 23);
+			BitShiftUpDown1.TabIndex = 4030;
+			BitShiftUpDown1.Value = new decimal(new int[] { 16, 0, 0, int.MinValue });
 			// 
 			// EntropySpliceBtn
 			// 
@@ -5919,27 +5956,6 @@ namespace FloppyControlApp
 			// 
 			toolTip1.Active = false;
 			// 
-			// label10
-			// 
-			label10.AutoSize = true;
-			label10.Location = new System.Drawing.Point(210, 209);
-			label10.Margin = new Padding(4, 0, 4, 0);
-			label10.Name = "label10";
-			label10.Size = new System.Drawing.Size(44, 15);
-			label10.TabIndex = 4031;
-			label10.Text = "bitshift";
-			// 
-			// BitShiftUpDown1
-			// 
-			BitShiftUpDown1.Increment = new decimal(new int[] { 16, 0, 0, 0 });
-			BitShiftUpDown1.Location = new System.Drawing.Point(210, 226);
-			BitShiftUpDown1.Margin = new Padding(4, 3, 4, 3);
-			BitShiftUpDown1.Maximum = new decimal(new int[] { 32, 0, 0, 0 });
-			BitShiftUpDown1.Minimum = new decimal(new int[] { 32, 0, 0, int.MinValue });
-			BitShiftUpDown1.Name = "BitShiftUpDown1";
-			BitShiftUpDown1.Size = new System.Drawing.Size(50, 23);
-			BitShiftUpDown1.TabIndex = 4030;
-			// 
 			// FloppyControl
 			// 
 			AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -6063,6 +6079,7 @@ namespace FloppyControlApp
 			groupBox3.ResumeLayout(false);
 			ErrorCorrectionTab.ResumeLayout(false);
 			ErrorCorrectionTab.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)BitShiftUpDown1).EndInit();
 			((System.ComponentModel.ISupportInitialize)CombinationsUpDown).EndInit();
 			((System.ComponentModel.ISupportInitialize)MFMByteLengthUpDown).EndInit();
 			((System.ComponentModel.ISupportInitialize)MFMByteStartUpDown).EndInit();
@@ -6131,7 +6148,6 @@ namespace FloppyControlApp
 			menuStrip1.ResumeLayout(false);
 			menuStrip1.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)ThreadsUpDown).EndInit();
-			((System.ComponentModel.ISupportInitialize)BitShiftUpDown1).EndInit();
 			ResumeLayout(false);
 			PerformLayout();
 		}
@@ -6592,6 +6608,7 @@ namespace FloppyControlApp
 		private CheckBox SkipAlreadyCrcOkcheckBox1;
 		private Label label10;
 		private NumericUpDown BitShiftUpDown1;
+		private Button ECScanBtn;
 	}
 }
 

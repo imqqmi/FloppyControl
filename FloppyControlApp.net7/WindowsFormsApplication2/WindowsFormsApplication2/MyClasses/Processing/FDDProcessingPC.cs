@@ -723,104 +723,115 @@ namespace FloppyControlApp
 			System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
 			sw.Reset();
 			sw.Start();
-			mfmAlignedStart = ecSettings.MFMByteStart;
-			mfmAlignedEnd = mfmAlignedStart + (ecSettings.MFMByteLength * 8);
-			
-            var AlignedResult = RealignMFMData4E( ecSettings);
-            mfmaligned = AlignedResult.mfmaligned;
-
-			byte[] data = new byte[(mfmaligned.Length) / 16 + 1];
-            
-            int j, q;
-            int detectioncnt = 0;
-
             stop = 0;
-            // Brute force with weighing of 4/6/8us
-
-
-            int k, l, u;
-            int combinations = 0;
-            int NumberOfMfmBytes = ecSettings.MFMByteLength;
-            int MaxIndex = 25;
-            int iterations;
-            combilimit = 1;
-			for (j = 0; j < MaxIndex; j++)
+            for (int ScanStart = -10; ScanStart < 10; ScanStart++)
             {
-                combilimit++;
+                if (stop==1) break;
+                if (!ecSettings.ECScanEnable) ScanStart = 0;
+                else TBReceived.Append(ScanStart+" ");
+                mfmAlignedStart = ecSettings.MFMByteStart + (ScanStart*2);
+                if( mfmAlignedStart < 0 ) mfmAlignedStart = 0;
+                mfmAlignedEnd = mfmAlignedStart + (ecSettings.MFMByteLength * 8);
 
-                iterations = combilimit;
-                for (q = 0; q < NumberOfMfmBytes - 1; q++)
-                    iterations *= combilimit;
+                var AlignedResult = RealignMFMData4E(ecSettings);
+                mfmaligned = AlignedResult.mfmaligned;
 
-                TBReceived.Append("Iterations: " + iterations + "\r\n");
-                Application.DoEvents();
-                
-                for (u = 0; u < iterations; u++)
+                byte[] data = new byte[(mfmaligned.Length) / 16 + 1];
+
+                int j, q;
+                int detectioncnt = 0;
+
+                stop = 0;
+                // Brute force with weighing of 4/6/8us
+
+
+                int k, l, u;
+                int combinations = 0;
+                int NumberOfMfmBytes = ecSettings.MFMByteLength;
+                int MaxIndex = 25;
+                int iterations;
+                combilimit = 1;
+                for (j = 0; j < MaxIndex; j++)
                 {
-                    if (stop == 1) break;
+                    combilimit++;
+
+                    iterations = combilimit;
+                    for (q = 0; q < NumberOfMfmBytes - 1; q++)
+                        iterations *= combilimit;
+
+                    if( !ecSettings.ECScanEnable)
+                        TBReceived.Append("Iterations: " + iterations + "\r\n");
                     Application.DoEvents();
-                    for (k = 0; k < NumberOfMfmBytes; k++)
+
+                    for (u = 0; u < iterations; u++)
                     {
-                        //if (processing.stop == 1) break;
-                        for (l = 0; l < 8; l++)
-                        {
-                            mfmaligned[mfmAlignedStart + l + (k * 8)] = mfmpreset.MFMPC[combi[k], l];
-                        }
-                    }
-
-                    // Check result
-                    for (i = 0; i < 518; i++)
-                        data[i] = MFMBits2BINbyte(ref mfmaligned, (i * 16));
-
-                    // Check crc
-                    ushort datacrcchk;
-                    Crc16Ccitt crc = new Crc16Ccitt(InitialCrcValue.NonZero1);
-                    datacrcchk = crc.ComputeChecksum(data);
-
-                    if (datacrcchk == 0x0000)
-                    {
-                        detectioncnt++;
-                        TBReceived.Append("CRC ok! iteration: " + combinations + "\r\n");
-                        PrintArray(combi, NumberOfMfmBytes);
-                        for (i = 0; i < 528; i++)
-                        {
-                            //if ((i < (mfmAlignedStart / 16) - 4) || ( i > (mfmAlignedEnd / 16) + 4)) continue;
-							TBReceived.Append(data[i].ToString("X2") + " ");
-                            if (i % 16 == 15) TBReceived.Append("\r\n");
-                            if (i == mfmAlignedStart / 16 || i == mfmAlignedEnd / 16) TBReceived.Append("--");
-                        }
-                        //tbreceived.Append("c6_max:" + c6_max + " c8_max:" + c8_max + "\r\n");
-                        TBReceived.Append("Time: " + sw.ElapsedMilliseconds + "ms\r\n");
-                        //Save recovered sector to disk array
-                        int diskoffset = sectordata2[indexS1].trackhead * sectorspertrack * 512 + sectordata2[indexS1].sector * 512;
-                        SectorMap.sectorok[sectordata2[indexS1].trackhead, sectordata2[indexS1].sector] = SectorMapStatus.ErrorCorrected; // Error corrected (shows up as 'c')
-                        for (i = 0; i < bytespersector; i++)
-                        {
-                            disk[i + diskoffset] = data[i + 4];
-                        }
-                        SectorMap.RefreshSectorMap();
-                        //TBReceived.Append("\r\n");
+                        if (stop == 1) break;
                         Application.DoEvents();
-						
-                        stop = 1;
-                        break;
-                        
+                        for (k = 0; k < NumberOfMfmBytes; k++)
+                        {
+                            //if (processing.stop == 1) break;
+                            for (l = 0; l < 8; l++)
+                            {
+                                mfmaligned[mfmAlignedStart + l + (k * 8)] = mfmpreset.MFMPC[combi[k], l];
+                            }
+                        }
+
+                        // Check result
+                        for (i = 0; i < 518; i++)
+                            data[i] = MFMBits2BINbyte(ref mfmaligned, (i * 16));
+
+                        // Check crc
+                        ushort datacrcchk;
+                        Crc16Ccitt crc = new Crc16Ccitt(InitialCrcValue.NonZero1);
+                        datacrcchk = crc.ComputeChecksum(data);
+
+                        if (datacrcchk == 0x0000)
+                        {
+                            detectioncnt++;
+                            TBReceived.Append("CRC ok! iteration: " + combinations + "\r\n");
+                            PrintArray(combi, NumberOfMfmBytes);
+                            for (i = 0; i < 528; i++)
+                            {
+                                //if ((i < (mfmAlignedStart / 16) - 4) || ( i > (mfmAlignedEnd / 16) + 4)) continue;
+                                TBReceived.Append(data[i].ToString("X2") + " ");
+                                if (i % 16 == 15) TBReceived.Append("\r\n");
+                                if (i == mfmAlignedStart / 16 || i == mfmAlignedEnd / 16) TBReceived.Append("--");
+                            }
+                            //tbreceived.Append("c6_max:" + c6_max + " c8_max:" + c8_max + "\r\n");
+                            TBReceived.Append("Time: " + sw.ElapsedMilliseconds + "ms\r\n");
+                            //Save recovered sector to disk array
+                            int diskoffset = sectordata2[indexS1].trackhead * sectorspertrack * 512 + sectordata2[indexS1].sector * 512;
+                            SectorMap.sectorok[sectordata2[indexS1].trackhead, sectordata2[indexS1].sector] = SectorMapStatus.ErrorCorrected; // Error corrected (shows up as 'c')
+                            for (i = 0; i < bytespersector; i++)
+                            {
+                                disk[i + diskoffset] = data[i + 4];
+                            }
+                            SectorMap.RefreshSectorMap();
+                            //TBReceived.Append("\r\n");
+                            Application.DoEvents();
+
+                            stop = 1;
+                            break;
+
+                        }
+                        if (stop == 1) break;
+                        combi[0]++;
+                        for (k = 0; k < NumberOfMfmBytes; k++)
+                        {
+                            if (combi[k] >= combilimit)
+                            {
+                                combi[k] = 0;
+                                combi[k + 1]++;
+                            }
+                        }
+                        combinations++;
                     }
                     if (stop == 1) break;
-                    combi[0]++;
-                    for (k = 0; k < NumberOfMfmBytes; k++)
-                    {
-                        if (combi[k] >= combilimit)
-                        {
-                            combi[k] = 0;
-                            combi[k + 1]++;
-                        }
-                    }
-                    combinations++;
                 }
-                if (stop == 1) break;
-            }
-            TBReceived.Append("Combinations:" + combinations + "\r\n");
+                TBReceived.Append("Combinations:" + combinations + "\r\n");
+                if (!ecSettings.ECScanEnable) break;
+
+			}
         }
 
         public class AlignedResult
@@ -860,7 +871,7 @@ namespace FloppyControlApp
 
 			// Copy mfm data from mfms
 			int sectorlength = sectordata2[indexS1].sectorlength;
-			byte[] mfmbuf = mfms[sectordata2[indexS1].threadid].SubArray(sectordata2[indexS1].MarkerPositions, (sectorlength + 100) * 16);
+			byte[] mfmbuf = mfms[sectordata2[indexS1].threadid].SubArray(sectordata2[indexS1].MarkerPositions, (sectorlength + 1000) * 16);
 
 			int cntperiods = 0;
 			//Find where in the mfm data the periodSelectionStart is
@@ -906,7 +917,7 @@ namespace FloppyControlApp
 			for (i = 0; i < mfmbuf.Length; i++)
 				mfmaligned[i] = mfmbuf[i];
 
-			for (i = mfmAlignedStart; i < mfmbuf.Length - bitshifted; i++)
+			for (i = mfmAlignedStart; i < mfmbuf.Length - Math.Abs(bitshifted); i++)
 				mfmaligned[i] = mfmbuf[i + bitshifted];
 
 

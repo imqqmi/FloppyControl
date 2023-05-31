@@ -1611,7 +1611,7 @@ namespace FloppyControlApp
             });
         }
 
-		public void ECMFMByteEnc()
+		public void ECMFMByteEnc(bool ECScanEnable = false)
 		{
 			int indexS1, threadid;
 			ECSettings ecSettings = new ECSettings
@@ -1631,6 +1631,7 @@ namespace FloppyControlApp
 				ecSettings.MFMByteStart = (int)MFMByteStartUpDown.Value;
 				ecSettings.MFMByteLength = (int)MFMByteLengthUpDown.Value;
                 ecSettings.BitShift = (int)BitShiftUpDown1.Value;
+                ecSettings.ECScanEnable = ECScanEnable;
 			}
 			else
 			{

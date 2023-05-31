@@ -20,5 +20,6 @@ namespace FloppyControlApp.MyClasses.Processing
         public int MFMByteLength { get; set; }
         public TextBox sectortextbox { get; set; }
 		public int BitShift { get; internal set; }
+        public bool ECScanEnable { get; set; }
 	}
 }

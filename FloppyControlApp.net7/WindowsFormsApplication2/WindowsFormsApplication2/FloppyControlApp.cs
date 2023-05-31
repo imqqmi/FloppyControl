@@ -1391,6 +1391,11 @@ namespace FloppyControlApp
 					false
 				);
 		}
+
+		private void ECScanBtn_Click(object sender, EventArgs e)
+		{
+			ECMFMByteEnc(true);
+		}
 	} // end class
 } // End namespace
 
