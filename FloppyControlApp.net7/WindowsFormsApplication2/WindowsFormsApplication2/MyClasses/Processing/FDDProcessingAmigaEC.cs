@@ -34,229 +34,239 @@ namespace FloppyControlApp
 
             int indexS1 = ecSettings.indexS1;
 
-            mfmAlignedStart = ecSettings.MFMByteStart;
-            mfmAlignedEnd = mfmAlignedStart + (ecSettings.MFMByteLength * 8);
-            MFMByteEncPreset mfmpreset = new MFMByteEncPreset();
 
-            if (diskformat == DiskFormat.amigados)
+            for (int ScanStart = -10; ScanStart < 10; ScanStart++)
             {
-                Marker = FDDProcessing.AMIGAMARKER;
-                //periodshift = 16;
-            }
-            else
-            if (diskformat == DiskFormat.diskspare)
-            {
-                Marker = FDDProcessing.AMIGADSMARKER;
-                //periodshift = 8;
-            }
-
-            if (Marker.Length == 0)
-            {
-                TBReceived.Append("No amiga format found!\r\n");
-                return;
-            }
-            //StopWatch sw = new StopWatch;
-            System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
-            sw.Reset();
-            sw.Start();
-
-            // User selected part to be brute forced:
-            periodSelectionStart = ecSettings.periodSelectionStart;
-            periodSelectionEnd = ecSettings.periodSelectionEnd;
-
-            // Stop if selection is too large, taking too long.
-            if (periodSelectionEnd - periodSelectionStart > 50)
-            {
-                TBReceived.Append("Selection too large, please make it smaller, 50 max.\r\n");
-                return;
-            }
-
-            // Copy mfm data from mfms
-            int sectorlength = sectordata2[indexS1].sectorlength;
+                if (stop == 1) break;
+                if (!ecSettings.ECScanEnable) ScanStart = 0;
+                else TBReceived.Append(ScanStart + " ");
+                mfmAlignedStart = ecSettings.MFMByteStart + (ScanStart * 2);
 
 
-            byte[] mfmbuf = mfms[sectordata2[indexS1].threadid].SubArray(sectordata2[indexS1].MarkerPositions, (sectorlength + 100) * 16);
+                mfmAlignedEnd = mfmAlignedStart + (ecSettings.MFMByteLength * 8);
+                MFMByteEncPreset mfmpreset = new MFMByteEncPreset();
 
-            TBReceived.Append("mfmAlignedstart: " + mfmAlignedStart + " mfmAlignedEnd: " + mfmAlignedEnd + "\r\n");
-
-            // Find 4E right after the crc bytes at the end of the sector
-            // 4E bytes are padding bytes between header and data. 
-            // When the 4E markers are found it will increase the chance of 
-            // getting a proper crc, even if it's bit shifted caused by corrupt data
-
-            int Markerindex = FindMarker(ref mfmbuf, mfmbuf.Length, (sectorlength) + 4 * 16, ref Marker);
-            // The number of bits shifted with regards to where the 4E padding should or expected to be
-            if (Markerindex == -1)
-            {
-                TBReceived.Append("Marker not found. Can't continue.\r\n");
-                return;
-            }
-            if (diskformat == DiskFormat.amigados)
-                bitshifted = Markerindex - 8736;
-            else if (diskformat == DiskFormat.diskspare)
-                bitshifted = Markerindex - 8336;
-
-            TBReceived.Append("Bitshift: " + bitshifted + "\r\n");
-
-            //mfmSelectionEnd = mfmSelectionEnd - bitshifted;
-
-            // Copy mfm data to aligned array
-            byte[] mfmaligned = new byte[mfmbuf.Length + 32];
-            for (i = 0; i < mfmbuf.Length; i++)
-                mfmaligned[i] = mfmbuf[i];
-
-            for (i = mfmAlignedStart; i < mfmbuf.Length - bitshifted; i++)
-                mfmaligned[i] = mfmbuf[i + bitshifted];
-
-            byte[] data = new byte[(mfmaligned.Length) / 16 + 1];
-
-            //byte[] combinations = new byte[100];
-            int detectioncnt = 0;
-
-            // int combs = (int)CombinationsUpDown.Value;
-
-            stop = 0;
-
-            int k, l, u, j, p, q;
-            int combinations = 0;
-            int NumberOfMfmBytes = ecSettings.MFMByteLength;
-            int MaxIndex = 25;
-            int iterations;
-
-            combilimit = 1;
-
-            for (j = 0; j < MaxIndex; j++)
-            {
-                combilimit++;
-
-                iterations = combilimit;
-                for (q = 0; q < NumberOfMfmBytes - 1; q++)
-                    iterations *= combilimit;
-
-                TBReceived.Append("Iterations: " + iterations + "\r\n");
-                Application.DoEvents();
-                for (u = 0; u < iterations; u++)
+                if (diskformat == DiskFormat.amigados)
                 {
-                    for (k = 0; k < NumberOfMfmBytes; k++)
+                    Marker = FDDProcessing.AMIGAMARKER;
+                    //periodshift = 16;
+                }
+                else
+                if (diskformat == DiskFormat.diskspare)
+                {
+                    Marker = FDDProcessing.AMIGADSMARKER;
+                    //periodshift = 8;
+                }
+
+                if (Marker.Length == 0)
+                {
+                    TBReceived.Append("No amiga format found!\r\n");
+                    return;
+                }
+                //StopWatch sw = new StopWatch;
+                System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
+                sw.Reset();
+                sw.Start();
+
+                // User selected part to be brute forced:
+                periodSelectionStart = ecSettings.periodSelectionStart;
+                periodSelectionEnd = ecSettings.periodSelectionEnd;
+
+                // Stop if selection is too large, taking too long.
+                if (periodSelectionEnd - periodSelectionStart > 50)
+                {
+                    TBReceived.Append("Selection too large, please make it smaller, 50 max.\r\n");
+                    return;
+                }
+
+                // Copy mfm data from mfms
+                int sectorlength = sectordata2[indexS1].sectorlength;
+
+
+                byte[] mfmbuf = mfms[sectordata2[indexS1].threadid].SubArray(sectordata2[indexS1].MarkerPositions, (sectorlength + 100) * 16);
+
+                TBReceived.Append("mfmAlignedstart: " + mfmAlignedStart + " mfmAlignedEnd: " + mfmAlignedEnd + "\r\n");
+
+                // Find 4E right after the crc bytes at the end of the sector
+                // 4E bytes are padding bytes between header and data. 
+                // When the 4E markers are found it will increase the chance of 
+                // getting a proper crc, even if it's bit shifted caused by corrupt data
+
+                int Markerindex = FindMarker(ref mfmbuf, mfmbuf.Length, (sectorlength) + 4 * 16, ref Marker);
+                // The number of bits shifted with regards to where the 4E padding should or expected to be
+                if (Markerindex == -1)
+                {
+                    TBReceived.Append("Marker not found. Can't continue.\r\n");
+                    return;
+                }
+                if (diskformat == DiskFormat.amigados)
+                    bitshifted = Markerindex - 8736;
+                else if (diskformat == DiskFormat.diskspare)
+                    bitshifted = Markerindex - 8336;
+
+                TBReceived.Append("Bitshift: " + bitshifted + "\r\n");
+
+                //mfmSelectionEnd = mfmSelectionEnd - bitshifted;
+
+                // Copy mfm data to aligned array
+                byte[] mfmaligned = new byte[mfmbuf.Length + 32];
+                for (i = 0; i < mfmbuf.Length; i++)
+                    mfmaligned[i] = mfmbuf[i];
+
+                for (i = mfmAlignedStart; i < mfmbuf.Length - Math.Abs(bitshifted); i++)
+                    mfmaligned[i] = mfmbuf[i + bitshifted];
+
+                byte[] data = new byte[(mfmaligned.Length) / 16 + 1];
+
+                //byte[] combinations = new byte[100];
+                int detectioncnt = 0;
+
+                // int combs = (int)CombinationsUpDown.Value;
+
+                stop = 0;
+
+                int k, l, u, j, p, q;
+                int combinations = 0;
+                int NumberOfMfmBytes = ecSettings.MFMByteLength;
+                int MaxIndex = 25;
+                int iterations;
+
+                combilimit = 1;
+
+                for (j = 0; j < MaxIndex; j++)
+                {
+                    combilimit++;
+
+                    iterations = combilimit;
+                    for (q = 0; q < NumberOfMfmBytes - 1; q++)
+                        iterations *= combilimit;
+					if (!ecSettings.ECScanEnable)
+						TBReceived.Append("Iterations: " + iterations + "\r\n");
+                    Application.DoEvents();
+                    for (u = 0; u < iterations; u++)
                     {
+                        for (k = 0; k < NumberOfMfmBytes; k++)
+                        {
+                            if (stop == 1) break;
+                            for (l = 0; l < 8; l++)
+                            {
+                                mfmaligned[mfmAlignedStart + l + (k * 8)] = mfmpreset.MFMPC[combi[k], l];
+                            }
+                        }
+
+                        // Check result
+                        int datacrcchk = 0;
+                        byte[] checksum;
+                        byte[] datachecksum;
+
+                        if (diskformat == DiskFormat.amigados)
+                        {
+                            datachecksum = AmigaMfmDecodeBytes(mfmaligned, (56 * 8), 4 * 16); // At uint 6
+                            data = AmigaMfmDecodeBytes(mfmaligned, (64 * 8), 512 * 16);
+                            checksum = AmigaChecksum(mfmaligned, (64 * 8), 512 * 16); // Get header checksum from sector header
+
+                            // Do the data checksum check:
+                            if (datachecksum.SequenceEqual(checksum)) // checksum is changed everytime amigamfmdecode() is called
+                            {
+                                datacrcchk = 1;
+                            }
+                        }
+                        else if (diskformat == DiskFormat.diskspare)
+                        {
+                            byte[] dsdatachecksum = new byte[4];
+
+                            // Get track sector and checksum within one uint32: 0xTTSSCCCC
+                            byte[] dec1 = AmigaMfmDecodeBytes(mfmaligned, 8 * 8, 4 * 16); //At uint 0
+
+                            //tracknr = data[0];
+                            //sectornr = data[1];
+                            dsdatachecksum[0] = dec1[2];
+                            dsdatachecksum[1] = dec1[3];
+                            dsdatachecksum[2] = 0;
+                            dsdatachecksum[3] = 0;
+
+                            uint dchecksum;
+                            uint offset;
+                            byte[] tmp;
+
+                            for (p = 0; p < 512; p += 4)
+                            {
+                                tmp = AmigaMfmDecodeBytes(mfmaligned, (int)p * 16 + 16 * 8, 4 * 16);
+                                data[p] = tmp[0];
+                                data[p + 1] = tmp[1];
+                                data[p + 2] = tmp[2];
+                                data[p + 3] = tmp[3];
+                            }
+
+                            dchecksum = (uint)((Mfm2UShort(mfmaligned, 8 * 16)) & 0x7FFF);
+                            ushort tmp1;
+                            offset = 9;
+                            for (p = (int)offset; p < 520; p++)
+                            {
+                                tmp1 = Mfm2UShort(mfmaligned, (int)(p * 16));
+                                dchecksum ^= (uint)(tmp1 & 0xffff);
+                            }
+                            byte[] savechecksum = new byte[4];
+                            savechecksum[0] = (byte)(dchecksum >> 8);
+                            savechecksum[1] = (byte)(dchecksum & 0xFF);
+                            savechecksum[2] = 0;
+                            savechecksum[3] = 0;
+
+                            // Do the data checksum check:
+                            if (dsdatachecksum.SequenceEqual(savechecksum)) // checksum is changed everytime amigamfmdecode() is called
+                                datacrcchk = 1;
+                            else datacrcchk = 0;
+                        }
+
+
+                        if (datacrcchk == 1)
+                        {
+                            detectioncnt++;
+                            TBReceived.Append("CRC ok! iteration: " + combinations + "\r\n");
+                            PrintArray(combi, NumberOfMfmBytes);
+                            for (i = 0; i < 512; i++)
+                            {
+                                TBReceived.Append(data[i].ToString("X2") + " ");
+                                if (i % 16 == 15) TBReceived.Append("\r\n");
+                                if (i == mfmAlignedStart / 16 || i == mfmAlignedEnd / 16) TBReceived.Append("--");
+                                //dat[offset + i] = data[offset + i];
+                            }
+                            //tbreceived.Append("\r\n\r\nc6_max:" + c6_max + " c8_max:" + c8_max + "\r\n");
+                            TBReceived.Append("Time: " + sw.ElapsedMilliseconds + "ms\r\n");
+                            //Save recovered sector to disk array
+                            int diskoffset = sectordata2[indexS1].trackhead * sectorspertrack * 512 + sectordata2[indexS1].sector * 512;
+                            SectorMap.sectorok[sectordata2[indexS1].track, sectordata2[indexS1].sector] = SectorMapStatus.ErrorCorrected; // Error corrected (shows up as 'c')
+                            for (i = 0; i < bytespersector; i++)
+                            {
+                                disk[i + diskoffset] = data[i];
+                            }
+                            //sectormap.RefreshSectorMap();
+                            TBReceived.Append("\r\n");
+                            Application.DoEvents();
+                            //return q;
+                            stop = 1;
+                            break;
+                        }
                         if (stop == 1) break;
-                        for (l = 0; l < 8; l++)
-                        {
-                            mfmaligned[mfmAlignedStart + l + (k * 8)] = mfmpreset.MFMPC[combi[k], l];
-                        }
-                    }
-
-                    // Check result
-                    int datacrcchk = 0;
-                    byte[] checksum;
-                    byte[] datachecksum;
-
-                    if (diskformat == DiskFormat.amigados)
-                    {
-                        datachecksum = AmigaMfmDecodeBytes(mfmaligned, (56 * 8), 4 * 16); // At uint 6
-                        data = AmigaMfmDecodeBytes(mfmaligned, (64 * 8), 512 * 16);
-                        checksum = AmigaChecksum(mfmaligned, (64 * 8), 512 * 16); // Get header checksum from sector header
-
-                        // Do the data checksum check:
-                        if (datachecksum.SequenceEqual(checksum)) // checksum is changed everytime amigamfmdecode() is called
-                        {
-                            datacrcchk = 1;
-                        }
-                    }
-                    else if (diskformat == DiskFormat.diskspare)
-                    {
-                        byte[] dsdatachecksum = new byte[4];
-
-                        // Get track sector and checksum within one uint32: 0xTTSSCCCC
-                        byte[] dec1 = AmigaMfmDecodeBytes(mfmaligned, 8 * 8, 4 * 16); //At uint 0
-
-                        //tracknr = data[0];
-                        //sectornr = data[1];
-                        dsdatachecksum[0] = dec1[2];
-                        dsdatachecksum[1] = dec1[3];
-                        dsdatachecksum[2] = 0;
-                        dsdatachecksum[3] = 0;
-
-                        uint dchecksum;
-                        uint offset;
-                        byte[] tmp;
-
-                        for (p = 0; p < 512; p += 4)
-                        {
-                            tmp = AmigaMfmDecodeBytes(mfmaligned, (int)p * 16 + 16 * 8, 4 * 16);
-                            data[p] = tmp[0];
-                            data[p + 1] = tmp[1];
-                            data[p + 2] = tmp[2];
-                            data[p + 3] = tmp[3];
-                        }
-
-                        dchecksum = (uint)((Mfm2UShort(mfmaligned, 8 * 16)) & 0x7FFF);
-                        ushort tmp1;
-                        offset = 9;
-                        for (p = (int)offset; p < 520; p++)
-                        {
-                            tmp1 = Mfm2UShort(mfmaligned, (int)(p * 16));
-                            dchecksum ^= (uint)(tmp1 & 0xffff);
-                        }
-                        byte[] savechecksum = new byte[4];
-                        savechecksum[0] = (byte)(dchecksum >> 8);
-                        savechecksum[1] = (byte)(dchecksum & 0xFF);
-                        savechecksum[2] = 0;
-                        savechecksum[3] = 0;
-
-                        // Do the data checksum check:
-                        if (dsdatachecksum.SequenceEqual(savechecksum)) // checksum is changed everytime amigamfmdecode() is called
-                            datacrcchk = 1;
-                        else datacrcchk = 0;
-                    }
-
-
-                    if (datacrcchk == 1)
-                    {
-                        detectioncnt++;
-                        TBReceived.Append("CRC ok! iteration: " + combinations + "\r\n");
-                        PrintArray(combi, NumberOfMfmBytes);
-                        for (i = 0; i < 512; i++)
-                        {
-                            TBReceived.Append(data[i].ToString("X2") + " ");
-                            if (i % 16 == 15) TBReceived.Append("\r\n");
-                            if (i == mfmAlignedStart / 16 || i == mfmAlignedEnd / 16) TBReceived.Append("--");
-                            //dat[offset + i] = data[offset + i];
-                        }
-                        //tbreceived.Append("\r\n\r\nc6_max:" + c6_max + " c8_max:" + c8_max + "\r\n");
-                        TBReceived.Append("Time: " + sw.ElapsedMilliseconds + "ms\r\n");
-                        //Save recovered sector to disk array
-                        int diskoffset = sectordata2[indexS1].trackhead * sectorspertrack * 512 + sectordata2[indexS1].sector * 512;
-                        SectorMap.sectorok[sectordata2[indexS1].track, sectordata2[indexS1].sector] = SectorMapStatus.ErrorCorrected; // Error corrected (shows up as 'c')
-                        for (i = 0; i < bytespersector; i++)
-                        {
-                            disk[i + diskoffset] = data[i];
-                        }
-                        //sectormap.RefreshSectorMap();
-                        TBReceived.Append("\r\n");
                         Application.DoEvents();
-                        //return q;
-                        stop = 1;
-                        break;
+                        combi[0]++;
+                        for (k = 0; k < NumberOfMfmBytes; k++)
+                        {
+                            if (combi[k] >= combilimit)
+                            {
+                                combi[k] = 0;
+                                combi[k + 1]++;
+                            }
+                        }
+                        combinations++;
                     }
                     if (stop == 1) break;
-                    Application.DoEvents();
-                    combi[0]++;
-                    for (k = 0; k < NumberOfMfmBytes; k++)
-                    {
-                        if (combi[k] >= combilimit)
-                        {
-                            combi[k] = 0;
-                            combi[k + 1]++;
-                        }
-                    }
-                    combinations++;
                 }
-                if (stop == 1) break;
-            }
-            TBReceived.Append("Combinations:" + combinations + "\r\n");
+                TBReceived.Append("Combinations:" + combinations + "\r\n");
+				if (!ecSettings.ECScanEnable) break;
+			}
 
-            return;
+            
         }
 
         // Some bad sectors only contain a cluster of bad periods
