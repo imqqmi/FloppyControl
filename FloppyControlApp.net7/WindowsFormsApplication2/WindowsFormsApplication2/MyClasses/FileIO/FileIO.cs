@@ -779,8 +779,10 @@ namespace FloppyControlApp.MyClasses.FileIO
 				for (i = 0; i < sectordata2.Count; i++)
                 {
                     sectordata = sectordata2[i];
-                    
-                    if ( ((sectordata.Status == SectorMapStatus.HeadOkDataBad) && OnlyBadSectors) // Bad sectors
+					if (sectordone[sectordata.trackhead, sectordata.sector] == 1)
+						continue; // skip sectors that are done already.
+
+					if ( ((sectordata.Status == SectorMapStatus.HeadOkDataBad) && OnlyBadSectors) // Bad sectors
                         || ((sectordata.Status == SectorMapStatus.CrcOk                       // Good sectors  
                             || sectordata.Status == SectorMapStatus.SectorOKButZeroed) && !OnlyBadSectors)
                             )
@@ -809,8 +811,10 @@ namespace FloppyControlApp.MyClasses.FileIO
                         //writer.Write("T" + track.ToString("D3") + "S" + sector);
                         for (q = tso.offsetstart; q < tso.offsetend; q++)
                             writer.Write(processing.RxBbuf[q]);
-                        //tsoffset[track, sector] = tso;
-                    }
+                        
+                        sectordone[sectordata.trackhead, sectordata.sector] = 1;
+							
+					}
                 }
             }
 
