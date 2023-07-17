@@ -51,7 +51,7 @@ namespace FloppyControlApp.MyClasses.Graphics
         public void DoHistogram()
         {
             int i;
-
+            if (Offset < 0) Offset = 0;
             if (Data == null) return;
             if (Offset + Length > Data.Length) return;
 

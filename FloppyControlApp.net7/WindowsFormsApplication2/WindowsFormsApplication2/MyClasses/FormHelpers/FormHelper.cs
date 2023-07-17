@@ -655,7 +655,8 @@ namespace FloppyControlApp
                     if (length < 0) length = 4000;
                     if (scatterplot.AnScatViewlargeoffset < (processing.Indexrxbuf - scatterplot.AnScatViewlength))
                     {
-                        QHistogramhScrollBar1.Value = scatterplot.AnScatViewlargeoffset;
+                        if(scatterplot.AnScatViewlargeoffset < 0 ) QHistogramhScrollBar1.Value = 0;
+                        else QHistogramhScrollBar1.Value = scatterplot.AnScatViewlargeoffset;
                     }
                     ScatterHisto.SetPanel(QHistoPanel);
                     ScatterHisto.DoHistogram(processing.RxBbuf, offset, length);
