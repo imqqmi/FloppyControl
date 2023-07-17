@@ -100,9 +100,9 @@ namespace FloppyControlApp
                     return;
                 }
                 if (diskformat == DiskFormat.amigados)
-                    bitshifted = Markerindex - 8736;
+                    bitshifted = Markerindex - 8736 + ecSettings.BitShift;
                 else if (diskformat == DiskFormat.diskspare)
-                    bitshifted = Markerindex - 8336;
+                    bitshifted = Markerindex - 8336 + ecSettings.BitShift;
 
                 TBReceived.Append("Bitshift: " + bitshifted + "\r\n");
 
