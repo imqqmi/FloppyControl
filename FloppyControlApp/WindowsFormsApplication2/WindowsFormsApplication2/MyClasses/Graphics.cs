@@ -2143,7 +2143,8 @@ namespace FloppyControlApp
 
             if (start + datapoints > Rxbuf.Length) return;
 
-            Graphics formGraphics = Panel.CreateGraphics();
+            Bitmap formGraphicsImage = new Bitmap(Panel.Width, Panel.Height);
+            var formGraphics = Graphics.FromImage(formGraphicsImage);
             formGraphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
             formGraphics.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceCopy;
             formGraphics.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.None;
@@ -2329,6 +2330,7 @@ namespace FloppyControlApp
                 g.Flush();
 
                 formGraphics.DrawImage(bmp, Bmpxoffset, 0);
+                Panel.Image = formGraphicsImage;
             }
 
             //Cleanup
