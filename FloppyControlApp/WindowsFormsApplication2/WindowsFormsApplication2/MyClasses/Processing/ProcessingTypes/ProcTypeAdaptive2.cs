@@ -94,7 +94,7 @@ namespace FloppyControlApp.MyClasses.Processing.ProcessingTypes
                 threshold4us = (_4us + ((_6us - _4us) / 2));
                 threshold6us = (_6us + ((_8us - _6us) / 2));
 
-                if (value <= threshold4us) // 4us
+                if (value <= threshold4us) // 4µs
                 {
                     //m[mfmlengths[threadid]++]
                     m[mfmlengths[ThreadId]++] = 1;
@@ -103,7 +103,7 @@ namespace FloppyControlApp.MyClasses.Processing.ProcessingTypes
 
                 }
                 else
-                if (value > threshold4us && value<threshold6us) // 6us
+                if (value > threshold4us && value<threshold6us) // 6µs
                 {
                     m[mfmlengths[ThreadId]++] = 1;
                     m[mfmlengths[ThreadId]++] = 0;
@@ -111,7 +111,7 @@ namespace FloppyControlApp.MyClasses.Processing.ProcessingTypes
                     _6us = _6us + (int) ((value - _6us) / RateOfChange);
                 }
                 else
-                if (value >= threshold6us) // 8us
+                if (value >= threshold6us) // 8µs
                 {
                     m[mfmlengths[ThreadId]++] = 1;
                     m[mfmlengths[ThreadId]++] = 0;

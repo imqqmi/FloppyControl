@@ -868,7 +868,7 @@ namespace FloppyControlApp
                 GraphFilterButton.PerformClick();
         }
 
-        // Waveform editor tab, fix 8us method, an attempt to find and fix 8us waveform distortions
+        // Waveform editor tab, fix 8µs method, an attempt to find and fix 8µs waveform distortions
         private void Button34_Click(object sender, EventArgs e)
         {
             oscilloscope.Fix8us(
