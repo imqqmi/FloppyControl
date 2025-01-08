@@ -272,7 +272,7 @@ namespace FloppyControlApp
 
         private void AboutButton_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("FloppyControlApp v" + version.ToString() + " is created by\nJosha Beukema.\nCode snippets used from stack overflow and other places.\nAufit DPLL class Copyright (C) 2013-2015 Jean Louis-Guerin. ", "About");
+            MessageBox.Show("FloppyControlApp v" + version.ToString() + " is created by\nJosha Beukema.\nCode snippets used from stack overflow and other places.\nAufit DPLL class Copyright © 2013-2015 Jean Louis-Guerin. ", "About");
         }
 
         private void SettingsButton_Click(object sender, EventArgs e)
