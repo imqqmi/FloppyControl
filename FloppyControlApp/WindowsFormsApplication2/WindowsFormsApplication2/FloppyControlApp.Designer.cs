@@ -874,7 +874,7 @@ namespace FloppyControlApp
             this.label58.Name = "label58";
             this.label58.Size = new System.Drawing.Size(24, 13);
             this.label58.TabIndex = 86;
-            this.label58.Text = "8us";
+            this.label58.Text = "8µs";
             // 
             // label57
             // 
@@ -884,7 +884,7 @@ namespace FloppyControlApp
             this.label57.Name = "label57";
             this.label57.Size = new System.Drawing.Size(24, 13);
             this.label57.TabIndex = 85;
-            this.label57.Text = "6us";
+            this.label57.Text = "6µs";
             // 
             // ScatterPictureBox
             // 
@@ -905,7 +905,7 @@ namespace FloppyControlApp
             this.label56.Name = "label56";
             this.label56.Size = new System.Drawing.Size(24, 13);
             this.label56.TabIndex = 84;
-            this.label56.Text = "4us";
+            this.label56.Text = "4µs";
             // 
             // tabPage1
             // 
@@ -3666,7 +3666,7 @@ namespace FloppyControlApp
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(66, 13);
             this.label2.TabIndex = 45;
-            this.label2.Text = "Period > 8us";
+            this.label2.Text = "Period > 8µs";
             // 
             // ProcessBtn
             // 
@@ -4822,7 +4822,7 @@ namespace FloppyControlApp
             this.button34.Name = "button34";
             this.button34.Size = new System.Drawing.Size(68, 23);
             this.button34.TabIndex = 161;
-            this.button34.Text = "Fix8us";
+            this.button34.Text = "Fix8µs";
             this.button34.UseVisualStyleBackColor = true;
             this.button34.Click += new System.EventHandler(this.Button34_Click);
             // 
@@ -4895,9 +4895,9 @@ namespace FloppyControlApp
             this.EditOptioncomboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.EditOptioncomboBox.FormattingEnabled = true;
             this.EditOptioncomboBox.Items.AddRange(new object[] {
-            "4us",
-            "6us",
-            "8us"});
+            "4µs",
+            "6µs",
+            "8µs"});
             this.EditOptioncomboBox.Location = new System.Drawing.Point(489, 65);
             this.EditOptioncomboBox.Name = "EditOptioncomboBox";
             this.EditOptioncomboBox.Size = new System.Drawing.Size(75, 21);
