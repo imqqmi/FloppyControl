@@ -785,6 +785,7 @@ namespace FloppyControlApp
 
 		private void FloppyControl_SizeChanged(object sender, EventArgs e)
 		{
+			if(oscilloscope != null)
 			for (int i = 0; i < oscilloscope.graphset.Graphs.Count; i++)
 			{
 				oscilloscope.graphset.Graphs[i].Width = GraphPictureBox.Width;
