@@ -144,7 +144,7 @@ namespace FloppyControlApp.MyClasses.Processing.ProcessingTypes
                 //rxbuf[i] = (byte)value;
                 //if (i > scatterplotstart && i < scatterplotend)
                 //    tbreceived.Append("" + value + "\t" + threshold4us.ToString("0.00")+"\t"+threshold6us.ToString("0.00")+"\r\n");
-                if (value <= threshold4us) // 4us
+                if (value <= threshold4us) // 4µs
                 {
 
                     m[mfmlengths[ThreadId]++] = 1;
@@ -163,7 +163,7 @@ namespace FloppyControlApp.MyClasses.Processing.ProcessingTypes
                     averagetime = _4us;
                 }
                 else
-                if (value > threshold4us && value < threshold6us) // 6us
+                if (value > threshold4us && value < threshold6us) // 6µs
                 {
                     m[mfmlengths[ThreadId]++] = 1;
                     m[mfmlengths[ThreadId]++] = 0;
@@ -181,7 +181,7 @@ namespace FloppyControlApp.MyClasses.Processing.ProcessingTypes
                     averagetime = _6us;
                 }
                 else
-                if (value >= threshold6us) // 8us
+                if (value >= threshold6us) // 8µs
                 {
                     m[mfmlengths[ThreadId]++] = 1;
                     m[mfmlengths[ThreadId]++] = 0;

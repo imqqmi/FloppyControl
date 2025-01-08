@@ -162,7 +162,7 @@ namespace FloppyControlApp.MyClasses.Processing.ProcessingTypes
                 //if (procsettings.UseErrorCorrection == false)
                 if (val2 < 4) continue;
                 
-                if (value <= threshold4us) // 4us
+                if (value <= threshold4us) // 4µs
                 {
 
                     m[mfmlengths[ThreadId]++] = 1;
@@ -181,7 +181,7 @@ namespace FloppyControlApp.MyClasses.Processing.ProcessingTypes
                     averagetime = _4us;
                 }
                 else
-                if (value > threshold4us && value < threshold6us) // 6us
+                if (value > threshold4us && value < threshold6us) // 6µs
                 {
                     m[mfmlengths[ThreadId]++] = 1;
                     m[mfmlengths[ThreadId]++] = 0;
@@ -199,7 +199,7 @@ namespace FloppyControlApp.MyClasses.Processing.ProcessingTypes
                     averagetime = _6us;
                 }
                 else
-                if (value >= threshold6us) // 8us
+                if (value >= threshold6us) // 8µs
                 {
                     m[mfmlengths[ThreadId]++] = 1;
                     m[mfmlengths[ThreadId]++] = 0;

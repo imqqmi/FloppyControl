@@ -567,7 +567,7 @@ namespace FloppyControlApp
 
             
             stop = 0;
-            // Brute force with weighing of 4/6/8us
+            // Brute force with weighing of 4/6/8µs
             for (c8_max = ecSettings.C8Start; c8_max < numberofitems; c8_max++)
             {
                 TBReceived.Append("c8_max: " + c8_max + "\r\n");
@@ -793,7 +793,7 @@ namespace FloppyControlApp
             int detectioncnt = 0;
 
             stop = 0;
-            // Brute force with weighing of 4/6/8us
+            // Brute force with weighing of 4/6/8µs
 
 
             int k, l, u;

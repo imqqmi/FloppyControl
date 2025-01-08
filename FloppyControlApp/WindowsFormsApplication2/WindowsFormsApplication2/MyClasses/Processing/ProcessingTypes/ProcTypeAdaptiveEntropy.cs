@@ -193,7 +193,7 @@ namespace FloppyControlApp.MyClasses.Processing.ProcessingTypes
                 threshold4us = fourus + basethreshold4us;
                 threshold6us = sixus + basethreshold6us;
                 //procsettings.AdaptOffset2
-                if (value <= threshold4us + Procsettings.AdaptOffset2) // 4us
+                if (value <= threshold4us + Procsettings.AdaptOffset2) // 4µs
                 {
 
                     m[mfmlengths[ThreadId]++] = 1;
@@ -215,7 +215,7 @@ namespace FloppyControlApp.MyClasses.Processing.ProcessingTypes
                 }
                 else
                 if (value > threshold4us + Procsettings.AdaptOffset2 
-                    && value < threshold6us - Procsettings.AdaptOffset2) // 6us
+                    && value < threshold6us - Procsettings.AdaptOffset2) // 6µs
                 {
                     m[mfmlengths[ThreadId]++] = 1;
                     m[mfmlengths[ThreadId]++] = 0;
@@ -235,7 +235,7 @@ namespace FloppyControlApp.MyClasses.Processing.ProcessingTypes
                     averagetime = _6us;
                 }
                 else
-                if (value >= threshold6us - Procsettings.AdaptOffset2) // 8us
+                if (value >= threshold6us - Procsettings.AdaptOffset2) // 8µs
                 {
                     m[mfmlengths[ThreadId]++] = 1;
                     m[mfmlengths[ThreadId]++] = 0;
