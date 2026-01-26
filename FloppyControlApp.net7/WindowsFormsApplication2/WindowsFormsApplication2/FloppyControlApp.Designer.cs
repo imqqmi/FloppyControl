@@ -2945,6 +2945,7 @@ namespace FloppyControlApp
             FilesComboBox1.Name = "FilesComboBox1";
             FilesComboBox1.Size = new System.Drawing.Size(190, 23);
             FilesComboBox1.TabIndex = 104;
+            FilesComboBox1.SelectedIndexChanged += FilesComboBox1_SelectedIndexChanged;
             // 
             // LoadFilesButton
             // 

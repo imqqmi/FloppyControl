@@ -1448,6 +1448,30 @@ namespace FloppyControlApp
 			return processing.diskformat == DiskFormat.pcdd || 
 				   processing.diskformat == DiskFormat.pchd;
 		}
+
+		// Phase 1 Item 6: FilesComboBox Selection Handler
+		private void FilesComboBox1_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			// 1. Clear previous highlighting
+			processing.SectorMap.ClearHighlighting();
+
+			// 2. Get selected file
+			if (FilesComboBox1.SelectedItem == null)
+				return;
+
+			var selectedFile = (DiskFileInfo)FilesComboBox1.SelectedItem;
+
+			// 3. Get sector locations
+			var sectors = selectedFile.Sectors;
+
+			// 4. Highlight sectors
+			Color highlightColor = Color.FromArgb(0x80, 0xB0, 0x80);  // #80B080 (light green)
+			processing.SectorMap.HighlightSectors(sectors, highlightColor);
+
+			// 5. Show file info
+			tbreceived.Append($"Selected: {selectedFile.FileName} - {selectedFile.FileSize} bytes, " +
+							  $"{sectors.Count} sectors, {selectedFile.BadSectorCount} bad\r\n");
+		}
 	} // end class
 } // End namespace
 
