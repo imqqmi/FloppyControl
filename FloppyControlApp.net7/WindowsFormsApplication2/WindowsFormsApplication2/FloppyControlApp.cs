@@ -73,28 +73,34 @@ namespace FloppyControlApp
 			}
 		}
 
-		private void ProcessAmiga()
-		{
-			if (ClearDatacheckBox.Checked)
-				ResetProcessedData();
-			//textBoxReceived.Clear();
-			processing.ScatterplotStart = scatterplot.AnScatViewlargeoffset + scatterplot.AnScatViewoffset;
-			processing.ScatterplotEnd = scatterplot.AnScatViewlargeoffset + scatterplot.AnScatViewoffset + scatterplot.AnScatViewlength;
-			processing.StartProcessing(Platform.Amiga);
-			ChangeDiskTypeComboBox.SelectedIndex = ChangeDiskTypeComboBox.FindStringExact(processing.diskformat.ToString());
-			QChangeDiskTypeComboBox.SelectedIndex = QChangeDiskTypeComboBox.FindStringExact(processing.diskformat.ToString());
-		}
+	private void ProcessAmiga()
+	{
+		if (ClearDatacheckBox.Checked)
+			ResetProcessedData();
+		//textBoxReceived.Clear();
+		processing.ScatterplotStart = scatterplot.AnScatViewlargeoffset + scatterplot.AnScatViewoffset;
+		processing.ScatterplotEnd = scatterplot.AnScatViewlargeoffset + scatterplot.AnScatViewoffset + scatterplot.AnScatViewlength;
+		processing.StartProcessing(Platform.Amiga);
+		ChangeDiskTypeComboBox.SelectedIndex = ChangeDiskTypeComboBox.FindStringExact(processing.diskformat.ToString());
+		QChangeDiskTypeComboBox.SelectedIndex = QChangeDiskTypeComboBox.FindStringExact(processing.diskformat.ToString());
+		
+		// Update FAT12 controls state after processing completes
+		UpdateFAT12ControlsState();
+	}
 
-		private void ProcessPC()
-		{
-			if (ClearDatacheckBox.Checked)
-				ResetProcessedData();
-			//textBoxReceived.Clear();
-			processing.ScatterplotStart = scatterplot.AnScatViewlargeoffset + scatterplot.AnScatViewoffset;
-			processing.ScatterplotEnd = scatterplot.AnScatViewlargeoffset + scatterplot.AnScatViewoffset + scatterplot.AnScatViewlength;
-			processing.StartProcessing(Platform.PC);
-			ChangeDiskTypeComboBox.SelectedItem = processing.diskformat.ToString();
-		}
+	private void ProcessPC()
+	{
+		if (ClearDatacheckBox.Checked)
+			ResetProcessedData();
+		//textBoxReceived.Clear();
+		processing.ScatterplotStart = scatterplot.AnScatViewlargeoffset + scatterplot.AnScatViewoffset;
+		processing.ScatterplotEnd = scatterplot.AnScatViewlargeoffset + scatterplot.AnScatViewoffset + scatterplot.AnScatViewlength;
+		processing.StartProcessing(Platform.PC);
+		ChangeDiskTypeComboBox.SelectedItem = processing.diskformat.ToString();
+		
+		// Update FAT12 controls state after processing completes
+		UpdateFAT12ControlsState();
+	}
 
 		private void ProcessPCBtn_Click(object sender, EventArgs e)
 		{
@@ -1085,15 +1091,17 @@ namespace FloppyControlApp
 				);
 		}
 
-		private void ComboBox1_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			DiskFormat diskformat = DiskFormat.unknown;
-			if (ChangeDiskTypeComboBox.SelectedItem.ToString() != "")
-				diskformat = (DiskFormat)Enum.Parse(typeof(DiskFormat), ChangeDiskTypeComboBox.SelectedItem.ToString(), true);
+	private void ComboBox1_SelectedIndexChanged(object sender, EventArgs e)
+	{
+		DiskFormat diskformat = DiskFormat.unknown;
+		if (ChangeDiskTypeComboBox.SelectedItem.ToString() != "")
+			diskformat = (DiskFormat)Enum.Parse(typeof(DiskFormat), ChangeDiskTypeComboBox.SelectedItem.ToString(), true);
 
-			processing.diskformat = diskformat;
+		processing.diskformat = diskformat;
 
-		}
+		// Update FAT12 controls state when format changes
+		UpdateFAT12ControlsState();
+	}
 
 		private void Button48_Click(object sender, EventArgs e)
 		{
@@ -1222,10 +1230,11 @@ namespace FloppyControlApp
 			Resetoutput();
 		}
 
-		private void QChangeDiskTypeComboBox_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			ChangeDiskTypeComboBox.SelectedIndex = QChangeDiskTypeComboBox.SelectedIndex;
-		}
+	private void QChangeDiskTypeComboBox_SelectedIndexChanged(object sender, EventArgs e)
+	{
+		ChangeDiskTypeComboBox.SelectedIndex = QChangeDiskTypeComboBox.SelectedIndex;
+		// UpdateFAT12ControlsState() will be called by ComboBox1_SelectedIndexChanged
+	}
 
 		private void QScanComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
@@ -1441,39 +1450,76 @@ namespace FloppyControlApp
 			tbreceived.Append($"Found {files.Count} files on disk.\r\n");
 		}
 
-		/// <summary>
-		/// Checks if the current disk format is PC DOS (DD or HD).
-		/// </summary>
-		/// <returns>True if format is PC DOS, false otherwise.</returns>
-		private bool IsPCDiskFormat()
-		{
-			return processing.diskformat == DiskFormat.pcdd || 
-				   processing.diskformat == DiskFormat.pchd;
-		}
+	/// <summary>
+	/// Checks if the current disk format is PC DOS (DD or HD).
+	/// </summary>
+	/// <returns>True if format is PC DOS, false otherwise.</returns>
+	private bool IsPCDiskFormat()
+	{
+		return processing.diskformat == DiskFormat.pcdd || 
+			   processing.diskformat == DiskFormat.pchd;
+	}
 
-		// Phase 1 Item 6: FilesComboBox Selection Handler
-		private void FilesComboBox1_SelectedIndexChanged(object sender, EventArgs e)
+	// Phase 1 Item 8: Enable/Disable Controls Based on Disk Format
+	/// <summary>
+	/// Updates the enabled state of FAT12-related controls based on the current disk format.
+	/// Controls are enabled only for PC DOS (DD or HD) formats.
+	/// </summary>
+	private void UpdateFAT12ControlsState()
+	{
+		bool isPCFormat = IsPCDiskFormat();
+		
+		// Enable/disable file listing controls
+		LoadFilesButton.Enabled = isPCFormat;
+		FilesComboBox1.Enabled = isPCFormat;
+		
+		// Update ExportFilesButton state (requires PC format AND file selection)
+		ExportFilesButton.Enabled = isPCFormat && FilesComboBox1.SelectedItem != null;
+		
+		// Clear combobox and highlighting if format changed to non-PC
+		if (!isPCFormat)
 		{
-			// 1. Clear previous highlighting
+			FilesComboBox1.Items.Clear();
 			processing.SectorMap.ClearHighlighting();
-
-			// 2. Get selected file
-			if (FilesComboBox1.SelectedItem == null)
-				return;
-
-			var selectedFile = (DiskFileInfo)FilesComboBox1.SelectedItem;
-
-			// 3. Get sector locations
-			var sectors = selectedFile.Sectors;
-
-			// 4. Highlight sectors
-			Color highlightColor = Color.FromArgb(0x80, 0xB0, 0x80);  // #80B080 (light green)
-			processing.SectorMap.HighlightSectors(sectors, highlightColor);
-
-			// 5. Show file info
-			tbreceived.Append($"Selected: {selectedFile.FileName} - {selectedFile.FileSize} bytes, " +
-							  $"{sectors.Count} sectors, {selectedFile.BadSectorCount} bad\r\n");
+			
+			// Dispose DiskImageFiles if exists
+			if (_diskImageFiles != null)
+			{
+				_diskImageFiles.Dispose();
+				_diskImageFiles = null;
+			}
 		}
+	}
+
+	// Phase 1 Item 6: FilesComboBox Selection Handler
+	private void FilesComboBox1_SelectedIndexChanged(object sender, EventArgs e)
+	{
+		// 1. Clear previous highlighting
+		processing.SectorMap.ClearHighlighting();
+
+		// 2. Get selected file
+		if (FilesComboBox1.SelectedItem == null)
+		{
+			UpdateFAT12ControlsState();  // Update ExportFilesButton state
+			return;
+		}
+
+		var selectedFile = (DiskFileInfo)FilesComboBox1.SelectedItem;
+
+		// 3. Get sector locations
+		var sectors = selectedFile.Sectors;
+
+		// 4. Highlight sectors
+		Color highlightColor = Color.FromArgb(0x80, 0xB0, 0x80);  // #80B080 (light green)
+		processing.SectorMap.HighlightSectors(sectors, highlightColor);
+
+		// 5. Show file info
+		tbreceived.Append($"Selected: {selectedFile.FileName} - {selectedFile.FileSize} bytes, " +
+						  $"{sectors.Count} sectors, {selectedFile.BadSectorCount} bad\r\n");
+
+		// 6. Update ExportFilesButton state
+		UpdateFAT12ControlsState();
+	}
 
 		// Phase 1 Item 7: ExportFilesButton Handler
 		private void ExportFilesButton_Click(object sender, EventArgs e)

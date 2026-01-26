@@ -1,0 +1,751 @@
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\folderstructure
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\NI
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\Pix
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\COMMIT_EDITMSG
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\config
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\description
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\FETCH_HEAD
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\HEAD
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\hooks
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\index
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\info
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\lfs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\logs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\refs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\sourcetreeconfig.json
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\hooks\applypatch-msg.sample
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\hooks\commit-msg.sample
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\hooks\fsmonitor-watchman.sample
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\hooks\post-checkout
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\hooks\post-commit
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\hooks\post-merge
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\hooks\post-update.sample
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\hooks\pre-applypatch.sample
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\hooks\pre-commit.sample
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\hooks\pre-push
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\hooks\pre-push.sample
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\hooks\pre-rebase.sample
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\hooks\pre-receive.sample
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\hooks\prepare-commit-msg.sample
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\hooks\update.sample
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\info\exclude
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\lfs\tmp
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\logs\HEAD
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\logs\refs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\logs\refs\heads
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\logs\refs\remotes
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\logs\refs\heads\develop
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\logs\refs\heads\master
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\logs\refs\remotes\origin
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\logs\refs\remotes\origin\develop
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\logs\refs\remotes\origin\master
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\01
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\02
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\03
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\05
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\06
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\07
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\09
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\0a
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\0e
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\0f
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\13
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\16
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\1b
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\1c
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\1d
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\1e
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\1f
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\24
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\25
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\28
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\29
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\2b
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\2f
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\30
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\31
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\32
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\34
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\38
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\3a
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\3e
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\3f
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\41
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\42
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\43
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\45
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\47
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\4a
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\4d
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\4e
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\50
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\52
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\55
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\56
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\58
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\59
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\5a
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\5b
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\5d
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\5f
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\65
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\66
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\69
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\6b
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\6d
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\71
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\72
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\73
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\75
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\76
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\78
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\7a
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\7b
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\7c
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\7d
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\7e
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\7f
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\84
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\85
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\86
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\89
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\8d
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\90
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\92
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\94
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\96
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\97
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\98
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\9b
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\9c
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\9d
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\a1
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\a2
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\a3
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\a4
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\a5
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\a7
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\ae
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\b2
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\b4
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\b6
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\b7
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\bb
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\bc
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\be
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\c4
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\c7
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\c8
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\cc
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\ce
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\d1
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\d3
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\d5
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\d9
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\db
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\dc
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\e0
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\e1
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\e4
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\e5
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\e6
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\e8
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\e9
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\eb
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\f2
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\f5
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\f8
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\fd
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\fe
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\ff
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\info
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\pack
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\01\3ddbd8428e01b29692c71b3653cf27e301e326
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\02\a7dfdcda109fb2f2c299b535802fa119f7b2d5
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\03\71ab683e16fe7d274869f08a7efdf9c19f2473
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\05\4404ca251cad7ead6150ce93fd145251f3f8fb
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\05\d7b619bb9fb87c84a05e2e6373739014808ff6
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\06\1c9ca950d0e8bb952c52799fb401a6614ad640
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\07\232dd84723dbb6d4ab298bf4a1b2657b2ee9e8
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\07\63a4cd43b9c33482102472750d3802ecbbb1c0
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\09\b4579e2383f49a3e62c89bcbdfdc682a3c4bf3
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\0a\bdded59f20c7e30f6fb01598154481ad1992b5
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\0e\348beccfda240b1862a1fff53b419052c44bdf
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\0f\ff6116e55112951cbf8e05855fb0fa33da11ee
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\13\d808ae8911fe30a1eed8c5950af2957775fcb6
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\16\3f006e947bb29de5579f383e6a32a7bc67987e
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\1b\592df6ae510bb514d26fe1077b51ebab8e4d8b
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\1b\e3f5c1f91cc3f64b841614de39408fe1a42a14
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\1c\ac80795cca13f774af52c9441e6daa5b2093b0
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\1d\d0f33b2f66e7f00f901865f884cd034e3dd7cb
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\1e\8d929e37be1e150d4669a83a47d90a1f29d0f7
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\1f\efcf76a4efda10876a098f629c705b38ba6780
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\24\36685b45c36d7d875d67542f543376bd1e6f18
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\25\4230c6254f2dc8995e92881b63f1051d3403b4
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\28\5f297e5b2d02b0693ce53e95132247bb15442f
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\28\aaac2e563eac0ec2103b26e22745ec8ff25883
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\29\776603a72aa2e26d5cb958e7975ed8a7c87903
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\2b\fb29d282b412f98770b52f19f040c3da187547
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\2f\a87c6b2114af4c4e5616a5ea160c034116fcac
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\30\203a1f0db8f3458dd792775e10fe903bafd3eb
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\31\a523b69a42d1194adfd5fa7659bb81dbafd728
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\32\03507ae4438c13fdc438c4b660f13af6f35f8a
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\34\0524235962ce0cf82c98cbbff8a80551957f39
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\38\d02b75410dcd377faadd04232d655ca80c88bb
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\3a\5111314e28e1cf7546950d9310dc08d86456aa
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\3a\77c995ace7d280c9bb6bb2fb21f4c7cc3bc772
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\3e\5e6c013bdc873aba8a494b23d061a6d0df4c8a
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\3f\88169b6028b7a108afdbe9766d4618d6d7ba30
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\41\2b6f2ccc071a1d6be071321b903161ac9d4399
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\41\f3933303a31f3306ae88d3c80166e14252395f
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\42\08545c24cbdaf35c4b8e1edeed22c88035fadf
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\43\2ad5f360a707d3460a4d6a3e6d6dd71c96f46a
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\43\a3e8e8f435de2f3509c50c3bb2d8b5b5c953be
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\45\37d0066b7251dc3a122f0fa3cfa49779c3857c
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\45\a4f59e01ffe37dcd559fcd67ba3566b24f5c6c
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\47\0b52cba1a5ef010c361bddd902a322a00f09ab
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\47\2dafed842b5201c4d704a5819089f97d8ca9ee
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\4a\a26ba517f404cd43f0474f54e80f593b7542ca
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\4d\4b2b46d51c368b3e8b51f0c7d4a4093dce57a2
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\4e\7f2ca9695c5e0b91a0d9ac5b2a1ae34a7b5fc0
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\50\78af4b0d5f842aa31b4af3961c8f78be2a5e9a
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\50\dc53f6d7dfe514fd792feeb1b67b0ac1dacd0c
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\52\384e107cbfc32d4590fcbff03daab0586f38e5
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\55\25024ebed9e47ddb93283215f77ff4a0e49c44
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\56\ad39d9afabaa907e4b83a91cda7a6fc6e3e662
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\58\30368f73c4c15e8223001d9590e1ef37c6dd81
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\58\8a9e0108da75bcde528ebe6352a1b0e948bda6
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\58\959c830ffb64e0eaf0f1698c927b734a809880
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\58\f062333a42d3c621516d9ba30abd69756481de
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\59\319059aed33817439a4a80d7f945845b26e32a
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\5a\931ca6ac8993d4ad1516e45b71945d62ca40fa
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\5b\2af63623b118375d03f0c5dadc77f62a08a5ce
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\5d\cafd5512726e52c26083b8fdc9405e028e5aa8
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\5f\11c468dbc0f4bab6920746d73a1f52a5dba371
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\65\2c83ac587cce422647c907f31ab52636a2c9fb
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\66\0e142f34062ba52adc4bc14bb621f5cc57bda0
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\69\d2ba971a7344efb67bd78d2c4d80157b245d59
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\6b\f260b3b2a5308a734daa23e3e0013cbda8d0f8
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\6d\2f842e11bee993faeb00836ad3a9e18b014e78
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\6d\5641b77eb620e0e51a01fbb6fa28223dbe8d0f
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\71\95b42dd1c5bbd539567af450807a9c77676126
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\72\ab5eef515df34aa0a5b6206219358b85b04b45
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\73\b1088e6e9d939bc461ca9d04f861415c5764e6
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\75\971b17258a4c88bc4a1ba859bfcb570f0edd59
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\76\28b895aa160bc666461e0055b81eb3fe923272
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\76\6851e1fd4d400e75776c7a9deb96c8dcba0ee0
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\78\0e00454309709dc057b2ca710b8d9393559d71
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\7a\612c6ba7104bb046081a8752df17771952ee3f
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\7b\4ab9c161ab50514f059b25a3ce0eb1a4de5f81
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\7b\894197b9d8d79b2ad4afafc2c11c60f33c4b42
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\7b\b2b07c7dbf0c68d39f757f521665b8824b741d
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\7b\efd0f3055dd037a33e795e9450f540567d6192
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\7c\1135c55e70e736678b63a8249be1f6f4542360
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\7d\207ca1204c15cc7def8c40e810ef761c96bb29
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\7d\488be8891f2b36367f91586ac13e1c15b03135
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\7d\c9d392ddcc0c7bfa1e1533416eefae0c86c9cc
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\7e\4c276a2edc4e92222c1dfe3612cba8043509a0
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\7e\65f4bacef591531a9d7710b45eea6ffac46b9f
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\7f\9eaa035f6cd77194031c0c5e3b852567cde062
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\84\e8829a8890d98c2172aa8da05bd5e3452b4898
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\85\2f8f26306bd08f254fb076e7ed5881994384e6
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\86\6195102ecf5888bc2903cfda675f1b621718d4
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\86\7c72f4f1ea227eda2e4e1e260efd25e215f7e0
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\86\a75d8dd3b176ee1d113a8d8f8922ed9a30e902
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\86\a930f0ed6bb41458fba585bc00bf2f2a53718f
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\86\aed7f2d44af9a2920befa8222026e8f6db9c98
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\89\3863ba05381b0477c23a42c57501d40e83f276
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\8d\27d638269f207916b098ff839dc9de38b6d37e
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\90\adb41c559df3f7d63eda863d3a5587a06f5d72
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\92\8e0f0024ac329008c87ab991e314938dd58eb0
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\94\37512988112b441c5e3ddb89e613ebaa167f7e
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\94\b213b13c0deb50db2a31ff769a7148b53ca24b
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\96\4f42a1e5a572de603b8395d569e752e5e1e119
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\97\b62b4b2af71cbb247399442520e9f3cc59add8
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\98\897e0f5312c0bbec5692bc04bbfc80b516c35f
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\9b\ad2f599da6bb30b49e2886727c96beb2e898be
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\9c\21c58216e88efa62a8eef55dd5465726073d77
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\9c\add3356387714cb01037b74eba5545be408187
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\9d\a6182b655af6285dc279eb2581f012de5b5af5
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\a1\d56abf4cb70366d69d0d4b45d44e0b3a576c07
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\a2\25a5cf8b534353c03eea0940d1719cdaefd065
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\a2\e5d125d1c6759e8d953b835ad0ab7bbcc53e60
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\a2\fdb738e4c44c7b5a95c6d48248e238372250fe
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\a3\c5481ec265c165ca12d1dd3c9c79cdd2c7acf6
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\a4\a79e804102e4adcac73535d50e8431454644fa
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\a5\02a88807e3e5c10885ab5bf27e8e24fd221279
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\a7\35eb10c72222524f1d75090e212e712b92dc70
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\a7\be297a49bdf7d73925b1cd11eab0d86ea3a72b
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\ae\bd24de976618d6a4c7b579c56ce327376dc4cf
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\b2\57e433f9dd2aff910da97b8fc160126e76329d
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\b2\9f1f4154599ba6b2c8b4f853e765917b1f95c6
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\b2\c566e1e7561382a9f23f8b528fd15b5d29006b
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\b4\3df8a996c2c4bc24512a820ae5cb35cc4a93fe
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\b6\597d6bd584c5dc1b7b7b2c42018f00807c4d62
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\b7\887cf85be2198a582bcfc0c10fff89f0ca5226
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\b7\b8643a4d93ee22a973d9ee66b83bb9546aa6ba
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\bb\605d76e848be18eb3b9fbace3be83879c06d80
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\bb\946bda0afe73ff7def03fa285f0ee5153f8806
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\bc\e878acd27ea95164a7cf5922d3073fac423b3f
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\be\2f20032f92cc51484c994d5b378cdfb9bb2bd6
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\be\31e3ca53e2db03946c726b7013f22cbeb49b11
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\c4\8f09d26b40efc7101b13aee559e6626bda32f3
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\c7\7debae6eeeb3e0cdb0944c155416a6d24f9d9c
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\c8\97bc7c43112582a2231083c1b7d4a5eff8862b
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\cc\29f94bc2f0e1c0c6a0bbb513219848b7bfc389
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\ce\3d91c8d09576e762f351363d12510721cf02b2
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\ce\4d99fbb09f1b767d6bcb65642cc65018e8fd65
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\ce\6a3ccd8da47e83c3a19e9fa154cb107c595dc7
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\d1\8673ab1a482e2d5ece74ac7036aa41a0803679
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\d3\7fb706867fc7809d4dcf008e099cdcacc42a58
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\d5\2a36633da02eeef89a712a52261553480465b6
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\d5\903ba892a03e077e95be4d5d125f6fd71343b1
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\d9\38d1ab024d8a17d8825d3f9fd9041f0a59c59b
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\db\5a45a0be0a0493c0f7a68a86ba8a010eb70ed9
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\db\db432714e42bbd0791eb00de51a2211562c83e
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\dc\58a714595e11471273c801f9e2e86ae764f7db
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\e0\9690984b7313ddc86912c6c2b354b634613068
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\e0\eea46f7e4813471e502aecedf52376303e042d
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\e1\9e57cbbeb7bd480e9b0f6151a29ae8ed7e55e6
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\e4\455916ebdf24982866e0dfda4fe7de44c2e118
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\e4\e06c5e1e4fa9f10cb8751a27ca6131b07fd2f2
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\e4\f043885e0e5bf229285d0871eab9d5663dd03e
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\e5\903e1450c6f31731cdec19ea94283a1e9c7e78
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\e6\3f1dd145482d3592496f2ff08ab1ff2ac185ab
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\e6\9de29bb2d1d6434b8b29ae775ad8c2e48c5391
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\e8\81c030c4dac79af1773821f3af3add55bcc336
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\e9\86756766414a8e9f1e4cff303a8f9b3cac2307
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\eb\6d331d580a2877e2d8922d9217fea824086180
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\f2\9b5bd2066c82d10399f22c50aeb265873f5ad1
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\f5\826d55ed4af75cbe36c66048c05696e57b7651
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\f8\212e2a2c179822b9331b1048d0fe8d215646cc
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\fd\d997c7a61324de7da8327512640c2baac7105e
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\fe\6a795124f0c4aea31429f45e57ede0eaf4a8b6
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\objects\ff\6d246823765ab4e7a8f3ba30027453714d8cc5
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\refs\heads
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\refs\remotes
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\refs\tags
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\refs\heads\develop
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\refs\heads\master
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\refs\remotes\origin
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\refs\remotes\origin\develop
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\.git\refs\remotes\origin\master
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\NI\NationalInstruments.Common.dll
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\NI\NationalInstruments.Common.Native.dll
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\NI\NationalInstruments.Common.xml
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\NI\NationalInstruments.MStudioCLM.dll
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\NI\NationalInstruments.NiLmClientDLL.dll
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\NI\NationalInstruments.VisaNS.dll
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\NI\NationalInstruments.VisaNS.xml
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\Pix\ScreenshotFloppyControlv1.1.0b.png
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\.editorconfig
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\.vs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\Classes
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\DTAR_08E86330_4835_4B5C_9E5A_61F37AE1A077_DTAR
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\FloppyControl.Test
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\FloppyControlAppSolution.sln
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\obj
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\.vs\FloppyControlAppSolution
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\.vs\FloppyControlAppSolution\FileContentIndex
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\.vs\FloppyControlAppSolution\v14
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\.vs\FloppyControlAppSolution\v15
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\.vs\FloppyControlAppSolution\v16
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\.vs\FloppyControlAppSolution\v17
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\.vs\FloppyControlAppSolution\FileContentIndex\c44af7a2-d5f2-4f84-97ad-ac4d1ef5ef4f.vsidx
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\.vs\FloppyControlAppSolution\FileContentIndex\merges
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\.vs\FloppyControlAppSolution\FileContentIndex\read.lock
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\.vs\FloppyControlAppSolution\v15\Server
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\.vs\FloppyControlAppSolution\v15\Server\sqlite3
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\.vs\FloppyControlAppSolution\v15\Server\sqlite3\db.lock
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\.vs\FloppyControlAppSolution\v15\Server\sqlite3\storage.ide
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\.vs\FloppyControlAppSolution\v16\Server
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\.vs\FloppyControlAppSolution\v16\TestStore
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\.vs\FloppyControlAppSolution\v16\Server\sqlite3
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\.vs\FloppyControlAppSolution\v16\Server\sqlite3\db.lock
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\.vs\FloppyControlAppSolution\v16\Server\sqlite3\storage.ide
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\.vs\FloppyControlAppSolution\v16\TestStore\0
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\.vs\FloppyControlAppSolution\v16\TestStore\0\000.testlog
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\.vs\FloppyControlAppSolution\v16\TestStore\0\testlog.manifest
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\Classes\connectsocket.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\Classes\connectsocketSync.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\Classes\connectsocketTcpClient.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\FloppyControl.Test\bin
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\FloppyControl.Test\FDDProcessingTests.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\FloppyControl.Test\FloppyControl.Test.csproj
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\FloppyControl.Test\obj
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\FloppyControl.Test\Properties
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\FloppyControl.Test\TestData
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\FloppyControl.Test\bin\Debug
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\FloppyControl.Test\bin\Release
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\FloppyControl.Test\bin\Debug\FloppyControl.Test.dll
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\FloppyControl.Test\bin\Debug\FloppyControl.Test.pdb
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\FloppyControl.Test\bin\Debug\FloppyControlApp.exe
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\FloppyControl.Test\bin\Debug\FloppyControlApp.exe.config
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\FloppyControl.Test\bin\Debug\FloppyControlApp.pdb
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\FloppyControl.Test\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\FloppyControl.Test\bin\Debug\NationalInstruments.VisaNS.dll
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\FloppyControl.Test\bin\Debug\NationalInstruments.VisaNS.xml
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\FloppyControl.Test\bin\Release\FloppyControl.Test.dll
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\FloppyControl.Test\bin\Release\FloppyControl.Test.pdb
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\FloppyControl.Test\bin\Release\FloppyControlApp.exe
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\FloppyControl.Test\bin\Release\FloppyControlApp.exe.config
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\FloppyControl.Test\bin\Release\FloppyControlApp.pdb
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\FloppyControl.Test\bin\Release\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\FloppyControl.Test\bin\Release\NationalInstruments.VisaNS.dll
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\FloppyControl.Test\bin\Release\NationalInstruments.VisaNS.xml
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\FloppyControl.Test\obj\Debug
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\FloppyControl.Test\obj\Release
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\FloppyControl.Test\obj\Debug\.NETFramework,Version=v4.5.2.AssemblyAttributes.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\FloppyControl.Test\obj\Debug\.NETFramework,Version=v4.7.2.AssemblyAttributes.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\FloppyControl.Test\obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\FloppyControl.Test\obj\Debug\FloppyControl.Test.csproj.AssemblyReference.cache
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\FloppyControl.Test\obj\Debug\FloppyControl.Test.csproj.CopyComplete
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\FloppyControl.Test\obj\Debug\FloppyControl.Test.csproj.CoreCompileInputs.cache
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\FloppyControl.Test\obj\Debug\FloppyControl.Test.csproj.FileListAbsolute.txt
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\FloppyControl.Test\obj\Debug\FloppyControl.Test.dll
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\FloppyControl.Test\obj\Debug\FloppyControl.Test.pdb
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\FloppyControl.Test\obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\FloppyControl.Test\obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\FloppyControl.Test\obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\FloppyControl.Test\obj\Debug\TempPE
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\FloppyControl.Test\obj\Release\.NETFramework,Version=v4.5.2.AssemblyAttributes.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\FloppyControl.Test\obj\Release\.NETFramework,Version=v4.7.2.AssemblyAttributes.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\FloppyControl.Test\obj\Release\DesignTimeResolveAssemblyReferencesInput.cache
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\FloppyControl.Test\obj\Release\FloppyControl.Test.csproj.AssemblyReference.cache
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\FloppyControl.Test\obj\Release\FloppyControl.Test.csproj.CopyComplete
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\FloppyControl.Test\obj\Release\FloppyControl.Test.csproj.CoreCompileInputs.cache
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\FloppyControl.Test\obj\Release\FloppyControl.Test.csproj.FileListAbsolute.txt
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\FloppyControl.Test\obj\Release\FloppyControl.Test.dll
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\FloppyControl.Test\obj\Release\FloppyControl.Test.pdb
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\FloppyControl.Test\obj\Release\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\FloppyControl.Test\obj\Release\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\FloppyControl.Test\obj\Release\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\FloppyControl.Test\obj\Release\TempPE
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\FloppyControl.Test\Properties\AssemblyInfo.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\FloppyControl.Test\TestData\A005 Modules5_T000_T159_000.bin
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\FloppyControl.Test\TestData\S009 Premiere_T000_T166_009.bin
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\obj\Debug
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 13_51_39
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 13_52_25
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 13_52_49
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_02_05
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_02_09
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_06_19
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_07_53
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_08_36
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_14_24
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_15_22
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_19_28
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_19_34
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_21_50
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_24_47
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_29_27
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_36_15
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_42_00
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_45_39
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_47_34
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_49_00
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_josha 2023-05-22 14_01_27
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_josha 2023-05-22 14_02_09
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 13_51_39\In
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 13_51_39\Out
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 13_51_39\In\MAINPC
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 13_52_25\In
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 13_52_25\Out
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 13_52_25\In\MAINPC
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 13_52_49\In
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 13_52_49\Out
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 13_52_49\In\MAINPC
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_02_05\In
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_02_05\Out
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_02_05\In\MAINPC
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_02_09\In
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_02_09\Out
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_02_09\In\MAINPC
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_06_19\In
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_06_19\Out
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_06_19\In\MAINPC
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_07_53\In
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_07_53\Out
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_07_53\In\MAINPC
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_08_36\In
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_08_36\Out
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_08_36\In\MAINPC
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_14_24\In
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_14_24\Out
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_14_24\In\MAINPC
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_15_22\In
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_15_22\Out
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_15_22\In\MAINPC
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_19_28\In
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_19_28\Out
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_19_28\In\MAINPC
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_19_34\In
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_19_34\Out
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_19_34\In\MAINPC
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_21_50\In
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_21_50\Out
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_21_50\In\MAINPC
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_24_47\In
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_24_47\Out
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_24_47\In\MAINPC
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_29_27\In
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_29_27\Out
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_29_27\In\MAINPC
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_36_15\In
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_36_15\Out
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_36_15\In\MAINPC
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_42_00\In
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_42_00\Out
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_42_00\In\MAINPC
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_45_39\In
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_45_39\Out
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_45_39\In\MAINPC
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_47_34\In
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_47_34\Out
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_47_34\In\MAINPC
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_49_00\In
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_49_00\Out
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_Josha 2019-03-30 14_49_00\In\MAINPC
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_josha 2023-05-22 14_01_27\In
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_josha 2023-05-22 14_01_27\Out
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_josha 2023-05-22 14_01_27\In\MONSTER
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_josha 2023-05-22 14_02_09\In
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_josha 2023-05-22 14_02_09\Out
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\TestResults\Deploy_josha 2023-05-22 14_02_09\In\MONSTER
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\3rdpartyClasses
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\App.config
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\ClassDiagram1.cd
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\DTAR_08E86330_4835_4B5C_9E5A_61F37AE1A077_DTAR
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\FloppyControlApp.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\FloppyControlApp.csproj
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\FloppyControlApp.csproj.user
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\FloppyControlApp.Designer.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\FloppyControlApp.resx
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\FloppyControlAppExperimental.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\FloppyControlAppSolution.sln
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\FloppyControlErrorCorrection.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\FloppyControlLogo128.ico
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\GlobalSuppressions.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\MyClasses
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\Performance1.psess
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\Pix
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\Program.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\Properties
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\SelectResource.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\SelectResource.resx
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\Settings.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\Settings.Designer.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\Settings.resx
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\Settings1.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\.vs\FloppyControlAppSolution
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\.vs\FloppyControlAppSolution\v14
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\3rdpartyClasses\DPLL.CS
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\Debug
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\FloppyControlRelease13.7z
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\Release
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\x64
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\Debug\A008 Modules8a_T018_S00_trimmedBad.bin
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\Debug\A008 Modules8a_T018_S01_trimmedBad.bin
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\Debug\A008 Modules8a_T018_S02_trimmedBad.bin
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\Debug\A008 Modules8a_T018_S03_trimmedBad.bin
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\Debug\A008 Modules8a_T019_S00_trimmedBad.bin
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\Debug\A008 Modules8a_T019_S01_trimmedBad.bin
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\Debug\A008 Modules8a_T019_S02_trimmedBad.bin
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\Debug\A008 Modules8a_T020_S04_trimmedBad.bin
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\Debug\A008 Modules8a_T020_S05_trimmedBad.bin
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\Debug\A008 Modules8a_T020_S06_trimmedBad.bin
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\Debug\A008 Modules8a_T020_S07_trimmedBad.bin
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\Debug\A008 Modules8a_T020_S08_trimmedBad.bin
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\Debug\A008 Modules8a_T021_S04_trimmedBad.bin
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\Debug\A008 Modules8a_T021_S05_trimmedBad.bin
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\Debug\A008 Modules8a_T021_S06_trimmedBad.bin
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\Debug\A008 Modules8a_T021_S07_trimmedBad.bin
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\Debug\FloppyControlApp.exe
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\Debug\FloppyControlApp.exe.config
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\Debug\FloppyControlApp.pdb
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\Debug\FloppyControlApp.vshost.exe
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\Debug\FloppyControlApp.vshost.exe.config
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\Debug\FloppyControlApp.vshost.exe.manifest
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\Debug\NationalInstruments.Common.dll
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\Debug\NationalInstruments.Common.Native.dll
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\Debug\NationalInstruments.Common.xml
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\Debug\NationalInstruments.MStudioCLM.dll
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\Debug\NationalInstruments.NiLmClientDLL.dll
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\Debug\NationalInstruments.VisaNS.dll
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\Debug\NationalInstruments.VisaNS.xml
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\Debug\trace.log
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\Release\FloppyControlApp.exe
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\Release\FloppyControlApp.exe.config
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\Release\FloppyControlApp.pdb
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\Release\FloppyControlApp.zip
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\Release\NationalInstruments.Common.dll
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\Release\NationalInstruments.Common.Native.dll
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\Release\NationalInstruments.Common.xml
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\Release\NationalInstruments.MStudioCLM.dll
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\Release\NationalInstruments.NiLmClientDLL.dll
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\Release\NationalInstruments.VisaNS.dll
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\Release\NationalInstruments.VisaNS.xml
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\x64\Debug
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\x64\Release
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\x64\Debug\FloppyControlApp.exe
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\x64\Debug\FloppyControlApp.exe.config
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\x64\Debug\FloppyControlApp.pdb
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\x64\Debug\NationalInstruments.Common.dll
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\x64\Debug\NationalInstruments.Common.Native.dll
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\x64\Debug\NationalInstruments.Common.xml
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\x64\Debug\NationalInstruments.MStudioCLM.dll
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\x64\Debug\NationalInstruments.NiLmClientDLL.dll
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\x64\Debug\NationalInstruments.VisaNS.dll
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\x64\Debug\NationalInstruments.VisaNS.xml
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\x64\Release\FloppyControl.zip
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\x64\Release\FloppyControlApp - Copy.exe
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\x64\Release\FloppyControlApp.exe
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\x64\Release\FloppyControlApp.exe.config
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\x64\Release\FloppyControlApp.pdb
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\x64\Release\FloppyControlApp.vshost.exe
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\x64\Release\FloppyControlApp.vshost.exe.config
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\x64\Release\NationalInstruments.Common.dll
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\x64\Release\NationalInstruments.Common.Native.dll
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\x64\Release\NationalInstruments.Common.xml
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\x64\Release\NationalInstruments.MStudioCLM.dll
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\x64\Release\NationalInstruments.NiLmClientDLL.dll
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\x64\Release\NationalInstruments.VisaNS.dll
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\bin\x64\Release\NationalInstruments.VisaNS.xml
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\MyClasses\FDDCapture.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\MyClasses\FileIO.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\MyClasses\FormHelper.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\MyClasses\Graphics.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\MyClasses\Helpers.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\MyClasses\Processing
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\MyClasses\Program.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\MyClasses\SectorMap.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\MyClasses\Utils.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\MyClasses\WaveformEdit.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\MyClasses\Processing\DiskGeometry.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\MyClasses\Processing\ECResult.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\MyClasses\Processing\ECSettings.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\MyClasses\Processing\FDDProcessing.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\MyClasses\Processing\FDDProcessingAmiga.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\MyClasses\Processing\FDDProcessingAmigaEC.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\MyClasses\Processing\FDDProcessingPC.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\MyClasses\Processing\MFMByteEncPreset.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\MyClasses\Processing\ProcessingTypes
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\MyClasses\Processing\ProcSettings.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\MyClasses\Processing\ProcessingTypes\ProcTypeAdaptive.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\MyClasses\Processing\ProcessingTypes\ProcTypeAdaptive2.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\MyClasses\Processing\ProcessingTypes\ProcTypeAdaptive3.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\MyClasses\Processing\ProcessingTypes\ProcTypeAdaptiveEntropy.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\MyClasses\Processing\ProcessingTypes\ProcTypeAdaptivePredict.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\MyClasses\Processing\ProcessingTypes\ProcTypeArgs.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\MyClasses\Processing\ProcessingTypes\ProcTypeAufit.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\MyClasses\Processing\ProcessingTypes\ProcTypeNormal.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\Debug
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\Release
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\x64
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\Debug\.NETFramework,Version=v4.5.2.AssemblyAttributes.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\Debug\.NETFramework,Version=v4.7.2.AssemblyAttributes.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\Debug\DesignTimeResolveAssemblyReferences.cache
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\Debug\FloppyControlApp.csproj.AssemblyReference.cache
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\Debug\FloppyControlApp.csproj.CopyComplete
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\Debug\FloppyControlApp.csproj.CoreCompileInputs.cache
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\Debug\FloppyControlApp.csproj.FileListAbsolute.txt
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\Debug\FloppyControlApp.csproj.GenerateResource.cache
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\Debug\FloppyControlApp.exe
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\Debug\FloppyControlApp.exe.config
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\Debug\FloppyControlApp.FloppyControl.resources
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\Debug\FloppyControlApp.pdb
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\Debug\FloppyControlApp.Properties.Resources.resources
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\Debug\FloppyControlApp.SelectResource.resources
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\Debug\FloppyControlApp.SettingsForm.resources
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\Debug\TempPE
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\Debug\TempPE\Properties.Resources.Designer.cs.dll
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\Release\.NETFramework,Version=v4.5.2.AssemblyAttributes.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\Release\DesignTimeResolveAssemblyReferences.cache
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\Release\DesignTimeResolveAssemblyReferencesInput.cache
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\Release\FloppyControlApp.csproj.CopyComplete
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\Release\FloppyControlApp.csproj.CoreCompileInputs.cache
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\Release\FloppyControlApp.csproj.FileListAbsolute.txt
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\Release\FloppyControlApp.csproj.GenerateResource.cache
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\Release\FloppyControlApp.csprojAssemblyReference.cache
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\Release\FloppyControlApp.exe
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\Release\FloppyControlApp.exe.config
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\Release\FloppyControlApp.FloppyControl.resources
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\Release\FloppyControlApp.pdb
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\Release\FloppyControlApp.Properties.Resources.resources
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\Release\FloppyControlApp.SelectResource.resources
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\Release\FloppyControlApp.SettingsForm.resources
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\Release\TempPE
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\Release\TempPE\Properties.Resources.Designer.cs.dll
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\x64\Debug
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\x64\Release
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\x64\Debug\.NETFramework,Version=v4.5.2.AssemblyAttributes.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\x64\Debug\.NETFramework,Version=v4.7.2.AssemblyAttributes.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\x64\Debug\.NETFramework,Version=v7.0.AssemblyAttributes.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\x64\Debug\DesignTimeResolveAssemblyReferences.cache
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\x64\Debug\DesignTimeResolveAssemblyReferencesInput.cache
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\x64\Debug\FloppyControlApp.csproj.AssemblyReference.cache
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\x64\Debug\FloppyControlApp.csproj.CopyComplete
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\x64\Debug\FloppyControlApp.csproj.CoreCompileInputs.cache
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\x64\Debug\FloppyControlApp.csproj.FileListAbsolute.txt
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\x64\Debug\FloppyControlApp.csproj.GenerateResource.cache
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\x64\Debug\FloppyControlApp.exe
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\x64\Debug\FloppyControlApp.exe.config
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\x64\Debug\FloppyControlApp.FloppyControl.resources
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\x64\Debug\FloppyControlApp.pdb
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\x64\Debug\FloppyControlApp.Properties.Resources.resources
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\x64\Debug\FloppyControlApp.SelectResource.resources
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\x64\Debug\FloppyControlApp.SettingsForm.resources
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\x64\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\x64\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\x64\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\x64\Debug\TempPE
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\x64\Debug\TempPE\Properties.Resources.Designer.cs.dll
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\x64\Release\.NETFramework,Version=v4.7.2.AssemblyAttributes.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\x64\Release\DesignTimeResolveAssemblyReferences.cache
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\x64\Release\DesignTimeResolveAssemblyReferencesInput.cache
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\x64\Release\FloppyControlApp.csproj.AssemblyReference.cache
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\x64\Release\FloppyControlApp.csproj.CopyComplete
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\x64\Release\FloppyControlApp.csproj.CoreCompileInputs.cache
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\x64\Release\FloppyControlApp.csproj.FileListAbsolute.txt
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\x64\Release\FloppyControlApp.csproj.GenerateResource.cache
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\x64\Release\FloppyControlApp.exe
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\x64\Release\FloppyControlApp.exe.config
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\x64\Release\FloppyControlApp.FloppyControl.resources
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\x64\Release\FloppyControlApp.pdb
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\x64\Release\FloppyControlApp.Properties.Resources.resources
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\x64\Release\FloppyControlApp.SelectResource.resources
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\x64\Release\FloppyControlApp.SettingsForm.resources
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\x64\Release\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\x64\Release\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\x64\Release\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\x64\Release\TempPE
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\obj\x64\Release\TempPE\Properties.Resources.Designer.cs.dll
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\Pix\android-settings.svg
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\Pix\IconAnalysis.png
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\Pix\IconCheckmarkGreen.png
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\Pix\IconGraphEditor.png
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\Pix\IconProcessing.png
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\Pix\IconProcessing2.png
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\Pix\IconRecord.png
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\Pix\IconRecord16.png
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\Pix\Icons.ai
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\Pix\IconScope.png
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\Pix\IconSettings.png
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\Pix\QuickStartGuideFloppyControlApp.ai
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\Pix\Untitled-1.png
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\Properties\AssemblyInfo.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\Properties\Resources.Designer.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\Properties\Resources.resx
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\Properties\Settings.Designer.cs
+D:\data\Projects\FloppyControl\PublicGitRepo\FloppyControlApp\WindowsFormsApplication2\WindowsFormsApplication2\Properties\Settings.settings

@@ -479,9 +479,10 @@ private void ExportFilesButton_Click(object sender, EventArgs e)
 
 ## Item 8: Enable/Disable Controls Based on Disk Format
 
-**Status**: Pending  
+**Status**: ✅ Complete  
 **Priority**: Medium  
-**Complexity**: Low
+**Complexity**: Low  
+**Commit**: (pending)
 
 ### Description
 Disable FAT12-related controls when disk format is not PC DOS (DD or HD).
@@ -521,17 +522,24 @@ Call this method when:
 - **Outputs**: Enabled/disabled state of controls
 
 ### Sub-tasks
-- [ ] Implement UpdateFAT12ControlsState() method
-- [ ] Call after processing completes
-- [ ] Call on ChangeDiskTypeComboBox_SelectedIndexChanged
-- [ ] Call on QChangeDiskTypeComboBox_SelectedIndexChanged
-- [ ] Clear file selection when format changes
+- [x] Implement UpdateFAT12ControlsState() method
+- [x] Call after processing completes (ProcessAmiga, ProcessPC)
+- [x] Call on ChangeDiskTypeComboBox_SelectedIndexChanged (ComboBox1_SelectedIndexChanged)
+- [x] Call on QChangeDiskTypeComboBox_SelectedIndexChanged (via ComboBox1)
+- [x] Clear file selection when format changes
+- [x] Update ExportFilesButton state based on file selection
 
 ### Acceptance Criteria
-- Controls enabled for pcdd and pchd formats
-- Controls disabled for amigados, diskspare, other formats
-- Combobox cleared when switching to non-PC format
-- Highlighting cleared when switching formats
+- ✅ Controls enabled for pcdd and pchd formats
+- ✅ Controls disabled for amigados, diskspare, other formats
+- ✅ Combobox cleared when switching to non-PC format
+- ✅ Highlighting cleared when switching formats
+- ✅ ExportFilesButton enabled only when PC format AND file selected
+
+### Notes
+- Enhanced implementation to also manage ExportFilesButton state
+- Disposes _diskImageFiles when switching to non-PC format to free resources
+- Called from FilesComboBox1_SelectedIndexChanged to update button state
 
 ---
 
