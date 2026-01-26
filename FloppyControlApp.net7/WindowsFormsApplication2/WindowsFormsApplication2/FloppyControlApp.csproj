@@ -46,6 +46,9 @@
     <Reference Include="NationalInstruments.Common">
       <HintPath>..\..\NI\NationalInstruments.Common.dll</HintPath>
     </Reference>
+    <Reference Include="NationalInstruments.Common.Native">
+      <HintPath>..\..\NI\NationalInstruments.Common.Native.dll</HintPath>
+    </Reference>
     <Reference Include="NationalInstruments.VisaNS">
       <HintPath>..\..\NI\NationalInstruments.VisaNS.dll</HintPath>
     </Reference>
