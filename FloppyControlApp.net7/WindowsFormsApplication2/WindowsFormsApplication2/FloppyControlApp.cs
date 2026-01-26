@@ -13,8 +13,10 @@ using FloppyControlApp.MyClasses;
 using System.Reflection;
 using FloppyControlApp.Properties;
 using System.Diagnostics;
+using DskX.Core;
 using FloppyControlApp.MyClasses.Processing;
 using FloppyControlApp.MyClasses.ErrorCorrection;
+using FloppyControlApp.MyClasses.Capture.Models;
 
 namespace FloppyControlApp
 {
@@ -1471,6 +1473,178 @@ namespace FloppyControlApp
 			// 5. Show file info
 			tbreceived.Append($"Selected: {selectedFile.FileName} - {selectedFile.FileSize} bytes, " +
 							  $"{sectors.Count} sectors, {selectedFile.BadSectorCount} bad\r\n");
+		}
+
+		// Phase 1 Item 7: ExportFilesButton Handler
+		private void ExportFilesButton_Click(object sender, EventArgs e)
+		{
+			// 1. Validate selection
+			if (FilesComboBox1.SelectedItem == null)
+			{
+				MessageBox.Show("Please select a file to export.", "No File Selected",
+								MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			if (BadSectorListBox.SelectedIndices.Count == 0)
+			{
+				MessageBox.Show("Please select bad sector candidates from the list.",
+								"No Sectors Selected", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			if (_diskImageFiles == null || !_diskImageFiles.IsValidFilesystem)
+			{
+				MessageBox.Show("File system is not initialized. Please click 'Get Files' first.",
+								"Not Initialized", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return;
+			}
+
+			var selectedFile = (DiskFileInfo)FilesComboBox1.SelectedItem;
+
+			// 2. Create output directory
+			string basePath = fileio.PathToRecoveredDisks;
+			string outputDir = Path.Combine(basePath, outputfilename.Text, "recovery");
+			Directory.CreateDirectory(outputDir);
+
+			// 3. Get original sector data for restoration
+			var originalSectorData = BackupSectorData(selectedFile.Sectors);
+
+			// 4. Loop through selected bad sectors
+			int counter = 1;
+			int successCount = 0;
+			int errorCount = 0;
+
+			try
+			{
+				foreach (int index in BadSectorListBox.SelectedIndices)
+				{
+					var badsector = (Badsectorkeyval)BadSectorListBox.Items[index];
+					var sectordata = processing.sectordata2[badsector.Id];
+
+					try
+					{
+						// 5. Substitute bad sector data into disk array
+						SubstituteSectorData(sectordata);
+
+						// 6. Extract file with substituted sector
+						string filename = Path.GetFileNameWithoutExtension(selectedFile.FileName);
+						string extension = Path.GetExtension(selectedFile.FileName);
+						string outputPath = Path.Combine(outputDir, $"{filename}_{counter:D3}{extension}");
+
+						ExtractFileFromDisk(selectedFile, outputPath);
+
+						tbreceived.Append($"Exported: {Path.GetFileName(outputPath)}\r\n");
+						successCount++;
+					}
+					catch (Exception ex)
+					{
+						tbreceived.Append($"Error exporting variation {counter}: {ex.Message}\r\n");
+						errorCount++;
+					}
+					finally
+					{
+						// 7. Restore original sector data after each extraction
+						RestoreSectorData(originalSectorData);
+						counter++;
+					}
+				}
+
+				tbreceived.Append($"Export complete. {successCount} file variations saved");
+				if (errorCount > 0)
+				{
+					tbreceived.Append($", {errorCount} errors");
+				}
+				tbreceived.Append(".\r\n");
+
+				// 8. Open output folder
+				if (successCount > 0)
+				{
+					Process.Start("explorer.exe", outputDir);
+				}
+			}
+			catch (Exception ex)
+			{
+				// Ensure original data is restored even if something goes wrong
+				RestoreSectorData(originalSectorData);
+				MessageBox.Show($"Error during export: {ex.Message}", "Export Error",
+								MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+		}
+
+		/// <summary>
+		/// Backs up the original sector data from processing.disk[] for the given sector locations.
+		/// </summary>
+		/// <param name="sectors">List of sector locations to backup.</param>
+		/// <returns>Dictionary mapping sector location to original byte data.</returns>
+		private Dictionary<SectorLocation, byte[]> BackupSectorData(List<SectorLocation> sectors)
+		{
+			var backup = new Dictionary<SectorLocation, byte[]>();
+
+			foreach (var sector in sectors)
+			{
+				int offset = CalculateSectorOffset(sector.Track, sector.Sector);
+				byte[] sectorData = new byte[512];
+				Array.Copy(processing.disk, offset, sectorData, 0, 512);
+				backup[sector] = sectorData;
+			}
+
+			return backup;
+		}
+
+		/// <summary>
+		/// Substitutes a bad sector's data into the processing.disk[] array.
+		/// </summary>
+		/// <param name="sectordata">The MFMData containing the sector to substitute.</param>
+		private void SubstituteSectorData(MFMData sectordata)
+		{
+			if (sectordata == null || sectordata.sectorbytes == null)
+			{
+				return;
+			}
+
+			int offset = CalculateSectorOffset(sectordata.track, sectordata.sector);
+
+			// Copy the sector bytes into the disk array
+			// Take only the first 512 bytes if the sector is larger
+			int bytesToCopy = Math.Min(512, sectordata.sectorbytes.Length);
+			Array.Copy(sectordata.sectorbytes, 0, processing.disk, offset, bytesToCopy);
+		}
+
+		/// <summary>
+		/// Restores the original sector data to processing.disk[].
+		/// </summary>
+		/// <param name="originalData">Dictionary mapping sector location to original byte data.</param>
+		private void RestoreSectorData(Dictionary<SectorLocation, byte[]> originalData)
+		{
+			foreach (var kvp in originalData)
+			{
+				int offset = CalculateSectorOffset(kvp.Key.Track, kvp.Key.Sector);
+				Array.Copy(kvp.Value, 0, processing.disk, offset, 512);
+			}
+		}
+
+		/// <summary>
+		/// Extracts a file from the disk using DiskImageFiles.
+		/// </summary>
+		/// <param name="file">The file to extract.</param>
+		/// <param name="outputPath">The output path for the extracted file.</param>
+		private void ExtractFileFromDisk(DiskFileInfo file, string outputPath)
+		{
+			_diskImageFiles.ExtractFile(file, outputPath);
+		}
+
+		/// <summary>
+		/// Calculates the byte offset in processing.disk[] for a given track/sector.
+		/// </summary>
+		/// <param name="track">The track number.</param>
+		/// <param name="sector">The sector number within the track.</param>
+		/// <returns>Byte offset in the disk array.</returns>
+		private int CalculateSectorOffset(int track, int sector)
+		{
+			// PC DOS disk layout: sequential sectors
+			// Offset = (track * sectorsPerTrack + sector) * 512
+			return (track * processing.sectorspertrack + sector) * 512;
 		}
 	} // end class
 } // End namespace

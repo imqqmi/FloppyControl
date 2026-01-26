@@ -6007,6 +6007,7 @@ namespace FloppyControlApp
             ExportFilesButton.TabIndex = 4033;
             ExportFilesButton.Text = "Export Files";
             ExportFilesButton.UseVisualStyleBackColor = true;
+            ExportFilesButton.Click += ExportFilesButton_Click;
             // 
             // FloppyControl
             // 

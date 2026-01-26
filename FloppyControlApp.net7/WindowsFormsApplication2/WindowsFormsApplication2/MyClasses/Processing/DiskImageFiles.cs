@@ -190,6 +190,63 @@ namespace FloppyControlApp.MyClasses.Processing
         }
 
         /// <summary>
+        /// Extracts a file from the disk image to the specified destination.
+        /// This method re-creates the disk image stream from the current processing.disk[] array
+        /// to ensure any modifications are included in the extraction.
+        /// </summary>
+        /// <param name="file">The file to extract.</param>
+        /// <param name="destinationPath">The full path where the file should be written.</param>
+        /// <exception cref="ArgumentNullException">Thrown if file or destinationPath is null.</exception>
+        /// <exception cref="InvalidOperationException">Thrown if DiskImageFiles is not initialized.</exception>
+        public void ExtractFile(DiskFileInfo file, string destinationPath)
+        {
+            if (file == null)
+            {
+                throw new ArgumentNullException(nameof(file));
+            }
+
+            if (string.IsNullOrWhiteSpace(destinationPath))
+            {
+                throw new ArgumentNullException(nameof(destinationPath));
+            }
+
+            if (!IsValidFilesystem || _extractor == null || _processing == null)
+            {
+                throw new InvalidOperationException("DiskImageFiles has not been initialized or initialization failed.");
+            }
+
+            // Re-create the disk stream from current processing.disk[] to include any modifications
+            int diskSize = _processing.diskformat == DiskFormat.pcdd 
+                ? 720 * 1024    // 720KB
+                : 1440 * 1024;  // 1.44MB
+
+            using (var tempStream = new MemoryStream(_processing.disk, 0, diskSize, writable: false))
+            using (var tempReader = new DiskImageReader())
+            {
+                tempReader.Open(tempStream);
+                var tempExtractor = new Fat12Extractor(tempReader);
+
+                // Enumerate files to find the matching FileEntry
+                var options = new ExtractionOptions
+                {
+                    IncludeDeleted = false,
+                    DeletedOnly = false
+                };
+
+                var fileEntry = tempExtractor.EnumerateFiles(options)
+                    .FirstOrDefault(e => string.Equals(e.FullPath, file.FullPath, StringComparison.OrdinalIgnoreCase));
+
+                if (fileEntry == null)
+                {
+                    throw new InvalidOperationException($"File '{file.FullPath}' not found in disk image.");
+                }
+
+                // Extract the file
+                tempExtractor.ExtractFile(fileEntry, destinationPath);
+            }
+        }
+
+        /// <summary>
         /// Counts the number of bad sectors within a file's sector list.
         /// Uses processing.SectorMap.sectorok[] to check sector status.
         /// </summary>
