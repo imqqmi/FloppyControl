@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
@@ -53,8 +53,8 @@ namespace FloppyControlApp
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            Properties.Settings settings2 = new Properties.Settings();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FloppyControl));
-            Properties.Settings settings1 = new Properties.Settings();
             openFileDialog1 = new OpenFileDialog();
             outputfilename = new TextBox();
             label1 = new Label();
@@ -240,6 +240,9 @@ namespace FloppyControlApp
             label68 = new Label();
             rtbSectorMap = new RichTextBox();
             groupBox6 = new GroupBox();
+            groupBox13 = new GroupBox();
+            FilesComboBox1 = new ComboBox();
+            LoadFilesButton = new Button();
             SkipAlreadyCrcOkcheckBox1 = new CheckBox();
             jESEnd = new NumericUpDown();
             jESStart = new NumericUpDown();
@@ -510,9 +513,7 @@ namespace FloppyControlApp
             StopButton = new Button();
             ExploreHereBtn = new Button();
             toolTip1 = new ToolTip(components);
-            groupBox13 = new GroupBox();
-            FilesComboBox1 = new ComboBox();
-            LoadFilesButton = new Button();
+            ExportFilesButton = new Button();
             ((System.ComponentModel.ISupportInitialize)fileSystemWatcher1).BeginInit();
             tabControl1.SuspendLayout();
             ScatterPlottabPage.SuspendLayout();
@@ -565,6 +566,7 @@ namespace FloppyControlApp
             ((System.ComponentModel.ISupportInitialize)DupsUpDown).BeginInit();
             ((System.ComponentModel.ISupportInitialize)AddNoiseKnumericUpDown).BeginInit();
             groupBox6.SuspendLayout();
+            groupBox13.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)jESEnd).BeginInit();
             ((System.ComponentModel.ISupportInitialize)jESStart).BeginInit();
             ((System.ComponentModel.ISupportInitialize)iESEnd).BeginInit();
@@ -634,7 +636,6 @@ namespace FloppyControlApp
             ((System.ComponentModel.ISupportInitialize)TrackUpDown).BeginInit();
             menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)ThreadsUpDown).BeginInit();
-            groupBox13.SuspendLayout();
             SuspendLayout();
             // 
             // openFileDialog1
@@ -1994,27 +1995,27 @@ namespace FloppyControlApp
             // QDirectStepCheckBox
             // 
             QDirectStepCheckBox.AutoSize = true;
-            settings1.BaseFileName = "";
-            settings1.DefaultBaud = 5000000;
-            settings1.DefaultPort = "COM21";
-            settings1.DirectStep = false;
-            settings1.FourSix = 0;
-            settings1.GuiMode = "dev";
-            settings1.Max = 0;
-            settings1.MicroStepsPerTrack = new decimal(new int[] { 8, 0, 0, 0 });
-            settings1.Min = 0;
-            settings1.Offset = 0;
-            settings1.PathToRecoveredDisks = "D:\\data\\Projects\\FloppyControl\\DiskRecoveries";
-            settings1.ScopeConnection = "";
-            settings1.SettingsKey = "";
-            settings1.SixEight = 0;
-            settings1.StepStickMicrostepping = new decimal(new int[] { 8, 0, 0, 0 });
-            settings1.TooltipDisable = false;
-            settings1.TrackDuration = new decimal(new int[] { 330, 0, 0, 0 });
-            settings1.TRK00Offset = new decimal(new int[] { 0, 0, 0, 0 });
-            settings1.WindowSizeX = 1892;
-            settings1.WindowSizeY = 1090;
-            QDirectStepCheckBox.DataBindings.Add(new Binding("Checked", settings1, "DirectStep", true, DataSourceUpdateMode.OnPropertyChanged));
+            settings2.BaseFileName = "";
+            settings2.DefaultBaud = 5000000;
+            settings2.DefaultPort = "COM21";
+            settings2.DirectStep = false;
+            settings2.FourSix = 0;
+            settings2.GuiMode = "dev";
+            settings2.Max = 0;
+            settings2.MicroStepsPerTrack = new decimal(new int[] { 8, 0, 0, 0 });
+            settings2.Min = 0;
+            settings2.Offset = 0;
+            settings2.PathToRecoveredDisks = "D:\\data\\Projects\\FloppyControl\\DiskRecoveries";
+            settings2.ScopeConnection = "";
+            settings2.SettingsKey = "";
+            settings2.SixEight = 0;
+            settings2.StepStickMicrostepping = new decimal(new int[] { 8, 0, 0, 0 });
+            settings2.TooltipDisable = false;
+            settings2.TrackDuration = new decimal(new int[] { 330, 0, 0, 0 });
+            settings2.TRK00Offset = new decimal(new int[] { 0, 0, 0, 0 });
+            settings2.WindowSizeX = 1892;
+            settings2.WindowSizeY = 1090;
+            QDirectStepCheckBox.DataBindings.Add(new Binding("Checked", settings2, "DirectStep", true, DataSourceUpdateMode.OnPropertyChanged));
             QDirectStepCheckBox.Location = new System.Drawing.Point(716, 112);
             QDirectStepCheckBox.Margin = new Padding(4, 3, 4, 3);
             QDirectStepCheckBox.Name = "QDirectStepCheckBox";
@@ -2169,7 +2170,7 @@ namespace FloppyControlApp
             // 
             // QTrackDurationUpDown
             // 
-            QTrackDurationUpDown.DataBindings.Add(new Binding("Value", settings1, "TrackDuration", true, DataSourceUpdateMode.OnPropertyChanged));
+            QTrackDurationUpDown.DataBindings.Add(new Binding("Value", settings2, "TrackDuration", true, DataSourceUpdateMode.OnPropertyChanged));
             QTrackDurationUpDown.Increment = new decimal(new int[] { 100, 0, 0, 0 });
             QTrackDurationUpDown.Location = new System.Drawing.Point(377, 40);
             QTrackDurationUpDown.Margin = new Padding(4, 3, 4, 3);
@@ -2213,7 +2214,7 @@ namespace FloppyControlApp
             // 
             // QTRK00OffsetUpDown
             // 
-            QTRK00OffsetUpDown.DataBindings.Add(new Binding("Value", settings1, "TRK00Offset", true, DataSourceUpdateMode.OnPropertyChanged));
+            QTRK00OffsetUpDown.DataBindings.Add(new Binding("Value", settings2, "TRK00Offset", true, DataSourceUpdateMode.OnPropertyChanged));
             QTRK00OffsetUpDown.Location = new System.Drawing.Point(119, 39);
             QTRK00OffsetUpDown.Margin = new Padding(4, 3, 4, 3);
             QTRK00OffsetUpDown.Minimum = new decimal(new int[] { 100, 0, 0, int.MinValue });
@@ -2224,7 +2225,7 @@ namespace FloppyControlApp
             // 
             // QMicrostepsPerTrackUpDown
             // 
-            QMicrostepsPerTrackUpDown.DataBindings.Add(new Binding("Value", settings1, "MicroStepsPerTrack", true, DataSourceUpdateMode.OnPropertyChanged));
+            QMicrostepsPerTrackUpDown.DataBindings.Add(new Binding("Value", settings2, "MicroStepsPerTrack", true, DataSourceUpdateMode.OnPropertyChanged));
             QMicrostepsPerTrackUpDown.Location = new System.Drawing.Point(9, 39);
             QMicrostepsPerTrackUpDown.Margin = new Padding(4, 3, 4, 3);
             QMicrostepsPerTrackUpDown.Name = "QMicrostepsPerTrackUpDown";
@@ -2653,7 +2654,7 @@ namespace FloppyControlApp
             // 
             // TrackDurationUpDown
             // 
-            TrackDurationUpDown.DataBindings.Add(new Binding("Value", settings1, "TrackDuration", true, DataSourceUpdateMode.OnPropertyChanged));
+            TrackDurationUpDown.DataBindings.Add(new Binding("Value", settings2, "TrackDuration", true, DataSourceUpdateMode.OnPropertyChanged));
             TrackDurationUpDown.Increment = new decimal(new int[] { 100, 0, 0, 0 });
             TrackDurationUpDown.Location = new System.Drawing.Point(12, 239);
             TrackDurationUpDown.Margin = new Padding(4, 3, 4, 3);
@@ -2759,7 +2760,7 @@ namespace FloppyControlApp
             DirectStepCheckBox.AutoSize = true;
             DirectStepCheckBox.Checked = true;
             DirectStepCheckBox.CheckState = CheckState.Checked;
-            DirectStepCheckBox.DataBindings.Add(new Binding("Checked", settings1, "DirectStep", true, DataSourceUpdateMode.OnPropertyChanged));
+            DirectStepCheckBox.DataBindings.Add(new Binding("Checked", settings2, "DirectStep", true, DataSourceUpdateMode.OnPropertyChanged));
             DirectStepCheckBox.Location = new System.Drawing.Point(10, 264);
             DirectStepCheckBox.Margin = new Padding(4, 3, 4, 3);
             DirectStepCheckBox.Name = "DirectStepCheckBox";
@@ -2921,6 +2922,39 @@ namespace FloppyControlApp
             groupBox6.TabIndex = 49;
             groupBox6.TabStop = false;
             groupBox6.Text = "Processing options";
+            // 
+            // groupBox13
+            // 
+            groupBox13.Controls.Add(FilesComboBox1);
+            groupBox13.Controls.Add(LoadFilesButton);
+            groupBox13.Location = new System.Drawing.Point(8, 340);
+            groupBox13.Margin = new Padding(4, 3, 4, 3);
+            groupBox13.Name = "groupBox13";
+            groupBox13.Padding = new Padding(4, 3, 4, 3);
+            groupBox13.Size = new System.Drawing.Size(292, 53);
+            groupBox13.TabIndex = 105;
+            groupBox13.TabStop = false;
+            groupBox13.Text = "Files";
+            // 
+            // FilesComboBox1
+            // 
+            FilesComboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
+            FilesComboBox1.FormattingEnabled = true;
+            FilesComboBox1.Location = new System.Drawing.Point(7, 18);
+            FilesComboBox1.Margin = new Padding(4, 3, 4, 3);
+            FilesComboBox1.Name = "FilesComboBox1";
+            FilesComboBox1.Size = new System.Drawing.Size(190, 23);
+            FilesComboBox1.TabIndex = 104;
+            // 
+            // LoadFilesButton
+            // 
+            LoadFilesButton.Location = new System.Drawing.Point(204, 16);
+            LoadFilesButton.Margin = new Padding(4, 3, 4, 3);
+            LoadFilesButton.Name = "LoadFilesButton";
+            LoadFilesButton.Size = new System.Drawing.Size(75, 27);
+            LoadFilesButton.TabIndex = 39;
+            LoadFilesButton.Text = "Get Files";
+            LoadFilesButton.UseVisualStyleBackColor = true;
             // 
             // SkipAlreadyCrcOkcheckBox1
             // 
@@ -3233,7 +3267,7 @@ namespace FloppyControlApp
             // 
             // MinvScrollBar
             // 
-            MinvScrollBar.DataBindings.Add(new Binding("Value", settings1, "Min", true, DataSourceUpdateMode.OnPropertyChanged));
+            MinvScrollBar.DataBindings.Add(new Binding("Value", settings2, "Min", true, DataSourceUpdateMode.OnPropertyChanged));
             MinvScrollBar.Location = new System.Drawing.Point(15, 45);
             MinvScrollBar.Maximum = 264;
             MinvScrollBar.Name = "MinvScrollBar";
@@ -3293,7 +3327,7 @@ namespace FloppyControlApp
             // 
             // FourvScrollBar
             // 
-            FourvScrollBar.DataBindings.Add(new Binding("Value", settings1, "FourSix", true, DataSourceUpdateMode.OnPropertyChanged));
+            FourvScrollBar.DataBindings.Add(new Binding("Value", settings2, "FourSix", true, DataSourceUpdateMode.OnPropertyChanged));
             FourvScrollBar.Location = new System.Drawing.Point(52, 45);
             FourvScrollBar.Maximum = 264;
             FourvScrollBar.Name = "FourvScrollBar";
@@ -3304,7 +3338,7 @@ namespace FloppyControlApp
             // 
             // SixvScrollBar
             // 
-            SixvScrollBar.DataBindings.Add(new Binding("Value", settings1, "SixEight", true, DataSourceUpdateMode.OnPropertyChanged));
+            SixvScrollBar.DataBindings.Add(new Binding("Value", settings2, "SixEight", true, DataSourceUpdateMode.OnPropertyChanged));
             SixvScrollBar.Location = new System.Drawing.Point(92, 45);
             SixvScrollBar.Maximum = 255;
             SixvScrollBar.Name = "SixvScrollBar";
@@ -3315,7 +3349,7 @@ namespace FloppyControlApp
             // 
             // EightvScrollBar
             // 
-            EightvScrollBar.DataBindings.Add(new Binding("Value", settings1, "Max", true, DataSourceUpdateMode.OnPropertyChanged));
+            EightvScrollBar.DataBindings.Add(new Binding("Value", settings2, "Max", true, DataSourceUpdateMode.OnPropertyChanged));
             EightvScrollBar.Location = new System.Drawing.Point(138, 45);
             EightvScrollBar.Maximum = 264;
             EightvScrollBar.Name = "EightvScrollBar";
@@ -3326,7 +3360,7 @@ namespace FloppyControlApp
             // 
             // OffsetvScrollBar1
             // 
-            OffsetvScrollBar1.DataBindings.Add(new Binding("Value", settings1, "Offset", true, DataSourceUpdateMode.OnPropertyChanged));
+            OffsetvScrollBar1.DataBindings.Add(new Binding("Value", settings2, "Offset", true, DataSourceUpdateMode.OnPropertyChanged));
             OffsetvScrollBar1.Location = new System.Drawing.Point(172, 45);
             OffsetvScrollBar1.Maximum = 50;
             OffsetvScrollBar1.Minimum = -50;
@@ -3573,6 +3607,7 @@ namespace FloppyControlApp
             // ErrorCorrectionTab
             // 
             ErrorCorrectionTab.BackColor = System.Drawing.SystemColors.Control;
+            ErrorCorrectionTab.Controls.Add(ExportFilesButton);
             ErrorCorrectionTab.Controls.Add(ECScanBtn);
             ErrorCorrectionTab.Controls.Add(label10);
             ErrorCorrectionTab.Controls.Add(BitShiftUpDown1);
@@ -3925,7 +3960,7 @@ namespace FloppyControlApp
             tabPage8.Margin = new Padding(4, 3, 4, 3);
             tabPage8.Name = "tabPage8";
             tabPage8.Padding = new Padding(4, 3, 4, 3);
-            tabPage8.Size = new System.Drawing.Size(369, 491);
+            tabPage8.Size = new System.Drawing.Size(350, 491);
             tabPage8.TabIndex = 1;
             tabPage8.Text = "MFM data";
             tabPage8.UseVisualStyleBackColor = true;
@@ -5961,38 +5996,15 @@ namespace FloppyControlApp
             // 
             toolTip1.Active = false;
             // 
-            // groupBox13
+            // ExportFilesButton
             // 
-            groupBox13.Controls.Add(FilesComboBox1);
-            groupBox13.Controls.Add(LoadFilesButton);
-            groupBox13.Location = new System.Drawing.Point(8, 340);
-            groupBox13.Margin = new Padding(4, 3, 4, 3);
-            groupBox13.Name = "groupBox13";
-            groupBox13.Padding = new Padding(4, 3, 4, 3);
-            groupBox13.Size = new System.Drawing.Size(292, 53);
-            groupBox13.TabIndex = 105;
-            groupBox13.TabStop = false;
-            groupBox13.Text = "Files";
-            // 
-            // FilesComboBox1
-            // 
-            FilesComboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
-            FilesComboBox1.FormattingEnabled = true;
-            FilesComboBox1.Location = new System.Drawing.Point(7, 18);
-            FilesComboBox1.Margin = new Padding(4, 3, 4, 3);
-            FilesComboBox1.Name = "FilesComboBox1";
-            FilesComboBox1.Size = new System.Drawing.Size(190, 23);
-            FilesComboBox1.TabIndex = 104;
-            // 
-            // LoadFilesButton
-            // 
-            LoadFilesButton.Location = new System.Drawing.Point(204, 16);
-            LoadFilesButton.Margin = new Padding(4, 3, 4, 3);
-            LoadFilesButton.Name = "LoadFilesButton";
-            LoadFilesButton.Size = new System.Drawing.Size(75, 27);
-            LoadFilesButton.TabIndex = 39;
-            LoadFilesButton.Text = "Get Files";
-            LoadFilesButton.UseVisualStyleBackColor = true;
+            ExportFilesButton.Location = new System.Drawing.Point(373, 389);
+            ExportFilesButton.Margin = new Padding(4, 3, 4, 3);
+            ExportFilesButton.Name = "ExportFilesButton";
+            ExportFilesButton.Size = new System.Drawing.Size(91, 27);
+            ExportFilesButton.TabIndex = 4033;
+            ExportFilesButton.Text = "Export Files";
+            ExportFilesButton.UseVisualStyleBackColor = true;
             // 
             // FloppyControl
             // 
@@ -6101,6 +6113,7 @@ namespace FloppyControlApp
             ((System.ComponentModel.ISupportInitialize)AddNoiseKnumericUpDown).EndInit();
             groupBox6.ResumeLayout(false);
             groupBox6.PerformLayout();
+            groupBox13.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)jESEnd).EndInit();
             ((System.ComponentModel.ISupportInitialize)jESStart).EndInit();
             ((System.ComponentModel.ISupportInitialize)iESEnd).EndInit();
@@ -6186,7 +6199,6 @@ namespace FloppyControlApp
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)ThreadsUpDown).EndInit();
-            groupBox13.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -6651,6 +6663,7 @@ namespace FloppyControlApp
         private GroupBox groupBox13;
         private ComboBox FilesComboBox1;
         private Button LoadFilesButton;
+        private Button ExportFilesButton;
     }
 }
 

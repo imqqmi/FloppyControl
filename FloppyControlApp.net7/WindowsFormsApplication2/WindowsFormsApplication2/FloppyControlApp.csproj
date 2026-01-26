@@ -82,6 +82,9 @@
     <PackageReference Include="Microsoft.Windows.Compatibility" Version="7.0.3" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FAT12Extractor\src\DskX.Core\DskX.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
     <Compile Remove="MyClasses\Program.cs" />
   </ItemGroup>
   <ItemGroup>
