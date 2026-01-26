@@ -482,7 +482,7 @@ private void ExportFilesButton_Click(object sender, EventArgs e)
 **Status**: ✅ Complete  
 **Priority**: Medium  
 **Complexity**: Low  
-**Commit**: (pending)
+**Commit**: fffa725
 
 ### Description
 Disable FAT12-related controls when disk format is not PC DOS (DD or HD).
