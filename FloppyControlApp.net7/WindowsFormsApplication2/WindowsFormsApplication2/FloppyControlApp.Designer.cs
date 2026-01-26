@@ -2955,6 +2955,7 @@ namespace FloppyControlApp
             LoadFilesButton.TabIndex = 39;
             LoadFilesButton.Text = "Get Files";
             LoadFilesButton.UseVisualStyleBackColor = true;
+            LoadFilesButton.Click += LoadFilesButton_Click;
             // 
             // SkipAlreadyCrcOkcheckBox1
             // 

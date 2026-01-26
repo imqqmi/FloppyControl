@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.ComponentModel;
 using System.Drawing;
@@ -1396,6 +1396,57 @@ namespace FloppyControlApp
 		private void ECScanBtn_Click(object sender, EventArgs e)
 		{
 			ECMFMByteEnc(true);
+		}
+
+		// Phase 1 Item 5: LoadFilesButton Event Handler
+		private void LoadFilesButton_Click(object sender, EventArgs e)
+		{
+			// 1. Check disk format
+			if (!IsPCDiskFormat())
+			{
+				MessageBox.Show("File listing is only available for PC DOS disk formats.", 
+								"Unsupported Format", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			// 2. Dispose previous instance if exists
+			if (_diskImageFiles != null)
+			{
+				_diskImageFiles.Dispose();
+				_diskImageFiles = null;
+			}
+
+			// 3. Initialize DiskImageFiles
+			_diskImageFiles = new DiskImageFiles();
+			if (!_diskImageFiles.Initialize(processing))
+			{
+				MessageBox.Show($"Could not read filesystem: {_diskImageFiles.ValidationError}", 
+								"Filesystem Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return;
+			}
+
+			// 4. Get files and populate combobox
+			var files = _diskImageFiles.GetDiskImageFiles();
+			FilesComboBox1.Items.Clear();
+			FilesComboBox1.DisplayMember = "FileName";
+
+			foreach (var file in files)
+			{
+				FilesComboBox1.Items.Add(file);
+			}
+
+			// 5. Show summary
+			tbreceived.Append($"Found {files.Count} files on disk.\r\n");
+		}
+
+		/// <summary>
+		/// Checks if the current disk format is PC DOS (DD or HD).
+		/// </summary>
+		/// <returns>True if format is PC DOS, false otherwise.</returns>
+		private bool IsPCDiskFormat()
+		{
+			return processing.diskformat == DiskFormat.pcdd || 
+				   processing.diskformat == DiskFormat.pchd;
 		}
 	} // end class
 } // End namespace

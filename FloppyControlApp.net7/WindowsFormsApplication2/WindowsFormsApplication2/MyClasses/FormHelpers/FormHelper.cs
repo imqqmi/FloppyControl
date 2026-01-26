@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -50,6 +50,7 @@ namespace FloppyControlApp
         private Version version;
         private FileIO fileio;
         private WaveformEdit oscilloscope;
+        private DiskImageFiles _diskImageFiles;
         #endregion
 
         #region callbacks
