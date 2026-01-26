@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using DskX.Core;
 using FloppyControlApp.MyClasses.Capture.Models;
 
 namespace FloppyControlApp.MyClasses.Processing
@@ -214,7 +215,86 @@ namespace FloppyControlApp.MyClasses.Processing
             //tbreceived.Append( relativetime() +"ms refreshsectormap\r\n");
         }
 
+        /// <summary>
+        /// Highlights the specified sectors with a background color.
+        /// This method will highlight sectors in the RichTextBox sectormap display
+        /// to visually show which sectors belong to a selected file.
+        /// </summary>
+        /// <param name="sectors">List of sector locations to highlight.</param>
+        /// <param name="backgroundColor">The background color to use for highlighting.</param>
+        public void HighlightSectors(List<SectorLocation> sectors, Color backgroundColor)
+        {
+            if (sectors == null || sectors.Count == 0)
+            {
+                return;
+            }
 
+            rtbSectorMap.BeginUpdate();
+            
+            try
+            {
+                foreach (var sector in sectors)
+                {
+                    // Calculate character index for this sector
+                    int charIndex = GetSectorCharIndex(sector.Track, sector.Sector);
+                    
+                    if (charIndex >= 0 && charIndex < rtbSectorMap.TextLength)
+                    {
+                        // Select the character at this position
+                        rtbSectorMap.SelectionStart = charIndex;
+                        rtbSectorMap.SelectionLength = 1;
+                        
+                        // Apply background color
+                        rtbSectorMap.SelectionBackColor = backgroundColor;
+                    }
+                }
+                
+                // Reset selection
+                rtbSectorMap.SelectionStart = 0;
+                rtbSectorMap.SelectionLength = 0;
+            }
+            finally
+            {
+                rtbSectorMap.EndUpdate();
+            }
+        }
+
+        /// <summary>
+        /// Clears all sector highlighting, restoring default colors.
+        /// This is done by refreshing the entire sectormap.
+        /// </summary>
+        public void ClearHighlighting()
+        {
+            // The easiest way to clear highlighting is to refresh the entire sectormap
+            // which will redraw all sectors with their original colors
+            RefreshSectorMap();
+        }
+
+        /// <summary>
+        /// Gets the character index in the RichTextBox for a given track/sector.
+        /// The sectormap format is: "T000 ......... T001 ......... ..."
+        /// Each track has: "Tnnn " (5 chars) + sector characters + space
+        /// </summary>
+        /// <param name="track">The track number (0-based).</param>
+        /// <param name="sector">The sector number within the track (0-based).</param>
+        /// <returns>Character index in the RichTextBox, or -1 if invalid.</returns>
+        private int GetSectorCharIndex(int track, int sector)
+        {
+            // Validate inputs
+            if (track < 0 || track >= 166 || sector < 0 || sector >= processing.sectorspertrack)
+            {
+                return -1;
+            }
+
+            // Calculate character position
+            // Each track block width = 5 (for "Tnnn ") + sectorspertrack + 1 (space)
+            int trackBlockWidth = 5 + processing.sectorspertrack + 1;
+            
+            // Character index = (track * block_width) + 5 (skip "Tnnn ") + sector
+            int charIndex = (track * trackBlockWidth) + 5 + sector;
+            
+            return charIndex;
+        }
 
     } // End class sectormap
 }
