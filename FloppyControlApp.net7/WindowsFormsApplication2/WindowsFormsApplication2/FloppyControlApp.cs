@@ -1608,7 +1608,7 @@ namespace FloppyControlApp
 
 						ExtractFileFromDisk(selectedFile, outputPath);
 
-						tbreceived.Append($"Exported: {Path.GetFileName(outputPath)} (T{sectordata.trackhead} S{sectordata.sector})\r\n");
+						tbreceived.Append($"Exported: {Path.GetFileName(outputPath)} (i:{badsector.Id} T{sectordata.trackhead} S{sectordata.sector})\r\n");
 						successCount++;
 					}
 					catch (Exception ex)
@@ -1681,14 +1681,35 @@ namespace FloppyControlApp
 				return;
 			}
 
+			// Determine the offset within sectorbytes based on disk format
+			// Amiga formats (amigados=1, diskspare=2): data starts at byte 0
+			// PC formats (pcdd=3, pchd=4, pc2m=5, etc.): data starts at byte 4 (skip header)
+			// This matches CopySectorToBlue behavior
+			int sectorBytesOffset;
+			switch ((int)processing.diskformat)
+			{
+				case 1: // amigados
+				case 2: // diskspare
+					sectorBytesOffset = 0;
+					break;
+				default: // PC formats and others
+					sectorBytesOffset = 4;
+					break;
+			}
+
 			// Use trackhead (interleaved track) not track - matches SectorLocation.Track
 			// and the disk layout: Track 0 = Cyl 0 Head 0, Track 1 = Cyl 0 Head 1, etc.
-			int offset = CalculateSectorOffset(sectordata.trackhead, sectordata.sector);
+			int diskOffset = CalculateSectorOffset(sectordata.trackhead, sectordata.sector);
 
 			// Copy the sector bytes into the disk array
-			// Take only the first 512 bytes if the sector is larger
-			int bytesToCopy = Math.Min(512, sectordata.sectorbytes.Length);
-			Array.Copy(sectordata.sectorbytes, 0, processing.disk, offset, bytesToCopy);
+			// Ensure we don't read beyond sectorbytes array
+			int availableBytes = sectordata.sectorbytes.Length - sectorBytesOffset;
+			int bytesToCopy = Math.Min(512, availableBytes);
+			
+			if (bytesToCopy > 0)
+			{
+				Array.Copy(sectordata.sectorbytes, sectorBytesOffset, processing.disk, diskOffset, bytesToCopy);
+			}
 		}
 
 		/// <summary>
