@@ -1,0 +1,144 @@
+{
+    "$schema": "https://opencode.ai/config.json",
+    "provider": {
+        "lmstudio": {
+            "npm": "@ai-sdk/openai-compatible",
+            "name": "LM Studio (local)",
+            "options": {
+                "baseURL": "http://10.5.0.2:1234/v1"
+            },
+            "models": {
+                "qwen3-32b-128k@q4_k_m": {
+                    "name": "Qwen3 32B 128K Q4",
+                    "options": {
+                        "num_ctx": 60000
+                    }
+                },
+                "qwen3-coder-30b-a3b-instruct": {
+                    "name": "Qwen3 Coder 30B A3B",
+                    "options": {
+                        "num_ctx": 190000
+                    }
+                },
+                "qwen3-30b-a3b-instruct": {
+                    "name": "Qwen3 30B A3B",
+                    "options": {
+                        "num_ctx": 177728
+                    }
+                },
+                "nemotron-3-nano-30b-a3b": {
+                    "name": "nemotron-3-nano-30b-a3b",
+                    "options": {
+                        "num_ctx": 80000
+                    }
+                }
+            }
+        }
+    },
+    "agent": {
+        "build": {
+            "description": "Primary build agent to orchestrate building features, fixing errors and do basic testing with build_general Claude sonnet subagent.",
+            "mode": "primary",
+            "temperature": 0.5,
+            "model": "anthropic/claude-sonnet-4-5",
+            "prompt": "{file:agents/build-agent.md}",
+            "tools": {
+                "read": true,
+                "write": true,
+                "edit": true,
+                "bash": true,
+                "list": true,
+                "glob": true,
+                "grep": true,
+                "task": true,
+                "todowrite": true,
+                "todoread": true,
+                "webfetch": true,
+                "batch": true,
+                "codesearch": true,
+                "lsp": true,
+                "multiedit": true,
+                "patch": true,
+            }
+        },
+        "plan": {
+            "description": "Strategic planning and project coordination",
+            "mode": "primary",
+            "temperature": 0.7,
+            "prompt": "{file:agents/planning-agent.md}"
+        },
+        "research": {
+            "description": "Technical research and information gathering",
+            "mode": "subagent",
+            "temperature": 0.7,
+            "prompt": "{file:agents/research-agent.md}"
+        },
+        "review": {
+            "description": "Code review and quality assurance",
+            "mode": "primary",
+            "temperature": 0.6,
+            "prompt": "{file:agents/review-agent.md}"
+        },
+        "redteam": {
+            "description": "Critical analysis, risk identification, and adversarial thinking",
+            "mode": "primary",
+            "temperature": 0.8,
+            "prompt": "{file:agents/red-team-agent.md}"
+        },
+        "testing": {
+            "description": "Test strategy design and test implementation",
+            "mode": "primary",
+            "temperature": 0.6,
+            "model": "anthropic/claude-haiku-4-5",
+            "prompt": "{file:agents/testing-agent.md}"
+        },
+        "sparring": {
+            "description": "Creative brainstorming and idea exploration partner",
+            "mode": "primary",
+            "model": "anthropic/claude-opus-4-5",
+            "temperature": 0.9,
+            "prompt": "{file:agents/sparring-agent.md}"
+        },
+        "explore": {
+            "description": "Fast agent for exploring codebases and finding files",
+            "mode": "subagent",
+            "model": "anthropic/claude-haiku-4-5",
+            "temperature": 0.5,
+        },
+        "general": {
+            "description": "General purpose subagent for complex research and search tasks using Claude Sonnet. The primary agent will decide if this Opus agent is required for the task, otherwise use the cheap_general subagent.",
+            "mode": "subagent",
+            "model": "anthropic/claude-sonnet-4-5",
+            "temperature": 0.7,
+        },
+        "build_general": {
+            "description": "General purpose subagent for normal build, research, file editing, creating, copying, performing git commits and search tasks that can be done with a small LLM to reduce context cost. The primary agent will decide if this sonnet agent is capable enough for the task.",
+            "mode": "subagent",
+            "model": "anthropic/claude-sonnet-4-5",
+            "temperature": 0.5,
+        },
+    },
+    "mcp": {
+      "serena": {
+         "type": "local",
+         "command": [
+           "/home/imqqmi/.local/bin/uvx",
+           "--from",
+           "git+https://github.com/oraios/serena",
+           "serena",
+           "start-mcp-server",
+           "--context", 
+           "opencode",
+         ],
+         "enabled": false
+      },
+      "context7": {
+         "type": "remote",
+         "url": "https://mcp.context7.com/mcp",
+         "headers": {
+           "CONTEXT7_API_KEY": "ctx7sk-11cc2c08-ff3a-4572-9737-000495007a27"
+         },
+         "enabled": false
+      },
+   },
+}
