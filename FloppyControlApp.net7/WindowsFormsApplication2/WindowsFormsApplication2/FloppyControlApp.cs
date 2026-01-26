@@ -1527,26 +1527,30 @@ namespace FloppyControlApp
 			// 1. Validate selection
 			if (FilesComboBox1.SelectedItem == null)
 			{
-				MessageBox.Show("Please select a file to export.", "No File Selected",
-								MessageBoxButtons.OK, MessageBoxIcon.Information);
+				tbreceived.Append("Export: No file selected. Please select a file first.\r\n");
 				return;
 			}
 
 			if (BadSectorListBox.SelectedIndices.Count == 0)
 			{
-				MessageBox.Show("Please select bad sector candidates from the list.",
-								"No Sectors Selected", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				tbreceived.Append("Export: No bad sector candidates selected.\r\n");
 				return;
 			}
 
 			if (_diskImageFiles == null || !_diskImageFiles.IsValidFilesystem)
 			{
-				MessageBox.Show("File system is not initialized. Please click 'Get Files' first.",
-								"Not Initialized", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				tbreceived.Append("Export: File system not initialized. Please click 'Get Files' first.\r\n");
 				return;
 			}
 
 			var selectedFile = (DiskFileInfo)FilesComboBox1.SelectedItem;
+
+			// Build a set of the file's sector locations for quick lookup
+			var fileSectorSet = new HashSet<(int Track, int Sector)>();
+			foreach (var sector in selectedFile.Sectors)
+			{
+				fileSectorSet.Add((sector.Track, sector.Sector));
+			}
 
 			// 2. Create output directory
 			string basePath = fileio.PathToRecoveredDisks;
@@ -1556,10 +1560,14 @@ namespace FloppyControlApp
 			// 3. Get original sector data for restoration
 			var originalSectorData = BackupSectorData(selectedFile.Sectors);
 
-			// 4. Loop through selected bad sectors
-			int counter = 1;
+			// 4. Find the next available counter to avoid overwriting existing files
+			string filenameBase = Path.GetFileNameWithoutExtension(selectedFile.FileName);
+			string extension = Path.GetExtension(selectedFile.FileName);
+			int counter = FindNextAvailableCounter(outputDir, filenameBase, extension);
+			
 			int successCount = 0;
 			int errorCount = 0;
+			int skippedCount = 0;
 
 			try
 			{
@@ -1568,31 +1576,50 @@ namespace FloppyControlApp
 					var badsector = (Badsectorkeyval)BadSectorListBox.Items[index];
 					var sectordata = processing.sectordata2[badsector.Id];
 
+					// Validate that this bad sector is part of the selected file
+					// Use trackhead (interleaved track) to match SectorLocation.Track
+					if (!fileSectorSet.Contains((sectordata.trackhead, sectordata.sector)))
+					{
+						tbreceived.Append($"Skipped: Bad sector T{sectordata.trackhead} S{sectordata.sector} is not part of file '{selectedFile.FileName}'\r\n");
+						skippedCount++;
+						continue;
+					}
+
+					// Check if sector data is available
+					if (sectordata.sectorbytes == null || sectordata.sectorbytes.Length == 0)
+					{
+						tbreceived.Append($"Skipped: Bad sector T{sectordata.trackhead} S{sectordata.sector} has no sector data (null/empty)\r\n");
+						skippedCount++;
+						continue;
+					}
+
 					try
 					{
 						// 5. Substitute bad sector data into disk array
 						SubstituteSectorData(sectordata);
 
-						// 6. Extract file with substituted sector
-						string filename = Path.GetFileNameWithoutExtension(selectedFile.FileName);
-						string extension = Path.GetExtension(selectedFile.FileName);
-						string outputPath = Path.Combine(outputDir, $"{filename}_{counter:D3}{extension}");
+						// 6. Extract file with substituted sector - find next available filename
+						string outputPath;
+						do
+						{
+							outputPath = Path.Combine(outputDir, $"{filenameBase}_{counter:D3}{extension}");
+							counter++;
+						} while (File.Exists(outputPath));
 
 						ExtractFileFromDisk(selectedFile, outputPath);
 
-						tbreceived.Append($"Exported: {Path.GetFileName(outputPath)}\r\n");
+						tbreceived.Append($"Exported: {Path.GetFileName(outputPath)} (T{sectordata.trackhead} S{sectordata.sector})\r\n");
 						successCount++;
 					}
 					catch (Exception ex)
 					{
-						tbreceived.Append($"Error exporting variation {counter}: {ex.Message}\r\n");
+						tbreceived.Append($"Error exporting variation {counter - 1}: {ex.Message}\r\n");
 						errorCount++;
 					}
 					finally
 					{
 						// 7. Restore original sector data after each extraction
 						RestoreSectorData(originalSectorData);
-						counter++;
 					}
 				}
 
@@ -1600,6 +1627,10 @@ namespace FloppyControlApp
 				if (errorCount > 0)
 				{
 					tbreceived.Append($", {errorCount} errors");
+				}
+				if (skippedCount > 0)
+				{
+					tbreceived.Append($", {skippedCount} skipped");
 				}
 				tbreceived.Append(".\r\n");
 
@@ -1613,8 +1644,7 @@ namespace FloppyControlApp
 			{
 				// Ensure original data is restored even if something goes wrong
 				RestoreSectorData(originalSectorData);
-				MessageBox.Show($"Error during export: {ex.Message}", "Export Error",
-								MessageBoxButtons.OK, MessageBoxIcon.Error);
+				tbreceived.Append($"Export error: {ex.Message}\r\n");
 			}
 		}
 
@@ -1640,6 +1670,8 @@ namespace FloppyControlApp
 
 		/// <summary>
 		/// Substitutes a bad sector's data into the processing.disk[] array.
+		/// Uses trackhead (interleaved track number) for offset calculation to match
+		/// the disk layout used by SectorLocation and FAT12Extractor.
 		/// </summary>
 		/// <param name="sectordata">The MFMData containing the sector to substitute.</param>
 		private void SubstituteSectorData(MFMData sectordata)
@@ -1649,7 +1681,9 @@ namespace FloppyControlApp
 				return;
 			}
 
-			int offset = CalculateSectorOffset(sectordata.track, sectordata.sector);
+			// Use trackhead (interleaved track) not track - matches SectorLocation.Track
+			// and the disk layout: Track 0 = Cyl 0 Head 0, Track 1 = Cyl 0 Head 1, etc.
+			int offset = CalculateSectorOffset(sectordata.trackhead, sectordata.sector);
 
 			// Copy the sector bytes into the disk array
 			// Take only the first 512 bytes if the sector is larger
@@ -1668,6 +1702,57 @@ namespace FloppyControlApp
 				int offset = CalculateSectorOffset(kvp.Key.Track, kvp.Key.Sector);
 				Array.Copy(kvp.Value, 0, processing.disk, offset, 512);
 			}
+		}
+
+		/// <summary>
+		/// Finds the next available counter for output files to avoid overwriting existing files.
+		/// Scans the output directory for existing files matching the pattern {filename}_{NNN}{extension}.
+		/// </summary>
+		/// <param name="outputDir">The output directory path.</param>
+		/// <param name="filenameBase">The base filename (without extension).</param>
+		/// <param name="extension">The file extension (including the dot).</param>
+		/// <returns>The next available counter value (starting from 1).</returns>
+		private int FindNextAvailableCounter(string outputDir, string filenameBase, string extension)
+		{
+			int maxCounter = 0;
+			
+			if (!Directory.Exists(outputDir))
+			{
+				return 1;
+			}
+
+			// Pattern: {filenameBase}_{NNN}{extension}
+			string searchPattern = $"{filenameBase}_*{extension}";
+			
+			try
+			{
+				foreach (string file in Directory.GetFiles(outputDir, searchPattern))
+				{
+					string name = Path.GetFileNameWithoutExtension(file);
+					
+					// Extract the counter from the filename
+					// Expected format: {filenameBase}_{NNN}
+					int lastUnderscore = name.LastIndexOf('_');
+					if (lastUnderscore > 0 && lastUnderscore < name.Length - 1)
+					{
+						string counterStr = name.Substring(lastUnderscore + 1);
+						if (int.TryParse(counterStr, out int counter))
+						{
+							if (counter > maxCounter)
+							{
+								maxCounter = counter;
+							}
+						}
+					}
+				}
+			}
+			catch
+			{
+				// If we can't read the directory, start from 1
+				return 1;
+			}
+
+			return maxCounter + 1;
 		}
 
 		/// <summary>
