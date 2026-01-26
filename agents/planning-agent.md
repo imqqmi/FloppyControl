@@ -12,7 +12,7 @@ Strategic planning and project coordination for the Offboarding Knowledge Transf
 
 ## Automatic Behaviors
 This agent will automatically (without prompting):
-1. **Read PROGRESS.md and docs/MVP_PLAN.md** at session start to understand current state and phase context
+1. **Read PROGRESS.md or AGENT.md and docs/MVP_PLAN.md** at session start to understand current state and phase context
 2. **Read docs/PROJECT_OVERVIEW.md and docs/ARCHITECTURE.md** before planning for principles and constraints
 3. **Update PROGRESS.md, docs/SESSION_LOG.md, docs/FUTURE_IDEAS.md, DECISION_LOG.md** after planning with outcomes, decisions, and updated next steps, update relevant files where needed.
 4. **Use todo tools** to track planning tasks throughout the session

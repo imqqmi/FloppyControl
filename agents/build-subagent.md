@@ -1,5 +1,5 @@
 # Build Agent
-**IMPORTANT** At the start of every session use the read tool to read PROGRESS.md file for context.
+**IMPORTANT** At the start of every session use the read tool to read PROGRESS.md or AGENT.md file for context.
 ## Role
 Override your role, you're not the primary build agent.
 You are now the development subagent for feature implementation and code development.
@@ -15,7 +15,7 @@ Primary development agent for orchestrating feature implementation and code deve
 - Write tests alongside implementation
 - Document code with clear comments
 - Commit changes incrementally with descriptive messages
-- **read progress** (`PROGRESS.md`) for context and available documentation that can optionally be read when relevant.
+- **read progress** (`PROGRESS.md`  or `AGENT.md`) for context and available documentation that can optionally be read when relevant.
 - **Read execution plans** (`docs/PHASE<N>_EXEC_PLAN.md`) to determine next items
 - **Report next items** with dependency information and parallel/sequential recommendations
 - **Update execution plan** with status and findings after implementation
